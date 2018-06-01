@@ -1,0 +1,69 @@
+spring:
+#数据源基本配置
+  datasource:
+    username: mpmalluser
+    password: 1MhJK1tH9n60g1&L9Lqm
+    url: jdbc:mysql://43.241.223.169:3306/mpmall?useUnicode=yes&characterEncoding=UTF-8&useSSL=false
+    driver-class-name:
+# 指定自定义的数据库连接池替换默认的
+    type: com.alibaba.druid.pool.DruidDataSource
+    # druid数据源其他的配置
+    initialSize: 1
+    minIdle: 5
+    maxActive: 20
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+#   配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+    filters: stat,wall,log4j
+    maxPoolPreparedStatementPerConnectionSize: 20
+    useGlobalDataSourceStat: true
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+  # redis
+  ## Redis数据库索引（默认为0）
+  redis:
+      database: 0
+  ## Redis服务器地址
+      host: 43.241.223.169
+  ## Redis服务器连接端口
+      port: 6379
+  ## Redis服务器连接密码（默认为空）
+      password: wDts5eWPadrkhxi4IZKm
+  ## 连接超时时间（毫秒）
+      timeout: 10000
+  ## 连接池最大连接数（使用负值表示没有限制）
+      pool:
+        max-active: 100
+  ## 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-wait: 10000
+  ## 连接池中的最大空闲连接
+        max-idle: 10
+  ## 连接池中的最小空闲连接
+        min-idle: 1
+# mybatis配置
+mybatis:
+  config-location: classpath:mybatis-config.xml
+  mapper-locations: classpath:mappers/*.xml
+  type-aliases-package: com.chouchongkeji.pojo
+##验证码的有效时间
+yichen:
+  security:
+    smscode:
+      length: 7
+      expire: 180
+##配置客户端信息
+    oauth2:
+      client:
+        - {clientId: mall-dl,clientSecret: Wn4NDKB7klhfmpbFVki1X3fWzjVmwvC1,accessTokenValidityTime: 6592000}
+#  service:
+#    productDetail: https://2b.goexplore.io/static/product.html?uid=
+#    logo: http://43.241.223.169:800/image/logo.jpg
+#server:
+#  port: 80
+
+

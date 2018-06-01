@@ -1,0 +1,30 @@
+#忽略文件
+*.class
+#package files
+*.war
+*.ear
+
+#kdff3
+*.orig
+
+#maven
+target/
+
+#eclipse
+.settings/
+.project
+.classpatch
+
+#IDEA
+.idea
+/idea/
+*.iml
+*.ipr
+*.iws
+
+#temp files
+*.log
+*.cache
+*.diff
+*.patch
+*.tmp
