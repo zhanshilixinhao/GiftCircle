@@ -29,7 +29,6 @@ public class MyAuthConfigerAdapter  extends AuthConfigerAdapter {
                 .userDetailsService(userDetailsService) // 用户获取用户详情
                 .smsCodeSender(smsCodeSender)           //用于发送短信验证
                 .thirdAccService(thirdAccService);      //用于处理第三方账号登录
-
     }
 
 }

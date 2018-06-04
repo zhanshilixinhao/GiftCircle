@@ -67,64 +67,12 @@
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
 
-
-        <!--<table schema="" tableName="app_user"></table>-->
-        <!--<table schema="" tableName="explore_order"></table>-->
-        <!--<table schema="" tableName="explore"></table>-->
-        <!--<table schema="" tableName="explore_team"></table>-->
-        <!--<table schema="" tableName="user_material"></table>-->
-        <!--<table schema="" tableName="card"></table>-->
-        <!--<table schema="" tableName="payment_info"></table>-->
-        <!--<table schema="" tableName="card"></table>-->
-        <!--<table schema="" tableName="user_story"></table>-->
-        <!--<table schema="" tableName="explore_record"></table>-->
-        <!--<table schema="" tableName="explore_rank"></table>-->
-        <!--<table schema="" tableName="medal"></table>-->
-        <!--<table schema="" tableName="feedback"></table>-->
-        <!--<table schema="" tableName="feedback_cate"></table>-->
-        <!--<table schema="" tableName="sys_message"></table>-->
-        <!--<table schema="" tableName="node"></table>-->
-        <!--<table schema="" tableName="node_ele"></table>-->
-        <!--<table schema="" tableName="ele_starter"></table>-->
-        <!--<table schema="" tableName="node_record"></table>-->
-        <!--<table schema="" tableName="node_record"></table>-->
-        <!--<table schema="" tableName="manage_user"></table>-->
-        <!--<table schema="" tableName="exploring"></table>-->
-        <!--<table schema="" tableName="team_2b"></table>-->
-        <!--<table schema="" tableName="team_2b_member"></table>-->
-       <!-- <table schema="" tableName="team_task"></table>-->
-        <!--<table schema="" tableName="option"></table>-->
-        <!--<table schema="" tableName="user_medal"></table>-->
-        <!--<table schema="" tableName="npc"></table>-->
-        <!--<table schema="" tableName="user_npc"></table>-->
-        <!--<table schema="" tableName="material"></table>-->
-        <!--<table schema="" tableName="explore_cate"></table>-->
-        <!--<table schema="" tableName="online_explore">-->
-            <!--<property name="modelOnly" value="true"/>-->
-        <!--&lt;!&ndash;</table>&ndash;&gt;-->
-        <!--<table schema="" tableName="online_route_pattern">-->
-        <!--<property name="modelOnly" value="true"/>-->
-        <!--</table>-->
-
-        <!--<table tableName="task" domainObjectName="Task" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
-        <!--<table tableName="story" domainObjectName="Story" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
-        <!--<table tableName="trigger" domainObjectName="Trigger" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
-        <!--<table tableName="team_task" domainObjectName="TeamTask" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
-        <!--<table tableName="route" domainObjectName="Route" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
-        <!--<table tableName="legal_notice" domainObjectName="LegalNotice" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
-        <!--<table tableName="route" domainObjectName="Route" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
-        <!--<table tableName="manage_msg" domainObjectName="ManageMsg" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
-        <!--<table tableName="route_node" domainObjectName="RouteNode" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
-        <!--<table tableName="app_version" domainObjectName="AppVersion" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
-        <!--<table tableName="map_theme" domainObjectName="MapTheme" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
-        <!--<table tableName="explore_map" domainObjectName="ExploreMap" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
-       <!-- <table tableName="exploring" domainObjectName="Exploring" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
-        <!--<table tableName="scene_manage" domainObjectName="SceneManage" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
-        <!--<table tableName="scene" domainObjectName="Scene" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
-        <!--<table tableName="third_acc" domainObjectName="ThirdAcc" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
-        <!--<table tableName="partner_resource" domainObjectName="PartnerRes" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
-        <table tableName="user_base" domainObjectName="userBase" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
-        <table tableName="user_third" domainObjectName="userThird" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+        <table tableName="app_user" domainObjectName="AppUser" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"></table>
+        <table tableName="third_account" domainObjectName="ThirdAccount" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"></table>
 
 
     </context>

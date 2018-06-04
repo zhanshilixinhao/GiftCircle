@@ -1,7 +1,5 @@
 package com.chouchongkeji.service.user.impl;
 
-import com.chouchongkeji.dao.user.UserBaseMapper;
-import com.chouchongkeji.pojo.user.UserBase;
 import com.yichen.auth.service.MemberDetails;
 import com.yichen.auth.verify.VerifyException;
 import org.apache.commons.lang3.StringUtils;
