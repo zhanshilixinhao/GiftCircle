@@ -1,4 +1,4 @@
-package com.chouchongkeji;
+package com.chouchongkeji.config;
 
 import org.mybatis.generator.api.MyBatisGenerator;
 import org.mybatis.generator.config.Configuration;
