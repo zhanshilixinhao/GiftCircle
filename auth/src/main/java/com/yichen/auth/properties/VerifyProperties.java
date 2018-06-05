@@ -11,6 +11,8 @@ public class VerifyProperties {
 
     private int expire = 180; // 180s
 
+    private SmsUrlProperties[] urls;
+
     public int getExpire() {
         return expire;
     }
@@ -25,5 +27,14 @@ public class VerifyProperties {
 
     public void setLength(int length) {
         this.length = length;
+    }
+
+
+    public SmsUrlProperties[] getUrls() {
+        return urls;
+    }
+
+    public void setUrls(SmsUrlProperties[] urls) {
+        this.urls = urls;
     }
 }
