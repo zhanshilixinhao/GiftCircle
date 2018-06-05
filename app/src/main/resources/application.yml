@@ -1,7 +1,7 @@
 spring:
 #数据源基本配置
   datasource:
-    username: giftcircler
+    username: mpmalluser
     password: 1MhJK1tH9n60g1&L9Lqm
     url: jdbc:mysql://43.241.223.169:3306/giftcircler?useUnicode=yes&characterEncoding=UTF-8&useSSL=false
     driver-class-name:
