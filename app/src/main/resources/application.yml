@@ -45,6 +45,9 @@ spring:
         max-idle: 10
   ## 连接池中的最小空闲连接
         min-idle: 1
+  output:
+    ansi:
+      enabled: always
 # mybatis配置
 mybatis:
   config-location: classpath:mybatis-config.xml
@@ -60,6 +63,10 @@ yichen:
     oauth2:
       client:
         - {clientId: giftcircler-dl,clientSecret: qMEjFl8w63EtAX17cRX83L0iMkK2U4mg,accessTokenValidityTime: 6592000}
+    sign:
+      needSign: true
+      urls:
+        - /druid/**
 #  service:
 #    productDetail: https://2b.goexplore.io/static/product.html?uid=
 #    logo: http://43.241.223.169:800/image/logo.jpg

@@ -3,7 +3,10 @@ package com.yichen.auth.verify;
 import com.alibaba.fastjson.JSON;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.utils.ApiSignUtil;
+import com.yichen.auth.properties.SecurityProperties;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -26,16 +29,19 @@ import java.util.Map;
 @Component
 public class SignFilter extends OncePerRequestFilter {
 
-        private boolean needSign = true;
-//    private boolean needSign = false;
+    private boolean needSign;
 
     private static List<AntPathRequestMatcher> urls = new ArrayList<>();
 
-    static {
-        urls.add(new AntPathRequestMatcher("/noauth/pay/aliv2"));
-        urls.add(new AntPathRequestMatcher("/noauth/pay/wx"));
-        urls.add(new AntPathRequestMatcher("/noauth/v1/explore/html"));
-        urls.add(new AntPathRequestMatcher("/druid/**"));
+    @Autowired
+    public SignFilter(SecurityProperties securityProperties) {
+        super();
+        needSign = securityProperties.getSign().isNeedSign();
+        if (ArrayUtils.isNotEmpty(securityProperties.getSign().getUrls())) {
+            for (String url : securityProperties.getSign().getUrls()) {
+                urls.add(new AntPathRequestMatcher(url));
+            }
+        }
     }
 
     @Override
@@ -77,7 +83,7 @@ public class SignFilter extends OncePerRequestFilter {
 
     private boolean isMatch(HttpServletRequest request) {
         for (AntPathRequestMatcher matcher : urls) {
-            if (matcher.matches(request)){
+            if (matcher.matches(request)) {
                 return true;
             }
         }

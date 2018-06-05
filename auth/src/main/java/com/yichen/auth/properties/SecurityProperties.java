@@ -15,6 +15,8 @@ public class SecurityProperties {
 
     private OAuth2Properties oauth2;
 
+    private SignProperties sign;
+
     public VerifyProperties getSmscode() {
         return smscode;
     }
@@ -29,5 +31,13 @@ public class SecurityProperties {
 
     public void setOauth2(OAuth2Properties oauth2) {
         this.oauth2 = oauth2;
+    }
+
+    public SignProperties getSign() {
+        return sign;
+    }
+
+    public void setSign(SignProperties sign) {
+        this.sign = sign;
     }
 }

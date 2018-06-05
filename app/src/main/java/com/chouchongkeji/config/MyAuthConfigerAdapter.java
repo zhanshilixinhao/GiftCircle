@@ -5,14 +5,14 @@ import com.yichen.auth.config.cus.AuthHolder;
 import com.yichen.auth.service.ThirdAccService;
 import com.yichen.auth.verify.SmsCodeSender;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 /**
  * @author linqin
  * @date 2018/5/18
  */
-@Configuration
+@SpringBootConfiguration
 public class MyAuthConfigerAdapter  extends AuthConfigerAdapter {
 
     @Autowired

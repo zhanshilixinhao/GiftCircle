@@ -18,9 +18,9 @@ public class ApiSignUtil {
     public static final String SIGN = "sign";
     public static final String TIME = "time";
 
-    public static final String ANDROID = "S#2LVjx*lZNVVR3H7#Qiz^MnD$EqZL4V";
-    public static final String IOS = "Eo&ISlQb2Knp8^1^C3x0NHDk%#VtWw27";
-    public static final String WXMINI = "dZ0E^z!YN6RLu2vs6bX4#s#R5Xrfc2pv";
+    public static final String ANDROID = "m0BKP^I^2NGH5y$kP3Ks38kN26VaGH%Z";
+    public static final String IOS = "%sX4H91PzuB7V^T4uefDnsiwzHDxOgrX";
+    public static final String WXMINI = "mRrBzm9OiRCq&^frt7c#V$b3pQQLemRv";
 
     /**
      * 获取请求中除了签名之外的参数
