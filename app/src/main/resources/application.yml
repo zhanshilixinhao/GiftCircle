@@ -53,12 +53,14 @@ mybatis:
   config-location: classpath:mybatis-config.xml
   mapper-locations: classpath:mappers/*.xml
   type-aliases-package: com.chouchongkeji.pojo
-##验证码的有效时间
 yichen:
   security:
+##验证码的有效时间
     smscode:
       length: 7
       expire: 180
+      urls:
+        - {url: /noauth/user/bindPhone, type: 1}
 ##配置客户端信息
     oauth2:
       client:

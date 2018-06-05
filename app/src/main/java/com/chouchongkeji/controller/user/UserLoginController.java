@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 用户无需登录认证的接口
+ *
  * @author linqin
  * @date 2018/6/5
  */
@@ -31,44 +32,44 @@ public class UserLoginController {
 
     /**
      * 微信授权登录
-     * @param code 微信授权
+     *
+     * @param code   微信授权
      * @param client 1 android 2 ios 3 小程序
      * @return
      * @author linqin
      * @date 2018/6/5
      */
     @PostMapping("/wxLogin")
-    public Response wxLogin(@AppClient Integer client, String code){
+    public Response wxLogin(@AppClient Integer client, String code) {
         //校验必传参数
-        if (StringUtils.isBlank(code)){
+        if (StringUtils.isBlank(code)) {
             return ResponseFactory.errMissingParameter();
         }
 
-        return userLoginService.wxLogin(client,code);
+        return userLoginService.wxLogin(client, code);
     }
 
     /**
      * 绑定手机号
+     *
      * @param phone 电话号码
-     * @param type 账号类型（默认1） 1-微信app,2-微信小程序
-     * @param key  缓存openId的key
+     * @param key   缓存openId的key
      * @return
      * @author linqin
      * @date 2018/6/5
      */
     @PostMapping("/bindPhone")
-    public Response bindPhone(String phone, Integer type, String key){
+    public Response bindPhone(@AppClient Integer client, String phone, String key) {
         //校验必传参数
-        if (StringUtils.isAnyBlank(phone,key)){
+        if (StringUtils.isAnyBlank(phone, key)) {
             return ResponseFactory.errMissingParameter();
         }
         //根据key取出openId
         String openid = mRedisTemplate.getString(key);
         //绑定手机号
-        return thirdAccService.addOpenAccDetail(openid,type,phone);
+        return thirdAccService.addOpenAccDetail(openid, client == 3 ? 2 : 1, phone);
 
     }
-
 
 
 }

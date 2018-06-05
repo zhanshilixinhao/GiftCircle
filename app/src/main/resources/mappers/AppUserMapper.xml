@@ -204,12 +204,9 @@
       <if test="wxid != null">
         wxid = #{wxid,jdbcType=VARCHAR},
       </if>
-      <if test="created != null">
-        created = #{created,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updated != null">
-        updated = #{updated,jdbcType=TIMESTAMP},
-      </if>
+
+        updated = now(),
+
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
