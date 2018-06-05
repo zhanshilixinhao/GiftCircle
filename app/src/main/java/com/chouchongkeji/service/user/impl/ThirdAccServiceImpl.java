@@ -1,9 +1,13 @@
 package com.chouchongkeji.service.user.impl;
 
+import com.chouchongkeji.dao.user.AppUserMapper;
+import com.chouchongkeji.dao.user.ThirdAccountMapper;
 import com.chouchongkeji.exception.ServiceException;
 import com.chouchongkeji.goexplore.common.ErrorCode;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
+import com.chouchongkeji.pojo.user.AppUser;
+import com.chouchongkeji.pojo.user.ThirdAccount;
 import com.chouchongkeji.util.Constants;
 import com.yichen.auth.model.DefaultThirdAccDetail;
 import com.yichen.auth.model.ThirdAccDetail;
@@ -26,15 +30,15 @@ import org.springframework.transaction.annotation.Transactional;
 public class ThirdAccServiceImpl implements ThirdAccService {
 
     @Autowired
-    private UserThirdMapper userThirdMapper;
+    private AppUserMapper appUserMapper;
 
     @Autowired
-    private UserBaseMapper userBaseMapper;
+    private ThirdAccountMapper thirdAccountMapper;
 
     /**
      * 获取第三方账号信息
      * @param openId openId
-     * @param type   账号类型 1-手机，2-qq，3-微信，4-微博
+     * @param type   账号类型（默认1） 1-微信app,2-微信小程序
      * @return
      * @author linqin
      * @date 2018/5/21
@@ -42,14 +46,14 @@ public class ThirdAccServiceImpl implements ThirdAccService {
     @Override
     public ThirdAccDetail getOpenAccDetail(String openId, int type) {
         //获取第三方账号信息
-        UserThird userThird = userThirdMapper.selectByOpenIdAndType(openId,type);
-        if (userThird ==null){
+         ThirdAccount thirdAccount = thirdAccountMapper.selectByOpenIdAndType(openId,type);
+        if (thirdAccount ==null){
             return null;
         }
         DefaultThirdAccDetail detail = new DefaultThirdAccDetail(
-                userThird.getOpenId(),
-                userThird.getPhone(),
-                userThird.getType()
+                thirdAccount.getOpenId(),
+                thirdAccount.getPhone(),
+                thirdAccount.getType()
         );
         return detail;
     }
@@ -67,29 +71,29 @@ public class ThirdAccServiceImpl implements ThirdAccService {
     @Override
     public Response addOpenAccDetail(String openId, int type, String phone) {
         //获取第三方账号信息
-        UserThird userThird1 = userThirdMapper.selectByOpenIdAndType(openId,type);
+        ThirdAccount userThird1 = thirdAccountMapper.selectByOpenIdAndType(openId,type);
         //如果账号已经存在，不能再绑定
         if (userThird1 != null){
             return ResponseFactory.errMsg(ErrorCode.PHONE_EXISTED.getCode(),"该手机号已经绑定其他账号");
         }
         //判断用户名是否被注册
-        UserBase userBase = userBaseMapper.selectByAccount(phone);
+        AppUser userBase = appUserMapper.selectByPhone(phone);
         //该手机号未被注册
         int count = 0;
         if (userBase == null){
             //直接注册一个账号
-            UserBase user = assembleMember(phone,type);
-            count = userBaseMapper.insert(user);
+            AppUser user = assembleMember(phone);
+            count = appUserMapper.insert(user);
             if (count == 0){
                 return ResponseFactory.err("绑定手机号失败，创建账号失败");
             }
         }
         //添加第三方账号信息
-        userThird1 = new UserThird();
+        userThird1 = new ThirdAccount();
         userThird1.setOpenId(openId);
         userThird1.setPhone(phone);
         userThird1.setType((byte)type);
-        count = userThirdMapper.insert(userThird1);
+        count = thirdAccountMapper.insert(userThird1);
         if (count == 0){
             //如果添加失败，回滚
             throw new ServiceException(ErrorCode.ERROR.getCode(), "绑定失败");
@@ -102,15 +106,14 @@ public class ThirdAccServiceImpl implements ThirdAccService {
     /**
      * 创建一个用户账号
      * @param phone
-     * @param type
      * @return
      * @author linqin
      * @date 2018/5/21
      */
-    private UserBase assembleMember(String phone,int type){
+    private AppUser assembleMember(String phone){
         //创建新用户
-        UserBase memberInfo = new UserBase();
-        //用户名
+        AppUser memberInfo = new AppUser();
+        //账号
         memberInfo.setAccount(phone);
         //密码
         memberInfo.setPassword(RandomStringUtils.randomNumeric(10));
@@ -120,8 +123,13 @@ public class ThirdAccServiceImpl implements ThirdAccService {
         memberInfo.setAvatar(Constants.DEFALUT_AVATAR);
         //默认昵称
         memberInfo.setNickname(Constants.getRandomName());
-        //注册类型
-        memberInfo.setType((byte)type);
+        //年龄
+        memberInfo.setAge(0);
+        //性别
+        memberInfo.setGender((byte)1);
+        //个性签名
+        memberInfo.setSignature("签名是后台送的");
+
         return memberInfo;
     }
 

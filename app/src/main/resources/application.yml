@@ -1,9 +1,9 @@
 spring:
 #数据源基本配置
   datasource:
-    username: mpmalluser
+    username: giftcircler
     password: 1MhJK1tH9n60g1&L9Lqm
-    url: jdbc:mysql://43.241.223.169:3306/mpmall?useUnicode=yes&characterEncoding=UTF-8&useSSL=false
+    url: jdbc:mysql://43.241.223.169:3306/giftcircler?useUnicode=yes&characterEncoding=UTF-8&useSSL=false
     driver-class-name:
 # 指定自定义的数据库连接池替换默认的
     type: com.alibaba.druid.pool.DruidDataSource
@@ -59,7 +59,7 @@ yichen:
 ##配置客户端信息
     oauth2:
       client:
-        - {clientId: mall-dl,clientSecret: Wn4NDKB7klhfmpbFVki1X3fWzjVmwvC1,accessTokenValidityTime: 6592000}
+        - {clientId: giftcircler-dl,clientSecret: qMEjFl8w63EtAX17cRX83L0iMkK2U4mg,accessTokenValidityTime: 6592000}
 #  service:
 #    productDetail: https://2b.goexplore.io/static/product.html?uid=
 #    logo: http://43.241.223.169:800/image/logo.jpg

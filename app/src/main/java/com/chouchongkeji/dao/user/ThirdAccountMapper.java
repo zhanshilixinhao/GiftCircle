@@ -14,4 +14,6 @@ public interface ThirdAccountMapper {
     int updateByPrimaryKeySelective(ThirdAccount record);
 
     int updateByPrimaryKey(ThirdAccount record);
+
+    ThirdAccount selectByOpenIdAndType(String openId, int type);
 }

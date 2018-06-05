@@ -1,5 +1,7 @@
 package com.chouchongkeji.service.user.impl;
 
+import com.chouchongkeji.dao.user.AppUserMapper;
+import com.chouchongkeji.pojo.user.AppUser;
 import com.yichen.auth.service.MemberDetails;
 import com.yichen.auth.verify.VerifyException;
 import org.apache.commons.lang3.StringUtils;
@@ -18,26 +20,27 @@ import org.springframework.stereotype.Service;
 public class MemberDetailService implements UserDetailsService {
 
     @Autowired
-    private UserBaseMapper userBaseMapper;
+    private AppUserMapper appUserMapper;
 
     /**
      * 用户认证逻辑
-     * @param username
+     *
+     * @param phone
      * @return
      * @throws UsernameNotFoundException
      * @author linqin
      * @date 2018/5/18
      */
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        if (StringUtils.isBlank(username)){
-            throw new VerifyException("username is empty");
+    public UserDetails loadUserByUsername(String phone) throws UsernameNotFoundException {
+        if (StringUtils.isBlank(phone)) {
+            throw new VerifyException("phone is empty");
         }
-        UserBase memberInfo = userBaseMapper.selectByAccount(username);
-        if (memberInfo == null){
+        AppUser memberInfo = appUserMapper.selectByPhone(phone);
+        if (memberInfo == null) {
             throw new VerifyException("该账号未注册");
         }
-        return new MemberDetails(username,memberInfo.getPassword(),
+        return new MemberDetails(phone, memberInfo.getPassword(),
                 AuthorityUtils.commaSeparatedStringToAuthorityList("member, ROLE_USER"),
                 memberInfo.getId());
     }

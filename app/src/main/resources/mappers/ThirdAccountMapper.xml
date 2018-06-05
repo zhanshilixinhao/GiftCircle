@@ -20,7 +20,14 @@
     from third_account
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="selectByOpenIdAndType" resultType="com.chouchongkeji.pojo.user.ThirdAccount">
+      select
+      <include refid="Base_Column_List"/>
+      from third_account
+      where open_id = #{openId}
+      and type = #{type}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from third_account
     where id = #{id,jdbcType=INTEGER}
   </delete>
@@ -29,7 +36,7 @@
       type, created, updated
       )
     values (#{id,jdbcType=INTEGER}, #{openId,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
-      #{type,jdbcType=TINYINT}, #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP}
+      #{type,jdbcType=TINYINT}, now(), now()
       )
   </insert>
   <insert id="insertSelective" parameterType="com.chouchongkeji.pojo.user.ThirdAccount">

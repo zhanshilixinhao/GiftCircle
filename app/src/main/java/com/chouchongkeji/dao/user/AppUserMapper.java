@@ -14,4 +14,8 @@ public interface AppUserMapper {
     int updateByPrimaryKeySelective(AppUser record);
 
     int updateByPrimaryKey(AppUser record);
+
+    AppUser selectByPhone(String phone);
+
+
 }
