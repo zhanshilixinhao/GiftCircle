@@ -143,9 +143,9 @@ public class ResponseFactory {
         return new ResponseImpl(ErrorCode.SIGN_ERROR.getCode(), msg);
     }
 
-    public static Response errData(int errCode, String msg, String key) {
-        return new ResponseImpl(errCode, msg, key);
-    }
+//    public static Response errData(int errCode, String msg, String key) {
+//        return new ResponseImpl(errCode, msg, key);
+//    }
 
     public static Response errData(int errCode, String msg, Object data) {
         return new ResponseImpl(errCode, msg, data);

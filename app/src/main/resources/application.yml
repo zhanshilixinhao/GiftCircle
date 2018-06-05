@@ -64,7 +64,7 @@ yichen:
       client:
         - {clientId: giftcircler-dl,clientSecret: qMEjFl8w63EtAX17cRX83L0iMkK2U4mg,accessTokenValidityTime: 6592000}
     sign:
-      needSign: true
+      needSign: false
       urls:
         - /druid/**
 #  service:

@@ -62,7 +62,7 @@ public class ThirdAccServiceImpl implements ThirdAccService {
      * 创建第三方账号
      * 绑定手机号
      * @param openId  第三代账号
-     * @param type  账号类型 1-手机，2-qq，3-微信，4-微博
+     * @param type  账号类型（默认1） 1-微信app,2-微信小程序
      * @param phone 用户名
      * @return
      * @author linqin

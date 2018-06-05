@@ -1,5 +1,11 @@
 package com.chouchongkeji.controller.user;
 
+import com.chouchongkeji.goexplore.common.Response;
+import com.chouchongkeji.service.user.UserService;
+import com.yichen.auth.service.UserDetails;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -8,17 +14,22 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2018/6/5
  */
 @RestController
-@RequestMapping("noauth/user")
+@RequestMapping("auth/user")
 public class UserController {
 
-    /**
-     * 微信授权登录
-     * @param openId
-     * @return
-     */
-//    public Response wechatLogin(String openId){
-//
-//    }
+    @Autowired
+    private UserService userService;
 
+    /**
+     * 获取用户详细信息
+     * @param userDetails
+     * @return
+     * @author linqin
+     * @date 2018/6/5
+     */
+    @PostMapping("/profile")
+    public Response profile(@AuthenticationPrincipal UserDetails userDetails){
+        return userService.getProfile(userDetails.getUserId());
+    }
 
 }

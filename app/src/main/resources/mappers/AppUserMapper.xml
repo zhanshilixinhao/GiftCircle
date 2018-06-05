@@ -36,7 +36,15 @@
       from app_user
       where phone = #{phone}
     </select>
-  <!--<select id="selectByAccount" resultMap="BaseResultMap">-->
+    <select id="selectByUserId" resultMap="BaseResultMap">
+      SELECT
+	  <include refid="Base_Column_List"/>
+     FROM
+	`app_user`
+     WHERE
+	   id = #{userId}
+    </select>
+    <!--<select id="selectByAccount" resultMap="BaseResultMap">-->
     <!--select -->
     <!--<include refid="Base_Column_List"/>-->
     <!--from app_user-->

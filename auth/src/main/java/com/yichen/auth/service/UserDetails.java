@@ -10,17 +10,17 @@ import java.util.Collection;
  * @date 2017/12/3
  */
 
-public class MemberDetails extends User {
+public class UserDetails extends User {
 
     private Integer userId;
 
-    public MemberDetails(String username, String password, Collection<? extends GrantedAuthority> authorities,
-                         Integer memberId) {
+    public UserDetails(String username, String password, Collection<? extends GrantedAuthority> authorities,
+                       Integer memberId) {
         super(username, password, authorities);
         this.userId = memberId;
     }
 
-    public MemberDetails(String username, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
+    public UserDetails(String username, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
         super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
     }
 
@@ -28,4 +28,7 @@ public class MemberDetails extends User {
         return userId;
     }
 
+    public Integer getUserId(){
+        return userId;
+    }
 }
