@@ -26,12 +26,12 @@
     where adcode = #{adcode,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.chouchongkeji.pojo.user.District">
-    insert into district (adcode, p_adcode, name, 
+    insert ignore into district (adcode, p_adcode, name,
       type, level, created, 
       updated)
     values (#{adcode,jdbcType=INTEGER}, #{pAdcode,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
-      #{type,jdbcType=TINYINT}, #{level,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP}, 
-      #{updated,jdbcType=TIMESTAMP})
+      #{type,jdbcType=TINYINT}, #{level,jdbcType=VARCHAR}, now(),
+      now())
   </insert>
   <insert id="insertSelective" parameterType="com.chouchongkeji.pojo.user.District">
     insert into district
