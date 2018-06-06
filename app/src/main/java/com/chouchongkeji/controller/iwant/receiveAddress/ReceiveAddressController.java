@@ -94,4 +94,41 @@ public class ReceiveAddressController {
         }
         return receiveAddressService.addReceiveAddress(details.getUserId(), shipping);
     }
+
+    /**
+     * 获得收货地址详情
+     *
+     * @param: [details 用户认证信息, id 收货地址id]
+     * @return: com.chouchongkeji.goexplore.common.Response
+     * @author: yy
+     * @Date: 2018/6/6
+     */
+    @PostMapping("detail")
+    public Response getReceiveAddressDetail(@AuthenticationPrincipal UserDetails details, Integer id) {
+        return receiveAddressService.getReceiveAddressDetail(details.getUserId(), id);
+    }
+
+    /**
+     *
+     *
+     * @param: [details 用户认证信息, shipping ]
+     * @return: com.chouchongkeji.goexplore.common.Response
+     * @author: yy
+     * @Date: 2018/6/6
+     */
+    @PostMapping("update")
+    public Response updateReceiveAddress(@AuthenticationPrincipal UserDetails details, Shipping shipping) {
+        if (shipping == null) {
+            return ResponseFactory.errMissingParameter();
+        } else {
+            if (shipping.getAdcode() == null || shipping.getId() == null) {
+                return ResponseFactory.errMissingParameter();
+            }
+            if (StringUtils.isAnyBlank(shipping.getAddress(), shipping.getPhone(),
+                    shipping.getConsigneeName(), shipping.getAddressDetail())) {
+                return ResponseFactory.errMissingParameter();
+            }
+        }
+        return receiveAddressService.updateReceiveAddress(details.getUserId(), shipping);
+    }
 }

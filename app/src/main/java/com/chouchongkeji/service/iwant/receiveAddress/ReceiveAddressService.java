@@ -47,4 +47,24 @@ public interface ReceiveAddressService {
      * @Date: 2018/6/6
      */
     Response addReceiveAddress(Integer userId, Shipping shipping);
+
+    /**
+     * 获得收货地址详情
+     *
+     * @param: [userId 用户id, id 收货地址id]
+     * @return: com.chouchongkeji.goexplore.common.Response
+     * @author: yy
+     * @Date: 2018/6/6
+     */
+    Response getReceiveAddressDetail(Integer userId, Integer id);
+
+    /**
+     * 修改收货地址信息
+     *
+     * @param: [userId 用户id, shipping 收货地址信息]
+     * @return: com.chouchongkeji.goexplore.common.Response
+     * @author: yy
+     * @Date: 2018/6/6
+     */
+    Response updateReceiveAddress(Integer userId, Shipping shipping);
 }

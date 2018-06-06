@@ -7,6 +7,7 @@ import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.pojo.iwant.receiveAddress.Shipping;
 import com.chouchongkeji.service.iwant.receiveAddress.ReceiveAddressService;
+import com.chouchongkeji.service.iwant.receiveAddress.vo.ShippingDetail;
 import com.chouchongkeji.service.iwant.receiveAddress.vo.ShippingListVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -120,5 +121,54 @@ public class ReceiveAddressServiceImpl implements ReceiveAddressService {
         } else {
             return ResponseFactory.err("添加失败");
         }
+    }
+
+    /**
+     * 获得收货地址详情
+     *
+     * @param: [userId 用户id, id 收货地址id]
+     * @return: com.chouchongkeji.goexplore.common.Response
+     * @author: yy
+     * @Date: 2018/6/6
+     */
+    @Override
+    public Response getReceiveAddressDetail(Integer userId, Integer id) {
+        Shipping shipping = shippingMapper.selectByPrimaryKey(id);
+        ShippingDetail shippingDetail = new ShippingDetail();
+        if (shipping != null) {
+            shippingDetail.setId(shipping.getId());
+            shippingDetail.setAddress(shipping.getAddress());
+            shippingDetail.setPhone(shipping.getPhone());
+            shippingDetail.setConsigneeName(shipping.getConsigneeName());
+            shippingDetail.setAddressDetail(shipping.getAddressDetail());
+            shippingDetail.setAdcode(shipping.getAdcode());
+        }  else {
+            return ResponseFactory.err("无效的地址");
+        }
+        return ResponseFactory.sucData(shippingDetail);
+    }
+
+    /**
+     * 修改用户收货地址
+     *
+     * @param: [userId 用户id, shipping 收货地址信息]
+     * @return: com.chouchongkeji.goexplore.common.Response
+     * @author: yy
+     * @Date: 2018/6/6
+     */
+    @Override
+    public Response updateReceiveAddress(Integer userId, Shipping shippingOld) {
+        Shipping shipping = shippingMapper.selectByPrimaryKey(shippingOld.getId());
+        if (shipping != null) {
+            shipping.setAdcode(shippingOld.getAdcode());
+            shipping.setPhone(shippingOld.getPhone());
+            shipping.setConsigneeName(shippingOld.getConsigneeName());
+            shipping.setAddressDetail(shippingOld.getAddressDetail());
+            shipping.setAddress(shippingOld.getAddress());
+            shippingMapper.updateByPrimaryKey(shipping);
+        } else {
+            return ResponseFactory.err("修改失败");
+        }
+        return ResponseFactory.sucMsg("修改成功");
     }
 }
