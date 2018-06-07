@@ -74,16 +74,24 @@ public class UserServiceImpl implements UserService {
         }
         //判断年龄
         Integer age = appUser.getAge();
-        if (age != null) {
-            newUser.setAge(age);
+        if (age != null ) {
+            if (age >=0){
+                newUser.setAge(age);
+            }else {
+                return ResponseFactory.err("年龄不能为负数，请重新填写");
+            }
         }
         //判断性别
         Byte gender = appUser.getGender();
-        if (gender != null && gender <= 2 && gender >= 0) {
-            newUser.setGender(gender);
+        if (gender != null ) {
+            if (gender <= 2 && gender >= 0){
+                newUser.setGender(gender);
+            }else {
+                return ResponseFactory.err("性别填写错误");
+            }
         }
         int re = appUserMapper.updateByPrimaryKeySelective(newUser);
-        if (re == 1){
+        if (re == 1) {
             return ResponseFactory.sucMsg("修改成功");
         }
         return ResponseFactory.err("修改失败");

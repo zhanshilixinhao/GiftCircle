@@ -11,4 +11,5 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("auth/v1/wallet")
 public class WalletController {
+
 }
