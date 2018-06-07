@@ -1,8 +1,11 @@
 package com.chouchongkeji.controller.iwant.wallet;
 
 import com.chouchongkeji.goexplore.common.Response;
+import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.service.iwant.wallet.BankCardService;
+import com.chouchongkeji.service.iwant.wallet.vo.UserBankCardVo;
 import com.yichen.auth.service.UserDetails;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -44,5 +47,46 @@ public class BankCardController {
     @PostMapping("list")
     public Response getUserBankCardList(@AuthenticationPrincipal UserDetails details) {
         return bankCardService.getUserBankCardList(details.getUserId());
+    }
+
+    /**
+     * 删除用户银行卡
+     *
+     * @param: [details 用户认证信息, id 银行卡id]
+     * @return: com.chouchongkeji.goexplore.common.Response
+     * @author: yy
+     * @Date: 2018/6/6
+     */
+    @PostMapping("del")
+    public Response delUserBankCard(@AuthenticationPrincipal UserDetails details, Integer id) {
+        if (id == null) {
+            return ResponseFactory.errMissingParameter();
+        }
+        return bankCardService.delUserBankCard(details.getUserId(), id);
+    }
+
+    /**
+     * 添加用户银行卡
+     *
+     * @param: [details 用户详情, userBankCardVo 银行卡信息]
+     * @return: com.chouchongkeji.goexplore.common.Response
+     * @author: yy
+     * @Date: 2018/6/7
+     */
+    @PostMapping("add")
+    public Response addUserBankCard(@AuthenticationPrincipal UserDetails details, UserBankCardVo userBankCardVo) {
+        //校验必传参数
+        if (userBankCardVo == null) {
+            return ResponseFactory.errMissingParameter();
+        } else {
+            if (userBankCardVo.getBankId() == null) {
+                return ResponseFactory.errMissingParameter();
+            }
+            if (StringUtils.isAnyBlank(userBankCardVo.getCardHolder(), userBankCardVo.getCardNo(),
+                    userBankCardVo.getDepositBank())) {
+                return ResponseFactory.errMissingParameter();
+            }
+        }
+        return bankCardService.addUserBankCard(details.getUserId(), userBankCardVo);
     }
 }

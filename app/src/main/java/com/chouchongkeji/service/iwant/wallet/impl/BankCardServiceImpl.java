@@ -5,11 +5,13 @@ import com.chouchongkeji.dao.iwant.wallet.UserBankCardMapper;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.pojo.iwant.wallet.BankDict;
+import com.chouchongkeji.pojo.iwant.wallet.UserBankCard;
 import com.chouchongkeji.service.iwant.wallet.BankCardService;
 import com.chouchongkeji.service.iwant.wallet.vo.UserBankCardVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -55,5 +57,51 @@ public class BankCardServiceImpl implements BankCardService {
         // 根据银行卡状态查找用户银行卡 1.正常 2.删除
         List<UserBankCardVo> userBankCardVos = userBankCardMapper.getUserBankCardList(userId, status);
         return ResponseFactory.sucData(userBankCardVos);
+    }
+
+    /**
+     * 删除用户银行卡
+     *
+     * @param: [userId 用户id, id 银行卡id]
+     * @return: com.chouchongkeji.goexplore.common.Response
+     * @author: yy
+     * @Date: 2018/6/6
+     */
+    @Override
+    public Response delUserBankCard(Integer userId, Integer id) {
+        UserBankCard userBankCard = userBankCardMapper.selectByPrimaryKey(id);
+        if (userBankCard != null) {
+            userBankCard.setStatus((byte)2);
+            userBankCardMapper.updateByPrimaryKey(userBankCard);
+            return ResponseFactory.sucMsg("删除成功");
+        } else {
+            return ResponseFactory.err("删除失败");
+        }
+    }
+
+    /**
+     * 添加用户银行卡
+     *
+     * @param: [userId 用户id, userBankCardVo 银行卡信息]
+     * @return: com.chouchongkeji.goexplore.common.Response
+     * @author: yy
+     * @Date: 2018/6/7
+     */
+    @Override
+    public Response addUserBankCard(Integer userId, UserBankCardVo userBankCardVo) {
+        UserBankCard userBankCard = new UserBankCard();
+        userBankCard.setStatus((byte)1);
+        userBankCard.setUserId(userId);
+        userBankCard.setUpdated(new Date());
+        userBankCard.setDepositBank(userBankCardVo.getDepositBank());
+        userBankCard.setCreated(new Date());
+        userBankCard.setCardNo(userBankCardVo.getCardNo());
+        userBankCard.setCardHolder(userBankCardVo.getCardHolder());
+        userBankCard.setBankId(userBankCardVo.getBankId());
+        int count = userBankCardMapper.insert(userBankCard);
+        if (count == 1) {
+            return ResponseFactory.sucMsg("添加成功");
+        }
+        return ResponseFactory.err("添加失败");
     }
 }

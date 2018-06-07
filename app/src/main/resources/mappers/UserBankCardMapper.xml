@@ -155,5 +155,7 @@
     user_bankcard a LEFT JOIN bank_dict b ON a.bank_id = b.id
     WHERE
     a.user_id = #{userId} AND a.status = #{status}
+    ORDER BY
+    a.created DESC
   </select>
 </mapper>

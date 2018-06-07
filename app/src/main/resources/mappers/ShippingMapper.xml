@@ -165,6 +165,8 @@
     shipping
     WHERE
     user_id = #{userId} AND status != 3
+    ORDER BY
+    created DESC
   </select>
 
   <!--获得当前用户的默认地址-->
