@@ -532,7 +532,20 @@ create table wallet
     primary key id (user_id)
 )engine = innodb, character set = utf8mb4 comment '钱包';
 
-
+/*==============================================================*/
+/* Table: suggestion                                                */
+/*==============================================================*/
+create table suggestion
+(
+  id        int auto_increment not null comment '表id',
+  user_id   int (11) comment '用户id',
+  type        tinyint(4) comment '意见类型，1-提个建议，2-程序出错啦，3-不好用，4-其他',
+  feedback    varchar(255) comment '意见反馈文字',
+  contact_way  varchar(100) comment '联系方式',
+  created        datetime comment '创建时间',
+  updated        datetime comment '更新时间',
+  primary key id (id)
+)engine = innodb, character set = utf8mb4 comment '意见反馈';
 
 
 

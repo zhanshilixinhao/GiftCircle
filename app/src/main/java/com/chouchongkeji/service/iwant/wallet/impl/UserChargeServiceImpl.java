@@ -2,6 +2,8 @@ package com.chouchongkeji.service.iwant.wallet.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.chouchongkeji.dao.iwant.wallet.ChargeOrderMapper;
+import com.chouchongkeji.exception.ServiceException;
+import com.chouchongkeji.goexplore.common.ErrorCode;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.pay.KeyUtil;
@@ -74,13 +76,13 @@ public class UserChargeServiceImpl implements UserChargeService {
         } else { // 微信支付
             WXPayDto dto = WXPayService.service(payVO).createPrePay();
             if (dto.getCode() != 1) {
-                return ResponseFactory.err("创建微信订单失败，" + dto.getMessage());
+                throw new ServiceException(ErrorCode.ERROR.getCode(),"创建微信订单失败，" + dto.getMessage());
             }
 //            mingwen = JSON.toJSONString(dto);
             info = RSAProvider.encrypt(JSON.toJSONString(dto), KeyUtil.PRIVATE_KEY);
         }
         if (info == null) {
-            return ResponseFactory.err("支付宝创建失败");
+            throw new ServiceException(ErrorCode.ERROR.getCode(),"支付参数创建失败!" );
         }
         // 请求支付成功事务
         PayResultVo payResultVo = new PayResultVo();

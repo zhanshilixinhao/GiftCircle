@@ -35,9 +35,9 @@ public class OrderHelper {
         if (StringUtils.isBlank(no)) {
             no = String.valueOf(INIT_NO);
             mRedisTemplate.setString(KEY_PREFIX, no, (int) (DateUtil.tomZeroDiff() / 1000));
-            mRedisTemplate.template().opsForValue().increment(KEY_PREFIX, 1);
         }
-        return Long.parseLong(String.format("%s%s%s", client, type, no));
+        mRedisTemplate.template().opsForValue().increment(KEY_PREFIX, 1);
+        return Long.parseLong(String.format("%s%s%s%s", client, type, DateUtil.today("yyyyMM"), no));
     }
 
 }

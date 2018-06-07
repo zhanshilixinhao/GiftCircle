@@ -32,7 +32,7 @@
       created, updated)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{amount,jdbcType=DECIMAL}, 
       #{orderNo,jdbcType=BIGINT}, #{status,jdbcType=TINYINT}, #{payWay,jdbcType=TINYINT}, 
-      now(), now())
+      now, now())
   </insert>
   <insert id="insertSelective" parameterType="com.chouchongkeji.pojo.iwant.wallet.ChargeOrder">
     insert into charge_order
