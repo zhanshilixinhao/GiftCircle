@@ -21,6 +21,7 @@ import java.math.BigDecimal;
 @RestController
 @RequestMapping("auth/v1/charge")
 public class UserChargeController {
+
     @Autowired
     private UserChargeService userChargeService;
 
@@ -40,8 +41,8 @@ public class UserChargeController {
             return ResponseFactory.err("充值金额错误");
         }
         //检验支付方式
-        if (payWay != Constants.PAY_TYPE.WX && payWay != Constants.PAY_TYPE.ALI) {
-            return ResponseFactory.err("充值方式错误");
+        if (payWay == null || (payWay != Constants.PAY_TYPE.WX && payWay != Constants.PAY_TYPE.ALI)) {
+            return ResponseFactory.err("支付方式错误!");
         }
 
         return userChargeService.chargeOrder(userDetails.getUserId(), client, amount, payWay);
