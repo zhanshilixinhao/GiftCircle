@@ -28,7 +28,7 @@
   </delete>
   <insert id="insert" parameterType="com.chouchongkeji.pojo.iwant.wallet.UserWithdraw">
     insert into user_withdraw (id, user_id, amount, 
-      user_bankcard_id, status, describe, 
+      user_bankcard_id, status, `describe`,
       created, updated)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{amount,jdbcType=DECIMAL}, 
       #{userBankcardId,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, #{describe,jdbcType=VARCHAR}, 

@@ -1,12 +1,19 @@
 package com.chouchongkeji.service.iwant.wallet.impl;
 
+import com.chouchongkeji.dao.iwant.wallet.UserBankCardMapper;
 import com.chouchongkeji.dao.iwant.wallet.UserWithdrawMapper;
+import com.chouchongkeji.dao.iwant.wallet.WalletMapper;
 import com.chouchongkeji.goexplore.common.Response;
+import com.chouchongkeji.goexplore.common.ResponseFactory;
+import com.chouchongkeji.pojo.iwant.wallet.UserBankCard;
+import com.chouchongkeji.pojo.iwant.wallet.UserWithdraw;
+import com.chouchongkeji.pojo.iwant.wallet.Wallet;
 import com.chouchongkeji.service.iwant.wallet.UserWithdrawService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * @author yy
@@ -18,6 +25,12 @@ public class UserWithdrawServiceImpl implements UserWithdrawService{
     @Autowired
     private UserWithdrawMapper userWithdrawMapper;
 
+    @Autowired
+    private UserBankCardMapper userBankCardMapper;
+
+    @Autowired
+    private WalletMapper walletMapper;
+
     /**
      * 添加用户提现记录
      *
@@ -28,7 +41,37 @@ public class UserWithdrawServiceImpl implements UserWithdrawService{
      */
     @Override
     public Response addUserWithdraw(Integer userId, Integer id, BigDecimal amount) {
-
-        return null;
+        // 取出用户银行卡信息
+        UserBankCard userBankCard = userBankCardMapper.selectByPrimaryKey(id);
+        // 是否存在
+        if (userBankCard == null) {
+            return ResponseFactory.err("提现的银行卡不存在，请先添加银行卡!");
+        }
+        // 用户是否匹配当前银行卡
+        if (!userId.equals(userBankCard.getUserId())) {
+            return ResponseFactory.err("银行卡和用户不匹配!");
+        }
+        // 查看余额是否足够
+        Wallet wallet = walletMapper.selectByUserId(userId);
+        if (wallet == null) {
+            return ResponseFactory.err("提现失败!");
+        }
+        if (wallet.getBalance().compareTo(amount) < 0) {
+            return ResponseFactory.err("余额不足,提现失败!");
+        }
+        // 保存提现记录
+        UserWithdraw userWithdraw = new UserWithdraw();
+        userWithdraw.setAmount(amount);
+        userWithdraw.setUserId(userId);
+        userWithdraw.setUserBankcardId(id);
+        userWithdraw.setUpdated(new Date());
+        userWithdraw.setStatus((byte)1);
+        userWithdraw.setDescribe("申请提现");
+        userWithdraw.setCreated(new Date());
+        int count = userWithdrawMapper.insert(userWithdraw);
+        if (count == 1) {
+            return ResponseFactory.sucMsg("提现申请成功!");
+        }
+        return ResponseFactory.err("提现申请失败!");
     }
 }
