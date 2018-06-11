@@ -104,6 +104,11 @@
         <!--<table tableName="article" domainObjectName="Article" enableCountByExample="false"-->
                <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
                <!--selectByExampleQueryId="false"></table>-->
-
+        <!--<table tableName="virtual_item_category" domainObjectName="VirtualItemCate" enableCountByExample="false"
+              enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+              selectByExampleQueryId="false"></table>-->
+        <table tableName="virtual_item" domainObjectName="VirtualItem" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"></table>
     </context>
 </generatorConfiguration>
