@@ -14,4 +14,8 @@ public interface ChargeOrderMapper {
     int updateByPrimaryKeySelective(ChargeOrder record);
 
     int updateByPrimaryKey(ChargeOrder record);
+
+    ChargeOrder selectByOrderNo(Long orderNo);
+
+
 }
