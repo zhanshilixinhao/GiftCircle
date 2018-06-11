@@ -5,15 +5,18 @@ import com.chouchongkeji.dao.iwant.wallet.UserWithdrawMapper;
 import com.chouchongkeji.dao.iwant.wallet.WalletMapper;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
+import com.chouchongkeji.goexplore.query.PageQuery;
 import com.chouchongkeji.pojo.iwant.wallet.UserBankCard;
 import com.chouchongkeji.pojo.iwant.wallet.UserWithdraw;
 import com.chouchongkeji.pojo.iwant.wallet.Wallet;
 import com.chouchongkeji.service.iwant.wallet.UserWithdrawService;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author yy
@@ -66,12 +69,27 @@ public class UserWithdrawServiceImpl implements UserWithdrawService{
         userWithdraw.setUserBankcardId(id);
         userWithdraw.setUpdated(new Date());
         userWithdraw.setStatus((byte)1);
-        userWithdraw.setDescribe("申请提现");
+        userWithdraw.setDescribe("");
         userWithdraw.setCreated(new Date());
         int count = userWithdrawMapper.insert(userWithdraw);
         if (count == 1) {
             return ResponseFactory.sucMsg("提现申请成功!");
         }
         return ResponseFactory.err("提现申请失败!");
+    }
+
+    /**
+     * 获得用户的提现记录
+     *
+     * @param: [userId 用户id, pageQuery 分页信息]
+     * @return: com.chouchongkeji.goexplore.common.Response
+     * @author: yy
+     * @Date: 2018/6/11
+     */
+    @Override
+    public Response getUserWithdrawList(Integer userId, PageQuery page) {
+        PageHelper.startPage(page.getPageNum(), page.getPageSize());
+        List<UserWithdraw> userWithdraws = userWithdrawMapper.selectByUserId(userId);
+        return null;
     }
 }

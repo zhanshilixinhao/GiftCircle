@@ -2,6 +2,7 @@ package com.chouchongkeji.controller.iwant.wallet;
 
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
+import com.chouchongkeji.goexplore.query.PageQuery;
 import com.chouchongkeji.service.iwant.wallet.UserWithdrawService;
 import com.yichen.auth.service.UserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,5 +42,10 @@ public class UserWithdrawController {
             return ResponseFactory.err("提现金额必须大于0");
         }
         return userWithdrawService.addUserWithdraw(details.getUserId(), id, amount);
+    }
+
+    @PostMapping("list")
+    public Response getUserWithdrawList(@AuthenticationPrincipal UserDetails details, PageQuery pageQuery) {
+        return userWithdrawService.getUserWithdrawList(details.getUserId(), pageQuery);
     }
 }
