@@ -1,6 +1,7 @@
 package com.chouchongkeji.dao.gift.item;
 
 import com.chouchongkeji.pojo.gift.item.Item;
+import org.apache.ibatis.annotations.Param;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -18,6 +19,11 @@ public interface ItemMapper {
 
     int updateByPrimaryKey(Item record);
 
-    List<Item> selectAll(Integer classes, Integer gender, Integer minAge, Integer maxAge,
-                         BigDecimal minPrice, BigDecimal maxPrice, Integer eventId);
+    List<Item> selectAll(@Param("classes") Integer classes,
+                         @Param("gender") Integer gender,
+                         @Param("minAge") Integer minAge,
+                         @Param("maxAge") Integer maxAge,
+                         @Param("minPrice") BigDecimal minPrice,
+                         @Param("maxPrice") BigDecimal maxPrice,
+                         @Param("eventId") Integer eventId);
 }

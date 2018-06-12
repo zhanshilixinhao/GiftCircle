@@ -615,5 +615,3 @@ create table event
 
 
 
-
-

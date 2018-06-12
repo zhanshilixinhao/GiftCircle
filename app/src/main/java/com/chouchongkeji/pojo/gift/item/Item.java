@@ -26,7 +26,7 @@ public class Item {
 
     private Integer storeId;
 
-    private Date categoryId;
+    private Integer categoryId;
 
     private String cover;
 
@@ -46,7 +46,10 @@ public class Item {
 
     private Date updated;
 
-    public Item(Integer id, String title, BigDecimal price, Integer sales, Integer stock, String description, Byte reGender, Byte reMaxAge, Byte reAgeMin, Long reEvent, Integer storeId, Date categoryId, String cover, String pictures, Byte choiceness, Byte hot, Byte status, Byte isAudit, Integer brandId, Date created, Date updated) {
+    public Item(Integer id, String title, BigDecimal price, Integer sales, Integer stock,
+                String description, Byte reGender, Byte reMaxAge, Byte reAgeMin, Long reEvent,
+                Integer storeId, Integer categoryId, String cover, String pictures, Byte choiceness,
+                Byte hot, Byte status, Byte isAudit, Integer brandId, Date created, Date updated) {
         this.id = id;
         this.title = title;
         this.price = price;
@@ -162,11 +165,11 @@ public class Item {
         this.storeId = storeId;
     }
 
-    public Date getCategoryId() {
+    public Integer getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(Date categoryId) {
+    public void setCategoryId(Integer categoryId) {
         this.categoryId = categoryId;
     }
 
