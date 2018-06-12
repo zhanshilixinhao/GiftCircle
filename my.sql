@@ -573,7 +573,7 @@ create table suggestion
 )engine = innodb, character set = utf8mb4 comment '意见反馈';
 
 /*==============================================================*/
-/* Table: suggestion                                                */
+/* Table: virtual_item_order                                                */
 /*==============================================================*/
 
 DROP TABLE IF EXISTS `virtual_item_order`;
@@ -608,6 +608,28 @@ create table event
   updated        datetime comment '更新时间',
   primary key id (id)
 )engine = innodb, character set = utf8mb4 comment '事件列表';
+
+/*==============================================================*/
+/* Table: user_virtual_item                                                */
+/*==============================================================*/
+
+DROP TABLE IF EXISTS `user_virtual_item`;
+CREATE TABLE `user_virtual_item`  (
+  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '用户虚拟商品id',
+  `user_id` INT(11) DEFAULT NULL COMMENT '用户id',
+  `virtual_item_id` INT(11) DEFAULT NULL COMMENT '虚拟商品id',
+  `quantity` INT(11) DEFAULT NULL COMMENT '数量',
+  `name` varchar(200)  DEFAULT NULL COMMENT '商品名称',
+  `cover` varchar(500)  DEFAULT NULL COMMENT '虚拟商品封面图片',
+  `summary` varchar(500)  DEFAULT NULL COMMENT '虚拟商品描述',
+   price   decimal(18, 2) comment '商品单价',
+   total_price decimal(18, 2) comment '商品总价',
+  `created` datetime(0) DEFAULT NULL COMMENT '创建时间',
+  `updated` datetime(0) DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY ( id ),
+  KEY `user_id` ( `user_id` ),
+  KEY `virtual_item_id` ( `virtual_item_id` )
+) ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8mb4 COMMENT = '用户虚拟商品表';
 
 
 
