@@ -242,3 +242,78 @@ http 常用错误码
 }
 ```
 
+### 3.2 创建充值订单
+
+- 请求地址：auth/v1/charge/order
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：linqin
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+|    amount    |   int    |    是    |   无   | 充值金额 |
+|    payWay    |   int    |    是    |   无   | 支付方式 |
+
+请求结果示例：
+
+```json
+{
+    "errCode": 0, 
+    "result": 0, 
+    "time": 1528422440302, 
+    "data": {
+        "params": "CcTxFSVe+MacO+YFCYnyTazCZN9Js0v6vlMMWQ9RKYLA3GPgc/50iKt3qenIcpXBUsx5g309Y6T/YmCYcCqilfCZEPf776MxPy9j8ni4M2/hmUm+TUfaJryw9mZlmRspdCKAhObeqSVfxPPCQ8yVgGvddRXAd1wUs/dvWCk2ezkkzO4OQ1BRCstRNiffXNfl96jVAPB4hEWIstnWvUSgnrkwtuHQTVuXudyGLcqWcjUrchq0fyFP242mg4sBMUcM8vVA2UxFr3AinDkZExna6RB8KTW3c7oi5X8ngDW8jfee8St3r7Ebv5q2nGH41fWGkBAUIppDUT3qPRHy3EwJFA==MMMmW6qy9uP6BdkPFpqUBlc1c70+slkyS5bcImcfIKBapgnPVn8P1ieba0W4GqaKfBwYGlBTsGVkr33bfkr6JqDbM7RwjLU/7Jc7GvF8CoA/jOOZ4LlV6g8szkoXm18VTbIctuNSN7u61mYlPwrh0k/e/9vejQLotn0y9jax/MLYWf7uehWipVbz7vNlCnll9ttNFYS0H8vzNZtFBHI0KIKpLabj9WuNJBzIgCMbBfZmmz7Br6AXiUVlUfQrTtAfKOe6Mi0iUkskPcTLFTlfaUtRCVrKFYjR+u1BZltoR2cHDhjbQYANMC0dJmBI7XORVjU6rX2B5laOoNR9uRUcVw==||344,344", 
+        "orderNo": 120180610005, 
+        "type": 24656
+    }
+}
+
+```
+
+## 4. 全国行政区查询
+
+### 4.1 获取行政区列表
+
+- 请求地址：/auth/district/list
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：linqin
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 |             参数说明              |
+| :----------: | :------: | :------: | :----: | :-------------------------------: |
+| access_token |  string  |    是    |   无   |             访问令牌              |
+|    level     |  string  |    是    |   无   | 行政区级别 province city district |
+|   pAdcode    |   int    |    是    |   无   |            级行政区id             |
+
+请求结果示例：
+
+```json
+JSON：
+{
+    "errCode": 0, 
+    "result": 0, 
+    "time": 1528706361701, 
+    "data": [
+        {
+            "adcode": 130100, 
+            "pAdcode": 130000, 
+            "name": "石家庄市", 
+            "type": null, 
+            "level": "city", 
+            "created": 1528275769000, 
+            "updated": 1528275769000
+        }, 
+        {
+            "adcode": 130200, 
+            "pAdcode": 130000, 
+            "name": "唐山市", 
+            "type": null, 
+            "level": "city", 
+            "created": 1528275744000, 
+            "updated": 1528275744000
+        }
+    ]
+}
+```
+

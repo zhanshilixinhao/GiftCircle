@@ -15,13 +15,29 @@
   <sql id="Base_Column_List">
     adcode, p_adcode, name, type, level, created, updated
   </sql>
+  <select id="selectByLevelPAdcode" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM
+    district
+    <where>
+    <trim suffixOverrides="and">
+      <if test="pAdcode!=0">
+        p_adcode = #{pAdcode} and
+      </if>
+      <if test="level!=null">
+        `level` = #{level} and
+      </if>
+    </trim>
+    </where>
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from district
     where adcode = #{adcode,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from district
     where adcode = #{adcode,jdbcType=INTEGER}
   </delete>
