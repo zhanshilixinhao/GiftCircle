@@ -127,4 +127,17 @@
       updated = #{updated,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <!--获取用户提现记录-->
+  <select id="selectByUserId" resultType="com.chouchongkeji.service.iwant.wallet.vo.UserWithdrawVo">
+    SELECT
+    amount,
+    status,
+    created,
+    `describe`
+    FROM
+    user_withdraw
+    WHERE
+    user_id = #{userId}
+  </select>
 </mapper>

@@ -1,6 +1,7 @@
 package com.chouchongkeji.dao.iwant.wallet;
 
 import com.chouchongkeji.pojo.iwant.wallet.UserWithdraw;
+import com.chouchongkeji.service.iwant.wallet.vo.UserWithdrawVo;
 
 import java.util.List;
 
@@ -17,5 +18,13 @@ public interface UserWithdrawMapper {
 
     int updateByPrimaryKey(UserWithdraw record);
 
-    List<UserWithdraw> selectByUserId(Integer userId);
+    /**
+     * 用户提现记录
+     *
+     * @param: [userId 用户id]
+     * @return: java.util.List<com.chouchongkeji.pojo.iwant.wallet.UserWithdraw>
+     * @author: yy
+     * @Date: 2018/6/12
+     */
+    List<UserWithdrawVo> selectByUserId(Integer userId);
 }

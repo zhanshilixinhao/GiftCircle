@@ -44,6 +44,14 @@ public class UserWithdrawController {
         return userWithdrawService.addUserWithdraw(details.getUserId(), id, amount);
     }
 
+    /**
+     * 提现记录
+     *
+     * @param: [details 用户认证消息, pageQuery 分页信息]
+     * @return: com.chouchongkeji.goexplore.common.Response
+     * @author: yy
+     * @Date: 2018/6/12
+     */
     @PostMapping("list")
     public Response getUserWithdrawList(@AuthenticationPrincipal UserDetails details, PageQuery pageQuery) {
         return userWithdrawService.getUserWithdrawList(details.getUserId(), pageQuery);

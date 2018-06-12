@@ -10,9 +10,12 @@ import com.chouchongkeji.pojo.iwant.wallet.UserBankCard;
 import com.chouchongkeji.pojo.iwant.wallet.UserWithdraw;
 import com.chouchongkeji.pojo.iwant.wallet.Wallet;
 import com.chouchongkeji.service.iwant.wallet.UserWithdrawService;
+import com.chouchongkeji.service.iwant.wallet.vo.UserWithdrawVo;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -24,6 +27,7 @@ import java.util.List;
  **/
 
 @Service
+@Transactional(rollbackFor = Exception.class, isolation = Isolation.REPEATABLE_READ)
 public class UserWithdrawServiceImpl implements UserWithdrawService{
     @Autowired
     private UserWithdrawMapper userWithdrawMapper;
@@ -71,8 +75,11 @@ public class UserWithdrawServiceImpl implements UserWithdrawService{
         userWithdraw.setStatus((byte)1);
         userWithdraw.setDescribe("");
         userWithdraw.setCreated(new Date());
+
         int count = userWithdrawMapper.insert(userWithdraw);
         if (count == 1) {
+            wallet.setBalance(wallet.getBalance().subtract(amount));
+            walletMapper.updateByPrimaryKey(wallet);
             return ResponseFactory.sucMsg("提现申请成功!");
         }
         return ResponseFactory.err("提现申请失败!");
@@ -89,7 +96,7 @@ public class UserWithdrawServiceImpl implements UserWithdrawService{
     @Override
     public Response getUserWithdrawList(Integer userId, PageQuery page) {
         PageHelper.startPage(page.getPageNum(), page.getPageSize());
-        List<UserWithdraw> userWithdraws = userWithdrawMapper.selectByUserId(userId);
-        return null;
+        List<UserWithdrawVo> userWithdraws = userWithdrawMapper.selectByUserId(userId);
+        return ResponseFactory.sucData(userWithdraws);
     }
 }
