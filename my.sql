@@ -547,6 +547,30 @@ create table suggestion
   primary key id (id)
 )engine = innodb, character set = utf8mb4 comment '意见反馈';
 
+/*==============================================================*/
+/* Table: suggestion                                                */
+/*==============================================================*/
+
+DROP TABLE IF EXISTS `virtual_item_order`;
+CREATE TABLE `virtual_item_order`  (
+  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '虚拟商品订单id',
+   order_no bigint comment '订单号',
+  `user_id` INT(11) DEFAULT NULL COMMENT '用户id',
+  `virtual_item_id` INT(11) DEFAULT NULL COMMENT '虚拟商品id',
+  `quantity` INT(11) DEFAULT NULL COMMENT '数量',
+  `name` varchar(200)  DEFAULT NULL COMMENT '商品名称',
+  `cover` varchar(500)  DEFAULT NULL COMMENT '虚拟商品封面图片',
+  `summary` varchar(500)  DEFAULT NULL COMMENT '虚拟商品描述',
+   price   decimal(18, 2) comment '商品单价',
+   total_price decimal(18, 2) comment '订单总价',
+   `status` tinyint(4) DEFAULT NULL COMMENT '订单状态, 1 未支付 2 已支付 3 已取消',
+  `created` datetime(0) DEFAULT NULL COMMENT '创建时间',
+  `updated` datetime(0) DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY ( id ),
+  KEY `user_id` ( `user_id` ),
+  KEY `virtual_item_id` ( `virtual_item_id` )
+) ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8mb4 COMMENT = '虚拟商品订单表';
+
 
 
 
