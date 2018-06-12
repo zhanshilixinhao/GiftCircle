@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chouchongkeji.dao.gift.item.ItemMapper">
+  <resultMap id="BaseResultMap" type="com.chouchongkeji.pojo.gift.item.Item">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="title" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="price" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="sales" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="stock" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="description" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="re_gender" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="re_max_age" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="re_age_min" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="re_event" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="store_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="category_id" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="cover" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="pictures" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="choiceness" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="hot" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="is_audit" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="brand_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, title, price, sales, stock, description, re_gender, re_max_age, re_age_min, re_event, 
+    store_id, category_id, cover, pictures, choiceness, hot, status, is_audit, brand_id, 
+    created, updated
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from item
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+      select
+      a.*
+      from item a
+      <if test="eventId!= null and eventId>0">
+        left join item_event b on a.id = b.item_id
+      </if>
+      where
+      <if test="classes!=null">
+        <choose></choose>
+      </if>
+
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from item
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.chouchongkeji.pojo.gift.item.Item">
+    insert into item (id, title, price, 
+      sales, stock, description, 
+      re_gender, re_max_age, re_age_min, 
+      re_event, store_id, category_id, 
+      cover, pictures, choiceness, 
+      hot, status, is_audit, 
+      brand_id, created, updated
+      )
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, 
+      #{sales,jdbcType=INTEGER}, #{stock,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR}, 
+      #{reGender,jdbcType=TINYINT}, #{reMaxAge,jdbcType=TINYINT}, #{reAgeMin,jdbcType=TINYINT}, 
+      #{reEvent,jdbcType=BIGINT}, #{storeId,jdbcType=INTEGER}, #{categoryId,jdbcType=TIMESTAMP}, 
+      #{cover,jdbcType=VARCHAR}, #{pictures,jdbcType=VARCHAR}, #{choiceness,jdbcType=TINYINT}, 
+      #{hot,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, #{isAudit,jdbcType=TINYINT}, 
+      #{brandId,jdbcType=INTEGER}, #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.chouchongkeji.pojo.gift.item.Item">
+    insert into item
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="sales != null">
+        sales,
+      </if>
+      <if test="stock != null">
+        stock,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="reGender != null">
+        re_gender,
+      </if>
+      <if test="reMaxAge != null">
+        re_max_age,
+      </if>
+      <if test="reAgeMin != null">
+        re_age_min,
+      </if>
+      <if test="reEvent != null">
+        re_event,
+      </if>
+      <if test="storeId != null">
+        store_id,
+      </if>
+      <if test="categoryId != null">
+        category_id,
+      </if>
+      <if test="cover != null">
+        cover,
+      </if>
+      <if test="pictures != null">
+        pictures,
+      </if>
+      <if test="choiceness != null">
+        choiceness,
+      </if>
+      <if test="hot != null">
+        hot,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="isAudit != null">
+        is_audit,
+      </if>
+      <if test="brandId != null">
+        brand_id,
+      </if>
+      <if test="created != null">
+        created,
+      </if>
+      <if test="updated != null">
+        updated,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="sales != null">
+        #{sales,jdbcType=INTEGER},
+      </if>
+      <if test="stock != null">
+        #{stock,jdbcType=INTEGER},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="reGender != null">
+        #{reGender,jdbcType=TINYINT},
+      </if>
+      <if test="reMaxAge != null">
+        #{reMaxAge,jdbcType=TINYINT},
+      </if>
+      <if test="reAgeMin != null">
+        #{reAgeMin,jdbcType=TINYINT},
+      </if>
+      <if test="reEvent != null">
+        #{reEvent,jdbcType=BIGINT},
+      </if>
+      <if test="storeId != null">
+        #{storeId,jdbcType=INTEGER},
+      </if>
+      <if test="categoryId != null">
+        #{categoryId,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cover != null">
+        #{cover,jdbcType=VARCHAR},
+      </if>
+      <if test="pictures != null">
+        #{pictures,jdbcType=VARCHAR},
+      </if>
+      <if test="choiceness != null">
+        #{choiceness,jdbcType=TINYINT},
+      </if>
+      <if test="hot != null">
+        #{hot,jdbcType=TINYINT},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="isAudit != null">
+        #{isAudit,jdbcType=TINYINT},
+      </if>
+      <if test="brandId != null">
+        #{brandId,jdbcType=INTEGER},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chouchongkeji.pojo.gift.item.Item">
+    update item
+    <set>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="sales != null">
+        sales = #{sales,jdbcType=INTEGER},
+      </if>
+      <if test="stock != null">
+        stock = #{stock,jdbcType=INTEGER},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="reGender != null">
+        re_gender = #{reGender,jdbcType=TINYINT},
+      </if>
+      <if test="reMaxAge != null">
+        re_max_age = #{reMaxAge,jdbcType=TINYINT},
+      </if>
+      <if test="reAgeMin != null">
+        re_age_min = #{reAgeMin,jdbcType=TINYINT},
+      </if>
+      <if test="reEvent != null">
+        re_event = #{reEvent,jdbcType=BIGINT},
+      </if>
+      <if test="storeId != null">
+        store_id = #{storeId,jdbcType=INTEGER},
+      </if>
+      <if test="categoryId != null">
+        category_id = #{categoryId,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cover != null">
+        cover = #{cover,jdbcType=VARCHAR},
+      </if>
+      <if test="pictures != null">
+        pictures = #{pictures,jdbcType=VARCHAR},
+      </if>
+      <if test="choiceness != null">
+        choiceness = #{choiceness,jdbcType=TINYINT},
+      </if>
+      <if test="hot != null">
+        hot = #{hot,jdbcType=TINYINT},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="isAudit != null">
+        is_audit = #{isAudit,jdbcType=TINYINT},
+      </if>
+      <if test="brandId != null">
+        brand_id = #{brandId,jdbcType=INTEGER},
+      </if>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        updated = #{updated,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.pojo.gift.item.Item">
+    update item
+    set title = #{title,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DECIMAL},
+      sales = #{sales,jdbcType=INTEGER},
+      stock = #{stock,jdbcType=INTEGER},
+      description = #{description,jdbcType=VARCHAR},
+      re_gender = #{reGender,jdbcType=TINYINT},
+      re_max_age = #{reMaxAge,jdbcType=TINYINT},
+      re_age_min = #{reAgeMin,jdbcType=TINYINT},
+      re_event = #{reEvent,jdbcType=BIGINT},
+      store_id = #{storeId,jdbcType=INTEGER},
+      category_id = #{categoryId,jdbcType=TIMESTAMP},
+      cover = #{cover,jdbcType=VARCHAR},
+      pictures = #{pictures,jdbcType=VARCHAR},
+      choiceness = #{choiceness,jdbcType=TINYINT},
+      hot = #{hot,jdbcType=TINYINT},
+      status = #{status,jdbcType=TINYINT},
+      is_audit = #{isAudit,jdbcType=TINYINT},
+      brand_id = #{brandId,jdbcType=INTEGER},
+      created = #{created,jdbcType=TIMESTAMP},
+      updated = #{updated,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

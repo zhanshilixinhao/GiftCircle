@@ -11,7 +11,7 @@ drop table if exists charge_order;
 
 drop table if exists district;
 
-drop table if exists item;
+
 
 drop table if exists item_category;
 
@@ -48,6 +48,9 @@ drop table if exists virtual_item;
 drop table if exists virtual_item_category;
 
 drop table if exists wallet;
+drop table if exists wallet;
+
+drop table if exists event;
 
 
 /*==============================================================*/
@@ -171,22 +174,24 @@ create table district
 /*==============================================================*/
 /* Table: item                                                  */
 /*==============================================================*/
+drop table if exists item;
 create table item
 (
   id          int auto_increment not null,
   title       varchar(200) comment '标题',
-  price       decimal(18, 2) comment '大家',
+  price       decimal(18, 2) comment '价格',
   sales       int comment '销量',
   stock       int comment '库存',
   description varchar(200) comment '属性描述',
   re_gender   tinyint comment '推荐性别 0 默认 1 男  2 女',
   re_max_age  tinyint comment '推荐最大年龄',
   re_age_min  tinyint comment '推荐最小年龄',
-  re_event    bigint comment '推荐的事件集合',
   store_id    int comment '店铺id',
   category_id datetime comment '分类id',
   cover       varchar(255) comment '封面图',
   pictures    varchar(2000) comment '商品相册',
+  choiceness  tinyint default 0 comment '精选，0-否，1-是',
+  hot         tinyint default 0 comment '热门，0-否，1-是',
   status      tinyint comment '1 正常 2 禁用 3 已删除',
   is_audit    tinyint default 0
   comment '1 审核通过 2 审核失败',
@@ -216,6 +221,25 @@ create table item_category
   key pid (pid)
 )
   engine = innodb, character set = utf8mb4 comment '商品分类';
+
+
+/*==============================================================*/
+/* Table: item_event                                        */
+/*==============================================================*/
+drop table if exists item_event;
+create table item_event
+(
+  id      int auto_increment not null,
+  event_id     int comment '事件id',
+  item_id    int comment '商品id',
+  created datetime,
+  updated datetime,
+  primary key id (id),
+  key event_id (event_id),
+  key item_id (item_id)
+
+)
+  engine = innodb, character set = utf8mb4 comment '商品事件';
 
 
 /*==============================================================*/
@@ -535,6 +559,7 @@ create table wallet
 /*==============================================================*/
 /* Table: suggestion                                                */
 /*==============================================================*/
+drop table if exists suggestion;
 create table suggestion
 (
   id        int auto_increment not null comment '表id',
@@ -570,6 +595,19 @@ CREATE TABLE `virtual_item_order`  (
   KEY `user_id` ( `user_id` ),
   KEY `virtual_item_id` ( `virtual_item_id` )
 ) ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8mb4 COMMENT = '虚拟商品订单表';
+
+
+/*==============================================================*/
+/* Table: event                                                */
+/*==============================================================*/
+create table event
+(
+  id        int auto_increment not null comment '表id',
+  event_name    varchar(100) comment '事件名称',
+  created        datetime comment '创建时间',
+  updated        datetime comment '更新时间',
+  primary key id (id)
+)engine = innodb, character set = utf8mb4 comment '事件列表';
 
 
 

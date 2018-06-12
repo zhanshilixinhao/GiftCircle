@@ -1,6 +1,8 @@
-package com.chouchongkeji.dao.item;
+package com.chouchongkeji.dao.gift.item;
 
-import com.chouchongkeji.pojo.item.ItemCategory;
+import com.chouchongkeji.pojo.gift.item.ItemCategory;
+
+import java.util.List;
 
 public interface ItemCategoryMapper {
     int deleteByPrimaryKey(Integer id);
@@ -14,4 +16,7 @@ public interface ItemCategoryMapper {
     int updateByPrimaryKeySelective(ItemCategory record);
 
     int updateByPrimaryKey(ItemCategory record);
+
+    List<ItemCategory> selectAll();
+
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.chouchongkeji.dao.item.ItemCategoryMapper">
-  <resultMap id="BaseResultMap" type="com.chouchongkeji.pojo.item.ItemCategory">
+<mapper namespace="com.chouchongkeji.dao.gift.item.ItemCategoryMapper">
+  <resultMap id="BaseResultMap" type="com.chouchongkeji.pojo.gift.item.ItemCategory">
     <constructor>
       <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="pid" javaType="java.lang.Integer" jdbcType="INTEGER" />
@@ -22,11 +22,17 @@
     from item_category
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    SELECT
+	<include refid="Base_Column_List"/>
+FROM
+	`item_category`
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from item_category
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.chouchongkeji.pojo.item.ItemCategory">
+  <insert id="insert" parameterType="com.chouchongkeji.pojo.gift.item.ItemCategory">
     insert into item_category (id, pid, name, 
       status, sort, icon, 
       created, updated)
@@ -34,7 +40,7 @@
       #{status,jdbcType=TINYINT}, #{sort,jdbcType=INTEGER}, #{icon,jdbcType=VARCHAR}, 
       #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.chouchongkeji.pojo.item.ItemCategory">
+  <insert id="insertSelective" parameterType="com.chouchongkeji.pojo.gift.item.ItemCategory">
     insert into item_category
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -89,7 +95,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.chouchongkeji.pojo.item.ItemCategory">
+  <update id="updateByPrimaryKeySelective" parameterType="com.chouchongkeji.pojo.gift.item.ItemCategory">
     update item_category
     <set>
       <if test="pid != null">
@@ -116,7 +122,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.pojo.item.ItemCategory">
+  <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.pojo.gift.item.ItemCategory">
     update item_category
     set pid = #{pid,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},

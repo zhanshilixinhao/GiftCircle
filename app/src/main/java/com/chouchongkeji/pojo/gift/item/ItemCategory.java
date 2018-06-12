@@ -1,4 +1,4 @@
-package com.chouchongkeji.pojo.item;
+package com.chouchongkeji.pojo.gift.item;
 
 import java.util.Date;
 
