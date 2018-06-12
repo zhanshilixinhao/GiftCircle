@@ -165,6 +165,7 @@ public class ReceiveAddressServiceImpl implements ReceiveAddressService {
             shipping.setConsigneeName(shippingOld.getConsigneeName());
             shipping.setAddressDetail(shippingOld.getAddressDetail());
             shipping.setAddress(shippingOld.getAddress());
+            shipping.setUpdated(new Date());
             shippingMapper.updateByPrimaryKey(shipping);
         } else {
             return ResponseFactory.err("修改失败");
