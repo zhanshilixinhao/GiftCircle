@@ -24,6 +24,16 @@ public class ItemDetail {
     private List<String> pictures;
     // 详情地址
     private String detailUrl;
+    // 是否收藏商品 1.收藏 2.未收藏
+    private Integer isCollect;
+
+    public Integer getIsCollect() {
+        return isCollect;
+    }
+
+    public void setIsCollect(Integer isCollect) {
+        this.isCollect = isCollect;
+    }
 
     public Integer getId() {
         return id;

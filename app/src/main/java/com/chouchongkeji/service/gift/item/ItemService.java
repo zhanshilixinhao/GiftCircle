@@ -2,6 +2,7 @@ package com.chouchongkeji.service.gift.item;
 
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.query.PageQuery;
+import com.yichen.auth.service.UserDetails;
 
 import java.math.BigDecimal;
 
@@ -44,7 +45,7 @@ public interface ItemService {
      * @author: yy
      * @Date: 2018/6/13
      */
-    Response getItemDetail(Integer id);
+    Response getItemDetail(UserDetails userDetails, Integer id);
 
     /**
      * 获得活动的html详情

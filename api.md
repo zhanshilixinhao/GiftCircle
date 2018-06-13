@@ -821,7 +821,6 @@ JSON：
 
 |   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
 | :----------: | :------: | :------: | :----: | :------: |
-| access_token |  string  |    是    |   无   | 访问令牌 |
 
 请求结果示例：
 
@@ -863,8 +862,7 @@ JSON：
 
 |   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
 | :----------: | :------: | :------: | :----: | :------: |
-| access_token |  string  |    是    |   无   | 访问令牌 |
-| id |  Int  |    否    |   无   | 虚拟商品分类id(若要查询全部则不传此值) |
+| id |  Int  |    是    |   无   | 虚拟商品分类id(若要查询全部则不传此值) |
 | pageNum |  Int  |    否    |   1   | 分页 |
 | pageSize |  Int  |    否    |   14   | 分页大小 |
 
@@ -917,14 +915,15 @@ JSON：
 
 ### 7.5 商品详情
 
-- 请求地址：noauth/item/item_detail
+- 请求地址：fauth/item/item_detail
 - 服务协议：HTTP/POST
 - 是否需要身份认证：是
 - 作者：yy
 
 |   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
 | :----------: | :------: | :------: | :----: | :------: |
-| id |  Int  |    否    |   无   | 商品id |
+| access_token |  string  |    否    |   无   | 访问令牌 |
+| id |  Int  |    是    |   无   | 商品id |
 
 
 请求结果示例：
@@ -933,18 +932,19 @@ JSON：
 {
     "errCode": 0,
     "result": 0,
-    "time": 1528874050978,
+    "time": 1528876600866,
     "data": {
-        "id": 1,
-        "title": "异人",
-        "price": 600,
-        "sales": 0,
+        "id": 2,
+        "title": "小黄人",
+        "price": 50,
+        "sales": 1,
         "description": "秦国质子",
         "pictures": [
             "cover.jpg",
             "http://thirdwx.qlogo.cn/mmopen/vi_32/jhXsk4K6SZs58GvXyrPichgxlDv6y4IYrrKN5GCA1UTvHRKbRGtiac2SxmGMYibJSvCZzcLhNmQEykDgXTTzkPOXQ/132"
         ],
-        "detailUrl": "https://43.241.223.169:800/static/product.html?id=1"
+        "detailUrl": "https://43.241.223.169:800/static/product.html?id=2",
+        "isCollect": 2
     }
 }
 ```
@@ -960,3 +960,4 @@ JSON：
 | description | String | 是 | 商品属性 |
 | pictures | List<String> | 是 | 轮播图片数组 |
 | detailUrl | String | 是 | 商品详情地址 |
+| isCollect | Int | 是 | 是否收藏 1.已收藏 2.未收藏 |

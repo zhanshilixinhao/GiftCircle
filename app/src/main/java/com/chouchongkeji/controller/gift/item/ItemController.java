@@ -4,7 +4,9 @@ import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.query.PageQuery;
 import com.chouchongkeji.service.gift.item.ItemService;
+import com.yichen.auth.service.UserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +19,7 @@ import java.math.BigDecimal;
  * @date 2018/6/12
  */
 @RestController
-@RequestMapping("noauth/item")
+@RequestMapping("fauth/item")
 public class ItemController {
 
     @Autowired
@@ -66,11 +68,11 @@ public class ItemController {
      * @Date: 2018/6/13
      */
     @PostMapping("item_detail")
-    public Response getItemDetail(Integer id) {
+    public Response getItemDetail(@AuthenticationPrincipal UserDetails userDetails, Integer id) {
         if (id == null) {
             return ResponseFactory.errMissingParameter();
         }
-        return itemService.getItemDetail(id);
+        return itemService.getItemDetail(userDetails, id);
 
     }
 

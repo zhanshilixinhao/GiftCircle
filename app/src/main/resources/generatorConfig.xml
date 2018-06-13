@@ -37,7 +37,7 @@
             targetPackage     指定生成的model生成所在的包名
             targetProject     指定在该项目下所在的路径
         -->
-        <javaModelGenerator targetPackage="com.chouchongkeji.pojo.gift.virtualItem" targetProject="./app/src/main/java">
+        <javaModelGenerator targetPackage="com.chouchongkeji.pojo.gift.favorite" targetProject="./app/src/main/java">
             <!-- 是否允许子包，即targetPackage.schemaName.tableName -->
             <property name="enableSubPackages" value="false"/>
             <!-- 是否对model添加 构造函数 -->
@@ -61,7 +61,7 @@
         -->
 
         <!-- targetPackage：mapper接口dao生成的位置 -->
-        <javaClientGenerator type="XMLMAPPER" targetPackage="com.chouchongkeji.dao.gift.virtualItem"
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.chouchongkeji.dao.gift.favorite"
                              targetProject="./app/src/main/java">
             <!-- enableSubPackages:是否让schema作为包的后缀 -->
             <property name="enableSubPackages" value="false"/>
@@ -116,7 +116,10 @@
         <!--<table tableName="user_virtual_item" domainObjectName="UserVirtualItem" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"></table>-->
-        <table tableName="virtual_item" domainObjectName="VirtualItem" enableCountByExample="false"
+        <!--<table tableName="virtual_item" domainObjectName="VirtualItem" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"></table>-->
+        <table tableName="user_favorite" domainObjectName="UserFavorite" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"></table>
     </context>

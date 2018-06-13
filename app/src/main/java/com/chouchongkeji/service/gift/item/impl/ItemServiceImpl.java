@@ -1,16 +1,19 @@
 package com.chouchongkeji.service.gift.item.impl;
 
+import com.chouchongkeji.dao.gift.favorite.UserFavoriteMapper;
 import com.chouchongkeji.dao.gift.item.ItemCategoryMapper;
 import com.chouchongkeji.dao.gift.item.ItemMapper;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.query.PageQuery;
+import com.chouchongkeji.pojo.gift.favorite.UserFavorite;
 import com.chouchongkeji.pojo.gift.item.Item;
 import com.chouchongkeji.pojo.gift.item.ItemCategory;
 import com.chouchongkeji.properties.ServiceProperties;
 import com.chouchongkeji.service.gift.item.ItemService;
 import com.chouchongkeji.service.gift.item.vo.ItemDetail;
 import com.github.pagehelper.PageHelper;
+import com.yichen.auth.service.UserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +35,9 @@ public class ItemServiceImpl implements ItemService {
 
     @Autowired
     private ServiceProperties serviceProperties;
+
+    @Autowired
+    private UserFavoriteMapper userFavoriteMapper;
 
     /**
      * 商品分类列表
@@ -78,9 +84,19 @@ public class ItemServiceImpl implements ItemService {
      * @Date: 2018/6/13
      */
     @Override
-    public Response getItemDetail(Integer id) {
+    public Response getItemDetail(UserDetails userDetails, Integer id) {
         ItemDetail itemDetail = itemMapper.selectDetailByIteamId(id);
         if (itemDetail != null) {
+            if (userDetails == null) {
+                itemDetail.setIsCollect(2);
+            } else {
+                UserFavorite userFavorite = userFavoriteMapper.selectByUserIdAndItemId(userDetails.getUserId(), id);
+                if (userFavorite == null) {
+                    itemDetail.setIsCollect(2);
+                } else {
+                    itemDetail.setIsCollect(1);
+                }
+            }
             itemDetail.setDetailUrl(serviceProperties.getProductDetail() + id);
             return ResponseFactory.sucData(itemDetail);
         } else {
