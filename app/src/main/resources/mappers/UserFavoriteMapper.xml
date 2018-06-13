@@ -115,4 +115,10 @@
     WHERE
     user_id = #{userId} AND target_id = #{id} AND type = 1
   </select>
+
+  <!--取消收藏-->
+  <delete id="deleteByUserIdAndItemId">
+    delete from user_favorite
+    where user_id = #{userId} AND target_id = #{id} AND type = 1
+  </delete>
 </mapper>

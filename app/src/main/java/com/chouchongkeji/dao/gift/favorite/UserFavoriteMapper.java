@@ -25,4 +25,14 @@ public interface UserFavoriteMapper {
      * @Date: 2018/6/13
      */
     UserFavorite selectByUserIdAndItemId(@Param("userId") Integer userId, @Param("id") Integer id);
+
+    /**
+     * 取消收藏
+     *
+     * @param: [userId 用户id, id 商品id]
+     * @return: int
+     * @author: yy
+     * @Date: 2018/6/13
+     */
+    int deleteByUserIdAndItemId(@Param("userId") Integer userId, @Param("id") Integer id);
 }
