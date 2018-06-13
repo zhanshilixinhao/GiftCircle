@@ -51,8 +51,8 @@ public class ItemController {
      */
     @PostMapping("item_list")
     public Response itemList(Integer classes, Integer gender, Integer minAge, Integer maxAge,
-                             BigDecimal minPrice, BigDecimal maxPrice, Integer eventId, PageVo pageVo) {
-        return itemService.getItemList(classes, gender, minAge, maxAge, minPrice, maxPrice, eventId, pageVo);
+                             BigDecimal minPrice, BigDecimal maxPrice, Integer eventId, PageQuery pageQuery) {
+        return itemService.getItemList(classes, gender, minAge, maxAge, minPrice, maxPrice, eventId, pageQuery);
 
     }
 
@@ -70,5 +70,5 @@ public class ItemController {
             return ResponseFactory.errMissingParameter();
         }
         return itemService.getItemDetail(id);
-
+    }
 }

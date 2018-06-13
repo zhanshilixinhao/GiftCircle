@@ -9,7 +9,6 @@ import com.chouchongkeji.pojo.gift.item.Item;
 import com.chouchongkeji.pojo.gift.item.ItemCategory;
 import com.chouchongkeji.service.gift.item.ItemService;
 import com.chouchongkeji.service.gift.item.vo.ItemDetail;
-import com.chouchongkeji.vo.PageVo;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
