@@ -33,7 +33,7 @@ public class ArticleServiceImpl implements ArticleService {
      * @Date: 2018/6/11
      */
     @Override
-    public Response getArticleList(Integer userId, PageQuery page) {
+    public Response getArticleList(PageQuery page) {
         PageHelper.startPage(page.getPageNum(), page.getPageSize());
         Integer status = 1;
         List<ArticleVo> articleVos = articleMapper.selectByStatus(status);
@@ -49,7 +49,7 @@ public class ArticleServiceImpl implements ArticleService {
      * @Date: 2018/6/11
      */
     @Override
-    public Response getArticleDetail(Integer userId, Integer id) {
+    public Response getArticleDetail(Integer id) {
        Article article = articleMapper.selectByPrimaryKey(id);
        if (article != null) {
            ArticleDetail articleDetail = new ArticleDetail();

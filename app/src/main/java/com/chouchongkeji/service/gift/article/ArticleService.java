@@ -12,7 +12,7 @@ public interface ArticleService {
      * @author: yy
      * @Date: 2018/6/11
      */
-    Response getArticleList(Integer userId, PageQuery page);
+    Response getArticleList(PageQuery page);
 
     /**
      * 获取文章详情
@@ -22,5 +22,5 @@ public interface ArticleService {
      * @author: yy
      * @Date: 2018/6/11
      */
-    Response getArticleDetail(Integer userId, Integer id);
+    Response getArticleDetail(Integer id);
 }

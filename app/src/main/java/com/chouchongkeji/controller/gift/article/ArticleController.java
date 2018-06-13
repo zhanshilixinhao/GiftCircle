@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  **/
 
 @RestController
-@RequestMapping("auth/v1/article")
+@RequestMapping("noauth/v1/article")
 public class ArticleController {
     @Autowired
     private ArticleService articleService;
@@ -30,8 +30,8 @@ public class ArticleController {
      * @Date: 2018/6/11
      */
     @PostMapping("list")
-    public Response getArticleList(@AuthenticationPrincipal UserDetails userDetails, PageQuery page) {
-        return articleService.getArticleList(userDetails.getUserId(), page);
+    public Response getArticleList(PageQuery page) {
+        return articleService.getArticleList(page);
     }
 
     /**
@@ -43,7 +43,7 @@ public class ArticleController {
      * @Date: 2018/6/11
      */
     @PostMapping("detail")
-    public Response getArticleDetail(@AuthenticationPrincipal UserDetails userDetails, Integer id) {
-        return articleService.getArticleDetail(userDetails.getUserId(), id);
+    public Response getArticleDetail(Integer id) {
+        return articleService.getArticleDetail(id);
     }
 }
