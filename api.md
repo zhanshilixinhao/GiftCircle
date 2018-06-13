@@ -962,7 +962,55 @@ JSON：
 | detailUrl | String | 是 | 商品详情地址 |
 | isCollect | Int | 是 | 是否收藏 1.已收藏 2.未收藏 |
 
-### 7.6 收藏商品/取消收藏商品
+### 7.6 商品评论
+
+- 请求地址：fauth/item/comment_list
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yy
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| id |  Int  |    是    |   无   | 商品id |
+| pageNum |  Int  |    否    |   1   | 分页 |
+| pageSize |  Int  |    否    |   14   | 分页大小 |
+
+
+请求结果示例：
+
+```json
+{
+    "errCode": 0,
+    "result": 0,
+    "time": 1528882817550,
+    "data": [
+        {
+            "created": 1528882416000,
+            "phone": "13908867120",
+            "avatar": "avatar.jpg",
+            "content": "22342",
+            "pictures": [
+                "cover.jpg",
+                "http://thirdwx.qlogo.cn/mmopen/vi_32/jhXsk4K6SZs58GvXyrPichgxlDv6y4IYrrKN5GCA1UTvHRKbRGtiac2SxmGMYibJSvCZzcLhNmQEykDgXTTzkPOXQ/132"
+            ],
+            "star": 0
+        }
+    ]
+}
+```
+
+| 参数名称 | 参数类型 | 是否必传 | 参数说明 |
+| ------- |:------:|:------:|:------:|
+| errCode | Int | 是 | 错误码 0 标识成功获取数据 |
+| data | Object | 否 | 成功返回数据 |
+| phone | String | 是 | 用户电话 |
+| avatar | String | 是 | 用户头像 |
+| content | String | 是 | 评论文字 |
+| pictures | List<String> | 是 | 评论图片数组 |
+| created | Long | 是 | 评论时间 |
+| star | Int | 是 | 评价分数 |
+
+### 7.7 收藏商品/取消收藏商品
 
 - 请求地址：auth/v1/favorite/isCollection
 - 服务协议：HTTP/POST
@@ -995,7 +1043,7 @@ JSON：
 }
 ```
 
-### 7.7 我要--收藏列表
+### 7.8 我要--收藏列表
 
 - 请求地址：auth/v1/favorite/itemList
 - 服务协议：HTTP/POST
@@ -1043,7 +1091,7 @@ JSON：
 | price | decimal | 是 | 商品价格 |
 | cover | String | 是 | 商品封面 |
 
-### 7.8 我要--批量删除收藏列表
+### 7.9 我要--批量删除收藏列表
 
 - 请求地址：auth/v1/favorite/delItem
 - 服务协议：HTTP/POST
