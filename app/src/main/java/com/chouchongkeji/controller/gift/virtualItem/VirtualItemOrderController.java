@@ -26,7 +26,7 @@ public class VirtualItemOrderController {
     private VirtualIteamOrderService virtualIteamOrderService;
 
     /**
-     *
+     * 创建虚拟商品订单
      *
      * @param: [userDetails 用户认证信息, client, id 虚拟商品id, quantity 数量, payWay 支付方式]
      * @return: com.chouchongkeji.goexplore.common.Response
@@ -43,6 +43,14 @@ public class VirtualItemOrderController {
         return virtualIteamOrderService.createVirOrder(userDetails.getUserId(), client, id, quantity);
     }
 
+    /**
+     * 创建虚拟商品支付订单
+     *
+     * @param: [userDetails, payWay, orderNo]
+     * @return: com.chouchongkeji.goexplore.common.Response
+     * @author: yy
+     * @Date: 2018/6/13
+     */
     @PostMapping("/pay")
     public Response payVirOrder(@AuthenticationPrincipal UserDetails userDetails, Integer payWay, Long orderNo) {
         //校验必传参数

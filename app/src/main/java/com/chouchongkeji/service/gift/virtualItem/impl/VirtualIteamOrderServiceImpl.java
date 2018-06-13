@@ -157,12 +157,17 @@ public class VirtualIteamOrderServiceImpl implements VirtualIteamOrderService {
      * @param order 用户订单
      * @return
      */
-    private PayVO assemblePayOrder(VirItemOrder order, Integer type) {
+    private PayVO assemblePayOrder(VirItemOrder order, int type) {
         PayVO vo = new PayVO();
         vo.setBody(Constants.PAY_BODY);
         vo.setSubject(Constants.PAY_SUBJECT_ORDER);
         vo.setOrderNo(order.getOrderNo());
-        vo.setUrl("xxx");
+        if (type == Constants.PAY_TYPE.ALI) {
+            vo.setUrl("virItem_order/ali");
+        }
+        if (type == Constants.PAY_TYPE.WX) {
+            vo.setUrl("virItem_order/wx");;
+        }
         vo.setPrice(order.getTotalPrice());
         return vo;
     }
