@@ -92,10 +92,10 @@ public class ItemController {
     }
 
     @PostMapping("comment_list")
-    public Response getItemCommentList(Integer id) {
+    public Response getItemCommentList(Integer id, PageQuery page) {
         if (id == null) {
             return ResponseFactory.errMissingParameter();
         }
-        return itemService.getItemCommentList(id);
+        return itemService.getItemCommentList(id, page);
     }
 }

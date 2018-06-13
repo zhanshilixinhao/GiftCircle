@@ -124,7 +124,8 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public Response getItemCommentList(Integer id) {
+    public Response getItemCommentList(Integer id, PageQuery page) {
+        PageHelper.startPage(page.getPageNum(),page.getPageSize());
         List<ItemCommentVo> itemCommentVos = itemCommentMapper.selectByItemId(id);
         return ResponseFactory.sucData(itemCommentVos);
     }

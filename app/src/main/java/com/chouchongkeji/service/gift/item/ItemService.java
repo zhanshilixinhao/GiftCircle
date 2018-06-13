@@ -57,5 +57,5 @@ public interface ItemService {
      */
     Response getHtmlItemDetail(Integer id);
 
-    Response getItemCommentList(Integer id);
+    Response getItemCommentList(Integer id, PageQuery page);
 }
