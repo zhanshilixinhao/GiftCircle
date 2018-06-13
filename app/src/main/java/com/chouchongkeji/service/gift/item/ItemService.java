@@ -35,4 +35,14 @@ public interface ItemService {
      */
     Response getItemList(Integer classes, Integer gender, Integer minAge, Integer maxAge, BigDecimal minPrice,
                          BigDecimal maxPrice, Integer eventId, PageVo pageVo);
+
+    /**
+     * 获取商品详情
+     *
+     * @param: [id 商品id]
+     * @return: com.chouchongkeji.goexplore.common.Response
+     * @author: yy
+     * @Date: 2018/6/13
+     */
+    Response getItemDetail(Integer id);
 }

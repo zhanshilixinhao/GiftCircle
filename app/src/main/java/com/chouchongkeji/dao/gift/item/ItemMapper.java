@@ -1,6 +1,7 @@
 package com.chouchongkeji.dao.gift.item;
 
 import com.chouchongkeji.pojo.gift.item.Item;
+import com.chouchongkeji.service.gift.item.vo.ItemDetail;
 import org.apache.ibatis.annotations.Param;
 
 import java.math.BigDecimal;
@@ -26,4 +27,14 @@ public interface ItemMapper {
                          @Param("minPrice") BigDecimal minPrice,
                          @Param("maxPrice") BigDecimal maxPrice,
                          @Param("eventId") Integer eventId);
+
+    /**
+     * 获得商品的详情
+     *
+     * @param: [id 商品id]
+     * @return: com.chouchongkeji.service.gift.item.vo.ItemDetail
+     * @author: yy
+     * @Date: 2018/6/13
+     */
+    ItemDetail selectDetailByIteamId(@Param("id") Integer id);
 }

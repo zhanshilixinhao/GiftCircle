@@ -7,6 +7,7 @@ import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.pojo.gift.item.Item;
 import com.chouchongkeji.pojo.gift.item.ItemCategory;
 import com.chouchongkeji.service.gift.item.ItemService;
+import com.chouchongkeji.service.gift.item.vo.ItemDetail;
 import com.chouchongkeji.vo.PageVo;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,5 +63,19 @@ public class ItemServiceImpl implements ItemService {
         PageHelper.startPage(pageVo.getPageNo(), pageVo.getPageSize());
         List<Item> list = itemMapper.selectAll(classes, gender, minAge, maxAge, minPrice, maxPrice, eventId);
         return ResponseFactory.sucData(list);
+    }
+
+    /**
+     * 获取商品详情
+     *
+     * @param: [id 商品id]
+     * @return: com.chouchongkeji.goexplore.common.Response
+     * @author: yy
+     * @Date: 2018/6/13
+     */
+    @Override
+    public Response getItemDetail(Integer id) {
+        ItemDetail itemDetail = itemMapper.selectDetailByIteamId(id);
+        return null;
     }
 }

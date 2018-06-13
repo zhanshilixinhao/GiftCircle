@@ -16,6 +16,8 @@ public class VirtualItem {
 
     private String description;
 
+    private Integer sales;
+
     private Byte status;
 
     private Integer sort;
@@ -24,13 +26,14 @@ public class VirtualItem {
 
     private Date updated;
 
-    public VirtualItem(Integer id, Integer cateId, String name, BigDecimal price, String cover, String description, Byte status, Integer sort, Date created, Date updated) {
+    public VirtualItem(Integer id, Integer cateId, String name, BigDecimal price, String cover, String description, Integer sales, Byte status, Integer sort, Date created, Date updated) {
         this.id = id;
         this.cateId = cateId;
         this.name = name;
         this.price = price;
         this.cover = cover;
         this.description = description;
+        this.sales = sales;
         this.status = status;
         this.sort = sort;
         this.created = created;
@@ -87,6 +90,14 @@ public class VirtualItem {
 
     public void setDescription(String description) {
         this.description = description == null ? null : description.trim();
+    }
+
+    public Integer getSales() {
+        return sales;
+    }
+
+    public void setSales(Integer sales) {
+        this.sales = sales;
     }
 
     public Byte getStatus() {

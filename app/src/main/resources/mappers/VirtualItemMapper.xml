@@ -9,6 +9,7 @@
       <arg column="price" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
       <arg column="cover" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="description" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="sales" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT" />
       <arg column="sort" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
@@ -16,7 +17,7 @@
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    id, cate_id, name, price, cover, description, status, sort, created, updated
+    id, cate_id, name, price, cover, description, sales, status, sort, created, updated
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -31,12 +32,12 @@
   <insert id="insert" parameterType="com.chouchongkeji.pojo.gift.virtualItem.VirtualItem">
     insert into virtual_item (id, cate_id, name, 
       price, cover, description, 
-      status, sort, created, 
-      updated)
+      sales, status, sort, 
+      created, updated)
     values (#{id,jdbcType=INTEGER}, #{cateId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
       #{price,jdbcType=DECIMAL}, #{cover,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
-      #{status,jdbcType=TINYINT}, #{sort,jdbcType=INTEGER}, #{created,jdbcType=TIMESTAMP}, 
-      #{updated,jdbcType=TIMESTAMP})
+      #{sales,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, #{sort,jdbcType=INTEGER}, 
+      #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.chouchongkeji.pojo.gift.virtualItem.VirtualItem">
     insert into virtual_item
@@ -58,6 +59,9 @@
       </if>
       <if test="description != null">
         description,
+      </if>
+      <if test="sales != null">
+        sales,
       </if>
       <if test="status != null">
         status,
@@ -91,6 +95,9 @@
       <if test="description != null">
         #{description,jdbcType=VARCHAR},
       </if>
+      <if test="sales != null">
+        #{sales,jdbcType=INTEGER},
+      </if>
       <if test="status != null">
         #{status,jdbcType=TINYINT},
       </if>
@@ -123,6 +130,9 @@
       <if test="description != null">
         description = #{description,jdbcType=VARCHAR},
       </if>
+      <if test="sales != null">
+        sales = #{sales,jdbcType=INTEGER},
+      </if>
       <if test="status != null">
         status = #{status,jdbcType=TINYINT},
       </if>
@@ -145,6 +155,7 @@
       price = #{price,jdbcType=DECIMAL},
       cover = #{cover,jdbcType=VARCHAR},
       description = #{description,jdbcType=VARCHAR},
+      sales = #{sales,jdbcType=INTEGER},
       status = #{status,jdbcType=TINYINT},
       sort = #{sort,jdbcType=INTEGER},
       created = #{created,jdbcType=TIMESTAMP},

@@ -2,6 +2,7 @@ package com.chouchongkeji.service.gift.virtualItem.impl;
 
 import com.chouchongkeji.dao.gift.virtualItem.UserVirtualItemMapper;
 import com.chouchongkeji.dao.gift.virtualItem.VirItemOrderMapper;
+import com.chouchongkeji.dao.gift.virtualItem.VirtualItemMapper;
 import com.chouchongkeji.dao.iwant.wallet.ChargeOrderMapper;
 import com.chouchongkeji.dao.user.PaymentInfoMapper;
 import com.chouchongkeji.exception.ServiceException;
@@ -17,6 +18,7 @@ import com.chouchongkeji.goexplore.utils.DateUtil;
 import com.chouchongkeji.goexplore.utils.HttpClientUtils;
 import com.chouchongkeji.pojo.gift.virtualItem.UserVirtualItem;
 import com.chouchongkeji.pojo.gift.virtualItem.VirItemOrder;
+import com.chouchongkeji.pojo.gift.virtualItem.VirtualItem;
 import com.chouchongkeji.pojo.iwant.wallet.ChargeOrder;
 import com.chouchongkeji.pojo.user.PaymentInfo;
 import com.chouchongkeji.service.gift.virtualItem.VirPayNotifyService;
@@ -50,6 +52,9 @@ public class VirPayNotifyServiceImpl implements VirPayNotifyService{
 
     @Autowired
     private UserVirtualItemMapper userVirtualItemMapper;
+
+    @Autowired
+    private VirtualItemMapper virtualItemMapper;
 
     /**
      * 支付宝提供给商户的服务接入网关URL(新)
@@ -99,6 +104,11 @@ public class VirPayNotifyServiceImpl implements VirPayNotifyService{
             userVirtualItem.setCreated(new Date());
             userVirtualItem.setCover(virItemOrder.getCover());
             userVirtualItemMapper.insert(userVirtualItem);
+            VirtualItem virtualItem = virtualItemMapper.selectByPrimaryKey(virItemOrder.getVirtualItemId());
+            if (virtualItem != null) {
+                virtualItem.setSales(virtualItem.getSales() + virItemOrder.getQuantity());
+                virtualItemMapper.updateByPrimaryKey(virtualItem);
+            }
             doAliPaySuccess(aLiPayV2Vo, orderType);
         } else if (re == 2) {
             return "ERROR";

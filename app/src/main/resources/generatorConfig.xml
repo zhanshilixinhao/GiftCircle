@@ -113,7 +113,10 @@
         <!--<table tableName="virtual_item_order" domainObjectName="VirItemOrder" enableCountByExample="false"
         enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
         selectByExampleQueryId="false"></table>-->
-        <table tableName="user_virtual_item" domainObjectName="UserVirtualItem" enableCountByExample="false"
+        <!--<table tableName="user_virtual_item" domainObjectName="UserVirtualItem" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"></table>-->
+        <table tableName="virtual_item" domainObjectName="VirtualItem" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"></table>
     </context>

@@ -1,6 +1,7 @@
 package com.chouchongkeji.controller.gift.item;
 
 import com.chouchongkeji.goexplore.common.Response;
+import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.service.gift.item.ItemService;
 import com.chouchongkeji.vo.PageVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,5 +56,20 @@ public class ItemController {
 
     }
 
+    /**
+     * 获取商品详情
+     *
+     * @param: [id 商品id]
+     * @return: com.chouchongkeji.goexplore.common.Response
+     * @author: yy
+     * @Date: 2018/6/13
+     */
+    @PostMapping("item_detail")
+    public Response getItemDetail(Integer id) {
+        if (id == null) {
+            return ResponseFactory.errMissingParameter();
+        }
+        return itemService.getItemDetail(id);
 
+    }
 }
