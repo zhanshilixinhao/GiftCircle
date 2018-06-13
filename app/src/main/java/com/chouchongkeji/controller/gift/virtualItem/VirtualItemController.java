@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
  **/
 
 @RestController
-@RequestMapping("auth/v1/virItem")
+@RequestMapping("noauth/v1/virItem")
 public class VirtualItemController {
     @Autowired
     private VirtualItemService virtualItemService;
@@ -31,8 +31,8 @@ public class VirtualItemController {
      * @Date: 2018/6/11
      */
     @PostMapping("cateList")
-    public Response getVirItemCategoryList(@AuthenticationPrincipal UserDetails userDetails){
-        return virtualItemService.getVirItemCategoryList(userDetails.getUserId());
+    public Response getVirItemCategoryList(){
+        return virtualItemService.getVirItemCategoryList();
     }
 
     /**
@@ -44,7 +44,7 @@ public class VirtualItemController {
      * @Date: 2018/6/11
      */
     @PostMapping("list")
-    public Response getVirItemList(@AuthenticationPrincipal UserDetails userDetails, PageQuery page, Integer id){
-        return virtualItemService.getVirItemList(userDetails.getUserId(), id, page);
+    public Response getVirItemList(PageQuery page, Integer id){
+        return virtualItemService.getVirItemList(id, page);
     }
 }

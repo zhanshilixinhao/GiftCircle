@@ -36,7 +36,7 @@ public class VirtualItemServiceImpl implements VirtualItemService {
      * @Date: 2018/6/11
      */
     @Override
-    public Response getVirItemCategoryList(Integer userId) {
+    public Response getVirItemCategoryList() {
         Integer status = 1;
         List<VirtualItemCateVo> virtualItemCates = virtualItemCateMapper.selectByStatus(status);
         return ResponseFactory.sucData(virtualItemCates);
@@ -51,7 +51,7 @@ public class VirtualItemServiceImpl implements VirtualItemService {
      * @Date: 2018/6/11
      */
     @Override
-    public Response getVirItemList(Integer userId, Integer id, PageQuery page) {
+    public Response getVirItemList(Integer id, PageQuery page) {
         PageHelper.startPage(page.getPageNum(), page.getPageSize());
         Integer status = 1;
         List<VirtualItemVo> virtualItemVos = virtualItemMapper.selectByCateId(id, status);

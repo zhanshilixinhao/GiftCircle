@@ -12,7 +12,7 @@ public interface VirtualItemService {
      * @author: yy
      * @Date: 2018/6/11
      */
-    Response getVirItemCategoryList(Integer userId);
+    Response getVirItemCategoryList();
 
     /**
      * 获得虚拟商品列表
@@ -22,5 +22,5 @@ public interface VirtualItemService {
      * @author: yy
      * @Date: 2018/6/11
      */
-    Response getVirItemList(Integer userId, Integer id, PageQuery page);
+    Response getVirItemList(Integer id, PageQuery page);
 }
