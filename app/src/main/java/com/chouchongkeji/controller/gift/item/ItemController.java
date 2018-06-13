@@ -73,7 +73,6 @@ public class ItemController {
             return ResponseFactory.errMissingParameter();
         }
         return itemService.getItemDetail(userDetails, id);
-
     }
 
     /**
@@ -90,5 +89,13 @@ public class ItemController {
             return ResponseFactory.errMissingParameter();
         }
         return itemService.getHtmlItemDetail(id);
+    }
+
+    @PostMapping("comment_list")
+    public Response getItemCommentList(Integer id) {
+        if (id == null) {
+            return ResponseFactory.errMissingParameter();
+        }
+        return itemService.getItemCommentList(id);
     }
 }

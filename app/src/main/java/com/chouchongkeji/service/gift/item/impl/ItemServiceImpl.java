@@ -2,6 +2,7 @@ package com.chouchongkeji.service.gift.item.impl;
 
 import com.chouchongkeji.dao.gift.favorite.UserFavoriteMapper;
 import com.chouchongkeji.dao.gift.item.ItemCategoryMapper;
+import com.chouchongkeji.dao.gift.item.ItemCommentMapper;
 import com.chouchongkeji.dao.gift.item.ItemMapper;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
@@ -11,6 +12,7 @@ import com.chouchongkeji.pojo.gift.item.Item;
 import com.chouchongkeji.pojo.gift.item.ItemCategory;
 import com.chouchongkeji.properties.ServiceProperties;
 import com.chouchongkeji.service.gift.item.ItemService;
+import com.chouchongkeji.service.gift.item.vo.ItemCommentVo;
 import com.chouchongkeji.service.gift.item.vo.ItemDetail;
 import com.github.pagehelper.PageHelper;
 import com.yichen.auth.service.UserDetails;
@@ -38,6 +40,9 @@ public class ItemServiceImpl implements ItemService {
 
     @Autowired
     private UserFavoriteMapper userFavoriteMapper;
+
+    @Autowired
+    private ItemCommentMapper itemCommentMapper;
 
     /**
      * 商品分类列表
@@ -116,5 +121,11 @@ public class ItemServiceImpl implements ItemService {
     public Response getHtmlItemDetail(Integer id) {
         String detail = itemMapper.selectGetHtmlDetail(id);
         return ResponseFactory.sucData(detail);
+    }
+
+    @Override
+    public Response getItemCommentList(Integer id) {
+        List<ItemCommentVo> itemCommentVos = itemCommentMapper.selectByItemId(id);
+        return ResponseFactory.sucData(itemCommentVos);
     }
 }

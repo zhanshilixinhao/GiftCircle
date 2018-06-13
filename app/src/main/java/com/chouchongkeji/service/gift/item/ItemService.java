@@ -55,4 +55,7 @@ public interface ItemService {
      * @author: yy
      * @Date: 2018/6/13
      */
-    Response getHtmlItemDetail(Integer id);}
+    Response getHtmlItemDetail(Integer id);
+
+    Response getItemCommentList(Integer id);
+}
