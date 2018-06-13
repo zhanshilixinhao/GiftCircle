@@ -121,4 +121,17 @@
     delete from user_favorite
     where user_id = #{userId} AND target_id = #{id} AND type = 1
   </delete>
+
+  <select id="selectByUserId" resultType="com.chouchongkeji.service.gift.favorite.vo.FavoriteListVo">
+    SELECT
+    b.title as title,
+    b.cover as cover,
+    b.price as price,
+    b.id as itemId,
+    a.id as id
+    FROM
+    user_favorite a LEFT JOIN item b ON target_id = b.id
+    WHERE
+    a.type = 1 AND a.user_id = #{userId}
+  </select>
 </mapper>

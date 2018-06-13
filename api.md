@@ -961,3 +961,108 @@ JSON：
 | pictures | List<String> | 是 | 轮播图片数组 |
 | detailUrl | String | 是 | 商品详情地址 |
 | isCollect | Int | 是 | 是否收藏 1.已收藏 2.未收藏 |
+
+### 7.6 收藏商品/取消收藏商品
+
+- 请求地址：auth/v1/favorite/isCollection
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yy
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| id |  Int  |    是    |   无   | 商品id |
+
+
+请求结果示例：
+
+```json
+{
+    "errCode": 0,
+    "result": 0,
+    "msg": "收藏成功",
+    "time": 1528878654372
+}
+```
+
+```json
+{
+    "errCode": 0,
+    "result": 0,
+    "msg": "取消收藏成功",
+    "time": 1528878689795
+}
+```
+
+### 7.7 我要--收藏列表
+
+- 请求地址：auth/v1/favorite/itemList
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yy
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+
+
+请求结果示例：
+
+```json
+{
+    "errCode": 0,
+    "result": 0,
+    "time": 1528879717000,
+    "data": [
+        {
+            "id": 5,
+            "itemId": 1,
+            "title": "异人",
+            "cover": "cover.jpg",
+            "price": 600
+        },
+        {
+            "id": 7,
+            "itemId": 2,
+            "title": "小黄人",
+            "cover": "cover.jpg",
+            "price": 50
+        }
+    ]
+}
+```
+
+| 参数名称 | 参数类型 | 是否必传 | 参数说明 |
+| ------- |:------:|:------:|:------:|
+| errCode | Int | 是 | 错误码 0 标识成功获取数据 |
+| data | Object | 否 | 成功返回数据 |
+| id | Int | 是 | 收藏商品id |
+| itemId | Int | 是 | 商品id |
+| title | String | 是 | 商品标题 |
+| price | decimal | 是 | 商品价格 |
+| cover | String | 是 | 商品封面 |
+
+### 7.8 我要--批量删除收藏列表
+
+- 请求地址：auth/v1/favorite/delItem
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yy
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| ids |  string  |    是    |   无   | 收藏商品id集合(用逗号,隔开) |
+
+
+请求结果示例：
+
+```json
+{
+    "errCode": 0,
+    "result": 0,
+    "msg": "删除成功",
+    "time": 1528880466970
+}
+```

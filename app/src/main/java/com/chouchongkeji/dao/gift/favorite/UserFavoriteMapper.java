@@ -1,7 +1,10 @@
 package com.chouchongkeji.dao.gift.favorite;
 
 import com.chouchongkeji.pojo.gift.favorite.UserFavorite;
+import com.chouchongkeji.service.gift.favorite.vo.FavoriteListVo;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface UserFavoriteMapper {
     int deleteByPrimaryKey(Integer id);
@@ -35,4 +38,14 @@ public interface UserFavoriteMapper {
      * @Date: 2018/6/13
      */
     int deleteByUserIdAndItemId(@Param("userId") Integer userId, @Param("id") Integer id);
+
+    /**
+     * 获取用户收藏列表
+     *
+     * @param: [userId 用户id]
+     * @return: java.util.List<com.chouchongkeji.service.gift.favorite.vo.FavoriteListVo>
+     * @author: yy
+     * @Date: 2018/6/13
+     */
+    List<FavoriteListVo> selectByUserId(@Param("userId") Integer userId);
 }
