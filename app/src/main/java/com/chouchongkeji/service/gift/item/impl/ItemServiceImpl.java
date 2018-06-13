@@ -4,6 +4,7 @@ import com.chouchongkeji.dao.gift.item.ItemCategoryMapper;
 import com.chouchongkeji.dao.gift.item.ItemMapper;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
+import com.chouchongkeji.goexplore.query.PageQuery;
 import com.chouchongkeji.pojo.gift.item.Item;
 import com.chouchongkeji.pojo.gift.item.ItemCategory;
 import com.chouchongkeji.service.gift.item.ItemService;
@@ -59,8 +60,8 @@ public class ItemServiceImpl implements ItemService {
      */
     @Override
     public Response getItemList(Integer classes, Integer gender, Integer minAge, Integer maxAge,
-                                BigDecimal minPrice, BigDecimal maxPrice, Integer eventId, PageVo pageVo) {
-        PageHelper.startPage(pageVo.getPageNo(), pageVo.getPageSize());
+                                BigDecimal minPrice, BigDecimal maxPrice, Integer eventId, PageQuery pageQuery) {
+        PageHelper.startPage(pageQuery.getPageNum(), pageQuery.getPageSize());
         List<Item> list = itemMapper.selectAll(classes, gender, minAge, maxAge, minPrice, maxPrice, eventId);
         return ResponseFactory.sucData(list);
     }

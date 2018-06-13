@@ -2,8 +2,8 @@ package com.chouchongkeji.controller.gift.item;
 
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
+import com.chouchongkeji.goexplore.query.PageQuery;
 import com.chouchongkeji.service.gift.item.ItemService;
-import com.chouchongkeji.vo.PageVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -71,5 +71,4 @@ public class ItemController {
         }
         return itemService.getItemDetail(id);
 
-    }
 }

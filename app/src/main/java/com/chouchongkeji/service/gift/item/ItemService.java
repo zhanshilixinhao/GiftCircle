@@ -1,7 +1,7 @@
 package com.chouchongkeji.service.gift.item;
 
 import com.chouchongkeji.goexplore.common.Response;
-import com.chouchongkeji.vo.PageVo;
+import com.chouchongkeji.goexplore.query.PageQuery;
 
 import java.math.BigDecimal;
 
@@ -34,15 +34,5 @@ public interface ItemService {
      *  @date 2018/6/12
      */
     Response getItemList(Integer classes, Integer gender, Integer minAge, Integer maxAge, BigDecimal minPrice,
-                         BigDecimal maxPrice, Integer eventId, PageVo pageVo);
-
-    /**
-     * 获取商品详情
-     *
-     * @param: [id 商品id]
-     * @return: com.chouchongkeji.goexplore.common.Response
-     * @author: yy
-     * @Date: 2018/6/13
-     */
-    Response getItemDetail(Integer id);
+                         BigDecimal maxPrice, Integer eventId, PageQuery pageQuery);
 }

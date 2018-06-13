@@ -12,7 +12,7 @@
             <arg column="re_gender" javaType="java.lang.Byte" jdbcType="TINYINT"/>
             <arg column="re_max_age" javaType="java.lang.Byte" jdbcType="TINYINT"/>
             <arg column="re_age_min" javaType="java.lang.Byte" jdbcType="TINYINT"/>
-            <arg column="re_event" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <!--<arg column="re_event" javaType="java.lang.Long" jdbcType="BIGINT"/>-->
             <arg column="store_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
             <arg column="category_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
             <arg column="cover" javaType="java.lang.String" jdbcType="VARCHAR"/>
@@ -42,37 +42,41 @@
         a.*
         from item a
         <if test="eventId!= null and eventId>0">
-            left join item_event b on a.id = b.item_id and b.event_id = #{eventId}
+            left join item_event b on a.id = b.item_id
         </if>
-        where
-        <trim suffixOverrides="and">
-            <if test="classes!=null">
-                <choose>
-                    <when test="classes==1">
-                        a.hot = 1 and
-                    </when>
-                    <when test="classes==2">
-                        a.choiceness = 1 and
-                    </when>
-                </choose>
-            </if>
-            <if test="gender!=null and gender > 0">
-                a.re_gender = #{gender} and
-            </if>
-            <if test="minAge!=null">
-                a.re_min_age = #{minAge} and
-            </if>
-            <if test="maxAge!=null">
-                a.re_max_age = #{maxAge} and
-            </if>
-            <if test="minPrice!=null">
-                a.price >= #{minPrice} and
-            </if>
-            <if test="maxPrice!=null">
-                a.price &lt;= #{maxPrice} and
-            </if>
+        <where>
+            <trim suffixOverrides="and">
+                <if test="eventId!= null and eventId>0">
+                    b.event_id = #{eventId} and
+                </if>
+                <if test="classes!=null">
+                    <choose>
+                        <when test="classes==1">
+                            a.choiceness = 1 and
+                        </when>
+                        <when test="classes== 2">
+                            a.hot = 1 and
+                        </when>
+                    </choose>
+                </if>
+                <if test="gender!=null and gender > 0">
+                    a.re_gender = #{gender} and
+                </if>
+                <if test="minAge!=null">
+                    a.re_age_min >= #{minAge} and
+                </if>
+                <if test="maxAge!=null">
+                    a.re_max_age &lt;= #{maxAge} and
+                </if>
+                <if test="minPrice!=null">
+                    a.price >= #{minPrice} and
+                </if>
+                <if test="maxPrice!=null">
+                    a.price &lt;= #{maxPrice} and
+                </if>
 
-        </trim>
+            </trim>
+        </where>
         order by
         a.created desc
     </select>

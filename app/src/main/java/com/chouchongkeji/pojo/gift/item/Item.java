@@ -22,7 +22,7 @@ public class Item {
 
     private Byte reAgeMin;
 
-    private Long reEvent;
+//    private Long reEvent;
 
     private Integer storeId;
 
@@ -47,7 +47,7 @@ public class Item {
     private Date updated;
 
     public Item(Integer id, String title, BigDecimal price, Integer sales, Integer stock,
-                String description, Byte reGender, Byte reMaxAge, Byte reAgeMin, Long reEvent,
+                String description, Byte reGender, Byte reMaxAge, Byte reAgeMin,
                 Integer storeId, Integer categoryId, String cover, String pictures, Byte choiceness,
                 Byte hot, Byte status, Byte isAudit, Integer brandId, Date created, Date updated) {
         this.id = id;
@@ -59,7 +59,7 @@ public class Item {
         this.reGender = reGender;
         this.reMaxAge = reMaxAge;
         this.reAgeMin = reAgeMin;
-        this.reEvent = reEvent;
+//        this.reEvent = reEvent;
         this.storeId = storeId;
         this.categoryId = categoryId;
         this.cover = cover;
@@ -149,13 +149,13 @@ public class Item {
         this.reAgeMin = reAgeMin;
     }
 
-    public Long getReEvent() {
-        return reEvent;
-    }
+//    public Long getReEvent() {
+//        return reEvent;
+//    }
 
-    public void setReEvent(Long reEvent) {
-        this.reEvent = reEvent;
-    }
+//    public void setReEvent(Long reEvent) {
+//        this.reEvent = reEvent;
+//    }
 
     public Integer getStoreId() {
         return storeId;
