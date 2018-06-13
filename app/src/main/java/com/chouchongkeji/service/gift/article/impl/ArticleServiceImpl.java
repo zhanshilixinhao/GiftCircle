@@ -5,6 +5,7 @@ import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.query.PageQuery;
 import com.chouchongkeji.pojo.gift.article.Article;
+import com.chouchongkeji.properties.ServiceProperties;
 import com.chouchongkeji.service.gift.article.ArticleService;
 import com.chouchongkeji.service.gift.article.vo.ArticleDetail;
 import com.chouchongkeji.service.gift.article.vo.ArticleVo;
@@ -23,6 +24,9 @@ import java.util.List;
 public class ArticleServiceImpl implements ArticleService {
     @Autowired
     private ArticleMapper articleMapper;
+
+    @Autowired
+    private ServiceProperties serviceProperties;
 
     /**
      * 获得文章列表
@@ -55,10 +59,27 @@ public class ArticleServiceImpl implements ArticleService {
            ArticleDetail articleDetail = new ArticleDetail();
            articleDetail.setCreated(article.getCreated());
            articleDetail.setTitle(article.getTitle());
-           articleDetail.setDetail(article.getDetail());
+           articleDetail.setDetail(serviceProperties.getArticleDetail()+article.getId());
            return ResponseFactory.sucData(articleDetail);
        } else {
            return ResponseFactory.err("无此文章");
        }
+    }
+
+    /**
+     * 获得文章html
+     *
+     * @param: [id 文章id]
+     * @return: com.chouchongkeji.goexplore.common.Response
+     * @author: yy
+     * @Date: 2018/6/13
+     */
+    @Override
+    public Response getHtmlItemDetail(Integer id) {
+        Article article = articleMapper.selectByPrimaryKey(id);
+        if (article != null) {
+            return ResponseFactory.sucData(article.getDetail());
+        }
+        return ResponseFactory.err("无此文章");
     }
 }

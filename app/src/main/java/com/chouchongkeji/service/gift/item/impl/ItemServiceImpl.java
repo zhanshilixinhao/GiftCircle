@@ -7,6 +7,7 @@ import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.query.PageQuery;
 import com.chouchongkeji.pojo.gift.item.Item;
 import com.chouchongkeji.pojo.gift.item.ItemCategory;
+import com.chouchongkeji.properties.ServiceProperties;
 import com.chouchongkeji.service.gift.item.ItemService;
 import com.chouchongkeji.service.gift.item.vo.ItemDetail;
 import com.github.pagehelper.PageHelper;
@@ -28,6 +29,9 @@ public class ItemServiceImpl implements ItemService {
 
     @Autowired
     private ItemCategoryMapper itemCategoryMapper;
+
+    @Autowired
+    private ServiceProperties serviceProperties;
 
     /**
      * 商品分类列表
@@ -76,6 +80,25 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public Response getItemDetail(Integer id) {
         ItemDetail itemDetail = itemMapper.selectDetailByIteamId(id);
-        return null;
+        if (itemDetail != null) {
+            itemDetail.setDetailUrl(serviceProperties.getProductDetail() + id);
+            return ResponseFactory.sucData(itemDetail);
+        } else {
+            return ResponseFactory.err("无此商品");
+        }
+    }
+
+    /**
+     * 获得商品详情html
+     *
+     * @param: [id 商品id]
+     * @return: com.chouchongkeji.goexplore.common.Response
+     * @author: yy
+     * @Date: 2018/6/13
+     */
+    @Override
+    public Response getHtmlItemDetail(Integer id) {
+        String detail = itemMapper.selectGetHtmlDetail(id);
+        return ResponseFactory.sucData(detail);
     }
 }

@@ -732,7 +732,7 @@ JSON：
 
 ### 7.1 文章列表
 
-- 请求地址：auth/v1/article/list
+- 请求地址：noauth/v1/article/list
 - 服务协议：HTTP/POST
 - 是否需要身份认证：是
 - 作者：yy
@@ -781,7 +781,7 @@ JSON：
 
 ### 7.2 文章详情
 
-- 请求地址：auth/v1/article/detail
+- 请求地址：noauth/v1/article/detail
 - 服务协议：HTTP/POST
 - 是否需要身份认证：是
 - 作者：yy
@@ -797,11 +797,11 @@ JSON：
 {
     "errCode": 0,
     "result": 0,
-    "time": 1528783642255,
+    "time": 1528873269793,
     "data": {
-        "title": "美丽的风景3",
-        "created": 1528769929000,
-        "detail": ""
+        "title": "美丽的风景",
+        "created": 1528683529000,
+        "detail": "https://43.241.223.169:800/static/article.html?id=1"
     }
 }
 ```
@@ -812,7 +812,7 @@ JSON：
 | data | Object | 否 | 成功返回数据 |
 | title | String | 是 | 文章标题 |
 | created | long | 是 | 创建时间 |
-| detail | String | 是 | 文章详情(富文本) |
+| detail | String | 是 | 文章详情地址 |
 
 ### 7.3 虚拟商品分类列表
 
@@ -824,8 +824,6 @@ JSON：
 |   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
 | :----------: | :------: | :------: | :----: | :------: |
 | access_token |  string  |    是    |   无   | 访问令牌 |
-| pageNum |  Int  |    否    |   1   | 分页 |
-| pageSize |  Int  |    否    |   14   | 分页大小 |
 
 请求结果示例：
 

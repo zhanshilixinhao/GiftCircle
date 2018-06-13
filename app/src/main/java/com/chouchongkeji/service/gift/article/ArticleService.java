@@ -23,4 +23,14 @@ public interface ArticleService {
      * @Date: 2018/6/11
      */
     Response getArticleDetail(Integer id);
+
+    /**
+     * 获得文章html
+     *
+     * @param: [id]
+     * @return: com.chouchongkeji.goexplore.common.Response
+     * @author: yy
+     * @Date: 2018/6/13
+     */
+    Response getHtmlItemDetail(Integer id);
 }

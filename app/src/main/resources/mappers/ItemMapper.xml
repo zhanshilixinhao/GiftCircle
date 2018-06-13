@@ -325,4 +325,40 @@
       updated = #{updated,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+    <!--商品详情字段-->
+    <resultMap id="ItemDetail" type="com.chouchongkeji.service.gift.item.vo.ItemDetail">
+        <result column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="price" property="price"/>
+        <result column="sales" property="sales"/>
+        <result column="description" property="description"/>
+        <result column="pictures" property="pictures"
+                typeHandler="com.chouchongkeji.goexplore.handler.PicturesHandler"/>
+    </resultMap>
+
+    <!--获得商品详情-->
+    <select id="selectDetailByIteamId" resultMap="ItemDetail">
+        SELECT
+        id,
+        title,
+        price,
+        sales,
+        description,
+        pictures
+        FROM
+        item
+        WHERE
+        id = #{id}
+    </select>
+
+    <!--获得商品html详情-->
+    <select id="selectGetHtmlDetail" resultType="java.lang.String">
+        SELECT
+        detail
+        FROM
+        item_detail
+        WHERE
+        item_id = #{id}
+    </select>
 </mapper>

@@ -25,9 +25,19 @@ public class ServiceProperties {
 
     private String productDetail;
 
+    private String articleDetail;
+
     private String wxUrl = "noauth/pay/wx";
 
     private String aliUrl = "noauth/pay/aliv2";
+
+    public String getArticleDetail() {
+        return articleDetail;
+    }
+
+    public void setArticleDetail(String articleDetail) {
+        this.articleDetail = articleDetail;
+    }
 
     public String getLogo() { return logo; }
 

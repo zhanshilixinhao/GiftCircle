@@ -5,6 +5,7 @@ import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.query.PageQuery;
 import com.chouchongkeji.service.gift.item.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -70,5 +71,22 @@ public class ItemController {
             return ResponseFactory.errMissingParameter();
         }
         return itemService.getItemDetail(id);
+
+    }
+
+    /**
+     * 获得商品html详情
+     *
+     * @param: [id 商品id]
+     * @return: com.chouchongkeji.goexplore.common.Response
+     * @author: yy
+     * @Date: 2018/6/13
+     */
+    @GetMapping("html_detail")
+    public Response getHtmlItemDetail(Integer id) {
+        if (id == null) {
+            return ResponseFactory.errMissingParameter();
+        }
+        return itemService.getHtmlItemDetail(id);
     }
 }

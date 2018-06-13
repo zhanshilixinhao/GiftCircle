@@ -45,4 +45,13 @@ public interface ItemService {
      * @Date: 2018/6/13
      */
     Response getItemDetail(Integer id);
-}
+
+    /**
+     * 获得活动的html详情
+     *
+     * @param: [id 商品id]
+     * @return: com.chouchongkeji.goexplore.common.Response
+     * @author: yy
+     * @Date: 2018/6/13
+     */
+    Response getHtmlItemDetail(Integer id);}

@@ -37,4 +37,14 @@ public interface ItemMapper {
      * @Date: 2018/6/13
      */
     ItemDetail selectDetailByIteamId(@Param("id") Integer id);
+
+    /**
+     * 获得商品的html详情
+     *
+     * @param: [id 商品id]
+     * @return: java.lang.String
+     * @author: yy
+     * @Date: 2018/6/13
+     */
+    String selectGetHtmlDetail(@Param("id") Integer id);
 }

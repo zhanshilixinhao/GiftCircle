@@ -98,6 +98,10 @@
             <scope>system</scope>
             <systemPath>${project.basedir}/libs/alipay-sdk-java20171027120314.jar</systemPath>
         </dependency>
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+        </dependency>
 
         <!--支付相关依赖结束========================================-->
     </dependencies>

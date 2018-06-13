@@ -1,11 +1,13 @@
 package com.chouchongkeji.controller.gift.article;
 
 import com.chouchongkeji.goexplore.common.Response;
+import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.query.PageQuery;
 import com.chouchongkeji.service.gift.article.ArticleService;
 import com.yichen.auth.service.UserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -45,5 +47,21 @@ public class ArticleController {
     @PostMapping("detail")
     public Response getArticleDetail(Integer id) {
         return articleService.getArticleDetail(id);
+    }
+
+    /**
+     * 获得文章html
+     *
+     * @param: [id 文章id]
+     * @return: com.chouchongkeji.goexplore.common.Response
+     * @author: yy
+     * @Date: 2018/6/13
+     */
+    @GetMapping("html")
+    public Response getHtmlItemDetail(Integer id) {
+        if (id == null) {
+            return ResponseFactory.errMissingParameter();
+        }
+        return articleService.getHtmlItemDetail(id);
     }
 }
