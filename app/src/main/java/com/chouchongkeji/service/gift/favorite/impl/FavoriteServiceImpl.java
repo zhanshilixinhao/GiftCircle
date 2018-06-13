@@ -5,10 +5,14 @@ import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.pojo.gift.favorite.UserFavorite;
 import com.chouchongkeji.service.gift.favorite.FavoriteService;
+import com.chouchongkeji.service.gift.favorite.vo.FavoriteListVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author yy
@@ -16,6 +20,7 @@ import java.util.Date;
  **/
 
 @Service
+@Transactional(rollbackFor = Exception.class, isolation = Isolation.REPEATABLE_READ)
 public class FavoriteServiceImpl implements FavoriteService {
     @Autowired
     private UserFavoriteMapper userFavoriteMapper;
@@ -42,6 +47,38 @@ public class FavoriteServiceImpl implements FavoriteService {
             return ResponseFactory.sucMsg("取消收藏成功");
         }
         return ResponseFactory.err("取消收藏失败");
+    }
+
+    /**
+     * 获得收藏列表
+     *
+     * @param: [userId 用户id]
+     * @return: com.chouchongkeji.goexplore.common.Response
+     * @author: yy
+     * @Date: 2018/6/13
+     */
+    @Override
+    public Response getItemList(Integer userId) {
+        List<FavoriteListVo> favoriteListVos = userFavoriteMapper.selectByUserId(userId);
+        return ResponseFactory.sucData(favoriteListVos);
+    }
+
+    /**
+     * 批量删除收藏商品
+     *
+     * @param: [userId, ids]
+     * @return: com.chouchongkeji.goexplore.common.Response
+     * @author: yy
+     * @Date: 2018/6/13
+     */
+    @Override
+    public Response delCollectionItem(Integer userId, String ids) {
+        String [] array = ids.split(",");
+        for (int i = 0; i < array.length; i++) {
+            int id = Integer.parseInt(array[i]);
+            userFavoriteMapper.deleteByPrimaryKey(id);
+        }
+        return ResponseFactory.sucMsg("删除成功");
     }
 
 
