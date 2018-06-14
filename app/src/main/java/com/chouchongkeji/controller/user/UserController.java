@@ -1,9 +1,11 @@
 package com.chouchongkeji.controller.user;
 
 import com.chouchongkeji.goexplore.common.Response;
+import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.pojo.user.AppUser;
 import com.chouchongkeji.service.user.UserService;
 import com.yichen.auth.service.UserDetails;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -50,5 +52,40 @@ public class UserController {
 
     }
 
+    /**
+     * 赠送密码之前 请求获取赠送密码状态
+     *
+     * @param userDetails 用户信息
+     * @param s1          随机数
+     * @return
+     * @author linqin
+     * @date 2018/6/7
+     */
+    @PostMapping("pre/pwd")
+    public Response preSentPwd(@AuthenticationPrincipal UserDetails userDetails, String s1) {
+        if (StringUtils.isBlank(s1) || s1.length() < 16) {
+            return ResponseFactory.err("s1长度太小");
+        }
+        return userService.preSentPwd(userDetails.getUserId(), s1);
+    }
+
+
+    /**
+     * 赠送密码之前 请求获取赠送密码状态
+     *
+     * @param userDetails 用户信息
+     * @param de          加密后的密码
+     * @param time        随机字符串
+     * @return
+     * @author linqin
+     * @date 2018/6/7
+     */
+    @PostMapping("set/pwd")
+    public Response setSentPwd(@AuthenticationPrincipal UserDetails userDetails, String de, String time) {
+        if (StringUtils.isAnyBlank(de, time)) {
+            return ResponseFactory.errMissingParameter();
+        }
+        return userService.setSentPwd(userDetails.getUserId(), de, time);
+    }
 
 }

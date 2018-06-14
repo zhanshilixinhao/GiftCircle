@@ -22,15 +22,18 @@ public class WalletController {
     private WalletService walletService;
 
     /**
-     *钱包详情
+     * 钱包详情
+     *
      * @param userDetails
      * @return
      * @author linqin
      * @date 2018/6/7
      */
     @PostMapping("detail")
-    public Response walletDetail(@AuthenticationPrincipal UserDetails userDetails){
+    public Response walletDetail(@AuthenticationPrincipal UserDetails userDetails) {
         return walletService.getWalletDetail(userDetails.getUserId());
     }
+
+
 
 }
