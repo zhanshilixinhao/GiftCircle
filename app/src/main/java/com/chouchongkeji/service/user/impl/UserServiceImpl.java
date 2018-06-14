@@ -125,7 +125,7 @@ public class UserServiceImpl implements UserService {
         map.put("iv", iv);
         // 保存数据
         map.put("s1", s1);
-//        mRedisTemplate.set(KeyGenUtils.);
+        mRedisTemplate.set("dsfdsgewew" + userId, map, 300);
         return ResponseFactory.sucData(map);
     }
 
