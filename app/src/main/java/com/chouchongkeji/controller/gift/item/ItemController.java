@@ -32,7 +32,7 @@ public class ItemController {
      * @author linqin
      * @date 2018/6/12
      */
-    @PostMapping("category_list")
+    @PostMapping("/category_list")
     public Response ItemCategoryList() {
         return itemService.getCategoryList();
     }
@@ -41,7 +41,7 @@ public class ItemController {
     /**
      * 商品列表查询
      *
-     * @param classes  查询类型 1-精选，2-热门，3-新品
+     * @param classes  查询类型 0-默认，1-精选，2-热门
      * @param gender   筛选性别 0-默认，1-男，2-女
      * @param minAge   最小年龄
      * @param maxAge   最大年龄
@@ -55,6 +55,11 @@ public class ItemController {
     @PostMapping("item_list")
     public Response itemList(Integer classes, Integer gender, Integer minAge, Integer maxAge,
                              BigDecimal minPrice, BigDecimal maxPrice, Integer eventId, PageQuery pageQuery) {
+            if (classes!= null){
+                if (classes>2||classes<0){
+                    return ResponseFactory.err("classes错误");
+                }
+            }
         return itemService.getItemList(classes, gender, minAge, maxAge, minPrice, maxPrice, eventId, pageQuery);
 
     }
@@ -98,4 +103,10 @@ public class ItemController {
         }
         return itemService.getItemCommentList(id, page);
     }
+
+
+
+
+
+
 }

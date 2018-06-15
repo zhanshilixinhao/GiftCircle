@@ -14,12 +14,14 @@ import com.chouchongkeji.properties.ServiceProperties;
 import com.chouchongkeji.service.gift.item.ItemService;
 import com.chouchongkeji.service.gift.item.vo.ItemCommentVo;
 import com.chouchongkeji.service.gift.item.vo.ItemDetail;
+import com.chouchongkeji.service.gift.item.vo.ItemListVo;
 import com.github.pagehelper.PageHelper;
 import com.yichen.auth.service.UserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -61,7 +63,7 @@ public class ItemServiceImpl implements ItemService {
     /**
      * 商品列表查询
      *
-     * @param classes  查询类型 1-精选，2-热门，3-新品
+     * @param classes  查询类型 0-默认，1-精选，2-热门
      * @param gender   筛选性别 0-默认，1-男，2-女
      * @param minAge   最小年龄
      * @param maxAge   最大年龄
@@ -77,7 +79,17 @@ public class ItemServiceImpl implements ItemService {
                                 BigDecimal minPrice, BigDecimal maxPrice, Integer eventId, PageQuery pageQuery) {
         PageHelper.startPage(pageQuery.getPageNum(), pageQuery.getPageSize());
         List<Item> list = itemMapper.selectAll(classes, gender, minAge, maxAge, minPrice, maxPrice, eventId);
-        return ResponseFactory.sucData(list);
+        List<ItemListVo> vos = new ArrayList<>();
+        ItemListVo vo;
+        for (Item item : list) {
+            vo=new ItemListVo();
+            vo.setItemId(item.getId());
+            vo.setCover(item.getCover());
+            vo.setTitle(item.getTitle());
+            vo.setPrice(item.getPrice());
+            vos.add(vo);
+        }
+        return ResponseFactory.sucData(vos);
     }
 
     /**

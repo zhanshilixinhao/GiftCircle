@@ -78,7 +78,14 @@
             </trim>
         </where>
         order by
-        a.created desc
+            <choose>
+                <when test="classes!=null and (classes==1 or classes==2)">
+                    a.updated desc
+                </when>
+                <otherwise>
+                    a.created desc
+                </otherwise>
+            </choose>
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from item

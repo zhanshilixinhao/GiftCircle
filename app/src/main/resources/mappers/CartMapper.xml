@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chouchongkeji.dao.gift.item.CartMapper">
+  <resultMap id="BaseResultMap" type="com.chouchongkeji.pojo.gift.item.Cart">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="item_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="sku_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="price" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="quantity" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <resultMap id="ResultMap" type="com.chouchongkeji.service.gift.item.vo.CartListVo">
+    <result column="item_id" property="itemId"/>
+    <result column="sku_id" property="skuId"/>
+    <result column="cover" property="cover"/>
+    <result column="title" property="title"/>
+    <result column="quantity" property="quantity"/>
+    <result column="price" property="price"/>
+    <result column="created" property="created"/>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, item_id, sku_id, price, quantity, created, updated
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from cart
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="selectByUserId" resultMap="ResultMap">
+      SELECT
+	a.quantity,
+	a.item_id,
+	b.id AS sku_id,
+	b.title,
+	b.cover,
+	b.price,
+	a.created
+FROM
+	cart a
+	LEFT JOIN item_sku b ON b.id = a.sku_id
+WHERE
+	user_id = #{userId}
+ORDER BY
+	a.created DESC
+    </select>
+  <select id="selectBySkuIAndUserId" resultMap="BaseResultMap">
+    SELECT
+<include refid="Base_Column_List"/>
+FROM
+	cart
+WHERE
+	user_id = #{userId}
+	and sku_id = #{skuId}
+
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from cart
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByUserIdAndskuId">
+    delete from cart
+    where user_id = #{userId}
+    and sku_id = #{skuId}
+  </delete>
+  <insert id="insert" parameterType="com.chouchongkeji.pojo.gift.item.Cart">
+    insert into cart (id, user_id, item_id, 
+      sku_id, price, quantity, 
+      created, updated)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{itemId,jdbcType=INTEGER}, 
+      #{skuId,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, #{quantity,jdbcType=INTEGER}, 
+      now(),now())
+  </insert>
+  <insert id="insertSelective" parameterType="com.chouchongkeji.pojo.gift.item.Cart">
+    insert into cart
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="itemId != null">
+        item_id,
+      </if>
+      <if test="skuId != null">
+        sku_id,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="quantity != null">
+        quantity,
+      </if>
+      <if test="created != null">
+        created,
+      </if>
+      <if test="updated != null">
+        updated,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="itemId != null">
+        #{itemId,jdbcType=INTEGER},
+      </if>
+      <if test="skuId != null">
+        #{skuId,jdbcType=INTEGER},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="quantity != null">
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chouchongkeji.pojo.gift.item.Cart">
+    update cart
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="itemId != null">
+        item_id = #{itemId,jdbcType=INTEGER},
+      </if>
+      <if test="skuId != null">
+        sku_id = #{skuId,jdbcType=INTEGER},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="quantity != null">
+        quantity = #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+        updated = now(),
+
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.pojo.gift.item.Cart">
+    update cart
+    set user_id = #{userId,jdbcType=INTEGER},
+      item_id = #{itemId,jdbcType=INTEGER},
+      sku_id = #{skuId,jdbcType=INTEGER},
+      price = #{price,jdbcType=DECIMAL},
+      quantity = #{quantity,jdbcType=INTEGER},
+      created = #{created,jdbcType=TIMESTAMP},
+      updated = #{updated,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

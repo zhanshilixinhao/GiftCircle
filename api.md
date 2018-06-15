@@ -211,7 +211,7 @@ http 常用错误码
 }
 ```
 
-## 3. 用户钱包
+## 3. 我要--我的钱包
 
 ### 3.1 钱包详情
 
@@ -270,6 +270,224 @@ http 常用错误码
 }
 
 ```
+
+### 3.3 提现--获取银行类型列表
+
+- 请求地址：auth/v1/bankCard/bankList
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yy
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+
+请求结果示例：
+
+```json
+{
+    "errCode": 0,
+    "result": 0,
+    "time": 1528772444302,
+    "data": [
+        {
+            "bankId": 1,
+            "bankName": "中国银行",
+            "logo": "http://thirdwx.qlogo.cn/mmopen/vi_32/jhXsk4K6SZs58GvXyrPichgxlDv6y4IYrrKN5GCA1UTvHRKbRGtiac2SxmGMYibJSvCZzcLhNmQEykDgXTTzkPOXQ/132"
+        },
+        {
+            "bankId": 2,
+            "bankName": "工商银行",
+            "logo": "http://thirdwx.qlogo.cn/mmopen/vi_32/jhXsk4K6SZs58GvXyrPichgxlDv6y4IYrrKN5GCA1UTvHRKbRGtiac2SxmGMYibJSvCZzcLhNmQEykDgXTTzkPOXQ/132"
+        },
+        {
+            "bankId": 3,
+            "bankName": "农业银行",
+            "logo": "http://thirdwx.qlogo.cn/mmopen/vi_32/jhXsk4K6SZs58GvXyrPichgxlDv6y4IYrrKN5GCA1UTvHRKbRGtiac2SxmGMYibJSvCZzcLhNmQEykDgXTTzkPOXQ/132"
+        }
+    ]
+}
+```
+
+| 参数名称 | 参数类型 | 是否必传 |         参数说明          |
+| -------- | :------: | :------: | :-----------------------: |
+| errCode  |   Int    |    是    | 错误码 0 标识成功获取数据 |
+| data     |  Object  |    否    |       成功返回数据        |
+| bankId   |   Int    |    是    |          银行id           |
+| bankName |  String  |    是    |         银行名称          |
+| logo     |  String  |    是    |         银行logo          |
+
+### 3.4 提现--获取用户银行卡列表
+
+- 请求地址：auth/v1/bankCard/list
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yy
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+
+请求结果示例：
+
+```json
+{
+    "errCode": 0,
+    "result": 0,
+    "time": 1528772676449,
+    "data": [
+        {
+            "id": 3,
+            "bankId": 1,
+            "logo": "http://thirdwx.qlogo.cn/mmopen/vi_32/jhXsk4K6SZs58GvXyrPichgxlDv6y4IYrrKN5GCA1UTvHRKbRGtiac2SxmGMYibJSvCZzcLhNmQEykDgXTTzkPOXQ/132",
+            "bankName": "中国银行",
+            "depositBank": "青年路支行",
+            "cardHolder": "王保国",
+            "cardNo": "6217003955026223887"
+        },
+        {
+            "id": 1,
+            "bankId": 4,
+            "logo": "http://thirdwx.qlogo.cn/mmopen/vi_32/jhXsk4K6SZs58GvXyrPichgxlDv6y4IYrrKN5GCA1UTvHRKbRGtiac2SxmGMYibJSvCZzcLhNmQEykDgXTTzkPOXQ/132",
+            "bankName": "建设银行",
+            "depositBank": "建设路支行",
+            "cardHolder": "yy1",
+            "cardNo": "6217003895276001039"
+        }
+    ]
+}
+```
+
+| 参数名称    | 参数类型 | 是否必传 |         参数说明          |
+| ----------- | :------: | :------: | :-----------------------: |
+| errCode     |   Int    |    是    | 错误码 0 标识成功获取数据 |
+| data        |  Object  |    否    |       成功返回数据        |
+| id          |   Int    |    是    |       用户银行卡id        |
+| bankId      |   Int    |    是    |          银行id           |
+| bankName    |  String  |    是    |         银行名称          |
+| logo        |  String  |    是    |         银行logo          |
+| depositBank |  String  |    是    |        开户行名称         |
+| cardHolder  |  String  |    是    |        持卡人姓名         |
+| cardNo      |  String  |    是    |         银行卡号          |
+
+### 3.5 提现--添加用户银行卡
+
+- 请求地址：auth/v1/bankCard/add
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yy
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 |  参数说明  |
+| :----------: | :------: | :------: | :----: | :--------: |
+| access_token |  string  |    是    |   无   |  访问令牌  |
+| depositBank  |  string  |    是    |   无   | 开户行名称 |
+|  cardHolder  |  string  |    是    |   无   | 持卡人姓名 |
+|    cardNo    |  string  |    是    |   无   |  银行卡号  |
+|    bankId    |   Int    |    是    |   无   |   银行id   |
+
+请求结果示例：
+
+```json
+{
+    "errCode": 0,
+    "result": 0,
+    "msg": "添加成功",
+    "time": 1528773060163
+}
+```
+
+### 3.6 提现--删除用户银行卡
+
+- 请求地址：auth/v1/bankCard/del
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yy
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 |   参数说明   |
+| :----------: | :------: | :------: | :----: | :----------: |
+| access_token |  string  |    是    |   无   |   访问令牌   |
+|      id      |   Int    |    是    |   无   | 用户银行卡id |
+
+请求结果示例：
+
+```json
+{
+    "errCode": 0,
+    "result": 0,
+    "msg": "删除成功",
+    "time": 1528773291757
+}
+```
+
+### 3.7 提现
+
+- 请求地址：auth/v1/withdraw/add
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yy
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 |   参数说明   |
+| :----------: | :------: | :------: | :----: | :----------: |
+| access_token |  string  |    是    |   无   |   访问令牌   |
+|      id      |   Int    |    是    |   无   | 用户银行卡id |
+|    amount    | decimal  |    是    |   无   |   提现金额   |
+
+请求结果示例：
+
+```json
+{
+    "errCode": 0,
+    "result": 0,
+    "msg": "提现申请成功!",
+    "time": 1528774228877
+}
+```
+
+### 3.8 提现记录
+
+- 请求地址：auth/v1/withdraw/list
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yy
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+|   pageNum    |   Int    |    否    |   1    |   分页   |
+|   pageSize   |   Int    |    否    |   14   | 分页大小 |
+
+请求结果示例：
+
+```json
+{
+    "errCode": 0,
+    "result": 0,
+    "time": 1528775410848,
+    "data": [
+        {
+            "amount": 20,
+            "status": 1,
+            "created": 1528451950000,
+            "describe": "申请提现"
+        },
+        {
+            "amount": 20,
+            "status": 1,
+            "created": 1528774229000,
+            "describe": ""
+        }
+    ]
+}
+```
+
+| 参数名称 | 参数类型 | 是否必传 |                        参数说明                        |
+| -------- | :------: | :------: | :----------------------------------------------------: |
+| errCode  |   Int    |    是    |               错误码 0 标识成功获取数据                |
+| data     |  Object  |    否    |                      成功返回数据                      |
+| amount   | decimal  |    是    |                        提现金额                        |
+| status   |   Int    |    是    | 提现状态，1-申请提现，2-提现中，3-提现成功，4-提现失败 |
+| created  |   long   |    是    |                        提现时间                        |
+| describe |  String  |    是    |                        提现说明                        |
 
 ## 4. 全国行政区查询
 
@@ -508,11 +726,13 @@ JSON：
 }
 ```
 
-## 6. 我要--我的钱包
 
-### 6.1 提现--获取银行类型列表
 
-- 请求地址：auth/v1/bankCard/bankList
+## 6. 礼物
+
+### 6.1 文章列表
+
+- 请求地址：auth/v1/article/list
 - 服务协议：HTTP/POST
 - 是否需要身份认证：是
 - 作者：yy
@@ -520,225 +740,6 @@ JSON：
 |   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
 | :----------: | :------: | :------: | :----: | :------: |
 | access_token |  string  |    是    |   无   | 访问令牌 |
-
-请求结果示例：
-
-```json
-{
-    "errCode": 0,
-    "result": 0,
-    "time": 1528772444302,
-    "data": [
-        {
-            "bankId": 1,
-            "bankName": "中国银行",
-            "logo": "http://thirdwx.qlogo.cn/mmopen/vi_32/jhXsk4K6SZs58GvXyrPichgxlDv6y4IYrrKN5GCA1UTvHRKbRGtiac2SxmGMYibJSvCZzcLhNmQEykDgXTTzkPOXQ/132"
-        },
-        {
-            "bankId": 2,
-            "bankName": "工商银行",
-            "logo": "http://thirdwx.qlogo.cn/mmopen/vi_32/jhXsk4K6SZs58GvXyrPichgxlDv6y4IYrrKN5GCA1UTvHRKbRGtiac2SxmGMYibJSvCZzcLhNmQEykDgXTTzkPOXQ/132"
-        },
-        {
-            "bankId": 3,
-            "bankName": "农业银行",
-            "logo": "http://thirdwx.qlogo.cn/mmopen/vi_32/jhXsk4K6SZs58GvXyrPichgxlDv6y4IYrrKN5GCA1UTvHRKbRGtiac2SxmGMYibJSvCZzcLhNmQEykDgXTTzkPOXQ/132"
-        }
-    ]
-}
-```
-
-| 参数名称 | 参数类型 | 是否必传 | 参数说明 |
-| ------- |:------:|:------:|:------:|
-| errCode | Int | 是 | 错误码 0 标识成功获取数据 |
-| data | Object | 否 | 成功返回数据 |
-| bankId | Int | 是 |  银行id |
-| bankName | String | 是 | 银行名称 |
-| logo | String | 是 | 银行logo |
-
-### 6.2 提现--获取用户银行卡列表
-
-- 请求地址：auth/v1/bankCard/list
-- 服务协议：HTTP/POST
-- 是否需要身份认证：是
-- 作者：yy
-
-|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
-| :----------: | :------: | :------: | :----: | :------: |
-| access_token |  string  |    是    |   无   | 访问令牌 |
-
-请求结果示例：
-
-```json
-{
-    "errCode": 0,
-    "result": 0,
-    "time": 1528772676449,
-    "data": [
-        {
-            "id": 3,
-            "bankId": 1,
-            "logo": "http://thirdwx.qlogo.cn/mmopen/vi_32/jhXsk4K6SZs58GvXyrPichgxlDv6y4IYrrKN5GCA1UTvHRKbRGtiac2SxmGMYibJSvCZzcLhNmQEykDgXTTzkPOXQ/132",
-            "bankName": "中国银行",
-            "depositBank": "青年路支行",
-            "cardHolder": "王保国",
-            "cardNo": "6217003955026223887"
-        },
-        {
-            "id": 1,
-            "bankId": 4,
-            "logo": "http://thirdwx.qlogo.cn/mmopen/vi_32/jhXsk4K6SZs58GvXyrPichgxlDv6y4IYrrKN5GCA1UTvHRKbRGtiac2SxmGMYibJSvCZzcLhNmQEykDgXTTzkPOXQ/132",
-            "bankName": "建设银行",
-            "depositBank": "建设路支行",
-            "cardHolder": "yy1",
-            "cardNo": "6217003895276001039"
-        }
-    ]
-}
-```
-
-| 参数名称 | 参数类型 | 是否必传 | 参数说明 |
-| ------- |:------:|:------:|:------:|
-| errCode | Int | 是 | 错误码 0 标识成功获取数据 |
-| data | Object | 否 | 成功返回数据 |
-| id | Int | 是 |  用户银行卡id |
-| bankId | Int | 是 |  银行id |
-| bankName | String | 是 | 银行名称 |
-| logo | String | 是 | 银行logo |
-| depositBank | String | 是 | 开户行名称 |
-| cardHolder | String | 是 | 持卡人姓名 |
-| cardNo | String | 是 | 银行卡号 |
-
-### 6.3 提现--添加用户银行卡
-
-- 请求地址：auth/v1/bankCard/add
-- 服务协议：HTTP/POST
-- 是否需要身份认证：是
-- 作者：yy
-
-|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
-| :----------: | :------: | :------: | :----: | :------: |
-| access_token |  string  |    是    |   无   | 访问令牌 |
-| depositBank |  string  |    是    |   无   | 开户行名称 |
-| cardHolder |  string  |    是    |   无   | 持卡人姓名 |
-| cardNo |  string  |    是    |   无   | 银行卡号 |
-| bankId |  Int  |    是    |   无   | 银行id |
-
-请求结果示例：
-
-```json
-{
-    "errCode": 0,
-    "result": 0,
-    "msg": "添加成功",
-    "time": 1528773060163
-}
-```
-
-### 6.4 提现--删除用户银行卡
-
-- 请求地址：auth/v1/bankCard/del
-- 服务协议：HTTP/POST
-- 是否需要身份认证：是
-- 作者：yy
-
-|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
-| :----------: | :------: | :------: | :----: | :------: |
-| access_token |  string  |    是    |   无   | 访问令牌 |
-| id |  Int  |    是    |   无   | 用户银行卡id |
-
-请求结果示例：
-
-```json
-{
-    "errCode": 0,
-    "result": 0,
-    "msg": "删除成功",
-    "time": 1528773291757
-}
-```
-
-### 6.5 提现
-
-- 请求地址：auth/v1/withdraw/add
-- 服务协议：HTTP/POST
-- 是否需要身份认证：是
-- 作者：yy
-
-|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
-| :----------: | :------: | :------: | :----: | :------: |
-| access_token |  string  |    是    |   无   | 访问令牌 |
-| id |  Int  |    是    |   无   | 用户银行卡id |
-| amount |  decimal  |    是    |   无   | 提现金额 |
-
-请求结果示例：
-
-```json
-{
-    "errCode": 0,
-    "result": 0,
-    "msg": "提现申请成功!",
-    "time": 1528774228877
-}
-```
-
-### 6.6 提现记录
-
-- 请求地址：auth/v1/withdraw/list
-- 服务协议：HTTP/POST
-- 是否需要身份认证：是
-- 作者：yy
-
-|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
-| :----------: | :------: | :------: | :----: | :------: |
-| access_token |  string  |    是    |   无   | 访问令牌 |
-| pageNum |  Int  |    否    |   1   | 分页 |
-| pageSize |  Int  |    否    |   14   | 分页大小 |
-
-请求结果示例：
-
-```json
-{
-    "errCode": 0,
-    "result": 0,
-    "time": 1528775410848,
-    "data": [
-        {
-            "amount": 20,
-            "status": 1,
-            "created": 1528451950000,
-            "describe": "申请提现"
-        },
-        {
-            "amount": 20,
-            "status": 1,
-            "created": 1528774229000,
-            "describe": ""
-        }
-    ]
-}
-```
-
-| 参数名称 | 参数类型 | 是否必传 | 参数说明 |
-| ------- |:------:|:------:|:------:|
-| errCode | Int | 是 | 错误码 0 标识成功获取数据 |
-| data | Object | 否 | 成功返回数据 |
-| amount | decimal | 是 |  提现金额 |
-| status | Int | 是 |  提现状态，1-申请提现，2-提现中，3-提现成功，4-提现失败 |
-| created | long | 是 | 提现时间 |
-| describe | String | 是 | 提现说明 |
-
-## 7. 礼物
-
-### 7.1 文章列表
-
-- 请求地址：noauth/v1/article/list
-- 服务协议：HTTP/POST
-- 是否需要身份认证：是
-- 作者：yy
-
-|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
-| :----------: | :------: | :------: | :----: | :------: |
 | pageNum |  Int  |    否    |   1   | 分页 |
 | pageSize |  Int  |    否    |   14   | 分页大小 |
 
@@ -778,15 +779,16 @@ JSON：
 | cover | String | 是 | 文章封面 |
 | created | long | 是 | 创建时间 |
 
-### 7.2 文章详情
+### 6.2 文章详情
 
-- 请求地址：noauth/v1/article/detail
+- 请求地址：auth/v1/article/detail
 - 服务协议：HTTP/POST
 - 是否需要身份认证：是
 - 作者：yy
 
 |   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
 | :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
 | id |  Int  |    是    |   无   | 文章id |
 
 请求结果示例：
@@ -795,11 +797,11 @@ JSON：
 {
     "errCode": 0,
     "result": 0,
-    "time": 1528873269793,
+    "time": 1528783642255,
     "data": {
-        "title": "美丽的风景",
-        "created": 1528683529000,
-        "detail": "https://43.241.223.169:800/static/article.html?id=1"
+        "title": "美丽的风景3",
+        "created": 1528769929000,
+        "detail": ""
     }
 }
 ```
@@ -810,9 +812,9 @@ JSON：
 | data | Object | 否 | 成功返回数据 |
 | title | String | 是 | 文章标题 |
 | created | long | 是 | 创建时间 |
-| detail | String | 是 | 文章详情地址 |
+| detail | String | 是 | 文章详情(富文本) |
 
-### 7.3 虚拟商品分类列表
+### 6.3 虚拟商品分类列表
 
 - 请求地址：noauth/v1/virItem/cateList
 - 服务协议：HTTP/POST
@@ -821,6 +823,9 @@ JSON：
 
 |   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
 | :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| pageNum |  Int  |    否    |   1   | 分页 |
+| pageSize |  Int  |    否    |   14   | 分页大小 |
 
 请求结果示例：
 
@@ -853,7 +858,7 @@ JSON：
 | id | Int | 是 | 虚拟商品分类id |
 | name | String | 是 | 分类名称 |
 
-### 7.4 虚拟商品列表
+### 6.4 虚拟商品列表
 
 - 请求地址：noauth/v1/virItem/list
 - 服务协议：HTTP/POST
@@ -912,6 +917,212 @@ JSON：
 | price | decimal | 是 | 虚拟商品价格 |
 | description | String | 是 | 描述 |
 | cover | String | 是 | 图片 |
+
+
+
+### 6.5 商品分类列表
+
+- 请求地址：noauth/item/category_list
+- 服务协议：HTTP/POST
+- 是否需要身份认证：否
+- 作者：linqin
+- 无参数
+
+请求结果示例：
+
+```json
+{
+    "errCode": 0, 
+    "result": 0, 
+    "time": 1528871352790, 
+    "data": [
+        {
+            "id": 1, 
+            "pid": 0, 
+            "name": "手机", 
+            "status": 1, 
+            "sort": 1, 
+            "icon": "", 
+            "created": 1528770795000, 
+            "updated": 1528770798000
+        }, 
+        {
+            "id": 2, 
+            "pid": 0, 
+            "name": "家电", 
+            "status": 1, 
+            "sort": 1, 
+            "icon": "", 
+            "created": 1528771771000, 
+            "updated": 1528771773000
+        }
+    ]
+}
+```
+
+
+
+###6.6 商品列表查询
+
+- 请求地址：noauth/item/item_list
+- 服务协议：HTTP/POST
+- 是否需要身份认证：否
+- 作者：linqin
+
+| 参数名称 | 参数类型 | 是否必传 | 默认值 |            参数说明             |
+| :------: | :------: | :------: | :----: | :-----------------------------: |
+| classes  |   int    |    否    |   0    | 查询类型 0-默认，1-精选，2-热门 |
+|  gender  |   int    |    否    |   0    |   筛选性别 0-默认，1-男，2-女   |
+|  minAge  |   int    |    否    |   无   |            最小年龄             |
+|  maxAge  |   int    |    否    |   无   |            最大年龄             |
+| minPrice |  double  |    否    |   无   |            最低价格             |
+| maxPrice |  double  |    否    |   无   |            最高价格             |
+| eventId  |   int    |    否    |   无   |             事件id              |
+| pageNum  |   int    |    否    |   1    |              分页               |
+| pageSize |   int    |    否    |   14   |            分页大小             |
+
+请求结果示例：
+
+```json
+{
+    "errCode": 0, 
+    "result": 0, 
+    "time": 1528968708411, 
+    "data": [
+        {
+            "itemId": 1, 
+            "cover": "cover.jpg", 
+            "title": "战国", 
+            "price": 600
+        }, 
+        {
+            "itemId": 3, 
+            "cover": "cover.jpg", 
+            "title": "绿巨人", 
+            "price": 100
+        }
+    ]
+}
+```
+
+
+
+## 7. 购物车
+
+### 7.1 购物车列表
+
+- 请求地址：auth/cart/list
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：linqin
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  String  |    是    |   无   | 访问令牌 |
+
+请求结果示例：
+
+```json 
+{
+    "errCode": 0, 
+    "result": 0, 
+    "time": 1528945325582, 
+    "data": [
+        {
+            "itemId": 1, 
+            "skuId": 1, 
+            "cover": "cover.jpg", 
+            "title": "秦孝公", 
+            "quantity": 1, 
+            "price": 1000, 
+            "created": 1528884318000
+        }
+    ]
+}
+```
+
+
+
+### 7.2 加入购物车
+
+- 请求地址：auth/cart/add_item
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：linqin
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 |      参数说明      |
+| :----------: | :------: | :------: | :----: | :----------------: |
+| access_token |  string  |    是    |   无   |      访问令牌      |
+|    skuId     |   int    |    是    |   无   | 商品最小销售单元id |
+
+请求结果示例：
+
+```json
+{
+    "errCode": 0, 
+    "result": 0, 
+    "msg": "加入购物车成功", 
+    "time": 1528969439358
+}
+```
+
+
+
+### 7.3 增加或减少商品数量
+
+- 请求地址：auth/cart/quantity
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：linqin
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 |      参数说明      |
+| :----------: | :------: | :------: | :----: | :----------------: |
+| access_token |  string  |    是    |   无   |      访问令牌      |
+|    skuId     |   int    |    是    |   无   | 商品最小销售单元id |
+|    change    |   int    |    是    |   无   | 增加或减少商品数量 |
+
+请求结果示例：
+
+```json
+{
+    "errCode": 0, 
+    "result": 0, 
+    "time": 1528985861537
+}
+```
+
+
+
+### 7.4 删除购物车中商品
+
+- 请求地址：auth/cart/delete
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：linqin
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 |      参数说明      |
+| :----------: | :------: | :------: | :----: | :----------------: |
+| access_token |  string  |    是    |   无   |      访问令牌      |
+|    skuId     |   int    |    是    |   无   | 商品最小销售单元id |
+
+请求结果示例：
+
+```json
+{
+    "errCode": 0, 
+    "result": 0, 
+    "msg": "删除成功", 
+    "time": 1528987108217
+}
+```
+
+
+
+
+
+
+
+
 
 ### 7.5 商品详情
 

@@ -632,7 +632,26 @@ CREATE TABLE `user_virtual_item`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8mb4 COMMENT = '用户虚拟商品表';
 
 
+/*==============================================================*/
+/* Table: event                                                */
+/*==============================================================*/
+drop table if exists `cart`;
+create table `cart`
+(
+  id        int auto_increment not null comment '表id',
+  user_id     int(11) comment '用户id',
+  item_id     int(11) comment '商品id',
+  sku_id      int(11) comment 'sku_id',
+  price       decimal(18, 2) comment '价格',
+  `quantity`    int(11) comment '数量',
+  created        datetime comment '创建时间',
+  updated        datetime comment '更新时间',
+  primary key id (id),
+  key `user_id` (`user_id`),
+  key `item_id` (`item_id`),
+  key `sku_id` (`sku_id`)
 
+)engine = innodb, character set = utf8mb4 comment '购物车';
 
 
 
