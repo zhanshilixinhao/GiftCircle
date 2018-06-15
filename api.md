@@ -728,7 +728,7 @@ JSON：
 
 
 
-## 6. 礼物
+## 6. 商城
 
 ### 6.1 文章列表
 
@@ -821,11 +821,6 @@ JSON：
 - 是否需要身份认证：是
 - 作者：yy
 
-|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
-| :----------: | :------: | :------: | :----: | :------: |
-| access_token |  string  |    是    |   无   | 访问令牌 |
-| pageNum |  Int  |    否    |   1   | 分页 |
-| pageSize |  Int  |    否    |   14   | 分页大小 |
 
 请求结果示例：
 
@@ -1005,8 +1000,202 @@ JSON：
 }
 ```
 
+### 6.7 商品详情
 
+- 请求地址：fauth/item/item_detail
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yy
 
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    否    |   无   | 访问令牌 |
+|      id      |   Int    |    是    |   无   |  商品id  |
+
+请求结果示例：
+
+```json
+{
+    "errCode": 0,
+    "result": 0,
+    "time": 1528876600866,
+    "data": {
+        "id": 2,
+        "title": "小黄人",
+        "price": 50,
+        "sales": 1,
+        "description": "秦国质子",
+        "pictures": [
+            "cover.jpg",
+            "http://thirdwx.qlogo.cn/mmopen/vi_32/jhXsk4K6SZs58GvXyrPichgxlDv6y4IYrrKN5GCA1UTvHRKbRGtiac2SxmGMYibJSvCZzcLhNmQEykDgXTTzkPOXQ/132"
+        ],
+        "detailUrl": "https://43.241.223.169:800/static/product.html?id=2",
+        "isCollect": 2
+    }
+}
+```
+
+| 参数名称    |   参数类型   | 是否必传 |          参数说明          |
+| ----------- | :----------: | :------: | :------------------------: |
+| errCode     |     Int      |    是    | 错误码 0 标识成功获取数据  |
+| data        |    Object    |    否    |        成功返回数据        |
+| id          |     Int      |    是    |           商品id           |
+| title       |    String    |    是    |          商品标题          |
+| price       |   decimal    |    是    |          商品价格          |
+| sales       |     Int      |    是    |            销量            |
+| description |    String    |    是    |          商品属性          |
+| pictures    | List<String> |    是    |        轮播图片数组        |
+| detailUrl   |    String    |    是    |        商品详情地址        |
+| isCollect   |     Int      |    是    | 是否收藏 1.已收藏 2.未收藏 |
+
+### 6.8 商品评论
+
+- 请求地址：fauth/item/comment_list
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yy
+
+| 参数名称 | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :------: | :------: | :------: | :----: | :------: |
+|    id    |   Int    |    是    |   无   |  商品id  |
+| pageNum  |   Int    |    否    |   1    |   分页   |
+| pageSize |   Int    |    否    |   14   | 分页大小 |
+
+请求结果示例：
+
+```json
+{
+    "errCode": 0,
+    "result": 0,
+    "time": 1528882817550,
+    "data": [
+        {
+            "created": 1528882416000,
+            "phone": "13908867120",
+            "avatar": "avatar.jpg",
+            "content": "22342",
+            "pictures": [
+                "cover.jpg",
+                "http://thirdwx.qlogo.cn/mmopen/vi_32/jhXsk4K6SZs58GvXyrPichgxlDv6y4IYrrKN5GCA1UTvHRKbRGtiac2SxmGMYibJSvCZzcLhNmQEykDgXTTzkPOXQ/132"
+            ],
+            "star": 0
+        }
+    ]
+}
+```
+
+| 参数名称 |   参数类型   | 是否必传 |         参数说明          |
+| -------- | :----------: | :------: | :-----------------------: |
+| errCode  |     Int      |    是    | 错误码 0 标识成功获取数据 |
+| data     |    Object    |    否    |       成功返回数据        |
+| phone    |    String    |    是    |         用户电话          |
+| avatar   |    String    |    是    |         用户头像          |
+| content  |    String    |    是    |         评论文字          |
+| pictures | List<String> |    是    |       评论图片数组        |
+| created  |     Long     |    是    |         评论时间          |
+| star     |     Int      |    是    |         评价分数          |
+
+### 6.9 收藏商品/取消收藏商品
+
+- 请求地址：auth/v1/favorite/isCollection
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yy
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+|      id      |   Int    |    是    |   无   |  商品id  |
+
+请求结果示例：
+
+```json
+{
+    "errCode": 0,
+    "result": 0,
+    "msg": "收藏成功",
+    "time": 1528878654372
+}
+```
+
+```json
+{
+    "errCode": 0,
+    "result": 0,
+    "msg": "取消收藏成功",
+    "time": 1528878689795
+}
+```
+
+### 6.10 我要--收藏列表
+
+- 请求地址：auth/v1/favorite/itemList
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yy
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+
+请求结果示例：
+
+```json
+{
+    "errCode": 0,
+    "result": 0,
+    "time": 1528879717000,
+    "data": [
+        {
+            "id": 5,
+            "itemId": 1,
+            "title": "异人",
+            "cover": "cover.jpg",
+            "price": 600
+        },
+        {
+            "id": 7,
+            "itemId": 2,
+            "title": "小黄人",
+            "cover": "cover.jpg",
+            "price": 50
+        }
+    ]
+}
+```
+
+| 参数名称 | 参数类型 | 是否必传 |         参数说明          |
+| -------- | :------: | :------: | :-----------------------: |
+| errCode  |   Int    |    是    | 错误码 0 标识成功获取数据 |
+| data     |  Object  |    否    |       成功返回数据        |
+| id       |   Int    |    是    |        收藏商品id         |
+| itemId   |   Int    |    是    |          商品id           |
+| title    |  String  |    是    |         商品标题          |
+| price    | decimal  |    是    |         商品价格          |
+| cover    |  String  |    是    |         商品封面          |
+
+### 6.11 我要--批量删除收藏列表
+
+- 请求地址：auth/v1/favorite/delItem
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yy
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 |          参数说明           |
+| :----------: | :------: | :------: | :----: | :-------------------------: |
+| access_token |  string  |    是    |   无   |          访问令牌           |
+|     ids      |  string  |    是    |   无   | 收藏商品id集合(用逗号,隔开) |
+
+请求结果示例：
+
+```json
+{
+    "errCode": 0,
+    "result": 0,
+    "msg": "删除成功",
+    "time": 1528880466970
+}
+```
 ## 7. 购物车
 
 ### 7.1 购物车列表
@@ -1124,204 +1313,4 @@ JSON：
 
 
 
-### 7.5 商品详情
 
-- 请求地址：fauth/item/item_detail
-- 服务协议：HTTP/POST
-- 是否需要身份认证：是
-- 作者：yy
-
-|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
-| :----------: | :------: | :------: | :----: | :------: |
-| access_token |  string  |    否    |   无   | 访问令牌 |
-| id |  Int  |    是    |   无   | 商品id |
-
-
-请求结果示例：
-
-```json
-{
-    "errCode": 0,
-    "result": 0,
-    "time": 1528876600866,
-    "data": {
-        "id": 2,
-        "title": "小黄人",
-        "price": 50,
-        "sales": 1,
-        "description": "秦国质子",
-        "pictures": [
-            "cover.jpg",
-            "http://thirdwx.qlogo.cn/mmopen/vi_32/jhXsk4K6SZs58GvXyrPichgxlDv6y4IYrrKN5GCA1UTvHRKbRGtiac2SxmGMYibJSvCZzcLhNmQEykDgXTTzkPOXQ/132"
-        ],
-        "detailUrl": "https://43.241.223.169:800/static/product.html?id=2",
-        "isCollect": 2
-    }
-}
-```
-
-| 参数名称 | 参数类型 | 是否必传 | 参数说明 |
-| ------- |:------:|:------:|:------:|
-| errCode | Int | 是 | 错误码 0 标识成功获取数据 |
-| data | Object | 否 | 成功返回数据 |
-| id | Int | 是 | 商品id |
-| title | String | 是 | 商品标题 |
-| price | decimal | 是 | 商品价格 |
-| sales | Int | 是 | 销量 |
-| description | String | 是 | 商品属性 |
-| pictures | List<String> | 是 | 轮播图片数组 |
-| detailUrl | String | 是 | 商品详情地址 |
-| isCollect | Int | 是 | 是否收藏 1.已收藏 2.未收藏 |
-
-### 7.6 商品评论
-
-- 请求地址：fauth/item/comment_list
-- 服务协议：HTTP/POST
-- 是否需要身份认证：是
-- 作者：yy
-
-|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
-| :----------: | :------: | :------: | :----: | :------: |
-| id |  Int  |    是    |   无   | 商品id |
-| pageNum |  Int  |    否    |   1   | 分页 |
-| pageSize |  Int  |    否    |   14   | 分页大小 |
-
-
-请求结果示例：
-
-```json
-{
-    "errCode": 0,
-    "result": 0,
-    "time": 1528882817550,
-    "data": [
-        {
-            "created": 1528882416000,
-            "phone": "13908867120",
-            "avatar": "avatar.jpg",
-            "content": "22342",
-            "pictures": [
-                "cover.jpg",
-                "http://thirdwx.qlogo.cn/mmopen/vi_32/jhXsk4K6SZs58GvXyrPichgxlDv6y4IYrrKN5GCA1UTvHRKbRGtiac2SxmGMYibJSvCZzcLhNmQEykDgXTTzkPOXQ/132"
-            ],
-            "star": 0
-        }
-    ]
-}
-```
-
-| 参数名称 | 参数类型 | 是否必传 | 参数说明 |
-| ------- |:------:|:------:|:------:|
-| errCode | Int | 是 | 错误码 0 标识成功获取数据 |
-| data | Object | 否 | 成功返回数据 |
-| phone | String | 是 | 用户电话 |
-| avatar | String | 是 | 用户头像 |
-| content | String | 是 | 评论文字 |
-| pictures | List<String> | 是 | 评论图片数组 |
-| created | Long | 是 | 评论时间 |
-| star | Int | 是 | 评价分数 |
-
-### 7.7 收藏商品/取消收藏商品
-
-- 请求地址：auth/v1/favorite/isCollection
-- 服务协议：HTTP/POST
-- 是否需要身份认证：是
-- 作者：yy
-
-|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
-| :----------: | :------: | :------: | :----: | :------: |
-| access_token |  string  |    是    |   无   | 访问令牌 |
-| id |  Int  |    是    |   无   | 商品id |
-
-
-请求结果示例：
-
-```json
-{
-    "errCode": 0,
-    "result": 0,
-    "msg": "收藏成功",
-    "time": 1528878654372
-}
-```
-
-```json
-{
-    "errCode": 0,
-    "result": 0,
-    "msg": "取消收藏成功",
-    "time": 1528878689795
-}
-```
-
-### 7.8 我要--收藏列表
-
-- 请求地址：auth/v1/favorite/itemList
-- 服务协议：HTTP/POST
-- 是否需要身份认证：是
-- 作者：yy
-
-|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
-| :----------: | :------: | :------: | :----: | :------: |
-| access_token |  string  |    是    |   无   | 访问令牌 |
-
-
-请求结果示例：
-
-```json
-{
-    "errCode": 0,
-    "result": 0,
-    "time": 1528879717000,
-    "data": [
-        {
-            "id": 5,
-            "itemId": 1,
-            "title": "异人",
-            "cover": "cover.jpg",
-            "price": 600
-        },
-        {
-            "id": 7,
-            "itemId": 2,
-            "title": "小黄人",
-            "cover": "cover.jpg",
-            "price": 50
-        }
-    ]
-}
-```
-
-| 参数名称 | 参数类型 | 是否必传 | 参数说明 |
-| ------- |:------:|:------:|:------:|
-| errCode | Int | 是 | 错误码 0 标识成功获取数据 |
-| data | Object | 否 | 成功返回数据 |
-| id | Int | 是 | 收藏商品id |
-| itemId | Int | 是 | 商品id |
-| title | String | 是 | 商品标题 |
-| price | decimal | 是 | 商品价格 |
-| cover | String | 是 | 商品封面 |
-
-### 7.9 我要--批量删除收藏列表
-
-- 请求地址：auth/v1/favorite/delItem
-- 服务协议：HTTP/POST
-- 是否需要身份认证：是
-- 作者：yy
-
-|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
-| :----------: | :------: | :------: | :----: | :------: |
-| access_token |  string  |    是    |   无   | 访问令牌 |
-| ids |  string  |    是    |   无   | 收藏商品id集合(用逗号,隔开) |
-
-
-请求结果示例：
-
-```json
-{
-    "errCode": 0,
-    "result": 0,
-    "msg": "删除成功",
-    "time": 1528880466970
-}
-```
