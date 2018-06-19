@@ -1,8 +1,8 @@
 package com.chouchongkeji.service.gift.article.impl;
 
 import com.chouchongkeji.dao.gift.article.ArticleMapper;
-import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
+import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.query.PageQuery;
 import com.chouchongkeji.pojo.gift.article.Article;
 import com.chouchongkeji.properties.ServiceProperties;

@@ -1,7 +1,7 @@
 package com.chouchongkeji.controller.iwant.setting;
 
-import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
+import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.service.iwant.setting.SuggestionService;
 import com.github.pagehelper.util.StringUtil;
 import com.yichen.auth.service.UserDetails;

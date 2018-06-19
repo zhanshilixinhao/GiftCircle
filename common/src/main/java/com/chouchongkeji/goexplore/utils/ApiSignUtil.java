@@ -113,4 +113,13 @@ public class ApiSignUtil {
         }
         return 0;
     }
+
+    public static String apiKey(Integer client) {
+        if (client == 1) {
+            return ANDROID;
+        } else if (client == 2) {
+            return IOS;
+        }
+        return null;
+    }
 }

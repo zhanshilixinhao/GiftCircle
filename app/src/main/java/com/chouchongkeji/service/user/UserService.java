@@ -44,9 +44,34 @@ public interface UserService {
      * @param userId 用户信息
      * @param de     加密后的密码
      * @param time   随机字符串
+     * @param client
      * @return
      * @author linqin
      * @date 2018/6/7
      */
-    Response setSentPwd(Integer userId, String de, String time);
+    Response setSentPwd(Integer userId, String de, String time, Integer client);
+
+    /**
+     * 修改密码之前验证原密码是否正确
+     *
+     * @param userId 用户信息
+     * @param de     加密后的密码
+     * @param time   随机字符串
+     * @return
+     * @author linqin
+     * @date 2018/6/7
+     */
+    Response changePwdVerify(Integer userId, String de, String time, Integer client);
+
+    /**
+     * 修改赠送密码
+     *
+     * @param userId 用户信息
+     * @param de     加密后的密码
+     * @param time   随机字符串
+     * @return
+     * @author linqin
+     * @date 2018/6/7
+     */
+    Response changePwd(Integer userId, String de, String time, Integer client, String key);
 }

@@ -1,8 +1,8 @@
 package com.chouchongkeji.service.gift.favorite.impl;
 
 import com.chouchongkeji.dao.gift.favorite.UserFavoriteMapper;
-import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
+import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.pojo.gift.favorite.UserFavorite;
 import com.chouchongkeji.service.gift.favorite.FavoriteService;
 import com.chouchongkeji.service.gift.favorite.vo.FavoriteListVo;

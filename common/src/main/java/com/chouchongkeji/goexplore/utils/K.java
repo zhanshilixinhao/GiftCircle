@@ -7,13 +7,14 @@ package com.chouchongkeji.goexplore.utils;
  * @date 2017/11/28
  */
 
-public class KeyGenUtils {
+public class K {
 
-    public static final String PREFIX = "3-"; // 优咖
+    public static final String PREFIX = "gic-"; // 优咖
     public static final String SPLIT = "-"; // 分隔符
 
     // 会员信息
-    public static final String MEMBER_PORFILE = "mempro";
+    public static final String USER_SENT_PWD = "USER_SENT_PWD";
+    public static final String USER_SENT_PWD_VERIFY = "USER_SENT_PWD_VERIFY";
     // banner列表
     public static final String BANNERS = "banners";
 

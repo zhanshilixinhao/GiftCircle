@@ -1,7 +1,7 @@
 package com.yichen.auth.controller;
 
-import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
+import com.chouchongkeji.goexplore.common.Response;
 import com.yichen.auth.service.SmsCodeService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

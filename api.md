@@ -489,6 +489,103 @@ http 常用错误码
 | created  |   long   |    是    |                        提现时间                        |
 | describe |  String  |    是    |                        提现说明                        |
 
+
+
+### 3.9 赠送密码操作(设置，修改，验证)之前，获取密码状态
+
+- 请求地址：auth/user/pre/pwd
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yichen
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| s1 | string | 是 | 无 | 随机字符串，必须全是数字最少16个 |
+
+* 请求结果示例：
+
+```js
+{
+    errCode:0,
+    data:{
+    	status:1 // 是否设置过密码 1 已设置过 2 未设置过
+    }
+}
+```
+
+
+
+### 3.10 设置赠送密码（需要先请求3.9）
+
+- 请求地址：auth/user/set/pwd
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yichen
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| de | string | 是 | 无 | 密码加密之后的字符串 |
+
+* 加密规则说名
+
+```js
+String apiKey; // 接口签名的apiKey
+String pwd;    // 原密码MD5 32位大写
+String s1;     // 3.9中生成的随机字符
+String time;   // 参与接口签名的随机数
+// 拼接密码
+pwd = String.format("%s@%s", pwd, Utils.toMD5(String.format("%spinjie%s", time, s1)));
+// 拼接加密的密钥
+int len = apiKey.length();
+// 取出随机数字的第一位
+int first = s1.charAt(0) - 48;
+// 去除apiKey中的第first位
+String seed = String.format("%s%s%s%s", time, apiKey.substring(0, first),
+apiKey.substring(first < len ? first + 1 : first, len), s1);
+// 使用AES256加密
+String de = AESUtils.encrypt(seed, pwd);
+```
+
+
+### 3.11 修改密码之前校验用户输入的原密码(需要先请求3.9)
+
+- 请求地址：auth/user/change/pwd/verify
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yichen
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| de | string | 是 | 无 | 密码加密之后的字符串 |
+
+* 请求结果示例
+
+```js
+{
+	errCode:1,
+    data:{
+    	key:"dafasfas-fdsfdsfdsf-fsdfsdfsd-fe" // 用作修改提交新密码时的惭怍
+    }
+}
+```
+
+### 3.12 修改密码之前校验用户输入的原密码(需要先请求3.9)
+
+- 请求地址：auth/user/change/pwd/verify
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yichen
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| de | string | 是 | 无 | 密码加密之后的字符串 |
+
+* 请求结果示例
+
 ## 4. 全国行政区查询
 
 ### 4.1 获取行政区列表

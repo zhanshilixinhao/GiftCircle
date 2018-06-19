@@ -1,7 +1,7 @@
 package com.chouchongkeji.service.user.impl;
 
-import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
+import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.redis.MRedisTemplate;
 import com.chouchongkeji.service.user.UserLoginService;
 import com.chouchongkeji.wxapi.WXCodeApi;

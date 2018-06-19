@@ -1,20 +1,26 @@
 package com.chouchongkeji.service.user.impl;
 
+import com.alibaba.fastjson.TypeReference;
 import com.chouchongkeji.dao.user.AppUserMapper;
-import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
-import com.chouchongkeji.goexplore.utils.KeyGenUtils;
+import com.chouchongkeji.goexplore.common.Response;
+import com.chouchongkeji.goexplore.utils.ApiSignUtil;
+import com.chouchongkeji.goexplore.utils.K;
+
 import com.chouchongkeji.pojo.user.AppUser;
 import com.chouchongkeji.properties.ServiceProperties;
 import com.chouchongkeji.redis.MRedisTemplate;
 import com.chouchongkeji.service.user.UserService;
+import com.chouchongkeji.util.SentPwdUtil;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * @author linqin
@@ -25,6 +31,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private AppUserMapper appUserMapper;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private ServiceProperties serviceProperties;
@@ -119,13 +128,10 @@ public class UserServiceImpl implements UserService {
     public Response preSentPwd(Integer userId, String s1) {
         // 取出用户信息
         AppUser user = appUserMapper.selectByPrimaryKey(userId);
-        String iv = RandomStringUtils.randomAscii(16).trim();
         Map<String, Object> map = new HashMap<>();
         map.put("status", StringUtils.isBlank(user.getSentPwd()) ? 2 : 1);
-        map.put("iv", iv);
         // 保存数据
-        map.put("s1", s1);
-        mRedisTemplate.set("dsfdsgewew" + userId, map, 300);
+        mRedisTemplate.setString(K.genKey(K.USER_SENT_PWD, userId), s1, 120);
         return ResponseFactory.sucData(map);
     }
 
@@ -136,12 +142,111 @@ public class UserServiceImpl implements UserService {
      * @param userId 用户信息
      * @param de     加密后的密码
      * @param time   随机字符串
+     * @param client
      * @return
      * @author linqin
      * @date 2018/6/7
      */
     @Override
-    public Response setSentPwd(Integer userId, String de, String time) {
-        return null;
+    public Response setSentPwd(Integer userId, String de, String time, Integer client) {
+        // 取出加密数据
+        String s1 = mRedisTemplate.getString(K.genKey(K.USER_SENT_PWD, userId));
+        if (StringUtils.isBlank(s1)) {
+            return ResponseFactory.err("操作过期,请重试!");
+        }
+        // 取出签名密钥
+        String apiKey = ApiSignUtil.apiKey(client);
+        // 解码
+        String pwd = SentPwdUtil.decrypt(de, s1, apiKey, time);
+        if (pwd == null) {
+            return ResponseFactory.err("密码设置错误!");
+        }
+        // 更新用户的赠送密码
+        AppUser user = new AppUser();
+        user.setId(userId);
+        user.setSentPwd(passwordEncoder.encode(pwd));
+        int count = appUserMapper.updateByPrimaryKey(user);
+        if (count == 1) {
+            return ResponseFactory.sucMsg("密码设置成功!");
+        }
+        return ResponseFactory.err("密码设置失败!");
+    }
+
+    /**
+     * 修改密码之前验证原密码是否正确
+     *
+     * @param userId 用户信息
+     * @param de     加密后的密码
+     * @param time   随机字符串
+     * @return
+     * @author linqin
+     * @date 2018/6/7
+     */
+    @Override
+    public Response changePwdVerify(Integer userId, String de, String time, Integer client) {
+        // 取出加密数据
+        String s1 = mRedisTemplate.getString(K.genKey(K.USER_SENT_PWD, userId));
+        if (StringUtils.isBlank(s1)) {
+            return ResponseFactory.err("操作过期,请重试!");
+        }
+        // 取出签名密钥
+        String apiKey = ApiSignUtil.apiKey(client);
+        // 解码
+        String pwd = SentPwdUtil.decrypt(de, s1, apiKey, time);
+        if (pwd == null) {
+            return ResponseFactory.err("密码错误!");
+        }
+        // 取出用户的赠送密码
+        AppUser user = appUserMapper.selectByPrimaryKey(userId);
+        // 验证密码
+        if (passwordEncoder.matches(pwd, user.getSentPwd())) {
+            // 保存验证状态
+            String key = UUID.randomUUID().toString();
+            mRedisTemplate.setString(key, "true", 60);
+            Map<String, String> map = new HashMap<>();
+            map.put("key", key);
+            return ResponseFactory.suc("验证成功!", key);
+        }
+        return ResponseFactory.err("密码错误!");
+    }
+
+    /**
+     * 修改赠送密码
+     *
+     * @param userId 用户信息
+     * @param de     加密后的密码
+     * @param time   随机字符串
+     * @return
+     * @author linqin
+     * @date 2018/6/7
+     */
+    @Override
+    public Response changePwd(Integer userId, String de, String time, Integer client, String key) {
+        // 判断是否校验过密码
+        String value = mRedisTemplate.getString(key);
+        if (StringUtils.isBlank(value)) {
+            return ResponseFactory.err("操作无效或超时!");
+        }
+        // 取出加密数据
+        String s1 = mRedisTemplate.getString(K.genKey(K.USER_SENT_PWD, userId));
+        if (StringUtils.isBlank(s1)) {
+            return ResponseFactory.err("操作过期,请重试!");
+        }
+        // 取出签名密钥
+        String apiKey = ApiSignUtil.apiKey(client);
+        // 解码
+        String pwd = SentPwdUtil.decrypt(de, s1, apiKey, time);
+        if (pwd == null) {
+            return ResponseFactory.err("密码无效!");
+        }
+        // 更新用户的赠送密码
+        AppUser user = new AppUser();
+        user.setId(userId);
+        user.setSentPwd(passwordEncoder.encode(pwd));
+        int count = appUserMapper.updateByPrimaryKey(user);
+        if (count == 1) {
+            return ResponseFactory.sucMsg("密码修改成功!");
+        }
+        return ResponseFactory.err("密码修改失败!");
     }
 }

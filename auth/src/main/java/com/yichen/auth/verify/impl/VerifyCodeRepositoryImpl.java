@@ -1,7 +1,7 @@
 package com.yichen.auth.verify.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.chouchongkeji.goexplore.utils.KeyGenUtils;
+import com.chouchongkeji.goexplore.utils.K;
 import com.yichen.auth.verify.VerifyCode;
 import com.yichen.auth.verify.VerifyCodeRepository;
 import org.apache.commons.lang3.StringUtils;
@@ -27,7 +27,7 @@ public class VerifyCodeRepositoryImpl implements VerifyCodeRepository {
      */
     @Override
     public void save(VerifyCode code, String key) {
-        stringRedisTemplate.opsForValue().set(KeyGenUtils.genKey(key, code.getType()),
+        stringRedisTemplate.opsForValue().set(K.genKey(key, code.getType()),
                 JSON.toJSONString(code), code.getExpire(), TimeUnit.SECONDS);
     }
 
@@ -38,7 +38,7 @@ public class VerifyCodeRepositoryImpl implements VerifyCodeRepository {
      */
     @Override
     public VerifyCode get(String key, int type) {
-        String code = stringRedisTemplate.opsForValue().get(KeyGenUtils.genKey(key, type));
+        String code = stringRedisTemplate.opsForValue().get(K.genKey(key, type));
         if (StringUtils.isNotBlank(code)) {
             VerifyCode verifyCode = JSON.parseObject(code, VerifyCode.class);
             return verifyCode;
@@ -52,6 +52,6 @@ public class VerifyCodeRepositoryImpl implements VerifyCodeRepository {
      */
     @Override
     public void remove(String key, int type) {
-        stringRedisTemplate.delete(KeyGenUtils.genKey(key, type));
+        stringRedisTemplate.delete(K.genKey(key, type));
     }
 }

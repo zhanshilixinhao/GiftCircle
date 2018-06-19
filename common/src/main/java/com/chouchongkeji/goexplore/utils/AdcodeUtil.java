@@ -25,10 +25,4 @@ public class AdcodeUtil {
         return level;
     }
 
-
-    public static void main(String[] args) {
-        System.out.println(getLevel(530000));
-        System.out.println(getLevel(530100));
-        System.out.println(getLevel(530102));
-    }
 }
