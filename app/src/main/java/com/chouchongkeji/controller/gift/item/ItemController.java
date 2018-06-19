@@ -19,7 +19,7 @@ import java.math.BigDecimal;
  * @date 2018/6/12
  */
 @RestController
-@RequestMapping("fauth/item")
+@RequestMapping("noauth/item")
 public class ItemController {
 
     @Autowired

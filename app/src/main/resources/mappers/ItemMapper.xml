@@ -27,7 +27,7 @@
         </constructor>
     </resultMap>
     <sql id="Base_Column_List">
-    id, title, price, sales, stock, description, re_gender, re_max_age, re_age_min, re_event, 
+    id, title, price, sales, stock, description, re_gender, re_max_age, re_age_min,
     store_id, category_id, cover, pictures, choiceness, hot, status, is_audit, brand_id, 
     created, updated
   </sql>
@@ -367,5 +367,12 @@
         item_detail
         WHERE
         item_id = #{id}
+    </select>
+    <select id="selectByItemId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from item
+        where
+        id = #{itemId}
     </select>
 </mapper>

@@ -2,19 +2,33 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.chouchongkeji.dao.gift.item.ItemSkuMapper">
   <resultMap id="BaseResultMap" type="com.chouchongkeji.pojo.gift.item.ItemSku">
-    <constructor>
-      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="item_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="title" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="cover" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="pictures" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="stock" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="price" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
-      <arg column="sales" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT" />
-      <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-      <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-    </constructor>
+  <constructor>
+    <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+    <arg column="item_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+    <arg column="title" javaType="java.lang.String" jdbcType="VARCHAR" />
+    <arg column="cover" javaType="java.lang.String" jdbcType="VARCHAR" />
+    <arg column="pictures" javaType="java.lang.String" jdbcType="VARCHAR" />
+    <arg column="stock" javaType="java.lang.Integer" jdbcType="INTEGER" />
+    <arg column="price" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+    <arg column="sales" javaType="java.lang.Integer" jdbcType="INTEGER" />
+    <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT" />
+    <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+  </constructor>
+</resultMap>
+  <resultMap id="ResultMap" type="com.chouchongkeji.service.gift.item.vo.SkuListVo">
+      <result column="sku_id" property="skuId"/>
+      <result column="item_id" property="itemId"/>
+      <result column="title" property="title"/>
+      <result column="cover" property="cover"/>
+      <result column="price" property="price"/>
+      <result column="stock" property="stock"/>
+      <result column="sales" property="sales"/>
+      <collection property="values" ofType="com.chouchongkeji.service.gift.item.vo.SkuValueVo">
+        <result column="value_id" property="valueId"/>
+        <result column="feature_id" property="featureId"/>
+        <result column="value" property="value"/>
+      </collection>
   </resultMap>
   <sql id="Base_Column_List">
     id, item_id, title, cover, pictures, stock, price, sales, status, created, updated
@@ -25,12 +39,32 @@
     from item_sku
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <select id="selectBySkuId" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List"/>
-    from item_sku
-    where id = #{skuId}
-  </select>
+    <select id="selectByItemId" resultMap ="ResultMap">
+      SELECT
+	a.id AS sku_id,
+	a.item_id,
+	a.title,
+	a.cover,
+	a.price,
+	a.stock,
+	a.sales,
+	c.id as value_id,
+	c.feature_id,
+	c.`value`
+FROM
+	item_sku a
+	LEFT JOIN item_sku_value b ON b.sku_id = a.id
+	LEFT JOIN item_value c ON c.id = b.value_id
+WHERE
+	a.item_id = #{itemId}
+    </select>
+
+    <select id="selectBySkuId" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List" />
+      from item_sku
+      where id = #{skuId}
+    </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from item_sku

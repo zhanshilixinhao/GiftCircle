@@ -47,4 +47,7 @@ public interface ItemMapper {
      * @Date: 2018/6/13
      */
     String selectGetHtmlDetail(@Param("id") Integer id);
+
+    Item selectByItemId(Integer itemId);
+
 }

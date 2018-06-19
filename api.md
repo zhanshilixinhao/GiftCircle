@@ -1,4 +1,4 @@
-# *圈接口文档**
+# **礼遇圈接口文档**
 
 > * 版本号 v0.0.1
 > * 最后更新时间 2018/2/7
@@ -1002,7 +1002,7 @@ JSON：
 
 ### 6.7 商品详情
 
-- 请求地址：fauth/item/item_detail
+- 请求地址：noauth/item/item_detail
 - 服务协议：HTTP/POST
 - 是否需要身份认证：是
 - 作者：yy
@@ -1050,7 +1050,7 @@ JSON：
 
 ### 6.8 商品评论
 
-- 请求地址：fauth/item/comment_list
+- 请求地址：noauth/item/comment_list
 - 服务协议：HTTP/POST
 - 是否需要身份认证：是
 - 作者：yy
@@ -1305,11 +1305,116 @@ JSON：
 }
 ```
 
+### 7.5 获取商品的sku组合
 
+- 请求地址：noauth/item/sku_set
+- 服务协议：HTTP/POST
+- 是否需要身份认证：否
+- 作者：linqin
 
+| 参数名称 | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :------: | :------: | :------: | :----: | :------: |
+|  itemId  |   int    |    是    |   无   |  商品id  |
 
+请求结果示例：
 
+```json
+{
+    "errCode": 0, 
+    "result": 0, 
+    "time": 1529407687288, 
+    "data": {
+        "features": [
+            {
+                "featureId": 1, 
+                "name": "爵位", 
+                "values": [
+                    {
+                        "valueId": 1, 
+                        "value": "公"
+                    }, 
+                    {
+                        "valueId": 3, 
+                        "value": "侯"
+                    }
+                ]
+            }, 
+            {
+                "featureId": 2, 
+                "name": "称谓", 
+                "values": [
+                    {
+                        "valueId": 2, 
+                        "value": "秦"
+                    }, 
+                    {
+                        "valueId": 4, 
+                        "value": "魏"
+                    }
+                ]
+            }
+        ], 
+        "skus": [
+            {
+                "skuId": 1, 
+                "itemId": 1, 
+                "title": "秦孝公", 
+                "cover": "cover.jpg", 
+                "price": 1000, 
+                "stock": 5, 
+                "sales": 0, 
+                "values": [
+                    {
+                        "valueId": 1, 
+                        "featureId": 1, 
+                        "value": "公"
+                    }, 
+                    {
+                        "valueId": 2, 
+                        "featureId": 2, 
+                        "value": "秦"
+                    }
+                ]
+            }, 
+            {
+                "skuId": 2, 
+                "itemId": 1, 
+                "title": "魏文侯", 
+                "cover": "cover.jpg", 
+                "price": 1000, 
+                "stock": 5, 
+                "sales": 0, 
+                "values": [
+                    {
+                        "valueId": 3, 
+                        "featureId": 1, 
+                        "value": "侯"
+                    }, 
+                    {
+                        "valueId": 4, 
+                        "featureId": 2, 
+                        "value": "魏"
+                    }
+                ]
+            }
+        ]
+    }
+}
+```
 
+| 参数名称 | 参数类型 | 是否必传 | 参数说明 |
+|:---:|
+| featureId | int | 是 | 商品属性id |
+| name | string | 是 | 属性名称 |
+| valueId | int | 是 | 商品属性值id |
+| value | string | 是 | 商品属性值 |
+| skuId | int | 是 | 商品最小销售单元id |
+| itemId | int | 是 | 商品id |
+| title | string | 是 | 商品标题 |
+| cover | string | 是 | 商品封面图片 |
+| price | int | 是 | 商品价格 |
+| stock | int | 是 | 商品库存 |
+| sales | int | 是 | 商品销量 |
 
 
 
