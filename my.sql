@@ -633,6 +633,25 @@ CREATE TABLE `user_virtual_item`  (
 
 
 /*==============================================================*/
+/* Table: memo_activity                                                */
+/*==============================================================*/
+
+DROP TABLE IF EXISTS `memo_activity`;
+CREATE TABLE `memo_activity` (
+  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '用户虚拟商品id',
+  `user_id` INT(11) COMMENT '创建用户id',
+  `target_time` datetime COMMENT '标记的备忘时间',
+  `address` varchar(255) comment '地点',
+  `count` int(10) comment '人数',
+  `title` varchar(128) comment '标题',
+  `detail` varchar(255) comment '活动详情',
+  `users` varchar(500) comment '被邀请的用户id集合',
+  `created` datetime(0) COMMENT '创建时间',
+  `updated` datetime(0) COMMENT '更新时间',
+  PRIMARY KEY ( id ),
+  KEY `user_id` ( `user_id` )
+) ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8mb4 COMMENT = '备忘录活动';
+/*==============================================================*/
 /* Table: event                                                */
 /*==============================================================*/
 drop table if exists `cart`;
@@ -653,5 +672,115 @@ create table `cart`
 
 )engine = innodb, character set = utf8mb4 comment '购物车';
 
+/*==============================================================*/
+/* Table: memo_event                                               */
+/*==============================================================*/
+DROP TABLE IF EXISTS `memo_event`;
+CREATE TABLE `memo_event` (
+  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '用户虚拟商品id',
+  `user_id` INT(11) COMMENT '创建用户id',
+  `event_time` datetime comment '事件事件',
+  `target_time` datetime COMMENT '标记的备忘时间',
+  `title` varchar(128) comment '标题',
+  `detail` varchar(255) comment '活动详情',
+  `is_public` tinyint(4) default 2 comment '是否公开 1 公开 2 不公开',
+  `created` datetime(0) COMMENT '创建时间',
+  `updated` datetime(0) COMMENT '更新时间',
+  PRIMARY KEY ( id ),
+  KEY `user_id` ( `user_id` )
+) ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8mb4 COMMENT = '备忘录事件';
 
+
+/*==============================================================*/
+/* Table: app_message                                               */
+/*==============================================================*/
+DROP TABLE IF EXISTS `app_message`;
+CREATE TABLE `app_message` (
+  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '用户虚拟商品id',
+  `title` varchar(128) comment '标题',
+  `sumarry` varchar(255) comment '简介',
+  `content` varchar(500) comment '消息内容可以是json',
+  `target_id` int(11) comment '目标id',
+  target_type tinyint(4) comment '目标类型11 礼物实物 12 礼物虚拟物品 41 ',
+  message_type tinyint(4) comment '消息类型 1 礼物 2 系统 3 寄售台 4 礼品交换',
+  `created` datetime(0) COMMENT '创建时间',
+  `updated` datetime(0) COMMENT '更新时间',
+  PRIMARY KEY ( id ),
+  key `target_id` (`target_id`)
+) ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8mb4 COMMENT = 'app消息通知';
+
+
+/*==============================================================*/
+/* Table: app_message_user                                               */
+/*==============================================================*/
+DROP TABLE IF EXISTS `app_message_user`;
+CREATE TABLE `app_message_user` (
+  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '用户虚拟商品id',
+  `user_id` int(11) comment '用户id',
+  `app_message_id` int(11) comment '消息id',
+  `is_read` tinyint(4) comment '是否已读 1 已读 2 未读',
+  `created` datetime(0) COMMENT '创建时间',
+  `updated` datetime(0) COMMENT '更新时间',
+  PRIMARY KEY ( id ),
+  key user_id (user_id),
+  key app_message_id (app_message_id)
+) ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8mb4 COMMENT = '用户消息关联';
+
+/*==============================================================*/
+/* Table: user_friend                                               */
+/*==============================================================*/
+DROP TABLE IF EXISTS `friend`;
+CREATE TABLE `friend` (
+  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '用户虚拟商品id',
+  `user_id` int(11) comment '用户id',
+  `friend_user_id` int(11) comment '好友用户id',
+  `remark` varchar(64) comment '备注',
+  `relationship` varchar(64) comment '该好友和我的关系',
+  `group_id` int(11) comment '分组id',
+  `sort` int(10) default 0 comment '排序',
+  `created` datetime(0) COMMENT '创建时间',
+  `updated` datetime(0) COMMENT '更新时间',
+  PRIMARY KEY ( id ),
+  unique key user_friend (user_id, friend_user_id),
+  key user_id (user_id),
+  key group_id (group_id),
+  key friend_user_id (friend_user_id)
+) ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8mb4 COMMENT = '用户好友关系表';
+
+
+/*==============================================================*/
+/* Table: friend_group                                               */
+/*==============================================================*/
+DROP TABLE IF EXISTS `friend_group`;
+CREATE TABLE `friend_group` (
+  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '用户虚拟商品id',
+  `user_id` int(11) comment '用户id',
+  `name` varchar(64) comment '分组名称',
+  `sort` int(10) default 0 comment '排序',
+  `created` datetime(0) COMMENT '创建时间',
+  `updated` datetime(0) COMMENT '更新时间',
+  PRIMARY KEY ( id ),
+  key user_id (user_id)
+) ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8mb4 COMMENT = '好友分组';
+
+/*==============================================================*/
+/* Table: new_friend_notify                                               */
+/*==============================================================*/
+DROP TABLE IF EXISTS `new_friend_notify`;
+CREATE TABLE `new_friend_notify` (
+  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '用户虚拟商品id',
+  `user_id` int(11) comment '创建用户id',
+  `target_user_id` int(11) comment '目标用户id',
+  `notify_type` tinyint(4) default 1 comment '消息通知类型 1 好友申请通知',
+  `status` tinyint(4) default 1 comment '消息处理状态 1 待验证 2 同意 3 拒绝 4 已回复',
+  `user_status` tinyint(4) default 1 comment '消息创建者对于这条消息的状态',
+  `target_user_status` tinyint(4) default 0 comment '目标用户对于这条消息的状态',
+  `content` varchar(500) comment '添加用户的可选属性{"remark":"加好友之后的备注","groupId":加好友之后的分组id}',
+  `validate_msg` varchar(128) comment '验证消息',
+  `reply` varchar(128) comment '回复消息',
+  `created` datetime(0) COMMENT '创建时间',
+  `updated` datetime(0) COMMENT '更新时间',
+  PRIMARY KEY ( id ),
+  key user_id (user_id)
+) ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8mb4 COMMENT = '新的朋友里面的通知消息';
 
