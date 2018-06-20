@@ -501,7 +501,6 @@ http 常用错误码
 |   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
 | :----------: | :------: | :------: | :----: | :------: |
 | access_token |  string  |    是    |   无   | 访问令牌 |
-| s1 | string | 是 | 无 | 随机字符串，必须全是数字最少16个 |
 
 * 请求结果示例：
 
@@ -509,7 +508,8 @@ http 常用错误码
 {
     errCode:0,
     data:{
-    	status:1 // 是否设置过密码 1 已设置过 2 未设置过
+    	status:1, // 是否设置过密码 1 已设置过 2 未设置过
+        s1:"34546545324234214324" // 随机数字
     }
 }
 ```
@@ -533,7 +533,7 @@ http 常用错误码
 ```js
 String apiKey; // 接口签名的apiKey
 String pwd;    // 原密码MD5 32位大写
-String s1;     // 3.9中生成的随机字符
+String s1;     // 3.9中返回的随机数字
 String time;   // 参与接口签名的随机数
 // 拼接密码
 pwd = String.format("%s@%s", pwd, Utils.toMD5(String.format("%spinjie%s", time, s1)));
@@ -559,7 +559,7 @@ String de = AESUtils.encrypt(seed, pwd);
 |   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
 | :----------: | :------: | :------: | :----: | :------: |
 | access_token |  string  |    是    |   无   | 访问令牌 |
-| de | string | 是 | 无 | 密码加密之后的字符串 |
+| de | string | 是 | 无 | 密码加密之后的字符串(与3.10中的加密规则一致) |
 
 * 请求结果示例
 
@@ -568,13 +568,14 @@ String de = AESUtils.encrypt(seed, pwd);
 	errCode:1,
     data:{
     	key:"dafasfas-fdsfdsfdsf-fsdfsdfsd-fe" // 用作修改提交新密码时的惭怍
+        s1:"32436567576575" // 用户3.12中修改密码
     }
 }
 ```
 
 ### 3.12 修改密码之前校验用户输入的原密码(需要先请求3.9)
 
-- 请求地址：auth/user/change/pwd/verify
+- 请求地址：auth/user/change/pwd
 - 服务协议：HTTP/POST
 - 是否需要身份认证：是
 - 作者：yichen
@@ -582,7 +583,7 @@ String de = AESUtils.encrypt(seed, pwd);
 |   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
 | :----------: | :------: | :------: | :----: | :------: |
 | access_token |  string  |    是    |   无   | 访问令牌 |
-| de | string | 是 | 无 | 密码加密之后的字符串 |
+| de | string | 是 | 无 | 密码加密之后的字符串 (与3.10中的加密规则一致) |
 
 * 请求结果示例
 
