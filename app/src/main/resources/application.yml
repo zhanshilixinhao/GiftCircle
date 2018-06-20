@@ -72,6 +72,7 @@ yichen:
         - /druid/**
         - /noauth/file/**
         - /noauth/v1/**
+        - /auth/v1/**
   service:
     productDetail: https://43.241.223.169:800/static/product.html?id=
     articleDetail: https://43.241.223.169:800/static/article.html?id=
