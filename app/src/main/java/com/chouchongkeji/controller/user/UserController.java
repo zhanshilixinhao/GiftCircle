@@ -57,17 +57,13 @@ public class UserController {
      * 赠送密码之前 请求获取赠送密码状态
      *
      * @param userDetails 用户信息
-     * @param s1          随机数
      * @return
      * @author linqin
      * @date 2018/6/7
      */
     @PostMapping("pre/pwd")
-    public Response preSentPwd(@AuthenticationPrincipal UserDetails userDetails, String s1) {
-        if (StringUtils.isBlank(s1) || s1.length() < 16 || !StringUtils.isNumeric(s1)) {
-            return ResponseFactory.err("s1长度太小");
-        }
-        return userService.preSentPwd(userDetails.getUserId(), s1);
+    public Response preSentPwd(@AuthenticationPrincipal UserDetails userDetails) {
+        return userService.preSentPwd(userDetails.getUserId());
     }
 
 

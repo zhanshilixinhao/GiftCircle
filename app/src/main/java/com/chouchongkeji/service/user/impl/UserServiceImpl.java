@@ -119,20 +119,31 @@ public class UserServiceImpl implements UserService {
      * 赠送密码之前 请求获取赠送密码状态
      *
      * @param userId 用户信息
-     * @param s1     随机数
      * @return
      * @author linqin
      * @date 2018/6/7
      */
     @Override
-    public Response preSentPwd(Integer userId, String s1) {
+    public Response preSentPwd(Integer userId) {
         // 取出用户信息
         AppUser user = appUserMapper.selectByPrimaryKey(userId);
         Map<String, Object> map = new HashMap<>();
         map.put("status", StringUtils.isBlank(user.getSentPwd()) ? 2 : 1);
+        map.put("s1", getRandomNum(userId));
+        return ResponseFactory.sucData(map);
+    }
+
+    /**
+     * 获取随机数字 32位
+     *
+     * @param userId 用户id
+     * @return
+     */
+    private String getRandomNum(Integer userId) {
+        String s1 = RandomStringUtils.randomNumeric(32);
         // 保存数据
         mRedisTemplate.setString(K.genKey(K.USER_SENT_PWD, userId), s1, 120);
-        return ResponseFactory.sucData(map);
+        return s1;
     }
 
 
@@ -150,7 +161,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Response setSentPwd(Integer userId, String de, String time, Integer client) {
         // 取出加密数据
-        String s1 = mRedisTemplate.getString(K.genKey(K.USER_SENT_PWD, userId));
+        String s1 = verifyRandomNum(userId);
         if (StringUtils.isBlank(s1)) {
             return ResponseFactory.err("操作过期,请重试!");
         }
@@ -185,7 +196,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Response changePwdVerify(Integer userId, String de, String time, Integer client) {
         // 取出加密数据
-        String s1 = mRedisTemplate.getString(K.genKey(K.USER_SENT_PWD, userId));
+        String s1 = verifyRandomNum(userId);
         if (StringUtils.isBlank(s1)) {
             return ResponseFactory.err("操作过期,请重试!");
         }
@@ -205,9 +216,23 @@ public class UserServiceImpl implements UserService {
             mRedisTemplate.setString(key, "true", 60);
             Map<String, String> map = new HashMap<>();
             map.put("key", key);
-            return ResponseFactory.suc("验证成功!", key);
+            map.put("s1", getRandomNum(userId));
+            return ResponseFactory.suc("验证成功!", map);
         }
         return ResponseFactory.err("密码错误!");
+    }
+
+    /**
+     * 验证随机字符串
+     *
+     * @param userId 用户id
+     * @return
+     */
+    private String verifyRandomNum(Integer userId) {
+        String key = K.genKey(K.USER_SENT_PWD, userId);
+        String s1 = mRedisTemplate.getString(key);
+        mRedisTemplate.del(key);
+        return s1;
     }
 
     /**
@@ -228,7 +253,7 @@ public class UserServiceImpl implements UserService {
             return ResponseFactory.err("操作无效或超时!");
         }
         // 取出加密数据
-        String s1 = mRedisTemplate.getString(K.genKey(K.USER_SENT_PWD, userId));
+        String s1 = verifyRandomNum(userId);
         if (StringUtils.isBlank(s1)) {
             return ResponseFactory.err("操作过期,请重试!");
         }

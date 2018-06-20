@@ -31,12 +31,11 @@ public interface UserService {
      * 赠送密码之前 请求获取赠送密码状态
      *
      * @param userId 用户信息
-     * @param s1     随机数
      * @return
      * @author linqin
      * @date 2018/6/7
      */
-    Response preSentPwd(Integer userId, String s1);
+    Response preSentPwd(Integer userId);
 
     /**
      * 赠送密码之前 请求获取赠送密码状态
