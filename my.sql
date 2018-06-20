@@ -784,3 +784,33 @@ CREATE TABLE `new_friend_notify` (
   key user_id (user_id)
 ) ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8mb4 COMMENT = '新的朋友里面的通知消息';
 
+/*==============================================================*/
+/* Table: theme                                               */
+/*==============================================================*/
+DROP TABLE IF EXISTS `theme`;
+CREATE TABLE `theme` (
+  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '好物主题id',
+  `name` varchar(64) comment '好物主题名称',
+  `cover` varchar(255) comment '好物主题封面图',
+  `sort` int(11) comment '排序值',
+  `status` tinyint(4) default 2 comment '主题状态 1 使用 2 禁用',
+  `created` datetime(0) COMMENT '创建时间',
+  `updated` datetime(0) COMMENT '更新时间',
+  PRIMARY KEY ( id )
+) ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8mb4 COMMENT = '好物主题';
+
+/*==============================================================*/
+/* Table: theme_item                                               */
+/*==============================================================*/
+DROP TABLE IF EXISTS `theme_item`;
+CREATE TABLE `theme_item` (
+  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '好物主题商品id',
+  `item_id` int(11) comment '商品id',
+  `theme_id` int(11) comment '主题id',
+  `sort` int(11) comment '排序值',
+  `created` datetime(0) COMMENT '创建时间',
+  `updated` datetime(0) COMMENT '更新时间',
+  PRIMARY KEY ( id ),
+  key item_id (item_id),
+  key theme_id (theme_id)
+) ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8mb4 COMMENT = '好物主题商品';
