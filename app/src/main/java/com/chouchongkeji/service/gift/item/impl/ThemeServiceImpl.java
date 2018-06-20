@@ -8,6 +8,7 @@ import com.chouchongkeji.goexplore.query.PageQuery;
 import com.chouchongkeji.service.gift.item.ThemeService;
 import com.chouchongkeji.service.gift.item.vo.ItemListVo;
 import com.chouchongkeji.service.gift.item.vo.ThemeVo;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -51,6 +52,7 @@ public class ThemeServiceImpl implements ThemeService{
      */
     @Override
     public Response getThemeItemList(Integer id, PageQuery page) {
+        PageHelper.startPage(page.getPageNum(), page.getPageSize());
         List<ItemListVo> itemListVos = themeItemMapper.selectByThemeId(id);
         return ResponseFactory.sucData(itemListVos);
     }

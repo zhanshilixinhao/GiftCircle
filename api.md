@@ -1012,9 +1012,99 @@ JSON：
 | description | String | 是 | 描述 |
 | cover | String | 是 | 图片 |
 
+### 6.5 主题列表
 
+- 请求地址：noauth/v1/theme/list
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yy
 
-### 6.5 商品分类列表
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+
+请求结果示例：
+
+```json
+{
+    "errCode": 0,
+    "result": 0,
+    "time": 1529474847112,
+    "data": [
+        {
+            "id": 1,
+            "name": "父亲节",
+            "cover": "http://thirdwx.qlogo.cn/mmopen/vi_32/jhXsk4K6SZs58GvXyrPichgxlDv6y4IYrrKN5GCA1UTvHRKbRGtiac2SxmGMYibJSvCZzcLhNmQEykDgXTTzkPOXQ/132"
+        },
+        {
+            "id": 2,
+            "name": "暑假精品",
+            "cover": "http://thirdwx.qlogo.cn/mmopen/vi_32/jhXsk4K6SZs58GvXyrPichgxlDv6y4IYrrKN5GCA1UTvHRKbRGtiac2SxmGMYibJSvCZzcLhNmQEykDgXTTzkPOXQ/132"
+        }
+    ]
+}
+```
+
+| 参数名称 | 参数类型 | 是否必传 | 参数说明 |
+| ------- |:------:|:------:|:------:|
+| errCode | Int | 是 | 错误码 0 标识成功获取数据 |
+| data | Object | 否 | 成功返回数据 |
+| id | Int | 是 | 主题id |
+| name | String | 是 | 主题名称 |
+| cover | String | 是 | 主题封面 |
+
+### 6.6 主题商品列表
+
+- 请求地址：noauth/v1/theme/item
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yy
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| id |  Int  |    是    |   无   | 主题id |
+| pageNum |  Int  |    否    |   1   | 分页 |
+| pageSize |  Int  |    否    |   14   | 分页大小 |
+
+请求结果示例：
+
+```json
+{
+    "errCode": 0,
+    "result": 0,
+    "time": 1529475044958,
+    "data": [
+        {
+            "itemId": 2,
+            "cover": "cover.jpg",
+            "title": "小黄人",
+            "price": 50
+        },
+        {
+            "itemId": 3,
+            "cover": "cover.jpg",
+            "title": "绿巨人",
+            "price": 100
+        },
+        {
+            "itemId": 1,
+            "cover": "cover.jpg",
+            "title": "战国",
+            "price": 600
+        }
+    ]
+}
+```
+
+| 参数名称 | 参数类型 | 是否必传 | 参数说明 |
+| ------- |:------:|:------:|:------:|
+| errCode | Int | 是 | 错误码 0 标识成功获取数据 |
+| data | Object | 否 | 成功返回数据 |
+| itemId | Int | 是 | 商品id |
+| title | String | 是 | 商品标题 |
+| cover | String | 是 | 商品封面 |
+| price | decimal | 是 | 商品价格 |
+
+### 6.7 商品分类列表
 
 - 请求地址：noauth/item/category_list
 - 服务协议：HTTP/POST
@@ -1056,7 +1146,7 @@ JSON：
 
 
 
-###6.6 商品列表查询
+### 6.8 商品列表查询
 
 - 请求地址：noauth/item/item_list
 - 服务协议：HTTP/POST
@@ -1099,7 +1189,7 @@ JSON：
 }
 ```
 
-### 6.7 商品详情
+### 6.9 商品详情
 
 - 请求地址：noauth/item/item_detail
 - 服务协议：HTTP/POST
@@ -1147,7 +1237,7 @@ JSON：
 | detailUrl   |    String    |    是    |        商品详情地址        |
 | isCollect   |     Int      |    是    | 是否收藏 1.已收藏 2.未收藏 |
 
-### 6.8 商品评论
+### 6.10 商品评论
 
 - 请求地址：noauth/item/comment_list
 - 服务协议：HTTP/POST
@@ -1194,7 +1284,7 @@ JSON：
 | created  |     Long     |    是    |         评论时间          |
 | star     |     Int      |    是    |         评价分数          |
 
-### 6.9 收藏商品/取消收藏商品
+### 6.11 收藏商品/取消收藏商品
 
 - 请求地址：auth/v1/favorite/isCollection
 - 服务协议：HTTP/POST
@@ -1226,7 +1316,7 @@ JSON：
 }
 ```
 
-### 6.10 我要--收藏列表
+### 6.12 我要--收藏列表
 
 - 请求地址：auth/v1/favorite/itemList
 - 服务协议：HTTP/POST
@@ -1273,7 +1363,7 @@ JSON：
 | price    | decimal  |    是    |         商品价格          |
 | cover    |  String  |    是    |         商品封面          |
 
-### 6.11 我要--批量删除收藏列表
+### 6.13 我要--批量删除收藏列表
 
 - 请求地址：auth/v1/favorite/delItem
 - 服务协议：HTTP/POST
