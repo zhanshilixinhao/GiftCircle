@@ -32,6 +32,7 @@
     <httpclient.common.version>3.1</httpclient.common.version>
     <xstream.version>1.4.7</xstream.version>
     <netty.version>4.1.20.Final</netty.version>
+    <tumbnailator.version>0.4.3</tumbnailator.version>
     <myatis.gen.version>1.3.6</myatis.gen.version>
     <mybatis.spring.boot.version>1.3.2</mybatis.spring.boot.version>
   </properties>
@@ -142,6 +143,13 @@
         <groupId>org.mybatis.generator</groupId>
         <artifactId>mybatis-generator-core</artifactId>
         <version>${myatis.gen.version}</version>
+      </dependency>
+
+      <!--图片缩略图-->
+      <dependency>
+        <groupId>net.coobird</groupId>
+        <artifactId>thumbnailator</artifactId>
+        <version>${tumbnailator.version}</version>
       </dependency>
 
     </dependencies>

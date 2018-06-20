@@ -573,7 +573,7 @@ String de = AESUtils.encrypt(seed, pwd);
 }
 ```
 
-### 3.12 修改密码之前校验用户输入的原密码(需要先请求3.9)
+### 3.12 修改密码(需要先请求3.9)
 
 - 请求地址：auth/user/change/pwd
 - 服务协议：HTTP/POST
@@ -584,6 +584,7 @@ String de = AESUtils.encrypt(seed, pwd);
 | :----------: | :------: | :------: | :----: | :------: |
 | access_token |  string  |    是    |   无   | 访问令牌 |
 | de | string | 是 | 无 | 密码加密之后的字符串 (与3.10中的加密规则一致) |
+| key | string | 是 | 无 | 3.11中返回的key |
 
 * 请求结果示例
 
@@ -1501,7 +1502,7 @@ JSON：
 ```
 
 | 参数名称 | 参数类型 | 是否必传 | 参数说明 |
-|:---:|
+| :---: | :---: | :---: | :---: | :---: |
 | featureId | int | 是 | 商品属性id |
 | name | string | 是 | 属性名称 |
 | valueId | int | 是 | 商品属性值id |
@@ -1514,6 +1515,31 @@ JSON：
 | stock | int | 是 | 商品库存 |
 | sales | int | 是 | 商品销量 |
 
+## 8 图片上传
+
+### 8.1 base64上传
+
+- 请求地址：noauth/file/upload
+- 服务协议：HTTP/POST
+- 是否需要身份认证：否
+- 作者：linqin
+
+| 参数名称 | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :------: | :------: | :------: | :----: | :------: |
+|  base64  |   String    |    是    |   无   |  图片base64编码  |
+| module | int | 是 | 无 | 模块 |
+
+
+### 8.2 multipart方式上传
+
+- 请求地址：noauth/file/upload/multi
+- 服务协议：HTTP/POST
+- 是否需要身份认证：否
+- 作者：linqin
+
+| 参数名称 | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :------: | :------: | :------: | :----: | :------: |
+| module | int | 是 | 无 | 模块 |
 
 
 
