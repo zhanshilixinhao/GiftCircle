@@ -57,5 +57,13 @@ public interface ItemService {
      */
     Response getHtmlItemDetail(Integer id);
 
+    /**
+     *获取商品评论列表
+     *
+     * @param: [id 商品, page 分页信息]
+     * @return: com.chouchongkeji.goexplore.common.Response
+     * @author: yy
+     * @Date: 2018/6/20
+     */
     Response getItemCommentList(Integer id, PageQuery page);
 }

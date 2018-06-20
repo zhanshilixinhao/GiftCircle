@@ -96,6 +96,14 @@ public class ItemController {
         return itemService.getHtmlItemDetail(id);
     }
 
+    /**
+     * 获得评论列表
+     *
+     * @param: [id 商品id, page 分页信息]
+     * @return: com.chouchongkeji.goexplore.common.Response
+     * @author: yy
+     * @Date: 2018/6/20
+     */
     @PostMapping("comment_list")
     public Response getItemCommentList(Integer id, PageQuery page) {
         if (id == null) {

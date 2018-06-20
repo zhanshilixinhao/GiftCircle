@@ -135,6 +135,14 @@ public class ItemServiceImpl implements ItemService {
         return ResponseFactory.sucData(detail);
     }
 
+    /**
+     * 获取评论列表
+     *
+     * @param: [id  商品id, page 分页信息]
+     * @return: com.chouchongkeji.goexplore.common.Response
+     * @author: yy
+     * @Date: 2018/6/20
+     */
     @Override
     public Response getItemCommentList(Integer id, PageQuery page) {
         PageHelper.startPage(page.getPageNum(),page.getPageSize());
