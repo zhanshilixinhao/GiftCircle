@@ -1,6 +1,9 @@
 package com.chouchongkeji.dial.dao.friend;
 
 import com.chouchongkeji.dial.pojo.friend.FriendGroup;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface FriendGroupMapper {
     int deleteByPrimaryKey(Integer id);
@@ -14,4 +17,13 @@ public interface FriendGroupMapper {
     int updateByPrimaryKeySelective(FriendGroup record);
 
     int updateByPrimaryKey(FriendGroup record);
+
+
+    FriendGroup selectByUserIdAndGroupName(@Param("userId") Integer userId,
+                                           @Param("groupName") String groupName);
+
+    int deleteByPrimaryKeyAndUserId(@Param("groupId") Integer groupId,
+                                    @Param("userId") Integer userId);
+
+    List<FriendGroup> selectByUserId(@Param("userId") Integer userId);
 }

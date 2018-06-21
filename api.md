@@ -1809,20 +1809,215 @@ JSON：
 | nickname | string | 是 | 显示的昵称 |
 
 
+### 10.3 验证消息操作（同意、拒绝、回复好友申请）
+
+- 请求地址：auth/friend/opt
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yichen
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| opt | int | 是 | 无 | 1 同易 2 拒绝 3 回复 |
+| reply | String | 否 | 无 | opt=3时必传 |
+
+* 请求结果示例
+
+```js
+{
+	errCode:0,
+    msg:"操作成功!"
+}
+```
 
 
+### 10.4 添加分组
+
+- 请求地址：auth/friend/group/add
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yichen
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| groupName | String | 是 | 无 | 分组名称 |
+
+* 请求结果示例
+
+```js
+{
+    errCode: 0, 
+    result: 0, 
+    time: 1529571081385, 
+    data: {
+        id: 101,  // 新增的分组id
+        userId: 4, 
+        name: "沉鱼", 
+        sort: 0, 
+        created: null, 
+        updated: null
+    }
+}
+```
+
+### 10.5 删除分组
+
+- 请求地址：auth/friend/group/add
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yichen
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| groupId | int | 是 | 无 | 分组id |
+
+* 请求结果示例
+
+```js
+{
+    errCode: 0
+}
+```
+
+### 10.6 修改分组的名称
+
+- 请求地址：auth/friend/group/modify
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yichen
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| groupId | int | 是 | 无 | 分组id |
+| groupName | String | 是 | 无 | 分组名称 |
+
+* 请求结果示例
+
+```js
+{
+    errCode: 0
+}
+```
 
 
+### 10.7 修改用户的分组、备注、关系信息
+
+- 请求地址：auth/friend/modify
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yichen
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| groupId | int | 否 | 无 | 分组id |
+| friendUserId | int | 是 | 无 | 好友用户id |
+| remark | string | 是 | 无 | 备注 |
+| relationship | string | 是 | 无 | 关系 |
+
+* 请求结果示例
+
+```js
+{
+    errCode: 0
+}
+```
 
 
+### 10.8 分组列表
+
+- 请求地址：auth/friend/group/list
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yichen
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+
+* 请求结果示例
+
+```js
+{
+    errCode: 0, 
+    result: 0, 
+    time: 1529571867406, 
+    data: [
+        {
+            id: 0, 
+            userId: 4, 
+            name: "未分组", 
+            sort: 0, 
+            created: null, 
+            updated: null
+        }, 
+        {
+            id: 101, 
+            userId: 4, 
+            name: "沉鱼", 
+            sort: 0, 
+            created: 1529571080000, 
+            updated: 1529571080000
+        }
+    ]
+}
+```
 
 
+### 10.9 好友列表
 
+- 请求地址：auth/friend/list
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yichen
 
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| groupId | int | 是 | 无 | 分组id（不传获取所有好友） |
 
+* 请求结果示例
 
+```js
+{
+    errCode: 0, 
+    result: 0, 
+    time: 1529573443053, 
+    data: [
+        {
+            id: 104, 
+            userId: 4, 
+            friendUserId: 1, 
+            remark: "",  // 备注名
+            relationship: "",  // 和我的关系
+            groupId: 101, 
+            sort: 0, 
+            created: 1529568102000, 
+            updated: 1529568102000, 
+            avatar: "avatar.jpg", 
+            nickname: "什么", 
+            heartNum: 0 // 心
+        }
+    ]
+}
+```
 
+### 10.10 好友列表
 
+- 请求地址：auth/friend/del
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yichen
 
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| friendUserId | int | 是 | 无 | 好友用户id |
+
+* 请求结果示例
 
 

@@ -12,6 +12,7 @@ import java.util.HashMap;
 public class Constants {
     //默认头像
     public static final String DEFALUT_AVATAR = "avatar.jpg";
+    public static final String GROUP_DEFAULT_NAME = "未分组";
 
     public static final String getRandomName() {
         return RandomStringUtils.randomNumeric(7);

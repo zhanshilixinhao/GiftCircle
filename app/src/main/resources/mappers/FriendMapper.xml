@@ -32,10 +32,32 @@
         user_id = #{userId}
         AND friend_user_id = #{friendUserId}
     </select>
+    <select id="selectByUserIdAndGroupId" resultType="com.chouchongkeji.service.friend.vo.FriendItem">
+        SELECT
+        a.*,
+        b.avatar,
+        b.nickname
+        FROM
+        friend a
+        LEFT JOIN app_user b on b.id = a.friend_user_id
+        WHERE
+        a.user_id = #{userId}
+        <if test="groupId!=null">
+            and group_id = #{groupId}
+        </if>
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from friend
     where id = #{id,jdbcType=INTEGER}
   </delete>
+    <delete id="deleteByUserIdAndFriendUserId">
+DELETE
+FROM
+	friend
+WHERE
+	( user_id = #{userId} AND friend_user_id = #{friendUserId} )
+	OR ( user_id = #{friendUserId} AND friend_user_id = #{userId} )
+    </delete>
     <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.friend.Friend">
     insert ignore into friend (id, user_id, friend_user_id,
       remark, relationship, group_id, 
@@ -149,4 +171,10 @@
       updated = #{updated,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+    <update id="updateMoveToGroup">
+        update friend
+        set group_id = #{newGroupId}
+        where user_id = #{userId}
+        and group_id = #{groupId}
+    </update>
 </mapper>
