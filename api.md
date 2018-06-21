@@ -1711,6 +1711,118 @@ JSON：
 }
 ```
 
+## 10 通讯录
+
+### 10.1 添加好友
+
+- 请求地址：auth/friend/add
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yichen
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| targetUserId | String | 是 | 无 | 要添加为好友的用户id |
+| validationMsg | string | 否 | 无 | 验证信息 |
+| remark | string | 是 | 无 | 备注名称 |
+| groupId | int | 是 | 无 | 分组id |
+
+* 请求结果示例
+
+```js
+{
+    errCode: 0, 
+    result: 0, 
+    msg: "已发送好友申请通知", 
+    time: 1529558250434
+}
+```
+
+### 10.2 获取好友验证消息列表
+
+- 请求地址：auth/friend/notifyMsgs
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yichen
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| pageNum | int | 否 | 1 | 分页 |
+| pageSize | int | 否 | 14 | 分页大小 |
+
+* 请求结果示例
+
+```js
+{
+    errCode: 0, 
+    result: 0, 
+    time: 1529562687763, 
+    data: [
+        {
+            msgId: 6, 
+            userId: 4, 
+            targetUserId: 1, 
+            type: 2, 
+            status: 1, 
+            validationMsg: "么么哒", 
+            reply: "", 
+            avatar: "avatar.jpg", 
+            nickname: "什么"
+        }, 
+        {
+            msgId: 5, 
+            userId: 4, 
+            targetUserId: 1, 
+            type: 1, 
+            status: 1, 
+            validationMsg: "么么哒", 
+            reply: "", 
+            avatar: "avatar.jpg", 
+            nickname: "什么"
+        }, 
+        {
+            msgId: 4, 
+            userId: 4, 
+            targetUserId: 1, 
+            type: 1, 
+            status: 1, 
+            validationMsg: "", 
+            reply: "", 
+            avatar: "avatar.jpg", 
+            nickname: "什么"
+        }
+    ]
+}
+```
+
+| 参数名称 | 参数类型 | 是否必传 | 参数说明 |
+| :---: | :---: | :---: | :---: | :---: |
+| msgId | int | 是 | 消息id |
+| targetUserId | int | 是 | 目标用户id |
+| type | int | 是 | 消息类型 1 我请求加好友的消息 2 别人请求加我为好有的消息 |
+| status | int | 是 | 消息的状态 1 待验证 （type==2需要显示同意、拒绝、回复按钮） 2 已同意 3 已拒绝 4 已回复 |
+| validationMsg | string | 是 | 验证消息 |
+| reply | string | 是 | 回复消息 |
+| avatar | string | 是 | 显示的头像 |
+| nickname | string | 是 | 显示的昵称 |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
