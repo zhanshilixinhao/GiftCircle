@@ -35,6 +35,23 @@ public class PayNotifyInterfaceController {
         return this.baseAliPay(alipayVo, request.getParameterMap(),(byte)1);
     }
 
+//    /**
+//     * 商品订单支付宝回调
+//     * @param aLiPayV2Vo
+//     * @param request
+//     * @return
+//     * @throws Exception
+//     * @author linqin
+//     * @date 2018/6/21
+//     */
+//    @PostMapping("item_order/ali")
+//    public String itemOrderAliPay(ALiPayV2Vo aLiPayV2Vo,HttpServletRequest request) throws Exception{
+//        /** 调用基础方法 **/
+//        return this.baseAliPay(aLiPayV2Vo,request.getParameterMap(),(byte)2);
+//    }
+
+
+
     /**
      * 支付宝支付回调基础方法
      * @param aLiPayV2Vo

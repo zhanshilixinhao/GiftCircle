@@ -44,6 +44,9 @@ public class Constants {
     public static final String PAY_BODY = "礼遇圈";
     public static final String PAY_SUBJECT_ORDER = "-充值";
 
+
+    public static final String PAY_ITEM_ORDER = "-商品购买";
+
     // 后台用户session名称
     public static final String SESSION_KEY = "J84JDfdsf34wJSDKJdsf";
 

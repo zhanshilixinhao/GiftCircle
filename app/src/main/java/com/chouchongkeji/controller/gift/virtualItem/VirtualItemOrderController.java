@@ -32,7 +32,7 @@ public class VirtualItemOrderController {
      * @Date: 2018/6/12
      */
     @PostMapping("/create")
-    public Response createVirOrder(@AuthenticationPrincipal UserDetails userDetails, @AppClient Integer client,
+    public Response createVirOrder(@AuthenticationPrincipal UserDetails userDetails,  @AppClient Integer client,
                                 Integer id, Integer quantity) {
         //校验必传参数
         if (id == null || quantity == 0 || quantity < 1) {

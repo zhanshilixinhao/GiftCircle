@@ -784,6 +784,7 @@ CREATE TABLE `new_friend_notify` (
   key user_id (user_id)
 ) ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8mb4 COMMENT = '新的朋友里面的通知消息';
 
+
 /*==============================================================*/
 /* Table: theme                                               */
 /*==============================================================*/
@@ -814,3 +815,51 @@ CREATE TABLE `theme_item` (
   key item_id (item_id),
   key theme_id (theme_id)
 ) ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8mb4 COMMENT = '好物主题商品';
+
+/*==============================================================*/
+/* Table: item_order                                               */
+/*==============================================================*/
+DROP TABLE IF EXISTS `item_order`;
+CREATE TABLE `item_order` (
+  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '商品订单id',
+  `user_id` int(11) comment '用户id',
+  `store_id` int(11) comment '店铺id',
+  `order_no` bigint(20) comment '订单号',
+  `total_price` decimal(18,2) comment '商品总价',
+  `quantity` int(11) comment '数量',
+  `status` tinyint(4) comment '订单状态，1-未支付，2-已支付，3-已取消,4-已删除',
+  `created` datetime(0) COMMENT '创建时间',
+  `updated` datetime(0) COMMENT '更新时间',
+  PRIMARY KEY ( id ),
+  key user_id (user_id),
+  key store_id (store_id),
+  unique key order_no (order_no)
+) ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8mb4 COMMENT = '创建商品订单';
+
+
+/*==============================================================*/
+/* Table: item_order_detail                                               */
+/*==============================================================*/
+DROP TABLE IF EXISTS `item_order_detail`;
+CREATE TABLE `item_order_detail` (
+  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT ,
+  `user_id` int(11) comment '用户id',
+  `item_id` int(11) comment '商品id',
+  `sku_id` int(11) comment '商品最小销售单元id',
+  `order_no` bigint(20) comment '订单号',
+  `title` varchar(64) comment '标题',
+  `description` varchar(200) comment '商品描述',
+  `cover` varchar(200) comment '封面图片',
+  `price` decimal(18,2) comment '商品单价',
+  `total_price` decimal(18,2) comment '商品总价',
+  `quantity` int(11) comment '数量',
+  `status` tinyint(4) comment '订单状态，1-未支付，2-已支付，3-已取消,4-已删除',
+  `created` datetime(0) COMMENT '创建时间',
+  `updated` datetime(0) COMMENT '更新时间',
+  PRIMARY KEY ( id ),
+  key user_id (user_id),
+  key item_id (item_id),
+  key sku_id (sku_id),
+  key order_no (order_no)
+
+) ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8mb4 COMMENT = '商品订单详情';
