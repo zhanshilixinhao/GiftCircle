@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.chouchongkeji.dao.gift.item.ItemOrderMapper">
-  <resultMap id="BaseResultMap" type="com.chouchongkeji.pojo.gift.item.ItemOrder">
+<mapper namespace="com.chouchongkeji.dial.dao.gift.item.ItemOrderMapper">
+  <resultMap id="BaseResultMap" type="com.chouchongkeji.dial.pojo.gift.item.ItemOrder">
     <constructor>
       <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
@@ -36,7 +36,7 @@ WHERE
     delete from item_order
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.chouchongkeji.pojo.gift.item.ItemOrder">
+  <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.gift.item.ItemOrder">
     insert into item_order (id, user_id, store_id, 
       order_no, total_price, quantity, 
       status, created, updated
@@ -46,7 +46,7 @@ WHERE
       #{status,jdbcType=TINYINT},now(), now()
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.chouchongkeji.pojo.gift.item.ItemOrder">
+  <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.gift.item.ItemOrder">
     insert into item_order
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -107,7 +107,7 @@ WHERE
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.chouchongkeji.pojo.gift.item.ItemOrder">
+  <update id="updateByPrimaryKeySelective" parameterType="com.chouchongkeji.dial.pojo.gift.item.ItemOrder">
     update item_order
     <set>
       <if test="userId != null">
@@ -137,7 +137,7 @@ WHERE
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.pojo.gift.item.ItemOrder">
+  <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.dial.pojo.gift.item.ItemOrder">
     update item_order
     set user_id = #{userId,jdbcType=INTEGER},
       store_id = #{storeId,jdbcType=INTEGER},

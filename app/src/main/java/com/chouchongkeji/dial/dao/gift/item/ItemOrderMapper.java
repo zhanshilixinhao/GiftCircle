@@ -1,6 +1,6 @@
-package com.chouchongkeji.dao.gift.item;
+package com.chouchongkeji.dial.dao.gift.item;
 
-import com.chouchongkeji.pojo.gift.item.ItemOrder;
+import com.chouchongkeji.dial.pojo.gift.item.ItemOrder;
 import org.apache.ibatis.annotations.Param;
 
 public interface ItemOrderMapper {

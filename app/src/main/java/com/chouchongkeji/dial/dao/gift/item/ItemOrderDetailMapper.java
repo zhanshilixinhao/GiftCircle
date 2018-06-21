@@ -1,6 +1,6 @@
-package com.chouchongkeji.dao.gift.item;
+package com.chouchongkeji.dial.dao.gift.item;
 
-import com.chouchongkeji.pojo.gift.item.ItemOrderDetail;
+import com.chouchongkeji.dial.pojo.gift.item.ItemOrderDetail;
 
 import java.util.List;
 

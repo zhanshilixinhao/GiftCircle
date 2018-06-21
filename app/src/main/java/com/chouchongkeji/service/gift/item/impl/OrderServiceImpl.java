@@ -1,9 +1,10 @@
 package com.chouchongkeji.service.gift.item.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.chouchongkeji.dao.gift.item.ItemOrderDetailMapper;
-import com.chouchongkeji.dao.gift.item.ItemOrderMapper;
-import com.chouchongkeji.dao.gift.item.ItemSkuMapper;
+import com.chouchongkeji.dial.dao.gift.item.ItemOrderDetailMapper;
+import com.chouchongkeji.dial.dao.gift.item.ItemOrderMapper;
+import com.chouchongkeji.dial.dao.gift.item.ItemSkuMapper;
+import com.chouchongkeji.dial.pojo.gift.item.ItemSku;
 import com.chouchongkeji.exception.ServiceException;
 import com.chouchongkeji.goexplore.common.ErrorCode;
 import com.chouchongkeji.goexplore.common.Response;
@@ -16,9 +17,9 @@ import com.chouchongkeji.goexplore.pay.weixin.service.WXPayDto;
 import com.chouchongkeji.goexplore.pay.weixin.service.WXPayService;
 import com.chouchongkeji.goexplore.utils.BigDecimalUtil;
 import com.chouchongkeji.goexplore.utils.RSAProvider;
-import com.chouchongkeji.pojo.gift.item.ItemOrder;
-import com.chouchongkeji.pojo.gift.item.ItemOrderDetail;
-import com.chouchongkeji.pojo.gift.item.ItemSku;
+import com.chouchongkeji.dial.pojo.gift.item.ItemOrder;
+import com.chouchongkeji.dial.pojo.gift.item.ItemOrderDetail;
+
 import com.chouchongkeji.service.gift.item.OrderService;
 import com.chouchongkeji.service.gift.item.vo.OrderVo;
 import com.chouchongkeji.util.Constants;

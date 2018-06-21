@@ -1,16 +1,26 @@
-package com.chouchongkeji.pojo.gift.item;
+package com.chouchongkeji.dial.pojo.gift.item;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class ItemOrder {
+public class ItemOrderDetail {
     private Integer id;
 
     private Integer userId;
 
-    private Integer storeId;
+    private Integer itemId;
+
+    private Integer skuId;
 
     private Long orderNo;
+
+    private String title;
+
+    private String description;
+
+    private String cover;
+
+    private BigDecimal price;
 
     private BigDecimal totalPrice;
 
@@ -22,11 +32,16 @@ public class ItemOrder {
 
     private Date updated;
 
-    public ItemOrder(Integer id, Integer userId, Integer storeId, Long orderNo, BigDecimal totalPrice, Integer quantity, Byte status, Date created, Date updated) {
+    public ItemOrderDetail(Integer id, Integer userId, Integer itemId, Integer skuId, Long orderNo, String title, String description, String cover, BigDecimal price, BigDecimal totalPrice, Integer quantity, Byte status, Date created, Date updated) {
         this.id = id;
         this.userId = userId;
-        this.storeId = storeId;
+        this.itemId = itemId;
+        this.skuId = skuId;
         this.orderNo = orderNo;
+        this.title = title;
+        this.description = description;
+        this.cover = cover;
+        this.price = price;
         this.totalPrice = totalPrice;
         this.quantity = quantity;
         this.status = status;
@@ -34,7 +49,7 @@ public class ItemOrder {
         this.updated = updated;
     }
 
-    public ItemOrder() {
+    public ItemOrderDetail() {
         super();
     }
 
@@ -54,12 +69,20 @@ public class ItemOrder {
         this.userId = userId;
     }
 
-    public Integer getStoreId() {
-        return storeId;
+    public Integer getItemId() {
+        return itemId;
     }
 
-    public void setStoreId(Integer storeId) {
-        this.storeId = storeId;
+    public void setItemId(Integer itemId) {
+        this.itemId = itemId;
+    }
+
+    public Integer getSkuId() {
+        return skuId;
+    }
+
+    public void setSkuId(Integer skuId) {
+        this.skuId = skuId;
     }
 
     public Long getOrderNo() {
@@ -68,6 +91,38 @@ public class ItemOrder {
 
     public void setOrderNo(Long orderNo) {
         this.orderNo = orderNo;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title == null ? null : title.trim();
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description == null ? null : description.trim();
+    }
+
+    public String getCover() {
+        return cover;
+    }
+
+    public void setCover(String cover) {
+        this.cover = cover == null ? null : cover.trim();
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 
     public BigDecimal getTotalPrice() {
