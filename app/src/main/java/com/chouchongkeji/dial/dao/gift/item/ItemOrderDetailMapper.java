@@ -1,6 +1,7 @@
 package com.chouchongkeji.dial.dao.gift.item;
 
 import com.chouchongkeji.dial.pojo.gift.item.ItemOrderDetail;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -19,4 +20,5 @@ public interface ItemOrderDetailMapper {
 
     int batchInsert(List<ItemOrderDetail> list);
 
+    List<ItemOrderDetail> selectByUserIdAndOrderNo(@Param("userId") Integer userId,@Param("orderNo") Long orderNo);
 }

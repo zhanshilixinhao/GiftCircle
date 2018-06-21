@@ -32,7 +32,16 @@ WHERE
 	user_id = #{userId}
 	AND order_no = #{orderNo}
     </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <select id="selectByUserId" resultMap="BaseResultMap">
+    SELECT
+	<include refid="Base_Column_List"/>
+FROM
+	`item_order`
+WHERE
+	user_id = #{userId}
+
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from item_order
     where id = #{id,jdbcType=INTEGER}
   </delete>

@@ -1,6 +1,7 @@
 package com.chouchongkeji.service.gift.item;
 
 import com.chouchongkeji.goexplore.common.Response;
+import com.chouchongkeji.goexplore.query.PageQuery;
 import com.chouchongkeji.service.gift.item.vo.OrderVo;
 
 import java.util.HashSet;
@@ -29,5 +30,25 @@ public interface OrderService {
      * @author linqin
      * @date 2018/6/21
      */
-    Response orderPay(Integer userId, Long orderNo);
+    Response orderPay(Integer userId, Long orderNo ,Integer payWay);
+
+    /**
+     * 订单取消
+     * @param userId 用户id
+     * @param orderNo 订单号
+     * @return
+     * @author linqin
+     * @date 2018/6/21
+     */
+    Response cancelOrder(Integer userId, Long orderNo);
+
+    /**
+     * 订单列表
+     * @param userId 用户Id
+     * @param pageQuery 分页
+     * @return
+     * @author linqin
+     *  @date 2018/6/21
+     */
+    Response orderList(Integer userId, PageQuery pageQuery);
 }

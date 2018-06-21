@@ -620,7 +620,7 @@ String de = AESUtils.encrypt(seed, pwd);
 | :----------: | :------: | :------: | :----: | :-------------------------------: |
 | access_token |  string  |    是    |   无   |             访问令牌              |
 |    level     |  string  |    是    |   无   | 行政区级别 province city district |
-|   pAdcode    |   int    |    是    |   无   |            级行政区id             |
+|   pAdcode    |   int    |    是    |   无   |            父级行政区id             |
 
 请求结果示例：
 

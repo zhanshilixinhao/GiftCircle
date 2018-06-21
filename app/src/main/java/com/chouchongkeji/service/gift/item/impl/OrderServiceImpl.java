@@ -15,6 +15,7 @@ import com.chouchongkeji.goexplore.pay.PayVO;
 import com.chouchongkeji.goexplore.pay.alipay_v2.AliPayServiceV2;
 import com.chouchongkeji.goexplore.pay.weixin.service.WXPayDto;
 import com.chouchongkeji.goexplore.pay.weixin.service.WXPayService;
+import com.chouchongkeji.goexplore.query.PageQuery;
 import com.chouchongkeji.goexplore.utils.BigDecimalUtil;
 import com.chouchongkeji.goexplore.utils.RSAProvider;
 import com.chouchongkeji.dial.pojo.gift.item.ItemOrder;
@@ -24,6 +25,7 @@ import com.chouchongkeji.service.gift.item.OrderService;
 import com.chouchongkeji.service.gift.item.vo.OrderVo;
 import com.chouchongkeji.util.Constants;
 import com.chouchongkeji.util.OrderHelper;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -92,7 +94,7 @@ public class OrderServiceImpl implements OrderService {
             //计算总数量
             quantity = quantity + order.getQuantity();
             //扣除库存
-            itemSku.setStock(count-quantity);
+            itemSku.setStock(count-order.getQuantity());
             itemSkuMapper.updateByPrimaryKeySelective(itemSku);
         }
         //创建订单
@@ -101,7 +103,7 @@ public class OrderServiceImpl implements OrderService {
         itemOrder.setOrderNo(orderNo);
         itemOrder.setQuantity(quantity);
         itemOrder.setTotalPrice(totalPrice);
-        itemOrder.setStatus((byte)1);
+        itemOrder.setStatus((byte)Constants.ORDER_STATUS.NO_PAY);
         int insert = itemOrderMapper.insert(itemOrder);
         if (insert<1){
             throw new ServiceException(ErrorCode.ERROR.getCode(),"创建订单失败" );
@@ -109,31 +111,9 @@ public class OrderServiceImpl implements OrderService {
         //批量加入
         itemOrderDetailMapper.batchInsert(list);
        //创建订单参数
-        PayVO payVO = assemblePayOrder(itemOrder, payWay);
-        //根据不同的支付方式创建不同的支付参数
-        String info = null;
-        // 如果是支付宝，构造支付宝参数并签名
-        if (payWay == Constants.PAY_TYPE.ALI) {
-            info = AliPayServiceV2.createOrderInfo(payVO);
-            info = RSAProvider.encrypt(info, KeyUtil.PRIVATE_KEY);
-        } else { // 微信支付
-            WXPayDto dto = WXPayService.service(payVO).createPrePay();
-            if (dto.getCode() != 1) {
-                throw new ServiceException(ErrorCode.ERROR.getCode(),"创建微信订单失败，" + dto.getMessage());
-            }
-            info = RSAProvider.encrypt(JSON.toJSONString(dto), KeyUtil.PRIVATE_KEY);
-        }
-        if (info == null) {
-            throw new ServiceException(ErrorCode.ERROR.getCode(),"支付参数创建失败!" );
-        }
-        // 请求支付成功事务
-        PayResultVo payResultVo = new PayResultVo();
-        payResultVo.setParams(info);
-        payResultVo.setType(payWay);
-        payResultVo.setOrderNo(itemOrder.getOrderNo());
-        return ResponseFactory.sucData(payResultVo);
-
+        return ResponseFactory.sucData(createOrderParameter(itemOrder, payWay));
     }
+
 
     private ItemOrderDetail orderDetail(Integer userId, ItemSku sku, Long orderNo,
                                        BigDecimal totalPrice, Integer quantity) {
@@ -147,7 +127,7 @@ public class OrderServiceImpl implements OrderService {
         itemOrderDetail.setPrice(sku.getPrice());
         itemOrderDetail.setQuantity(quantity);
         itemOrderDetail.setTotalPrice(totalPrice);
-        itemOrderDetail.setStatus(sku.getStatus());
+        itemOrderDetail.setStatus((byte)Constants.ORDER_STATUS.NO_PAY);
         return itemOrderDetail;
     }
 
@@ -180,12 +160,126 @@ public class OrderServiceImpl implements OrderService {
      * @date 2018/6/21
      */
     @Override
-    public Response orderPay(Integer userId, Long orderNo) {
+    public Response orderPay(Integer userId, Long orderNo,Integer payWay) {
         //取出订单信息
         ItemOrder itemOrder = itemOrderMapper.selectByUserIdOrderNo(userId,orderNo);
-        return null;
+        //校验订单是否存在
+        if (itemOrder ==null){
+            throw new ServiceException(ErrorCode.ERROR.getCode(),"该订单不存在");
+        }
+        //只能支付未支付的订单（校验订单是否支付过）
+        if (itemOrder.getStatus()!= Constants.ORDER_STATUS.NO_PAY){
+            throw new ServiceException(ErrorCode.ERROR.getCode(),"订单已经支付过");
+        }
+        return ResponseFactory.sucData(createOrderParameter(itemOrder,payWay));
     }
 
+    /**
+     * 创建订单参数
+     * @param itemOrder
+     * @param payWay
+     * @return
+     * @author linqin
+     * @date 2018/6/21
+     */
+    private PayResultVo createOrderParameter(ItemOrder itemOrder, Integer payWay){
+        //创建订单参数
+        PayVO payVO = assemblePayOrder(itemOrder, payWay);
+        //根据不同的支付方式创建不同的支付参数
+        String info = null;
+        // 如果是支付宝，构造支付宝参数并签名
+        if (payWay == Constants.PAY_TYPE.ALI) {
+            info = AliPayServiceV2.createOrderInfo(payVO);
+            info = RSAProvider.encrypt(info, KeyUtil.PRIVATE_KEY);
+        } else { // 微信支付
+            WXPayDto dto = WXPayService.service(payVO).createPrePay();
+            if (dto.getCode() != 1) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(),"创建微信订单失败，" + dto.getMessage());
+            }
+            info = RSAProvider.encrypt(JSON.toJSONString(dto), KeyUtil.PRIVATE_KEY);
+        }
+        if (info == null) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(),"支付参数创建失败!" );
+        }
+        // 请求支付成功事务
+        PayResultVo payResultVo = new PayResultVo();
+        payResultVo.setParams(info);
+        payResultVo.setType(payWay);
+        payResultVo.setOrderNo(itemOrder.getOrderNo());
+        return payResultVo;
+
+    }
+
+    /*------------------------------------订单取消--------------------------------------------------*/
 
 
+    /**
+     * 订单取消
+     * @param userId 用户id
+     * @param orderNo 订单号
+     * @return
+     * @author linqin
+     * @date 2018/6/21
+     */
+    @Override
+    public Response cancelOrder(Integer userId, Long orderNo) {
+        //取出订单信息
+        ItemOrder itemOrder = itemOrderMapper.selectByUserIdOrderNo(userId,orderNo);
+        if (itemOrder == null){
+            throw new ServiceException(ErrorCode.ERROR.getCode(),"订单不存在，无权操作");
+        }
+        //只能支付未支付的订单（校验订单是否支付过）
+        if (itemOrder.getStatus()!= Constants.ORDER_STATUS.NO_PAY){
+            throw new ServiceException(ErrorCode.ERROR.getCode(),"订单已经支付过");
+        }
+        //退还库存
+        //取出订单详细信息
+        List<ItemOrderDetail> itemOrderDetail = itemOrderDetailMapper.selectByUserIdAndOrderNo(userId,orderNo);
+        if (itemOrderDetail == null){
+            throw new ServiceException(ErrorCode.ERROR.getCode(),"订单不存在");
+        }
+        for (ItemOrderDetail orderDetail: itemOrderDetail) {
+            Integer skuId = orderDetail.getSkuId(); //取出商品skuId
+            Integer quantity = orderDetail.getQuantity();//取出购买商品数量
+            ItemSku itemSku = itemSkuMapper.selectBySkuId(skuId);
+            if (itemSku == null){
+                throw new ServiceException(ErrorCode.ERROR.getCode(),"商品不存在或已下架");
+            }
+            itemSku.setStock(itemSku.getStock()+quantity);//退还库存
+            int stock = itemSkuMapper.updateByPrimaryKeySelective(itemSku);//更新库存
+                if (stock<0){
+                    throw new ServiceException(ErrorCode.ERROR.getCode(),"更新库存失败");
+                }
+            orderDetail.setStatus((byte)Constants.ORDER_STATUS.CANCELED);
+            itemOrderDetailMapper.updateByPrimaryKeySelective(orderDetail);
+        }
+        //更新订单状态
+        itemOrder.setStatus((byte)Constants.ORDER_STATUS.CANCELED);
+        int i = itemOrderMapper.updateByPrimaryKeySelective(itemOrder);
+        if (i<1){
+            throw new ServiceException(ErrorCode.ERROR.getCode(),"取消失败，请刷新重试");
+        }
+        return ResponseFactory.sucMsg("订单取消成功");
+    }
+
+    /*------------------------------------订单列表--------------------------------------------------*/
+
+    /**
+     * 订单列表
+     * @param userId 用户Id
+     * @param pageQuery 分页
+     * @return
+     * @author linqin
+     *  @date 2018/6/21
+     */
+    @Override
+    public Response orderList(Integer userId, PageQuery pageQuery) {
+        //分页
+        PageHelper.startPage(pageQuery.getPageNum(),pageQuery.getPageSize());
+        List<ItemOrder> itemOrders = itemOrderMapper.selectByUserId(userId);
+        if (itemOrders == null){
+            throw new ServiceException(ErrorCode.ERROR.getCode(),"还没有订单哦");
+        }
+        return ResponseFactory.sucData(itemOrders);
+    }
 }

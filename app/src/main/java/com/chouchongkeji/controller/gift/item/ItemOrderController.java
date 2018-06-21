@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
+import com.chouchongkeji.goexplore.query.PageQuery;
 import com.chouchongkeji.service.gift.item.OrderService;
 import com.chouchongkeji.service.gift.item.vo.OrderVo;
 import com.chouchongkeji.util.Constants;
@@ -79,13 +80,43 @@ public class ItemOrderController {
      * @date 2018/6/21
      */
     @PostMapping("pay")
-    public Response orderPay(@AuthenticationPrincipal UserDetails userDetails,Long orderNo){
+    public Response orderPay(@AuthenticationPrincipal UserDetails userDetails,Long orderNo ,Integer payWay){
         if (orderNo == null){
             return ResponseFactory.errMissingParameter();
         }
-        return orderService.orderPay(userDetails.getUserId(),orderNo);
+        return orderService.orderPay(userDetails.getUserId(),orderNo,payWay);
     }
 
+    /**
+     * 订单取消
+     * @param userDetails
+     * @param orderNo 订单号
+     * @return
+     * @author linqin
+     * @date 2018/6/21
+     */
+    @PostMapping("cancel")
+    public Response cancelOrder(@AuthenticationPrincipal UserDetails userDetails,Long orderNo){
+        //校验参数
+        if (orderNo == null){
+            return ResponseFactory.errMissingParameter();
+        }
+        return orderService.cancelOrder(userDetails.getUserId(),orderNo);
+    }
+
+
+    /**
+     * 订单列表
+     * @param userDetails
+     * @param pageQuery 分页
+     * @return
+     * @author linqin
+     * @date 2018/6/21
+     */
+    @PostMapping("list")
+    public Response orderList(@AuthenticationPrincipal UserDetails userDetails, PageQuery pageQuery){
+        return orderService.orderList(userDetails.getUserId(),pageQuery);
+    }
 
 }
 
