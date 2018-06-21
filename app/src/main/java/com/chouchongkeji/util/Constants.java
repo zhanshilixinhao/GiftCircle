@@ -94,6 +94,18 @@ public class Constants {
         int CANCELED = 13;
     }
 
+    /* 订单状态 */
+//    订单状态: 1-未付款，2-已付款,  3-已发货，待收货, 4-交易成功，5-交易关闭, 6-已删除，13-已取消
+    public interface ORDER_BASE_STATUS {
+        int NO_PAY = 1; // 未支付
+        int PAID = 2;
+//        int SHIPPED = 3;
+//        int SUCCESS = 4;
+//        int CLOSE = 5;
+//        int DELETED = 6;
+//        int CANCELED = 13;
+    }
+
     //   订单真实状态: 1-未付款，2-已付款,待发货，3-已发货，待收货, 4-交易完成，5-已退款交易关闭, 6-交易取消 7 -已删除
     public interface ORDER_REAL_STATUS {
         int NO_PAY = 1; // 未支付定金

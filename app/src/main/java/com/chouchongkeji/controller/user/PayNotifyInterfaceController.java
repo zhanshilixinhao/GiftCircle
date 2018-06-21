@@ -35,22 +35,32 @@ public class PayNotifyInterfaceController {
         return this.baseAliPay(alipayVo, request.getParameterMap(),(byte)1);
     }
 
-//    /**
-//     * 商品订单支付宝回调
-//     * @param aLiPayV2Vo
-//     * @param request
-//     * @return
-//     * @throws Exception
-//     * @author linqin
-//     * @date 2018/6/21
-//     */
-//    @PostMapping("item_order/ali")
-//    public String itemOrderAliPay(ALiPayV2Vo aLiPayV2Vo,HttpServletRequest request) throws Exception{
-//        /** 调用基础方法 **/
-//        return this.baseAliPay(aLiPayV2Vo,request.getParameterMap(),(byte)2);
-//    }
+    /**
+     * 商品订单支付宝回调
+     * @param aLiPayV2Vo
+     * @return
+     * @throws Exception
+     * @author linqin
+     * @date 2018/6/21
+     */
+    @PostMapping("item_order/ali")
+    public String itemOrderAliPay(ALiPayV2Vo aLiPayV2Vo,Map parameterMap){
+        /** 调用基础方法 **/
+        return this.itemBaseAliPay(aLiPayV2Vo,parameterMap,(byte)2);
+    }
 
-
+    /**
+     * 商品订单支付宝回调基础方法
+     * @param aLiPayV2Vo
+     * @return
+     * @throws Exception
+     * @author linqin
+     * @date 2018/6/21
+     */
+    public String itemBaseAliPay(ALiPayV2Vo aLiPayV2Vo,Map parameterMap,Byte orderType){
+        /** 调用基础方法 **/
+        return appPaymentInfoService.itemOrderAli(aLiPayV2Vo,parameterMap,orderType);
+    }
 
     /**
      * 支付宝支付回调基础方法
@@ -93,10 +103,39 @@ public class PayNotifyInterfaceController {
      */
     public String baseWeixinPay( HttpServletRequest request, Byte orderType)throws Exception{
         String xml = Util.inputStreamToString(request.getInputStream());
-
             return appPaymentInfoService.orderWXPay(xml,orderType);
 
     }
+
+
+    /**
+     * 商品订单微信支付回调
+     * @param request
+     * @return
+     * @throws Exception
+     * @author linqin
+     * @date 2018/6/21
+     */
+    @PostMapping("item_order/wx")
+    public String itemOrderWXPay(HttpServletRequest request) throws Exception {
+        /** 调用基础方法 **/
+        return this.itemBaseWXPay(request, (byte) 2);
+    }
+
+    /**
+     * 微信支付回调基础方法
+     * @param request
+     * @param orderType
+     * @return
+     * @author linqin
+     * @date 2018/6/21
+     */
+    public String itemBaseWXPay( HttpServletRequest request, Byte orderType)throws Exception{
+        String xml = Util.inputStreamToString(request.getInputStream());
+        return appPaymentInfoService.ItemOrderWXPay(xml,orderType);
+
+    }
+
 
 
 }

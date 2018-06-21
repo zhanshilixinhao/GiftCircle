@@ -22,4 +22,6 @@ public interface ItemOrderMapper {
 
     List<ItemOrder> selectByUserId(Integer userId);
 
+    ItemOrder selectByOrderNo(Long orderNo);
+
 }

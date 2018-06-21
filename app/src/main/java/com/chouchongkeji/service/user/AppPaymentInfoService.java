@@ -32,4 +32,24 @@ public interface AppPaymentInfoService {
      * @date 2018/6/8
      */
     String orderWXPay(String xml, Byte orderType) throws IOException, SAXException, ParserConfigurationException;
+
+    /**
+     * 商品订单支付宝回调
+     * @param aLiPayV2Vo
+     * @return
+     * @throws Exception
+     * @author linqin
+     * @date 2018/6/21
+     */
+    String itemOrderAli(ALiPayV2Vo aLiPayV2Vo, Map parameterMap,Byte orderType);
+
+    /**
+     * 微信支付回调基础方法
+     * @param
+     * @param orderType
+     * @return
+     * @author linqin
+     * @date 2018/6/21
+     */
+    String ItemOrderWXPay(String xml, Byte orderType) throws IOException, SAXException, ParserConfigurationException;
 }
