@@ -1,7 +1,7 @@
 package com.chouchongkeji.service.iwant.receiveAddress;
 
 import com.chouchongkeji.goexplore.common.Response;
-import com.chouchongkeji.pojo.iwant.receiveAddress.Shipping;
+import com.chouchongkeji.dial.pojo.iwant.receiveAddress.Shipping;
 
 /**
  * @author yy

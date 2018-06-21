@@ -1,7 +1,7 @@
 package com.chouchongkeji.service.iwant.wallet.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.chouchongkeji.dao.iwant.wallet.ChargeOrderMapper;
+import com.chouchongkeji.dial.dao.iwant.wallet.ChargeOrderMapper;
 import com.chouchongkeji.exception.ServiceException;
 import com.chouchongkeji.goexplore.common.ErrorCode;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
@@ -13,7 +13,7 @@ import com.chouchongkeji.goexplore.pay.alipay_v2.AliPayServiceV2;
 import com.chouchongkeji.goexplore.pay.weixin.service.WXPayDto;
 import com.chouchongkeji.goexplore.pay.weixin.service.WXPayService;
 import com.chouchongkeji.goexplore.utils.RSAProvider;
-import com.chouchongkeji.pojo.iwant.wallet.ChargeOrder;
+import com.chouchongkeji.dial.pojo.iwant.wallet.ChargeOrder;
 import com.chouchongkeji.service.iwant.wallet.UserChargeService;
 import com.chouchongkeji.util.Constants;
 import com.chouchongkeji.util.OrderHelper;

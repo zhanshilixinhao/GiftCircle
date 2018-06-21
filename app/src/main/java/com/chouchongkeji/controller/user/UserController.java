@@ -2,7 +2,7 @@ package com.chouchongkeji.controller.user;
 
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
-import com.chouchongkeji.pojo.user.AppUser;
+import com.chouchongkeji.dial.pojo.user.AppUser;
 import com.chouchongkeji.service.user.UserService;
 import com.yichen.auth.mvc.AppClient;
 import com.yichen.auth.service.UserDetails;

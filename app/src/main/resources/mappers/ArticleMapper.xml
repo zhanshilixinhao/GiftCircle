@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.chouchongkeji.dao.gift.article.ArticleMapper">
-  <resultMap id="BaseResultMap" type="com.chouchongkeji.pojo.gift.article.Article">
+<mapper namespace="com.chouchongkeji.dial.dao.gift.article.ArticleMapper">
+  <resultMap id="BaseResultMap" type="com.chouchongkeji.dial.pojo.gift.article.Article">
     <constructor>
       <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="title" javaType="java.lang.String" jdbcType="VARCHAR" />
@@ -14,7 +14,7 @@
       <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
     </constructor>
   </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.chouchongkeji.pojo.gift.article.Article">
+  <resultMap id="ResultMapWithBLOBs" type="com.chouchongkeji.dial.pojo.gift.article.Article">
     <constructor>
       <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="title" javaType="java.lang.String" jdbcType="VARCHAR" />
@@ -46,7 +46,7 @@
     delete from article
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.chouchongkeji.pojo.gift.article.Article">
+  <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.gift.article.Article">
     insert into article (id, title, cover, 
       summary, admin_id, status, 
       sort, created, updated, 
@@ -56,7 +56,7 @@
       #{sort,jdbcType=INTEGER}, #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP}, 
       #{detail,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.chouchongkeji.pojo.gift.article.Article">
+  <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.gift.article.Article">
     insert into article
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -123,7 +123,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.chouchongkeji.pojo.gift.article.Article">
+  <update id="updateByPrimaryKeySelective" parameterType="com.chouchongkeji.dial.pojo.gift.article.Article">
     update article
     <set>
       <if test="title != null">
@@ -156,7 +156,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.chouchongkeji.pojo.gift.article.Article">
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.chouchongkeji.dial.pojo.gift.article.Article">
     update article
     set title = #{title,jdbcType=VARCHAR},
       cover = #{cover,jdbcType=VARCHAR},
@@ -169,7 +169,7 @@
       detail = #{detail,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.pojo.gift.article.Article">
+  <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.dial.pojo.gift.article.Article">
     update article
     set title = #{title,jdbcType=VARCHAR},
       cover = #{cover,jdbcType=VARCHAR},

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.chouchongkeji.dao.iwant.receiveAddress.ShippingMapper">
-  <resultMap id="BaseResultMap" type="com.chouchongkeji.pojo.iwant.receiveAddress.Shipping">
+<mapper namespace="com.chouchongkeji.dial.dao.iwant.receiveAddress.ShippingMapper">
+  <resultMap id="BaseResultMap" type="com.chouchongkeji.dial.pojo.iwant.receiveAddress.Shipping">
     <constructor>
       <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
@@ -29,7 +29,7 @@
     delete from shipping
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.chouchongkeji.pojo.iwant.receiveAddress.Shipping">
+  <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.iwant.receiveAddress.Shipping">
     insert into shipping (id, user_id, consignee_name, 
       address, phone, address_detail, 
       adcode, status, created, 
@@ -39,7 +39,7 @@
       #{adcode,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, #{created,jdbcType=TIMESTAMP}, 
       #{updated,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.chouchongkeji.pojo.iwant.receiveAddress.Shipping">
+  <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.iwant.receiveAddress.Shipping">
     insert into shipping
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -106,7 +106,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.chouchongkeji.pojo.iwant.receiveAddress.Shipping">
+  <update id="updateByPrimaryKeySelective" parameterType="com.chouchongkeji.dial.pojo.iwant.receiveAddress.Shipping">
     update shipping
     <set>
       <if test="userId != null">
@@ -139,7 +139,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.pojo.iwant.receiveAddress.Shipping">
+  <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.dial.pojo.iwant.receiveAddress.Shipping">
     update shipping
     set user_id = #{userId,jdbcType=INTEGER},
       consignee_name = #{consigneeName,jdbcType=VARCHAR},

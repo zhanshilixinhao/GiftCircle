@@ -1,7 +1,7 @@
 package com.chouchongkeji.service.user.impl;
 
-import com.chouchongkeji.dao.iwant.wallet.ChargeOrderMapper;
-import com.chouchongkeji.dao.user.PaymentInfoMapper;
+import com.chouchongkeji.dial.dao.iwant.wallet.ChargeOrderMapper;
+import com.chouchongkeji.dial.dao.user.PaymentInfoMapper;
 import com.chouchongkeji.exception.ServiceException;
 import com.chouchongkeji.goexplore.pay.alipay.config.AlipayConfig;
 import com.chouchongkeji.goexplore.pay.alipay_v2.ALiPayV2Vo;
@@ -13,8 +13,8 @@ import com.chouchongkeji.goexplore.pay.weixin.protocol.NotifyData;
 import com.chouchongkeji.goexplore.utils.BigDecimalUtil;
 import com.chouchongkeji.goexplore.utils.DateUtil;
 import com.chouchongkeji.goexplore.utils.HttpClientUtils;
-import com.chouchongkeji.pojo.iwant.wallet.ChargeOrder;
-import com.chouchongkeji.pojo.user.PaymentInfo;
+import com.chouchongkeji.dial.pojo.iwant.wallet.ChargeOrder;
+import com.chouchongkeji.dial.pojo.user.PaymentInfo;
 import com.chouchongkeji.service.iwant.wallet.WalletService;
 import com.chouchongkeji.service.user.AppPaymentInfoService;
 import com.chouchongkeji.util.Constants;

@@ -52,7 +52,7 @@ spring:
 mybatis:
   config-location: classpath:mybatis-config.xml
   mapper-locations: classpath:mappers/*.xml
-  type-aliases-package: com.chouchongkeji.pojo
+  type-aliases-package: com.chouchongkeji.dial.pojo
 yichen:
   security:
 ##验证码的有效时间
@@ -71,8 +71,6 @@ yichen:
       urls:
         - /druid/**
         - /noauth/file/**
-        - /noauth/v1/**
-        - /auth/v1/**
   service:
     productDetail: https://43.241.223.169:800/static/product.html?id=
     articleDetail: https://43.241.223.169:800/static/article.html?id=

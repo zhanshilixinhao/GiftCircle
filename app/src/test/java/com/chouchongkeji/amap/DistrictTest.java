@@ -2,8 +2,8 @@ package com.chouchongkeji.amap;
 
 import com.alibaba.fastjson.JSON;
 import com.chouchongkeji.App;
-import com.chouchongkeji.dao.user.DistrictMapper;
-import com.chouchongkeji.pojo.user.District;
+import com.chouchongkeji.dial.dao.user.DistrictMapper;
+import com.chouchongkeji.dial.pojo.user.District;
 import com.chouchongkeji.service.amap.AMapApiImpl;
 import com.chouchongkeji.service.amap.DistrictResponse;
 import org.apache.commons.collections.CollectionUtils;

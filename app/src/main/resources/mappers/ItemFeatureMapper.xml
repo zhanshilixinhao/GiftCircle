@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.chouchongkeji.dao.gift.item.ItemFeatureMapper">
-  <resultMap id="BaseResultMap" type="com.chouchongkeji.pojo.gift.item.ItemFeature">
+<mapper namespace="com.chouchongkeji.dial.dao.gift.item.ItemFeatureMapper">
+  <resultMap id="BaseResultMap" type="com.chouchongkeji.dial.pojo.gift.item.ItemFeature">
     <constructor>
       <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="name" javaType="java.lang.String" jdbcType="VARCHAR" />
@@ -46,7 +46,7 @@ WHERE
     delete from item_feature
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.chouchongkeji.pojo.gift.item.ItemFeature">
+  <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.gift.item.ItemFeature">
     insert into item_feature (id, name, sort, 
       values, is_select, status, 
       created, updated)
@@ -54,7 +54,7 @@ WHERE
       #{values,jdbcType=VARCHAR}, #{isSelect,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, 
       #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.chouchongkeji.pojo.gift.item.ItemFeature">
+  <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.gift.item.ItemFeature">
     insert into item_feature
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -109,7 +109,7 @@ WHERE
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.chouchongkeji.pojo.gift.item.ItemFeature">
+  <update id="updateByPrimaryKeySelective" parameterType="com.chouchongkeji.dial.pojo.gift.item.ItemFeature">
     update item_feature
     <set>
       <if test="name != null">
@@ -136,7 +136,7 @@ WHERE
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.pojo.gift.item.ItemFeature">
+  <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.dial.pojo.gift.item.ItemFeature">
     update item_feature
     set name = #{name,jdbcType=VARCHAR},
       sort = #{sort,jdbcType=INTEGER},

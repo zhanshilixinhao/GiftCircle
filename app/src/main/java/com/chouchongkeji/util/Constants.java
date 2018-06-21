@@ -13,7 +13,7 @@ public class Constants {
     //默认头像
     public static final String DEFALUT_AVATAR = "avatar.jpg";
 
-    public static final String getRandomName(){
+    public static final String getRandomName() {
         return RandomStringUtils.randomNumeric(7);
     }
 
@@ -75,7 +75,7 @@ public class Constants {
 
     /*充值订单状态*/
     //充值状态，1-未支付，2-已支付',
-    public interface CHARGE_ORDER_STATUS{
+    public interface CHARGE_ORDER_STATUS {
         byte NO_PAY = 1;
         byte PAY = 2;
     }
@@ -267,5 +267,16 @@ public class Constants {
     public interface ADMIN_TYPE {
         byte ADMIN = 1;
         byte AGENT = 2;
+    }
+
+    /**
+     * 通知状态消息处理状态 1 待验证 2 同意 3 拒绝 4 已回复
+     */
+    public interface FRIEND_NOTIFY_STATUS {
+        byte NONE = 0;
+        byte DEFAULT = 1;
+        byte AGREE = 2;
+        byte REFUSE = 3;
+        byte REPALYED = 4;
     }
 }

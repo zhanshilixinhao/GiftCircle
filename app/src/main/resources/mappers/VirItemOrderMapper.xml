@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.chouchongkeji.dao.gift.virtualItem.VirItemOrderMapper">
-  <resultMap id="BaseResultMap" type="com.chouchongkeji.pojo.gift.virtualItem.VirItemOrder">
+<mapper namespace="com.chouchongkeji.dial.dao.gift.virtualItem.VirItemOrderMapper">
+  <resultMap id="BaseResultMap" type="com.chouchongkeji.dial.pojo.gift.virtualItem.VirItemOrder">
     <constructor>
       <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="order_no" javaType="java.lang.Long" jdbcType="BIGINT" />
@@ -32,7 +32,7 @@
     delete from virtual_item_order
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.chouchongkeji.pojo.gift.virtualItem.VirItemOrder">
+  <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.gift.virtualItem.VirItemOrder">
     insert into virtual_item_order (id, order_no, user_id, 
       virtual_item_id, quantity, name, 
       cover, summary, price, 
@@ -44,7 +44,7 @@
       #{totalPrice,jdbcType=DECIMAL}, #{status,jdbcType=TINYINT}, #{created,jdbcType=TIMESTAMP}, 
       #{updated,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.chouchongkeji.pojo.gift.virtualItem.VirItemOrder">
+  <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.gift.virtualItem.VirItemOrder">
     insert into virtual_item_order
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -129,7 +129,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.chouchongkeji.pojo.gift.virtualItem.VirItemOrder">
+  <update id="updateByPrimaryKeySelective" parameterType="com.chouchongkeji.dial.pojo.gift.virtualItem.VirItemOrder">
     update virtual_item_order
     <set>
       <if test="orderNo != null">
@@ -171,7 +171,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.pojo.gift.virtualItem.VirItemOrder">
+  <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.dial.pojo.gift.virtualItem.VirItemOrder">
     update virtual_item_order
     set order_no = #{orderNo,jdbcType=BIGINT},
       user_id = #{userId,jdbcType=INTEGER},

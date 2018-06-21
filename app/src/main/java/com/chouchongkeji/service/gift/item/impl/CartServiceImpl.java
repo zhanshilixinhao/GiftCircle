@@ -1,11 +1,11 @@
 package com.chouchongkeji.service.gift.item.impl;
 
-import com.chouchongkeji.dao.gift.item.CartMapper;
-import com.chouchongkeji.dao.gift.item.ItemSkuMapper;
+import com.chouchongkeji.dial.dao.gift.item.CartMapper;
+import com.chouchongkeji.dial.dao.gift.item.ItemSkuMapper;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.common.Response;
-import com.chouchongkeji.pojo.gift.item.Cart;
-import com.chouchongkeji.pojo.gift.item.ItemSku;
+import com.chouchongkeji.dial.pojo.gift.item.Cart;
+import com.chouchongkeji.dial.pojo.gift.item.ItemSku;
 import com.chouchongkeji.service.gift.item.CartService;
 import com.chouchongkeji.service.gift.item.vo.CartListVo;
 import org.springframework.beans.factory.annotation.Autowired;

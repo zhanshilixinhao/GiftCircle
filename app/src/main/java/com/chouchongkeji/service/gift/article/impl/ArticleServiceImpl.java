@@ -1,10 +1,10 @@
 package com.chouchongkeji.service.gift.article.impl;
 
-import com.chouchongkeji.dao.gift.article.ArticleMapper;
+import com.chouchongkeji.dial.dao.gift.article.ArticleMapper;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.query.PageQuery;
-import com.chouchongkeji.pojo.gift.article.Article;
+import com.chouchongkeji.dial.pojo.gift.article.Article;
 import com.chouchongkeji.properties.ServiceProperties;
 import com.chouchongkeji.service.gift.article.ArticleService;
 import com.chouchongkeji.service.gift.article.vo.ArticleDetail;

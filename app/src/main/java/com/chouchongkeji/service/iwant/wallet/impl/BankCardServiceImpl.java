@@ -1,11 +1,11 @@
 package com.chouchongkeji.service.iwant.wallet.impl;
 
-import com.chouchongkeji.dao.iwant.wallet.BankDictMapper;
-import com.chouchongkeji.dao.iwant.wallet.UserBankCardMapper;
+import com.chouchongkeji.dial.dao.iwant.wallet.BankDictMapper;
+import com.chouchongkeji.dial.dao.iwant.wallet.UserBankCardMapper;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
-import com.chouchongkeji.pojo.iwant.wallet.BankDict;
-import com.chouchongkeji.pojo.iwant.wallet.UserBankCard;
+import com.chouchongkeji.dial.pojo.iwant.wallet.BankDict;
+import com.chouchongkeji.dial.pojo.iwant.wallet.UserBankCard;
 import com.chouchongkeji.service.iwant.wallet.BankCardService;
 import com.chouchongkeji.service.iwant.wallet.vo.UserBankCardVo;
 import org.springframework.beans.factory.annotation.Autowired;

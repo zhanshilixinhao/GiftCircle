@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.chouchongkeji.dao.event.EventMapper">
-  <resultMap id="BaseResultMap" type="com.chouchongkeji.pojo.event.Event">
+<mapper namespace="com.chouchongkeji.dial.dao.event.EventMapper">
+  <resultMap id="BaseResultMap" type="com.chouchongkeji.dial.pojo.event.Event">
     <constructor>
       <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="event_name" javaType="java.lang.String" jdbcType="VARCHAR" />
@@ -27,13 +27,13 @@
     delete from event
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.chouchongkeji.pojo.event.Event">
+  <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.event.Event">
     insert into event (id, event_name, created, 
       updated)
     values (#{id,jdbcType=INTEGER}, #{eventName,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP}, 
       #{updated,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.chouchongkeji.pojo.event.Event">
+  <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.event.Event">
     insert into event
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -64,7 +64,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.chouchongkeji.pojo.event.Event">
+  <update id="updateByPrimaryKeySelective" parameterType="com.chouchongkeji.dial.pojo.event.Event">
     update event
     <set>
       <if test="eventName != null">
@@ -79,7 +79,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.pojo.event.Event">
+  <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.dial.pojo.event.Event">
     update event
     set event_name = #{eventName,jdbcType=VARCHAR},
       created = #{created,jdbcType=TIMESTAMP},

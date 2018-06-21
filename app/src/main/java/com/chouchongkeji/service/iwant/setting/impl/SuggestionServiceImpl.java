@@ -1,9 +1,9 @@
 package com.chouchongkeji.service.iwant.setting.impl;
 
-import com.chouchongkeji.dao.iwant.setting.SuggestionMapper;
+import com.chouchongkeji.dial.dao.iwant.setting.SuggestionMapper;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
-import com.chouchongkeji.pojo.iwant.setting.Suggestion;
+import com.chouchongkeji.dial.pojo.iwant.setting.Suggestion;
 import com.chouchongkeji.service.iwant.setting.SuggestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,7 +1,7 @@
 package com.chouchongkeji.service.user;
 
 import com.chouchongkeji.goexplore.common.Response;
-import com.chouchongkeji.pojo.user.AppUser;
+import com.chouchongkeji.dial.pojo.user.AppUser;
 
 /**
  * @author linqin

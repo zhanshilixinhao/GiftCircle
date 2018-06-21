@@ -2,7 +2,7 @@ package com.chouchongkeji.controller.iwant.receiveAddress;
 
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.common.Response;
-import com.chouchongkeji.pojo.iwant.receiveAddress.Shipping;
+import com.chouchongkeji.dial.pojo.iwant.receiveAddress.Shipping;
 import com.chouchongkeji.service.iwant.receiveAddress.ReceiveAddressService;
 import com.yichen.auth.service.UserDetails;
 import org.apache.commons.lang3.StringUtils;

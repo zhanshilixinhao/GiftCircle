@@ -1,14 +1,14 @@
 package com.chouchongkeji.service.iwant.wallet.impl;
 
-import com.chouchongkeji.dao.iwant.wallet.UserBankCardMapper;
-import com.chouchongkeji.dao.iwant.wallet.UserWithdrawMapper;
-import com.chouchongkeji.dao.iwant.wallet.WalletMapper;
+import com.chouchongkeji.dial.dao.iwant.wallet.UserBankCardMapper;
+import com.chouchongkeji.dial.dao.iwant.wallet.UserWithdrawMapper;
+import com.chouchongkeji.dial.dao.iwant.wallet.WalletMapper;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.query.PageQuery;
-import com.chouchongkeji.pojo.iwant.wallet.UserBankCard;
-import com.chouchongkeji.pojo.iwant.wallet.UserWithdraw;
-import com.chouchongkeji.pojo.iwant.wallet.Wallet;
+import com.chouchongkeji.dial.pojo.iwant.wallet.UserBankCard;
+import com.chouchongkeji.dial.pojo.iwant.wallet.UserWithdraw;
+import com.chouchongkeji.dial.pojo.iwant.wallet.Wallet;
 import com.chouchongkeji.service.iwant.wallet.UserWithdrawService;
 import com.chouchongkeji.service.iwant.wallet.vo.UserWithdrawVo;
 import com.github.pagehelper.PageHelper;

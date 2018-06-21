@@ -1,9 +1,9 @@
 package com.chouchongkeji.service.user.impl;
 
-import com.chouchongkeji.dao.user.DistrictMapper;
+import com.chouchongkeji.dial.dao.user.DistrictMapper;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
-import com.chouchongkeji.pojo.user.District;
+import com.chouchongkeji.dial.pojo.user.District;
 import com.chouchongkeji.service.user.DistrictService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

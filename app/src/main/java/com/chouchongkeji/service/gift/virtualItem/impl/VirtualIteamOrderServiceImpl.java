@@ -1,8 +1,8 @@
 package com.chouchongkeji.service.gift.virtualItem.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.chouchongkeji.dao.gift.virtualItem.VirItemOrderMapper;
-import com.chouchongkeji.dao.gift.virtualItem.VirtualItemMapper;
+import com.chouchongkeji.dial.dao.gift.virtualItem.VirItemOrderMapper;
+import com.chouchongkeji.dial.dao.gift.virtualItem.VirtualItemMapper;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.pay.KeyUtil;
@@ -12,12 +12,12 @@ import com.chouchongkeji.goexplore.pay.alipay_v2.AliPayServiceV2;
 import com.chouchongkeji.goexplore.pay.weixin.service.WXPayDto;
 import com.chouchongkeji.goexplore.pay.weixin.service.WXPayService;
 import com.chouchongkeji.goexplore.utils.RSAProvider;
-import com.chouchongkeji.pojo.gift.virtualItem.VirItemOrder;
-import com.chouchongkeji.pojo.gift.virtualItem.VirtualItem;
+import com.chouchongkeji.dial.pojo.gift.virtualItem.VirItemOrder;
+import com.chouchongkeji.dial.pojo.gift.virtualItem.VirtualItem;
 import com.chouchongkeji.service.gift.virtualItem.VirtualIteamOrderService;
 import com.chouchongkeji.util.Constants;
 import com.chouchongkeji.util.OrderHelper;
-import com.chouchongkeji.vo.BaseOrderVo;
+import com.chouchongkeji.service.vo.BaseOrderVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;

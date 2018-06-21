@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.chouchongkeji.dao.gift.favorite.UserFavoriteMapper">
-  <resultMap id="BaseResultMap" type="com.chouchongkeji.pojo.gift.favorite.UserFavorite">
+<mapper namespace="com.chouchongkeji.dial.dao.gift.favorite.UserFavoriteMapper">
+  <resultMap id="BaseResultMap" type="com.chouchongkeji.dial.pojo.gift.favorite.UserFavorite">
     <constructor>
       <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
@@ -24,7 +24,7 @@
     delete from user_favorite
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.chouchongkeji.pojo.gift.favorite.UserFavorite">
+  <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.gift.favorite.UserFavorite">
     insert into user_favorite (id, user_id, target_id, 
       type, created, updated
       )
@@ -32,7 +32,7 @@
       #{type,jdbcType=TINYINT}, #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.chouchongkeji.pojo.gift.favorite.UserFavorite">
+  <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.gift.favorite.UserFavorite">
     insert into user_favorite
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -75,7 +75,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.chouchongkeji.pojo.gift.favorite.UserFavorite">
+  <update id="updateByPrimaryKeySelective" parameterType="com.chouchongkeji.dial.pojo.gift.favorite.UserFavorite">
     update user_favorite
     <set>
       <if test="userId != null">
@@ -96,7 +96,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.pojo.gift.favorite.UserFavorite">
+  <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.dial.pojo.gift.favorite.UserFavorite">
     update user_favorite
     set user_id = #{userId,jdbcType=INTEGER},
       target_id = #{targetId,jdbcType=INTEGER},

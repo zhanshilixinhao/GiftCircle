@@ -1,11 +1,11 @@
 package com.chouchongkeji.service.iwant.receiveAddress.impl;
 
-import com.chouchongkeji.dao.iwant.receiveAddress.ShippingMapper;
+import com.chouchongkeji.dial.dao.iwant.receiveAddress.ShippingMapper;
 import com.chouchongkeji.exception.ServiceException;
 import com.chouchongkeji.goexplore.common.ErrorCode;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.common.Response;
-import com.chouchongkeji.pojo.iwant.receiveAddress.Shipping;
+import com.chouchongkeji.dial.pojo.iwant.receiveAddress.Shipping;
 import com.chouchongkeji.service.iwant.receiveAddress.ReceiveAddressService;
 import com.chouchongkeji.service.iwant.receiveAddress.vo.ShippingDetail;
 import com.chouchongkeji.service.iwant.receiveAddress.vo.ShippingListVo;

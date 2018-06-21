@@ -37,7 +37,7 @@
             targetPackage     指定生成的model生成所在的包名
             targetProject     指定在该项目下所在的路径
         -->
-        <javaModelGenerator targetPackage="com.chouchongkeji.pojo.gift.item" targetProject="./app/src/main/java">
+        <javaModelGenerator targetPackage="com.chouchongkeji.dial.pojo.iwant.merchant" targetProject="./app/src/main/java">
             <!-- 是否允许子包，即targetPackage.schemaName.tableName -->
             <property name="enableSubPackages" value="false"/>
             <!-- 是否对model添加 构造函数 -->
@@ -61,7 +61,7 @@
         -->
 
         <!-- targetPackage：mapper接口dao生成的位置 -->
-        <javaClientGenerator type="XMLMAPPER" targetPackage="com.chouchongkeji.dao.gift.item"
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.chouchongkeji.dial.dao.iwant.merchant"
                              targetProject="./app/src/main/java">
             <!-- enableSubPackages:是否让schema作为包的后缀 -->
             <property name="enableSubPackages" value="false"/>
@@ -146,8 +146,17 @@
         <!--<table tableName="theme_item" domainObjectName="ThemeItem" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"></table>-->
-        <table tableName="merchant" domainObjectName="Merchant" enableCountByExample="false"
-               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false"></table>
+        <!--<table tableName="merchant" domainObjectName="Merchant" enableCountByExample="false"-->
+               <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+               <!--selectByExampleQueryId="false"></table> -->
+        <!--<table tableName="friend" domainObjectName="Friend" enableCountByExample="false"-->
+               <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+               <!--selectByExampleQueryId="false"></table>-->
+        <!--<table tableName="friend_group" domainObjectName="FriendGroup" enableCountByExample="false"-->
+               <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+               <!--selectByExampleQueryId="false"></table>-->
+        <!--<table tableName="new_friend_notify" domainObjectName="NewFriendNotify" enableCountByExample="false"-->
+               <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+               <!--selectByExampleQueryId="false"></table>-->
     </context>
 </generatorConfiguration>

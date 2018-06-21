@@ -1,7 +1,7 @@
 package com.chouchongkeji.service.gift.item.impl;
 
-import com.chouchongkeji.dao.gift.item.ThemeItemMapper;
-import com.chouchongkeji.dao.gift.item.ThemeMapper;
+import com.chouchongkeji.dial.dao.gift.item.ThemeItemMapper;
+import com.chouchongkeji.dial.dao.gift.item.ThemeMapper;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.query.PageQuery;

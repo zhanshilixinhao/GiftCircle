@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.chouchongkeji.dao.gift.item.ItemMapper">
-    <resultMap id="BaseResultMap" type="com.chouchongkeji.pojo.gift.item.Item">
+<mapper namespace="com.chouchongkeji.dial.dao.gift.item.ItemMapper">
+    <resultMap id="BaseResultMap" type="com.chouchongkeji.dial.pojo.gift.item.Item">
         <constructor>
             <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
             <arg column="title" javaType="java.lang.String" jdbcType="VARCHAR"/>
@@ -91,7 +91,7 @@
     delete from item
     where id = #{id,jdbcType=INTEGER}
   </delete>
-    <insert id="insert" parameterType="com.chouchongkeji.pojo.gift.item.Item">
+    <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.gift.item.Item">
     insert into item (id, title, price, 
       sales, stock, description, 
       re_gender, re_max_age, re_age_min, 
@@ -109,7 +109,7 @@
       #{brandId,jdbcType=INTEGER}, #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP}
       )
   </insert>
-    <insert id="insertSelective" parameterType="com.chouchongkeji.pojo.gift.item.Item">
+    <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.gift.item.Item">
         insert into item
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -242,7 +242,7 @@
             </if>
         </trim>
     </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.chouchongkeji.pojo.gift.item.Item">
+    <update id="updateByPrimaryKeySelective" parameterType="com.chouchongkeji.dial.pojo.gift.item.Item">
         update item
         <set>
             <if test="title != null">
@@ -308,7 +308,7 @@
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
-    <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.pojo.gift.item.Item">
+    <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.dial.pojo.gift.item.Item">
     update item
     set title = #{title,jdbcType=VARCHAR},
       price = #{price,jdbcType=DECIMAL},

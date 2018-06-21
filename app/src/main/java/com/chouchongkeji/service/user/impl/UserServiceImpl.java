@@ -1,15 +1,15 @@
 package com.chouchongkeji.service.user.impl;
 
 import com.alibaba.fastjson.TypeReference;
-import com.chouchongkeji.dao.user.AppUserMapper;
+import com.chouchongkeji.dial.dao.user.AppUserMapper;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.utils.ApiSignUtil;
 import com.chouchongkeji.goexplore.utils.K;
 
-import com.chouchongkeji.pojo.user.AppUser;
+import com.chouchongkeji.dial.pojo.user.AppUser;
 import com.chouchongkeji.properties.ServiceProperties;
-import com.chouchongkeji.redis.MRedisTemplate;
+import com.chouchongkeji.dial.redis.MRedisTemplate;
 import com.chouchongkeji.service.user.UserService;
 import com.chouchongkeji.util.SentPwdUtil;
 import org.apache.commons.lang3.RandomStringUtils;

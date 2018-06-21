@@ -1,11 +1,11 @@
 package com.chouchongkeji.service.gift.item.impl;
 
-import com.chouchongkeji.dao.gift.item.ItemFeatureMapper;
-import com.chouchongkeji.dao.gift.item.ItemMapper;
-import com.chouchongkeji.dao.gift.item.ItemSkuMapper;
+import com.chouchongkeji.dial.dao.gift.item.ItemFeatureMapper;
+import com.chouchongkeji.dial.dao.gift.item.ItemMapper;
+import com.chouchongkeji.dial.dao.gift.item.ItemSkuMapper;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
-import com.chouchongkeji.pojo.gift.item.Item;
+import com.chouchongkeji.dial.pojo.gift.item.Item;
 import com.chouchongkeji.properties.ServiceProperties;
 import com.chouchongkeji.service.gift.item.SkuService;
 import com.chouchongkeji.service.gift.item.vo.FeatureValueVo;

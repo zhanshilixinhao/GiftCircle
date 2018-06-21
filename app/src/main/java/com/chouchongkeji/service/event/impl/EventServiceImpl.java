@@ -1,9 +1,9 @@
 package com.chouchongkeji.service.event.impl;
 
-import com.chouchongkeji.dao.event.EventMapper;
+import com.chouchongkeji.dial.dao.event.EventMapper;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.common.Response;
-import com.chouchongkeji.pojo.event.Event;
+import com.chouchongkeji.dial.pojo.event.Event;
 import com.chouchongkeji.service.event.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

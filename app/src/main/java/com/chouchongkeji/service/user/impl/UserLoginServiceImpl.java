@@ -2,10 +2,10 @@ package com.chouchongkeji.service.user.impl;
 
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.common.Response;
-import com.chouchongkeji.redis.MRedisTemplate;
+import com.chouchongkeji.dial.redis.MRedisTemplate;
 import com.chouchongkeji.service.user.UserLoginService;
-import com.chouchongkeji.wxapi.WXCodeApi;
-import com.chouchongkeji.wxapi.WXResult;
+import com.chouchongkeji.service.wxapi.WXCodeApi;
+import com.chouchongkeji.service.wxapi.WXResult;
 import com.yichen.auth.properties.SecurityProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

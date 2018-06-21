@@ -2,7 +2,7 @@ package com.chouchongkeji.controller.user;
 
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
-import com.chouchongkeji.redis.MRedisTemplate;
+import com.chouchongkeji.dial.redis.MRedisTemplate;
 import com.chouchongkeji.service.user.UserLoginService;
 import com.yichen.auth.mvc.AppClient;
 import com.yichen.auth.service.ThirdAccService;

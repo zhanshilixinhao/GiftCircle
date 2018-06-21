@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.chouchongkeji.dao.gift.item.ThemeItemMapper">
-  <resultMap id="BaseResultMap" type="com.chouchongkeji.pojo.gift.item.ThemeItem">
+<mapper namespace="com.chouchongkeji.dial.dao.gift.item.ThemeItemMapper">
+  <resultMap id="BaseResultMap" type="com.chouchongkeji.dial.pojo.gift.item.ThemeItem">
     <constructor>
       <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="item_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
@@ -24,7 +24,7 @@
     delete from theme_item
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.chouchongkeji.pojo.gift.item.ThemeItem">
+  <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.gift.item.ThemeItem">
     insert into theme_item (id, item_id, theme_id, 
       sort, created, updated
       )
@@ -32,7 +32,7 @@
       #{sort,jdbcType=INTEGER}, #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.chouchongkeji.pojo.gift.item.ThemeItem">
+  <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.gift.item.ThemeItem">
     insert into theme_item
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -75,7 +75,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.chouchongkeji.pojo.gift.item.ThemeItem">
+  <update id="updateByPrimaryKeySelective" parameterType="com.chouchongkeji.dial.pojo.gift.item.ThemeItem">
     update theme_item
     <set>
       <if test="itemId != null">
@@ -96,7 +96,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.pojo.gift.item.ThemeItem">
+  <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.dial.pojo.gift.item.ThemeItem">
     update theme_item
     set item_id = #{itemId,jdbcType=INTEGER},
       theme_id = #{themeId,jdbcType=INTEGER},

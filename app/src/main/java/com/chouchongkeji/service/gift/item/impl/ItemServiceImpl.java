@@ -1,15 +1,15 @@
 package com.chouchongkeji.service.gift.item.impl;
 
-import com.chouchongkeji.dao.gift.favorite.UserFavoriteMapper;
-import com.chouchongkeji.dao.gift.item.ItemCategoryMapper;
-import com.chouchongkeji.dao.gift.item.ItemCommentMapper;
-import com.chouchongkeji.dao.gift.item.ItemMapper;
+import com.chouchongkeji.dial.dao.gift.favorite.UserFavoriteMapper;
+import com.chouchongkeji.dial.dao.gift.item.ItemCategoryMapper;
+import com.chouchongkeji.dial.dao.gift.item.ItemCommentMapper;
+import com.chouchongkeji.dial.dao.gift.item.ItemMapper;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.query.PageQuery;
-import com.chouchongkeji.pojo.gift.favorite.UserFavorite;
-import com.chouchongkeji.pojo.gift.item.Item;
-import com.chouchongkeji.pojo.gift.item.ItemCategory;
+import com.chouchongkeji.dial.pojo.gift.favorite.UserFavorite;
+import com.chouchongkeji.dial.pojo.gift.item.Item;
+import com.chouchongkeji.dial.pojo.gift.item.ItemCategory;
 import com.chouchongkeji.properties.ServiceProperties;
 import com.chouchongkeji.service.gift.item.ItemService;
 import com.chouchongkeji.service.gift.item.vo.ItemCommentVo;

@@ -1,10 +1,10 @@
 package com.chouchongkeji.service.iwant.merchant.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.chouchongkeji.dao.iwant.merchant.MerchantMapper;
+import com.chouchongkeji.dial.dao.iwant.merchant.MerchantMapper;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
-import com.chouchongkeji.pojo.iwant.merchant.Merchant;
+import com.chouchongkeji.dial.pojo.iwant.merchant.Merchant;
 import com.chouchongkeji.service.iwant.merchant.MerchantService;
 import com.chouchongkeji.service.iwant.merchant.vo.MerchantVo;
 import org.springframework.beans.factory.annotation.Autowired;

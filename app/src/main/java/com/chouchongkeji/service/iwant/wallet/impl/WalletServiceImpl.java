@@ -1,9 +1,9 @@
 package com.chouchongkeji.service.iwant.wallet.impl;
 
-import com.chouchongkeji.dao.iwant.wallet.WalletMapper;
+import com.chouchongkeji.dial.dao.iwant.wallet.WalletMapper;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.common.Response;
-import com.chouchongkeji.pojo.iwant.wallet.Wallet;
+import com.chouchongkeji.dial.pojo.iwant.wallet.Wallet;
 import com.chouchongkeji.service.iwant.wallet.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

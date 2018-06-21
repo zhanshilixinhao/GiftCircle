@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.chouchongkeji.dao.user.PaymentInfoMapper">
-  <resultMap id="BaseResultMap" type="com.chouchongkeji.pojo.user.PaymentInfo">
+<mapper namespace="com.chouchongkeji.dial.dao.user.PaymentInfoMapper">
+  <resultMap id="BaseResultMap" type="com.chouchongkeji.dial.pojo.user.PaymentInfo">
     <constructor>
       <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
@@ -37,7 +37,7 @@
     delete from payment_info
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.chouchongkeji.pojo.user.PaymentInfo">
+  <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.user.PaymentInfo">
     insert into payment_info (id, user_id, type, 
       order_no, total_fee, pay_platform, 
       platform_number, platform_status, seller, 
@@ -49,7 +49,7 @@
       #{buyer,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.chouchongkeji.pojo.user.PaymentInfo">
+  <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.user.PaymentInfo">
     insert into payment_info
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -128,7 +128,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.chouchongkeji.pojo.user.PaymentInfo">
+  <update id="updateByPrimaryKeySelective" parameterType="com.chouchongkeji.dial.pojo.user.PaymentInfo">
     update payment_info
     <set>
       <if test="userId != null">
@@ -167,7 +167,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.pojo.user.PaymentInfo">
+  <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.dial.pojo.user.PaymentInfo">
     update payment_info
     set user_id = #{userId,jdbcType=INTEGER},
       type = #{type,jdbcType=TINYINT},

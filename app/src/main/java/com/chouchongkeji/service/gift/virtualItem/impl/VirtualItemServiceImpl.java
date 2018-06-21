@@ -1,7 +1,7 @@
 package com.chouchongkeji.service.gift.virtualItem.impl;
 
-import com.chouchongkeji.dao.gift.virtualItem.VirtualItemCateMapper;
-import com.chouchongkeji.dao.gift.virtualItem.VirtualItemMapper;
+import com.chouchongkeji.dial.dao.gift.virtualItem.VirtualItemCateMapper;
+import com.chouchongkeji.dial.dao.gift.virtualItem.VirtualItemMapper;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.query.PageQuery;

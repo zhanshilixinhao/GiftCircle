@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chouchongkeji.dial.dao.friend.NewFriendNotifyMapper">
+  <resultMap id="BaseResultMap" type="com.chouchongkeji.dial.pojo.friend.NewFriendNotify">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="target_user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="notify_type" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="user_status" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="target_user_status" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="content" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="validation_msg" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="reply" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, target_user_id, notify_type, status, user_status, target_user_status, 
+    content, validation_msg, reply, created, updated
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from new_friend_notify
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByUserId" resultType="com.chouchongkeji.service.friend.vo.NotifyMsg">
+    SELECT
+	a.*,
+	b.avatar,
+	b.nickname
+FROM
+	(
+SELECT
+	id as msgId,
+	user_id,
+	target_user_id,
+	1 AS type,
+	`status`,
+	validation_msg,
+	reply,
+	created,
+	updated
+FROM
+	new_friend_notify
+WHERE
+	user_id = #{userId} UNION
+SELECT
+	id as msgId,
+	target_user_id AS user_id,
+	user_id AS target_user_id,
+	2 AS type,
+	`status`,
+	validation_msg,
+	reply,
+	created,
+	updated
+FROM
+	new_friend_notify
+WHERE
+	target_user_id = #{userId}
+	) a
+	LEFT JOIN app_user b ON b.id = a.target_user_id
+WHERE
+	a.user_id = #{userId}
+ORDER BY
+	a.updated DESC
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from new_friend_notify
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.friend.NewFriendNotify">
+    insert into new_friend_notify (id, user_id, target_user_id, 
+      notify_type, status, user_status, 
+      target_user_status, content, validation_msg, 
+      reply, created, updated
+      )
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{targetUserId,jdbcType=INTEGER}, 
+      #{notifyType,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, #{userStatus,jdbcType=TINYINT}, 
+      #{targetUserStatus,jdbcType=TINYINT}, #{content,jdbcType=VARCHAR}, #{validationMsg,jdbcType=VARCHAR}, 
+      #{reply,jdbcType=VARCHAR}, now(), now()
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.friend.NewFriendNotify">
+    insert into new_friend_notify
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="targetUserId != null">
+        target_user_id,
+      </if>
+      <if test="notifyType != null">
+        notify_type,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="userStatus != null">
+        user_status,
+      </if>
+      <if test="targetUserStatus != null">
+        target_user_status,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="validationMsg != null">
+        validation_msg,
+      </if>
+      <if test="reply != null">
+        reply,
+      </if>
+      <if test="created != null">
+        created,
+      </if>
+      <if test="updated != null">
+        updated,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="targetUserId != null">
+        #{targetUserId,jdbcType=INTEGER},
+      </if>
+      <if test="notifyType != null">
+        #{notifyType,jdbcType=TINYINT},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="userStatus != null">
+        #{userStatus,jdbcType=TINYINT},
+      </if>
+      <if test="targetUserStatus != null">
+        #{targetUserStatus,jdbcType=TINYINT},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="validationMsg != null">
+        #{validationMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="reply != null">
+        #{reply,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chouchongkeji.dial.pojo.friend.NewFriendNotify">
+    update new_friend_notify
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="targetUserId != null">
+        target_user_id = #{targetUserId,jdbcType=INTEGER},
+      </if>
+      <if test="notifyType != null">
+        notify_type = #{notifyType,jdbcType=TINYINT},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="userStatus != null">
+        user_status = #{userStatus,jdbcType=TINYINT},
+      </if>
+      <if test="targetUserStatus != null">
+        target_user_status = #{targetUserStatus,jdbcType=TINYINT},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="validationMsg != null">
+        validation_msg = #{validationMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="reply != null">
+        reply = #{reply,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        updated = #{updated,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.dial.pojo.friend.NewFriendNotify">
+    update new_friend_notify
+    set user_id = #{userId,jdbcType=INTEGER},
+      target_user_id = #{targetUserId,jdbcType=INTEGER},
+      notify_type = #{notifyType,jdbcType=TINYINT},
+      status = #{status,jdbcType=TINYINT},
+      user_status = #{userStatus,jdbcType=TINYINT},
+      target_user_status = #{targetUserStatus,jdbcType=TINYINT},
+      content = #{content,jdbcType=VARCHAR},
+      validation_msg = #{validationMsg,jdbcType=VARCHAR},
+      reply = #{reply,jdbcType=VARCHAR},
+      created = #{created,jdbcType=TIMESTAMP},
+      updated = #{updated,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

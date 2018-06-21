@@ -1,7 +1,7 @@
 package com.chouchongkeji.util;
 
 import com.chouchongkeji.goexplore.utils.DateUtil;
-import com.chouchongkeji.redis.MRedisTemplate;
+import com.chouchongkeji.dial.redis.MRedisTemplate;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

@@ -1,13 +1,13 @@
 package com.chouchongkeji.service.user.impl;
 
-import com.chouchongkeji.dao.user.AppUserMapper;
-import com.chouchongkeji.dao.user.ThirdAccountMapper;
+import com.chouchongkeji.dial.dao.user.AppUserMapper;
+import com.chouchongkeji.dial.dao.user.ThirdAccountMapper;
 import com.chouchongkeji.exception.ServiceException;
 import com.chouchongkeji.goexplore.common.ErrorCode;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.common.Response;
-import com.chouchongkeji.pojo.user.AppUser;
-import com.chouchongkeji.pojo.user.ThirdAccount;
+import com.chouchongkeji.dial.pojo.user.AppUser;
+import com.chouchongkeji.dial.pojo.user.ThirdAccount;
 import com.chouchongkeji.util.Constants;
 import com.yichen.auth.model.DefaultThirdAccDetail;
 import com.yichen.auth.model.ThirdAccDetail;

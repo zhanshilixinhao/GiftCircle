@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.chouchongkeji.dao.iwant.wallet.WalletMapper">
-  <resultMap id="BaseResultMap" type="com.chouchongkeji.pojo.iwant.wallet.Wallet">
+<mapper namespace="com.chouchongkeji.dial.dao.iwant.wallet.WalletMapper">
+  <resultMap id="BaseResultMap" type="com.chouchongkeji.dial.pojo.iwant.wallet.Wallet">
     <constructor>
       <idArg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="balance" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
@@ -32,7 +32,7 @@ WHERE
     delete from wallet
     where user_id = #{userId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.chouchongkeji.pojo.iwant.wallet.Wallet">
+  <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.iwant.wallet.Wallet">
     insert into wallet (user_id, balance, total_amount, 
       consume_amount, created, updated
       )
@@ -40,7 +40,7 @@ WHERE
       #{consumeAmount,jdbcType=DECIMAL}, #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.chouchongkeji.pojo.iwant.wallet.Wallet">
+  <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.iwant.wallet.Wallet">
     insert into wallet
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="userId != null">
@@ -83,7 +83,7 @@ WHERE
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.chouchongkeji.pojo.iwant.wallet.Wallet">
+  <update id="updateByPrimaryKeySelective" parameterType="com.chouchongkeji.dial.pojo.iwant.wallet.Wallet">
     update wallet
     <set>
       <if test="balance != null">
@@ -104,7 +104,7 @@ WHERE
     </set>
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.pojo.iwant.wallet.Wallet">
+  <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.dial.pojo.iwant.wallet.Wallet">
     update wallet
     set balance = #{balance,jdbcType=DECIMAL},
       total_amount = #{totalAmount,jdbcType=DECIMAL},
