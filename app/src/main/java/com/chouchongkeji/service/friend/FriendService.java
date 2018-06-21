@@ -103,7 +103,7 @@ public interface FriendService {
     /**
      * 获取好友列表
      *
-     * @param userId 用户id
+     * @param userId  用户id
      * @param groupId
      * @return
      * @author yichenshanren
@@ -114,7 +114,7 @@ public interface FriendService {
     /**
      * 修改好友信息
      *
-     * @param userId  用户信息
+     * @param userId       用户信息
      * @param groupId      新的分组id
      * @param remark       新的备注
      * @param relationship 新的关系
@@ -122,7 +122,7 @@ public interface FriendService {
      * @author yichenshanren
      * @date 2018/6/21
      */
-    Response modifyFriend(Integer userId,Integer friendUserId, Integer groupId, String remark, String relationship);
+    Response modifyFriend(Integer userId, Integer friendUserId, Integer groupId, String remark, String relationship);
 
     /**
      * 删除好友
@@ -134,4 +134,14 @@ public interface FriendService {
      */
     Response delFriend(Integer userId, Integer friendUserId);
 
+    /**
+     * 搜索好友
+     *
+     * @param userId 用户id
+     * @param key    搜索关键字-此处目前支支持手机号
+     * @return
+     * @author yichenshanren
+     * @date 2018/6/21
+     */
+    Response searchFriend(Integer userId, String key);
 }

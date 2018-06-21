@@ -94,6 +94,22 @@ public class FriendController {
         return friendService.delFriend(userDetails.getUserId(), friendUserId);
     }
 
+    /**
+     * 修改好友信息
+     *
+     * @param userDetails 用户信息
+     * @return
+     * @author yichenshanren
+     * @date 2018/6/21
+     */
+    @PostMapping("search")
+    public Response searchFriend(@AuthenticationPrincipal UserDetails userDetails,
+                                 String key) {
+        if (StringUtils.isBlank(key)) {
+            return ResponseFactory.errMissingParameter();
+        }
+        return friendService.searchFriend(userDetails.getUserId(), key);
+    }
 
     /**
      * 添加分组

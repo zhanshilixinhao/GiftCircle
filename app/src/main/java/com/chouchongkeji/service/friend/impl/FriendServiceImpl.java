@@ -14,6 +14,7 @@ import com.chouchongkeji.dial.pojo.friend.NewFriendNotify;
 import com.chouchongkeji.dial.pojo.user.AppUser;
 import com.chouchongkeji.service.friend.FriendService;
 import com.chouchongkeji.service.friend.vo.Content;
+import com.chouchongkeji.service.friend.vo.FriendBase;
 import com.chouchongkeji.service.friend.vo.FriendItem;
 import com.chouchongkeji.service.friend.vo.NotifyMsg;
 import com.chouchongkeji.util.Constants;
@@ -119,6 +120,31 @@ public class FriendServiceImpl implements FriendService {
         }
         friendMapper.deleteByUserIdAndFriendUserId(userId, friendUserId);
         return ResponseFactory.sucMsg("删除成功!");
+    }
+
+    /**
+     * 搜索好友
+     *
+     * @param userId 用户id
+     * @param key    搜索关键字-此处目前支支持手机号
+     * @return
+     * @author yichenshanren
+     * @date 2018/6/21
+     */
+    @Override
+    public Response searchFriend(Integer userId, String key) {
+        AppUser user = appUserMapper.selectByPhone(key);
+        if (user == null) {
+            return ResponseFactory.suc();
+        }
+        // 判断是不是好友关系
+        Friend friend = friendMapper.selectByUserIdAndFriendUserId(userId, user.getId());
+        FriendBase friendBase = new FriendBase();
+        friendBase.setUserId(user.getId());
+        friendBase.setAvatar(user.getAvatar());
+        friendBase.setNickname(user.getNickname());
+        friendBase.setIsFriend(friend == null ? 2 : 1);
+        return ResponseFactory.sucData(friendBase);
     }
 
     /**

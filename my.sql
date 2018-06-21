@@ -891,3 +891,44 @@ CREATE TABLE `sys_admin`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `account`(`account`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COMMENT = '后台用户表';
+
+
+/*==============================================================*/
+/* Table: user_tag                                               */
+/*==============================================================*/
+DROP TABLE IF EXISTS `user_tag_dict`;
+CREATE TABLE `user_tag_dict` (
+  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT ,
+  `tag` varchar(64) comment '标签名字',
+  `type` tinyint(4) comment '1 正面的 2 负面的',
+  `created` datetime,
+  `updated` datetime,
+  PRIMARY KEY ( id )
+) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8mb4 COMMENT = '好友印象标签字典';
+
+/*==============================================================*/
+/* Table: gift_preference_dict                                               */
+/*==============================================================*/
+DROP TABLE IF EXISTS `gift_preference_dict`;
+CREATE TABLE `gift_preference_dict` (
+  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT ,
+  `text` varchar(64) comment '标签名字',
+  `type` tinyint(4) comment '1 正面的 2 负面的',
+  `created` datetime,
+  `updated` datetime,
+  PRIMARY KEY ( id )
+) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8mb4 COMMENT = '礼物偏好字典';
+
+
+/*==============================================================*/
+/* Table: user_detail                                               */
+/*==============================================================*/
+DROP TABLE IF EXISTS `user_preference`;
+CREATE TABLE `user_preference` (
+  `user_id` int(11) UNSIGNED NOT NULL ,
+  `tags` varchar(1000) comment '好友标签json数组[{tag:标签,num:次数,type:1}]',
+  `gift_preference` varchar(255) comment '礼物偏好json数组',
+  `created` datetime,
+  `updated` datetime,
+  PRIMARY KEY ( user_id )
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COMMENT = '用户信息补充';
