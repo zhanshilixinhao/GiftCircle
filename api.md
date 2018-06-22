@@ -848,7 +848,7 @@ JSON：
 
 ### 5.5 修改收货地址
 
-- 请求地址：auth/v1/reAddress/add
+- 请求地址：auth/v1/reAddress/update
 - 服务协议：HTTP/POST
 - 是否需要身份认证：是
 - 作者：yy
