@@ -1,7 +1,9 @@
 package com.chouchongkeji.service.user.impl;
 
+import com.chouchongkeji.dial.dao.gift.item.ItemMapper;
 import com.chouchongkeji.dial.dao.gift.item.ItemOrderDetailMapper;
 import com.chouchongkeji.dial.dao.gift.item.ItemOrderMapper;
+import com.chouchongkeji.dial.dao.gift.item.ItemSkuMapper;
 import com.chouchongkeji.dial.dao.iwant.wallet.ChargeOrderMapper;
 import com.chouchongkeji.dial.dao.user.PaymentInfoMapper;
 import com.chouchongkeji.dial.pojo.gift.item.ItemOrder;
@@ -33,6 +35,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -57,6 +60,12 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
 
     @Autowired
     private ItemOrderDetailMapper itemOrderDetailMapper;
+
+    @Autowired
+    private ItemSkuMapper itemSkuMapper;
+
+    @Autowired
+    private ItemMapper itemMapper;
     /**
      * 支付宝提供给商户的服务接入网关URL(新)
      */
@@ -137,13 +146,8 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
             if (count==0){
                 throw new ServiceException(ErrorCode.ERROR.getCode(),"更新失败");
             }
-            //更新订单状态（详细订单）
-            ItemOrderDetail itemOrderDetail = itemOrderDetailMapper.selectByOrderNo(orderNo);//取出订单详细信息
-            itemOrderDetail.setStatus((byte)Constants.ORDER_BASE_STATUS.PAID);
-            int update = itemOrderDetailMapper.updateByPrimaryKeySelective(itemOrderDetail);
-            if (update == 0){
-                throw new ServiceException(ErrorCode.ERROR.getCode(),"更新状态失败");
-            }
+            //更新详细订单状态和销量
+            updateStatusSales(orderNo);
             //支付信息
             doAliPaySuccess(aLiPayV2Vo,orderType);
         }  else if (i == 2) {
@@ -335,13 +339,8 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
             if (count == 0){
                 throw new ServiceException(ErrorCode.ERROR.getCode(),"更新状态失败");
             }
-            //更新订单状态（详细订单）
-            ItemOrderDetail itemOrderDetail = itemOrderDetailMapper.selectByOrderNo(orderNo);//取出订单详细信息
-            itemOrderDetail.setStatus((byte)Constants.ORDER_BASE_STATUS.PAID);
-            int update = itemOrderDetailMapper.updateByPrimaryKeySelective(itemOrderDetail);
-            if (update == 0){
-                throw new ServiceException(ErrorCode.ERROR.getCode(),"更新状态失败");
-            }
+            //更新详细订单状态和销量
+            updateStatusSales(orderNo);
             //支付信息
             doWXPaySuccess(notifyData,orderType);
         }else if (re == 2) {
@@ -413,7 +412,7 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
         /** 订单类型 **/
         payment.setType(orderType);
         /** 支付平台 **/
-        payment.setPayPlatform((byte)Constants.PAY_PALATFORM.WX);
+        payment.setPayPlatform((byte)Constants.PAY_TYPE.WX);
         /** 卖家账号 **/
         payment.setSeller(notifyData.getMch_id());
         /** 支付总价--分为单位 **/
@@ -431,7 +430,31 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
     }
 
 
-
+private void updateStatusSales(Long orderNo){
+    //取出订单详细信息
+    List<ItemOrderDetail> itemOrderDetail = itemOrderDetailMapper.selectByOrderNo(orderNo);
+    for (ItemOrderDetail itemDetail:itemOrderDetail) {
+        //更新详细订单状态
+        itemDetail.setStatus((byte)Constants.ORDER_BASE_STATUS.PAID);
+        int update = itemOrderDetailMapper.updateByPrimaryKeySelective(itemDetail);
+        if (update == 0){
+            throw new ServiceException(ErrorCode.ERROR.getCode(),"更新状态失败");
+        }
+        //更新ItemSku销量
+        Integer skuId = itemDetail.getSkuId();
+        Integer quantity = itemDetail.getQuantity();
+        Integer sales = itemSkuMapper.updateSalesBySkuId(skuId,quantity);
+        if (sales == 0){
+            throw new ServiceException(ErrorCode.ERROR.getCode(),"更新销量失败");
+        }
+        //更新Item销量
+        Integer itemId = itemDetail.getItemId();
+        Integer ItemSales = itemMapper.updateSalesByItemId(itemId,quantity);
+        if (ItemSales == 0){
+            throw new ServiceException(ErrorCode.ERROR.getCode(),"更新销量失败");
+        }
+    }
+}
 
 
 }

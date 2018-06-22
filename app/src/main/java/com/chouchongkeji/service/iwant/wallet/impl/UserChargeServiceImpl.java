@@ -106,7 +106,12 @@ public class UserChargeServiceImpl implements UserChargeService {
         vo.setBody(Constants.PAY_BODY);
         vo.setSubject(Constants.PAY_SUBJECT_ORDER);
         vo.setOrderNo(order.getOrderNo());
-        vo.setUrl("yuu");
+        //支付宝
+        if (payWay == Constants.PAY_TYPE.ALI){
+            vo.setUrl("noauth/pay/charge_order/ali");
+        } else if (payWay == Constants.PAY_TYPE.WX){//微信
+            vo.setUrl("noauth/pay/charge_order/wx");
+        }
         vo.setPrice(order.getAmount());
         return vo;
     }

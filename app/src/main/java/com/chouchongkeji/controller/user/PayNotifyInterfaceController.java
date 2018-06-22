@@ -5,6 +5,7 @@ import com.chouchongkeji.goexplore.pay.weixin.common.Util;
 import com.chouchongkeji.service.user.AppPaymentInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +16,7 @@ import java.util.Map;
  * @date 2018/6/8
  */
 @RestController
+@RequestMapping("noauth/pay")
 public class PayNotifyInterfaceController {
 
     @Autowired

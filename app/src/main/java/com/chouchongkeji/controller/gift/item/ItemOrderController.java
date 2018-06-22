@@ -81,6 +81,10 @@ public class ItemOrderController {
      */
     @PostMapping("pay")
     public Response orderPay(@AuthenticationPrincipal UserDetails userDetails,Long orderNo ,Integer payWay){
+        //检验支付方式
+        if (payWay == null || (payWay != Constants.PAY_TYPE.WX && payWay != Constants.PAY_TYPE.ALI)) {
+            return ResponseFactory.err("支付方式错误!");
+        }
         if (orderNo == null){
             return ResponseFactory.errMissingParameter();
         }

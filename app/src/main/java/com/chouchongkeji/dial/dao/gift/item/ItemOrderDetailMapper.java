@@ -22,5 +22,8 @@ public interface ItemOrderDetailMapper {
 
     List<ItemOrderDetail> selectByUserIdAndOrderNo(@Param("userId") Integer userId,@Param("orderNo") Long orderNo);
 
-    ItemOrderDetail selectByOrderNo(Long orderNo);
+    List<ItemOrderDetail> selectByOrderNo(Long orderNo);
+
+    int selectBySkuId(Integer skuId);
+
 }

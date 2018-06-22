@@ -2,6 +2,7 @@ package com.chouchongkeji.dial.dao.gift.item;
 
 import com.chouchongkeji.dial.pojo.gift.item.ItemSku;
 import com.chouchongkeji.service.gift.item.vo.SkuListVo;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -22,4 +23,5 @@ public interface ItemSkuMapper {
 
     ItemSku selectBySkuId(Integer skuId);
 
+    int updateSalesBySkuId(@Param("skuId") Integer skuId,@Param("quantity")Integer quantity);
 }
