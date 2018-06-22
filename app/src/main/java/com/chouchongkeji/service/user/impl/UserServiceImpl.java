@@ -59,6 +59,7 @@ public class UserServiceImpl implements UserService {
         }
         // 头像要加上服务器地址
         appUser.setPassword(null);
+        appUser.setSentPwd(null);
         appUser.setAvatar(serviceProperties.getImgHost() + appUser.getAvatar());
         return ResponseFactory.sucData(appUser);
 

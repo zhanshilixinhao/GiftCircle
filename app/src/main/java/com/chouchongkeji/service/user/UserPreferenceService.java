@@ -2,6 +2,8 @@ package com.chouchongkeji.service.user;
 
 import com.chouchongkeji.goexplore.common.Response;
 
+import java.util.HashSet;
+
 /**
  * @author yichenshanren
  * @date 2018/6/21
@@ -23,10 +25,30 @@ public interface UserPreferenceService {
      *
      * @param userId       用户id
      * @param friendUserId 好友用户id
-     * @param tagId        标签id
+     * @param tagIds       标签id
      * @return
      * @author yichenshanren
      * @date 2018/6/21
      */
-    Response addTag(Integer userId, Integer friendUserId, Integer tagId);
+    Response addTag(Integer userId, Integer friendUserId, HashSet<Integer> tagIds);
+
+    /**
+     * 获取礼物偏好列表
+     *
+     * @param userId 用户id
+     * @param targetUserId
+     * @return
+     * @author yichenshanren
+     * @date 2018/6/21
+     */
+    Response getGiftPreference(Integer userId, Integer targetUserId);
+
+    /**
+     * 添加礼物偏好
+     *
+     * @return
+     * @author yichenshanren
+     * @date 2018/6/21
+     */
+    Response addGiftPreference(Integer userId, HashSet<Integer> idSet);
 }

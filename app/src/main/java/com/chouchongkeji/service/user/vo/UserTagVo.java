@@ -12,6 +12,7 @@ public class UserTagVo {
     private Integer tagId;
     private String tag;
     private Integer num;
+    private Byte type;
 
     public Integer getTagId() {
         return tagId;
@@ -48,5 +49,13 @@ public class UserTagVo {
     @Override
     public int hashCode() {
         return Objects.hash(getTagId());
+    }
+
+    public Byte getType() {
+        return type;
+    }
+
+    public void setType(Byte type) {
+        this.type = type;
     }
 }

@@ -24,6 +24,15 @@
         <include refid="Base_Column_List"/>
         from user_tag_dict
     </select>
+    <select id="selectListByPrimaryKeys" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user_tag_dict
+        where id in
+        <foreach collection="list" index="i" item="item" separator="," close=")" open="(">
+            #{item}
+        </foreach>
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from user_tag_dict
     where id = #{id,jdbcType=INTEGER}

@@ -27,7 +27,7 @@
     insert into user_preference (user_id, tags, gift_preference, 
       created, updated)
     values (#{userId,jdbcType=INTEGER}, #{tags,jdbcType=VARCHAR}, #{giftPreference,jdbcType=VARCHAR}, 
-      #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP})
+      now(), now())
   </insert>
   <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.user.UserPreference">
     insert into user_preference
@@ -75,7 +75,7 @@
       <if test="giftPreference != null">
         gift_preference = #{giftPreference,jdbcType=VARCHAR},
       </if>
-        updated = #{updated,jdbcType=TIMESTAMP},
+        updated = now(),
     </set>
     where user_id = #{userId,jdbcType=INTEGER}
   </update>

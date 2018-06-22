@@ -19,7 +19,12 @@
     from gift_preference_dict
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="selectAll" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List"/>
+      from gift_preference_dict
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from gift_preference_dict
     where id = #{id,jdbcType=INTEGER}
   </delete>

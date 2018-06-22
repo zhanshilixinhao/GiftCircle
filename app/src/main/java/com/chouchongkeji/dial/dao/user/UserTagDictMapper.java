@@ -1,7 +1,9 @@
 package com.chouchongkeji.dial.dao.user;
 
 import com.chouchongkeji.dial.pojo.user.UserTagDict;
+import org.apache.ibatis.annotations.Param;
 
+import java.util.HashSet;
 import java.util.List;
 
 public interface UserTagDictMapper {
@@ -18,5 +20,7 @@ public interface UserTagDictMapper {
     int updateByPrimaryKey(UserTagDict record);
 
     List<UserTagDict> selectAll();
+
+    List<UserTagDict> selectListByPrimaryKeys(@Param("list") HashSet<Integer> list);
 
 }

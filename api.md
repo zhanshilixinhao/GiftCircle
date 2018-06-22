@@ -280,8 +280,69 @@ http 常用错误码
 | :----------: | :------: | :------: | :----: | :------: |
 | access_token | string | 是 | 无 | 访问令牌 |
 | friendUserId | int | 是 | 无 | 好友用户id |
-| tagId | int | 是 | 无 | 标签id-2.6中的id |
+| tagIds | string | 是 | 无 | 标签id集合（多个,隔开）-2.6中的id |
 
+
+
+### 2.9 查看礼物偏好
+
+- 请求地址：auth/user/gift/preference/list
+- 服务协议：HTTP/POST
+- 是否需要身份认证：否
+- 作者：yichen
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token | string | 是 | 无 | 访问令牌 |
+| targetUserId | int | 否 | 无 | 要查看的用户id 不传查看自己的 |
+
+* 请求结果示例
+* 如果是查看自己的会返回所有可选择的礼物偏好
+* 查看别人的只返回别人已选择的礼物偏好
+
+```js
+{
+    errCode: 0, 
+    result: 0, 
+    time: 1529633323835, 
+    data: [
+        {
+            id: 12, 
+            text: "数码", 
+            type: 2, // 只在看自己的礼物偏好时有效 1 我已选择 2 我还没选择
+            created: 1529588757000, 
+            updated: 1529588757000
+        }, 
+        {
+            id: 13, 
+            text: "古玩", 
+            type: 1, 
+            created: 1529588757000, 
+            updated: 1529588757000
+        }, 
+        {
+            id: 14, 
+            text: "玉石", 
+            type: 1, 
+            created: 1529588757000, 
+            updated: 1529588757000
+        }
+    ]
+}
+```
+
+
+### 2.10 修改礼物偏好
+
+- 请求地址：auth/user/gift/preference/modify
+- 服务协议：HTTP/POST
+- 是否需要身份认证：否
+- 作者：yichen
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token | string | 是 | 无 | 访问令牌 |
+| ids | string | 是 | 无 | 选中的礼物偏好id集合，多个用,隔开 |
 
 ## 3. 我要--我的钱包
 
@@ -1969,8 +2030,8 @@ JSON：
 | access_token |  string  |    是    |   无   | 访问令牌 |
 | groupId | int | 否 | 无 | 分组id |
 | friendUserId | int | 是 | 无 | 好友用户id |
-| remark | string | 是 | 无 | 备注 |
-| relationship | string | 是 | 无 | 关系 |
+| remark | string | 否 | 无 | 备注 |
+| relationship | string | 否 | 无 | 关系 |
 
 * 请求结果示例
 
@@ -2098,7 +2159,7 @@ JSON：
         userId: 1, 
         avatar: "avatar.jpg", 
         nickname: "什么", 
-        isFriend: 1
+        isFriend: 1 // 是否是好友 1 是 2 不是
     }
 }
 ```
