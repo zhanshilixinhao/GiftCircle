@@ -46,6 +46,14 @@ WHERE
       WHERE
      order_no = #{orderNo}
     </select>
+    <select id="selectBySkuId" resultMap="BaseResultMap">
+SELECT
+	quantity
+FROM
+	`item_order_detail`
+WHERE
+	sku_id = #{skuId}
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from item_order_detail
     where id = #{id,jdbcType=INTEGER}

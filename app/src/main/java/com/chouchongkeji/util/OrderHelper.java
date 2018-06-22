@@ -16,7 +16,7 @@ public class OrderHelper {
 
     private static final String KEY_PREFIX = "JFK434-JDKS.32432-rewr432432";
 
-    private static final long INIT_NO = 10000;
+    private static final long INIT_NO = 100;
 
     @Autowired
     private MRedisTemplate mRedisTemplate;
@@ -37,7 +37,8 @@ public class OrderHelper {
             mRedisTemplate.setString(KEY_PREFIX, no, (int) (DateUtil.tomZeroDiff() / 1000));
         }
         mRedisTemplate.template().opsForValue().increment(KEY_PREFIX, 1);
-        return Long.parseLong(String.format("%s%s%s%s", client, type, DateUtil.today("yyyyMM"), no));
+        return Long.parseLong(String.format("%s%s%s%s", client, type, DateUtil.today("yyMMddHH"), no));
     }
+
 
 }

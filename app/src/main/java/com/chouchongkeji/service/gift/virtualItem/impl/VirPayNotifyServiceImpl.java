@@ -3,8 +3,11 @@ package com.chouchongkeji.service.gift.virtualItem.impl;
 import com.chouchongkeji.dial.dao.gift.virtualItem.UserVirtualItemMapper;
 import com.chouchongkeji.dial.dao.gift.virtualItem.VirItemOrderMapper;
 import com.chouchongkeji.dial.dao.gift.virtualItem.VirtualItemMapper;
-import com.chouchongkeji.dial.dao.iwant.wallet.ChargeOrderMapper;
 import com.chouchongkeji.dial.dao.user.PaymentInfoMapper;
+import com.chouchongkeji.dial.pojo.gift.virtualItem.UserVirtualItem;
+import com.chouchongkeji.dial.pojo.gift.virtualItem.VirItemOrder;
+import com.chouchongkeji.dial.pojo.gift.virtualItem.VirtualItem;
+import com.chouchongkeji.dial.pojo.user.PaymentInfo;
 import com.chouchongkeji.exception.ServiceException;
 import com.chouchongkeji.goexplore.pay.alipay.config.AlipayConfig;
 import com.chouchongkeji.goexplore.pay.alipay_v2.ALiPayV2Vo;
@@ -16,11 +19,6 @@ import com.chouchongkeji.goexplore.pay.weixin.protocol.NotifyData;
 import com.chouchongkeji.goexplore.utils.BigDecimalUtil;
 import com.chouchongkeji.goexplore.utils.DateUtil;
 import com.chouchongkeji.goexplore.utils.HttpClientUtils;
-import com.chouchongkeji.dial.pojo.gift.virtualItem.UserVirtualItem;
-import com.chouchongkeji.dial.pojo.gift.virtualItem.VirItemOrder;
-import com.chouchongkeji.dial.pojo.gift.virtualItem.VirtualItem;
-import com.chouchongkeji.dial.pojo.iwant.wallet.ChargeOrder;
-import com.chouchongkeji.dial.pojo.user.PaymentInfo;
 import com.chouchongkeji.service.gift.virtualItem.VirPayNotifyService;
 import com.chouchongkeji.util.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -301,7 +299,7 @@ public class VirPayNotifyServiceImpl implements VirPayNotifyService{
         /** 订单类型 **/
         payment.setType(orderType);
         /** 支付平台 **/
-        payment.setPayPlatform((byte)Constants.PAY_PALATFORM.WX);
+        payment.setPayPlatform((byte)Constants.PAY_TYPE.WX);
         /** 卖家账号 **/
         payment.setSeller(notifyData.getMch_id());
         /** 支付总价--分为单位 **/

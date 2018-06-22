@@ -332,6 +332,13 @@
       updated = #{updated,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+    <update id="updateSalesByItemId">
+        UPDATE
+	`item`
+	set sales = sales + #{quantity}
+WHERE
+	id = #{itemId}
+    </update>
 
     <!--商品详情字段-->
     <resultMap id="ItemDetail" type="com.chouchongkeji.service.gift.item.vo.ItemDetail">

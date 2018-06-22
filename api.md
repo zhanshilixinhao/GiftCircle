@@ -386,7 +386,7 @@ http 常用错误码
 | :----------: | :------: | :------: | :----: | :------: |
 | access_token |  string  |    是    |   无   | 访问令牌 |
 |    amount    |   int    |    是    |   无   | 充值金额 |
-|    payWay    |   int    |    是    |   无   | 支付方式 |
+|    payWay    |   int    |    是    |   无   | 支付方式，微信 24656，支付宝 78990 |
 
 请求结果示例：
 
@@ -1737,6 +1737,132 @@ JSON：
 | price | int | 是 | 商品价格 |
 | stock | int | 是 | 商品库存 |
 | sales | int | 是 | 商品销量 |
+
+### 7.6 创建商品订单
+- 请求地址：auth/item/order/create
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：linqin
+
+| 参数名称 | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :------: | :------: | :------: | :----: | :------: |
+|  access_token  |   String    |    是    |   无   |  访问令牌  |
+| skus | String | 是 | 无 | json数组，数组格式，[{"skuId":skuId,"quantity":quantity}] |
+| payWay | int | 是 | 无 | 支付方式，微信 24656 ，支付宝 78990 |
+
+请求结果示例：
+```json
+{
+    "errCode": 0, 
+    "result": 0, 
+    "time": 1529639907550, 
+    "data": {
+        "params": "uiOEq5JisHOXjowq+bmX02bIomMwVWKGh+dmo38mbHi9vnlgj9L6nfojA2xxw9qXw2TUXi2A+BajzRKcJax6ZgGFaa3+dm0w1/4rsed8U4b+U9DX0AeveUKqvQY+1g3Pt4XsbNnoh6cr61K5B12wlp31A67n1gpSeufrYYo0ZHg2zEwwaZqxpqo3K+87b32zm9G1Pkqxyv5dpqOOzdeQbp9/HZDau+F5TG/6R5zkh51sU3+2ObRsQbdzfS5mDfuUUe7jWuHH9VeX7rY+gPgciRvt3u+3gfoeHO3BXQLG/Ni9dU9V0aEXGiApXIl9C6vuFGhD6jLtiyL0s6juASewzg==kjyGiTxGKNyOjLdNoaTPcoxPWoLVtmpBK+dvlH3FJ49ErulyY+FSiO1sxwWmz3GR1SIZsSMHN28XGMaPlgu2IAryqgisTl/YNCISwMbLfvLHC3SwIPDgyjMslAMLKsFo5pL/ZGX94+M4p1Sr26mLO+g+atRhUzyxQH1Wg8v5uBkMw8SXDrABFydeqyO+8hRpv8HdoaHd+01E4jnYg2zz3y6VmI8Sa6tWpcLTZ/ZbaDc9fxoGA1nOBjN7fMOCPtZyJtkquTtCEKok1tg0m4lzn+9WE/57MqjOamhfPygqvU8ET+K6PV/51YDV9poPVxL0OPdBksioo6efsb3ydVP61w==||344,344", 
+        "orderNo": 21806221110003, 
+        "type": 24656
+    }
+}
+```
+### 7.7 订单支付
+- 请求地址：auth/item/order/pay
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：linqin
+
+| 参数名称 | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :------: | :------: | :------: | :----: | :------: |
+|  access_token  |   String    |    是    |   无   |  访问令牌  |
+| orderNo | Long | 是 | 无 | 订单号 |
+| payWay | int | 是 | 无 | 支付方式，微信 24656 ，支付宝 78990 |
+
+请求结果示例：
+```json
+{
+    "errCode": 0, 
+    "result": 0, 
+    "time": 1529640449848, 
+    "data": {
+        "params": "jHWd8TC7HrEiLzosZOLAv/BFB8z8BBpInfRj5lKA/t99U/pTxeew2YVQ1zU2kec8ICdcdXor7CLppaYKhGT5hwqcrZgvlKPiUfGOsN3z0fFAJS4G9cNBpsUrcyvag93U7EEmQT8Xa9Be0HXTfCcmig7mhgIBNfuWqQWAQIkBDior4zdlSzAsZ0AJ/YubmJtcQWQhOU6/2VK4uo/uHoxo9G04emIp6+LCM9Bapku00wMeANY2UEkmbcFO5r4oZhkW5IAijNKu0bLVfp1H+s9Kh6TQwB1nhLVqFxl69nIFbmwybYprgRl3RFkZRL896bmeXkDzBVuQSrBW6qfkyl4tKQ==mkOGG3oeEEEnLMnpwdhTmlSo9wH+VI369sgyFQ0+EyG9FZG18cjxx6cU6BNvVwLwFiTIgev1e1mjDrxJJFEGFFiVF1ypzsKu+6RcFVbIU5kz9Denpu7G0h+yiQ29FwNir5hHxEW2o7Ps/mTmdxqasPZvwIvftdvk38F3dCViUAjshqdo3Esu/EA3Zmtk0uzqAmWYteqiXCQaH1zNMdrXT+ePV0d/VlSDgC0Y6OSvjBhIuidPwsmjloyHmA9JFIvcPKs1CehnvFrJiSpXi4AMzk2z8bhDWVwKieyEtRCgsOYWIBJcVKSuFh4wpoOQbt0/rZnpWfZ1hehPT9CEkUZN5w==||344,344", 
+        "orderNo": 21806221110003, 
+        "type": 24656
+    }
+}
+```
+
+### 7.8 订单取消
+- 请求地址：auth/item/order/cancel
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：linqin
+
+| 参数名称 | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :------: | :------: | :------: | :----: | :------: |
+|  access_token  |   String    |    是    |   无   |  访问令牌  |
+| orderNo | Long | 是 | 无 | 订单号 |
+
+请求结果示例：
+```json
+{
+    "errCode": 0, 
+    "result": 0, 
+    "msg": "订单取消成功", 
+    "time": 1529640838802
+}
+```
+
+### 7.9 订单列表
+- 请求地址：auth/item/order/list
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：linqin
+
+| 参数名称 | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :------: | :------: | :------: | :----: | :------: |
+|  access_token  |   String    |    是    |   无   |  访问令牌  |
+| pageNum | int | 是 | 1 | 分页 |
+| pageSize | int | 是 | 14 | 分页大小 |
+
+请求结果示例：
+```json
+{
+    {
+    "errCode": 0, 
+    "result": 0, 
+    "time": 1529642084930, 
+    "data": [
+        {
+            "id": 102, 
+            "userId": 1, 
+            "storeId": null, 
+            "orderNo": 220180610002, 
+            "totalPrice": 5000, 
+            "quantity": 5, 
+            "status": 13, 
+            "created": 1529556052000, 
+            "updated": 1529556052000
+        }, 
+        {
+            "id": 103, 
+            "userId": 1, 
+            "storeId": null, 
+            "orderNo": 220180610005, 
+            "totalPrice": 4000, 
+            "quantity": 4, 
+            "status": 13, 
+            "created": 1529567868000, 
+            "updated": 1529567868000
+        }
+    ]
+}
+}
+```
+| 参数名称 | 参数类型 | 是否必传 |  参数说明 |
+| :------: | :------: | :------:  | :------: |
+|  userId  |   int    |    是    | 用户Id  |
+| storeId | int | 否 | 店铺Id |
+| orderNo | Long | 是 | 订单号 |
+| totalPrice | float | 是 | 商品总价 |
+| Status | int | 是 | 订单类型 |
 
 ## 8 图片上传
 

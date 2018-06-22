@@ -199,11 +199,11 @@ public class Constants {
 
     }
 
-    // 支付类型
-    public interface PAY_PALATFORM {
-        int WX = 1;
-        int ALI = 2;
-    }
+    // 支付平台类型
+//    public interface PAY_PALATFORM {
+//        int WX = 1;
+//        int ALI = 2;
+//    }
 
     // 短信验证码类型
     public interface SMS_TYPE {

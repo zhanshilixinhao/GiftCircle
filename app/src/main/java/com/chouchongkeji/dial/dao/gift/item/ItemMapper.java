@@ -50,4 +50,5 @@ public interface ItemMapper {
 
     Item selectByItemId(Integer itemId);
 
+    Integer updateSalesByItemId(@Param("itemId") Integer itemId,@Param("quantity") Integer quantity);
 }
