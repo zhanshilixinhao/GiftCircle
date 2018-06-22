@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashSet;
 
 /**
  * @author yichenshanren
@@ -102,5 +103,24 @@ public class Utils {
                     userName.substring(userName.length() - 4, userName.length()));
         }
         return userName;
+    }
+
+    public static boolean getIds(String string, HashSet<Integer> idSet) {
+        String[] split = string.split(",");
+        return getIds(split, idSet);
+    }
+
+    public static boolean getIds(String[] strings, HashSet<Integer> idSet) {
+        try {
+            Integer id = null;
+            for (String idStr : strings) {
+                id = Integer.parseInt(idStr);
+                idSet.add(id);
+            }
+        } catch (Throwable e) {
+            e.printStackTrace();
+            return true;
+        }
+        return false;
     }
 }

@@ -1,7 +1,7 @@
 package com.chouchongkeji.dial.dao.friend;
 
 import com.chouchongkeji.dial.pojo.friend.NewFriendNotify;
-import com.chouchongkeji.service.friend.vo.NotifyMsg;
+import com.chouchongkeji.service.user.friend.vo.NotifyMsg;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

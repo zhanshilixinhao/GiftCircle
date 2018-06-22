@@ -3,13 +3,11 @@ package com.chouchongkeji.controller.gift.virtualItem;
 import com.chouchongkeji.goexplore.pay.alipay_v2.ALiPayV2Vo;
 import com.chouchongkeji.goexplore.pay.weixin.common.Util;
 import com.chouchongkeji.service.gift.virtualItem.VirPayNotifyService;
-import com.chouchongkeji.service.user.AppPaymentInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
 
 /**
  * @author yy

@@ -1,8 +1,11 @@
 package com.chouchongkeji;
 
 import com.chouchongkeji.goexplore.utils.Utils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.junit.Test;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import java.util.Date;
 
 /**
  * Unit test for simple App.
@@ -21,8 +24,6 @@ public class AppTest
 
     @Test
     public void md5() {
-        System.out.println(Utils.toMD5("qweasd"));
-        BCryptPasswordEncoder encoder=new BCryptPasswordEncoder();
-        System.out.println(encoder.encode(Utils.toMD5("qweasd")));
+        System.out.println(DateUtils.addDays(new Date(), 2).getTime());
     }
 }

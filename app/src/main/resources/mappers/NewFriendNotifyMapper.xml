@@ -27,7 +27,7 @@
     from new_friend_notify
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <select id="selectByUserId" resultType="com.chouchongkeji.service.friend.vo.NotifyMsg">
+  <select id="selectByUserId" resultType="com.chouchongkeji.service.user.friend.vo.NotifyMsg">
     SELECT
 	a.*,
 	b.avatar,

@@ -32,7 +32,7 @@
         user_id = #{userId}
         AND friend_user_id = #{friendUserId}
     </select>
-    <select id="selectByUserIdAndGroupId" resultType="com.chouchongkeji.service.friend.vo.FriendItem">
+    <select id="selectByUserIdAndGroupId" resultType="com.chouchongkeji.service.user.friend.vo.FriendItem">
         SELECT
         a.*,
         b.avatar,
