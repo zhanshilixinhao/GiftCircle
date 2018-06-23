@@ -13,11 +13,6 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "yichen.service")
 public class ServiceProperties {
 
-    private String imgHost = "";
-
-    // 勋章列表未获得时的图片地址
-    private String imgMedal;
-
     // 趣探索logo的地址
     private String logo;
 
@@ -43,10 +38,6 @@ public class ServiceProperties {
 
     public void setLogo(String logo) { this.logo = logo; }
 
-    public String getImgMedal() { return imgMedal; }
-
-    public void setImgMedal(String imgMedal) { this.imgMedal = imgMedal; }
-
     public String getWxUrl() {
         return wxUrl;
     }
@@ -61,14 +52,6 @@ public class ServiceProperties {
 
     public void setAliUrl(String aliUrl) {
         this.aliUrl = aliUrl;
-    }
-
-    public String getImgHost() {
-        return imgHost;
-    }
-
-    public void setImgHost(String imgHost) {
-        this.imgHost = imgHost;
     }
 
     public String getProductDetail() {

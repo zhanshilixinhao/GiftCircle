@@ -1,5 +1,7 @@
 package com.chouchongkeji.service.user.memo.vo;
 
+import com.yichen.auth.jackson.ImgUrl;
+
 import java.util.Date;
 
 /**
@@ -17,7 +19,9 @@ public class MemoItemVo {
     private Date created;
     private String nickname;
 
+    @ImgUrl
     private String avatar;
+
 
     public Integer getId() {
         return id;

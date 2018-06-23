@@ -23,9 +23,6 @@ import java.util.List;
 @Service
 public class FileServiceImpl implements FileService {
 
-    @Autowired
-    private ServiceProperties serviceProperties;
-
     /**
      * @param base 图片base64编码后的字符串
      * @return
@@ -35,7 +32,7 @@ public class FileServiceImpl implements FileService {
         String mstr = getModule(module);
         try {
             String uri = ImageUtils.base64ToImage(base, mstr, "jpg");
-            ImageVo vo = new ImageVo(uri, serviceProperties.getImgHost() + uri);
+            ImageVo vo = new ImageVo(uri, uri);
             return ResponseFactory.sucData(vo);
         } catch (Throwable e) {
             e.printStackTrace();

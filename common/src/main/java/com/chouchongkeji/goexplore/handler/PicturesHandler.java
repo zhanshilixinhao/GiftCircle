@@ -17,6 +17,7 @@ import java.util.List;
  * @date 2018/6/13
  **/
 public class PicturesHandler extends BaseTypeHandler<List<String>> {
+
     @Override
     public void setNonNullParameter(PreparedStatement preparedStatement, int i, List<String> strings, JdbcType jdbcType) throws SQLException {
         preparedStatement.setString(i, JSON.toJSONString(strings));

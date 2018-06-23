@@ -1,4 +1,4 @@
-package com.chouchongkeji.goexplore.common;
+package com.yichen.auth.jackson;
 
 import java.lang.annotation.*;
 
@@ -8,4 +8,5 @@ import java.lang.annotation.*;
 public @interface ImgUrl {
 
     String value() default "";
+
 }

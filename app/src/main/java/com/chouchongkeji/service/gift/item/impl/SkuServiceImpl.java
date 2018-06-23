@@ -34,8 +34,6 @@ public class SkuServiceImpl implements SkuService {
     @Autowired
     private ItemFeatureMapper itemFeatureMapper;
 
-    @Autowired
-    private  ServiceProperties serviceProperties;
     /**
      * 获取商品的sku组合
      *
@@ -59,12 +57,6 @@ public class SkuServiceImpl implements SkuService {
         if (CollectionUtils.isNotEmpty(itemFeatures)){
             //查询该商品的sku
              list = itemSkuMapper.selectByItemId(itemId);
-            if (CollectionUtils.isNotEmpty(list)){
-                String host = serviceProperties.getImgHost();
-                for (SkuListVo item: list) {
-                    item.setCover(host + item.getCover());
-                }
-            }
         }
         FeatureValueVo vo = new FeatureValueVo();
         vo.setFeatures(itemFeatures);

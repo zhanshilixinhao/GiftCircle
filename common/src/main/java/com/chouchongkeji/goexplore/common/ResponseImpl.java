@@ -12,7 +12,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonIgnoreProperties({"successful"})
 public class ResponseImpl<T> implements Response<T> {
 
-    @ImgUrl
     private int errCode;
     private int result;
     private String msg;

@@ -17,6 +17,8 @@ public class SecurityProperties {
 
     private SignProperties sign;
 
+    private ImageProperties image;
+
     public VerifyProperties getSmscode() {
         return smscode;
     }
@@ -39,5 +41,13 @@ public class SecurityProperties {
 
     public void setSign(SignProperties sign) {
         this.sign = sign;
+    }
+
+    public ImageProperties getImage() {
+        return image;
+    }
+
+    public void setImage(ImageProperties image) {
+        this.image = image;
     }
 }

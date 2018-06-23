@@ -1,4 +1,4 @@
-package com.chouchongkeji.goexplore.common;
+package com.yichen.auth.jackson;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;

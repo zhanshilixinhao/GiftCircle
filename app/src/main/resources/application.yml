@@ -71,6 +71,10 @@ yichen:
       urls:
         - /druid/**
         - /noauth/file/**
+  # 图片地址拼接
+    image:
+      needSplice: true
+      host: https://io.shanren.group/image/
   service:
     productDetail: https://43.241.223.169:800/static/product.html?id=
     articleDetail: https://43.241.223.169:800/static/article.html?id=
