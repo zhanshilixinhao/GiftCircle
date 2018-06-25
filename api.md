@@ -2302,7 +2302,7 @@ JSON：
 |   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
 | :----------: | :------: | :------: | :----: | :------: |
 | access_token |  string  |    是    |   无   | 访问令牌 |
-| date | long | 是 | 无 | 备忘时间（13位时间戳） |
+| targetTime | long | 是 | 无 | 备忘时间（13位时间戳） |
 | address | string | 是 | 无 | 地点 |
 | count | int | 是 | 无 | 人数 |
 | users | string | 是 | 无 | 邀请的好友的user id集合，多个用,隔开 |
@@ -2332,8 +2332,193 @@ JSON：
 |   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
 | :----------: | :------: | :------: | :----: | :------: |
 | access_token |  string  |    是    |   无   | 访问令牌 |
-| targetDate | long | 是 | 无 | 备忘时间（13位时间戳） |
-| eventDate | long | 是 | 无 | 事件时间 |
+| targetTime | long | 是 | 无 | 备忘时间（13位时间戳） |
+| eventTime | long | 是 | 无 | 事件时间 |
+| detail | string | 是 | 无 | 活动详情 |
+| isPublic | int | 否 | 2 | 是否公开 1 公开 2 不公开 默认2 |
+
+* 请求示例
+
+```js
+{
+	"errCode": 0,
+	"result": 0,
+	"msg": "添加成功!",
+	"time": 1529643310344
+}
+```
+
+### 11.3 获取用户的备忘录列表
+
+- 请求地址：auth/memo/list
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yichen
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| start | long | 否 | 无 | 开始时间戳 |
+| end | long | 否 | 无 | 结束时间戳 |
+
+* 请求结果示例
+
+```js
+{
+    errCode: 0, 
+    result: 0, 
+    time: 1529766575902, 
+    data: [
+        {
+            id: 100, 
+            userId: 4, 
+            targetTime: 1529815765000, 
+            detail: "不如去大理", 
+            type: 1, 
+            created: 1529650753000, 
+            nickname: "大秦帝国", 
+            avatar: "https://io.shanren.group/image/avatar.jpg"
+        }, 
+        {
+            id: 101, 
+            userId: 4, 
+            targetTime: 1529815765000, 
+            detail: "既然不快", 
+            type: 1, 
+            created: 1529650753000, 
+            nickname: "大秦帝国", 
+            avatar: "https://io.shanren.group/image/avatar.jpg"
+        }
+    ]
+}
+```
+
+
+| 参数名称 | 参数类型 | 是否必传 | 参数说明 |
+| :---: | :---: | :---: | :---: | :---: |
+| id | int | 是 | 备忘录id |
+| userId | int | 是 | 此条备忘录的创建者id |
+| targetTime | long | 是 | 备忘时间 |
+| detail | string | 是 | 备忘信息 |
+| type | int | 是 | 1 活动 2 事件 |
+| nickname | string | 是 | 创建者昵称 |
+| avatar | string | 是 | 创建者头像 |
+
+
+
+### 11.4 查看备忘录详情
+
+- 请求地址：auth/memo/detail
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yichen
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| id | int | 是 | 无 | 备忘录id |
+| type | int | 是 | 无 | 1 活动 2 事件 |
+
+* 请求结果示例
+
+```js
+// 活动详情
+{
+    errCode: 0, 
+    result: 0, 
+    time: 1529925675079, 
+    data: {
+        id: 101, 
+        userId: 1, 
+        targetTime: 1529815765000, 
+        address: "大理", 
+        count: 1, 
+        title: "去大理", 
+        detail: "不如去大理", 
+        users: "4", 
+        created: 1529643309000, 
+        updated: 1529643309000
+    }
+}
+// 事件详情
+{
+    errCode: 0, 
+    result: 0, 
+    time: 1529926134983, 
+    data: {
+        id: 101, 
+        userId: 4, 
+        eventTime: 1529815765000, 
+        targetTime: 1529815765000, 
+        title: "", 
+        detail: "既然不快", 
+        isPublic: 1, 
+        created: 1529650753000, 
+        updated: 1529650753000
+    }
+}
+```
+
+
+
+### 11.5 删除一条备忘录
+
+- 请求地址：auth/memo/del
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yichen
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| id | int | 是 | 无 | 备忘录id |
+| type | int | 是 | 无 | 1 活动 2 事件 |
+
+
+### 11.6 修改活动信息
+
+- 请求地址：auth/memo/activity/modify
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yichen
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| id | int | 是 | 无 | 备忘录id |
+| targetTime | long | 是 | 无 | 备忘时间（13位时间戳） |
+| address | string | 是 | 无 | 地点 |
+| count | int | 是 | 无 | 人数 |
+| users | string | 是 | 无 | 邀请的好友的user id集合，多个用,隔开 |
+| title | string | 是 | 无 | 标题 |
+| detail | string | 是 | 无 | 活动详情 |
+
+* 请求示例
+
+```js
+{
+	"errCode": 0,
+	"result": 0,
+	"msg": "添加成功!",
+	"time": 1529643310344
+}
+```
+
+
+
+### 11.7 修改事件
+
+- 请求地址：auth/memo/event/add
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yichen
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| id | int | 是 | 无 | 备忘录id |
+| targetTime | long | 是 | 无 | 备忘时间（13位时间戳） |
+| eventTime | long | 是 | 无 | 事件时间 |
 | detail | string | 是 | 无 | 活动详情 |
 | isPublic | int | 否 | 2 | 是否公开 1 公开 2 不公开 默认2 |
 
@@ -2349,18 +2534,20 @@ JSON：
 ```
 
 
+### 11.8 查看好友通讯录
+
+- 请求地址：auth/memo/list/friend
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yichen
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| friendUserId | int | 是 | 无 | 好友用户id |
+| start | long | 否 | 无 | 开始时间戳 |
+| end | long | 否 | 无 | 结束时间戳 |
+
+* 请求示例（和11.3一致）
 
 
-
-
-
-
-
-
-
-
-
-
-
-
- 

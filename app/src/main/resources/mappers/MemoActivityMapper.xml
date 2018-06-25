@@ -84,6 +84,10 @@
     delete from memo_activity
     where id = #{id,jdbcType=INTEGER}
   </delete>
+    <delete id="deleteByPrimaryKeyAndUserId">
+        delete from memo_activity
+        where id = #{id} and user_id = #{userId}
+    </delete>
     <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.user.memo.MemoActivity">
     insert into memo_activity (id, user_id, target_time, 
       address, count, title, 
@@ -185,12 +189,7 @@
             <if test="users != null">
                 users = #{users,jdbcType=VARCHAR},
             </if>
-            <if test="created != null">
-                created = #{created,jdbcType=TIMESTAMP},
-            </if>
-            <if test="updated != null">
-                updated = #{updated,jdbcType=TIMESTAMP},
-            </if>
+                updated = now(),
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>

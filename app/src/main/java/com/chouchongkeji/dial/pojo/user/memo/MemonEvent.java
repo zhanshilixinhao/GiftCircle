@@ -69,6 +69,10 @@ public class MemonEvent {
         this.targetTime = targetTime;
     }
 
+    public void setTargetTime(Long targetTime) {
+        this.targetTime = new Date(targetTime);
+    }
+
     public String getTitle() {
         return title;
     }

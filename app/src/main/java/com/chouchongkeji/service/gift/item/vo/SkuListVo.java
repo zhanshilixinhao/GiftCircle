@@ -1,5 +1,7 @@
 package com.chouchongkeji.service.gift.item.vo;
 
+import com.yichen.auth.jackson.ImgUrl;
+
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -9,13 +11,13 @@ import java.util.List;
  */
 public class SkuListVo {
 
-
     private Integer skuId;
 
     private Integer itemId;
 
     private String title;
 
+    @ImgUrl
     private String cover;
 
     private BigDecimal price;

@@ -22,4 +22,8 @@ public interface MemoActivityMapper {
     List<MemoItemVo> selectByUserIdAndDate(@Param("userId") Integer userId,
                                            @Param("start") Long start,
                                            @Param("end") Long end);
+
+    int deleteByPrimaryKeyAndUserId(@Param("id") Integer id,
+                                    @Param("userId") Integer userId);
+
 }
