@@ -1,5 +1,7 @@
 package com.chouchongkeji.service.gift.item.vo;
 
+import com.yichen.auth.jackson.ImgUrl;
+
 import java.util.Date;
 import java.util.List;
 
@@ -17,6 +19,7 @@ public class ItemCommentVo {
     // 评论文字
     private String content;
     // 评论图片
+    @ImgUrl
     private List<String> pictures;
     // 评价等级
     private Integer star;

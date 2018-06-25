@@ -1,5 +1,7 @@
 package com.chouchongkeji.service.gift.item.vo;
 
+import com.yichen.auth.jackson.ImgUrl;
+
 /**
  * @author yy
  * @date 2018/6/20
@@ -10,6 +12,7 @@ public class ThemeVo {
     // 主题名称
     private String name;
     // 主题封面
+    @ImgUrl
     private String cover;
 
     public Integer getId() {

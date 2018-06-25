@@ -1,6 +1,7 @@
 package com.chouchongkeji.service.user.friend.vo;
 
 import com.chouchongkeji.dial.pojo.friend.Friend;
+import com.yichen.auth.jackson.ImgUrl;
 
 /**
  * @author yichenshanren
@@ -9,6 +10,7 @@ import com.chouchongkeji.dial.pojo.friend.Friend;
 
 public class FriendItem extends Friend {
 
+    @ImgUrl
     private String avatar;
     private String nickname;
     private Integer heartNum = 0;

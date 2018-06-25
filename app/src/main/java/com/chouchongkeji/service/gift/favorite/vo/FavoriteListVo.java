@@ -1,5 +1,7 @@
 package com.chouchongkeji.service.gift.favorite.vo;
 
+import com.yichen.auth.jackson.ImgUrl;
+
 import java.math.BigDecimal;
 
 /**
@@ -14,6 +16,7 @@ public class FavoriteListVo {
     //  商品标题
     private String title;
     //  商品封面
+    @ImgUrl
     private String cover;
     //  商品价格
     private BigDecimal price;

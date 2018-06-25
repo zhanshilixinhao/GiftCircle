@@ -1,5 +1,7 @@
 package com.chouchongkeji.dial.pojo.user;
 
+import com.yichen.auth.jackson.ImgUrl;
+
 import java.util.Date;
 
 public class AppUser {
@@ -11,6 +13,7 @@ public class AppUser {
 
     private String phone;
 
+    @ImgUrl
     private String avatar;
 
     private String nickname;

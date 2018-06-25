@@ -54,16 +54,16 @@ public class ArticleServiceImpl implements ArticleService {
      */
     @Override
     public Response getArticleDetail(Integer id) {
-       Article article = articleMapper.selectByPrimaryKey(id);
-       if (article != null) {
-           ArticleDetail articleDetail = new ArticleDetail();
-           articleDetail.setCreated(article.getCreated());
-           articleDetail.setTitle(article.getTitle());
-           articleDetail.setDetail(serviceProperties.getArticleDetail()+article.getId());
-           return ResponseFactory.sucData(articleDetail);
-       } else {
-           return ResponseFactory.err("无此文章");
-       }
+        Article article = articleMapper.selectByPrimaryKey(id);
+        if (article != null) {
+            ArticleDetail articleDetail = new ArticleDetail();
+            articleDetail.setCreated(article.getCreated());
+            articleDetail.setTitle(article.getTitle());
+            articleDetail.setDetail(serviceProperties.getArticleDetail() + article.getId());
+            return ResponseFactory.sucData(articleDetail);
+        } else {
+            return ResponseFactory.err("无此文章");
+        }
     }
 
     /**

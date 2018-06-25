@@ -82,7 +82,7 @@ public class ItemServiceImpl implements ItemService {
         List<ItemListVo> vos = new ArrayList<>();
         ItemListVo vo;
         for (Item item : list) {
-            vo=new ItemListVo();
+            vo = new ItemListVo();
             vo.setItemId(item.getId());
             vo.setCover(item.getCover());
             vo.setTitle(item.getTitle());
@@ -145,7 +145,7 @@ public class ItemServiceImpl implements ItemService {
      */
     @Override
     public Response getItemCommentList(Integer id, PageQuery page) {
-        PageHelper.startPage(page.getPageNum(),page.getPageSize());
+        PageHelper.startPage(page.getPageNum(), page.getPageSize());
         List<ItemCommentVo> itemCommentVos = itemCommentMapper.selectByItemId(id);
         return ResponseFactory.sucData(itemCommentVos);
     }

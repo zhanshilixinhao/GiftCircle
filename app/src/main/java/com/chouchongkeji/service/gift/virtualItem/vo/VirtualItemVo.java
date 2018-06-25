@@ -1,5 +1,7 @@
 package com.chouchongkeji.service.gift.virtualItem.vo;
 
+import com.yichen.auth.jackson.ImgUrl;
+
 import java.math.BigDecimal;
 
 /**
@@ -20,6 +22,7 @@ public class VirtualItemVo {
     // 虚拟商品描述
     private String description;
     // 虚拟商品封面
+    @ImgUrl
     private String cover;
 
     public Integer getId() {

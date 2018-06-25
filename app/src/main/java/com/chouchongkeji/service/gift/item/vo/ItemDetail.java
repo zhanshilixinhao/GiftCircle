@@ -1,5 +1,7 @@
 package com.chouchongkeji.service.gift.item.vo;
 
+import com.yichen.auth.jackson.ImgUrl;
+
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -21,6 +23,7 @@ public class ItemDetail {
     // 商品属性
     private String description;
     // 商品图片
+    @ImgUrl
     private List<String> pictures;
     // 详情地址
     private String detailUrl;

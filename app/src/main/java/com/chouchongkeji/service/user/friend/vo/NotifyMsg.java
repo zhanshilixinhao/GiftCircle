@@ -1,5 +1,7 @@
 package com.chouchongkeji.service.user.friend.vo;
 
+import com.yichen.auth.jackson.ImgUrl;
+
 /**
  * @author yichenshanren
  * @date 2018/6/21
@@ -14,6 +16,7 @@ public class NotifyMsg {
     private Byte status;
     private String validationMsg;
     private String reply;
+    @ImgUrl
     private String avatar;
     private String nickname;
 

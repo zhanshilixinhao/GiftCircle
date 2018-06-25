@@ -1,5 +1,7 @@
 package com.chouchongkeji.service.gift.article.vo;
 
+import com.yichen.auth.jackson.ImgUrl;
+
 import java.util.Date;
 
 /**
@@ -16,6 +18,7 @@ public class ArticleVo {
     // 文章简介
     private String summary;
     // 文章封面
+    @ImgUrl
     private String cover;
     // 创建时间
     private Date created;

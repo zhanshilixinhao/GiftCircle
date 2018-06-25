@@ -1,5 +1,7 @@
 package com.chouchongkeji.service.gift.item.vo;
 
+import com.yichen.auth.jackson.ImgUrl;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -10,6 +12,7 @@ import java.util.Date;
 public class CartListVo {
     private Integer itemId;
     private Integer skuId;
+    @ImgUrl
     private String cover;
     private String title;
     private Integer quantity;
