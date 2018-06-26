@@ -151,4 +151,92 @@ public class MomentServiceImpl implements MomentService {
         List<MomentVo> list = momentMapper.selectAll(userId);
         return ResponseFactory.sucData(list);
     }
+
+    /**
+     * 获取详情
+     *
+     * @param userId 用户i西南西
+     * @return
+     * @author yichenshanren
+     * @date 2018/6/26
+     */
+    @Override
+    public Response getDetail(Integer userId, Integer momentId) {
+        return ResponseFactory.sucData(momentMapper.selectDetailById(userId, momentId));
+    }
+
+    /**
+     * 查看某个用户得秀秀
+     *
+     * @param userId
+     * @param targetUserId
+     * @param page
+     * @return
+     * @author yichenshanren
+     * @date 2018/6/26
+     */
+    @Override
+    public Response getListForSelf(Integer userId, Integer targetUserId, PageQuery page) {
+        List<MomentVo> list = momentMapper.selectAllByTargetUser(userId, targetUserId);
+        return ResponseFactory.sucData(list);
+    }
+
+    /**
+     * 删除评论
+     *
+     * @param userId 用户i西南西
+     * @return
+     * @author yichenshanren
+     * @date 2018/6/26
+     */
+    @Override
+    public Response delComment(Integer userId, Integer commentId) {
+        // 判断评论是否存在
+        MomentComment comment = momentCommentMapper.selectByPrimaryKey(commentId);
+        if (comment == null) {
+            return ResponseFactory.err("删除的评论不存在!");
+        }
+        // 判断是不是我创建的
+        boolean re = true;
+        // 如果不是我创建的
+        if (userId.compareTo(comment.getUserId()) != 0) {
+            // 判断秀秀是不是我创建的
+            Moment moment = momentMapper.selectByPrimaryKey(comment.getMomentId());
+            // 如果秀秀存在且不是我创建的
+            if (moment != null && moment.getUserId().compareTo(userId) != 0) {
+                re = false;
+            }
+        }
+        if (!re) {
+            return ResponseFactory.err("无权操作!");
+        }
+        // 删除评论
+        momentCommentMapper.deleteByPrimaryKey(commentId);
+        return ResponseFactory.sucMsg("删除成功!");
+    }
+
+    /**
+     * 删除秀秀
+     *
+     * @param userId   用户id
+     * @param momentId 西秀id
+     * @return
+     * @author yichenshanren
+     * @date 2018/6/26
+     */
+    @Override
+    public Response delMoment(Integer userId, Integer momentId) {
+        Moment moment = momentMapper.selectByPrimaryKey(momentId);
+        if (moment == null) {
+            return ResponseFactory.err("数据不存在!");
+        }
+        if (userId.compareTo(moment.getUserId()) != 0) {
+            return ResponseFactory.err("无权操作!");
+        }
+        // 删除秀秀
+        momentMapper.deleteByPrimaryKey(momentId);
+        momentCommentMapper.deleteByMomentId(momentId);
+        momentPraiseMapper.deleteByMomentId(momentId);
+        return ResponseFactory.sucMsg("删除成功!");
+    }
 }

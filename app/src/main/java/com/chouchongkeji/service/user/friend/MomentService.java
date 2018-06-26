@@ -63,4 +63,47 @@ public interface MomentService {
      * @date 2018/6/26
      */
     Response addReply(Integer userId, String content, Integer commentId);
+
+    /**
+     * 获取详情
+     *
+     * @param userId 用户i西南西
+     * @return
+     * @author yichenshanren
+     * @date 2018/6/26
+     */
+    Response getDetail(Integer userId, Integer momentId);
+
+    /**
+     * 查看某个用户得秀秀
+     *
+     * @param userId
+     * @param targetUserId
+     * @param page
+     * @return
+     * @author yichenshanren
+     * @date 2018/6/26
+     */
+    Response getListForSelf(Integer userId, Integer targetUserId, PageQuery page);
+
+    /**
+     * 删除评论
+     *
+     * @param userId 用户i西南西
+     * @return
+     * @author yichenshanren
+     * @date 2018/6/26
+     */
+    Response delComment(Integer userId, Integer commentId);
+
+    /**
+     * 删除秀秀
+     *
+     * @param userId   用户id
+     * @param momentId 评论id
+     * @return
+     * @author yichenshanren
+     * @date 2018/6/26
+     */
+    Response delMoment(Integer userId, Integer momentId);
 }

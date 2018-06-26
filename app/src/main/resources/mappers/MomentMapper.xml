@@ -234,4 +234,34 @@ FROM
 WHERE
 	a.moment_id = #{momentId}
     </select>
+    <select id="selectDetailById" resultMap="Moment">
+SELECT
+	a.*,
+	#{userId} AS selfUserId,
+	c.nickname,
+	c.avatar,
+	b.remark,
+	b.relationship
+FROM
+	moment a
+	LEFT JOIN friend b ON b.user_id = #{userId} and b.friend_user_id = a.user_id
+	LEFT JOIN app_user c on c.id = a.user_id
+WHERE
+	 a.id = #{momentId}
+    </select>
+    <select id="selectAllByTargetUser" resultMap="Moment">
+SELECT
+	a.*,
+	#{userId} AS selfUserId,
+	b.nickname,
+	b.avatar,
+	NULL AS remark,
+	NULL AS relationship
+FROM
+	moment a
+	LEFT JOIN app_user b ON b.id = a.user_id
+	LEFT JOIN friend c on c.user_id = #{userId} and c.friend_user_id = a.user_id
+WHERE
+	a.user_id = #{targetUserId}
+    </select>
 </mapper>

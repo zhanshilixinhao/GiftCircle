@@ -123,6 +123,39 @@ public class MomentController {
     }
 
     /**
+     * 删除评论
+     *
+     * @param userDetails 用户i西南西
+     * @return
+     * @author yichenshanren
+     * @date 2018/6/26
+     */
+    @PostMapping("comment/del")
+    public Response delComment(@AuthenticationPrincipal UserDetails userDetails, Integer commentId) {
+        if (commentId == null) {
+            return ResponseFactory.errMissingParameter();
+        }
+        return momentService.delComment(userDetails.getUserId(), commentId);
+    }
+
+    /**
+     * 删除评论
+     *
+     * @param userDetails 用户i西南西
+     * @return
+     * @author yichenshanren
+     * @date 2018/6/26
+     */
+    @PostMapping("del")
+    public Response delMoment(@AuthenticationPrincipal UserDetails userDetails, Integer momentId) {
+        if (momentId == null) {
+            return ResponseFactory.errMissingParameter();
+        }
+        return momentService.delMoment(userDetails.getUserId(), momentId);
+    }
+
+
+    /**
      * 秀秀列表-包括好友
      *
      * @param userDetails 用户i西南西
@@ -133,5 +166,39 @@ public class MomentController {
     @PostMapping("list")
     public Response getList(@AuthenticationPrincipal UserDetails userDetails, PageQuery page) {
         return momentService.getList(userDetails.getUserId(), page);
+    }
+
+    /**
+     * 秀秀列表-包括好友
+     *
+     * @param userDetails 用户i西南西
+     * @return
+     * @author yichenshanren
+     * @date 2018/6/26
+     */
+    @PostMapping("list/self")
+    public Response getListForSelf(@AuthenticationPrincipal UserDetails userDetails,
+                                   Integer targetUserId, PageQuery page) {
+        if (targetUserId == null) {
+            targetUserId = userDetails.getUserId();
+        }
+        return momentService.getListForSelf(userDetails.getUserId(),targetUserId, page);
+    }
+
+
+    /**
+     * 获取详情
+     *
+     * @param userDetails 用户i西南西
+     * @return
+     * @author yichenshanren
+     * @date 2018/6/26
+     */
+    @PostMapping("detail")
+    public Response getDetail(@AuthenticationPrincipal UserDetails userDetails, Integer momentId) {
+        if (momentId == null) {
+            return ResponseFactory.errMissingParameter();
+        }
+        return momentService.getDetail(userDetails.getUserId(), momentId);
     }
 }

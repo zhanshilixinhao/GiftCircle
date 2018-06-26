@@ -29,6 +29,10 @@
     delete from moment_praise
     where id = #{id,jdbcType=INTEGER}
   </delete>
+    <delete id="deleteByMomentId">
+        delete from moment_praise
+        where moment_id = #{momentId}
+    </delete>
     <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.user.memo.MomentPraise">
     insert into moment_praise (id, moment_id, user_id, 
       created, updated)

@@ -18,4 +18,6 @@ public interface MomentPraiseMapper {
 
     MomentPraise selectByMomentIdAndUserId(@Param("momentId") Integer momentId,
                                            @Param("userId") Integer userId);
+
+    int deleteByMomentId(@Param("momentId") Integer momentId);
 }

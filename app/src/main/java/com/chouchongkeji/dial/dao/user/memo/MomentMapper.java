@@ -20,4 +20,10 @@ public interface MomentMapper {
     int updateByPrimaryKey(Moment record);
 
     List<MomentVo> selectAll(@Param("userId") Integer userId);
+
+    MomentVo selectDetailById(@Param("userId") Integer userId,
+                              @Param("momentId") Integer momentId);
+
+    List<MomentVo> selectAllByTargetUser(@Param("userId") Integer userId,
+                                         @Param("targetUserId") Integer targetUserId);
 }
