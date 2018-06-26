@@ -292,4 +292,9 @@ public class Constants {
         byte REFUSE = 3;
         byte REPALYED = 4;
     }
+
+    public interface MOMENT_COMMENT_TYPE {
+        byte COMMENT = 1;
+        byte REPLY = 2;
+    }
 }

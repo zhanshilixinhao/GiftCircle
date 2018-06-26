@@ -1,7 +1,7 @@
 package com.yichen.auth.config;
 
-import com.yichen.auth.jackson.MyBeanSerializerModifier;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yichen.auth.jackson.MyBeanSerializerModifier;
 import com.yichen.auth.mvc.AppClientMethodArgumentResolver;
 import com.yichen.auth.properties.SecurityProperties;
 import org.springframework.beans.factory.annotation.Autowired;

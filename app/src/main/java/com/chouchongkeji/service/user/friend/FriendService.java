@@ -1,5 +1,6 @@
 package com.chouchongkeji.service.user.friend;
 
+import com.chouchongkeji.dial.pojo.friend.Friend;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.query.PageQuery;
 
@@ -144,4 +145,6 @@ public interface FriendService {
      * @date 2018/6/21
      */
     Response searchFriend(Integer userId, String key);
+
+    Friend isFriend(Integer userId, Integer friendUserId);
 }

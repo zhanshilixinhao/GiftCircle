@@ -2550,4 +2550,217 @@ JSON：
 
 * 请求示例（和11.3一致）
 
+## 12 通讯录=秀秀
 
+### 12.1 发布秀秀
+
+- 请求地址：auth/moment/publish
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yichen
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| content | string | 是 | 无 | 文字内容 |
+| medias | string | 否 | 无 | 图片或视频json字符串 |
+| showGift | int | 否 | 2 | 1 显示最近收到的礼物 2 不显示 |
+
+* medias 结构
+
+```js
+{
+	"type": 1, // 1 图片 2 视频
+    "url":"pic.jpg"  // 图片或视频的相对地址
+}
+```
+
+* 请求示例（和11.3一致）
+
+
+
+### 12.2 赞|取消赞（好友才能操作）
+
+- 请求地址：auth/moment/praise
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yichen
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| momentId | int | 是 | 无 | 秀秀id |
+
+* 请求结果示例
+
+```js
+{
+    errCode: 0, 
+    result: 0, 
+    time: 1529982834960, 
+    data: 2 // 1 赞 2 取消赞
+}
+```
+
+
+
+### 12.3 评论（好友才能操作）
+
+- 请求地址：auth/moment/comment
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yichen
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| momentId | int | 是 | 无 | 秀秀id |
+| content | string | 是 | 无 | 评论内容 |
+
+* 请求结果示例
+
+```js
+{
+    errCode: 0, 
+    result: 0, 
+    msg: "评论成功!", 
+    time: 1529983667667
+}
+```
+
+
+
+
+### 12.4 回复）
+
+- 请求地址：auth/moment/comment
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yichen
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| commentId | int | 是 | 无 | 评论id |
+| content | string | 是 | 无 | 评论内容 |
+
+* 请求结果示例
+
+```js
+{
+    errCode: 0, 
+    result: 0, 
+    msg: "评论成功!", 
+    time: 1529983667667
+}
+```
+
+
+### 12.5 秀秀列表）
+
+- 请求地址：auth/moment/list
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yichen
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| pageSize | int | 是 | 14 | 分页大小 |
+| pageNum | int | 是 | 1 | 分页 |
+
+```js
+{
+    errCode: 0, 
+    result: 0, 
+    time: 1530003562419, 
+    data: [
+        {
+            momentId: 1, 
+            createUserId: 4, 
+            content: "既然不快乐又不喜欢这里", 
+            medias: [
+                {
+                    type: 1, 
+                    url: "https://io.shanren.group/image/avatar.jpg"
+                }
+            ], 
+            created: 1529988931000, 
+            updated: 1529988931000, 
+            selfUserId: 4, 
+            nickname: "大秦帝国", 
+            avatar: "https://io.shanren.group/image/avatar.jpg", 
+            remark: "", 
+            relationship: "", 
+            praiseUsers: [
+                {
+                    praiseUserId: 4, 
+                    momentId: 1, 
+                    avatar: "https://io.shanren.group/image/avatar.jpg"
+                }
+            ], 
+            comments: [
+                {
+                    commentId: 4, 
+                    content: "何时去大理", 
+                    momentId: 1, 
+                    type: 2, 
+                    createUser: {
+                        userId: 4, 
+                        nickname: "大秦帝国", 
+                        remark: "", 
+                        relationship: "", 
+                        avatar: "https://io.shanren.group/image/avatar.jpg"
+                    }, 
+                    targetUser: {
+                        userId: 4, 
+                        nickname: "大秦帝国", 
+                        remark: "", 
+                        relationship: "", 
+                        avatar: "https://io.shanren.group/image/avatar.jpg"
+                    }, 
+                    created: 1529984133000
+                }, 
+                {
+                    commentId: 3, 
+                    content: "何时去大理评论", 
+                    momentId: 1, 
+                    type: 1, 
+                    createUser: {
+                        userId: 4, 
+                        nickname: "大秦帝国", 
+                        remark: "", 
+                        relationship: "", 
+                        avatar: "https://io.shanren.group/image/avatar.jpg"
+                    }, 
+                    targetUser: null, 
+                    created: 1529983666000
+                }
+            ]
+        }
+    ]
+}
+```
+
+|   参数名称   | 参数类型 |  参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| momentId | int | 是 | 秀秀id |
+| createUserId | int | 是 | 创建用户id |
+| content | string | 是 | 文字内容 |
+| selfUserId | int | 是 | 我自己id |
+| avatar | string  | 是 | 创建者头像 |
+| nickname | string | 是 | 创建者昵称 |
+| remark | string | 是 | 我对创建者的备注 |
+| relationship | string | 是 | 我与创建用户的关系 |
+| medias | 媒体内容
+| | type | int | 媒体类型 1 图片 2 视频 |
+| | url | string | 视频或图片地址 |
+| praiseUsers | 赞过的用户列表 |
+| | pariseUserId | int | 赞的用户id |
+| | avatar | string | 头像 |
+| comments | 评论泪飙 |
+| | commentId | int | 评论id |
+| | conent | string | 评论内容 |
+| | type | int | 1 评论 2 回复 |
+| | createUser | obj | 创建这条评论的用户的信息 |
+| | targetUser | obj | 回复对象用户的信息 |

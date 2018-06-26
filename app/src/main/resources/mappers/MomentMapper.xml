@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chouchongkeji.dial.dao.user.memo.MomentMapper">
+    <resultMap id="BaseResultMap" type="com.chouchongkeji.dial.pojo.user.memo.Moment">
+        <constructor>
+            <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="content" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="medias" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="show_gift" javaType="java.lang.Byte" jdbcType="TINYINT"/>
+            <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, user_id, content, medias, show_gift, created, updated
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from moment
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from moment
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.user.memo.Moment">
+    insert into moment (id, user_id, content, 
+      medias, show_gift, created, 
+      updated)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, 
+      #{medias,jdbcType=VARCHAR}, #{showGift,jdbcType=TINYINT},now(),
+      now())
+  </insert>
+    <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.user.memo.Moment">
+        insert into moment
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+            <if test="medias != null">
+                medias,
+            </if>
+            <if test="showGift != null">
+                show_gift,
+            </if>
+            <if test="created != null">
+                created,
+            </if>
+            <if test="updated != null">
+                updated,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="content != null">
+                #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="medias != null">
+                #{medias,jdbcType=VARCHAR},
+            </if>
+            <if test="showGift != null">
+                #{showGift,jdbcType=TINYINT},
+            </if>
+            <if test="created != null">
+                now(),
+            </if>
+            <if test="updated != null">
+                now(),
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.chouchongkeji.dial.pojo.user.memo.Moment">
+        update moment
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="content != null">
+                content = #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="medias != null">
+                medias = #{medias,jdbcType=VARCHAR},
+            </if>
+            <if test="showGift != null">
+                show_gift = #{showGift,jdbcType=TINYINT},
+            </if>
+            <if test="created != null">
+                created =now(),
+            </if>
+            <if test="updated != null">
+                updated = now(),
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.dial.pojo.user.memo.Moment">
+    update moment
+    set user_id = #{userId,jdbcType=INTEGER},
+      content = #{content,jdbcType=VARCHAR},
+      medias = #{medias,jdbcType=VARCHAR},
+      show_gift = #{showGift,jdbcType=TINYINT},
+      created =now(),
+      updated = now()
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+    <resultMap id="Moment" type="com.chouchongkeji.service.user.friend.vo.MomentVo">
+        <id column="id" property="momentId"/>
+        <result column="user_id" property="createUserId"/>
+        <result column="selfUserId" property="selfUserId"/>
+        <result column="content" property="content"/>
+        <result column="medias" property="medias"
+                typeHandler="com.chouchongkeji.dial.handler.MediaTypeHandler"/>
+        <result column="created" property="created"/>
+        <result column="updated" property="updated"/>
+        <result column="nickname" property="nickname"/>
+        <result column="avatar" property="avatar"/>
+        <result column="remark" property="remark"/>
+        <result column="relationship" property="relationship"/>
+        <collection property="praiseUsers" ofType="com.chouchongkeji.service.user.friend.vo.PraiseVo"
+                    select="selectPraiseUsers" column="{momentId=id}"/>
+        <collection property="comments" ofType="com.chouchongkeji.service.user.friend.vo.CommentVo"
+                    select="selectCommentUsers" column="{momentId=id,selfUserId=selfUserId}"/>
+    </resultMap>
+    <select id="selectAll" resultMap="Moment">
+SELECT
+	*
+FROM
+	(
+SELECT
+	a.*,
+	#{userId} AS selfUserId,
+	b.nickname,
+	b.avatar,
+	b.remark,
+	b.relationship
+FROM
+	moment a
+	LEFT JOIN v_friend b ON b.user_id = #{userId}
+WHERE
+	b.friend_user_id = a.user_id UNION
+SELECT
+	a.*,
+	#{userId} AS selfUserId,
+	b.nickname,
+	b.avatar,
+	NULL AS remark,
+	NULL AS relationship
+FROM
+	moment a
+	LEFT JOIN app_user b ON b.id = a.user_id
+WHERE
+	a.user_id = #{userId}
+	) m
+WHERE
+	selfUserId = #{userId}
+ORDER BY
+	id DESC
+    </select>
+
+    <resultMap id="PraiseUser" type="com.chouchongkeji.service.user.friend.vo.PraiseVo">
+        <result column="user_id" property="praiseUserId"/>
+        <result column="moment_id" property="momentId"/>
+        <result column="avatar" property="avatar"/>
+    </resultMap>
+
+    <select id="selectPraiseUsers" resultMap="PraiseUser">
+SELECT
+	a.user_id,
+	a.moment_id,
+	b.avatar
+FROM
+	moment_praise a
+	LEFT JOIN app_user b ON b.id = a.user_id
+	where
+	a.moment_id = #{momentId}
+    </select>
+
+    <resultMap id="CommentVo" type="com.chouchongkeji.service.user.friend.vo.CommentVo">
+        <id column="id" property="commentId"/>
+        <result column="content" property="content"/>
+        <result column="content" property="content"/>
+        <result column="moment_id" property="momentId"/>
+        <result column="type" property="type"/>
+        <result column="created" property="created"/>
+        <association property="createUser" javaType="com.chouchongkeji.service.user.friend.vo.CommentUserVo">
+            <result column="user_id" property="userId"/>
+            <result column="bremark" property="remark"/>
+            <result column="bnickname" property="nickname"/>
+            <result column="bavatar" property="avatar"/>
+            <result column="brelationship" property="relationship"/>
+        </association>
+        <association property="targetUser" javaType="com.chouchongkeji.service.user.friend.vo.CommentUserVo">
+            <result column="target_user_id" property="userId"/>
+            <result column="remark" property="remark"/>
+            <result column="nickname" property="nickname"/>
+            <result column="avatar" property="avatar"/>
+            <result column="relationship" property="relationship"/>
+        </association>
+    </resultMap>
+
+    <select id="selectCommentUsers" resultMap="CommentVo">
+  SELECT
+	a.*,
+	b.remark AS bremark,
+	u1.nickname AS bnickname,
+	u1.avatar AS bavatar,
+	b.relationship AS brelationship,
+	c.remark,
+	u2.nickname,
+	u2.avatar,
+	c.relationship
+FROM
+	`moment_comment` a
+	LEFT JOIN friend b ON b.user_id = #{selfUserId}
+	AND b.friend_user_id = a.user_id
+	LEFT JOIN app_user u1 ON u1.id = a.user_id
+	LEFT JOIN friend c ON c.user_id =  #{selfUserId}
+	AND c.friend_user_id = a.target_user_id
+	LEFT JOIN app_user u2 ON u2.id = a.target_user_id
+WHERE
+	a.moment_id = #{momentId}
+    </select>
+</mapper>

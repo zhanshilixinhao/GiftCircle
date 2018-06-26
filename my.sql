@@ -932,3 +932,70 @@ CREATE TABLE `user_preference` (
   `updated` datetime,
   PRIMARY KEY ( user_id )
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COMMENT = '用户信息补充';
+
+
+/*==============================================================*/
+/* Table: moment                                               */
+/*==============================================================*/
+DROP TABLE IF EXISTS `moment`;
+CREATE TABLE `moment` (
+  `id` int(11) not null auto_increment,
+  `user_id` int(11) UNSIGNED NOT NULL ,
+  `content` varchar(512) comment '秀秀文字内容',
+  `medias` varchar(2000) comment '秀秀图片或视频内容json数组[{type://1图片2视频,url:图片或视频地址}]',
+  `show_gift` tinyint(4) default 2 comment '是否显示最近收到的礼物 1 显示 2 不显示',
+  `created` datetime,
+  `updated` datetime,
+  PRIMARY KEY ( id ),
+  key user_id (user_id)
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COMMENT = '用户秀秀';
+
+
+/*==============================================================*/
+/* Table: moment_comment                                              */
+/*==============================================================*/
+DROP TABLE IF EXISTS `moment_comment`;
+CREATE TABLE `moment_comment` (
+  `id` int(11) not null auto_increment,
+  `moment_id` int(11) comment '秀秀id',
+  `user_id` int(11) UNSIGNED NOT NULL comment '评论者id',
+  `target_user_id` int(11) comment '回复对像用户id',
+  `content` varchar(512) comment '评论或回复文字内容',
+  `type` tinyint(4) comment '1 评论 2 回复',
+  `created` datetime,
+  `updated` datetime,
+  PRIMARY KEY ( id ),
+  key user_id (user_id),
+  key moment_id (moment_id),
+  key target_user_id (target_user_id)
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COMMENT = '用户秀秀评论';
+
+
+/*==============================================================*/
+/* Table: moment_praise                                              */
+/*==============================================================*/
+DROP TABLE IF EXISTS `moment_praise`;
+CREATE TABLE `moment_praise` (
+  `id` int(11) not null auto_increment,
+  `moment_id` int(11) comment '秀秀id',
+  `user_id` int(11) UNSIGNED NOT NULL comment '评论者id',
+  `created` datetime,
+  `updated` datetime,
+  PRIMARY KEY ( id ),
+  key user_id (user_id),
+  key moment_id (moment_id)
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COMMENT = '用户赞';
+
+
+SELECT
+  a.*,
+  b.remark,
+  b.nickname,
+  b.avatar,
+  c.remark,
+  c.nickname,
+  c.avatar
+FROM
+  `moment_comment` a
+  left JOIN	v_friend b on b.user_id = 4 and b.friend_user_id = a.user_id
+  left JOIN	v_friend c on c.user_id = 4 and c.friend_user_id = a.target_user_id

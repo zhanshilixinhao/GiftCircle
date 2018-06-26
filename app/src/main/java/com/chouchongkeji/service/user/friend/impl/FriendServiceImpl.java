@@ -148,6 +148,18 @@ public class FriendServiceImpl implements FriendService {
     }
 
     /**
+     * 查询好友关系
+     *
+     * @param userId
+     * @param friendUserId
+     * @return
+     */
+    @Override
+    public Friend isFriend(Integer userId, Integer friendUserId) {
+        return friendMapper.selectByUserIdAndFriendUserId(userId, friendUserId);
+    }
+
+    /**
      * 获取好友列表
      *
      * @param userId  用户id

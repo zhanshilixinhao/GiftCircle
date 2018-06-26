@@ -1,5 +1,6 @@
 package com.chouchongkeji.goexplore.utils;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.UnsupportedEncodingException;
@@ -106,6 +107,7 @@ public class Utils {
     }
 
     public static boolean getIds(String string, HashSet<Integer> idSet) {
+        if (StringUtils.isBlank(string)) return true;
         String[] split = string.split(",");
         return getIds(split, idSet);
     }
@@ -122,5 +124,21 @@ public class Utils {
             return true;
         }
         return false;
+    }
+
+    public static String toIds(HashSet<Integer> idSet) {
+        if (CollectionUtils.isNotEmpty(idSet)) {
+            StringBuilder sb = new StringBuilder();
+            int i = 0;
+            for (Integer integer : idSet) {
+                if (i > 0) {
+                    sb.append(",");
+                }
+                sb.append(integer);
+                i++;
+            }
+            return sb.toString();
+        }
+        return null;
     }
 }
