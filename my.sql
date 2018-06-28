@@ -987,15 +987,23 @@ CREATE TABLE `moment_praise` (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COMMENT = '用户赞';
 
 
-SELECT
-  a.*,
-  b.remark,
-  b.nickname,
-  b.avatar,
-  c.remark,
-  c.nickname,
-  c.avatar
-FROM
-  `moment_comment` a
-  left JOIN	v_friend b on b.user_id = 4 and b.friend_user_id = a.user_id
-  left JOIN	v_friend c on c.user_id = 4 and c.friend_user_id = a.target_user_id
+/*==============================================================*/
+/* Table: bp_item                                              */
+/*==============================================================*/
+DROP TABLE IF EXISTS `bp_item`;
+CREATE TABLE `bp_item` (
+  `id` bigint(20) not null,
+  `user_id` int(11) UNSIGNED NOT NULL comment '评论者id',
+  `item_id` int(11) comment '商品id',
+  `order_no` bigint(20) comment '购买商品的订单',
+  `sku_id` int(11) comment '商品skuId',
+  `quantity` int(10) comment '数量',
+  `price` decimal(18,2) comment '价格',
+  `created` datetime,
+  `updated` datetime,
+  PRIMARY KEY ( id ),
+  key user_id (user_id),
+  key sku_id (sku_id),
+  key item_id (item_id),
+  key order_no (order_no)
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COMMENT = '背包商品';

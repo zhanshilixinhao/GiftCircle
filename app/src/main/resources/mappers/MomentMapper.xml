@@ -169,6 +169,7 @@ WHERE
 	selfUserId = #{userId}
 ORDER BY
 	id DESC
+	limit ${( page.pageNum -1 ) * page.pageSize},${page.pageNum * page.pageSize}
     </select>
 
     <resultMap id="PraiseUser" type="com.chouchongkeji.service.user.friend.vo.PraiseVo">
@@ -263,5 +264,8 @@ FROM
 	LEFT JOIN friend c on c.user_id = #{userId} and c.friend_user_id = a.user_id
 WHERE
 	a.user_id = #{targetUserId}
+ORDER BY
+	id DESC
+limit ${( page.pageNum -1 ) * page.pageSize},${page.pageNum * page.pageSize}
     </select>
 </mapper>

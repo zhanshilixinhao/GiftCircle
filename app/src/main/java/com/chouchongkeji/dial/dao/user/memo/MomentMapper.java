@@ -1,6 +1,7 @@
 package com.chouchongkeji.dial.dao.user.memo;
 
 import com.chouchongkeji.dial.pojo.user.memo.Moment;
+import com.chouchongkeji.goexplore.query.PageQuery;
 import com.chouchongkeji.service.user.friend.vo.MomentVo;
 import org.apache.ibatis.annotations.Param;
 
@@ -19,11 +20,13 @@ public interface MomentMapper {
 
     int updateByPrimaryKey(Moment record);
 
-    List<MomentVo> selectAll(@Param("userId") Integer userId);
+    List<MomentVo> selectAll(@Param("userId") Integer userId, @Param("page") PageQuery page);
 
     MomentVo selectDetailById(@Param("userId") Integer userId,
                               @Param("momentId") Integer momentId);
 
     List<MomentVo> selectAllByTargetUser(@Param("userId") Integer userId,
-                                         @Param("targetUserId") Integer targetUserId);
+                                         @Param("targetUserId") Integer targetUserId,
+                                         @Param("page") PageQuery page
+    );
 }

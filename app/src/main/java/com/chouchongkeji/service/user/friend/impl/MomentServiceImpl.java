@@ -148,7 +148,7 @@ public class MomentServiceImpl implements MomentService {
      */
     @Override
     public Response getList(Integer userId, PageQuery page) {
-        List<MomentVo> list = momentMapper.selectAll(userId);
+        List<MomentVo> list = momentMapper.selectAll(userId, page);
         return ResponseFactory.sucData(list);
     }
 
@@ -177,7 +177,7 @@ public class MomentServiceImpl implements MomentService {
      */
     @Override
     public Response getListForSelf(Integer userId, Integer targetUserId, PageQuery page) {
-        List<MomentVo> list = momentMapper.selectAllByTargetUser(userId, targetUserId);
+        List<MomentVo> list = momentMapper.selectAllByTargetUser(userId, targetUserId, page);
         return ResponseFactory.sucData(list);
     }
 
