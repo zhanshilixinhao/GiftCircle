@@ -20,12 +20,12 @@ import org.springframework.context.annotation.ComponentScan;
 @MapperScan("com.chouchongkeji.dial.dao")
 public class App extends SpringBootServletInitializer {
 
-    public static void main(String[] args) {
-        SpringApplication.run(App.class, args);
-    }
-
-//    @Override
-//    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-//        return builder.sources(App.class);
+//    public static void main(String[] args) {
+//        SpringApplication.run(App.class, args);
 //    }
+
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+        return builder.sources(App.class);
+    }
 }

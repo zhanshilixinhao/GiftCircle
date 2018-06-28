@@ -1,9 +1,7 @@
 package com.chouchongkeji.util;
 
 import com.chouchongkeji.goexplore.utils.AESUtils;
-import com.chouchongkeji.goexplore.utils.ApiSignUtil;
 import com.chouchongkeji.goexplore.utils.Utils;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -46,15 +44,4 @@ public class SentPwdUtil {
         return AESUtils.encrypt(apiKey, pwd);
     }
 
-    public static void main(String[] args) {
-        String apiKey = ApiSignUtil.ANDROID;
-        String pwd = "123456";
-        String s1 = RandomStringUtils.randomNumeric(16);
-        String time = String.valueOf(System.currentTimeMillis());
-        String encrypt = encrypt(apiKey, pwd, s1, time);
-        System.out.println(encrypt);
-        String decrypt = decrypt(encrypt, s1, apiKey, time);
-        System.out.println(decrypt);
-        System.out.println(Utils.toMD5(pwd));
-    }
 }

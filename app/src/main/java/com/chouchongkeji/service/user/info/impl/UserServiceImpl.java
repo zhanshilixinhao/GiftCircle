@@ -1,14 +1,12 @@
 package com.chouchongkeji.service.user.info.impl;
 
 import com.chouchongkeji.dial.dao.user.AppUserMapper;
-import com.chouchongkeji.goexplore.common.ResponseFactory;
+import com.chouchongkeji.dial.pojo.user.AppUser;
+import com.chouchongkeji.dial.redis.MRedisTemplate;
 import com.chouchongkeji.goexplore.common.Response;
+import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.utils.ApiSignUtil;
 import com.chouchongkeji.goexplore.utils.K;
-
-import com.chouchongkeji.dial.pojo.user.AppUser;
-import com.chouchongkeji.properties.ServiceProperties;
-import com.chouchongkeji.dial.redis.MRedisTemplate;
 import com.chouchongkeji.service.user.info.UserService;
 import com.chouchongkeji.util.SentPwdUtil;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -166,14 +164,14 @@ public class UserServiceImpl implements UserService {
         String apiKey = ApiSignUtil.apiKey(client);
         // 解码
         String pwd = SentPwdUtil.decrypt(de, s1, apiKey, time);
-        if (pwd == null) {
+        if (pwd == null) { // 670B14728AD9902AECBA32E22FA4F6BD
             return ResponseFactory.err("密码设置错误!");
         }
         // 更新用户的赠送密码
         AppUser user = new AppUser();
         user.setId(userId);
         user.setSentPwd(passwordEncoder.encode(pwd));
-        int count = appUserMapper.updateByPrimaryKey(user);
+        int count = appUserMapper.updateByPrimaryKeySelective(user);
         if (count == 1) {
             return ResponseFactory.sucMsg("密码设置成功!");
         }
@@ -202,7 +200,7 @@ public class UserServiceImpl implements UserService {
         // 解码
         String pwd = SentPwdUtil.decrypt(de, s1, apiKey, time);
         if (pwd == null) {
-            return ResponseFactory.err("密码错误!");
+            return ResponseFactory.err("密码无效!");
         }
         // 取出用户的赠送密码
         AppUser user = appUserMapper.selectByPrimaryKey(userId);
@@ -265,7 +263,7 @@ public class UserServiceImpl implements UserService {
         AppUser user = new AppUser();
         user.setId(userId);
         user.setSentPwd(passwordEncoder.encode(pwd));
-        int count = appUserMapper.updateByPrimaryKey(user);
+        int count = appUserMapper.updateByPrimaryKeySelective(user);
         if (count == 1) {
             return ResponseFactory.sucMsg("密码修改成功!");
         }

@@ -79,7 +79,8 @@ public class UserController {
      */
     @PostMapping("set/pwd")
     public Response setSentPwd(@AuthenticationPrincipal UserDetails userDetails,
-                               @AppClient Integer client, String de, String time) {
+                               @AppClient Integer client, String de, String s2) {
+        String time = s2;
         if (StringUtils.isAnyBlank(de, time)) {
             return ResponseFactory.errMissingParameter();
         }
@@ -98,7 +99,8 @@ public class UserController {
      */
     @PostMapping("change/pwd/verify")
     public Response changePwdVerify(@AuthenticationPrincipal UserDetails userDetails,
-                                    @AppClient Integer client, String de, String time) {
+                                    @AppClient Integer client, String de, String s2) {
+        String time = s2;
         if (StringUtils.isAnyBlank(de, time)) {
             return ResponseFactory.errMissingParameter();
         }
@@ -117,7 +119,8 @@ public class UserController {
      */
     @PostMapping("change/pwd")
     public Response changePwd(@AuthenticationPrincipal UserDetails userDetails,
-                              @AppClient Integer client, String de, String time, String key) {
+                              @AppClient Integer client, String de, String s2, String key) {
+        String time = s2;
         if (StringUtils.isAnyBlank(de, time)) {
             return ResponseFactory.errMissingParameter();
         }
