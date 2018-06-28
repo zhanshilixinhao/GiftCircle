@@ -83,45 +83,35 @@ public class Constants {
 
 
     /* 订单状态 */
-//    订单状态: 1-未付款，2-已付款,待发货，3-已发货，待收货, 4-交易成功，5-交易关闭, 6-已删除，13-已取消
-    public interface ORDER_STATUS {
-        int NO_PAY = 1; // 未支付
-        int PAID = 2;
-        int SHIPPED = 3;
-        int SUCCESS = 4;
-        int CLOSE = 5;
-        int DELETED = 6;
-        int CANCELED = 13;
+//    订单状态: 1-未完成（未付款），2-已完成（已付款） ，3-已取消,4-已删除
+    public interface ORDER_STATUS extends ORDER_BASE_STATUS{
+        int CANCELED = 3;
+        int DELETED = 4;
     }
 
-    /* 订单状态 */
-//    订单状态: 1-未付款，2-已付款,  3-已发货，待收货, 4-交易成功，5-交易关闭, 6-已删除，13-已取消
+    /* 订单支付状态 */
+//    订单状态: 1-未付款，2-已付款
     public interface ORDER_BASE_STATUS {
         int NO_PAY = 1; // 未支付
         int PAID = 2;
-//        int SHIPPED = 3;
-//        int SUCCESS = 4;
-//        int CLOSE = 5;
-//        int DELETED = 6;
-//        int CANCELED = 13;
     }
 
-    //   订单真实状态: 1-未付款，2-已付款,待发货，3-已发货，待收货, 4-交易完成，5-已退款交易关闭, 6-交易取消 7 -已删除
-    public interface ORDER_REAL_STATUS {
-        int NO_PAY = 1; // 未支付定金
-        int PAID = 2;   // 已支付
-        int SHIPPED = 3;
-        int SUCCESS = 4;
-        int CLOSE = 5;
-        int CANCELED = 6;
-        int DEL = 7;
+    /* 订单提货状态 */ //1-待发货 2-已发货 3-已收货，未评价，4-已经评论，5-取消，6-删除
+    public interface ORDER_DELIVER {
+        byte NO_DELIVER = 1; // 待发货
+        byte DELIVER = 2; // 已发货
+        byte RECEIVE = 3; // 已收货，未评价
+        byte COMMENT = 4; // 已经评论
+        byte CANCLED = 5; // 取消
+        byte DELETED = 6; // 删除
     }
 
-    /* 订单评论状态 */
-    public interface ORDER_COMMENT {
-        byte NO_COMMENT = 1; // 未评论
-        byte COMMENT = 2; // 已经评论
-    }
+//    /* 订单评论状态 */
+//    public interface ORDER_COMMENT extends ORDER_DELIVER {
+//        byte NO_COMMENT = 4; // 未评论
+//        byte COMMENT = 5; // 已经评论
+//    }
+
 
     /* 叮当退款状态 */
     // 1-未申请退款, 2-已申请退款, 3-退款处理中, 4-退款成功, 5-退款失败

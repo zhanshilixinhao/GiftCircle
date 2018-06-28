@@ -178,4 +178,12 @@
     WHERE
     user_id = #{userId} AND status = 2
   </select>
+    <select id="selectByShippingId" resultMap="BaseResultMap">
+SELECT
+	<include refid="Base_Column_List"/>
+FROM
+	shipping
+WHERE
+	id = #{shippingId}
+    </select>
 </mapper>

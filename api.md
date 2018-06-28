@@ -1819,41 +1819,76 @@ JSON：
 | 参数名称 | 参数类型 | 是否必传 | 默认值 | 参数说明 |
 | :------: | :------: | :------: | :----: | :------: |
 |  access_token  |   String    |    是    |   无   |  访问令牌  |
+| status | int | 是 | 无 | 状态， 1-未完成（未付款），2-已完成（已付款） |
 | pageNum | int | 是 | 1 | 分页 |
 | pageSize | int | 是 | 14 | 分页大小 |
 
 请求结果示例：
 ```json
 {
-    {
     "errCode": 0, 
     "result": 0, 
-    "time": 1529642084930, 
+    "time": 1530156796210, 
     "data": [
         {
-            "id": 102, 
+            "id": 105, 
             "userId": 1, 
             "storeId": null, 
-            "orderNo": 220180610002, 
-            "totalPrice": 5000, 
-            "quantity": 5, 
-            "status": 13, 
-            "created": 1529556052000, 
-            "updated": 1529556052000
-        }, 
-        {
-            "id": 103, 
-            "userId": 1, 
-            "storeId": null, 
-            "orderNo": 220180610005, 
+            "orderNo": 220180610008, 
             "totalPrice": 4000, 
             "quantity": 4, 
-            "status": 13, 
-            "created": 1529567868000, 
-            "updated": 1529567868000
+            "status": 1, 
+            "created": 1529568689000, 
+            "updated": 1529568689000, 
+            "detailVos": [
+                {
+                    "itemId": 1, 
+                    "skuId": 1, 
+                    "title": "秦孝公", 
+                    "price": 1000, 
+                    "cover": "https://io.shanren.group/image/cover.jpg", 
+                    "quantity": 2
+                }, 
+                {
+                    "itemId": 1, 
+                    "skuId": 2, 
+                    "title": "魏文侯", 
+                    "price": 1000, 
+                    "cover": "https://io.shanren.group/image/cover.jpg", 
+                    "quantity": 2
+                }
+            ]
+        }, 
+        {
+            "id": 106, 
+            "userId": 1, 
+            "storeId": null, 
+            "orderNo": 220180610009, 
+            "totalPrice": 4000, 
+            "quantity": 4, 
+            "status": 1, 
+            "created": 1529568889000, 
+            "updated": 1529568889000, 
+            "detailVos": [
+                {
+                    "itemId": 1, 
+                    "skuId": 1, 
+                    "title": "秦孝公", 
+                    "price": 1000, 
+                    "cover": "https://io.shanren.group/image/cover.jpg", 
+                    "quantity": 2
+                }, 
+                {
+                    "itemId": 1, 
+                    "skuId": 2, 
+                    "title": "魏文侯", 
+                    "price": 1000, 
+                    "cover": "https://io.shanren.group/image/cover.jpg", 
+                    "quantity": 2
+                }
+            ]
         }
     ]
-}
 }
 ```
 | 参数名称 | 参数类型 | 是否必传 |  参数说明 |
@@ -1862,7 +1897,12 @@ JSON：
 | storeId | int | 否 | 店铺Id |
 | orderNo | Long | 是 | 订单号 |
 | totalPrice | float | 是 | 商品总价 |
-| Status | int | 是 | 订单类型 |
+| quantity | int | 是 | 商品数量 |
+| itemId | int | 是 | 商品id |
+| skuid | int | 是 | 最小销售单元id |
+| title | string | 是 | 商品标题 |
+| price | int | 是 | 商品单价 |
+| cover | string | 是 | 商品封面图片 |
 
 ## 8 图片上传
 

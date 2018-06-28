@@ -46,9 +46,10 @@ public interface OrderService {
      * 订单列表
      * @param userId 用户Id
      * @param pageQuery 分页
+     * @param status   状态 1-未完成（未付款），2-已完成（已付款）
      * @return
      * @author linqin
      *  @date 2018/6/21
      */
-    Response orderList(Integer userId, PageQuery pageQuery);
+    Response orderList(Integer userId, PageQuery pageQuery,Integer status);
 }

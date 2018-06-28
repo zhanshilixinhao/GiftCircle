@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSON;
 import com.chouchongkeji.dial.dao.gift.item.ItemOrderDetailMapper;
 import com.chouchongkeji.dial.dao.gift.item.ItemOrderMapper;
 import com.chouchongkeji.dial.dao.gift.item.ItemSkuMapper;
+import com.chouchongkeji.dial.pojo.gift.item.ItemOrder;
+import com.chouchongkeji.dial.pojo.gift.item.ItemOrderDetail;
 import com.chouchongkeji.dial.pojo.gift.item.ItemSku;
 import com.chouchongkeji.exception.ServiceException;
 import com.chouchongkeji.goexplore.common.ErrorCode;
@@ -18,10 +20,8 @@ import com.chouchongkeji.goexplore.pay.weixin.service.WXPayService;
 import com.chouchongkeji.goexplore.query.PageQuery;
 import com.chouchongkeji.goexplore.utils.BigDecimalUtil;
 import com.chouchongkeji.goexplore.utils.RSAProvider;
-import com.chouchongkeji.dial.pojo.gift.item.ItemOrder;
-import com.chouchongkeji.dial.pojo.gift.item.ItemOrderDetail;
-
 import com.chouchongkeji.service.gift.item.OrderService;
+import com.chouchongkeji.service.gift.item.vo.OrderListVo;
 import com.chouchongkeji.service.gift.item.vo.OrderVo;
 import com.chouchongkeji.util.Constants;
 import com.chouchongkeji.util.OrderHelper;
@@ -273,15 +273,17 @@ public class OrderServiceImpl implements OrderService {
      * 订单列表
      * @param userId 用户Id
      * @param pageQuery 分页
+     * @param status   状态 1-未完成（未付款），2-已完成（已付款）
      * @return
      * @author linqin
      *  @date 2018/6/21
      */
     @Override
-    public Response orderList(Integer userId, PageQuery pageQuery) {
+    public Response orderList(Integer userId, PageQuery pageQuery,Integer status) {
         //分页
         PageHelper.startPage(pageQuery.getPageNum(),pageQuery.getPageSize());
-        List<ItemOrder> itemOrders = itemOrderMapper.selectByUserId(userId);
+        //根据用户id和状态查询所有订单
+        List<OrderListVo> itemOrders = itemOrderMapper.selectDetailByUserId(userId,status);
         if (itemOrders == null){
             throw new ServiceException(ErrorCode.ERROR.getCode(),"还没有订单哦");
         }

@@ -14,6 +14,25 @@
       <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
     </constructor>
   </resultMap>
+  <resultMap id="ResultMap" type="com.chouchongkeji.service.gift.item.vo.OrderListVo">
+    <result property="id" column="id"/>
+    <result property="userId" column="user_id"/>
+    <result property="storeId" column="store_id"/>
+    <result property="orderNo" column="order_no"/>
+    <result property="totalPrice" column="total_price"/>
+    <result property="quantity" column="quantity"/>
+    <result property="status" column="status"/>
+    <result property="created" column="created"/>
+    <result property="updated" column="updated"/>
+     <collection property="detailVos" ofType="com.chouchongkeji.service.gift.item.vo.OrderDetailVo">
+       <result property="itemId" column="item_id"/>
+       <result property="skuId" column="sku_id"/>
+       <result property="title" column="title"/>
+       <result property="price" column="price"/>
+       <result property="cover" column="cover"/>
+       <result property="quantity" column="bQuantity"/>
+     </collection>
+  </resultMap>
   <sql id="Base_Column_List">
     id, user_id, store_id, order_no, total_price, quantity, status, created, updated
   </sql>
@@ -49,7 +68,21 @@ FROM
 WHERE
 	order_no = #{orderNo}
     </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <select id="selectDetailByUserId" resultMap="ResultMap">
+    SELECT
+a.*,
+b.item_id,
+b.sku_id,
+b.title,
+b.price,
+b.cover,
+b.quantity as bQuantity
+FROM item_order a
+LEFT JOIN item_order_detail b  on a.order_no = b.order_no
+WHERE a.user_id = #{userId}
+and a.status = #{status}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from item_order
     where id = #{id,jdbcType=INTEGER}
   </delete>

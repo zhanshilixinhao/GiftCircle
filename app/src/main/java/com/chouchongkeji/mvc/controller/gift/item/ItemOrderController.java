@@ -32,27 +32,28 @@ public class ItemOrderController {
 
     /**
      * 创建商品订单
+     *
      * @param userDetails
      * @param client
-     * @param skus json数组，数组格式
-     *             [
-     *             {
-     *                "skuId":skuId,
-     *             "quantity":quantity
-     *             }
-     *             ]
+     * @param skus        json数组，数组格式
+     *                    [
+     *                    {
+     *                    "skuId":skuId,
+     *                    "quantity":quantity
+     *                    }
+     *                    ]
      * @return
      * @author linqin
      * @date 2018/6/20
      */
     @PostMapping("/create")
     public Response createOrder(@AuthenticationPrincipal UserDetails userDetails, @AppClient Integer client,
-                                String skus,Integer payWay) {
+                                String skus, Integer payWay) {
         //检验支付方式
         if (payWay == null || (payWay != Constants.PAY_TYPE.WX && payWay != Constants.PAY_TYPE.ALI)) {
             return ResponseFactory.err("支付方式错误!");
         }
-        //json数组转换
+        //json数组转换 反序列化，字符串转化为对象
         HashSet<OrderVo> orderVos = JSON.parseObject(skus, new TypeReference<HashSet<OrderVo>>() {
         });
         if (CollectionUtils.isEmpty(orderVos)) {
@@ -60,66 +61,74 @@ public class ItemOrderController {
         }
         //遍历
         for (OrderVo order : orderVos) {
-            if (order.getQuantity()<1){
+            if (order.getQuantity() < 1) {
                 return ResponseFactory.err("商品数量不能小于1");
             }
-            if (order.getSkuId()==null){
+            if (order.getSkuId() == null) {
                 return ResponseFactory.err("");
             }
         }
-        return orderService.createOrder(userDetails.getUserId(),client,orderVos,payWay);
+        return orderService.createOrder(userDetails.getUserId(), client, orderVos, payWay);
     }
 
 
     /**
      * 订单支付
+     *
      * @param userDetails
-     * @param orderNo  订单号
+     * @param orderNo     订单号
      * @return
      * @author linqin
      * @date 2018/6/21
      */
     @PostMapping("pay")
-    public Response orderPay(@AuthenticationPrincipal UserDetails userDetails,Long orderNo ,Integer payWay){
+    public Response orderPay(@AuthenticationPrincipal UserDetails userDetails, Long orderNo, Integer payWay) {
         //检验支付方式
         if (payWay == null || (payWay != Constants.PAY_TYPE.WX && payWay != Constants.PAY_TYPE.ALI)) {
             return ResponseFactory.err("支付方式错误!");
         }
-        if (orderNo == null){
+        if (orderNo == null) {
             return ResponseFactory.errMissingParameter();
         }
-        return orderService.orderPay(userDetails.getUserId(),orderNo,payWay);
+        return orderService.orderPay(userDetails.getUserId(), orderNo, payWay);
     }
 
     /**
      * 订单取消
+     *
      * @param userDetails
-     * @param orderNo 订单号
+     * @param orderNo     订单号
      * @return
      * @author linqin
      * @date 2018/6/21
      */
     @PostMapping("cancel")
-    public Response cancelOrder(@AuthenticationPrincipal UserDetails userDetails,Long orderNo){
+    public Response cancelOrder(@AuthenticationPrincipal UserDetails userDetails, Long orderNo) {
         //校验参数
-        if (orderNo == null){
+        if (orderNo == null) {
             return ResponseFactory.errMissingParameter();
         }
-        return orderService.cancelOrder(userDetails.getUserId(),orderNo);
+        return orderService.cancelOrder(userDetails.getUserId(), orderNo);
     }
 
 
     /**
      * 订单列表
+     *
      * @param userDetails
-     * @param pageQuery 分页
+     * @param pageQuery   分页
+     * @param status   状态 1-未完成（未付款），2-已完成（已付款）
      * @return
      * @author linqin
      * @date 2018/6/21
      */
     @PostMapping("list")
-    public Response orderList(@AuthenticationPrincipal UserDetails userDetails, PageQuery pageQuery){
-        return orderService.orderList(userDetails.getUserId(),pageQuery);
+    public Response orderList(@AuthenticationPrincipal UserDetails userDetails, PageQuery pageQuery, Integer status) {
+        //校验参数
+        if (status == null||(status != Constants.ORDER_STATUS.NO_PAY && status != Constants.ORDER_STATUS.PAID) ) {
+            return ResponseFactory.err("参数错误");
+        }
+        return orderService.orderList(userDetails.getUserId(), pageQuery,status);
     }
 
 }

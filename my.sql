@@ -933,6 +933,40 @@ CREATE TABLE `user_preference` (
   PRIMARY KEY ( user_id )
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COMMENT = '用户信息补充';
 
+/*==============================================================*/
+/* Table:  receive_item_order                                            */
+/*==============================================================*/
+DROP TABLE IF EXISTS `receive_item_order`;
+CREATE TABLE `receive_item_order` (
+  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT ,
+  `user_id` int(11) comment '用户id',
+  `item_id` int(11) comment '商品id',
+  `bp_item_id` int(11) comment '背包商品id',
+  `sku_id` int(11) comment '商品最小销售单元id',
+  `order_no` bigint(20) comment '订单号',
+  `title` varchar(64) comment '标题',
+  `description` varchar(200) comment '商品描述',
+  `cover` varchar(200) comment '封面图片',
+  `price` decimal(18,2) comment '商品单价',
+  `total_price` decimal(18,2) comment '商品总价',
+  `quantity` int(11) comment '数量',
+  `receive_info` varchar(255) comment '收货信息',
+  `logistics_info` varchar(255) comment '物流信息',
+  `status` tinyint(4) comment '订单状态，1-待发货；2-已发货；3-已收货,待评价，4-已评价,5-取消，6-删除',
+  `created` datetime(0) COMMENT '创建时间',
+  `updated` datetime(0) COMMENT '更新时间',
+  PRIMARY KEY ( id ),
+  unique key order_no (order_no),
+  key user_id (user_id),
+  key bp_item_id (bp_item_id)
+
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COMMENT = '提货订单';
+
+
+
+
+
+
 
 /*==============================================================*/
 /* Table: moment                                               */

@@ -38,4 +38,6 @@ public interface ShippingMapper {
      * @Date: 2018/6/6
      */
     List<Shipping> selectByDefaultStatus(@Param("userId") Integer userId);
+
+    Shipping selectByShippingId(Integer shippingId);
 }
