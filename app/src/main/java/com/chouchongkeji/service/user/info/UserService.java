@@ -73,4 +73,18 @@ public interface UserService {
      * @date 2018/6/7
      */
     Response changePwd(Integer userId, String de, String time, Integer client, String key);
+
+
+    /**
+     * 获取用户的详细信息
+     *
+     * @param userId       用户信息
+     * @param targetUserId 查看的用户id
+     * @return
+     * @author linqin
+     * @date 2018/6/7
+     */
+    Response getInfo(Integer userId, Integer targetUserId);
+
+
 }

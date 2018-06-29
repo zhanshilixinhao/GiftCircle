@@ -127,5 +127,21 @@ public class UserController {
         return userService.changePwd(userDetails.getUserId(), de, time, client, key);
     }
 
-
+    /**
+     * 获取用户的详细信息
+     *
+     * @param userDetails  用户信息
+     * @param targetUserId 查看的用户id
+     * @return
+     * @author linqin
+     * @date 2018/6/7
+     */
+    @PostMapping("info")
+    public Response getInfo(@AuthenticationPrincipal UserDetails userDetails,
+                            Integer targetUserId) {
+        if (targetUserId == null) {
+            targetUserId = userDetails.getUserId();
+        }
+        return userService.getInfo(userDetails.getUserId(), targetUserId);
+    }
 }

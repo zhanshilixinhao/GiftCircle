@@ -58,6 +58,9 @@ public class MomentController {
                     return ResponseFactory.err("medias数据错误!");
                 }
             }
+            moment.setMediaCount(list.size());
+        } else {
+            moment.setMediaCount(0);
         }
         // 默认不显示收到的礼物
         Byte showGift = moment.getShowGift();

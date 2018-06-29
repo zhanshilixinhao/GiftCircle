@@ -1041,3 +1041,28 @@ CREATE TABLE `bp_item` (
   key item_id (item_id),
   key order_no (order_no)
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COMMENT = '背包商品';
+
+
+
+/*==============================================================*/
+/* Table: consignment                                              */
+/*==============================================================*/
+DROP TABLE IF EXISTS `consignment`;
+CREATE TABLE `consignment` (
+  `id` int(11) not null auto_increment,
+  `user_id` int(11) UNSIGNED NOT NULL comment '发布者id',
+  `item_id` int(11) comment '商品id',
+  `sku_id` int(11) comment '商品skuId',
+  `bp_id` int(11) comment '背包id',
+  `quantity` int(10) comment '数量',
+  `price` decimal(18,2) comment '价格',
+  `created` datetime,
+  `updated` datetime,
+  PRIMARY KEY ( id ),
+  key user_id (user_id),
+  key sku_id (sku_id),
+  key item_id (item_id),
+  key bp_id (bp_id)
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COMMENT = '寄售台';
+
+

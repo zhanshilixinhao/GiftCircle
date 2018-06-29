@@ -158,7 +158,7 @@ http 常用错误码
 
 ### 2.4 修改用户信息
 
-- 请求地址：auth/user/modify_profile    
+- 请求地址：auth/user/modify_profile
 - 服务协议：HTTP/POST
 - 是否需要身份认证：是
 - 作者：linqin
@@ -343,6 +343,75 @@ http 常用错误码
 | :----------: | :------: | :------: | :----: | :------: |
 | access_token | string | 是 | 无 | 访问令牌 |
 | ids | string | 是 | 无 | 选中的礼物偏好id集合，多个用,隔开 |
+
+
+### 2.11 获取自己或别人的信息(包含印象表情和秀秀)
+
+- 请求地址：auth/user/info
+- 服务协议：HTTP/POST
+- 是否需要身份认证：否
+- 作者：yichen
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token | string | 是 | 无 | 访问令牌 |
+| targetUserId | int | 是 | 无 | 查看用户的id，不传默认查看自己的 |
+
+```js
+{
+    errCode: 0, 
+    result: 0, 
+    time: 1530257357866, 
+    data: {
+        userId: 4, 
+        phone: "183 *** 7954", 
+        avatar: "https://io.shanren.group/image/avatar.jpg", 
+        nickname: "大秦", 
+        age: 2, 
+        gender: 2, 
+        signature: "多少", 
+        district: "多少", 
+        wxid: "", 
+        isFriend: 1,  // 是否是好友关系 1 是 2 不是
+        remark: "",   // 好友备注
+        relationship: "",  // 我和好友的关系
+        tags: [ // 好友印象标签
+            {
+                tagId: 22, 
+                tag: "言行一致", 
+                num: 1,  // 被表及的次数
+                type: 1 // 1 蓝色 2 粉色 
+            }, 
+            {
+                tagId: 23, 
+                tag: "才华横溢", 
+                num: 2, 
+                type: 1
+            }, 
+            {
+                tagId: 24, 
+                tag: "出口成章", 
+                num: 2, 
+                type: 1
+            }
+        ], 
+        recentMoments: [ // 最近发表过的三张照片
+            {
+                type: 1, 
+                url: "https://io.shanren.group/image/pic.jpg"
+            }, 
+            {
+                type: 1, 
+                url: "https://io.shanren.group/image/pic.jpg"
+            }, 
+            {
+                type: 1, 
+                url: "https://io.shanren.group/image/pic.jpg"
+            }
+        ]
+    }
+}
+```
 
 ## 3. 我要--我的钱包
 
@@ -660,6 +729,7 @@ http 常用错误码
 | :----------: | :------: | :------: | :----: | :------: |
 | access_token |  string  |    是    |   无   | 访问令牌 |
 | de | string | 是 | 无 | 密码加密之后的字符串 |
+| s2 | string | 是 | 无 | 随机字符串 |
 
 * 加密规则说名
 
@@ -667,15 +737,15 @@ http 常用错误码
 String apiKey; // 接口签名的apiKey
 String pwd;    // 原密码MD5 32位大写
 String s1;     // 3.9中返回的随机数字
-String time;   // 参与接口签名的随机数
+String s2;   // 客户端生成的随机字符串
 // 拼接密码
-pwd = String.format("%s@%s", pwd, Utils.toMD5(String.format("%spinjie%s", time, s1)));
+pwd = String.format("%s@%s", pwd, Utils.toMD5(String.format("%spinjie%s", s2, s1)));
 // 拼接加密的密钥
 int len = apiKey.length();
 // 取出随机数字的第一位
 int first = s1.charAt(0) - 48;
 // 去除apiKey中的第first位
-String seed = String.format("%s%s%s%s", time, apiKey.substring(0, first),
+String seed = String.format("%s%s%s%s", s2, apiKey.substring(0, first),
 apiKey.substring(first < len ? first + 1 : first, len), s1);
 // 使用AES256加密
 String de = AESUtils.encrypt(seed, pwd);
@@ -693,6 +763,7 @@ String de = AESUtils.encrypt(seed, pwd);
 | :----------: | :------: | :------: | :----: | :------: |
 | access_token |  string  |    是    |   无   | 访问令牌 |
 | de | string | 是 | 无 | 密码加密之后的字符串(与3.10中的加密规则一致) |
+| s2 | string | 是 | 无 | 随机字符串 |
 
 * 请求结果示例
 
@@ -718,6 +789,7 @@ String de = AESUtils.encrypt(seed, pwd);
 | access_token |  string  |    是    |   无   | 访问令牌 |
 | de | string | 是 | 无 | 密码加密之后的字符串 (与3.10中的加密规则一致) |
 | key | string | 是 | 无 | 3.11中返回的key |
+| s2 | string | 是 | 无 | 随机字符串 |
 
 * 请求结果示例
 

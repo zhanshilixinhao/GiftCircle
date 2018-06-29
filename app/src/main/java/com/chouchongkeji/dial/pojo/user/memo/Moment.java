@@ -13,6 +13,8 @@ public class Moment {
 
     private Byte showGift;
 
+    private Integer mediaCount;
+
     private Date created;
 
     private Date updated;
@@ -85,5 +87,13 @@ public class Moment {
 
     public void setUpdated(Date updated) {
         this.updated = updated;
+    }
+
+    public Integer getMediaCount() {
+        return mediaCount;
+    }
+
+    public void setMediaCount(Integer mediaCount) {
+        this.mediaCount = mediaCount;
     }
 }

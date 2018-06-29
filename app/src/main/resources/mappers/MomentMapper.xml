@@ -27,10 +27,11 @@
   </delete>
     <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.user.memo.Moment">
     insert into moment (id, user_id, content, 
-      medias, show_gift, created, 
+      medias, show_gift, media_count, created,
       updated)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, 
-      #{medias,jdbcType=VARCHAR}, #{showGift,jdbcType=TINYINT},now(),
+      #{medias,jdbcType=VARCHAR}, #{showGift,jdbcType=TINYINT},#{mediaCount,jdbcType=TINYINT},
+      now(),
       now())
   </insert>
     <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.user.memo.Moment">
@@ -267,5 +268,14 @@ WHERE
 ORDER BY
 	id DESC
 limit ${( page.pageNum -1 ) * page.pageSize},${page.pageNum * page.pageSize}
+    </select>
+    <select id="selectRecentByUserId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from moment
+        where user_id = #{userId}
+        and media_count > 0
+        order by id DESC
+        limit 3
     </select>
 </mapper>

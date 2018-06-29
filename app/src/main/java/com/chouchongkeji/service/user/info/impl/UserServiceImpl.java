@@ -1,23 +1,34 @@
 package com.chouchongkeji.service.user.info.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.chouchongkeji.dial.dao.user.AppUserMapper;
+import com.chouchongkeji.dial.dao.user.UserPreferenceMapper;
+import com.chouchongkeji.dial.dao.user.memo.MomentMapper;
+import com.chouchongkeji.dial.pojo.friend.Friend;
 import com.chouchongkeji.dial.pojo.user.AppUser;
+import com.chouchongkeji.dial.pojo.user.UserPreference;
+import com.chouchongkeji.dial.pojo.user.memo.Moment;
 import com.chouchongkeji.dial.redis.MRedisTemplate;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.utils.ApiSignUtil;
 import com.chouchongkeji.goexplore.utils.K;
+import com.chouchongkeji.goexplore.utils.Utils;
+import com.chouchongkeji.service.user.friend.FriendService;
+import com.chouchongkeji.service.user.friend.vo.MediaVo;
 import com.chouchongkeji.service.user.info.UserService;
+import com.chouchongkeji.service.user.info.vo.UserInfoVo;
+import com.chouchongkeji.service.user.info.vo.UserTagVo;
 import com.chouchongkeji.util.SentPwdUtil;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * @author linqin
@@ -34,6 +45,89 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private MRedisTemplate mRedisTemplate;
+
+    @Autowired
+    private UserPreferenceMapper userPreferenceMapper;
+
+    @Autowired
+    private MomentMapper momentMapper;
+
+    @Autowired
+    private FriendService friendService;
+
+
+    /**
+     * 获取用户的详细信息
+     *
+     * @param userId       用户信息
+     * @param targetUserId 查看的用户id
+     * @return
+     * @author linqin
+     * @date 2018/6/7
+     */
+    @Override
+    public Response getInfo(Integer userId, Integer targetUserId) {
+        // 取出用户信息
+        AppUser user = appUserMapper.selectByUserId(targetUserId);
+        UserInfoVo vo = new UserInfoVo();
+        vo.setUserId(user.getId());
+        vo.setPhone(Utils.getPhone(user.getPhone()));
+        vo.setAge(user.getAge());
+        vo.setNickname(user.getNickname());
+        vo.setAvatar(user.getAvatar());
+        vo.setGender(user.getGender());
+        vo.setSignature(user.getSignature());
+        vo.setDistrict(user.getDistrict());
+        vo.setWxid(user.getWxid());
+        // 取出标签信息
+        UserPreference preference = userPreferenceMapper.selectByPrimaryKey(targetUserId);
+        if (StringUtils.isNotBlank(preference.getTags())) {
+            vo.setTags(JSON.parseObject(preference.getTags(), new TypeReference<HashSet<UserTagVo>>() {
+            }));
+        }
+        Integer isFriend = userId.equals(targetUserId) ? 1 : 2;
+        if (isFriend == 2) {
+            Friend friend = friendService.isFriend(userId, targetUserId);
+            if (friend != null) {
+                isFriend = 1;
+                vo.setRemark(friend.getRemark());
+                vo.setRelationship(friend.getRelationship());
+            }
+        }
+        vo.setIsFriend(isFriend);
+        // 判断是不是好友关系
+        if (isFriend == 1) {
+            // 取出最新的三张照片
+            List<Moment> moments = momentMapper.selectRecentByUserId(targetUserId);
+            if (CollectionUtils.isNotEmpty(moments)) {
+                List<MediaVo> recentMedias = new ArrayList<>();
+                List<MediaVo> mediaVos;
+                // 遍历最新三个秀秀
+                for (Moment moment : moments) {
+                    boolean f = false;
+                    // 取出秀秀里面的图片或视频
+                    if (StringUtils.isNotBlank(moment.getMedias())) {
+                        mediaVos = JSON.parseObject(moment.getMedias(), new TypeReference<List<MediaVo>>() {
+                        });
+                        for (MediaVo mediaVo : mediaVos) {
+                            // 加入最新的视频或图片里面
+                            if (recentMedias.size() < 3) {
+                                recentMedias.add(mediaVo);
+                            } else {
+                                f = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (f) {
+                        break;
+                    }
+                }
+                vo.setRecentMoments(recentMedias);
+            }
+        }
+        return ResponseFactory.sucData(vo);
+    }
 
     /**
      * 获取用户详细信息

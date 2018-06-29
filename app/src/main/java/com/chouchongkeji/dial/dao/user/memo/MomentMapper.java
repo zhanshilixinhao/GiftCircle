@@ -29,4 +29,7 @@ public interface MomentMapper {
                                          @Param("targetUserId") Integer targetUserId,
                                          @Param("page") PageQuery page
     );
+
+    List<Moment> selectRecentByUserId(@Param("userId") Integer userId);
+
 }
