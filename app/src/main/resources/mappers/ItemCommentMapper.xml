@@ -34,7 +34,7 @@
       )
     values (#{id,jdbcType=INTEGER}, #{itemId,jdbcType=INTEGER}, #{orderNo,jdbcType=BIGINT}, 
       #{userId,jdbcType=INTEGER}, #{star,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, 
-      #{pictures,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP}
+      #{pictures,jdbcType=VARCHAR}, now(), now()
       )
   </insert>
   <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.gift.item.ItemComment">

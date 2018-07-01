@@ -96,7 +96,7 @@ public class Constants {
         int PAID = 2;
     }
 
-    /* 订单提货状态 */ //1-待发货 2-已发货 3-已收货，未评价，4-已经评论，5-取消，6-删除
+    /* 订单提货状态 */ //1-待发货 2-已发货 3-已收货，未评价，4-已经评论，5-取消，6-删除（1.2未完成，3.4已完成）
     public interface ORDER_DELIVER {
         byte NO_DELIVER = 1; // 待发货
         byte DELIVER = 2; // 已发货

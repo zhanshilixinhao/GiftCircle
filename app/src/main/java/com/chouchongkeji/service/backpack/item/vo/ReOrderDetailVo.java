@@ -1,11 +1,20 @@
-package com.chouchongkeji.dial.pojo.backpack.item;
+package com.chouchongkeji.service.backpack.item.vo;
 
+import com.chouchongkeji.dial.pojo.iwant.receiveAddress.Shipping;
+import com.chouchongkeji.service.kdapi.KdResult;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.yichen.auth.jackson.ImgUrl;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
-public class ReceiveItemOrder {
+/**
+ * @author linqin
+ * @date 2018/6/29
+ */
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class ReOrderDetailVo {
     private Integer id;
 
     private Integer userId;
@@ -31,9 +40,11 @@ public class ReceiveItemOrder {
 
     private Integer quantity;
 
-    private String receiveInfo;
+    private Shipping receiveInfo;
 
-    private String logisticsInfo;
+    private LogisticsInfoVo logisticsInfo;
+
+    private List<KdResult.DataBean> logisticsTrace;
 
     private Byte status;
 
@@ -41,36 +52,20 @@ public class ReceiveItemOrder {
 
     private Date updated;
 
-    public ReceiveItemOrder(Integer id, Integer userId, Integer itemId, Integer bpItemId, Integer skuId, Long orderNo, String title, String description, String cover, BigDecimal price, BigDecimal totalPrice, Integer quantity, String receiveInfo, String logisticsInfo, Byte status, Date created, Date updated) {
-        this.id = id;
-        this.userId = userId;
-        this.itemId = itemId;
-        this.bpItemId = bpItemId;
-        this.skuId = skuId;
-        this.orderNo = orderNo;
-        this.title = title;
-        this.description = description;
-        this.cover = cover;
-        this.price = price;
-        this.totalPrice = totalPrice;
-        this.quantity = quantity;
-        this.receiveInfo = receiveInfo;
-        this.logisticsInfo = logisticsInfo;
-        this.status = status;
-        this.created = created;
-        this.updated = updated;
-    }
-
-    public ReceiveItemOrder() {
-        super();
-    }
-
     public Integer getId() {
         return id;
     }
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public List<KdResult.DataBean> getLogisticsTrace() {
+        return logisticsTrace;
+    }
+
+    public void setLogisticsTrace(List<KdResult.DataBean> logisticsTrace) {
+        this.logisticsTrace = logisticsTrace;
     }
 
     public Integer getUserId() {
@@ -118,7 +113,7 @@ public class ReceiveItemOrder {
     }
 
     public void setTitle(String title) {
-        this.title = title == null ? null : title.trim();
+        this.title = title;
     }
 
     public String getDescription() {
@@ -126,7 +121,7 @@ public class ReceiveItemOrder {
     }
 
     public void setDescription(String description) {
-        this.description = description == null ? null : description.trim();
+        this.description = description;
     }
 
     public String getCover() {
@@ -134,7 +129,7 @@ public class ReceiveItemOrder {
     }
 
     public void setCover(String cover) {
-        this.cover = cover == null ? null : cover.trim();
+        this.cover = cover;
     }
 
     public BigDecimal getPrice() {
@@ -161,20 +156,20 @@ public class ReceiveItemOrder {
         this.quantity = quantity;
     }
 
-    public String getReceiveInfo() {
+    public Shipping getReceiveInfo() {
         return receiveInfo;
     }
 
-    public void setReceiveInfo(String receiveInfo) {
-        this.receiveInfo = receiveInfo == null ? null : receiveInfo.trim();
+    public void setReceiveInfo(Shipping receiveInfo) {
+        this.receiveInfo = receiveInfo;
     }
 
-    public String getLogisticsInfo() {
+    public LogisticsInfoVo getLogisticsInfo() {
         return logisticsInfo;
     }
 
-    public void setLogisticsInfo(String logisticsInfo) {
-        this.logisticsInfo = logisticsInfo == null ? null : logisticsInfo.trim();
+    public void setLogisticsInfo(LogisticsInfoVo logisticsInfo) {
+        this.logisticsInfo = logisticsInfo;
     }
 
     public Byte getStatus() {

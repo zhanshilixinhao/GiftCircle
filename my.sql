@@ -248,6 +248,7 @@ create table item_event
 create table item_comment
 (
   id       int auto_increment not null,
+  sku_id  int comment '最小销售单元id',
   item_id  int comment '商品id',
   order_no bigint comment '订单号',
   user_id  int comment '用户id',

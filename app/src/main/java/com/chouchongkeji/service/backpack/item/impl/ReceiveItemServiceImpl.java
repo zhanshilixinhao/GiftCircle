@@ -1,23 +1,35 @@
 package com.chouchongkeji.service.backpack.item.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.chouchongkeji.dial.dao.backpack.item.BpItemMapper;
 import com.chouchongkeji.dial.dao.backpack.item.ReceiveItemOrderMapper;
+import com.chouchongkeji.dial.dao.gift.item.ItemCommentMapper;
 import com.chouchongkeji.dial.dao.gift.item.ItemSkuMapper;
 import com.chouchongkeji.dial.dao.iwant.receiveAddress.ShippingMapper;
 import com.chouchongkeji.dial.pojo.backpack.item.BpItem;
 import com.chouchongkeji.dial.pojo.backpack.item.ReceiveItemOrder;
+import com.chouchongkeji.dial.pojo.gift.item.ItemComment;
 import com.chouchongkeji.dial.pojo.gift.item.ItemSku;
 import com.chouchongkeji.dial.pojo.iwant.receiveAddress.Shipping;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.query.PageQuery;
 import com.chouchongkeji.service.backpack.item.ReceiveItemService;
+import com.chouchongkeji.service.backpack.item.vo.LogisticsInfoVo;
+import com.chouchongkeji.service.backpack.item.vo.ReOrderDetailVo;
+import com.chouchongkeji.service.backpack.item.vo.ReceiveItemVo;
+import com.chouchongkeji.service.kdapi.ExpressApi;
+import com.chouchongkeji.service.kdapi.KdResult;
 import com.chouchongkeji.util.Constants;
 import com.chouchongkeji.util.OrderHelper;
 import com.github.pagehelper.PageHelper;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author linqin
@@ -40,6 +52,10 @@ public class ReceiveItemServiceImpl implements ReceiveItemService {
 
     @Autowired
     private ShippingMapper shippingMapper;
+
+    @Autowired
+    private ItemCommentMapper itemCommentMapper;
+
     /**
      * 创建提货订单
      * @param userId 用户id
@@ -97,7 +113,7 @@ public class ReceiveItemServiceImpl implements ReceiveItemService {
      *
      * @param userId
      * @param pageQuery
-     * @param status 订单状态，1-待发货；2-已发货；3-已收货,待评价，4-已评价,5-取消，6-删除
+     * @param status 订单状态，0-全部，1-未完成(待发货,已发货)；2-已完成（已收货待评价，已评价）
      * @return
      * @author linqin
      * @date 2018/6/22
@@ -106,10 +122,155 @@ public class ReceiveItemServiceImpl implements ReceiveItemService {
     public Response getOrderList(Integer userId, PageQuery pageQuery,Integer status) {
         //分页
         PageHelper.startPage(pageQuery.getPageNum(),pageQuery.getPageSize());
-
-
-        return null;
+        //根据用户id和状态查询提货订单
+        List<ReceiveItemOrder>  order = receiveItemOrderMapper.selectByUserIdStatus(userId,status);
+        if (order == null){
+            return ResponseFactory.suc();
+        }
+        //创建新的列表
+        List<ReceiveItemVo> list = new ArrayList<>();
+        for (ReceiveItemOrder itemOrder:order) {
+            ReceiveItemVo vo = new ReceiveItemVo();
+            vo.setOrderNo(itemOrder.getOrderNo());
+            vo.setCover(itemOrder.getCover());
+            vo.setDescription(itemOrder.getDescription());
+            vo.setPrice(itemOrder.getPrice());
+            vo.setTitle(itemOrder.getTitle());
+            vo.setStatus(itemOrder.getStatus());
+            vo.setCreated(itemOrder.getCreated());
+            vo.setUpdated(itemOrder.getUpdated());
+            //遍历之后添加到列表里面
+            list.add(vo);
+        }
+        return ResponseFactory.sucData(list);
     }
+
+    /**
+     * 提货订单详情
+     *
+     * @param userId      用户id
+     * @param orderNo 提货订单号
+     * @return
+     * @author linqin
+     * @date 2018/6/28
+     */
+    @Override
+    public Response getOrderDetail(Integer userId, Long orderNo) {
+        //根据用户Id和提货订单号取出订单
+        ReceiveItemOrder itemOrder = receiveItemOrderMapper.selectByUserIdOrderNo(userId,orderNo);
+        if (itemOrder ==null){
+            return ResponseFactory.err("该订单不存在");
+        }
+        ReOrderDetailVo vo = new ReOrderDetailVo();
+        vo.setId(itemOrder.getId());
+        vo.setUserId(itemOrder.getUserId());
+        vo.setBpItemId(itemOrder.getBpItemId());
+        vo.setItemId(itemOrder.getItemId());
+        vo.setSkuId(itemOrder.getSkuId());
+        vo.setTitle(itemOrder.getTitle());
+        vo.setCover(itemOrder.getCover());
+        vo.setOrderNo(itemOrder.getOrderNo());
+        vo.setDescription(itemOrder.getDescription());
+        vo.setPrice(itemOrder.getPrice());
+        vo.setTotalPrice(itemOrder.getTotalPrice());
+        vo.setQuantity(itemOrder.getQuantity());
+        vo.setStatus(itemOrder.getStatus());
+        vo.setReceiveInfo(JSON.parseObject(itemOrder.getReceiveInfo(),new TypeReference<Shipping>(){}));
+        //序列化，将物流信息对象转化为json字符串
+        LogisticsInfoVo logisticsInfoVo = JSON.parseObject(itemOrder.getLogisticsInfo(), new TypeReference<LogisticsInfoVo>() {
+        });
+        //显示物流信息
+        vo.setLogisticsInfo(logisticsInfoVo);
+        //根据物流公司和订单号查询物流信息
+        KdResult logisticsInfo = ExpressApi.getLogisticsInfo(logisticsInfoVo.getCom(), logisticsInfoVo.getExpressNo());
+        //把物流信息返回给前端
+        vo.setLogisticsTrace(logisticsInfo.getData());
+        vo.setCreated(itemOrder.getCreated());
+        vo.setUpdated(itemOrder.getUpdated());
+        return ResponseFactory.sucData(vo);
+
+    }
+
+    /**
+     * 提货订单状态处理,确认收货
+     *
+     * @param userId
+     * @param orderNo 提货订单号
+     * @return
+     * @author linqin
+     * @date 2018/6/29
+     */
+    @Override
+    public Response confirmOrder(Integer userId, Long orderNo) {
+        //根据用户Id和提货订单号取出订单
+        ReceiveItemOrder itemOrder = receiveItemOrderMapper.selectByUserIdOrderNo(userId,orderNo);
+        if (itemOrder ==null){
+            return ResponseFactory.err("该订单不存在");
+        }
+        //状态是发货才可以确认收货
+        Byte status = itemOrder.getStatus();
+        if (status != Constants.ORDER_DELIVER.DELIVER){
+            return ResponseFactory.err("发货以后才能确认收货");
+        }
+        //更新状态
+        itemOrder.setStatus(Constants.ORDER_DELIVER.RECEIVE);
+        receiveItemOrderMapper.updateByPrimaryKeySelective(itemOrder);
+        return ResponseFactory.sucMsg("确认收货成功");
+    }
+
+
+    /**
+     * 提货订单状态处理,评论订单
+     *
+     * @param userId
+     * @param orderNo 提货订单号
+     * @param star 评价星星
+     * @param content 评论文字
+     * @param pictures 评论照片
+     * @return
+     * @author linqin
+     * @date 2018/6/30
+     */
+    @Override
+    public Response commentOrder(Integer userId, Long orderNo, Integer star, String content, String pictures) {
+        //根据用户Id和提货订单号取出订单
+        ReceiveItemOrder itemOrder = receiveItemOrderMapper.selectByUserIdOrderNo(userId,orderNo);
+        if (itemOrder ==null){
+            return ResponseFactory.err("该订单不存在");
+        }
+        //状态是确认收货才可以评论
+        Byte status = itemOrder.getStatus();
+        if (status != Constants.ORDER_DELIVER.RECEIVE){
+            return ResponseFactory.err("只能评论确认收货的订单");
+        }
+        //添加评论
+        ItemComment itemComment = new ItemComment();
+        itemComment.setItemId(itemOrder.getItemId());
+        itemComment.setUserId(userId);
+        itemComment.setOrderNo(orderNo);
+        itemComment.setStar(star);
+        itemComment.setContent(content);
+        //判断是否传图片
+        if  (StringUtils.isNotBlank(pictures)){
+            //图片字符串转化为数组
+            String[] split = pictures.split(",");
+            //数组转化为JSON字符串
+            String s = JSON.toJSONString(split);
+            itemComment.setPictures(s);
+        }
+        int count = itemCommentMapper.insert(itemComment);
+        if (count<0){
+            return ResponseFactory.err("评论失败");
+        }
+        //更新状态
+        itemOrder.setStatus(Constants.ORDER_DELIVER.COMMENT);
+        receiveItemOrderMapper.updateByPrimaryKeySelective(itemOrder);
+        return ResponseFactory.sucMsg("评论成功");
+    }
+
+
+
+
 }
 
 
