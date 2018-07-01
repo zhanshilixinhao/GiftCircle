@@ -6,6 +6,7 @@ import com.chouchongkeji.goexplore.query.PageQuery;
 import com.chouchongkeji.service.backpack.item.ReceiveItemService;
 import com.yichen.auth.mvc.AppClient;
 import com.yichen.auth.service.UserDetails;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,27 +26,26 @@ public class ReceiveItemController {
 
     /**
      * 创建提货订单
+     *
      * @param userDetails
-     * @param bpItemId 背包商品id
-     * @param shippingId 收货地址id
+     * @param bpItemId    背包商品id
+     * @param shippingId  收货地址id
      * @return
      * @author linqin
      * @date 2018/6/28
      */
     @PostMapping("order")
     public Response createReceiveOrder(@AuthenticationPrincipal UserDetails userDetails, @AppClient Integer client,
-                                       Integer bpItemId,Integer shippingId){
+                                       Integer bpItemId, Integer shippingId) {
         //校验参数
-        if (bpItemId == null){
+        if (bpItemId == null) {
             return ResponseFactory.err("参数错误");
         }
-        if (shippingId == null){
+        if (shippingId == null) {
             return ResponseFactory.err("参数错误");
         }
-        return receiveItemService.createOrder(userDetails.getUserId(),client,bpItemId ,shippingId);
+        return receiveItemService.createOrder(userDetails.getUserId(), client, bpItemId, shippingId);
     }
-
-
 
 
     /**
@@ -53,17 +53,89 @@ public class ReceiveItemController {
      *
      * @param userDetails
      * @param pageQuery
-     * @param status 订单状态，1-待发货；2-已发货；3-已收货,待评价，4-已评价,5-取消，6-删除
+     * @param status      订单状态，0-全部，1-未完成(1待发货,2已发货)；2-已完成（3已收货待评价，4已评价）
      * @return
      * @author linqin
      * @date 2018/6/22
      */
     @PostMapping("list")
-    public Response orderList(@AuthenticationPrincipal UserDetails userDetails, PageQuery pageQuery,Integer status){
+    public Response orderList(@AuthenticationPrincipal UserDetails userDetails, PageQuery pageQuery, Integer status) {
         //校验参数
-
-        return receiveItemService.getOrderList(userDetails.getUserId(),pageQuery,status);
+        if (status == null) {
+            status = 0;
+        }
+        if (status < 0 || status > 2) {
+            return ResponseFactory.err("参数错误");
+        }
+        return receiveItemService.getOrderList(userDetails.getUserId(), pageQuery, status);
     }
+
+
+    /**
+     * 提货订单详情
+     *
+     * @param userDetails
+     * @param orderNo 提货订单号
+     * @return
+     * @author linqin
+     * @date 2018/6/29
+     */
+    @PostMapping("detail")
+    public Response getOrderDetail(@AuthenticationPrincipal UserDetails userDetails, Long orderNo) {
+        //参数校验
+        if (orderNo == null) {
+            return ResponseFactory.err("参数错误");
+        }
+        return receiveItemService.getOrderDetail(userDetails.getUserId(),orderNo);
+    }
+
+    /**
+     * 提货订单状态处理,确认收货
+     *
+     * @param userDetails
+     * @param orderNo 提货订单号
+     * @return
+     * @author linqin
+     * @date 2018/6/29
+     */
+    @PostMapping("confirm")
+    public Response confirmOrder(@AuthenticationPrincipal UserDetails userDetails, Long orderNo) {
+        //参数校验
+        if (orderNo == null) {
+            return ResponseFactory.err("参数错误");
+        }
+        return receiveItemService.confirmOrder(userDetails.getUserId(),orderNo);
+    }
+
+    /**
+     * 提货订单状态处理,评论订单
+     *
+     * @param userDetails
+     * @param orderNo 提货订单号
+     * @param star 评价星星
+     * @param content 评论文字
+     * @param pictures 评论照片
+     * @return
+     * @author linqin
+     * @date 2018/6/30
+     */
+    @PostMapping("comment")
+    public Response commentOrder(@AuthenticationPrincipal UserDetails userDetails, Long orderNo,Integer star,
+                                 String content,String pictures ) {
+        //参数校验
+        if (orderNo == null) {
+            return ResponseFactory.err("参数错误");
+        }
+        if (star == null){
+            return ResponseFactory.err("请对宝贝做出相符描述");
+        }
+        if (StringUtils.isBlank(content)){
+            return ResponseFactory.err("请对宝贝做出相符描述");
+        }
+        return receiveItemService.commentOrder(userDetails.getUserId(),orderNo,star,content,pictures);
+    }
+
+
 
 
 }

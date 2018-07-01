@@ -1,5 +1,7 @@
 package com.chouchongkeji.dial.pojo.gift.item;
 
+import com.yichen.auth.jackson.ImgUrl;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -10,6 +12,7 @@ public class ItemSku {
 
     private String title;
 
+    @ImgUrl
     private String cover;
 
     private String pictures;

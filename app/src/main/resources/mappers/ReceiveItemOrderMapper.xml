@@ -32,6 +32,35 @@
     from receive_item_order
     where id = #{id,jdbcType=INTEGER}
   </select>
+    <select id="selectByUserIdStatus" resultMap="BaseResultMap">
+    SELECT
+	<include refid="Base_Column_List"/>
+FROM
+	`receive_item_order`
+WHERE
+	user_id = #{userId}
+      <if test="status==0">
+       and status &lt; 6
+      </if>
+      <if test="status==1">
+        and status &lt;= 2
+      </if>
+      <if test="status==2">
+        and status &lt;5 and status &gt;2
+      </if>
+      ORDER BY id DESC
+    </select>
+  <select id="selectByUserIdOrderNo" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+FROM
+	`receive_item_order`
+WHERE
+	user_id = #{userId}
+	AND order_no = #{orderNo}
+  </select>
+
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from receive_item_order
     where id = #{id,jdbcType=INTEGER}
