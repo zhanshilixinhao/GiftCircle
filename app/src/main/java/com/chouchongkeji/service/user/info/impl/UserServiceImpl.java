@@ -150,7 +150,6 @@ public class UserServiceImpl implements UserService {
         appUser.setSentPwd(null);
         appUser.setAvatar(appUser.getAvatar());
         return ResponseFactory.sucData(appUser);
-
     }
 
     /**

@@ -1050,19 +1050,79 @@ CREATE TABLE `bp_item` (
 DROP TABLE IF EXISTS `consignment`;
 CREATE TABLE `consignment` (
   `id` int(11) not null auto_increment,
+  `bp_id` bigint(20) comment '背包id',
   `user_id` int(11) UNSIGNED NOT NULL comment '发布者id',
-  `item_id` int(11) comment '商品id',
-  `sku_id` int(11) comment '商品skuId',
-  `bp_id` int(11) comment '背包id',
+  `target_id` int(11) comment '目标物品id',
   `quantity` int(10) comment '数量',
   `price` decimal(18,2) comment '价格',
-  `created` datetime,
+  `type` tinyint(4) comment '1 商品 2 优惠券',
+  `status` tinyint(4) comment '1 上架 2 已购买未支付 3 交易完成 4 已下架',
   `updated` datetime,
+  `created` datetime,
   PRIMARY KEY ( id ),
   key user_id (user_id),
-  key sku_id (sku_id),
-  key item_id (item_id),
+  key target_id (target_id),
   key bp_id (bp_id)
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COMMENT = '寄售台';
 
+/*==============================================================*/
+/* Table: consignment_order                                              */
+/*==============================================================*/
+DROP TABLE IF EXISTS `consignment_order`;
+CREATE TABLE `consignment_order` (
+  `id` int(11) not null auto_increment,
+  `order_no` bigint(20) comment '背包id',
+  `user_id` int(11) UNSIGNED NOT NULL comment '发布者id',
+  `buyer_user_id` int(11) UNSIGNED NOT NULL comment '买家用户id',
+  `consignment_id` int(11) comment '寄售台id',
+  `quantity` int(10) comment '数量',
+  `price` decimal(18,2) comment '价格',
+  `status` tinyint(4) comment '1 未支付 2 已支付',
+  `updated` datetime,
+  `created` datetime,
+  PRIMARY KEY ( id ),
+  key user_id (user_id),
+  key buyer_user_id (buyer_user_id),
+  key consignment_id (consignment_id),
+  unique key order_no (order_no)
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COMMENT = '寄售台订单';
 
+
+/*==============================================================*/
+/* Table: gift_record                                              */
+/*==============================================================*/
+DROP TABLE IF EXISTS `gift_record`;
+CREATE TABLE `gift_record` (
+  `id` int(11) not null auto_increment,
+  `user_id` int(11) UNSIGNED NOT NULL comment '送礼者id',
+  `greetting` varchar(255) comment '祝福语',
+  `type` tinyint(4) comment '1 立即赠送 2 按时间赠送 3 小程序选择好友赠送需要领取 4 小程序随机赠送需要领取',
+  `event` varchar(64) comment '事件名称',
+  `target_time` datetime comment '目标赠送赠送时间',
+  `status` tinyint(4) comment '1 已领取 2 待领取',
+  `updated` datetime,
+  `created` datetime,
+  PRIMARY KEY ( id ),
+  key user_id (user_id)
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COMMENT = '送礼记录';
+
+
+/*==============================================================*/
+/* Table: gift_record_detail                                              */
+/*==============================================================*/
+DROP TABLE IF EXISTS `gift_record_detail`;
+CREATE TABLE `gift_record_detail` (
+  `id` int(11) not null auto_increment,
+  `gift_record_id` int(11) comment '礼物记录id',
+  `user_id` int(11) UNSIGNED NOT NULL comment '接收礼物的用户id',
+  `bp_id` bigint(20) comment '背包id',
+  `quantity` int(10) comment '数量',
+  `price` decimal(18,2) comment '价格',
+  `status` tinyint(4) comment '1 已领取 2 待领取',
+  `updated` datetime,
+  `created` datetime,
+  PRIMARY KEY ( id ),
+  key user_id (user_id),
+  key gift_record_id (gift_record_id),
+  key bp_id (bp_id)
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COMMENT = '送礼记录详细信息';

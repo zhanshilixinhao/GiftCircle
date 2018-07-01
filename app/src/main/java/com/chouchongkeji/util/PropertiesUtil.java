@@ -7,7 +7,11 @@ package com.chouchongkeji.util;
 
 public class PropertiesUtil {
 
-    private static final String IMG_HOST = "";
+    private static String IMG_HOST = "";
+
+    public static void setImgHost(String imgHost) {
+        IMG_HOST = imgHost;
+    }
 
 
     public static String getImageHost() {

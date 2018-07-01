@@ -1,7 +1,9 @@
 package com.chouchongkeji.config;
 
 import com.chouchongkeji.mvc.converter.LongDateConverter;
+import com.chouchongkeji.util.PropertiesUtil;
 import com.yichen.auth.config.MyWebConfig;
+import com.yichen.auth.properties.SecurityProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.core.convert.support.GenericConversionService;
@@ -21,6 +23,9 @@ import javax.annotation.PostConstruct;
 public class WebMVCConfig extends MyWebConfig {
 
     @Autowired
+    private SecurityProperties securityProperties;
+
+    @Autowired
     private RequestMappingHandlerAdapter requestMappingHandlerAdapter;
 
     @PostConstruct
@@ -32,5 +37,7 @@ public class WebMVCConfig extends MyWebConfig {
                     (GenericConversionService)initializer.getConversionService();
             genericConversionService.addConverter(new LongDateConverter());
         }
+
+        PropertiesUtil.setImgHost(securityProperties.getImage().getHost());
     }
 }

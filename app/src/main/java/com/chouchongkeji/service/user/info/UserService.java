@@ -8,6 +8,7 @@ import com.chouchongkeji.dial.pojo.user.AppUser;
  * @date 2018/6/5
  */
 public interface UserService {
+
     /**
      * 获取用户详细信息
      *
@@ -15,7 +16,6 @@ public interface UserService {
      * @date 2018/6/5
      */
     Response getProfile(Integer memberId);
-
 
     /**
      * 修改用户信息
@@ -85,6 +85,5 @@ public interface UserService {
      * @date 2018/6/7
      */
     Response getInfo(Integer userId, Integer targetUserId);
-
 
 }
