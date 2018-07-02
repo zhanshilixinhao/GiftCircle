@@ -46,6 +46,9 @@
         </if>
         <where>
             <trim suffixOverrides="and">
+                <if test="categoryId != null">
+                    a.category_id = #{categoryId} and
+                </if>
                 <if test="eventId!= null and eventId>0">
                     b.event_id = #{eventId} and
                 </if>

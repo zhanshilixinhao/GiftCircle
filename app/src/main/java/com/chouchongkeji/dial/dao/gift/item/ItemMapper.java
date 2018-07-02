@@ -20,7 +20,7 @@ public interface ItemMapper {
 
     int updateByPrimaryKey(Item record);
 
-    List<Item> selectAll(@Param("classes") Integer classes,
+    List<Item> selectAll(@Param("categoryId") Integer categoryId, @Param("classes") Integer classes,
                          @Param("gender") Integer gender,
                          @Param("minAge") Integer minAge,
                          @Param("maxAge") Integer maxAge,

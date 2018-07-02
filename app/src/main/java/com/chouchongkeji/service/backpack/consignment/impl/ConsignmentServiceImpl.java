@@ -87,7 +87,7 @@ public class ConsignmentServiceImpl implements ConsignmentService {
             return ResponseFactory.err("商品数量不足");
         }
         item.setQuantity(1);
-//        item.set
+        item.setPrice(price);
         return null;
     }
 

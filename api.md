@@ -1369,6 +1369,7 @@ JSON：
 | eventId  |   int    |    否    |   无   |             事件id              |
 | pageNum  |   int    |    否    |   1    |              分页               |
 | pageSize |   int    |    否    |   14   |            分页大小             |
+| categoryId |   int    |    否    |   无   |            商品分类Id             |
 
 请求结果示例：
 
