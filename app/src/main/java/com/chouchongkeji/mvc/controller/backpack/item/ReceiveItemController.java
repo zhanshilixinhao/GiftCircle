@@ -28,7 +28,7 @@ public class ReceiveItemController {
      * 创建提货订单
      *
      * @param userDetails
-     * @param bpItemId    背包商品id
+     * @param bpId    背包商品id
      * @param shippingId  收货地址id
      * @return
      * @author linqin
@@ -36,15 +36,15 @@ public class ReceiveItemController {
      */
     @PostMapping("order")
     public Response createReceiveOrder(@AuthenticationPrincipal UserDetails userDetails, @AppClient Integer client,
-                                       Integer bpItemId, Integer shippingId) {
+                                       Long bpId, Integer shippingId) {
         //校验参数
-        if (bpItemId == null) {
+        if (bpId == null) {
             return ResponseFactory.err("参数错误");
         }
         if (shippingId == null) {
             return ResponseFactory.err("参数错误");
         }
-        return receiveItemService.createOrder(userDetails.getUserId(), client, bpItemId, shippingId);
+        return receiveItemService.createOrder(userDetails.getUserId(), client, bpId, shippingId);
     }
 
 

@@ -12,7 +12,7 @@ public class ReceiveItemOrder {
 
     private Integer itemId;
 
-    private Integer bpItemId;
+    private Long bpId;
 
     private Integer skuId;
 
@@ -41,11 +41,11 @@ public class ReceiveItemOrder {
 
     private Date updated;
 
-    public ReceiveItemOrder(Integer id, Integer userId, Integer itemId, Integer bpItemId, Integer skuId, Long orderNo, String title, String description, String cover, BigDecimal price, BigDecimal totalPrice, Integer quantity, String receiveInfo, String logisticsInfo, Byte status, Date created, Date updated) {
+    public ReceiveItemOrder(Integer id, Integer userId, Integer itemId, Long bpId, Integer skuId, Long orderNo, String title, String description, String cover, BigDecimal price, BigDecimal totalPrice, Integer quantity, String receiveInfo, String logisticsInfo, Byte status, Date created, Date updated) {
         this.id = id;
         this.userId = userId;
         this.itemId = itemId;
-        this.bpItemId = bpItemId;
+        this.bpId = bpId;
         this.skuId = skuId;
         this.orderNo = orderNo;
         this.title = title;
@@ -89,12 +89,12 @@ public class ReceiveItemOrder {
         this.itemId = itemId;
     }
 
-    public Integer getBpItemId() {
-        return bpItemId;
+    public Long getBpId() {
+        return bpId;
     }
 
-    public void setBpItemId(Integer bpItemId) {
-        this.bpItemId = bpItemId;
+    public void setBpId(Long bpId) {
+        this.bpId = bpId;
     }
 
     public Integer getSkuId() {

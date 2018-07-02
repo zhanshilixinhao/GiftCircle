@@ -59,16 +59,16 @@ public class ReceiveItemServiceImpl implements ReceiveItemService {
     /**
      * 创建提货订单
      * @param userId 用户id
-     * @param bpItemId 背包商品id
+     * @param bpId 背包商品id
      * @param shippingId 收货地址id
      * @return
      * @author linqin
      * @date 2018/6/28
      */
     @Override
-    public Response createOrder(Integer userId,Integer client, Integer bpItemId,Integer shippingId) {
+    public Response createOrder(Integer userId,Integer client, Long bpId,Integer shippingId) {
         //根据背包商品id和用户id取出信息
-        BpItem bpItem = bpItemMapper.selectByUserIdAndBpItemId(userId,bpItemId);
+        BpItem bpItem = bpItemMapper.selectByUserIdAndBpItemId(userId,bpId);
         if (bpItem == null){
             return ResponseFactory.err("背包里不存在该商品");
         }
@@ -88,7 +88,7 @@ public class ReceiveItemServiceImpl implements ReceiveItemService {
         ReceiveItemOrder itemOrder = new ReceiveItemOrder();
         itemOrder.setUserId(userId);
         itemOrder.setItemId(bpItem.getItemId());
-        itemOrder.setBpItemId(bpItemId);
+        itemOrder.setBpId(bpId);
         itemOrder.setSkuId(skuId);
         itemOrder.setOrderNo(orderHelper.genOrderNo(client, 4));
         itemOrder.setTitle(itemSku.getTitle());
@@ -164,7 +164,7 @@ public class ReceiveItemServiceImpl implements ReceiveItemService {
         ReOrderDetailVo vo = new ReOrderDetailVo();
         vo.setId(itemOrder.getId());
         vo.setUserId(itemOrder.getUserId());
-        vo.setBpItemId(itemOrder.getBpItemId());
+        vo.setBpId(itemOrder.getBpId());
         vo.setItemId(itemOrder.getItemId());
         vo.setSkuId(itemOrder.getSkuId());
         vo.setTitle(itemOrder.getTitle());

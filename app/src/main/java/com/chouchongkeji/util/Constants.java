@@ -81,6 +81,12 @@ public class Constants {
         byte PAY = 2;
     }
 
+    /*背包类型*/ //1 物品 2 虚拟物品 3 优惠券
+    public interface BACKPACK_TYPE{
+        int ITEM = 1;
+        int VIRTUAL_ITEM = 2;
+        int DISCOUNT_COUPON = 3;
+    }
 
     /* 订单状态 */
 //    订单状态: 1-未完成（未付款），2-已完成（已付款） ，3-已取消,4-已删除

@@ -2,4 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.chouchongkeji.dial.dao.backpack.VbpMapper">
 
+    <select id="selectByUserIdBpId" resultType="com.chouchongkeji.dial.pojo.backpack.Vbp">
+        SELECT
+	*
+FROM
+	`v_bp`
+WHERE
+	user_id = #{userId}
+	AND id = #{bpId}
+    </select>
 </mapper>

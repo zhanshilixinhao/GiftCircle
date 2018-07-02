@@ -942,7 +942,7 @@ CREATE TABLE `receive_item_order` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT ,
   `user_id` int(11) comment '用户id',
   `item_id` int(11) comment '商品id',
-  `bp_item_id` int(11) comment '背包商品id',
+  `bp_id` bigint(20) comment '背包id',
   `sku_id` int(11) comment '商品最小销售单元id',
   `order_no` bigint(20) comment '订单号',
   `title` varchar(64) comment '标题',

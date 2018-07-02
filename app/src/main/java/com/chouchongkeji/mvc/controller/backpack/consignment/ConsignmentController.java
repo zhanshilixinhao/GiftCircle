@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
+
 /**
  * @author linqin
  * @date 2018/7/2
@@ -31,12 +33,34 @@ public class ConsignmentController {
      * @date 2018/7/2
      */
     @PostMapping("info")
-    public Response getInfo(@AuthenticationPrincipal UserDetails userDetails, Integer bpId) {
+    public Response getInfo(@AuthenticationPrincipal UserDetails userDetails, Long bpId) {
         //校验参数
         if (bpId == null) {
             return ResponseFactory.errMissingParameter();
         }
         return consignmentService.getInfo(userDetails.getUserId(),bpId);
+    }
+
+
+    /**
+     * 上架寄售台
+     * @param userDetails
+     * @param bpId 背包Id
+     * @param price 商品上架价格
+     * @return
+     * @author linqin
+     * @date 2018/7/2
+     */
+    @PostMapping("putaway")
+    public Response putawayItem(@AuthenticationPrincipal UserDetails userDetails, Long bpId, BigDecimal price){
+        //校验参数
+        if (bpId == null) {
+            return ResponseFactory.errMissingParameter();
+        }
+        if (price==null){
+            return ResponseFactory.err("价格不能为空");
+        }
+        return consignmentService.putawayItem(userDetails.getUserId(),bpId,price);
     }
 
 

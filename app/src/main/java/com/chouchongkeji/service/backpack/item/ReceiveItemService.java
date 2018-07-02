@@ -24,13 +24,13 @@ public interface ReceiveItemService {
      * 创建提货订单
      *
      * @param userId     用户id
-     * @param bpItemId   背包商品id
+     * @param bpId   背包商品id
      * @param shippingId 收货地址id
      * @return
      * @author linqin
      * @date 2018/6/28
      */
-    Response createOrder(Integer userId, Integer client, Integer bpItemId, Integer shippingId);
+    Response createOrder(Integer userId, Integer client, Long bpId, Integer shippingId);
 
     /**
      * 提货订单详情

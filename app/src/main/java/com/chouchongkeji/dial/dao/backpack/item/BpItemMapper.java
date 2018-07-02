@@ -19,7 +19,7 @@ public interface BpItemMapper {
 
     int updateByPrimaryKey(BpItem record);
 
-    BpItem selectByUserIdAndBpItemId(@Param("userId") Integer userId,@Param("bpItemId") Integer bpItemId);
+    BpItem selectByUserIdAndBpItemId(@Param("userId") Integer userId,@Param("bpId") Long bpId);
 
 
     List<Vbp> selectAllByUserId(Integer userId);

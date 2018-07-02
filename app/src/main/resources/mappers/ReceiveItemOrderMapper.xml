@@ -6,7 +6,7 @@
       <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="item_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="bp_item_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="bp_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="sku_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="order_no" javaType="java.lang.Long" jdbcType="BIGINT" />
       <arg column="title" javaType="java.lang.String" jdbcType="VARCHAR" />
@@ -23,7 +23,7 @@
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    id, user_id, item_id, bp_item_id, sku_id, order_no, title, description, cover, price, 
+    id, user_id, item_id, bp_id, sku_id, order_no, title, description, cover, price,
     total_price, quantity, receive_info, logistics_info, status, created, updated
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -67,13 +67,13 @@ WHERE
   </delete>
   <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.backpack.item.ReceiveItemOrder">
     insert into receive_item_order (id, user_id, item_id, 
-      bp_item_id, sku_id, order_no, 
+      bp_id, sku_id, order_no,
       title, description, cover, 
       price, total_price, quantity, 
       receive_info, logistics_info, status, 
       created, updated)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{itemId,jdbcType=INTEGER}, 
-      #{bpItemId,jdbcType=INTEGER}, #{skuId,jdbcType=INTEGER}, #{orderNo,jdbcType=BIGINT}, 
+      #{bpId,jdbcType=INTEGER}, #{skuId,jdbcType=INTEGER}, #{orderNo,jdbcType=BIGINT},
       #{title,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{cover,jdbcType=VARCHAR}, 
       #{price,jdbcType=DECIMAL}, #{totalPrice,jdbcType=DECIMAL}, #{quantity,jdbcType=INTEGER}, 
       #{receiveInfo,jdbcType=VARCHAR}, #{logisticsInfo,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
@@ -91,8 +91,8 @@ WHERE
       <if test="itemId != null">
         item_id,
       </if>
-      <if test="bpItemId != null">
-        bp_item_id,
+      <if test="bpId != null">
+        bp_id,
       </if>
       <if test="skuId != null">
         sku_id,
@@ -144,8 +144,8 @@ WHERE
       <if test="itemId != null">
         #{itemId,jdbcType=INTEGER},
       </if>
-      <if test="bpItemId != null">
-        #{bpItemId,jdbcType=INTEGER},
+      <if test="bpId != null">
+        #{bpId,jdbcType=INTEGER},
       </if>
       <if test="skuId != null">
         #{skuId,jdbcType=INTEGER},
@@ -197,8 +197,8 @@ WHERE
       <if test="itemId != null">
         item_id = #{itemId,jdbcType=INTEGER},
       </if>
-      <if test="bpItemId != null">
-        bp_item_id = #{bpItemId,jdbcType=INTEGER},
+      <if test="bpId != null">
+        bp_id = #{bpId,jdbcType=INTEGER},
       </if>
       <if test="skuId != null">
         sku_id = #{skuId,jdbcType=INTEGER},
@@ -246,7 +246,7 @@ WHERE
     update receive_item_order
     set user_id = #{userId,jdbcType=INTEGER},
       item_id = #{itemId,jdbcType=INTEGER},
-      bp_item_id = #{bpItemId,jdbcType=INTEGER},
+      bp_id = #{bpId,jdbcType=INTEGER},
       sku_id = #{skuId,jdbcType=INTEGER},
       order_no = #{orderNo,jdbcType=BIGINT},
       title = #{title,jdbcType=VARCHAR},

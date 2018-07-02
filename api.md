@@ -1176,7 +1176,7 @@ JSON：
 {
     "errCode": 0,
     "result": 0,
-    "time": 1530514839657,
+    "time": 1528784375324,
     "data": [
         {
             "id": 1,
@@ -2935,7 +2935,7 @@ JSON：
 | access_token |  string  |    是    |   无   | 访问令牌 |
 | momentId | int | 否 | 无 | 秀秀id |
 
-## 13. 背包-商品提货
+## 13. 商品提货
 ### 13.1 商品提货订单
 - 请求地址：auth/receive/item/order
 - 服务协议：HTTP/POST
@@ -2947,7 +2947,7 @@ JSON：
 |   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
 | :----------: | :------: | :------: | :----: | :------: |
 | access_token |  string  |    是    |   无   | 访问令牌 |
-| bpId | int | 是 | 无 | 背包商品id |
+| bpItemId | int | 是 | 无 | 背包商品id |
 | shippingId | int | 是 | 无 | 收货地址id |
 
 请求结果示例：
@@ -3185,54 +3185,5 @@ JSON：
 ```
 
 
-## 14 背包
-### 14.1 背包列表
-
-- 请求地址：auth/v1/bp/list
-- 服务协议：HTTP/POST
-- 是否需要身份认证：是
-- 作者：yichen
-
-
-|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
-| :----------: | :------: | :------: | :----: | :------: |
-| access_token |  string  |    是    |   无   | 访问令牌 |
-| type | int | 是 | 1 物品 2 虚拟物品 3 优惠券 |
-
-```js
-{
-    errCode: 0, 
-    result: 0, 
-    time: 1530502659893, 
-    data: [
-        {
-            id: 2,  // 背包唯一标识
-            userId: 1,  // 用户id
-            targetId: 2, // type=1时是skuId，type=2虚拟物品id，type=3优惠券id
-            price: 1000,  // 购买时的价格
-            title: "魏文侯",  // 标题
-            cover: "https://io.shanren.group/image/cover.jpg", // 封面图
-            description: "东周末年",  // 描述
-            brand: "公牛",  // 品牌
-            type: 1,  // 1 物品 2 虚拟物品 3 优惠券
-            quantity: 0, // 数量
-            created: 1530168954000
-        }, 
-        {
-            id: 3, 
-            userId: 1, 
-            targetId: 2, 
-            price: 1000, 
-            title: "魏文侯", 
-            cover: "https://io.shanren.group/image/cover.jpg", 
-            description: "东周末年", 
-            brand: "公牛", 
-            type: 1, 
-            quantity: 1, 
-            created: 1530242736000
-        }
-    ]
-}
-```
 
 

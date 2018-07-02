@@ -21,7 +21,7 @@ public class ReOrderDetailVo {
 
     private Integer itemId;
 
-    private Integer bpItemId;
+    private Long bpId;
 
     private Integer skuId;
 
@@ -84,12 +84,12 @@ public class ReOrderDetailVo {
         this.itemId = itemId;
     }
 
-    public Integer getBpItemId() {
-        return bpItemId;
+    public Long getBpId() {
+        return bpId;
     }
 
-    public void setBpItemId(Integer bpItemId) {
-        this.bpItemId = bpItemId;
+    public void setBpId(Long bpId) {
+        this.bpId = bpId;
     }
 
     public Integer getSkuId() {
