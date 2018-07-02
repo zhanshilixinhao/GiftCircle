@@ -1176,31 +1176,31 @@ JSON：
 {
     "errCode": 0,
     "result": 0,
-    "time": 1528784375324,
+    "time": 1530514839657,
     "data": [
         {
             "id": 1,
             "name": "小苹果",
-            "cateName": "鲜花",
+            "brandName": "不知名",
             "price": 2,
             "description": "象征和平的小苹果",
-            "cover": "http://thirdwx.qlogo.cn/mmopen/vi_32/jhXsk4K6SZs58GvXyrPichgxlDv6y4IYrrKN5GCA1UTvHRKbRGtiac2SxmGMYibJSvCZzcLhNmQEykDgXTTzkPOXQ/132"
+            "cover": "https://io.shanren.group/image/http://thirdwx.qlogo.cn/mmopen/vi_32/jhXsk4K6SZs58GvXyrPichgxlDv6y4IYrrKN5GCA1UTvHRKbRGtiac2SxmGMYibJSvCZzcLhNmQEykDgXTTzkPOXQ/132"
         },
         {
             "id": 3,
             "name": "小蝴蝶",
-            "cateName": "动物",
+            "brandName": "",
             "price": 4,
             "description": "执子之手与子偕老",
-            "cover": "http://thirdwx.qlogo.cn/mmopen/vi_32/jhXsk4K6SZs58GvXyrPichgxlDv6y4IYrrKN5GCA1UTvHRKbRGtiac2SxmGMYibJSvCZzcLhNmQEykDgXTTzkPOXQ/132"
+            "cover": "https://io.shanren.group/image/http://thirdwx.qlogo.cn/mmopen/vi_32/jhXsk4K6SZs58GvXyrPichgxlDv6y4IYrrKN5GCA1UTvHRKbRGtiac2SxmGMYibJSvCZzcLhNmQEykDgXTTzkPOXQ/132"
         },
         {
             "id": 2,
             "name": "一片四叶幸运草",
-            "cateName": "鲜花",
+            "brandName": "很知名",
             "price": 3,
             "description": "等待爱情出现会幸福",
-            "cover": "http://thirdwx.qlogo.cn/mmopen/vi_32/jhXsk4K6SZs58GvXyrPichgxlDv6y4IYrrKN5GCA1UTvHRKbRGtiac2SxmGMYibJSvCZzcLhNmQEykDgXTTzkPOXQ/132"
+            "cover": "https://io.shanren.group/image/http://thirdwx.qlogo.cn/mmopen/vi_32/jhXsk4K6SZs58GvXyrPichgxlDv6y4IYrrKN5GCA1UTvHRKbRGtiac2SxmGMYibJSvCZzcLhNmQEykDgXTTzkPOXQ/132"
         }
     ]
 }
@@ -1212,7 +1212,7 @@ JSON：
 | data | Object | 否 | 成功返回数据 |
 | id | Int | 是 | 虚拟商品id |
 | name | String | 是 | 虚拟商品名称 |
-| cateName | String | 是 | 虚拟商品分类名称 |
+| brandName | String | 是 | 虚拟商品品牌名称 |
 | price | decimal | 是 | 虚拟商品价格 |
 | description | String | 是 | 描述 |
 | cover | String | 是 | 图片 |

@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.chouchongkeji.dial.pojo.gift.virtualItem.VirtualItem">
     <constructor>
       <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="brand_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="cate_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="name" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="price" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
@@ -17,7 +18,8 @@
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    id, cate_id, name, price, cover, description, sales, status, sort, created, updated
+    id, brand_id, cate_id, name, price, cover, description, sales, status, sort, created, 
+    updated
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -30,20 +32,25 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.gift.virtualItem.VirtualItem">
-    insert into virtual_item (id, cate_id, name, 
-      price, cover, description, 
-      sales, status, sort, 
-      created, updated)
-    values (#{id,jdbcType=INTEGER}, #{cateId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
-      #{price,jdbcType=DECIMAL}, #{cover,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
-      #{sales,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, #{sort,jdbcType=INTEGER}, 
-      #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP})
+    insert into virtual_item (id, brand_id, cate_id, 
+      name, price, cover, 
+      description, sales, status, 
+      sort, created, updated
+      )
+    values (#{id,jdbcType=INTEGER}, #{brandId,jdbcType=INTEGER}, #{cateId,jdbcType=INTEGER}, 
+      #{name,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, #{cover,jdbcType=VARCHAR}, 
+      #{description,jdbcType=VARCHAR}, #{sales,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, 
+      #{sort,jdbcType=INTEGER}, #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.gift.virtualItem.VirtualItem">
     insert into virtual_item
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
+      </if>
+      <if test="brandId != null">
+        brand_id,
       </if>
       <if test="cateId != null">
         cate_id,
@@ -80,6 +87,9 @@
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
+      <if test="brandId != null">
+        #{brandId,jdbcType=INTEGER},
+      </if>
       <if test="cateId != null">
         #{cateId,jdbcType=INTEGER},
       </if>
@@ -115,6 +125,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.chouchongkeji.dial.pojo.gift.virtualItem.VirtualItem">
     update virtual_item
     <set>
+      <if test="brandId != null">
+        brand_id = #{brandId,jdbcType=INTEGER},
+      </if>
       <if test="cateId != null">
         cate_id = #{cateId,jdbcType=INTEGER},
       </if>
@@ -150,7 +163,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.dial.pojo.gift.virtualItem.VirtualItem">
     update virtual_item
-    set cate_id = #{cateId,jdbcType=INTEGER},
+    set brand_id = #{brandId,jdbcType=INTEGER},
+      cate_id = #{cateId,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
       price = #{price,jdbcType=DECIMAL},
       cover = #{cover,jdbcType=VARCHAR},
@@ -171,9 +185,10 @@
     a.price as price,
     a.cover as cover,
     a.description as description,
-    b.name as cateName
+    c.name as brandName
     FROM
     virtual_item a LEFT JOIN virtual_item_category b ON a.cate_id = b.id
+    LEFT JOIN virtual_item_brand c ON a.brand_id = c.id
     WHERE
     a.status = #{status}
     <if test="id != null">

@@ -6,6 +6,8 @@ import java.util.Date;
 public class VirtualItem {
     private Integer id;
 
+    private Integer brandId;
+
     private Integer cateId;
 
     private String name;
@@ -26,8 +28,9 @@ public class VirtualItem {
 
     private Date updated;
 
-    public VirtualItem(Integer id, Integer cateId, String name, BigDecimal price, String cover, String description, Integer sales, Byte status, Integer sort, Date created, Date updated) {
+    public VirtualItem(Integer id, Integer brandId, Integer cateId, String name, BigDecimal price, String cover, String description, Integer sales, Byte status, Integer sort, Date created, Date updated) {
         this.id = id;
+        this.brandId = brandId;
         this.cateId = cateId;
         this.name = name;
         this.price = price;
@@ -50,6 +53,14 @@ public class VirtualItem {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getBrandId() {
+        return brandId;
+    }
+
+    public void setBrandId(Integer brandId) {
+        this.brandId = brandId;
     }
 
     public Integer getCateId() {

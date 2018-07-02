@@ -15,8 +15,8 @@ public class VirtualItemVo {
     private Integer id;
     // 虚拟商品名称
     private String name;
-    // 虚拟商品分类名称
-    private String cateName;
+    // 虚拟商品品牌名称
+    private String brandName;
     // 虚拟商品价格
     private BigDecimal price;
     // 虚拟商品描述
@@ -41,12 +41,12 @@ public class VirtualItemVo {
         this.name = name;
     }
 
-    public String getCateName() {
-        return cateName;
+    public String getBrandName() {
+        return brandName;
     }
 
-    public void setCateName(String cateName) {
-        this.cateName = cateName;
+    public void setBrandName(String brandName) {
+        this.brandName = brandName;
     }
 
     public BigDecimal getPrice() {
