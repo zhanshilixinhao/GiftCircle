@@ -1,43 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.chouchongkeji.dial.dao.backpack.item.BpItemMapper">
-  <resultMap id="BaseResultMap" type="com.chouchongkeji.dial.pojo.backpack.item.BpItem">
-    <constructor>
-      <idArg column="id" javaType="java.lang.Long" jdbcType="BIGINT" />
-      <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="item_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="order_no" javaType="java.lang.Long" jdbcType="BIGINT" />
-      <arg column="sku_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="quantity" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="price" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
-      <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-      <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-    </constructor>
-  </resultMap>
-  <sql id="Base_Column_List">
+    <resultMap id="BaseResultMap" type="com.chouchongkeji.dial.pojo.backpack.item.BpItem">
+        <constructor>
+            <idArg column="id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="item_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="order_no" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <arg column="sku_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="quantity" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="price" javaType="java.math.BigDecimal" jdbcType="DECIMAL"/>
+            <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List">
     id, user_id, item_id, order_no, sku_id, quantity, price, created, updated
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from bp_item
-    where id = #{id,jdbcType=BIGINT}
-  </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from bp_item
+        where id = #{id,jdbcType=BIGINT}
+    </select>
     <select id="selectByUserIdAndBpItemId" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        `bp_item`
+        WHERE
+        id = #{bpItemId}
+        AND user_id = #{userId}
+        and quantity > 0
+    </select>
+    <select id="selectAllByUserId" resultType="com.chouchongkeji.dial.pojo.backpack.Vbp">
 SELECT
-	<include refid="Base_Column_List"/>
+	`a`.`id` AS `id`,
+	`a`.`user_id` AS `user_id`,
+	`a`.`sku_id` AS `target_id`,
+	`a`.`quantity` AS `quantity`,
+	`a`.`price` AS `price`,
+	`b`.`title` AS `title`,
+	`b`.`cover` AS `cover`,
+	`c`.`description` AS `description`,
+	`d`.`name` AS `brand`,
+	1 AS `type`,
+	`a`.`created` AS `created`
 FROM
-	`bp_item`
-WHERE
-	id = #{bpItemId}
-	AND user_id = #{userId}
+	(
+	(
+	( `bp_item` `a` LEFT JOIN `item_sku` `b` ON ( ( `b`.`id` = `a`.`sku_id` ) ) )
+	LEFT JOIN `item` `c` ON ( ( `c`.`id` = `a`.`item_id` ) )
+	)
+	LEFT JOIN `brand` `d` ON ( ( `d`.`id` = `c`.`brand_id` ) )
+	)
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from bp_item
     where id = #{id,jdbcType=BIGINT}
   </delete>
 
-  <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.backpack.item.BpItem">
+    <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.backpack.item.BpItem">
     insert into bp_item (id, user_id, item_id, 
       order_no, sku_id, quantity, 
       price, created, updated
@@ -47,98 +70,98 @@ WHERE
       #{price,jdbcType=DECIMAL}, #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.backpack.item.BpItem">
-    insert into bp_item
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="userId != null">
-        user_id,
-      </if>
-      <if test="itemId != null">
-        item_id,
-      </if>
-      <if test="orderNo != null">
-        order_no,
-      </if>
-      <if test="skuId != null">
-        sku_id,
-      </if>
-      <if test="quantity != null">
-        quantity,
-      </if>
-      <if test="price != null">
-        price,
-      </if>
-      <if test="created != null">
-        created,
-      </if>
-      <if test="updated != null">
-        updated,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=BIGINT},
-      </if>
-      <if test="userId != null">
-        #{userId,jdbcType=INTEGER},
-      </if>
-      <if test="itemId != null">
-        #{itemId,jdbcType=INTEGER},
-      </if>
-      <if test="orderNo != null">
-        #{orderNo,jdbcType=BIGINT},
-      </if>
-      <if test="skuId != null">
-        #{skuId,jdbcType=INTEGER},
-      </if>
-      <if test="quantity != null">
-        #{quantity,jdbcType=INTEGER},
-      </if>
-      <if test="price != null">
-        #{price,jdbcType=DECIMAL},
-      </if>
-      <if test="created != null">
-        #{created,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updated != null">
-        #{updated,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.chouchongkeji.dial.pojo.backpack.item.BpItem">
-    update bp_item
-    <set>
-      <if test="userId != null">
-        user_id = #{userId,jdbcType=INTEGER},
-      </if>
-      <if test="itemId != null">
-        item_id = #{itemId,jdbcType=INTEGER},
-      </if>
-      <if test="orderNo != null">
-        order_no = #{orderNo,jdbcType=BIGINT},
-      </if>
-      <if test="skuId != null">
-        sku_id = #{skuId,jdbcType=INTEGER},
-      </if>
-      <if test="quantity != null">
-        quantity = #{quantity,jdbcType=INTEGER},
-      </if>
-      <if test="price != null">
-        price = #{price,jdbcType=DECIMAL},
-      </if>
-      <if test="created != null">
-        created = #{created,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updated != null">
-        updated = #{updated,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.dial.pojo.backpack.item.BpItem">
+    <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.backpack.item.BpItem">
+        insert into bp_item
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="itemId != null">
+                item_id,
+            </if>
+            <if test="orderNo != null">
+                order_no,
+            </if>
+            <if test="skuId != null">
+                sku_id,
+            </if>
+            <if test="quantity != null">
+                quantity,
+            </if>
+            <if test="price != null">
+                price,
+            </if>
+            <if test="created != null">
+                created,
+            </if>
+            <if test="updated != null">
+                updated,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="itemId != null">
+                #{itemId,jdbcType=INTEGER},
+            </if>
+            <if test="orderNo != null">
+                #{orderNo,jdbcType=BIGINT},
+            </if>
+            <if test="skuId != null">
+                #{skuId,jdbcType=INTEGER},
+            </if>
+            <if test="quantity != null">
+                #{quantity,jdbcType=INTEGER},
+            </if>
+            <if test="price != null">
+                #{price,jdbcType=DECIMAL},
+            </if>
+            <if test="created != null">
+                #{created,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updated != null">
+                #{updated,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.chouchongkeji.dial.pojo.backpack.item.BpItem">
+        update bp_item
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="itemId != null">
+                item_id = #{itemId,jdbcType=INTEGER},
+            </if>
+            <if test="orderNo != null">
+                order_no = #{orderNo,jdbcType=BIGINT},
+            </if>
+            <if test="skuId != null">
+                sku_id = #{skuId,jdbcType=INTEGER},
+            </if>
+            <if test="quantity != null">
+                quantity = #{quantity,jdbcType=INTEGER},
+            </if>
+            <if test="price != null">
+                price = #{price,jdbcType=DECIMAL},
+            </if>
+            <if test="created != null">
+                created = #{created,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updated != null">
+                updated = #{updated,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.dial.pojo.backpack.item.BpItem">
     update bp_item
     set user_id = #{userId,jdbcType=INTEGER},
       item_id = #{itemId,jdbcType=INTEGER},
