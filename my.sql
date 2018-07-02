@@ -1127,3 +1127,17 @@ CREATE TABLE `gift_record_detail` (
   key gift_record_id (gift_record_id),
   key bp_id (bp_id)
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COMMENT = '送礼记录详细信息';
+
+
+/*==============================================================*/
+/* Table: virtual_item_brand                                    */
+/*==============================================================*/
+DROP TABLE IF EXISTS `virtual_item_brand`;
+CREATE TABLE `virtual_item_brand` (
+  `id` int(11) not null auto_increment,
+  `name` varchar(200)  DEFAULT NULL COMMENT '虚拟商品品牌名称',
+  `status` tinyint(4) comment '1 正常 2 删除',
+  `updated` datetime,
+  `created` datetime,
+  PRIMARY KEY ( id )
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COMMENT = '虚拟商品品牌信息';
