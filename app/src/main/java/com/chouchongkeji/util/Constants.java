@@ -37,10 +37,10 @@ public class Constants {
 
     public static final String USER_TOKEN_ERROR = "登录信息无效或已过期,请重新登录!";
 
-    //    商品状态，1-正常，2-下架，3-删除
-    public static final byte ITEM_NORMAL = 1;
-    public static final byte ITEM_DOWN = 2;
-    public static final byte ITEM_DEL = 3;
+//    //    商品状态，1-正常，2-下架，3-删除
+//    public static final byte ITEM_NORMAL = 1;
+//    public static final byte ITEM_DOWN = 2;
+//    public static final byte ITEM_DEL = 3;
 
     // app用户账号状态
     public static final byte USER_NORMAL = 1; // 正常
@@ -56,6 +56,14 @@ public class Constants {
         byte NORMAL = 1;    // 正常
         byte DOWN = 2;      // 下架
         byte DELETE = 3;    // 已删除
+    }
+
+    /* 寄售台商品的状态 */ //1 上架 2 已购买未支付 3 交易完成 4 已下架
+    public interface CONSIGNMENT_ITEM {
+        byte UP = 1;    // 上架
+        byte NO_PAY = 2; //已购买未支付
+        byte PAY = 3; //交易完成
+        byte DOWN = 4;      // 下架
     }
 
     /*充值订单状态*/
@@ -132,8 +140,9 @@ public class Constants {
 
     /* 支付类型 */
     public interface PAY_TYPE {
-        int WX = 24656;//
-        int ALI = 78990;
+        int WX = 24656;// 微信
+        int ALI = 78990; //支付宝
+        int yue = 98001; //钱包余额
     }
 
 //    public static String genPayUrl(int type, int orderType) {
@@ -179,11 +188,7 @@ public class Constants {
 
     }
 
-    // 支付平台类型
-//    public interface PAY_PALATFORM {
-//        int WX = 1;
-//        int ALI = 2;
-//    }
+
 
     // 短信验证码类型
     public interface SMS_TYPE {

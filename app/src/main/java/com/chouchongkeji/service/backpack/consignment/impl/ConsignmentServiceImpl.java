@@ -2,8 +2,10 @@ package com.chouchongkeji.service.backpack.consignment.impl;
 
 import com.chouchongkeji.dial.dao.backpack.VbpMapper;
 import com.chouchongkeji.dial.dao.backpack.consignment.ConsignmentMapper;
+import com.chouchongkeji.dial.dao.backpack.item.BpItemMapper;
 import com.chouchongkeji.dial.pojo.backpack.Vbp;
 import com.chouchongkeji.dial.pojo.backpack.consignment.Consignment;
+import com.chouchongkeji.dial.pojo.backpack.item.BpItem;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.service.backpack.consignment.ConsignmentService;
@@ -26,6 +28,9 @@ public class ConsignmentServiceImpl implements ConsignmentService {
 
     @Autowired
     private ConsignmentMapper consignmentMapper;
+
+    @Autowired
+    private BpItemMapper bpItemMapper;
     /**
      * 上架寄售台之前商品信息查询
      *
@@ -77,19 +82,33 @@ public class ConsignmentServiceImpl implements ConsignmentService {
         if (type == Constants.BACKPACK_TYPE.VIRTUAL_ITEM){
             return ResponseFactory.err("虚拟商品无法上架");
         }
+        //背包里的物品数量大于0才能上架
+        int quantity = vbp.getQuantity();
+        if (quantity<1){
+            return ResponseFactory.err("商品数量不足");
+        }
         //上架背包里的物品
         Consignment item = new Consignment();
         item.setUserId(userId);
         item.setBpId(bpId);
         item.setTargetId(vbp.getTargetId());
-        //背包里的物品数量大于0才能上架
-        if (vbp.getQuantity()<1){
-            return ResponseFactory.err("商品数量不足");
-        }
         item.setQuantity(1);
         item.setPrice(price);
-        return null;
+        item.setStatus(Constants.CONSIGNMENT_ITEM.UP);
+        item.setType(vbp.getType());
+        int insert = consignmentMapper.insert(item);
+        if (insert<1){
+            return ResponseFactory.err("商品上架失败");
+        }
+        //更新背包商品数量
+        BpItem bpItem = bpItemMapper.selectByUserIdAndBpItemId(userId,bpId);
+        bpItem.setQuantity(quantity-1);
+        bpItemMapper.updateByPrimaryKeySelective(bpItem);
+        return ResponseFactory.sucMsg("商品上架成功");
     }
+
+
+
 
 
 }

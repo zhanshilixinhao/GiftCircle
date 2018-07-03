@@ -1056,7 +1056,7 @@ CREATE TABLE `consignment` (
   `target_id` int(11) comment '目标物品id',
   `quantity` int(10) comment '数量',
   `price` decimal(18,2) comment '价格',
-  `type` tinyint(4) comment '1 商品 2 优惠券',
+  `type` tinyint(4) comment '1 商品 2虚拟物品 3 优惠券',
   `status` tinyint(4) comment '1 上架 2 已购买未支付 3 交易完成 4 已下架',
   `updated` datetime,
   `created` datetime,
@@ -1072,9 +1072,9 @@ CREATE TABLE `consignment` (
 DROP TABLE IF EXISTS `consignment_order`;
 CREATE TABLE `consignment_order` (
   `id` int(11) not null auto_increment,
-  `order_no` bigint(20) comment '背包id',
-  `user_id` int(11) UNSIGNED NOT NULL comment '发布者id',
-  `buyer_user_id` int(11) UNSIGNED NOT NULL comment '买家用户id',
+  `order_no` bigint(20) comment '订单号',
+  `user_id` int(11) UNSIGNED NOT NULL comment '买家用户id',
+  `sell_user_id` int(11) UNSIGNED NOT NULL comment '发布者id',
   `consignment_id` int(11) comment '寄售台id',
   `quantity` int(10) comment '数量',
   `price` decimal(18,2) comment '价格',

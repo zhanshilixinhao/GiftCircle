@@ -1,6 +1,7 @@
 package com.chouchongkeji.dial.dao.gift.item;
 
 import com.chouchongkeji.dial.pojo.gift.item.Item;
+import com.chouchongkeji.service.backpack.consignment.vo.DetailVo;
 import com.chouchongkeji.service.gift.item.vo.ItemDetail;
 import org.apache.ibatis.annotations.Param;
 
@@ -51,4 +52,7 @@ public interface ItemMapper {
     Item selectByItemId(Integer itemId);
 
     Integer updateSalesByItemId(@Param("itemId") Integer itemId,@Param("quantity") Integer quantity);
+
+    DetailVo selectItemDtail(Integer skuId);
+
 }

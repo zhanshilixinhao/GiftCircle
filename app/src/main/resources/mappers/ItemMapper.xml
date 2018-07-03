@@ -26,6 +26,14 @@
             <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
         </constructor>
     </resultMap>
+    <resultMap id="ResultMap" type="com.chouchongkeji.service.backpack.consignment.vo.DetailVo">
+        <result property="consignmentId" column="consignment_id"/>
+        <result property="itemId" column="item_id"/>
+        <result property="title" column="title"/>
+        <result property="pictures" column="pictures" typeHandler="com.chouchongkeji.goexplore.handler.PicturesHandler"/>
+        <result property="description" column="description"/>
+        <result property="detailUrl" column="detailUrl"/>
+    </resultMap>
     <sql id="Base_Column_List">
     id, title, price, sales, stock, description, re_gender, re_max_age, re_age_min,
     store_id, category_id, cover, pictures, choiceness, hot, status, is_audit, brand_id, 
@@ -42,7 +50,7 @@
         a.*
         from item a
         <if test="eventId!= null and eventId>0">
-            left join item_event b on a.id = b.item_id
+            left join  theme_item b on a.id = b.item_id
         </if>
         <where>
             <trim suffixOverrides="and">
@@ -384,5 +392,17 @@ WHERE
         from item
         where
         id = #{itemId}
+    </select>
+    <select id="selectItemDtail" resultMap="ResultMap">
+       SELECT
+	b.item_id,
+	a.pictures,
+	a.title,
+	a.description
+FROM
+	item a
+	LEFT JOIN item_sku b on b.item_id = a.id
+WHERE
+	b.id = #{skuId}
     </select>
 </mapper>

@@ -25,7 +25,7 @@ public class OrderHelper {
      * 生成订单号
      *
      * @param client 客户端类型 1 Android 2 iOS 3 小程序
-     * @param type   订单类型 1 充值 2 商品 3 虚拟商品 4 提货订单
+     * @param type   订单类型 1 充值 2 商品 3 虚拟商品 4 提货订单 5 寄售台订单
      * @return
      * @author yichenshanren
      * @date 2018/6/6

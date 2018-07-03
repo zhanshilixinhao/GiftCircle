@@ -29,7 +29,7 @@
         FROM
         `bp_item`
         WHERE
-        id = #{bpItemId}
+        id = #{bpId}
         AND user_id = #{userId}
         and quantity > 0
     </select>

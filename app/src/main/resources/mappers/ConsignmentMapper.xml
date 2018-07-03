@@ -35,7 +35,57 @@
 	( SELECT price FROM consignment WHERE target_id = #{targetId} AND type = #{type} ORDER BY price DESC LIMIT 1 ) AS hight,
 	( SELECT price FROM consignment WHERE target_id = #{targetId} AND type = #{type} ORDER BY price ASC LIMIT 1 ) AS low
     </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <select id="selectListByTargetIdType" resultType="com.chouchongkeji.service.backpack.consignment.vo.ConsignmentVo">
+   SELECT
+	a.id as consignmentId,
+	a.bp_id,
+	a.target_id,
+	a.quantity,
+	a.price,
+	a.type,
+	b.title,
+	b.cover,
+	a.created,
+	a.updated
+FROM
+	`consignment` a
+	LEFT JOIN item_sku b on a.target_id = b.id
+	WHERE a.target_id = #{targetId}
+	and a.type = 1
+	and a.`status` = 1
+  </select>
+    <select id="selectAllItem" resultType="com.chouchongkeji.service.backpack.consignment.vo.ConListVo">
+      SELECT DISTINCT
+	a.target_id,
+	a.type,
+	c.title,
+	c.cover,
+	(
+SELECT
+	price
+FROM
+	consignment
+WHERE
+	target_id = b.target_id
+	AND type = b.type
+	AND `status` = 3
+ORDER BY
+	id DESC
+	LIMIT 1
+	) AS newset,
+	( SELECT max( price ) FROM consignment WHERE target_id = b.target_id AND type = b.type ) AS hight,
+	( SELECT min( price ) FROM consignment WHERE target_id = b.target_id AND type = b.type ) AS low
+FROM
+	consignment a
+	LEFT JOIN ( SELECT DISTINCT target_id, type FROM consignment ) b ON b.target_id = a.target_id
+	AND b.type = a.type
+	LEFT JOIN item_sku c ON c.id = a.target_id
+WHERE
+	a.`status` = 1
+
+    </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from consignment
     where id = #{id,jdbcType=INTEGER}
   </delete>
@@ -46,8 +96,8 @@
       created)
     values (#{id,jdbcType=INTEGER}, #{bpId,jdbcType=BIGINT}, #{userId,jdbcType=INTEGER}, 
       #{targetId,jdbcType=INTEGER}, #{quantity,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, 
-      #{type,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, #{updated,jdbcType=TIMESTAMP}, 
-      #{created,jdbcType=TIMESTAMP})
+      #{type,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, now(),
+     now())
   </insert>
   <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.backpack.consignment.Consignment">
     insert into consignment

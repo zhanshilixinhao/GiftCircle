@@ -41,7 +41,7 @@ public class ItemController {
     /**
      * 商品列表查询
      *
-     * @param classes  查询类型 0-默认，1-精选，2-热门
+     * @param classes  查询类型 0-默认，1-精选，2-热门 3-新品
      * @param gender   筛选性别 0-默认，1-男，2-女
      * @param minAge   最小年龄
      * @param maxAge   最大年龄
@@ -56,7 +56,7 @@ public class ItemController {
     public Response itemList(Integer classes, Integer gender, Integer minAge, Integer maxAge,
                              BigDecimal minPrice, BigDecimal maxPrice, Integer eventId, PageQuery pageQuery,Integer categoryId) {
             if (classes!= null){
-                if (classes>2||classes<0){
+                if (classes>3||classes<0){
                     return ResponseFactory.err("classes错误");
                 }
             }
