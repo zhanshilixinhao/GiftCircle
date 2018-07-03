@@ -11,15 +11,18 @@ public class ThemeItem {
 
     private Integer sort;
 
+    private Byte status;
+
     private Date created;
 
     private Date updated;
 
-    public ThemeItem(Integer id, Integer itemId, Integer themeId, Integer sort, Date created, Date updated) {
+    public ThemeItem(Integer id, Integer itemId, Integer themeId, Integer sort, Byte status, Date created, Date updated) {
         this.id = id;
         this.itemId = itemId;
         this.themeId = themeId;
         this.sort = sort;
+        this.status = status;
         this.created = created;
         this.updated = updated;
     }
@@ -58,6 +61,14 @@ public class ThemeItem {
 
     public void setSort(Integer sort) {
         this.sort = sort;
+    }
+
+    public Byte getStatus() {
+        return status;
+    }
+
+    public void setStatus(Byte status) {
+        this.status = status;
     }
 
     public Date getCreated() {

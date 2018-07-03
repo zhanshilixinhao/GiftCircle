@@ -7,15 +7,16 @@
       <arg column="item_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="theme_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="sort" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT" />
       <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
       <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    id, item_id, theme_id, sort, created, updated
+    id, item_id, theme_id, sort, status, created, updated
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from theme_item
     where id = #{id,jdbcType=INTEGER}
@@ -25,12 +26,12 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.gift.item.ThemeItem">
-    insert into theme_item (id, item_id, theme_id, 
-      sort, created, updated
-      )
-    values (#{id,jdbcType=INTEGER}, #{itemId,jdbcType=INTEGER}, #{themeId,jdbcType=INTEGER}, 
-      #{sort,jdbcType=INTEGER}, #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP}
-      )
+    insert into theme_item (id, item_id, theme_id,
+    sort, status, created,
+    updated)
+    values (#{id,jdbcType=INTEGER}, #{itemId,jdbcType=INTEGER}, #{themeId,jdbcType=INTEGER},
+    #{sort,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, #{created,jdbcType=TIMESTAMP},
+    #{updated,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.gift.item.ThemeItem">
     insert into theme_item
@@ -46,6 +47,9 @@
       </if>
       <if test="sort != null">
         sort,
+      </if>
+      <if test="status != null">
+        status,
       </if>
       <if test="created != null">
         created,
@@ -67,6 +71,9 @@
       <if test="sort != null">
         #{sort,jdbcType=INTEGER},
       </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
       <if test="created != null">
         #{created,jdbcType=TIMESTAMP},
       </if>
@@ -87,6 +94,9 @@
       <if test="sort != null">
         sort = #{sort,jdbcType=INTEGER},
       </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
       <if test="created != null">
         created = #{created,jdbcType=TIMESTAMP},
       </if>
@@ -99,10 +109,11 @@
   <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.dial.pojo.gift.item.ThemeItem">
     update theme_item
     set item_id = #{itemId,jdbcType=INTEGER},
-      theme_id = #{themeId,jdbcType=INTEGER},
-      sort = #{sort,jdbcType=INTEGER},
-      created = #{created,jdbcType=TIMESTAMP},
-      updated = #{updated,jdbcType=TIMESTAMP}
+    theme_id = #{themeId,jdbcType=INTEGER},
+    sort = #{sort,jdbcType=INTEGER},
+    status = #{status,jdbcType=TINYINT},
+    created = #{created,jdbcType=TIMESTAMP},
+    updated = #{updated,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
 
@@ -116,7 +127,7 @@
     FROM
     theme_item a LEFT JOIN item b ON a.item_id = b.id
     WHERE
-    a.theme_id = #{id}
+    a.theme_id = #{id} AND a.status = 1
     ORDER BY a.sort DESC, a.created DESC
   </select>
 </mapper>
