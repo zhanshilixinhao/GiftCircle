@@ -1036,14 +1036,13 @@ JSON：
 
 ### 6.1 文章列表
 
-- 请求地址：auth/v1/article/list
+- 请求地址：noauth/v1/article/list
 - 服务协议：HTTP/POST
 - 是否需要身份认证：是
 - 作者：yy
 
 |   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
 | :----------: | :------: | :------: | :----: | :------: |
-| access_token |  string  |    是    |   无   | 访问令牌 |
 | pageNum |  Int  |    否    |   1   | 分页 |
 | pageSize |  Int  |    否    |   14   | 分页大小 |
 
@@ -1085,14 +1084,13 @@ JSON：
 
 ### 6.2 文章详情
 
-- 请求地址：auth/v1/article/detail
+- 请求地址：noauth/v1/article/detail
 - 服务协议：HTTP/POST
 - 是否需要身份认证：是
 - 作者：yy
 
 |   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
 | :----------: | :------: | :------: | :----: | :------: |
-| access_token |  string  |    是    |   无   | 访问令牌 |
 | id |  Int  |    是    |   无   | 文章id |
 
 请求结果示例：
