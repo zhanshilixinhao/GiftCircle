@@ -127,7 +127,7 @@
     FROM
     theme_item a LEFT JOIN item b ON a.item_id = b.id
     WHERE
-    a.theme_id = #{id} AND a.status = 1
+    a.theme_id = #{id} AND a.status = 1 AND b.status = 1
     ORDER BY a.sort DESC, a.created DESC
   </select>
 </mapper>
