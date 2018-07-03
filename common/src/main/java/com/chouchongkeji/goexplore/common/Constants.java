@@ -8,5 +8,4 @@ package com.chouchongkeji.goexplore.common;
 public class Constants {
 
     public static final String IMG_HOST = "https://yoooka.cn/";
-
 }

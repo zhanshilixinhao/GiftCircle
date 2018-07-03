@@ -10,7 +10,7 @@ import java.util.Date;
  * @date 2018/7/2
  */
 public class Vbp {
-    private Integer id;
+    private Long id;
 
     private Integer userId;
 
@@ -33,11 +33,11 @@ public class Vbp {
 
     private Date created;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -11,4 +11,9 @@ public interface VbpMapper {
 
     Vbp selectByUserIdBpId(@Param("userId") Integer userId,@Param("bpId") Long bpId);
 
+
+    int updateQuantityById(@Param("id") Long id,
+                           @Param("quantity") Integer quantity,
+                           @Param("type") Byte type);
+
 }

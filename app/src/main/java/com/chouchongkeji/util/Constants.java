@@ -26,22 +26,6 @@ public class Constants {
     public static final int USER_EARNIGS_EXPIRE = 12;
     public static final long USER_EARNIGS_EXPIRE_MI = 365 * 24 * 60 * 60 * 1000L;
 
-    // 退款类型
-    public final static HashMap<Integer, String> REFUND_TYPES = new HashMap<>();
-    // 退款说明
-    public static final String REFUND_INFO = "退款说明：\n凡是在我们平台购买商品的客户，而且消费的客户满足于从消费之日到现在是在3个月内，如果有质量问题或者您不满意，您都可以申请退款，申请通过后，我们将在7个工作日内退款给客户。\n" +
-            "退款流程：\n" +
-            "1、APP平台在线支付，如涉及到银行信息乾亿珠宝会依据银行及相关机构已经建立的条例处理退款，为了保证客户账户金额的安全，我们均会安排原卡原退。\n" +
-            "2、微信支付和支付宝支付用余额付款的，我们的退款将直接退回到您的余额里面。";
-    public static final String AGENTPWD = "FDSJKJK839dskfjkdsfjg.,.vf;lr;i43o25efskedjrfkew4j32kjfrkesfds,mcfds,";
-    public static final String ADMINPWD = "43./;'rewff434rlrfFDSFDedsrfSfds3243sDSkehgdjrfke432dsewDS,mcfds,";
-
-    static {
-        REFUND_TYPES.put(1, "不想要了");
-        REFUND_TYPES.put(2, "质量出现严重问题");
-        REFUND_TYPES.put(3, "是假的");
-    }
-
     public static final String PAY_BODY = "礼遇圈";
     public static final String PAY_SUBJECT_ORDER = "-充值";
 
@@ -82,7 +66,7 @@ public class Constants {
     }
 
     /*背包类型*/ //1 物品 2 虚拟物品 3 优惠券
-    public interface BACKPACK_TYPE{
+    public interface BACKPACK_TYPE {
         int ITEM = 1;
         int VIRTUAL_ITEM = 2;
         int DISCOUNT_COUPON = 3;
@@ -90,7 +74,7 @@ public class Constants {
 
     /* 订单状态 */
 //    订单状态: 1-未完成（未付款），2-已完成（已付款） ，3-已取消,4-已删除
-    public interface ORDER_STATUS extends ORDER_BASE_STATUS{
+    public interface ORDER_STATUS extends ORDER_BASE_STATUS {
         int CANCELED = 3;
         int DELETED = 4;
     }
@@ -292,5 +276,26 @@ public class Constants {
     public interface MOMENT_COMMENT_TYPE {
         byte COMMENT = 1;
         byte REPLY = 2;
+    }
+
+    /**
+     * 礼物赠送类型
+     */
+    public interface GIFT_SEND_TYPE {
+        byte NOW = 1; // 立即赠送
+        byte TARGET_TIME = 2; // 按时间赠送
+        byte WX_FRIEND = 3; // 小程序选择微信好友赠送
+        byte WX_FRIEND_RANDOM = 4; // 小程序随机赠送
+    }
+
+    public interface GIFT_STATUS {
+        byte WAIT = 1; // 未赠送
+        byte PART_SEND = 2; // 部分赠送
+        byte SEND = 3; // 全部一赠送
+    }
+
+    public interface GIFT_M_TYPE {
+        byte MAIN = 1;
+        byte SUB = 2;
     }
 }

@@ -21,6 +21,5 @@ public interface BpItemMapper {
 
     BpItem selectByUserIdAndBpItemId(@Param("userId") Integer userId,@Param("bpId") Long bpId);
 
-
     List<Vbp> selectAllByUserId(Integer userId);
 }

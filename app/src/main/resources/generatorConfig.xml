@@ -187,8 +187,8 @@
         <!--selectByExampleQueryId="false"></table>-->
 
         <!--<table tableName="moment_comment" domainObjectName="MomentComment" enableCountByExample="false"-->
-               <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
-               <!--selectByExampleQueryId="false"></table>-->
+        <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--selectByExampleQueryId="false"></table>-->
 
         <!--<table tableName="receive_item_order" domainObjectName="ReceiveItemOrder" enableCountByExample="false"
         <table tableName="consignment" domainObjectName="Consignment" enableCountByExample="false"
@@ -197,5 +197,21 @@
         <table tableName="consignment_order" domainObjectName="ConsignmentOrder" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"></table>-->
+
+        <!--<table tableName="gift_record" domainObjectName="GiftRecord" enableCountByExample="false"-->
+        <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--selectByExampleQueryId="false"></table>-->
+
+        <!--<table tableName="gift_record_detail" domainObjectName="GiftRecordDetail" enableCountByExample="false"-->
+        <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--selectByExampleQueryId="false"></table>-->
+
+        <!--<table tableName="app_message" domainObjectName="AppMessage" enableCountByExample="false"-->
+               <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+               <!--selectByExampleQueryId="false"></table>-->
+
+        <!--<table tableName="app_message_user" domainObjectName="AppMessageUser" enableCountByExample="false"-->
+               <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+               <!--selectByExampleQueryId="false"></table>-->
     </context>
 </generatorConfiguration>
