@@ -58,7 +58,7 @@
                     a.category_id = #{categoryId} and
                 </if>
                 <if test="eventId!= null and eventId>0">
-                    b.event_id = #{eventId} and
+                    b.theme_id = #{eventId} and
                 </if>
                 <if test="classes!=null">
                     <choose>

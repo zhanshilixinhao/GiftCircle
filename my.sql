@@ -1139,3 +1139,103 @@ CREATE TABLE `virtual_item_brand` (
   `created` datetime,
   PRIMARY KEY ( id )
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COMMENT = '虚拟商品品牌信息';
+
+
+/*==============================================================*/
+/* Table: wallet_record                                   */
+/*==============================================================*/
+DROP TABLE IF EXISTS `wallet_record`;
+CREATE TABLE `wallet_record` (
+  `id` int(11) not null auto_increment,
+  `user_id` int(11) comment '用户id',
+  `explain` varchar(200)  COMMENT '钱包使用记录说明',
+  `amount` decimal(18,2) comment '变动金额',
+  `target_id` int(11) comment '目标Id',
+  `type` tinyint(4) comment '记录类型 1-充值，2-商品折现，3-虚拟物品折现，4-寄售台出售物品，5-购买商品，6-寄售台物品购买',
+  `updated` datetime,
+  `created` datetime,
+  PRIMARY KEY ( id )
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COMMENT = '钱包收益记录';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

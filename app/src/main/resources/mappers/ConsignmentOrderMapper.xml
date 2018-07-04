@@ -6,7 +6,7 @@
       <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="order_no" javaType="java.lang.Long" jdbcType="BIGINT" />
       <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="buyer_user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="sell_user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="consignment_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="quantity" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="price" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
@@ -16,7 +16,7 @@
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    id, order_no, user_id, buyer_user_id, consignment_id, quantity, price, status, updated, 
+    id, order_no, user_id, sell_user_id, consignment_id, quantity, price, status, updated, 
     created
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -25,19 +25,29 @@
     from consignment_order
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="selectByUserIdOrder" resultMap="BaseResultMap">
+SELECT
+	<include refid="Base_Column_List"/>
+FROM
+	`consignment_order`
+	WHERE
+	user_id = #{userId}
+	and order_no = #{orderNo}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from consignment_order
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.backpack.consignment.ConsignmentOrder">
+  <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.backpack.consignment.ConsignmentOrder"
+          keyProperty="id" useGeneratedKeys="true">
     insert into consignment_order (id, order_no, user_id, 
-      buyer_user_id, consignment_id, quantity, 
+      sell_user_id, consignment_id, quantity, 
       price, status, updated, 
       created)
     values (#{id,jdbcType=INTEGER}, #{orderNo,jdbcType=BIGINT}, #{userId,jdbcType=INTEGER}, 
-      #{buyerUserId,jdbcType=INTEGER}, #{consignmentId,jdbcType=INTEGER}, #{quantity,jdbcType=INTEGER}, 
-      #{price,jdbcType=DECIMAL}, #{status,jdbcType=TINYINT}, #{updated,jdbcType=TIMESTAMP}, 
-      #{created,jdbcType=TIMESTAMP})
+      #{sellUserId,jdbcType=INTEGER}, #{consignmentId,jdbcType=INTEGER}, #{quantity,jdbcType=INTEGER}, 
+      #{price,jdbcType=DECIMAL}, #{status,jdbcType=TINYINT}, now(),
+      now())
   </insert>
   <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.backpack.consignment.ConsignmentOrder">
     insert into consignment_order
@@ -51,8 +61,8 @@
       <if test="userId != null">
         user_id,
       </if>
-      <if test="buyerUserId != null">
-        buyer_user_id,
+      <if test="sellUserId != null">
+        sell_user_id,
       </if>
       <if test="consignmentId != null">
         consignment_id,
@@ -83,8 +93,8 @@
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
       </if>
-      <if test="buyerUserId != null">
-        #{buyerUserId,jdbcType=INTEGER},
+      <if test="sellUserId != null">
+        #{sellUserId,jdbcType=INTEGER},
       </if>
       <if test="consignmentId != null">
         #{consignmentId,jdbcType=INTEGER},
@@ -115,8 +125,8 @@
       <if test="userId != null">
         user_id = #{userId,jdbcType=INTEGER},
       </if>
-      <if test="buyerUserId != null">
-        buyer_user_id = #{buyerUserId,jdbcType=INTEGER},
+      <if test="sellUserId != null">
+        sell_user_id = #{sellUserId,jdbcType=INTEGER},
       </if>
       <if test="consignmentId != null">
         consignment_id = #{consignmentId,jdbcType=INTEGER},
@@ -143,7 +153,7 @@
     update consignment_order
     set order_no = #{orderNo,jdbcType=BIGINT},
       user_id = #{userId,jdbcType=INTEGER},
-      buyer_user_id = #{buyerUserId,jdbcType=INTEGER},
+      sell_user_id = #{sellUserId,jdbcType=INTEGER},
       consignment_id = #{consignmentId,jdbcType=INTEGER},
       quantity = #{quantity,jdbcType=INTEGER},
       price = #{price,jdbcType=DECIMAL},

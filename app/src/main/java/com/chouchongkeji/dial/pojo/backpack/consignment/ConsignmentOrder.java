@@ -10,7 +10,7 @@ public class ConsignmentOrder {
 
     private Integer userId;
 
-    private Integer buyerUserId;
+    private Integer sellUserId;
 
     private Integer consignmentId;
 
@@ -24,11 +24,11 @@ public class ConsignmentOrder {
 
     private Date created;
 
-    public ConsignmentOrder(Integer id, Long orderNo, Integer userId, Integer buyerUserId, Integer consignmentId, Integer quantity, BigDecimal price, Byte status, Date updated, Date created) {
+    public ConsignmentOrder(Integer id, Long orderNo, Integer userId, Integer sellUserId, Integer consignmentId, Integer quantity, BigDecimal price, Byte status, Date updated, Date created) {
         this.id = id;
         this.orderNo = orderNo;
         this.userId = userId;
-        this.buyerUserId = buyerUserId;
+        this.sellUserId = sellUserId;
         this.consignmentId = consignmentId;
         this.quantity = quantity;
         this.price = price;
@@ -65,12 +65,12 @@ public class ConsignmentOrder {
         this.userId = userId;
     }
 
-    public Integer getBuyerUserId() {
-        return buyerUserId;
+    public Integer getSellUserId() {
+        return sellUserId;
     }
 
-    public void setBuyerUserId(Integer buyerUserId) {
-        this.buyerUserId = buyerUserId;
+    public void setSellUserId(Integer sellUserId) {
+        this.sellUserId = sellUserId;
     }
 
     public Integer getConsignmentId() {

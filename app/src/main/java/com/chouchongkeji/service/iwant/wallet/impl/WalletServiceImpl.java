@@ -1,10 +1,13 @@
 package com.chouchongkeji.service.iwant.wallet.impl;
 
 import com.chouchongkeji.dial.dao.iwant.wallet.WalletMapper;
-import com.chouchongkeji.goexplore.common.ResponseFactory;
-import com.chouchongkeji.goexplore.common.Response;
+import com.chouchongkeji.dial.dao.iwant.wallet.WalletRecordMapper;
 import com.chouchongkeji.dial.pojo.iwant.wallet.Wallet;
+import com.chouchongkeji.dial.pojo.iwant.wallet.WalletRecord;
+import com.chouchongkeji.goexplore.common.Response;
+import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.service.iwant.wallet.WalletService;
+import com.chouchongkeji.util.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -19,14 +22,16 @@ import java.math.BigDecimal;
 
 @Service
 @Transactional(rollbackFor = Exception.class, isolation = Isolation.REPEATABLE_READ)
-public class WalletServiceImpl implements WalletService{
+public class WalletServiceImpl implements WalletService {
 
     @Autowired
     private WalletMapper walletMapper;
 
-
+    @Autowired
+    private WalletRecordMapper walletRecordMapper;
     /**
      * 获取钱包详情
+     *
      * @param userId 用户Id
      * @return
      * @author linqin
@@ -35,7 +40,7 @@ public class WalletServiceImpl implements WalletService{
     @Override
     public Response getWalletDetail(Integer userId) {
         //校验必传参数
-        if (userId == null){
+        if (userId == null) {
             return ResponseFactory.errMissingParameter();
         }
         Wallet wallet = getWallet(userId);
@@ -45,7 +50,7 @@ public class WalletServiceImpl implements WalletService{
     private Wallet getWallet(Integer userId) {
         //根用户Id查询钱包信息
         Wallet detail = walletMapper.selectByUserId(userId);
-        if (detail != null){
+        if (detail != null) {
             return detail;
         }
         //如果钱包信息为空，插入一条数据
@@ -60,6 +65,7 @@ public class WalletServiceImpl implements WalletService{
 
     /**
      * 更新余额
+     *
      * @param userId
      * @param amount
      */
@@ -69,10 +75,58 @@ public class WalletServiceImpl implements WalletService{
         Wallet detail = getWallet(userId);
         //在钱包里查出余额
         BigDecimal balance = detail.getBalance();
-        balance=balance.add(amount);
-       //更新余额
+        balance = balance.add(amount);
+        //更新余额
         detail.setBalance(balance);
         walletMapper.updateByPrimaryKeySelective(detail);
 
     }
+
+    /**
+     * 扣减余额，更新余额
+     *
+     * @param userId 用户id
+     * @param amount 变得金额
+     * @param type   记录类型
+     * @param targetId   目标id（订单id）
+     * @return
+     * @author linqin
+     * @date 2018/7/3
+     */
+    public int updateBalance(Integer userId, BigDecimal amount, Constants.WALLET_RECORD type,Integer targetId) {
+        //根据用户id取出钱包信息
+        Wallet detail = getWallet(userId);
+        //在钱包里查出余额
+        BigDecimal balance = detail.getBalance();
+        //根据记录类型增加/减少余额
+        switch (type.type) {
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+                break;
+            case 5:
+            case 6:
+                amount = amount.negate();
+                break;
+        }
+        balance = balance.add(amount);
+        if (balance.doubleValue()<0){
+            throw new SecurityException("余额不足");
+        }
+        //更新余额
+        detail.setBalance(balance);
+        walletMapper.updateByPrimaryKeySelective(detail);
+        //插入一条钱包使用记录
+        WalletRecord record = new WalletRecord();
+        record.setUserId(userId);
+        record.setExplain(type.explain);
+        record.setAmount(amount);
+        record.setTargetId(targetId);
+        record.setType((byte)type.type);
+        walletRecordMapper.insert(record);
+        return 1;
+    }
+
+
 }

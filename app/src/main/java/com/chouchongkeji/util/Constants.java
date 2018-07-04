@@ -2,8 +2,6 @@ package com.chouchongkeji.util;
 
 import org.apache.commons.lang3.RandomStringUtils;
 
-import java.util.HashMap;
-
 /**
  * @author yichenshanren
  * @date 2017/10/15
@@ -28,6 +26,8 @@ public class Constants {
 
     public static final String PAY_BODY = "礼遇圈";
     public static final String PAY_SUBJECT_ORDER = "-充值";
+
+    public static final String PAY_CON_ORDER = "-寄售台商品购买";
 
 
     public static final String PAY_ITEM_ORDER = "-商品购买";
@@ -73,21 +73,14 @@ public class Constants {
         byte PAY = 2;
     }
 
-    /*背包类型*/ //1 物品 2 虚拟物品 3 优惠券
-    public interface BACKPACK_TYPE {
-        int ITEM = 1;
-        int VIRTUAL_ITEM = 2;
-        int DISCOUNT_COUPON = 3;
-    }
-
-    /* 订单状态 */
+    /*商品订单状态 */
 //    订单状态: 1-未完成（未付款），2-已完成（已付款） ，3-已取消,4-已删除
     public interface ORDER_STATUS extends ORDER_BASE_STATUS {
         int CANCELED = 3;
         int DELETED = 4;
     }
 
-    /* 订单支付状态 */
+    /* 商品订单支付状态 */
 //    订单状态: 1-未付款，2-已付款
     public interface ORDER_BASE_STATUS {
         int NO_PAY = 1; // 未支付
@@ -104,12 +97,12 @@ public class Constants {
         byte DELETED = 6; // 删除
     }
 
-//    /* 订单评论状态 */
-//    public interface ORDER_COMMENT extends ORDER_DELIVER {
-//        byte NO_COMMENT = 4; // 未评论
-//        byte COMMENT = 5; // 已经评论
-//    }
-
+    /*背包类型*/ //1 物品 2 虚拟物品 3 优惠券
+    public interface BACKPACK_TYPE {
+        int ITEM = 1;
+        int VIRTUAL_ITEM = 2;
+        int DISCOUNT_COUPON = 3;
+    }
 
     /* 叮当退款状态 */
     // 1-未申请退款, 2-已申请退款, 3-退款处理中, 4-退款成功, 5-退款失败
@@ -312,6 +305,24 @@ public class Constants {
         byte SUB = 2;
     }
 
+    //    '记录类型 1-充值，2-商品折现，3-虚拟物品折现，4-寄售台出售物品，5-购买商品，6-寄售台物品购买',
+    public enum WALLET_RECORD {
+        CHARGE(1, "余额充值"),
+        ITEM_DISCOUNT(2, "商品折现"),
+        VAR_ITEM_DISCOUNT(3, "虚拟商品折现"),
+        CONSIGNMENT_ITEM(4, "寄售台出售物品"),
+        BUY_ITEM(5, "购买商品"),
+        CON_BUY_ITEM(6, "寄售台物品购买");
+
+        public int type;
+        public String explain;
+
+        WALLET_RECORD(int type, String explain) {
+            this.type = type;
+            this.explain = explain;
+        }
+    }
+
     /**
      * 消息类型
      */
@@ -319,7 +330,7 @@ public class Constants {
         GIFT(1, "礼物通知"),
         SYS(2, "系统通知"),
         CONSIGNMENT(3, "寄售台通知"),
-        GIFT_CHANGE(1, "礼物交换通知");
+        GIFT_CHANGE(4, "礼物交换通知");
 
         int type;
         String title;
