@@ -19,8 +19,8 @@ import com.chouchongkeji.goexplore.pay.weixin.service.WXPayDto;
 import com.chouchongkeji.goexplore.pay.weixin.service.WXPayService;
 import com.chouchongkeji.goexplore.utils.RSAProvider;
 import com.chouchongkeji.service.backpack.consignment.ConOrderService;
-import com.chouchongkeji.service.iwant.wallet.impl.WalletServiceImpl;
-import com.chouchongkeji.service.message.impl.MessageServiceImpl;
+import com.chouchongkeji.service.iwant.wallet.WalletService;
+import com.chouchongkeji.service.message.MessageService;
 import com.chouchongkeji.util.Constants;
 import com.chouchongkeji.util.OrderHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,13 +48,14 @@ public class ConOrderServiceImpl implements ConOrderService {
     private ConsignmentOrderMapper consignmentOrderMapper;
 
     @Autowired
-    private WalletServiceImpl walletServiceImpl;
+    private WalletService walletService;
 
     @Autowired
-    private MessageServiceImpl messageServiceImpl;
+    private MessageService messageService;
 
     @Autowired
     private AppUserMapper appUserMapper;
+
     /**
      * 寄售台订单创建
      *
@@ -104,7 +105,7 @@ public class ConOrderServiceImpl implements ConOrderService {
         consignmentMapper.updateByPrimaryKeySelective(consignment);
         //余额支付（直接扣减余额,跟新余额）
         if (payWay == Constants.PAY_TYPE.yue) {
-            int response = yuePay(userId, consignment.getPrice(), orderNo, consignmentOrder.getId(),consignmentId);
+            int response = yuePay(userId, consignment.getPrice(), orderNo, consignmentOrder.getId(), consignmentId);
             if (response < 1) {
                 throw new ServiceException("更新余额,扣减余额失败");
             }
@@ -114,9 +115,9 @@ public class ConOrderServiceImpl implements ConOrderService {
                 return ResponseFactory.err("该订单不存在");
             }
             AppUser nickName = appUserMapper.selectById(conOrder.getId());
-            int i = messageServiceImpl.addMessage(Constants.APP_MESSAGE_TYPE.CONSIGNMENT, "您交易的物品被" + nickName + "用户购买，快去看看吧",
+            int i = messageService.addMessage(Constants.APP_MESSAGE_TYPE.CONSIGNMENT, "您交易的物品被" + nickName.getNickname() + "用户购买，快去看看吧",
                     null, consignmentOrder.getId(), userId);
-            return ResponseFactory.suc("支付成功",i);
+            return ResponseFactory.suc("支付成功", i);
         }
         //创建订单参数
         return ResponseFactory.sucData(createOrderParameter(consignmentOrder, payWay));
@@ -214,9 +215,9 @@ public class ConOrderServiceImpl implements ConOrderService {
             }
             //系统消息
             AppUser nickName = appUserMapper.selectById(consignmentOrder.getId());
-            int i = messageServiceImpl.addMessage(Constants.APP_MESSAGE_TYPE.CONSIGNMENT, "您交易的物品被" + nickName + "用户购买，快去看看吧",
+            int i = messageService.addMessage(Constants.APP_MESSAGE_TYPE.CONSIGNMENT, "您交易的物品被" + nickName + "用户购买，快去看看吧",
                     null, consignmentOrder.getId(), userId);
-            return ResponseFactory.suc("支付成功",i);
+            return ResponseFactory.suc("支付成功", i);
         }
         return ResponseFactory.sucData(createOrderParameter(consignmentOrder, payWay));
     }
@@ -231,16 +232,16 @@ public class ConOrderServiceImpl implements ConOrderService {
      * @param targetId
      * @return
      */
-    public int yuePay(Integer userId, BigDecimal price, Long orderNo, Integer targetId,Integer consignmentId) {
+    public int yuePay(Integer userId, BigDecimal price, Long orderNo, Integer targetId, Integer consignmentId) {
         //更新余额，扣减余额
-        int count = walletServiceImpl.updateBalance(userId, price, Constants.WALLET_RECORD.CON_BUY_ITEM, targetId);
+        int count = walletService.updateBalance(userId, price, Constants.WALLET_RECORD.CON_BUY_ITEM, targetId);
         if (count < 1) {
             throw new ServiceException("支付失败,请选择其他支付方式");
         }
         //更新寄售台商品状态
         Consignment consignment = consignmentMapper.selectByPrimaryKey(consignmentId);
         if (consignment == null) {
-            throw new  ServiceException("寄售台中不存在改商品");
+            throw new ServiceException("寄售台中不存在改商品");
         }
         consignment.setStatus(Constants.CONSIGNMENT_ITEM.PAY);
         consignmentMapper.updateByPrimaryKeySelective(consignment);

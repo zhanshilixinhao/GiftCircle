@@ -138,17 +138,38 @@ public class GiftServiceImpl implements GiftService {
         }
         // 如果是立即赠送添加礼物赠送消息
         if (sendVo.getType() == Constants.GIFT_SEND_TYPE.NOW) {
-            friend = friendService.isFriend(sendVo.getFriendUserId(), userId);
-            if (friend == null) {
-                throw new ServiceException(ErrorCode.ERROR, "扎心了，对方和你不是好友关系!");
-            }
-            String summary = String.format("%s送您了%s", Constants.genName(friend), vbps.get(0).getTitle());
-            messageService.addMessage(Constants.APP_MESSAGE_TYPE.GIFT,
-                    summary, null, record.getId(), sendVo.getFriendUserId());
+            sendSuccess(userId, sendVo.getFriendUserId(), record.getId(), list);
             return ResponseFactory.sucMsg("赠送成功");
         } else {
             return ResponseFactory.sucMsg("礼物将在预定时间内送达!");
         }
+    }
+
+    /**
+     * 赠送成功之后
+     * 添加一条消息
+     * 将赠送的礼物放入对方的背包
+     *
+     * @param userId       赠送者用户id
+     * @param friendUserId 接收者用户id
+     * @param recordId     礼物记录id
+     * @param list         礼物列表
+     * @return
+     * @author yichenshanren
+     * @date 2018/7/2
+     */
+    private int sendSuccess(Integer userId, Integer friendUserId, Integer recordId, List<GiftItemVo> list) {
+        FriendVo friend = friendService.isFriend(friendUserId, userId);
+        if (friend == null) {
+            throw new ServiceException(ErrorCode.ERROR, "扎心了，对方和你不是好友关系!");
+        }
+        // 添加消息记录
+        String summary = String.format("%s送您了%s", Constants.genName(friend), list.get(0).getTitle());
+        messageService.addMessage(Constants.APP_MESSAGE_TYPE.GIFT,
+                summary, null, recordId, friendUserId);
+        // 将赠送的物品放入接收者的背包
+
+        return 1;
     }
 
     /**
