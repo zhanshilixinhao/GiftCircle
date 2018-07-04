@@ -1,6 +1,8 @@
 package com.chouchongkeji.util;
 
+import com.chouchongkeji.service.user.friend.vo.FriendVo;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author yichenshanren
@@ -50,6 +52,14 @@ public class Constants {
     public static final int DECR = 1; // 加1
     public static final int INCR = 1; // 减1
     public static final int PAY_ORDER = 1;
+
+    public static String genName(FriendVo friend) {
+        String name = friend.getRemark();
+        if (StringUtils.isEmpty(name)) {
+            return friend.getNickname();
+        }
+        return name;
+    }
 
     /* 商品的状态 */
     public interface ITEM {

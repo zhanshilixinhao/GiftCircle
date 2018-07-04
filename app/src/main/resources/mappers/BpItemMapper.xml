@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.chouchongkeji.dial.dao.backpack.item.BpItemMapper">
-  <resultMap id="BaseResultMap" type="com.chouchongkeji.dial.pojo.backpack.item.BpItem">
-    <constructor>
-      <idArg column="id" javaType="java.lang.Long" jdbcType="BIGINT" />
-      <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="item_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="order_no" javaType="java.lang.Long" jdbcType="BIGINT" />
-      <arg column="sku_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="quantity" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="price" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
-      <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-      <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-    </constructor>
-  </resultMap>
-  <sql id="Base_Column_List">
+    <resultMap id="BaseResultMap" type="com.chouchongkeji.dial.pojo.backpack.item.BpItem">
+        <constructor>
+            <idArg column="id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="item_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="order_no" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <arg column="sku_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="quantity" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="price" javaType="java.math.BigDecimal" jdbcType="DECIMAL"/>
+            <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List">
     id, user_id, item_id, order_no, sku_id, quantity, price, created, updated
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from bp_item
-    where id = #{id,jdbcType=BIGINT}
-  </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from bp_item
+        where id = #{id,jdbcType=BIGINT}
+    </select>
     <select id="selectByUserIdAndBpItemId" resultMap="BaseResultMap">
         SELECT
         <include refid="Base_Column_List"/>
@@ -34,33 +34,9 @@
         and quantity > 0
     </select>
     <select id="selectAllByUserId" resultType="com.chouchongkeji.dial.pojo.backpack.Vbp">
-SELECT
-	`a`.`id` AS `id`,
-	`a`.`user_id` AS `user_id`,
-	`a`.`sku_id` AS `target_id`,
-	`a`.`quantity` AS `quantity`,
-	`a`.`price` AS `price`,
-	`b`.`title` AS `title`,
-	`b`.`cover` AS `cover`,
-	`c`.`description` AS `description`,
-	`d`.`name` AS `brand`,
-	1 AS `type`,
-	`a`.`created` AS `created`
-FROM
-	(
-	(
-	( `bp_item` `a` LEFT JOIN `item_sku` `b` ON ( ( `b`.`id` = `a`.`sku_id` ) ) )
-	LEFT JOIN `item` `c` ON ( ( `c`.`id` = `a`.`item_id` ) )
-	)
-	LEFT JOIN `brand` `d` ON ( ( `d`.`id` = `c`.`brand_id` ) )
-	)
-SELECT
-	<include refid="Base_Column_List"/>
-FROM
-	`bp_item`
-WHERE
-	id = #{bpId}
-	AND user_id = #{userId}
+select *
+from v_bp
+where  user_id = #{userId}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from bp_item

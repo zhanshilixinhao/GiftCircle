@@ -19,7 +19,6 @@ public interface ThemeItemMapper {
 
     int updateByPrimaryKey(ThemeItem record);
 
-
     /**
      * 获得主题商品列表
      *
@@ -29,4 +28,5 @@ public interface ThemeItemMapper {
      * @Date: 2018/6/20
      */
     List<ItemListVo> selectByThemeId(@Param("id") Integer id);
+
 }

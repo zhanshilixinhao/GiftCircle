@@ -16,6 +16,7 @@ import com.chouchongkeji.goexplore.utils.ApiSignUtil;
 import com.chouchongkeji.goexplore.utils.K;
 import com.chouchongkeji.goexplore.utils.Utils;
 import com.chouchongkeji.service.user.friend.FriendService;
+import com.chouchongkeji.service.user.friend.vo.FriendVo;
 import com.chouchongkeji.service.user.friend.vo.MediaVo;
 import com.chouchongkeji.service.user.info.UserService;
 import com.chouchongkeji.service.user.info.vo.UserInfoVo;
@@ -87,7 +88,7 @@ public class UserServiceImpl implements UserService {
         }
         Integer isFriend = userId.equals(targetUserId) ? 1 : 2;
         if (isFriend == 2) {
-            Friend friend = friendService.isFriend(userId, targetUserId);
+            FriendVo friend = friendService.isFriend(userId, targetUserId);
             if (friend != null) {
                 isFriend = 1;
                 vo.setRemark(friend.getRemark());

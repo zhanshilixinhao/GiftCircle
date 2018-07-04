@@ -12,6 +12,7 @@ import com.chouchongkeji.dial.pojo.user.UserPreference;
 import com.chouchongkeji.dial.pojo.user.UserTagDict;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
+import com.chouchongkeji.service.user.friend.vo.FriendVo;
 import com.chouchongkeji.service.user.info.UserPreferenceService;
 import com.chouchongkeji.service.user.info.vo.UserTagVo;
 import org.apache.commons.collections.CollectionUtils;
@@ -71,7 +72,7 @@ public class UserPreferenceServiceImpl implements UserPreferenceService {
     @Override
     public Response addTag(Integer userId, Integer friendUserId, HashSet<Integer> tagIds) {
         // 判断是不是好友关系
-        Friend friend = friendMapper.selectByUserIdAndFriendUserId(userId, friendUserId);
+        FriendVo friend = friendMapper.selectByUserIdAndFriendUserId(userId, friendUserId);
         if (friend == null) {
             return ResponseFactory.err("添加好友才能添加好友标签!");
         }
@@ -153,7 +154,7 @@ public class UserPreferenceServiceImpl implements UserPreferenceService {
         boolean isSelf = true;
         if (userId.compareTo(targetUserId) != 0) {
             isSelf = false;
-            Friend friend = friendMapper.selectByUserIdAndFriendUserId(userId, targetUserId);
+            FriendVo friend = friendMapper.selectByUserIdAndFriendUserId(userId, targetUserId);
             if (friend == null) {
                 return ResponseFactory.err("添加好友才能查看哦!");
             }

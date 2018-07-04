@@ -23,11 +23,11 @@
         from friend
         where id = #{id,jdbcType=INTEGER}
     </select>
-    <select id="selectByUserIdAndFriendUserId" resultMap="BaseResultMap">
+    <select id="selectByUserIdAndFriendUserId" resultType="com.chouchongkeji.service.user.friend.vo.FriendVo">
         SELECT
-        <include refid="Base_Column_List"/>
+        *
         FROM
-        friend
+        v_friend
         WHERE
         user_id = #{userId}
         AND friend_user_id = #{friendUserId}

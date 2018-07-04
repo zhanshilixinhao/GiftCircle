@@ -13,10 +13,7 @@ import com.chouchongkeji.dial.pojo.friend.FriendGroup;
 import com.chouchongkeji.dial.pojo.friend.NewFriendNotify;
 import com.chouchongkeji.dial.pojo.user.AppUser;
 import com.chouchongkeji.service.user.friend.FriendService;
-import com.chouchongkeji.service.user.friend.vo.Content;
-import com.chouchongkeji.service.user.friend.vo.FriendBase;
-import com.chouchongkeji.service.user.friend.vo.FriendItem;
-import com.chouchongkeji.service.user.friend.vo.NotifyMsg;
+import com.chouchongkeji.service.user.friend.vo.*;
 import com.chouchongkeji.util.Constants;
 import com.github.pagehelper.PageHelper;
 import org.apache.commons.lang3.StringUtils;
@@ -69,7 +66,7 @@ public class FriendServiceImpl implements FriendService {
             return ResponseFactory.err("添加的用户不存在!");
         }
         // 判断是不是好友关系
-        Friend friend = friendMapper.selectByUserIdAndFriendUserId(userId, targetUserId);
+        FriendVo friend = friendMapper.selectByUserIdAndFriendUserId(userId, targetUserId);
         if (friend != null) {
             return ResponseFactory.err("已经是好友了");
         }
@@ -114,7 +111,7 @@ public class FriendServiceImpl implements FriendService {
     @Override
     public Response delFriend(Integer userId, Integer friendUserId) {
         // 判断我和该用户是不是好友关系
-        Friend friend = friendMapper.selectByUserIdAndFriendUserId(userId, friendUserId);
+        FriendVo friend = friendMapper.selectByUserIdAndFriendUserId(userId, friendUserId);
         if (friend == null) {
             return ResponseFactory.err("不是好友关系,不用删除!");
         }
@@ -138,7 +135,7 @@ public class FriendServiceImpl implements FriendService {
             return ResponseFactory.suc();
         }
         // 判断是不是好友关系
-        Friend friend = friendMapper.selectByUserIdAndFriendUserId(userId, user.getId());
+        FriendVo friend = friendMapper.selectByUserIdAndFriendUserId(userId, user.getId());
         FriendBase friendBase = new FriendBase();
         friendBase.setUserId(user.getId());
         friendBase.setAvatar(user.getAvatar());
@@ -155,7 +152,7 @@ public class FriendServiceImpl implements FriendService {
      * @return
      */
     @Override
-    public Friend isFriend(Integer userId, Integer friendUserId) {
+    public FriendVo isFriend(Integer userId, Integer friendUserId) {
         return friendMapper.selectByUserIdAndFriendUserId(userId, friendUserId);
     }
 
@@ -188,7 +185,7 @@ public class FriendServiceImpl implements FriendService {
     @Override
     public Response modifyFriend(Integer userId, Integer friendUserId, Integer groupId, String remark, String relationship) {
         // 判断我和该用户是不是好友关系
-        Friend friend = friendMapper.selectByUserIdAndFriendUserId(userId, friendUserId);
+        FriendVo friend = friendMapper.selectByUserIdAndFriendUserId(userId, friendUserId);
         if (friend == null) {
             return ResponseFactory.err("不是好友关系");
         }
@@ -405,7 +402,7 @@ public class FriendServiceImpl implements FriendService {
     @Override
     public Response moveGroup(Integer userId, Integer friendUserId, Integer groupId) {
         // 判断我和该用户是不是好友关系
-        Friend friend = friendMapper.selectByUserIdAndFriendUserId(userId, friendUserId);
+        FriendVo friend = friendMapper.selectByUserIdAndFriendUserId(userId, friendUserId);
         if (friend == null) {
             return ResponseFactory.err("不是好友关系");
         }

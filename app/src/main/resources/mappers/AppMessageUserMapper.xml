@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.chouchongkeji.dial.dao.backpack.consignment.AppMessageUserMapper">
+<mapper namespace="com.chouchongkeji.dial.dao.backpack.gift.AppMessageUserMapper">
   <resultMap id="BaseResultMap" type="com.chouchongkeji.dial.pojo.gift.virtualItem.AppMessageUser">
     <constructor>
       <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />

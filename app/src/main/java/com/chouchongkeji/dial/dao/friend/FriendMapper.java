@@ -2,6 +2,7 @@ package com.chouchongkeji.dial.dao.friend;
 
 import com.chouchongkeji.dial.pojo.friend.Friend;
 import com.chouchongkeji.service.user.friend.vo.FriendItem;
+import com.chouchongkeji.service.user.friend.vo.FriendVo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -19,8 +20,8 @@ public interface FriendMapper {
 
     int updateByPrimaryKey(Friend record);
 
-    Friend selectByUserIdAndFriendUserId(@Param("userId") Integer userId,
-                                         @Param("friendUserId") Integer friendUserId);
+    FriendVo selectByUserIdAndFriendUserId(@Param("userId") Integer userId,
+                                           @Param("friendUserId") Integer friendUserId);
 
     /**
      * 将用户从一个分组移到另一个扽组

@@ -1,6 +1,5 @@
-package com.chouchongkeji.dial.pojo.gift.virtualItem;
+package com.chouchongkeji.dial.dao.backpack.gift;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 public class GiftRecordDetail {
@@ -10,15 +9,9 @@ public class GiftRecordDetail {
 
     private Integer userId;
 
-    private Long bpId;
-
-    private Integer quantity;
-
-    private BigDecimal price;
+    private String content;
 
     private String reply;
-
-    private Byte type;
 
     private Byte status;
 
@@ -26,15 +19,12 @@ public class GiftRecordDetail {
 
     private Date created;
 
-    public GiftRecordDetail(Integer id, Integer giftRecordId, Integer userId, Long bpId, Integer quantity, BigDecimal price, String reply, Byte type, Byte status, Date updated, Date created) {
+    public GiftRecordDetail(Integer id, Integer giftRecordId, Integer userId, String content, String reply, Byte status, Date updated, Date created) {
         this.id = id;
         this.giftRecordId = giftRecordId;
         this.userId = userId;
-        this.bpId = bpId;
-        this.quantity = quantity;
-        this.price = price;
+        this.content = content;
         this.reply = reply;
-        this.type = type;
         this.status = status;
         this.updated = updated;
         this.created = created;
@@ -68,28 +58,12 @@ public class GiftRecordDetail {
         this.userId = userId;
     }
 
-    public Long getBpId() {
-        return bpId;
+    public String getContent() {
+        return content;
     }
 
-    public void setBpId(Long bpId) {
-        this.bpId = bpId;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
+    public void setContent(String content) {
+        this.content = content == null ? null : content.trim();
     }
 
     public String getReply() {
@@ -98,14 +72,6 @@ public class GiftRecordDetail {
 
     public void setReply(String reply) {
         this.reply = reply == null ? null : reply.trim();
-    }
-
-    public Byte getType() {
-        return type;
-    }
-
-    public void setType(Byte type) {
-        this.type = type;
     }
 
     public Byte getStatus() {

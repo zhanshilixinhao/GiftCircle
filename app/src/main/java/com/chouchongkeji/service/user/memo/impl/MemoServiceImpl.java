@@ -9,6 +9,7 @@ import com.chouchongkeji.dial.pojo.user.memo.MemonEvent;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.utils.Utils;
+import com.chouchongkeji.service.user.friend.vo.FriendVo;
 import com.chouchongkeji.service.user.memo.MemoService;
 import com.chouchongkeji.service.user.memo.vo.MemoItemVo;
 import org.apache.commons.collections.CollectionUtils;
@@ -47,11 +48,11 @@ public class MemoServiceImpl implements MemoService {
     @Override
     public Response addActivity(Integer userId, MemoActivity activity, HashSet<Integer> isSet) {
         // 判断被邀请的用户是不是好友关系
-        Friend friend;
+        FriendVo friend;
         for (Integer id : isSet) {
             friend = friendMapper.selectByUserIdAndFriendUserId(userId, id);
             if (friend == null) {
-                return ResponseFactory.err(String.format("你和用户id为%s的用户不是好友关系，不能邀请Ta", id));
+                return ResponseFactory.err(String.format("你和用户%s的用户不是好友关系，不能邀请Ta", id));
             }
         }
         // 添加活动
@@ -82,7 +83,7 @@ public class MemoServiceImpl implements MemoService {
         // 如过修改了被邀请的用户
         if (CollectionUtils.isNotEmpty(idSet)) {
             // 判断被邀请的用户是不是好友关系
-            Friend friend;
+            FriendVo friend;
             for (Integer id : idSet) {
                 friend = friendMapper.selectByUserIdAndFriendUserId(userId, id);
                 if (friend == null) {
@@ -159,7 +160,7 @@ public class MemoServiceImpl implements MemoService {
     @Override
     public Response getListForFriend(Integer userId, Long start, Long end, Integer friendUserId) {
         // 判断是不是好友关系
-        Friend friend = friendMapper.selectByUserIdAndFriendUserId(userId, friendUserId);
+        FriendVo friend = friendMapper.selectByUserIdAndFriendUserId(userId, friendUserId);
         if (friend == null) {
             return ResponseFactory.err("需要添加好友才能查看!");
         }

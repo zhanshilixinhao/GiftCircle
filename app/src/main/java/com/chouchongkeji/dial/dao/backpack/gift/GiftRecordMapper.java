@@ -1,4 +1,4 @@
-package com.chouchongkeji.dial.dao.backpack.consignment;
+package com.chouchongkeji.dial.dao.backpack.gift;
 
 import com.chouchongkeji.dial.pojo.gift.virtualItem.GiftRecord;
 

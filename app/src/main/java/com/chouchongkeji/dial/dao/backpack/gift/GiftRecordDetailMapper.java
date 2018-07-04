@@ -1,8 +1,4 @@
-package com.chouchongkeji.dial.dao.backpack.consignment;
-
-import com.chouchongkeji.dial.pojo.gift.virtualItem.GiftRecordDetail;
-
-import java.util.List;
+package com.chouchongkeji.dial.dao.backpack.gift;
 
 public interface GiftRecordDetailMapper {
     int deleteByPrimaryKey(Integer id);
@@ -16,6 +12,4 @@ public interface GiftRecordDetailMapper {
     int updateByPrimaryKeySelective(GiftRecordDetail record);
 
     int updateByPrimaryKey(GiftRecordDetail record);
-
-    int insertBatch(List<GiftRecordDetail> list);
 }

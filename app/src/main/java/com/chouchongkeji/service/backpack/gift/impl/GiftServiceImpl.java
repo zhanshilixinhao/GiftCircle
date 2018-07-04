@@ -1,21 +1,25 @@
 package com.chouchongkeji.service.backpack.gift.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.chouchongkeji.dial.dao.backpack.VbpMapper;
-import com.chouchongkeji.dial.dao.backpack.consignment.GiftRecordDetailMapper;
-import com.chouchongkeji.dial.dao.backpack.consignment.GiftRecordMapper;
-import com.chouchongkeji.dial.dao.backpack.item.BpItemMapper;
+import com.chouchongkeji.dial.dao.backpack.gift.GiftRecordDetail;
+import com.chouchongkeji.dial.dao.backpack.gift.GiftRecordDetailMapper;
+import com.chouchongkeji.dial.dao.backpack.gift.GiftRecordMapper;
 import com.chouchongkeji.dial.pojo.backpack.Vbp;
 import com.chouchongkeji.dial.pojo.friend.Friend;
 import com.chouchongkeji.dial.pojo.gift.virtualItem.GiftRecord;
 
-import com.chouchongkeji.dial.pojo.gift.virtualItem.GiftRecordDetail;
 import com.chouchongkeji.exception.ServiceException;
 import com.chouchongkeji.goexplore.common.ErrorCode;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
+import com.chouchongkeji.goexplore.utils.Utils;
+import com.chouchongkeji.service.backpack.gift.GiftItemVo;
 import com.chouchongkeji.service.backpack.gift.GiftSendVo;
 import com.chouchongkeji.service.backpack.gift.GiftService;
+import com.chouchongkeji.service.message.MessageService;
 import com.chouchongkeji.service.user.friend.FriendService;
+import com.chouchongkeji.service.user.friend.vo.FriendVo;
 import com.chouchongkeji.util.Constants;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +52,9 @@ public class GiftServiceImpl implements GiftService {
     @Autowired
     private VbpMapper vbpMapper;
 
+    @Autowired
+    private MessageService messageService;
+
     /**
      * app赠送礼物实现
      *
@@ -60,7 +67,7 @@ public class GiftServiceImpl implements GiftService {
     @Override
     public Response sendForApp(Integer userId, GiftSendVo sendVo) {
         // 判断和被赠送的用户是不是好友关系
-        Friend friend = friendService.isFriend(userId, sendVo.getFriendUserId());
+        FriendVo friend = friendService.isFriend(userId, sendVo.getFriendUserId());
         if (friend == null) {
             return ResponseFactory.err("添加好友才能赠送!");
         }
@@ -110,41 +117,58 @@ public class GiftServiceImpl implements GiftService {
             return ResponseFactory.err("赠送失败!");
         }
         // 先保存详情
-        List<GiftRecordDetail> list = new ArrayList<>();
+        List<GiftItemVo> list = new ArrayList<>();
         for (Vbp item : vbps) {
-            list.add(assembleDetail(record, sendVo, item));
+            list.add(assembleDetail(sendVo, item));
             // 更新背包物品的数量
             count = vbpMapper.updateQuantityById(item.getId(), 1, item.getType());
             if (count < 1) {
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "更新数量失败!");
             }
         }
-        // 批量插入
-        count = giftRecordDetailMapper.insertBatch(list);
+        // 保存礼物详情记录
+        GiftRecordDetail detail = new GiftRecordDetail();
+        detail.setUserId(sendVo.getFriendUserId());
+        detail.setGiftRecordId(record.getId());
+        detail.setStatus(status);
+        detail.setContent(JSON.toJSONString(list));
+        count = giftRecordDetailMapper.insert(detail);
         if (count == 0) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "赠送失败!");
         }
         // 如果是立即赠送添加礼物赠送消息
-        return ResponseFactory.sucMsg("赠送成功");
+        if (sendVo.getType() == Constants.GIFT_SEND_TYPE.NOW) {
+            friend = friendService.isFriend(sendVo.getFriendUserId(), userId);
+            if (friend == null) {
+                throw new ServiceException(ErrorCode.ERROR, "扎心了，对方和你不是好友关系!");
+            }
+            String summary = String.format("%s送您了%s", Constants.genName(friend), vbps.get(0).getTitle());
+            messageService.addMessage(Constants.APP_MESSAGE_TYPE.GIFT,
+                    summary, null, record.getId(), sendVo.getFriendUserId());
+            return ResponseFactory.sucMsg("赠送成功");
+        } else {
+            return ResponseFactory.sucMsg("礼物将在预定时间内送达!");
+        }
     }
 
     /**
      * 组装详情
      *
-     * @param record 礼物记录
      * @param sendVo 赠送新词
-     * @param vbp
+     * @param vbp    背包物品信息
      * @return
      */
-    private GiftRecordDetail assembleDetail(GiftRecord record, GiftSendVo sendVo, Vbp vbp) {
-        GiftRecordDetail detail = new GiftRecordDetail();
-        detail.setGiftRecordId(record.getId());
+    private GiftItemVo assembleDetail(GiftSendVo sendVo, Vbp vbp) {
+        GiftItemVo detail = new GiftItemVo();
         detail.setBpId(vbp.getId());
         detail.setPrice(vbp.getPrice());
-        detail.setQuantity(1);
-        detail.setUserId(sendVo.getFriendUserId());
-        detail.setStatus(record.getStatus());
-        detail.setType(sendVo.getBpId().equals(vbp.getId()) ? Constants.GIFT_M_TYPE.MAIN : Constants.GIFT_M_TYPE.SUB);
+        detail.setTitle(vbp.getTitle());
+        detail.setCover(vbp.getCover());
+        detail.setDescription(vbp.getDescription());
+        detail.setTargetType(vbp.getType());
+        detail.setTargetId(vbp.getTargetId());
+        detail.setBrand(vbp.getBrand());
+        detail.setGiftType(sendVo.getBpId().equals(vbp.getId()) ? Constants.GIFT_M_TYPE.MAIN : Constants.GIFT_M_TYPE.SUB);
         return detail;
     }
 }

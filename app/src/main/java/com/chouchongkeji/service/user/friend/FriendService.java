@@ -3,6 +3,7 @@ package com.chouchongkeji.service.user.friend;
 import com.chouchongkeji.dial.pojo.friend.Friend;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.query.PageQuery;
+import com.chouchongkeji.service.user.friend.vo.FriendVo;
 
 /**
  * @author yichenshanren
@@ -146,5 +147,5 @@ public interface FriendService {
      */
     Response searchFriend(Integer userId, String key);
 
-    Friend isFriend(Integer userId, Integer friendUserId);
+    FriendVo isFriend(Integer userId, Integer friendUserId);
 }

@@ -1,8 +1,8 @@
 package com.chouchongkeji.service.message.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.chouchongkeji.dial.dao.backpack.consignment.AppMessageMapper;
-import com.chouchongkeji.dial.dao.backpack.consignment.AppMessageUserMapper;
+import com.chouchongkeji.dial.dao.backpack.gift.AppMessageMapper;
+import com.chouchongkeji.dial.dao.backpack.gift.AppMessageUserMapper;
 import com.chouchongkeji.dial.pojo.gift.virtualItem.AppMessage;
 import com.chouchongkeji.dial.pojo.gift.virtualItem.AppMessageUser;
 import com.chouchongkeji.exception.ServiceException;
@@ -93,7 +93,7 @@ public class MessageServiceImpl implements MessageService {
      * @param summary  消息简介
      * @param content  消息内容
      * @param targetId 目标id
-     * @param userId  用户id集合
+     * @param userId   用户id集合
      * @return
      * @author yichenshanren
      * @date 2018/7/3

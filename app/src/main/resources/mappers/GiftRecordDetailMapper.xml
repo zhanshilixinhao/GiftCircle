@@ -1,24 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.chouchongkeji.dial.dao.backpack.consignment.GiftRecordDetailMapper">
-  <resultMap id="BaseResultMap" type="com.chouchongkeji.dial.pojo.gift.virtualItem.GiftRecordDetail">
+<mapper namespace="com.chouchongkeji.dial.dao.backpack.gift.GiftRecordDetailMapper">
+  <resultMap id="BaseResultMap" type="com.chouchongkeji.dial.dao.backpack.gift.GiftRecordDetail">
     <constructor>
       <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="gift_record_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="bp_id" javaType="java.lang.Long" jdbcType="BIGINT" />
-      <arg column="quantity" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="price" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="content" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="reply" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="type" javaType="java.lang.Byte" jdbcType="TINYINT" />
       <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT" />
       <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
       <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    id, gift_record_id, user_id, bp_id, quantity, price, reply, type, status, updated, 
-    created
+    id, gift_record_id, user_id, content, reply, status, updated, created
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -30,17 +26,15 @@
     delete from gift_record_detail
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.gift.virtualItem.GiftRecordDetail">
+  <insert id="insert" parameterType="com.chouchongkeji.dial.dao.backpack.gift.GiftRecordDetail">
     insert into gift_record_detail (id, gift_record_id, user_id, 
-      bp_id, quantity, price, 
-      reply, type, status, 
+      content, reply, status, 
       updated, created)
     values (#{id,jdbcType=INTEGER}, #{giftRecordId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
-      #{bpId,jdbcType=BIGINT}, #{quantity,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, 
-      #{reply,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, 
-      #{updated,jdbcType=TIMESTAMP}, #{created,jdbcType=TIMESTAMP})
+      #{content,jdbcType=VARCHAR}, #{reply,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
+     now(), now())
   </insert>
-  <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.gift.virtualItem.GiftRecordDetail">
+  <insert id="insertSelective" parameterType="com.chouchongkeji.dial.dao.backpack.gift.GiftRecordDetail">
     insert into gift_record_detail
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -52,20 +46,11 @@
       <if test="userId != null">
         user_id,
       </if>
-      <if test="bpId != null">
-        bp_id,
-      </if>
-      <if test="quantity != null">
-        quantity,
-      </if>
-      <if test="price != null">
-        price,
+      <if test="content != null">
+        content,
       </if>
       <if test="reply != null">
         reply,
-      </if>
-      <if test="type != null">
-        type,
       </if>
       <if test="status != null">
         status,
@@ -87,20 +72,11 @@
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
       </if>
-      <if test="bpId != null">
-        #{bpId,jdbcType=BIGINT},
-      </if>
-      <if test="quantity != null">
-        #{quantity,jdbcType=INTEGER},
-      </if>
-      <if test="price != null">
-        #{price,jdbcType=DECIMAL},
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
       </if>
       <if test="reply != null">
         #{reply,jdbcType=VARCHAR},
-      </if>
-      <if test="type != null">
-        #{type,jdbcType=TINYINT},
       </if>
       <if test="status != null">
         #{status,jdbcType=TINYINT},
@@ -113,20 +89,7 @@
       </if>
     </trim>
   </insert>
-    <insert id="insertBatch">
-          insert into gift_record_detail (id, gift_record_id, user_id,
-      bp_id, quantity, price,
-      reply, type, status,
-      updated, created)
-    values
-    <foreach collection="list" item="item" index="index" separator=",">
-      (#{item.id,jdbcType=INTEGER}, #{item.giftRecordId,jdbcType=INTEGER}, #{item.userId,jdbcType=INTEGER},
-      #{item.bpId,jdbcType=BIGINT}, #{item.quantity,jdbcType=INTEGER}, #{item.price,jdbcType=DECIMAL},
-      #{item.reply,jdbcType=VARCHAR}, #{item.type,jdbcType=TINYINT}, #{item.status,jdbcType=TINYINT},
-      #{item.updated,jdbcType=TIMESTAMP}, #{item.created,jdbcType=TIMESTAMP})
-    </foreach>
-    </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.chouchongkeji.dial.pojo.gift.virtualItem.GiftRecordDetail">
+  <update id="updateByPrimaryKeySelective" parameterType="com.chouchongkeji.dial.dao.backpack.gift.GiftRecordDetail">
     update gift_record_detail
     <set>
       <if test="giftRecordId != null">
@@ -135,20 +98,11 @@
       <if test="userId != null">
         user_id = #{userId,jdbcType=INTEGER},
       </if>
-      <if test="bpId != null">
-        bp_id = #{bpId,jdbcType=BIGINT},
-      </if>
-      <if test="quantity != null">
-        quantity = #{quantity,jdbcType=INTEGER},
-      </if>
-      <if test="price != null">
-        price = #{price,jdbcType=DECIMAL},
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
       </if>
       <if test="reply != null">
         reply = #{reply,jdbcType=VARCHAR},
-      </if>
-      <if test="type != null">
-        type = #{type,jdbcType=TINYINT},
       </if>
       <if test="status != null">
         status = #{status,jdbcType=TINYINT},
@@ -162,15 +116,12 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.dial.pojo.gift.virtualItem.GiftRecordDetail">
+  <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.dial.dao.backpack.gift.GiftRecordDetail">
     update gift_record_detail
     set gift_record_id = #{giftRecordId,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},
-      bp_id = #{bpId,jdbcType=BIGINT},
-      quantity = #{quantity,jdbcType=INTEGER},
-      price = #{price,jdbcType=DECIMAL},
+      content = #{content,jdbcType=VARCHAR},
       reply = #{reply,jdbcType=VARCHAR},
-      type = #{type,jdbcType=TINYINT},
       status = #{status,jdbcType=TINYINT},
       updated = #{updated,jdbcType=TIMESTAMP},
       created = #{created,jdbcType=TIMESTAMP}
