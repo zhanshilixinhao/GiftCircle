@@ -18,4 +18,7 @@ public interface AppUserMapper {
     AppUser selectByPhone(String phone);
 
     AppUser selectByUserId(Integer userId);
+
+    AppUser selectById(Integer id);
+
 }

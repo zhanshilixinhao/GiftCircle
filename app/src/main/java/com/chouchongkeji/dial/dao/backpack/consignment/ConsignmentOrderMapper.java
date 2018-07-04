@@ -18,4 +18,6 @@ public interface ConsignmentOrderMapper {
 
     ConsignmentOrder selectByUserIdOrder(@Param("userId") Integer userId,@Param("orderNo") Long orderNo);
 
+    String selectBySellUserId(Integer sellUserId);
+
 }

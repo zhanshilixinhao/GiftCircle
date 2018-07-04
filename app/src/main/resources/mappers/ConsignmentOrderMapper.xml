@@ -34,6 +34,16 @@ FROM
 	user_id = #{userId}
 	and order_no = #{orderNo}
     </select>
+    <select id="selectBySellUserId" resultType="java.lang.String">
+SELECT
+	c.nickname
+FROM
+	`consignment_order` a
+	LEFT JOIN `consignment` b on b.user_id = a.sell_user_id
+	LEFT JOIN `app_user` c on  c.id = a.user_id
+	WHERE
+	a.sell_user_id = #{sellUserId}
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from consignment_order
     where id = #{id,jdbcType=INTEGER}
