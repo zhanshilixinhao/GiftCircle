@@ -3183,6 +3183,95 @@ JSON：
 }
 ```
 
+## 14 背包
+
+### 14.1 背包列表
+
+- 请求地址：auth/v1/bp/list
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yichen
 
 
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| type | int | 是 | 无 | 类型 1 物品 2 虚拟物品 3 优惠券 |
+| pageNum | int | 是 | 无 | 分页 |
+| pageSize | int | 是 | 无 | 分页大小 |
+
+* 请求结果示例
+
+```js
+{
+    errCode: 0, 
+    result: 0, 
+    time: 1530691273381, 
+    data: [
+        {
+            id: 2, 
+            userId: 1, 
+            targetId: 2, 
+            price: 1000, 
+            title: "魏文侯", 
+            cover: "https://io.shanren.group/image/cover.jpg", 
+            description: "东周末年", 
+            brand: "公牛", 
+            type: 1, 
+            quantity: 0, 
+            created: 1530168954000
+        }, 
+        {
+            id: 3, 
+            userId: 1, 
+            targetId: 1, 
+            price: 1000, 
+            title: "秦孝公", 
+            cover: "https://io.shanren.group/image/cover.jpg", 
+            description: "东周末年", 
+            brand: "公牛", 
+            type: 1, 
+            quantity: 0, 
+            created: 1530242736000
+        }, 
+        {
+            id: 4, 
+            userId: 1, 
+            targetId: 2, 
+            price: 1000, 
+            title: "魏文侯", 
+            cover: "https://io.shanren.group/image/cover.jpg", 
+            description: "东周末年", 
+            brand: "公牛", 
+            type: 1, 
+            quantity: 1, 
+            created: 1530512589000
+        }
+    ]
+}
+```
+
+
+## 15 背包-礼物赠送
+
+### 15.1 app礼物怎送
+
+- 请求地址：auth/v1/gift/sendForApp
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yichen
+
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| friendUserId | int | 是 | 无 | 赠送的好友id |
+| bpId | int | 是 | 无 | 赠送的物品在背包里的id |
+| subBpIds | string | 否 | 无 | 赠送的附属物品的id集合，多个用，隔开 |
+| greeting | string | 是 | 无 | 祝福语 |
+| event | string | 是 | 无 | 事件名称 |
+| type | int | 是 | 无 | 1 立即赠送 2 按时间赠送|
+| targetTime | long | 是 | 无 | 赠送时间的时间戳 |
+| pageNum | int | 是 | 无 | 分页 |
+| pageSize | int | 是 | 无 | 分页大小 |
 

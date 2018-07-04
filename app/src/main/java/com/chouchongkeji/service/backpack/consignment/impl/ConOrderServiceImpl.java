@@ -157,7 +157,6 @@ public class ConOrderServiceImpl implements ConOrderService {
         payResultVo.setType(payWay);
         payResultVo.setOrderNo(consignmentOrder.getOrderNo());
         return payResultVo;
-
     }
 
     /**
