@@ -293,14 +293,53 @@ public class Constants {
         byte WX_FRIEND_RANDOM = 4; // 小程序随机赠送
     }
 
+    /**
+     * 礼物赠送状态
+     */
     public interface GIFT_STATUS {
         byte WAIT = 1; // 未赠送
         byte PART_SEND = 2; // 部分赠送
         byte SEND = 3; // 全部一赠送
+        byte EXPIRE = 4; // 超时赠送失败
+        byte FALIED = 5; // 赠送失败!
     }
 
+    /**
+     * 礼物物品的类型
+     */
     public interface GIFT_M_TYPE {
         byte MAIN = 1;
         byte SUB = 2;
+    }
+
+    /**
+     * 消息类型
+     */
+    public enum APP_MESSAGE_TYPE {
+        GIFT(1, "礼物通知"),
+        SYS(2, "系统通知"),
+        CONSIGNMENT(3, "寄售台通知"),
+        GIFT_CHANGE(1, "礼物交换通知");
+
+        int type;
+        String title;
+
+        APP_MESSAGE_TYPE(int type, String title) {
+            this.title = title;
+            this.type = type;
+        }
+
+        public byte type() {
+            return (byte) type;
+        }
+
+        public String title() {
+            return title;
+        }
+    }
+
+    public interface MESSAGE_READ {
+        byte NO = 2;
+        byte YES = 1;
     }
 }

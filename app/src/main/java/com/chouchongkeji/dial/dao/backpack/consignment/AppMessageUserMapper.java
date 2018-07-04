@@ -2,6 +2,8 @@ package com.chouchongkeji.dial.dao.backpack.consignment;
 
 import com.chouchongkeji.dial.pojo.gift.virtualItem.AppMessageUser;
 
+import java.util.List;
+
 public interface AppMessageUserMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +16,6 @@ public interface AppMessageUserMapper {
     int updateByPrimaryKeySelective(AppMessageUser record);
 
     int updateByPrimaryKey(AppMessageUser record);
+
+    int insertBatch(List<AppMessageUser> list);
 }

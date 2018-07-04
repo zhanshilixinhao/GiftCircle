@@ -1116,18 +1116,14 @@ CREATE TABLE `gift_record_detail` (
   `id` int(11) not null auto_increment,
   `gift_record_id` int(11) comment '礼物记录id',
   `user_id` int(11) UNSIGNED NOT NULL comment '接收礼物的用户id',
-  `bp_id` bigint(20) comment '背包id',
-  `quantity` int(10) comment '数量',
-  `price` decimal(18,2) comment '价格',
+  `content` varchar(2000) comment '礼物内容json数组',
   `reply` varchar(255) comment '答谢回复',
-  `type` tinyint(4) comment '1 赠送的主物 2 附属物品',
   `status` tinyint(4) comment '1 待领取 2 已领取 3 超时未领取',
   `updated` datetime,
   `created` datetime,
   PRIMARY KEY ( id ),
   key user_id (user_id),
-  key gift_record_id (gift_record_id),
-  key bp_id (bp_id)
+  key gift_record_id (gift_record_id)
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COMMENT = '送礼记录详细信息';
 
 

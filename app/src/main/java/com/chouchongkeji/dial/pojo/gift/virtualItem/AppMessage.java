@@ -1,5 +1,7 @@
 package com.chouchongkeji.dial.pojo.gift.virtualItem;
 
+import com.chouchongkeji.util.Constants;
+
 import java.util.Date;
 
 public class AppMessage {
@@ -107,5 +109,10 @@ public class AppMessage {
 
     public void setUpdated(Date updated) {
         this.updated = updated;
+    }
+
+    public void messageType(Constants.APP_MESSAGE_TYPE type) {
+        setMessageType(type.type());
+        setTitle(type.title());
     }
 }

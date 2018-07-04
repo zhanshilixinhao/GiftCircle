@@ -75,7 +75,18 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.chouchongkeji.dial.pojo.gift.virtualItem.AppMessageUser">
+    <insert id="insertBatch">
+      insert into app_message_user (id, user_id, app_message_id,
+      is_read, created, updated
+      )
+    values
+    <foreach collection="list" index="index" item="item" separator=",">
+      (#{item.id,jdbcType=INTEGER}, #{item.userId,jdbcType=INTEGER}, #{item.appMessageId,jdbcType=INTEGER},
+      #{item.isRead,jdbcType=TINYINT}, now(), now()
+      )
+    </foreach>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.chouchongkeji.dial.pojo.gift.virtualItem.AppMessageUser">
     update app_message_user
     <set>
       <if test="userId != null">

@@ -27,14 +27,14 @@
     delete from app_message
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.gift.virtualItem.AppMessage">
+  <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.gift.virtualItem.AppMessage" useGeneratedKeys="true" keyProperty="id">
     insert into app_message (id, title, sumarry, 
       content, target_id, target_type, 
       message_type, created, updated
       )
     values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{sumarry,jdbcType=VARCHAR}, 
       #{content,jdbcType=VARCHAR}, #{targetId,jdbcType=INTEGER}, #{targetType,jdbcType=TINYINT}, 
-      #{messageType,jdbcType=TINYINT}, #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP}
+      #{messageType,jdbcType=TINYINT}, now(), now()
       )
   </insert>
   <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.gift.virtualItem.AppMessage">

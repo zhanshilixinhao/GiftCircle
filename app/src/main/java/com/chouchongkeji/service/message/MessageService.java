@@ -1,0 +1,48 @@
+package com.chouchongkeji.service.message;
+
+import com.chouchongkeji.dial.pojo.gift.virtualItem.AppMessage;
+import com.chouchongkeji.util.Constants;
+
+import java.util.List;
+
+/**
+ * @author yichenshanren
+ * @date 2018/7/3
+ */
+
+public interface MessageService {
+
+    /**
+     * 添加一条消息
+     *
+     * @param message 消息内容
+     * @param userIds 用户id集合
+     * @return
+     * @author yichenshanren
+     * @date 2018/7/3
+     */
+    int addMessage(AppMessage message, List<Integer> userIds);
+
+
+    /**
+     * 添加一条消息
+     *
+     * @param summary 消息内容
+     * @param userIds 用户id集合
+     * @return
+     * @author yichenshanren
+     * @date 2018/7/3
+     */
+    int addMessage(Constants.APP_MESSAGE_TYPE type, String summary, Object content, Integer targetId, List<Integer> userIds);
+
+    /**
+     * 添加一条消息
+     *
+     * @param summary 消息内容
+     * @param userId 用户id
+     * @return
+     * @author yichenshanren
+     * @date 2018/7/3
+     */
+    int addMessage(Constants.APP_MESSAGE_TYPE type, String summary, Object content, Integer targetId, Integer userId);
+}
