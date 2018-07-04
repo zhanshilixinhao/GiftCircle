@@ -114,9 +114,9 @@ public class ConOrderServiceImpl implements ConOrderService {
             if (conOrder == null) {
                 return ResponseFactory.err("该订单不存在");
             }
-            AppUser nickName = appUserMapper.selectById(conOrder.getId());
-            int i = messageService.addMessage(Constants.APP_MESSAGE_TYPE.CONSIGNMENT, "您交易的物品被" + nickName.getNickname() + "用户购买，快去看看吧",
-                    null, consignmentOrder.getId(), userId);
+            AppUser nickName = appUserMapper.selectByPrimaryKey(conOrder.getUserId());
+            int i = messageService.addMessage(Constants.APP_MESSAGE_TYPE.CONSIGNMENT, "您交易的物品被" + nickName.getNickname()
+                    + "购买，快去看看吧", null, consignmentOrder.getId(), userId);
             return ResponseFactory.suc("支付成功", i);
         }
         //创建订单参数
@@ -214,9 +214,9 @@ public class ConOrderServiceImpl implements ConOrderService {
                 throw new ServiceException("更新余额,扣减余额失败");
             }
             //系统消息
-            AppUser nickName = appUserMapper.selectById(consignmentOrder.getId());
-            int i = messageService.addMessage(Constants.APP_MESSAGE_TYPE.CONSIGNMENT, "您交易的物品被" + nickName + "用户购买，快去看看吧",
-                    null, consignmentOrder.getId(), userId);
+            AppUser nickName = appUserMapper.selectByPrimaryKey(consignmentOrder.getId());
+            int i = messageService.addMessage(Constants.APP_MESSAGE_TYPE.CONSIGNMENT, "您交易的物品被" + nickName.getNickname()
+                    + "购买，快去看看吧", null, consignmentOrder.getId(), userId);
             return ResponseFactory.suc("支付成功", i);
         }
         return ResponseFactory.sucData(createOrderParameter(consignmentOrder, payWay));
@@ -231,6 +231,8 @@ public class ConOrderServiceImpl implements ConOrderService {
      * @param orderNo
      * @param targetId
      * @return
+     * @author linqin
+     *  @date 2018/7/4
      */
     public int yuePay(Integer userId, BigDecimal price, Long orderNo, Integer targetId, Integer consignmentId) {
         //更新余额，扣减余额

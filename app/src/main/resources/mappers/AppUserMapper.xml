@@ -44,14 +44,8 @@
      WHERE
 	   id = #{userId}
     </select>
-    <select id="selectById" resultMap="BaseResultMap">
-      SELECT
-	nickname
-FROM
-	app_user
-	WHERE
-	id = #{id}
-    </select>
+
+
     <!--<select id="selectByAccount" resultMap="BaseResultMap">-->
     <!--select -->
     <!--<include refid="Base_Column_List"/>-->

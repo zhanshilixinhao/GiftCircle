@@ -19,6 +19,6 @@ public interface AppUserMapper {
 
     AppUser selectByUserId(Integer userId);
 
-    AppUser selectById(Integer id);
+
 
 }
