@@ -27,4 +27,6 @@ public interface ItemOrderMapper {
 
     List<OrderListVo> selectDetailByUserId(@Param("userId") Integer userId, @Param("status") Integer status);
 
+     int updateStatusByOrder(Long orderNo);
+
 }

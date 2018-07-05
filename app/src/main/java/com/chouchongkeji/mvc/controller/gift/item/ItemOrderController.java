@@ -35,6 +35,7 @@ public class ItemOrderController {
      *
      * @param userDetails
      * @param client
+     * @param payWay      微信 24656 ，支付宝 78990 ，余额98001
      * @param skus        json数组，数组格式
      *                    [
      *                    {
@@ -50,7 +51,7 @@ public class ItemOrderController {
     public Response createOrder(@AuthenticationPrincipal UserDetails userDetails, @AppClient Integer client,
                                 String skus, Integer payWay) {
         //检验支付方式
-        if (payWay == null || (payWay != Constants.PAY_TYPE.WX && payWay != Constants.PAY_TYPE.ALI)) {
+        if (payWay == null || (payWay != Constants.PAY_TYPE.WX && payWay != Constants.PAY_TYPE.ALI && payWay != Constants.PAY_TYPE.yue)) {
             return ResponseFactory.err("支付方式错误!");
         }
         //json数组转换 反序列化，字符串转化为对象
@@ -77,6 +78,7 @@ public class ItemOrderController {
      *
      * @param userDetails
      * @param orderNo     订单号
+     * @param payWay      微信 24656 ，支付宝 78990 ，余额98001
      * @return
      * @author linqin
      * @date 2018/6/21
@@ -84,7 +86,7 @@ public class ItemOrderController {
     @PostMapping("pay")
     public Response orderPay(@AuthenticationPrincipal UserDetails userDetails, Long orderNo, Integer payWay) {
         //检验支付方式
-        if (payWay == null || (payWay != Constants.PAY_TYPE.WX && payWay != Constants.PAY_TYPE.ALI)) {
+        if (payWay == null || (payWay != Constants.PAY_TYPE.WX && payWay != Constants.PAY_TYPE.ALI && payWay != Constants.PAY_TYPE.yue)) {
             return ResponseFactory.err("支付方式错误!");
         }
         if (orderNo == null) {
@@ -117,7 +119,7 @@ public class ItemOrderController {
      *
      * @param userDetails
      * @param pageQuery   分页
-     * @param status   状态 1-未完成（未付款），2-已完成（已付款）
+     * @param status      状态 1-未完成（未付款），2-已完成（已付款）
      * @return
      * @author linqin
      * @date 2018/6/21
@@ -125,10 +127,10 @@ public class ItemOrderController {
     @PostMapping("list")
     public Response orderList(@AuthenticationPrincipal UserDetails userDetails, PageQuery pageQuery, Integer status) {
         //校验参数
-        if (status == null||(status != Constants.ORDER_STATUS.NO_PAY && status != Constants.ORDER_STATUS.PAID) ) {
+        if (status == null || (status != Constants.ORDER_STATUS.NO_PAY && status != Constants.ORDER_STATUS.PAID)) {
             return ResponseFactory.err("参数错误");
         }
-        return orderService.orderList(userDetails.getUserId(), pageQuery,status);
+        return orderService.orderList(userDetails.getUserId(), pageQuery, status);
     }
 
 }

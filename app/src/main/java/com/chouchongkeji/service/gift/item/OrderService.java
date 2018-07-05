@@ -52,4 +52,12 @@ public interface OrderService {
      *  @date 2018/6/21
      */
     Response orderList(Integer userId, PageQuery pageQuery,Integer status);
+
+    /**
+     * 更新销量和详细订单状态
+     * @param orderNo 订单号
+     * @author linqin
+     * @date 2018/7/5
+     */
+    int updateStatusSales(Long orderNo);
 }

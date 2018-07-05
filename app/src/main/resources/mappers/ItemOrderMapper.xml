@@ -86,7 +86,7 @@ and a.status = #{status}
     delete from item_order
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.gift.item.ItemOrder">
+  <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.gift.item.ItemOrder" keyProperty="id" useGeneratedKeys="true">
     insert into item_order (id, user_id, store_id, 
       order_no, total_price, quantity, 
       status, created, updated
@@ -198,5 +198,11 @@ and a.status = #{status}
       created = #{created,jdbcType=TIMESTAMP},
       updated = #{updated,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateStatusByOrder">
+    UPDATE item_order
+SET `status` = '2'
+WHERE
+	order_no = #{orderNo}
   </update>
 </mapper>

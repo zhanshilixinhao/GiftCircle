@@ -1,6 +1,7 @@
 package com.chouchongkeji.service.gift.item.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.chouchongkeji.dial.dao.gift.item.ItemMapper;
 import com.chouchongkeji.dial.dao.gift.item.ItemOrderDetailMapper;
 import com.chouchongkeji.dial.dao.gift.item.ItemOrderMapper;
 import com.chouchongkeji.dial.dao.gift.item.ItemSkuMapper;
@@ -23,6 +24,8 @@ import com.chouchongkeji.goexplore.utils.RSAProvider;
 import com.chouchongkeji.service.gift.item.OrderService;
 import com.chouchongkeji.service.gift.item.vo.OrderListVo;
 import com.chouchongkeji.service.gift.item.vo.OrderVo;
+import com.chouchongkeji.service.iwant.wallet.WalletService;
+import com.chouchongkeji.service.user.info.AppPaymentInfoService;
 import com.chouchongkeji.util.Constants;
 import com.chouchongkeji.util.OrderHelper;
 import com.github.pagehelper.PageHelper;
@@ -56,6 +59,14 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private OrderHelper orderHelper;
 
+    @Autowired
+    private WalletService walletService;
+
+    @Autowired
+    private AppPaymentInfoService appPaymentInfoService;
+
+    @Autowired
+    private ItemMapper itemMapper;
     /**
      * 创建商品订单
      *
@@ -108,8 +119,25 @@ public class OrderServiceImpl implements OrderService {
         if (insert < 1) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "创建订单失败");
         }
-        // 批量加入
+        // 批量加入到详细订单
         itemOrderDetailMapper.batchInsert(list);
+        //余额支付
+        if (payWay == Constants.PAY_TYPE.yue) {
+            //扣减余额，更新余额
+            int response = yuePay(userId, itemOrder.getTotalPrice(), itemOrder.getId(), orderNo);
+            if (response < 1) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(),"更新余额,扣减余额失败");
+            }
+            //更新销量和详细订单状
+           int i =  updateStatusSales(orderNo);
+            if (i < 1) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(),"更新销量和详细订单状态失败");
+            }
+            //保存支付信息
+            appPaymentInfoService.doYuePaySuccess(orderNo, userId, itemOrder.getCreated(), Constants.ORDER_TYPE.ITEM,
+                    0,itemOrder.getTotalPrice());
+            return ResponseFactory.sucMsg("支付成功");
+        }
         // 创建订单参数
         return ResponseFactory.sucData(createOrderParameter(itemOrder, payWay));
     }
@@ -152,6 +180,63 @@ public class OrderServiceImpl implements OrderService {
         return vo;
     }
 
+    /**
+     * 余额支付
+     * @param userId
+     * @param totalPrice
+     * @param itemOrderId
+     * @param orderNo
+     * @return
+     * @author linqin
+     *  @date 2018/7/5
+     */
+    public int yuePay(Integer userId, BigDecimal totalPrice,Integer itemOrderId,Long orderNo){
+        //扣减余额，更新余额，钱包记录
+        int count = walletService.updateBalance(userId, totalPrice, Constants.WALLET_RECORD.BUY_ITEM,itemOrderId);
+        if (count < 1) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "支付失败,请选择其他支付方式");
+        }
+        //更新订单状态
+        int i = itemOrderMapper.updateStatusByOrder(orderNo);
+        if (i < 1) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "更新状态失败");
+        }
+        return 1;
+    }
+
+
+    /**
+     * 更新销量和详细订单状态
+     * @param orderNo
+     * @author linqin
+     * @date 2018/7/5
+     */
+    public int updateStatusSales(Long orderNo) {
+        //取出订单详细信息
+        List<ItemOrderDetail> itemOrderDetail = itemOrderDetailMapper.selectByOrderNo(orderNo);
+        for (ItemOrderDetail itemDetail : itemOrderDetail) {
+            //更新详细订单状态
+            itemDetail.setStatus((byte) Constants.ORDER_BASE_STATUS.PAID);
+            int update = itemOrderDetailMapper.updateByPrimaryKeySelective(itemDetail);
+            if (update == 0) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "更新状态失败");
+            }
+            //更新ItemSku销量
+            Integer skuId = itemDetail.getSkuId();
+            Integer quantity = itemDetail.getQuantity();
+            Integer sales = itemSkuMapper.updateSalesBySkuId(skuId, quantity);
+            if (sales == 0) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "更新销量失败");
+            }
+            //更新Item销量
+            Integer itemId = itemDetail.getItemId();
+            Integer ItemSales = itemMapper.updateSalesByItemId(itemId, quantity);
+            if (ItemSales == 0) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "更新销量失败");
+            }
+        }
+        return 1;
+    }
 
 
     /*------------------------------------订单支付--------------------------------------------------*/
@@ -176,6 +261,23 @@ public class OrderServiceImpl implements OrderService {
         //只能支付未支付的订单（校验订单是否支付过）
         if (itemOrder.getStatus() != Constants.ORDER_STATUS.NO_PAY) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "订单已经支付过");
+        }
+        //余额支付
+        if (payWay == Constants.PAY_TYPE.yue) {
+            //更新余额，扣减余额
+            int response = yuePay(userId, itemOrder.getTotalPrice(), itemOrder.getId(), orderNo);
+            if (response < 1) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(),"更新余额,扣减余额失败");
+            }
+            //更新销量和详细订单状态
+            int sales = updateStatusSales(orderNo);
+            if (sales < 1) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(),"更新余额,扣减余额失败");
+            }
+            //保存支付信息
+            appPaymentInfoService.doYuePaySuccess(orderNo, userId, itemOrder.getCreated(), Constants.ORDER_TYPE.ITEM,
+                    0,itemOrder.getTotalPrice());
+            return ResponseFactory.sucMsg("支付成功");
         }
         return ResponseFactory.sucData(createOrderParameter(itemOrder, payWay));
     }

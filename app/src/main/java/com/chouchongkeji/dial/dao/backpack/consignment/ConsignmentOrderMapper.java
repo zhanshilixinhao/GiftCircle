@@ -20,4 +20,6 @@ public interface ConsignmentOrderMapper {
 
     String selectBySellUserId(Integer sellUserId);
 
+    ConsignmentOrder selectByOrderNo(Long orderNo);
+
 }

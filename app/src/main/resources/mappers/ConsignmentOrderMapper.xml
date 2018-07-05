@@ -44,6 +44,14 @@ FROM
 	WHERE
 	a.sell_user_id = #{sellUserId}
     </select>
+    <select id="selectByOrderNo" resultMap="BaseResultMap">
+      SELECT
+	<include refid="Base_Column_List"/>
+FROM
+	consignment_order
+	WHERE
+	order_no = #{orderNo}
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from consignment_order
     where id = #{id,jdbcType=INTEGER}
