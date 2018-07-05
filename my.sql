@@ -1029,18 +1029,16 @@ DROP TABLE IF EXISTS `bp_item`;
 CREATE TABLE `bp_item` (
   `id` bigint(20) not null,
   `user_id` int(11) UNSIGNED NOT NULL comment '评论者id',
-  `item_id` int(11) comment '商品id',
-  `order_no` bigint(20) comment '购买商品的订单',
-  `sku_id` int(11) comment '商品skuId',
+  `target_id` int(11) comment '目标物品id，type=1商品skuId，type=2虚拟物品id，type=3优惠券id',
   `quantity` int(10) comment '数量',
   `price` decimal(18,2) comment '价格',
+  `from` varchar(255) comment '来源json字符串{}',
+  `type` tinyint(4) comment '1 物品 2 虚拟物品 3 优惠券',
   `created` datetime,
   `updated` datetime,
   PRIMARY KEY ( id ),
   key user_id (user_id),
-  key sku_id (sku_id),
-  key item_id (item_id),
-  key order_no (order_no)
+  key target_id (target_id)
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COMMENT = '背包商品';
 
 
@@ -1083,7 +1081,7 @@ CREATE TABLE `consignment_order` (
   `created` datetime,
   PRIMARY KEY ( id ),
   key user_id (user_id),
-  key buyer_user_id (buyer_user_id),
+  key buyer_user_id (sell_user_id),
   key consignment_id (consignment_id),
   unique key order_no (order_no)
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COMMENT = '寄售台订单';
@@ -1167,7 +1165,7 @@ CREATE TABLE `coupon` (
   `merchant_id` int(11) comment '合作商id',
   `admin_id` int(11)  COMMENT '管理员id',
   `title` varchar(64) comment '标题,例如5元',
-  `description` varchar(255) comment '描述json字符床{discount:5元/7折,type:抵用券/折扣券,detail:不限时间不限礼品}',
+  `content` varchar(255) comment '描述json字符床{discount:5元/7折,type:抵用券/折扣券,detail:不限时间不限礼品}',
   `cover` varchar(255) comment '优惠券图片',
   `brand_id` int(11) comment '品牌id',
   `expire` tinyint(4) comment '1 过期 2 不过期',
@@ -1179,22 +1177,6 @@ CREATE TABLE `coupon` (
   key merchant_id (merchant_id),
   key admin_id (admin_id)
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COMMENT = '优惠券';
-
-/*==============================================================*/
-/* Table: bp_coupon                                   */
-/*==============================================================*/
-DROP TABLE IF EXISTS `bp_coupon`;
-CREATE TABLE `bp_coupon` (
-  `id` bigint(20) not null auto_increment,
-  `user_id` int(11) comment '用户id',
-  `coupon_id` int(11)  COMMENT '优惠券id',
-  `qauntity` int(11) comment '数量',
-  `updated` datetime,
-  `created` datetime,
-  PRIMARY KEY ( id )
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COMMENT = '背包优惠券';
-
-
 
 
 

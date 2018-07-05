@@ -1,6 +1,6 @@
 package com.chouchongkeji.service.backpack.base.impl;
 
-import com.chouchongkeji.dial.dao.backpack.item.BpItemMapper;
+import com.chouchongkeji.dial.dao.backpack.BpItemMapper;
 import com.chouchongkeji.dial.pojo.backpack.Vbp;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;

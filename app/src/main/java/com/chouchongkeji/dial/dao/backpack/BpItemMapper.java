@@ -1,7 +1,7 @@
-package com.chouchongkeji.dial.dao.backpack.item;
+package com.chouchongkeji.dial.dao.backpack;
 
+import com.chouchongkeji.dial.pojo.backpack.BpItem;
 import com.chouchongkeji.dial.pojo.backpack.Vbp;
-import com.chouchongkeji.dial.pojo.backpack.item.BpItem;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -19,7 +19,8 @@ public interface BpItemMapper {
 
     int updateByPrimaryKey(BpItem record);
 
-    BpItem selectByUserIdAndBpItemId(@Param("userId") Integer userId,@Param("bpId") Long bpId);
+
+    BpItem selectByUserIdAndBpItemId(@Param("userId") Integer userId, @Param("bpId") Long bpId);
 
     List<Vbp> selectAllByUserId(Integer userId);
 }

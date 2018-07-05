@@ -1,4 +1,4 @@
-package com.chouchongkeji.dial.pojo.backpack.item;
+package com.chouchongkeji.dial.pojo.backpack;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -8,28 +8,28 @@ public class BpItem {
 
     private Integer userId;
 
-    private Integer itemId;
-
-    private Long orderNo;
-
-    private Integer skuId;
+    private Integer targetId;
 
     private Integer quantity;
 
     private BigDecimal price;
 
+    private String from;
+
+    private Byte type;
+
     private Date created;
 
     private Date updated;
 
-    public BpItem(Long id, Integer userId, Integer itemId, Long orderNo, Integer skuId, Integer quantity, BigDecimal price, Date created, Date updated) {
+    public BpItem(Long id, Integer userId, Integer targetId, Integer quantity, BigDecimal price, String from, Byte type, Date created, Date updated) {
         this.id = id;
         this.userId = userId;
-        this.itemId = itemId;
-        this.orderNo = orderNo;
-        this.skuId = skuId;
+        this.targetId = targetId;
         this.quantity = quantity;
         this.price = price;
+        this.from = from;
+        this.type = type;
         this.created = created;
         this.updated = updated;
     }
@@ -54,28 +54,12 @@ public class BpItem {
         this.userId = userId;
     }
 
-    public Integer getItemId() {
-        return itemId;
+    public Integer getTargetId() {
+        return targetId;
     }
 
-    public void setItemId(Integer itemId) {
-        this.itemId = itemId;
-    }
-
-    public Long getOrderNo() {
-        return orderNo;
-    }
-
-    public void setOrderNo(Long orderNo) {
-        this.orderNo = orderNo;
-    }
-
-    public Integer getSkuId() {
-        return skuId;
-    }
-
-    public void setSkuId(Integer skuId) {
-        this.skuId = skuId;
+    public void setTargetId(Integer targetId) {
+        this.targetId = targetId;
     }
 
     public Integer getQuantity() {
@@ -92,6 +76,22 @@ public class BpItem {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public String getFrom() {
+        return from;
+    }
+
+    public void setFrom(String from) {
+        this.from = from == null ? null : from.trim();
+    }
+
+    public Byte getType() {
+        return type;
+    }
+
+    public void setType(Byte type) {
+        this.type = type;
     }
 
     public Date getCreated() {
