@@ -14,6 +14,7 @@ import com.chouchongkeji.goexplore.common.ErrorCode;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.utils.Utils;
+import com.chouchongkeji.service.backpack.base.BpService;
 import com.chouchongkeji.service.backpack.gift.GiftItemVo;
 import com.chouchongkeji.service.backpack.gift.GiftSendVo;
 import com.chouchongkeji.service.backpack.gift.GiftService;
@@ -54,6 +55,9 @@ public class GiftServiceImpl implements GiftService {
 
     @Autowired
     private MessageService messageService;
+
+    @Autowired
+    private BpService bpService;
 
     /**
      * app赠送礼物实现
@@ -168,7 +172,7 @@ public class GiftServiceImpl implements GiftService {
         messageService.addMessage(Constants.APP_MESSAGE_TYPE.GIFT,
                 summary, null, recordId, friendUserId);
         // 将赠送的物品放入接收者的背包
-
+//        bpService
         return 1;
     }
 

@@ -1,5 +1,6 @@
 package com.chouchongkeji.goexplore.pay.weixin.common;
 
+import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -100,7 +101,7 @@ public class Signature {
 
         Map<String, Object> map = XMLParser.getMapFromXML(responseString);
         String signFromAPIResponse = map.get("sign").toString();
-        if (signFromAPIResponse == "" || signFromAPIResponse == null) {
+        if (StringUtils.isBlank(signFromAPIResponse)) {
             return false;
         }
         // 清掉返回数据对象里面的Sign数据（不能把这个数据也加进去进行签名），然后用签名算法进行签名

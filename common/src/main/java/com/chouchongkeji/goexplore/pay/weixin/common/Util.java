@@ -1,7 +1,9 @@
 package com.chouchongkeji.goexplore.pay.weixin.common;
 
 import com.thoughtworks.xstream.XStream;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -16,7 +18,6 @@ import java.util.Map;
  */
 public class Util {
 
-   
 
     /**
      * 通过反射的方式遍历对象的属性和属性值，方便调试
@@ -67,12 +68,23 @@ public class Util {
 
     @SuppressWarnings("rawtypes")
     public static Object getObjectFromXML(String xml, Class tClass) {
+        boolean re = false;
+        try {
+            // 校验微信签名
+            re = Signature.checkIsSignValidFromResponseString(xml);
+        } catch (ParserConfigurationException | IOException | SAXException e) {
+            e.printStackTrace();
+        }
+        if (!re) {
+            throw new RuntimeException("微信签名校验失败!");
+        }
         //将从API返回的XML数据映射到Java对象
         XStream xStreamForResponseData = new XStream();
         xStreamForResponseData.alias("xml", tClass);
-        xStreamForResponseData.ignoreUnknownElements();//暂时忽略掉一些新增的字段
+        xStreamForResponseData.ignoreUnknownElements(); //暂时忽略掉一些新增的字段
         return xStreamForResponseData.fromXML(xml);
     }
+
 
     public static String getStringFromMap(Map<String, Object> map, String key, String defaultValue) {
         if (key == "" || key == null) {
@@ -98,16 +110,18 @@ public class Util {
 
     /**
      * 打log接口
+     *
      * @param log 要打印的log字符串
      * @return 返回log
      */
     @Deprecated
-    public static String log(Object log){
+    public static String log(Object log) {
         return log.toString();
     }
 
     /**
      * 读取本地的xml数据，一般用来自测用
+     *
      * @param localPath 本地xml文件路径
      * @return 读到的xml字符串
      */

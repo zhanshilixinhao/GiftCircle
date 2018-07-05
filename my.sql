@@ -1158,6 +1158,41 @@ CREATE TABLE `wallet_record` (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COMMENT = '钱包收益记录';
 
 
+/*==============================================================*/
+/* Table: coupon                                   */
+/*==============================================================*/
+DROP TABLE IF EXISTS `coupon`;
+CREATE TABLE `coupon` (
+  `id` int(11) not null auto_increment,
+  `merchant_id` int(11) comment '合作商id',
+  `admin_id` int(11)  COMMENT '管理员id',
+  `title` varchar(64) comment '标题,例如5元',
+  `description` varchar(255) comment '描述json字符床{discount:5元/7折,type:抵用券/折扣券,detail:不限时间不限礼品}',
+  `cover` varchar(255) comment '优惠券图片',
+  `brand_id` int(11) comment '品牌id',
+  `expire` tinyint(4) comment '1 过期 2 不过期',
+  `starting` datetime comment '开始时间',
+  `ending` datetime comment '结束时间',
+  `updated` datetime,
+  `created` datetime,
+  PRIMARY KEY ( id ),
+  key merchant_id (merchant_id),
+  key admin_id (admin_id)
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COMMENT = '优惠券';
+
+/*==============================================================*/
+/* Table: bp_coupon                                   */
+/*==============================================================*/
+DROP TABLE IF EXISTS `bp_coupon`;
+CREATE TABLE `bp_coupon` (
+  `id` bigint(20) not null auto_increment,
+  `user_id` int(11) comment '用户id',
+  `coupon_id` int(11)  COMMENT '优惠券id',
+  `qauntity` int(11) comment '数量',
+  `updated` datetime,
+  `created` datetime,
+  PRIMARY KEY ( id )
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COMMENT = '背包优惠券';
 
 
 
