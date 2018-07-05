@@ -8,13 +8,16 @@ import com.chouchongkeji.dial.pojo.backpack.Vbp;
 import com.chouchongkeji.dial.pojo.backpack.consignment.Consignment;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
+import com.chouchongkeji.goexplore.query.PageQuery;
 import com.chouchongkeji.service.backpack.consignment.ConsignmentService;
 import com.chouchongkeji.service.backpack.consignment.vo.PriceVo;
 import com.chouchongkeji.util.Constants;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * @author linqin
@@ -108,6 +111,30 @@ public class ConsignmentServiceImpl implements ConsignmentService {
         bpItemMapper.updateByPrimaryKeySelective(bpItem);
         return ResponseFactory.sucMsg("商品上架成功");
     }
+
+
+
+    /**
+     * 寄售台卖家/买家列表
+     *
+     * @param userId 用户Id
+     * @param user   卖家/买家  1-卖家，2-买家
+     * @param condition 商家订单状态 1-全部 ，2-交易中，3-已完成
+     * @return
+     * @author linqin
+     * @date 2018/7/2
+     */
+    @Override
+    public Response buySellList(Integer userId, Byte user, Byte condition, PageQuery pageQuery) {
+        //分页
+        PageHelper.startPage(pageQuery.getPageNum(),pageQuery.getPageSize());
+        //卖家列表
+        List<Consignment> list = consignmentMapper.selectList(userId,user,condition);
+
+        return null;
+    }
+
+
 
 
 }

@@ -18,6 +18,7 @@ import com.chouchongkeji.goexplore.pay.alipay_v2.AliPayServiceV2;
 import com.chouchongkeji.goexplore.pay.weixin.service.WXPayDto;
 import com.chouchongkeji.goexplore.pay.weixin.service.WXPayService;
 import com.chouchongkeji.goexplore.utils.RSAProvider;
+import com.chouchongkeji.service.backpack.base.BpService;
 import com.chouchongkeji.service.backpack.consignment.ConOrderService;
 import com.chouchongkeji.service.iwant.wallet.WalletService;
 import com.chouchongkeji.service.message.MessageService;
@@ -59,6 +60,9 @@ public class ConOrderServiceImpl implements ConOrderService {
 
     @Autowired
     private AppPaymentInfoService appPaymentInfoService;
+
+    @Autowired
+    private BpService bpService;
     /**
      * 寄售台订单创建
      *
@@ -120,6 +124,17 @@ public class ConOrderServiceImpl implements ConOrderService {
             AppUser nickName = appUserMapper.selectByPrimaryKey(conOrder.getUserId());
             int i = messageService.addMessage(Constants.APP_MESSAGE_TYPE.CONSIGNMENT, "您交易的物品被" + nickName.getNickname()
                     + "购买，快去看看吧", null, consignmentOrder.getId(), userId);
+            //增加卖家余额金额
+            int wall = walletService.updateBalance(conOrder.getSellUserId(), conOrder.getPrice(), Constants.WALLET_RECORD.CONSIGNMENT_ITEM,
+                    conOrder.getId());
+            if (wall < 1) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(),"卖家余额增加失败");
+            }
+            //物品添加到背包
+            int add = bpService.addFromConsignmengOrder(conOrder);
+            if (add < 1) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(),"");
+            }
             //保存支付信息
             appPaymentInfoService.doYuePaySuccess(orderNo,userId,conOrder.getCreated(),Constants.ORDER_TYPE.CON_ITEM,
                     conOrder.getSellUserId(),conOrder.getPrice());
@@ -222,6 +237,17 @@ public class ConOrderServiceImpl implements ConOrderService {
             AppUser nickName = appUserMapper.selectByPrimaryKey(consignmentOrder.getId());
             int i = messageService.addMessage(Constants.APP_MESSAGE_TYPE.CONSIGNMENT, "您交易的物品被" + nickName.getNickname()
                     + "购买，快去看看吧", null, consignmentOrder.getId(), userId);
+            //增加卖家金额
+            int wall = walletService.updateBalance(consignmentOrder.getSellUserId(), consignmentOrder.getPrice(),
+                    Constants.WALLET_RECORD.CONSIGNMENT_ITEM, consignmentOrder.getId());
+            if (wall < 1) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(),"卖家余额增加失败");
+            }
+            //物品添加到背包
+            int add = bpService.addFromConsignmengOrder(consignmentOrder);
+            if (add < 1) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(),"");
+            }
             //保存支付信息
             appPaymentInfoService.doYuePaySuccess(orderNo,userId,consignmentOrder.getCreated(),
                     Constants.ORDER_TYPE.CON_ITEM,consignmentOrder.getSellUserId(),consignmentOrder.getPrice());

@@ -155,6 +155,18 @@ public class Constants {
         byte CON_ITEM = 3;//寄售台订单
     }
 
+    /*寄售台卖家/买家类型*/  //1-卖家  2-买家
+    public interface SELLER_BUYER{
+        byte SELLER = 1;//卖家
+        byte BUYER = 2;//买家
+    }
+
+    /*寄售台商家订单状态*/ //1-全部 ，2-交易中，3-已完成
+    public interface BUSINESS_ORDER_STATUS{
+        byte ALL = 1;//
+        byte TRADING = 2;//
+        byte DONE = 3;//完成
+    }
 
 //    public static String genPayUrl(int type, int orderType) {
 //        String url;

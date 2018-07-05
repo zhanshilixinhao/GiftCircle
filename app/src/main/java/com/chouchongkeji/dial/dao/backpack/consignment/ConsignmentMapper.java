@@ -27,4 +27,6 @@ public interface ConsignmentMapper {
 
     List<ConListVo> selectAllItem();
 
+    List<Consignment> selectList(Integer userId, Byte user, Byte condition);
+
 }

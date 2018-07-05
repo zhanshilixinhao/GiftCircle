@@ -24,6 +24,7 @@ import com.chouchongkeji.goexplore.pay.weixin.protocol.NotifyData;
 import com.chouchongkeji.goexplore.utils.BigDecimalUtil;
 import com.chouchongkeji.goexplore.utils.DateUtil;
 import com.chouchongkeji.goexplore.utils.HttpClientUtils;
+import com.chouchongkeji.service.backpack.base.BpService;
 import com.chouchongkeji.service.gift.item.OrderService;
 import com.chouchongkeji.service.iwant.wallet.WalletService;
 import com.chouchongkeji.service.message.MessageService;
@@ -76,6 +77,9 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
 
     @Autowired
     private AppUserMapper appUserMapper;
+
+    @Autowired
+     private BpService bpService;
     /**
      * 支付宝提供给商户的服务接入网关URL(新)
      */
@@ -214,6 +218,17 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
             AppUser nickName = appUserMapper.selectByPrimaryKey(conOrder.getUserId());
             messageService.addMessage(Constants.APP_MESSAGE_TYPE.CONSIGNMENT, "您交易的物品被" + nickName.getNickname()
                     + "购买，快去看看吧", null, conOrder.getId(), conOrder.getUserId());
+            //增加卖家金额
+            int wall = walletService.updateBalance(conOrder.getSellUserId(), conOrder.getPrice(),
+                    Constants.WALLET_RECORD.CONSIGNMENT_ITEM, conOrder.getId());
+            if (wall < 1) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(),"卖家余额添加失败");
+            }
+            //物品添加到背包
+            int add = bpService.addFromConsignmengOrder(conOrder);
+            if (add < 1) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(),"");
+            }
             //保存支付信息
             doAliPaySuccess(aLiPayV2Vo,orderType);
         }else if (checkInfo == 2) {
@@ -472,6 +487,17 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
             AppUser nickName = appUserMapper.selectByPrimaryKey(conOrder.getUserId());
             messageService.addMessage(Constants.APP_MESSAGE_TYPE.CONSIGNMENT, "您交易的物品被" + nickName.getNickname()
                     + "购买，快去看看吧", null, conOrder.getId(), conOrder.getUserId());
+            //增加卖家金额
+            int wall = walletService.updateBalance(conOrder.getSellUserId(), conOrder.getPrice(),
+                    Constants.WALLET_RECORD.CONSIGNMENT_ITEM, conOrder.getId());
+            if (wall < 1) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(),"");
+            }
+            //物品添加到背包
+            int add = bpService.addFromConsignmengOrder(conOrder);
+            if (add < 1) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(),"");
+            }
             //保存支付信息
             doWXPaySuccess(notifyData,orderType);
         } else if (re == 2) {
