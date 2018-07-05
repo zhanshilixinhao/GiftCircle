@@ -26,4 +26,5 @@ public interface ItemOrderDetailMapper {
 
     int selectBySkuId(Integer skuId);
 
+    int updateStatusByOrderNo(Long orderNo);
 }

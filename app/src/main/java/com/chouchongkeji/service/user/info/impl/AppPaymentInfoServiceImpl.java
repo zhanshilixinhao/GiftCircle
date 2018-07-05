@@ -1,13 +1,17 @@
 package com.chouchongkeji.service.user.info.impl;
 
-import com.chouchongkeji.dial.dao.gift.item.ItemMapper;
-import com.chouchongkeji.dial.dao.gift.item.ItemOrderDetailMapper;
+import com.chouchongkeji.dial.dao.backpack.consignment.ConsignmentMapper;
+import com.chouchongkeji.dial.dao.backpack.consignment.ConsignmentOrderMapper;
 import com.chouchongkeji.dial.dao.gift.item.ItemOrderMapper;
-import com.chouchongkeji.dial.dao.gift.item.ItemSkuMapper;
 import com.chouchongkeji.dial.dao.iwant.wallet.ChargeOrderMapper;
+import com.chouchongkeji.dial.dao.user.AppUserMapper;
 import com.chouchongkeji.dial.dao.user.PaymentInfoMapper;
+import com.chouchongkeji.dial.pojo.backpack.consignment.Consignment;
+import com.chouchongkeji.dial.pojo.backpack.consignment.ConsignmentOrder;
 import com.chouchongkeji.dial.pojo.gift.item.ItemOrder;
-import com.chouchongkeji.dial.pojo.gift.item.ItemOrderDetail;
+import com.chouchongkeji.dial.pojo.iwant.wallet.ChargeOrder;
+import com.chouchongkeji.dial.pojo.user.AppUser;
+import com.chouchongkeji.dial.pojo.user.PaymentInfo;
 import com.chouchongkeji.exception.ServiceException;
 import com.chouchongkeji.goexplore.common.ErrorCode;
 import com.chouchongkeji.goexplore.pay.alipay.config.AlipayConfig;
@@ -20,9 +24,9 @@ import com.chouchongkeji.goexplore.pay.weixin.protocol.NotifyData;
 import com.chouchongkeji.goexplore.utils.BigDecimalUtil;
 import com.chouchongkeji.goexplore.utils.DateUtil;
 import com.chouchongkeji.goexplore.utils.HttpClientUtils;
-import com.chouchongkeji.dial.pojo.iwant.wallet.ChargeOrder;
-import com.chouchongkeji.dial.pojo.user.PaymentInfo;
+import com.chouchongkeji.service.gift.item.OrderService;
 import com.chouchongkeji.service.iwant.wallet.WalletService;
+import com.chouchongkeji.service.message.MessageService;
 import com.chouchongkeji.service.user.info.AppPaymentInfoService;
 import com.chouchongkeji.util.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +38,8 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -59,13 +63,19 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
     private ItemOrderMapper itemOrderMapper;
 
     @Autowired
-    private ItemOrderDetailMapper itemOrderDetailMapper;
+    private OrderService orderService;
 
     @Autowired
-    private ItemSkuMapper itemSkuMapper;
+    private ConsignmentOrderMapper consignmentOrderMapper;
 
     @Autowired
-    private ItemMapper itemMapper;
+    private ConsignmentMapper consignmentMapper;
+
+    @Autowired
+    private MessageService messageService;
+
+    @Autowired
+    private AppUserMapper appUserMapper;
     /**
      * 支付宝提供给商户的服务接入网关URL(新)
      */
@@ -101,12 +111,12 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
             //更新订单支付状态
             chargeOrder.setStatus(Constants.CHARGE_ORDER_STATUS.PAY);
             int count = chargeOrderMapper.updateByPrimaryKeySelective(chargeOrder);
-            if (count == 0){
-                throw new ServiceException(ErrorCode.ERROR.getCode(),"更新失败");
+            if (count == 0) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "更新失败");
             }
             //更新余额
             Integer userId = chargeOrder.getUserId();
-            walletService.updateBalance(userId,amount);
+            walletService.updateBalance(userId, amount);
             //支付信息
             doAliPaySuccess(aLiPayV2Vo, orderType);
         } else if (re == 2) {
@@ -118,6 +128,7 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
 
     /**
      * 商品订单支付宝回调
+     *
      * @param aLiPayV2Vo
      * @return
      * @throws Exception
@@ -125,36 +136,92 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
      * @date 2018/6/21
      */
     @Override
-    public String itemOrderAli(ALiPayV2Vo aLiPayV2Vo, Map parameterMap,Byte orderType) {
+    public String itemOrderAli(ALiPayV2Vo aLiPayV2Vo, Map parameterMap, Byte orderType) {
         //校验订单号
         Long orderNo = Long.parseLong(aLiPayV2Vo.getOut_trade_no());
         ItemOrder itemOrder = itemOrderMapper.selectByOrderNo(orderNo);
-        if (itemOrder == null){
+        if (itemOrder == null) {
             return "ERROR";
         }
         //校验支付金额
         BigDecimal price = itemOrder.getTotalPrice();
-        if (price.compareTo(new BigDecimal(aLiPayV2Vo.getTotal_amount()))!=0){
+        if (price.compareTo(new BigDecimal(aLiPayV2Vo.getTotal_amount())) != 0) {
             return "ERROR";
         }
         //支付宝相关校验
         int i = checkAliPayBaseInfo(aLiPayV2Vo, parameterMap, orderNo);
-        if (i == 0){
+        if (i == 0) {
             //更新订单状态
-            itemOrder.setStatus((byte)Constants.ORDER_BASE_STATUS.PAID);
+            itemOrder.setStatus((byte) Constants.ORDER_BASE_STATUS.PAID);
             int count = itemOrderMapper.updateByPrimaryKeySelective(itemOrder);
-            if (count==0){
-                throw new ServiceException(ErrorCode.ERROR.getCode(),"更新失败");
+            if (count == 0) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "更新失败");
             }
             //更新详细订单状态和销量
-            updateStatusSales(orderNo);
+            orderService.updateStatusSales(orderNo);
             //支付信息
-            doAliPaySuccess(aLiPayV2Vo,orderType);
-        }  else if (i == 2) {
-        return "ERROR";
-    }
+            doAliPaySuccess(aLiPayV2Vo, orderType);
+        } else if (i == 2) {
+            return "ERROR";
+        }
         return "SUCCESS";
     }
+
+
+    /**
+     * 寄售台支付宝回调基本方法
+     *
+     * @param aLiPayV2Vo
+     * @param parameterMap
+     * @param orderType    订单类型 1-充值订单，2-商品订单，3-寄售台商品订单
+     * @return
+     * @author linqin
+     * @date 2018/7/5
+     */
+    @Override
+    public String conOrderAli(ALiPayV2Vo aLiPayV2Vo, Map parameterMap, Byte orderType) {
+        //校验订单号
+        Long orderNo = Long.parseLong(aLiPayV2Vo.getOut_trade_no());
+        ConsignmentOrder conOrder = consignmentOrderMapper.selectByOrderNo(orderNo);
+        if (conOrder == null) {
+            return "ERROR";
+        }
+        //校验金额
+        BigDecimal price = conOrder.getPrice();
+        if (price.compareTo(new BigDecimal(aLiPayV2Vo.getTotal_amount())) != 0) {
+            return "ERROR";
+        }
+        //支付宝相关校验
+        int checkInfo = checkAliPayBaseInfo(aLiPayV2Vo, parameterMap, orderNo);
+        if (checkInfo == 0) { //校验通过
+            //更新订单状态
+            conOrder.setStatus((byte) Constants.ORDER_BASE_STATUS.PAID);
+            int update = consignmentOrderMapper.updateByPrimaryKeySelective(conOrder);
+            if (update == 0) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "更新失败");
+            }
+            //更新寄售台状态
+            Consignment consignment = consignmentMapper.selectByPrimaryKey(conOrder.getConsignmentId());
+            if (consignment == null) {
+                return "ERROR";
+            }
+            consignment.setStatus(Constants.CONSIGNMENT_ITEM.PAY);
+            int count = consignmentMapper.updateByPrimaryKeySelective(consignment);
+            if (count == 0) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "更新失败");
+            }
+            //添加系统消息
+            AppUser nickName = appUserMapper.selectByPrimaryKey(conOrder.getUserId());
+            messageService.addMessage(Constants.APP_MESSAGE_TYPE.CONSIGNMENT, "您交易的物品被" + nickName.getNickname()
+                    + "购买，快去看看吧", null, conOrder.getId(), conOrder.getUserId());
+            //保存支付信息
+            doAliPaySuccess(aLiPayV2Vo,orderType);
+        }else if (checkInfo == 2) {
+            return "ERROR";
+        }
+        return "SUCCESS";
+    }
+
 
     /**
      * 支付宝回调校验
@@ -163,7 +230,7 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
      * @param map
      * @return 0-校验成功，1-已支付过，2-错误
      * @author linqin
-     *  @date 2018/6/8
+     * @date 2018/6/8
      */
     public int checkAliPayBaseInfo(ALiPayV2Vo aLiPayV2Vo, Map map, Long orderNo) {
         // 校验签名
@@ -210,7 +277,7 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
      * @param aLiPayV2Vo
      * @param orderType
      * @author linqin
-     *  @date 2018/6/8
+     * @date 2018/6/8
      */
     private PaymentInfo doAliPaySuccess(ALiPayV2Vo aLiPayV2Vo, Byte orderType) {
         PaymentInfo payment = new PaymentInfo();
@@ -250,14 +317,15 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
 
     /**
      * 微信充值订单支付
+     *
      * @param xml
      * @param orderType
      * @return
      * @author linqin
-     *  @date 2018/6/8
+     * @date 2018/6/8
      */
     @Override
-    public String orderWXPay(String xml, Byte orderType) throws IOException, SAXException, ParserConfigurationException{
+    public String orderWXPay(String xml, Byte orderType) throws IOException, SAXException, ParserConfigurationException {
         /** 支付成功微信服务器通知XML **/
         String resXml = "<xml>" + "<return_code><![CDATA[SUCCESS]]></return_code>"
                 + "<return_msg><![CDATA[OK]]></return_msg>" + "</xml> ";
@@ -266,9 +334,9 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
         /** XML转对象 **/
         NotifyData notifyData = (NotifyData) Util.getObjectFromXML(xml, NotifyData.class);
         //校验订单号
-       Long orderNo = Long.parseLong(notifyData.getOut_trade_no());
-       ChargeOrder chargeOrder = chargeOrderMapper.selectByOrderNo(orderNo);
-        if (chargeOrder == null){
+        Long orderNo = Long.parseLong(notifyData.getOut_trade_no());
+        ChargeOrder chargeOrder = chargeOrderMapper.selectByOrderNo(orderNo);
+        if (chargeOrder == null) {
             return "ERROR";
         }
         //通过订单号取出金额
@@ -283,19 +351,19 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
 //            return "ERROR";
 //        }
 
-        int re = checkBaseWxPayInfo(notifyData,  xml,orderNo);
+        int re = checkBaseWxPayInfo(notifyData, xml, orderNo);
         if (re == 0) {
             //更新订单支付状态
             chargeOrder.setStatus(Constants.CHARGE_ORDER_STATUS.PAY);
             int count = chargeOrderMapper.updateByPrimaryKeySelective(chargeOrder);
-            if (count == 0){
+            if (count == 0) {
                 return "ERROR";
             }
             //更新余额
             Integer userId = chargeOrder.getUserId();
-            walletService.updateBalance(userId,amount);
+            walletService.updateBalance(userId, amount);
             //支付信息
-            doWXPaySuccess(notifyData,orderType);
+            doWXPaySuccess(notifyData, orderType);
         } else if (re == 2) {
             return "ERROR";
         }
@@ -304,6 +372,7 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
 
     /**
      * 微信商品订单支付
+     *
      * @param xml
      * @param orderType
      * @return
@@ -322,37 +391,99 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
         //校验订单号
         Long orderNo = Long.parseLong(notifyData.getOut_trade_no());
         ItemOrder itemOrder = itemOrderMapper.selectByOrderNo(orderNo);//根据订单号取出订单信息
-        if (itemOrder == null){
-            throw new ServiceException(ErrorCode.ERROR.getCode(),"该订单不存在");
+        if (itemOrder == null) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "该订单不存在");
         }
         //检验支付金额
         BigDecimal price = itemOrder.getTotalPrice(); //取出金额
         if (price.compareTo(
-                BigDecimalUtil.div(new BigDecimal(notifyData.getTotal_fee()).doubleValue(),100))!=0){
+                BigDecimalUtil.div(new BigDecimal(notifyData.getTotal_fee()).doubleValue(), 100)) != 0) {
             return "ERROR";
         }
-        int re = checkBaseWxPayInfo(notifyData,  xml,orderNo);
-        if (re ==0){
+        int re = checkBaseWxPayInfo(notifyData, xml, orderNo);
+        if (re == 0) {
             //更新订单状态
-            itemOrder.setStatus((byte)Constants.ORDER_BASE_STATUS.PAID);
+            itemOrder.setStatus((byte) Constants.ORDER_BASE_STATUS.PAID);
             int count = itemOrderMapper.updateByPrimaryKeySelective(itemOrder);
-            if (count == 0){
-                throw new ServiceException(ErrorCode.ERROR.getCode(),"更新状态失败");
+            if (count == 0) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "更新状态失败");
             }
             //更新详细订单状态和销量
-            updateStatusSales(orderNo);
+            orderService.updateStatusSales(orderNo);
             //支付信息
-            doWXPaySuccess(notifyData,orderType);
-        }else if (re == 2) {
+            doWXPaySuccess(notifyData, orderType);
+        } else if (re == 2) {
             return "ERROR";
         }
         return resXml;
 
     }
 
+    /**
+     * 寄售台微信支付回调基础方法
+     *
+     * @param xml
+     * @param orderType 订单类型 1-充值订单，2-商品订单，3-寄售台商品订单
+     * @return
+     * @throws Exception
+     * @author linqin
+     *  @date 2018/7/5
+     */
+    @Override
+    public String conOrderWXPay(String xml, Byte orderType)throws ParserConfigurationException, SAXException, IOException {
+        /** 支付成功微信服务器通知XML **/
+        String resXml = "<xml>" + "<return_code><![CDATA[SUCCESS]]></return_code>"
+                + "<return_msg><![CDATA[OK]]></return_msg>" + "</xml> ";
+        /** 获取微信服务请求XML参数 **/
+        //获取微信服务请求xml参数
+        /** XML转对象 **/
+        NotifyData notifyData = (NotifyData) Util.getObjectFromXML(xml, NotifyData.class);
+        //校验订单号
+        Long orderNo = Long.parseLong(notifyData.getOut_trade_no());
+        ConsignmentOrder conOrder = consignmentOrderMapper.selectByOrderNo(orderNo);//根据订单号取出订单信息
+        if (conOrder == null) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "该订单不存在");
+        }
+        //检验支付金额
+        BigDecimal price = conOrder.getPrice(); //取出金额
+        if (price.compareTo(
+                BigDecimalUtil.div(new BigDecimal(notifyData.getTotal_fee()).doubleValue(), 100)) != 0) {
+            return "ERROR";
+        }
+        int re = checkBaseWxPayInfo(notifyData, xml, orderNo);
+        if (re == 0) {
+            //更新订单状态
+            conOrder.setStatus((byte) Constants.ORDER_BASE_STATUS.PAID);
+            int update = consignmentOrderMapper.updateByPrimaryKeySelective(conOrder);
+            if (update == 0) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "更新失败");
+            }
+            //更新寄售台状态
+            Consignment consignment = consignmentMapper.selectByPrimaryKey(conOrder.getConsignmentId());
+            if (consignment == null) {
+                return "ERROR";
+            }
+            consignment.setStatus(Constants.CONSIGNMENT_ITEM.PAY);
+            int count = consignmentMapper.updateByPrimaryKeySelective(consignment);
+            if (count == 0) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "更新失败");
+            }
+            //添加系统消息
+            AppUser nickName = appUserMapper.selectByPrimaryKey(conOrder.getUserId());
+            messageService.addMessage(Constants.APP_MESSAGE_TYPE.CONSIGNMENT, "您交易的物品被" + nickName.getNickname()
+                    + "购买，快去看看吧", null, conOrder.getId(), conOrder.getUserId());
+            //保存支付信息
+            doWXPaySuccess(notifyData,orderType);
+        } else if (re == 2) {
+            return "ERROR";
+        }
+        return resXml;
+    }
+
 
     /**
      * 微信校验
+     *
      * @param notifyData
      * @param xml
      * @param orderNo
@@ -361,9 +492,9 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
      * @throws SAXException
      * @throws ParserConfigurationException
      * @author linqin
-     *  @date 2018/6/8
+     * @date 2018/6/8
      */
-    private int checkBaseWxPayInfo(NotifyData notifyData, String xml, Long orderNo)throws IOException,
+    private int checkBaseWxPayInfo(NotifyData notifyData, String xml, Long orderNo) throws IOException,
             SAXException, ParserConfigurationException {
 //        // 检验支付金额
 //        if (price.compareTo(
@@ -389,16 +520,16 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
             }
         }
         return 2;
-
     }
 
     /**
-     * 支付信息
+     * 微信支付信息
+     *
      * @param notifyData
      * @param orderType
      * @return
      * @author linqin
-     *  @date 2018/6/8
+     * @date 2018/6/8
      */
     private PaymentInfo doWXPaySuccess(NotifyData notifyData, Byte orderType) {
         /** -------------支付成功逻辑处理-------------- **/
@@ -412,7 +543,7 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
         /** 订单类型 **/
         payment.setType(orderType);
         /** 支付平台 **/
-        payment.setPayPlatform((byte)Constants.PAY_TYPE.WX);
+        payment.setPayPlatform((byte) Constants.PAY_TYPE.WX);
         /** 卖家账号 **/
         payment.setSeller(notifyData.getMch_id());
         /** 支付总价--分为单位 **/
@@ -424,37 +555,53 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
         // 保存订单支付信息
         int count = paymentInfoMapper.insert(payment);
         if (count == 0) {
-            throw new ServiceException(200,"pay failed");
+            throw new ServiceException(200, "pay failed");
         }
         return payment;
     }
 
 
-private void updateStatusSales(Long orderNo){
-    //取出订单详细信息
-    List<ItemOrderDetail> itemOrderDetail = itemOrderDetailMapper.selectByOrderNo(orderNo);
-    for (ItemOrderDetail itemDetail:itemOrderDetail) {
-        //更新详细订单状态
-        itemDetail.setStatus((byte)Constants.ORDER_BASE_STATUS.PAID);
-        int update = itemOrderDetailMapper.updateByPrimaryKeySelective(itemDetail);
-        if (update == 0){
-            throw new ServiceException(ErrorCode.ERROR.getCode(),"更新状态失败");
+    /*-----------------------------------------------微信支付回调结束---------------------------------------------------*/
+
+    /*-----------------------------------------------余额宝支付---------------------------------------------------*/
+
+    /**
+     * 余额支付信息
+     *
+     * @param
+     * @return
+     * @author linqin
+     * @date 2018/6/8
+     */
+    public PaymentInfo doYuePaySuccess(Long orderNo, Integer userId, Date created, Byte orderType, Integer sellUserId,
+                                       BigDecimal amount) {
+        /** -------------支付成功逻辑处理-------------- **/
+        PaymentInfo payment = new PaymentInfo();
+        /** 订单号 **/
+        payment.setOrderNo(orderNo);
+        /** 买家账号 **/
+        payment.setBuyer(userId.toString());
+        /** 付款时间 **/
+        payment.setCreated(created);
+        /** 订单类型 **/
+        payment.setType(orderType);
+        /** 支付平台 **/
+        payment.setPayPlatform((byte) Constants.PAY_TYPE.yue);
+        /** 卖家账号 **/
+        payment.setSeller(sellUserId.toString());
+        /** 支付总价--分为单位 **/
+        payment.setTotalFee(amount);
+        /** 交易流水号 **/
+        payment.setPlatformNumber(orderNo.toString());
+        /** 交易标识 **/
+        payment.setPlatformStatus("SUCCESS");
+        // 保存订单支付信息
+        int count = paymentInfoMapper.insert(payment);
+        if (count == 0) {
+            throw new ServiceException(200, "pay failed");
         }
-        //更新ItemSku销量
-        Integer skuId = itemDetail.getSkuId();
-        Integer quantity = itemDetail.getQuantity();
-        Integer sales = itemSkuMapper.updateSalesBySkuId(skuId,quantity);
-        if (sales == 0){
-            throw new ServiceException(ErrorCode.ERROR.getCode(),"更新销量失败");
-        }
-        //更新Item销量
-        Integer itemId = itemDetail.getItemId();
-        Integer ItemSales = itemMapper.updateSalesByItemId(itemId,quantity);
-        if (ItemSales == 0){
-            throw new ServiceException(ErrorCode.ERROR.getCode(),"更新销量失败");
-        }
+        return payment;
     }
-}
 
 
 }

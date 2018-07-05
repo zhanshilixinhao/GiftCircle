@@ -148,6 +148,14 @@ public class Constants {
         int yue = 98001; //钱包余额
     }
 
+    /* 订单类型 */   //1-充值订单，2-商品订单,3-寄售台订单
+    public interface ORDER_TYPE {
+        byte CHARGE = 1;// 充值订单
+        byte ITEM = 2; //商品订单
+        byte CON_ITEM = 3;//寄售台订单
+    }
+
+
 //    public static String genPayUrl(int type, int orderType) {
 //        String url;
 //        if (orderType == 0) { // 商品订单
