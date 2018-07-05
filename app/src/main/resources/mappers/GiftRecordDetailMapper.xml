@@ -31,7 +31,7 @@
       content, reply, status, 
       updated, created)
     values (#{id,jdbcType=INTEGER}, #{giftRecordId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
-      #{content,jdbcType=VARCHAR}, #{reply,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
+      #{content,jdbcType=VARCHAR}, #{reply,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT},
      now(), now())
   </insert>
   <insert id="insertSelective" parameterType="com.chouchongkeji.dial.dao.backpack.gift.GiftRecordDetail">

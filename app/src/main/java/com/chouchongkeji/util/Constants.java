@@ -109,9 +109,9 @@ public class Constants {
 
     /*背包类型*/ //1 物品 2 虚拟物品 3 优惠券
     public interface BACKPACK_TYPE {
-        int ITEM = 1;
-        int VIRTUAL_ITEM = 2;
-        int DISCOUNT_COUPON = 3;
+        byte ITEM = 1;
+        byte VIRTUAL_ITEM = 2;
+        byte DISCOUNT_COUPON = 3;
     }
 
     /* 叮当退款状态 */
@@ -359,8 +359,23 @@ public class Constants {
         }
     }
 
+    /**
+     * 消息已读状态
+     */
     public interface MESSAGE_READ {
         byte NO = 2;
         byte YES = 1;
     }
+
+    /**
+     * 背包来源
+     */
+    public interface BP_ITEM_FROM {
+        byte ITEM_ORDER = 1; // 商品购买
+        byte VIR_ITEM_ORDER = 2; // 虚拟物品购买
+        byte COUPON_SEND = 3; // 优惠券赠送
+        byte GIFT = 4; // 礼物赠送
+        byte GIFT_CHANGE = 5; // 礼物互换
+        byte CONSIGNMENG_ORDER = 6; // 寄售台商品购买
+     }
 }
