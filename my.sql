@@ -1179,7 +1179,24 @@ CREATE TABLE `coupon` (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COMMENT = '优惠券';
 
 
-
+/*==============================================================*/
+/* Table: Banner                                   */
+/*==============================================================*/
+DROP TABLE IF EXISTS `Banner`;
+CREATE TABLE `Banner`  (
+  `id` INT(8) not NULL AUTO_INCREMENT COMMENT '表id',
+  `targetId` VARCHAR(32) DEFAULT NULL COMMENT '跳转的目标id',
+  `cover` VARCHAR(100)default null comment '封面图片',
+  `requestUrl` VARCHAR(200) DEFAULT NULL COMMENT '跳转url',
+  `title` VARCHAR(32) DEFAULT NULL COMMENT '	图片标题',
+  `url` VARCHAR(200) DEFAULT NULL  COMMENT 	'图片url地址',
+  `richText` TEXT DEFAULT NULL  COMMENT 	'富文本',
+  `type` TINYINT(4) DEFAULT NULL COMMENT 'banner类型,  1 跳转到商品详情 2 跳转到好物主题列表',
+  `status` TINYINT(4) DEFAULT NULL COMMENT '1 正常 2 禁用',
+  `createTime` DATETIME DEFAULT NULL COMMENT '创建时间',
+  `updateTime` DATETIME DEFAULT NULL COMMENT '修改时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4  ROW_FORMAT = Compact COMMENT 'banner表'
 
 
 

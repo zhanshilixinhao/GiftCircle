@@ -33,4 +33,6 @@ public interface ConsignmentMapper {
 
     Consignment selectPutAwayItem(@Param("userId") Integer userId,@Param("consignmentId")Integer consignmentId);
 
+    List<ConsignmentVo> selectAll();
+
 }

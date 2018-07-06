@@ -5,6 +5,7 @@ import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.query.PageQuery;
 import com.chouchongkeji.service.gift.item.ItemService;
 import com.yichen.auth.service.UserDetails;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -54,13 +55,13 @@ public class ItemController {
      */
     @PostMapping("item_list")
     public Response itemList(Integer classes, Integer gender, Integer minAge, Integer maxAge,
-                             BigDecimal minPrice, BigDecimal maxPrice, Integer eventId, PageQuery pageQuery,Integer categoryId) {
-            if (classes!= null){
-                if (classes>3||classes<0){
-                    return ResponseFactory.err("classes错误");
-                }
+                             BigDecimal minPrice, BigDecimal maxPrice, Integer eventId, PageQuery pageQuery, Integer categoryId) {
+        if (classes != null) {
+            if (classes > 3 || classes < 0) {
+                return ResponseFactory.err("classes错误");
             }
-        return itemService.getItemList(classes, gender, minAge, maxAge, minPrice, maxPrice, eventId, pageQuery,categoryId);
+        }
+        return itemService.getItemList(classes, gender, minAge, maxAge, minPrice, maxPrice, eventId, pageQuery, categoryId);
 
     }
 
@@ -112,9 +113,22 @@ public class ItemController {
         return itemService.getItemCommentList(id, page);
     }
 
-
-
-
+    /**
+     * 商品搜索
+     *
+     * @param keyword 关键字
+     * @return
+     * @author: linqin
+     * @Date: 2018/7/6
+     */
+    @PostMapping("search")
+    public Response searchItem(String keyword) {
+        //校验参数
+        if (StringUtils.isBlank(keyword)) {
+            return ResponseFactory.errMissingParameter();
+        }
+        return itemService.searchItem(keyword);
+    }
 
 
 }

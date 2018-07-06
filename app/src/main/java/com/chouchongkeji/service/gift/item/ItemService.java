@@ -66,4 +66,13 @@ public interface ItemService {
      * @Date: 2018/6/20
      */
     Response getItemCommentList(Integer id, PageQuery page);
+
+    /**
+     * 商品搜索
+     * @param keyword 关键字
+     * @return
+     * @author: linqin
+     * @Date: 2018/7/6
+     */
+    Response searchItem(String keyword);
 }

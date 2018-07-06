@@ -149,4 +149,19 @@ public class ItemServiceImpl implements ItemService {
         List<ItemCommentVo> itemCommentVos = itemCommentMapper.selectByItemId(id);
         return ResponseFactory.sucData(itemCommentVos);
     }
+
+
+
+    /**
+     * 商品搜索
+     * @param keyword 关键字
+     * @return
+     * @author: linqin
+     * @Date: 2018/7/6
+     */
+    @Override
+    public Response searchItem(String keyword) {
+        List<ItemListVo> list = itemMapper.selectItemList(keyword);
+        return ResponseFactory.sucData(list);
+    }
 }

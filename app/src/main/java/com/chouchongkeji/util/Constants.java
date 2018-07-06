@@ -168,6 +168,12 @@ public class Constants {
         byte DONE = 3;//完成
     }
 
+    /*首页Banner状态*/
+    public interface HOME_ITEM_STATUS{
+        byte NORMAL = 1;//正常
+        byte FORBID = 2;//禁用
+    }
+
 //    public static String genPayUrl(int type, int orderType) {
 //        String url;
 //        if (orderType == 0) { // 商品订单

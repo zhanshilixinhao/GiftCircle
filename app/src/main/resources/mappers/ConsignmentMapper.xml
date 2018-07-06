@@ -157,14 +157,34 @@ WHERE
         </trim>
     </select>
     <select id="selectPutAwayItem" resultMap="BaseResultMap">
-       SELECT
-<include refid="Base_Column_List"/>
-FROM
-	`consignment`
-WHERE
-	user_id = #{userId}
-	AND id = #{consignmentId}
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        `consignment`
+        WHERE
+        user_id = #{userId}
+        AND id = #{consignmentId}
 
+    </select>
+    <select id="selectAll" resultType="com.chouchongkeji.service.backpack.consignment.vo.ConsignmentVo">
+         SELECT
+        a.id as consignmentId,
+        a.bp_id,
+        a.target_id,
+        a.`status`,
+        a.price,
+        a.type,
+        b.title,
+        b.cover,
+        a.created,
+        a.updated
+        FROM
+        `consignment` a
+        LEFT JOIN v_bp b on a.bp_id = b.id
+        WHERE
+		a.`status` = 1
+		ORDER BY a.id DESC
+		LIMIT 3
     </select>
     <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.backpack.consignment.Consignment">
     insert into consignment (id, bp_id, user_id, 

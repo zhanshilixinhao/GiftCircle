@@ -405,4 +405,16 @@ FROM
 WHERE
 	b.id = #{skuId}
     </select>
+    <select id="selectItemList" resultType="com.chouchongkeji.service.gift.item.vo.ItemListVo">
+SELECT
+	id AS item_id,
+	cover,
+	title,
+	price
+FROM
+	item
+WHERE
+	title LIKE concat('%',#{keyword},'%')
+    </select>
+
 </mapper>
