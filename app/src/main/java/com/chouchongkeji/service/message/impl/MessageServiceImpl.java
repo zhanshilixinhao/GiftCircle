@@ -9,9 +9,11 @@ import com.chouchongkeji.exception.ServiceException;
 import com.chouchongkeji.goexplore.common.ErrorCode;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
+import com.chouchongkeji.goexplore.query.PageQuery;
 import com.chouchongkeji.service.message.MessageService;
 import com.chouchongkeji.service.message.vo.MessageHomeVo;
 import com.chouchongkeji.util.Constants;
+import com.github.pagehelper.PageHelper;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -151,6 +153,32 @@ public class MessageServiceImpl implements MessageService {
             vo.setTitle(type.title());
             vo.setMessageType(type.type());
             vos.add(vo);
+        }
+        return ResponseFactory.sucData(vos);
+    }
+
+
+    /**
+     * 获取消息列表
+     *
+     * @param userId      用户id
+     * @param messageType 消息类型
+     * @param page        分页
+     * @return
+     * @author yichenshanren
+     * @date 2018/7/6
+     */
+    @Override
+    public Response getMessageList(Integer userId, Byte messageType, PageQuery page) {
+        PageHelper.startPage(page.getPageNum(), page.getPageSize());
+        List vos = null;
+        switch (messageType) {
+            case 1:
+                vos = appMessageUserMapper.selectListByUserIdAndType(userId);
+                break;
+            case 3:
+                vos = appMessageUserMapper.selectConMessageByUserId(userId);
+                break;
         }
         return ResponseFactory.sucData(vos);
     }

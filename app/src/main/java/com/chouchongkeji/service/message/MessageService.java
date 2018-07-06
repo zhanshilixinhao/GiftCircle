@@ -2,6 +2,7 @@ package com.chouchongkeji.service.message;
 
 import com.chouchongkeji.dial.pojo.gift.virtualItem.AppMessage;
 import com.chouchongkeji.goexplore.common.Response;
+import com.chouchongkeji.goexplore.query.PageQuery;
 import com.chouchongkeji.util.Constants;
 
 import java.util.List;
@@ -57,4 +58,15 @@ public interface MessageService {
      */
     Response getHomeList(Integer userId);
 
+    /**
+     * 获取消息列表
+     *
+     * @param userId      用户id
+     * @param messageType 消息类型
+     * @param page        分页
+     * @return
+     * @author yichenshanren
+     * @date 2018/7/6
+     */
+    Response getMessageList(Integer userId, Byte messageType, PageQuery page);
 }

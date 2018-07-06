@@ -1,6 +1,8 @@
 package com.chouchongkeji.mvc.controller.message;
 
 import com.chouchongkeji.goexplore.common.Response;
+import com.chouchongkeji.goexplore.common.ResponseFactory;
+import com.chouchongkeji.goexplore.query.PageQuery;
 import com.chouchongkeji.service.message.MessageService;
 import com.yichen.auth.service.UserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,5 +36,22 @@ public class AppMessageController {
         return messageService.getHomeList(userDetails.getUserId());
     }
 
+
+    /**
+     * 消息主页 列表
+     *
+     * @param userDetails 用户xinx
+     * @return
+     * @author yichenshanren
+     * @date 2018/7/6
+     */
+    @PostMapping("list")
+    public Response getMessageList(@AuthenticationPrincipal UserDetails userDetails,
+                                   Byte messageType, PageQuery page) {
+        if (messageType == null || messageType < 1 || messageType > 4) {
+            return ResponseFactory.errMissingParameter();
+        }
+        return messageService.getMessageList(userDetails.getUserId(), messageType, page);
+    }
 
 }

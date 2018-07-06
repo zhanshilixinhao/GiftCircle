@@ -122,7 +122,8 @@ public class ConOrderServiceImpl implements ConOrderService {
                 return ResponseFactory.err("该订单不存在");
             }
             AppUser nickName = appUserMapper.selectByPrimaryKey(conOrder.getUserId());
-            int i = messageService.addMessage(Constants.APP_MESSAGE_TYPE.CONSIGNMENT, "您交易的物品被" + nickName.getNickname()
+            int i = messageService.addMessage(Constants.APP_MESSAGE_TYPE.CONSIGNMENT,
+                    "您交易的物品被" + nickName.getNickname()
                     + "购买，快去看看吧", null, consignmentOrder.getId(), userId);
             //增加卖家余额金额
             int wall = walletService.updateBalance(conOrder.getSellUserId(), conOrder.getPrice(), Constants.WALLET_RECORD.CONSIGNMENT_ITEM,

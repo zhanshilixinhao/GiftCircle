@@ -1,6 +1,8 @@
 package com.chouchongkeji.dial.dao.backpack.gift;
 
 import com.chouchongkeji.dial.pojo.gift.virtualItem.AppMessageUser;
+import com.chouchongkeji.service.message.vo.ConsignmentMessageVo;
+import com.chouchongkeji.service.message.vo.GiftMessageVo;
 import com.chouchongkeji.service.message.vo.MessageHomeVo;
 import org.apache.ibatis.annotations.Param;
 
@@ -26,4 +28,8 @@ public interface AppMessageUserMapper {
 
     MessageHomeVo selectLastMessageByUserIdAndType(@Param("userId") Integer userId,
                                                    @Param("type") byte type);
+
+    List<GiftMessageVo> selectListByUserIdAndType(@Param("userId") Integer userId);
+
+    List<ConsignmentMessageVo> selectConMessageByUserId(@Param("userId") Integer userId);
 }

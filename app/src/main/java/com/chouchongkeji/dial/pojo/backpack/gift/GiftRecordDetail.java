@@ -1,4 +1,4 @@
-package com.chouchongkeji.dial.dao.backpack.gift;
+package com.chouchongkeji.dial.pojo.backpack.gift;
 
 import java.util.Date;
 
@@ -11,6 +11,8 @@ public class GiftRecordDetail {
 
     private String content;
 
+    private Byte isReply;
+
     private String reply;
 
     private Byte status;
@@ -19,11 +21,12 @@ public class GiftRecordDetail {
 
     private Date created;
 
-    public GiftRecordDetail(Integer id, Integer giftRecordId, Integer userId, String content, String reply, Byte status, Date updated, Date created) {
+    public GiftRecordDetail(Integer id, Integer giftRecordId, Integer userId, String content, Byte isReply, String reply, Byte status, Date updated, Date created) {
         this.id = id;
         this.giftRecordId = giftRecordId;
         this.userId = userId;
         this.content = content;
+        this.isReply = isReply;
         this.reply = reply;
         this.status = status;
         this.updated = updated;
@@ -64,6 +67,14 @@ public class GiftRecordDetail {
 
     public void setContent(String content) {
         this.content = content == null ? null : content.trim();
+    }
+
+    public Byte getIsReply() {
+        return isReply;
+    }
+
+    public void setIsReply(Byte isReply) {
+        this.isReply = isReply;
     }
 
     public String getReply() {

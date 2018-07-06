@@ -3275,6 +3275,20 @@ JSON：
 | pageNum | int | 是 | 无 | 分页 |
 | pageSize | int | 是 | 无 | 分页大小 |
 
+### 15.2 礼物赠送答谢
+
+- 请求地址：auth/v1/gift/acknowledge
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yichen
+
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| recordDetailId | int | 是 | 无 | 记录详情id |
+| reply | string | 是 | 答谢的文字内容 |
+
 
 ## 16 消息
 
@@ -3300,7 +3314,7 @@ JSON：
             avatar: "", 
             title: "礼物通知", 
             summary: "什么送您了魏文侯", 
-            unread: 1, 
+            unread: 1, // 未读消息数量
             created: 1530846904000
         }, 
         {
@@ -3326,6 +3340,103 @@ JSON：
             summary: "", 
             unread: 0, 
             created: 1530850998570
+        }
+    ]
+}
+```
+
+
+### 16.2 消息列表
+
+- 请求地址：auth/v1/message/list
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yichen
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| messageType | int | 是 | 无 | 1 礼物通知 2 系统消息 3 寄售台通知 4 礼物交换通知 |
+| pageNum | int | 否 | 1 | 分页 |
+| pageSzie | int | 否 | 14 | 分页大小 |
+
+* 礼物通知消息请求结果示例
+
+```js
+{
+    errCode: 0, 
+    result: 0, 
+    time: 1530861017872, 
+    data: [
+        {
+            summary: "计划发送您了1元优惠券", 
+            messageType: "1", 
+            recordDetailId: 2,  // 礼物赠送记录详情id，可用于答谢
+            messageId: 105, // 消息id 
+            userId: 4, 
+            isRead: 2,  // 是否已读 1 已读 2 未读
+            greetting: "一厢情愿的不舍", // 祝福语
+            giftItems: [ // 赠送的礼物信息
+                {
+                    bpId: 2,  // 背包id
+                    targetId: 2,  
+                    targetType: 3, // 1 物品 2 虚拟物品 3 优惠券 
+                    giftType: 1,  
+                    price: 100, // 物品价格
+                    title: "1元优惠券",  // 物品名称
+                    cover: "https://io.shanren.group/image/cover.jpg", 
+                    description: "{ // 物品描述
+ \"type\": \"优惠券\",
+ \"discunt\":\"1元\",
+ \"decription\":\"仅限购买三只松鼠\"
+}", 
+                    brand: "小牛" // 物品品牌
+                }
+            ], 
+            // 赠送者信息
+            sendUserId: 1, // 赠送者用户id 
+            avatar: "https://io.shanren.group/image/avatar.jpg", 
+            nickname: "帝王妃", 
+            remark: "爱妃", 
+            friendId: 1, // 好友id 为null代表不是好友
+            relationShip: "", 
+            reply: "",
+			isReply: 2, // 1 已答谢 2 未答谢
+            created: 1530847416000
+        }
+    ]
+}
+```
+
+* 寄售台通知消息请求结果示例
+
+```js
+{
+    errCode: 0, 
+    result: 0, 
+    time: 1530864883428, 
+    data: [
+        {
+            messageId: 102, 
+            targetId: 25, 
+            summary: "您交易的物品被什么用户购买，快去看看吧", 
+            messageType: 3, 
+            price: 100, 
+            title: "魏文侯", 
+            description: "东周末年", 
+            cover: "https://io.shanren.group/image/cover.jpg", 
+            created: 1530697206000
+        }, 
+        {
+            messageId: 101, 
+            targetId: 19, 
+            summary: "您交易的物品被null用户购买，快去看看吧", 
+            messageType: 3, 
+            price: 100, 
+            title: "魏文侯", 
+            description: "东周末年", 
+            cover: "https://io.shanren.group/image/cover.jpg", 
+            created: 1530693059000
         }
     ]
 }

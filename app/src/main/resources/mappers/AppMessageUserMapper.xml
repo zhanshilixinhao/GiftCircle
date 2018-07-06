@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.chouchongkeji.dial.dao.backpack.gift.AppMessageUserMapper">
-  <resultMap id="BaseResultMap" type="com.chouchongkeji.dial.pojo.gift.virtualItem.AppMessageUser">
-    <constructor>
-      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="app_message_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="is_read" javaType="java.lang.Byte" jdbcType="TINYINT" />
-      <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-      <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-    </constructor>
-  </resultMap>
-  <sql id="Base_Column_List">
+    <resultMap id="BaseResultMap" type="com.chouchongkeji.dial.pojo.gift.virtualItem.AppMessageUser">
+        <constructor>
+            <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="app_message_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="is_read" javaType="java.lang.Byte" jdbcType="TINYINT"/>
+            <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List">
     id, user_id, app_message_id, is_read, created, updated
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from app_message_user
-    where id = #{id,jdbcType=INTEGER}
-  </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from app_message_user
+        where id = #{id,jdbcType=INTEGER}
+    </select>
     <select id="selectUnredByUserIdAndType" resultType="java.lang.Integer">
 SELECT
 	count( 0 ) AS unread
@@ -31,8 +31,8 @@ WHERE
 	AND a.message_type = #{type}
 	AND b.is_read = 2
     </select>
-  <select id="selectLastMessageByUserIdAndType"
-          resultType="com.chouchongkeji.service.message.vo.MessageHomeVo">
+    <select id="selectLastMessageByUserIdAndType"
+            resultType="com.chouchongkeji.service.message.vo.MessageHomeVo">
  SELECT
 	c.summary,
 	c.created
@@ -46,11 +46,86 @@ ORDER BY
 	c.id DESC
 	LIMIT 1
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+
+
+    <resultMap id="GiftMessage" type="com.chouchongkeji.service.message.vo.GiftMessageVo">
+        <result column="summary" property="summary"/>
+        <result column="message_type" property="messageType"/>
+        <result column="target_id" property="recordDetailId"/>
+        <result column="message_id" property="messageId"/>
+        <result column="user_id" property="userId"/>
+        <result column="send_user_id" property="sendUserId"/>
+        <result column="greetting" property="greetting"/>
+        <result column="is_read" property="isRead"/>
+        <result column="created" property="created"/>
+        <result column="content" property="giftItems"
+                typeHandler="com.chouchongkeji.dial.handler.GiftItemVoTypeHandler"/>
+        <result column="remark" property="remark"/>
+        <result column="friend_id" property="friendId"/>
+    </resultMap>
+    <select id="selectListByUserIdAndType" resultMap="GiftMessage">
+SELECT
+	a.summary,
+	a.message_type,
+	a.target_id,
+	b.id AS message_id,
+	b.user_id,
+	d.user_id AS send_user_id,
+	d.greetting,
+	b.is_read,
+	b.created,
+	c.content,
+	c.reply,
+	c.is_reply,
+	e.remark,
+	e.id AS friend_id,
+	e.relationship,
+	f.nickname ,
+	f.avatar
+FROM
+	app_message a
+	LEFT JOIN app_message_user b ON b.app_message_id = a.id
+	LEFT JOIN gift_record_detail c ON c.id = a.target_id
+	LEFT JOIN gift_record d ON d.id = c.gift_record_id
+	LEFT JOIN friend e ON e.user_id = #{userId}
+	AND e.friend_user_id = d.user_id
+	LEFT JOIN app_user f ON f.id = d.user_id
+WHERE
+	b.user_id = #{userId}
+	AND a.message_type = 1
+	ORDER BY
+	b.id DESC
+  </select>
+    <select id="selectConMessageByUserId"
+            resultType="com.chouchongkeji.service.message.vo.ConsignmentMessageVo">
+        SELECT
+	b.summary,
+	b.message_type,
+	b.target_id,
+	a.id AS message_id,
+	e.price,
+	e.title,
+	e.description,
+	e.cover,
+	e.description,
+	a.created
+FROM
+	app_message_user a
+	LEFT JOIN app_message b ON a.app_message_id = b.id
+	LEFT JOIN consignment_order c ON c.id = b.target_id
+	LEFT JOIN consignment d ON c.consignment_id = d.id
+	LEFT JOIN v_bp e ON e.id = d.bp_id
+WHERE
+	a.user_id = #{userId}
+	AND b.message_type = 3
+ORDER BY
+	a.id DESC
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from app_message_user
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.gift.virtualItem.AppMessageUser">
+    <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.gift.virtualItem.AppMessageUser">
     insert into app_message_user (id, user_id, app_message_id, 
       is_read, created, updated
       )
@@ -58,82 +133,83 @@ ORDER BY
       #{isRead,jdbcType=TINYINT}, #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.gift.virtualItem.AppMessageUser">
-    insert into app_message_user
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="userId != null">
-        user_id,
-      </if>
-      <if test="appMessageId != null">
-        app_message_id,
-      </if>
-      <if test="isRead != null">
-        is_read,
-      </if>
-      <if test="created != null">
-        created,
-      </if>
-      <if test="updated != null">
-        updated,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="userId != null">
-        #{userId,jdbcType=INTEGER},
-      </if>
-      <if test="appMessageId != null">
-        #{appMessageId,jdbcType=INTEGER},
-      </if>
-      <if test="isRead != null">
-        #{isRead,jdbcType=TINYINT},
-      </if>
-      <if test="created != null">
-        #{created,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updated != null">
-        #{updated,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
-  </insert>
-    <insert id="insertBatch">
-      insert into app_message_user (id, user_id, app_message_id,
-      is_read, created, updated
-      )
-    values
-    <foreach collection="list" index="index" item="item" separator=",">
-      (#{item.id,jdbcType=INTEGER}, #{item.userId,jdbcType=INTEGER}, #{item.appMessageId,jdbcType=INTEGER},
-      #{item.isRead,jdbcType=TINYINT}, now(), now()
-      )
-    </foreach>
+    <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.gift.virtualItem.AppMessageUser">
+        insert into app_message_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="appMessageId != null">
+                app_message_id,
+            </if>
+            <if test="isRead != null">
+                is_read,
+            </if>
+            <if test="created != null">
+                created,
+            </if>
+            <if test="updated != null">
+                updated,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="appMessageId != null">
+                #{appMessageId,jdbcType=INTEGER},
+            </if>
+            <if test="isRead != null">
+                #{isRead,jdbcType=TINYINT},
+            </if>
+            <if test="created != null">
+                #{created,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updated != null">
+                #{updated,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
     </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.chouchongkeji.dial.pojo.gift.virtualItem.AppMessageUser">
-    update app_message_user
-    <set>
-      <if test="userId != null">
-        user_id = #{userId,jdbcType=INTEGER},
-      </if>
-      <if test="appMessageId != null">
-        app_message_id = #{appMessageId,jdbcType=INTEGER},
-      </if>
-      <if test="isRead != null">
-        is_read = #{isRead,jdbcType=TINYINT},
-      </if>
-      <if test="created != null">
-        created = #{created,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updated != null">
-        updated = #{updated,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.dial.pojo.gift.virtualItem.AppMessageUser">
+    <insert id="insertBatch">
+        insert into app_message_user (id, user_id, app_message_id,
+        is_read, created, updated
+        )
+        values
+        <foreach collection="list" index="index" item="item" separator=",">
+            (#{item.id,jdbcType=INTEGER}, #{item.userId,jdbcType=INTEGER}, #{item.appMessageId,jdbcType=INTEGER},
+            #{item.isRead,jdbcType=TINYINT}, now(), now()
+            )
+        </foreach>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.chouchongkeji.dial.pojo.gift.virtualItem.AppMessageUser">
+        update app_message_user
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="appMessageId != null">
+                app_message_id = #{appMessageId,jdbcType=INTEGER},
+            </if>
+            <if test="isRead != null">
+                is_read = #{isRead,jdbcType=TINYINT},
+            </if>
+            <if test="created != null">
+                created = #{created,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updated != null">
+                updated = #{updated,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.dial.pojo.gift.virtualItem.AppMessageUser">
     update app_message_user
     set user_id = #{userId,jdbcType=INTEGER},
       app_message_id = #{appMessageId,jdbcType=INTEGER},

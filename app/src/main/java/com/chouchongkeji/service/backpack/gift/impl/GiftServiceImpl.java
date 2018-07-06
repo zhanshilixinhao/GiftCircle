@@ -2,7 +2,7 @@ package com.chouchongkeji.service.backpack.gift.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.chouchongkeji.dial.dao.backpack.VbpMapper;
-import com.chouchongkeji.dial.dao.backpack.gift.GiftRecordDetail;
+import com.chouchongkeji.dial.pojo.backpack.gift.GiftRecordDetail;
 import com.chouchongkeji.dial.dao.backpack.gift.GiftRecordDetailMapper;
 import com.chouchongkeji.dial.dao.backpack.gift.GiftRecordMapper;
 import com.chouchongkeji.dial.pojo.backpack.Vbp;
@@ -240,5 +240,33 @@ public class GiftServiceImpl implements GiftService {
         detail.setBrand(vbp.getBrand());
         detail.setGiftType(sendVo.getBpId().equals(vbp.getId()) ? Constants.GIFT_M_TYPE.MAIN : Constants.GIFT_M_TYPE.SUB);
         return detail;
+    }
+
+    /**
+     * 答谢礼物赠送
+     *
+     * @param userId         礼物接收者id
+     * @param recordDetailId 记录详情id
+     * @param reply          回复内容
+     * @return
+     * @author yichenshanren
+     * @date 2018/7/2
+     */
+    @Override
+    public Response acknowledge(Integer userId, Integer recordDetailId, String reply) {
+        // 取出
+        GiftRecordDetail detail = giftRecordDetailMapper.selectByPrimaryKey(recordDetailId);
+        if (detail == null) {
+            return ResponseFactory.err("答谢的记录不存在!");
+        }
+        if (!detail.getUserId().equals(userId)) {
+            return ResponseFactory.err("只能答谢自己收到的礼物!");
+        }
+        GiftRecordDetail newDetail = new GiftRecordDetail();
+        newDetail.setId(detail.getId());
+        newDetail.setIsReply((byte)1);
+        newDetail.setReply(reply);
+        giftRecordDetailMapper.updateByPrimaryKeySelective(newDetail);
+        return ResponseFactory.suc();
     }
 }

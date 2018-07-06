@@ -34,7 +34,7 @@ public class GiftController {
      */
     @RequestMapping("sendForApp")
     public Response sendForApp(@AuthenticationPrincipal UserDetails userDetails,
-                            GiftSendVo sendVo) {
+                               GiftSendVo sendVo) {
         if (sendVo.getBpId() == null ||
                 sendVo.getFriendUserId() == null ||
                 sendVo.getType() == null ||
@@ -46,4 +46,22 @@ public class GiftController {
         return giftService.sendForApp(userDetails.getUserId(), sendVo);
     }
 
+    /**
+     * 答谢礼物赠送
+     *
+     * @param userDetails    赠送者信息
+     * @param recordDetailId 记录详情id
+     * @param reply          回复内容
+     * @return
+     * @author yichenshanren
+     * @date 2018/7/2
+     */
+    @RequestMapping("acknowledge")
+    public Response acknowledge(@AuthenticationPrincipal UserDetails userDetails,
+                               Integer recordDetailId, String reply) {
+        if (recordDetailId == null || StringUtils.isBlank(reply)) {
+            return ResponseFactory.errMissingParameter();
+        }
+        return giftService.acknowledge(userDetails.getUserId(), recordDetailId, reply);
+    }
 }

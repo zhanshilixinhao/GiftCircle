@@ -1,5 +1,6 @@
 package com.chouchongkeji.dial.dao.backpack.gift;
 
+import com.chouchongkeji.dial.pojo.backpack.gift.GiftRecordDetail;
 import org.apache.ibatis.annotations.Param;
 
 public interface GiftRecordDetailMapper {

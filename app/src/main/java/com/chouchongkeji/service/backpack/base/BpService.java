@@ -1,10 +1,8 @@
 package com.chouchongkeji.service.backpack.base;
 
-import com.chouchongkeji.dial.dao.backpack.gift.GiftRecordDetail;
 import com.chouchongkeji.dial.pojo.backpack.BpItem;
 import com.chouchongkeji.dial.pojo.backpack.consignment.ConsignmentOrder;
 import com.chouchongkeji.dial.pojo.gift.item.ItemOrderDetail;
-import com.chouchongkeji.dial.pojo.gift.virtualItem.GiftRecord;
 import com.chouchongkeji.dial.pojo.gift.virtualItem.VirItemOrder;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.query.PageQuery;
