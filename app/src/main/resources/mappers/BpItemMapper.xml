@@ -15,7 +15,7 @@
         </constructor>
     </resultMap>
     <sql id="Base_Column_List">
-    id, user_id, target_id, quantity, price, from, type, created, updated
+    id, user_id, target_id, quantity, price, `from`, `type`, created, updated
   </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
         select

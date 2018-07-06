@@ -27,6 +27,10 @@ public interface ConsignmentMapper {
 
     List<ConListVo> selectAllItem();
 
-    List<Consignment> selectList(Integer userId, Byte user, Byte condition);
+    List<ConsignmentVo> selectList(@Param("userId") Integer userId,@Param("condition") Byte condition);
+
+    List<ConsignmentVo> selectBuyerList(@Param("userId") Integer userId,@Param("condition") Byte condition);
+
+    Consignment selectPutAwayItem(@Param("userId") Integer userId,@Param("consignmentId")Integer consignmentId);
 
 }

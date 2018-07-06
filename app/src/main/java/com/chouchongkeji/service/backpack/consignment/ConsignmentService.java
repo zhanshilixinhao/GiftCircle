@@ -45,4 +45,14 @@ public interface ConsignmentService {
      * @date 2018/7/2
      */
     Response buySellList(Integer userId, Byte user, Byte condition, PageQuery pageQuery);
+
+    /**
+     * 寄售台商品下架功能
+     * @param userId 用户id
+     * @param consignmentId 寄售台id
+     * @return
+     * @author linqin
+     * @date 2018/7/2
+     */
+    Response soldOutItem(Integer userId, Integer consignmentId);
 }

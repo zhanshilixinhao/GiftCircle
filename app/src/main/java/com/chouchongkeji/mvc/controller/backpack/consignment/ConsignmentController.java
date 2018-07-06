@@ -90,5 +90,23 @@ public class ConsignmentController {
         return consignmentService.buySellList(userDetails.getUserId(),user,condition,pageQuery);
     }
 
+    /**
+     * 寄售台商品下架功能
+     * @param userDetails
+     * @param consignmentId 寄售台id
+     * @return
+     * @author linqin
+     * @date 2018/7/2
+     */
+    @PostMapping("sold_out")
+    public Response soldOutItem(@AuthenticationPrincipal UserDetails userDetails,Integer consignmentId){
+        //校验参数
+        if (consignmentId == null){
+            return ResponseFactory.errMissingParameter();
+        }
+        return consignmentService.soldOutItem(userDetails.getUserId(),consignmentId);
+    }
+
+
 
 }

@@ -32,7 +32,8 @@ public class ConListServiceImpl implements ConListService {
     private ItemMapper itemMapper;
 
     @Autowired
-    private ServiceProperties  serviceProperties;
+    private ServiceProperties serviceProperties;
+
     /**
      * 查询寄售台某个商品列表
      *
@@ -45,13 +46,10 @@ public class ConListServiceImpl implements ConListService {
     @Override
     public Response getOneList(Integer targetId, Integer type, PageQuery pageQuery) {
         //分页
-        PageHelper.startPage(pageQuery.getPageNum(),pageQuery.getPageSize());
+        PageHelper.startPage(pageQuery.getPageNum(), pageQuery.getPageSize());
         //查出寄售台相同商品
-        if (type == Constants.BACKPACK_TYPE.ITEM){
-            List<ConsignmentVo> list = consignmentMapper.selectListByTargetIdType(targetId,1);
-            return ResponseFactory.sucData(list);
-        }
-        return ResponseFactory.suc();
+        List<ConsignmentVo> list = consignmentMapper.selectListByTargetIdType(targetId,type);
+        return ResponseFactory.sucData(list);
     }
 
     /**
@@ -63,9 +61,9 @@ public class ConListServiceImpl implements ConListService {
      * @date 2018/7/3
      */
     @Override
-    public Response getAllList( PageQuery pageQuery) {
+    public Response getAllList(PageQuery pageQuery) {
         //分页
-        PageHelper.startPage(pageQuery.getPageNum(),pageQuery.getPageSize());
+        PageHelper.startPage(pageQuery.getPageNum(), pageQuery.getPageSize());
         //查出寄售台商品列表
         List<ConListVo> listVos = consignmentMapper.selectAllItem();
         return ResponseFactory.sucData(listVos);
@@ -74,6 +72,7 @@ public class ConListServiceImpl implements ConListService {
 
     /**
      * 寄售台商品详情
+     *
      * @param consignmentId 寄售台商品Id
      * @return
      * @author linqin
@@ -83,17 +82,17 @@ public class ConListServiceImpl implements ConListService {
     public Response getItemDetail(Integer consignmentId) {
         //查出寄售台商品
         Consignment conItem = consignmentMapper.selectByPrimaryKey(consignmentId);
-        if (conItem == null){
+        if (conItem == null) {
             return ResponseFactory.err("寄售台中不存在该商品");
         }
         //物品才可以查看详细信息
-        if (conItem.getType()!=Constants.BACKPACK_TYPE.ITEM){
+        if (conItem.getType() != Constants.BACKPACK_TYPE.ITEM) {
             return ResponseFactory.err("物品才可以查看详细信息");
         }
         //查询商品详情
         Integer skuId = conItem.getTargetId();
         DetailVo detailVo = itemMapper.selectItemDtail(skuId);
-        if (detailVo == null){
+        if (detailVo == null) {
             return ResponseFactory.err("商品不存在");
         }
         Integer id = detailVo.getItemId();
@@ -102,7 +101,6 @@ public class ConListServiceImpl implements ConListService {
         return ResponseFactory.sucData(detailVo);
 
     }
-
 
 
 }
