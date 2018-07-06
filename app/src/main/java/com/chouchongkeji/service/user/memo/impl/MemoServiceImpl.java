@@ -235,4 +235,17 @@ public class MemoServiceImpl implements MemoService {
         }
         return ResponseFactory.err("删除失败!");
     }
+
+    /**
+     * 首页的三个备忘录
+     *
+     * @param userId 用户信息
+     * @return
+     * @author yichenshanren
+     * @date 2018/6/22
+     */
+    @Override
+    public Response getHomeList(Integer userId) {
+        return ResponseFactory.sucData(memoActivityMapper.selectLastByUserId(userId));
+    }
 }

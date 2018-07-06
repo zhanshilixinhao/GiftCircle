@@ -3441,3 +3441,48 @@ JSON：
     ]
 }
 ```
+
+## 17 首页接口
+
+### 17.1 首页备忘录（需要登录）
+
+- 请求地址：auth/memo/home
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yichen
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+
+```js
+{
+    errCode: 0, 
+    result: 0, 
+    time: 1530869222094, 
+    data: [
+        {
+            id: 100, 
+            userId: 4,  // 备忘录创建者id
+            targetTime: 1531111765000,  // 设置的提醒时间
+            detail: "忘记去大理",  // 提醒内容
+            type: 2,  // 1 活动 2 事件
+            created: 1529643309000, 
+            nickname: "大秦", // 创建者昵称
+            avatar: "https://io.shanren.group/image/avatar.jpg", // 创建者头像
+            days: 2.8072 // 距离targetTime的剩余时间（天）
+        }, 
+        {
+            id: 102, 
+            userId: 4, 
+            targetTime: 1531457365000, 
+            detail: "又不喜欢这里", 
+            type: 1, 
+            created: 1529650753000, 
+            nickname: "大秦", 
+            avatar: "https://io.shanren.group/image/avatar.jpg", 
+            days: 6.8072
+        }
+    ]
+}
+```

@@ -220,4 +220,18 @@ public class MemoController {
         }
         return memoService.delMemo(userDetails.getUserId(), id, type);
     }
+
+
+    /**
+     * 首页的三个备忘录
+     *
+     * @param userDetails 用户信息
+     * @return
+     * @author yichenshanren
+     * @date 2018/6/22
+     */
+    @PostMapping("home")
+    public Response getHomeList(@AuthenticationPrincipal UserDetails userDetails) {
+        return memoService.getHomeList(userDetails.getUserId());
+    }
 }

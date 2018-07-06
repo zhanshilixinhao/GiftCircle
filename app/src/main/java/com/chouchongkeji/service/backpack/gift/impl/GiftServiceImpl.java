@@ -62,6 +62,8 @@ public class GiftServiceImpl implements GiftService {
     @Autowired
     private BpService bpService;
 
+    /*----------------------------------------礼物赠送------------------------------------------------------*/
+
     /**
      * 按时赠送任务
      */
@@ -242,6 +244,10 @@ public class GiftServiceImpl implements GiftService {
         return detail;
     }
 
+    /*----------------------------------------礼物赠送结束------------------------------------------------------*/
+
+    /*----------------------------------------礼物赠送答谢开始------------------------------------------------------*/
+
     /**
      * 答谢礼物赠送
      *
@@ -269,4 +275,6 @@ public class GiftServiceImpl implements GiftService {
         giftRecordDetailMapper.updateByPrimaryKeySelective(newDetail);
         return ResponseFactory.suc();
     }
+
+    /*----------------------------------------礼物赠送答谢结束------------------------------------------------------*/
 }

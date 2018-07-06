@@ -80,6 +80,55 @@
         ORDER BY
         a.created DESC
     </select>
+    <select id="selectLastByUserId" resultType="com.chouchongkeji.service.user.memo.vo.HomeMemoItemVo">
+SELECT
+	a.*,
+	( UNIX_TIMESTAMP( a.target_time ) - UNIX_TIMESTAMP( now( ) ) ) / ( 86400 ) AS days,
+	b.avatar,
+	b.nickname
+FROM
+	(
+SELECT
+	id,
+	user_id,
+	target_time,
+	detail,
+	1 AS type,
+	created
+FROM
+	`memo_event`
+WHERE
+	user_id = #{userId} UNION
+SELECT
+	id,
+	user_id,
+	target_time,
+	detail,
+	2 AS type,
+	created
+FROM
+	memo_activity
+WHERE
+	user_id = #{userId} UNION
+SELECT
+	id,
+	user_id,
+	target_time,
+	detail,
+	2 AS type,
+	created
+FROM
+	memo_activity
+WHERE
+	FIND_IN_SET(  #{userId}, users )
+	) a
+	LEFT JOIN app_user b ON b.id = a.user_id
+WHERE
+	UNIX_TIMESTAMP( a.target_time ) > UNIX_TIMESTAMP( now( ) )
+ORDER BY
+	a.target_time
+	LIMIT 3
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from memo_activity
     where id = #{id,jdbcType=INTEGER}

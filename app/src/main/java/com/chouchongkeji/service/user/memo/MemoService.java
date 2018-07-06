@@ -104,4 +104,13 @@ public interface MemoService {
      */
     Response delMemo(Integer userId, Integer id, Integer type);
 
+    /**
+     * 首页的三个备忘录
+     *
+     * @param userId 用户信息
+     * @return
+     * @author yichenshanren
+     * @date 2018/6/22
+     */
+    Response getHomeList(Integer userId);
 }
