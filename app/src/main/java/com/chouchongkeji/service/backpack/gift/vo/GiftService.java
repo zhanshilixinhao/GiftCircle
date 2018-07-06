@@ -1,4 +1,4 @@
-package com.chouchongkeji.service.backpack.gift;
+package com.chouchongkeji.service.backpack.gift.vo;
 
 import com.chouchongkeji.goexplore.common.Response;
 

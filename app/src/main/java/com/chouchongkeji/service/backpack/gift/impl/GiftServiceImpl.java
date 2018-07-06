@@ -6,24 +6,25 @@ import com.chouchongkeji.dial.dao.backpack.gift.GiftRecordDetail;
 import com.chouchongkeji.dial.dao.backpack.gift.GiftRecordDetailMapper;
 import com.chouchongkeji.dial.dao.backpack.gift.GiftRecordMapper;
 import com.chouchongkeji.dial.pojo.backpack.Vbp;
-import com.chouchongkeji.dial.pojo.friend.Friend;
 import com.chouchongkeji.dial.pojo.gift.virtualItem.GiftRecord;
-
 import com.chouchongkeji.exception.ServiceException;
 import com.chouchongkeji.goexplore.common.ErrorCode;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
-import com.chouchongkeji.goexplore.utils.Utils;
 import com.chouchongkeji.service.backpack.base.BpService;
-import com.chouchongkeji.service.backpack.gift.GiftItemVo;
-import com.chouchongkeji.service.backpack.gift.GiftSendVo;
-import com.chouchongkeji.service.backpack.gift.GiftService;
+import com.chouchongkeji.service.backpack.gift.vo.GiftItemVo;
+import com.chouchongkeji.service.backpack.gift.vo.GiftSendVo;
+import com.chouchongkeji.service.backpack.gift.vo.GiftService;
+import com.chouchongkeji.service.backpack.gift.vo.GiftTaskVo;
 import com.chouchongkeji.service.message.MessageService;
 import com.chouchongkeji.service.user.friend.FriendService;
 import com.chouchongkeji.service.user.friend.vo.FriendVo;
 import com.chouchongkeji.util.Constants;
 import org.apache.commons.collections.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,6 +41,8 @@ import java.util.List;
 @Service
 @Transactional(rollbackFor = Exception.class, isolation = Isolation.REPEATABLE_READ)
 public class GiftServiceImpl implements GiftService {
+
+    private static Logger log = LoggerFactory.getLogger(GiftServiceImpl.class);
 
     @Autowired
     private GiftRecordMapper giftRecordMapper;
@@ -58,6 +61,38 @@ public class GiftServiceImpl implements GiftService {
 
     @Autowired
     private BpService bpService;
+
+    /**
+     * 按时赠送任务
+     */
+    @Scheduled(fixedRate = 30000)
+    public void sendTask() {
+        log.info("开始执行礼物赠送");
+        // 取出所有需要按时赠送的礼物记录
+        List<GiftTaskVo> giftTaskVos = giftRecordMapper.selectAllByTargetTime();
+        if (CollectionUtils.isEmpty(giftTaskVos)) {
+            log.info("没有需要赠送的礼物");
+            return;
+        }
+        for (GiftTaskVo vo : giftTaskVos) {
+            // 更新礼物记录状态为已赠送
+            giftRecordMapper.updateStatusById(vo.getRecordId(), Constants.GIFT_STATUS.SEND);
+            // 更新礼物记录详情记录
+            int count = giftRecordDetailMapper.updateStatusById(vo.getRecordDetailId(), Constants.GIFT_STATUS.SEND);
+            if (count < 1) {
+                log.info("礼物似乎已赠送");
+                continue;
+            }
+            // 添加礼物通知消息
+            log.info("添加礼物通知消息");
+            addGiftNotifyMessage(vo.getSendUserId(), vo.getUserId(), vo.getRecordId(),
+                    vo.getGiftItems());
+            // 添加物品到背包
+            log.info("添加物品到背包");
+            addItemToBp(vo.getRecordDetailId(), vo.getUserId(), vo.getGiftItems());
+            log.info("礼物{}赠送成功",vo.getRecordId());
+        }
+    }
 
     /**
      * app赠送礼物实现
@@ -142,7 +177,8 @@ public class GiftServiceImpl implements GiftService {
         }
         // 如果是立即赠送添加礼物赠送消息
         if (sendVo.getType() == Constants.GIFT_SEND_TYPE.NOW) {
-            sendSuccess(userId, sendVo.getFriendUserId(), record.getId(), list);
+            addGiftNotifyMessage(userId, sendVo.getFriendUserId(), record.getId(), list);
+            addItemToBp(detail.getId(), detail.getUserId(), list);
             return ResponseFactory.sucMsg("赠送成功");
         } else {
             return ResponseFactory.sucMsg("礼物将在预定时间内送达!");
@@ -150,19 +186,30 @@ public class GiftServiceImpl implements GiftService {
     }
 
     /**
+     * 将赠送的礼物放入对方的背包*
+     *
+     * @param recordDetailId 物品信息
+     * @param list
+     * @author yichenshanren
+     * @date 2018/7/2
+     */
+    private int addItemToBp(Integer recordDetailId, Integer userId, List<GiftItemVo> list) {
+        return bpService.addFromGiftSent(recordDetailId, userId, list);
+    }
+
+    /**
      * 赠送成功之后
      * 添加一条消息
-     * 将赠送的礼物放入对方的背包
      *
      * @param userId       赠送者用户id
      * @param friendUserId 接收者用户id
      * @param recordId     礼物记录id
      * @param list         礼物列表
-     * @return
+     * @return 1
      * @author yichenshanren
      * @date 2018/7/2
      */
-    private int sendSuccess(Integer userId, Integer friendUserId, Integer recordId, List<GiftItemVo> list) {
+    private int addGiftNotifyMessage(Integer userId, Integer friendUserId, Integer recordId, List<GiftItemVo> list) {
         FriendVo friend = friendService.isFriend(friendUserId, userId);
         if (friend == null) {
             throw new ServiceException(ErrorCode.ERROR, "扎心了，对方和你不是好友关系!");
@@ -171,8 +218,6 @@ public class GiftServiceImpl implements GiftService {
         String summary = String.format("%s送您了%s", Constants.genName(friend), list.get(0).getTitle());
         messageService.addMessage(Constants.APP_MESSAGE_TYPE.GIFT,
                 summary, null, recordId, friendUserId);
-        // 将赠送的物品放入接收者的背包
-//        bpService
         return 1;
     }
 

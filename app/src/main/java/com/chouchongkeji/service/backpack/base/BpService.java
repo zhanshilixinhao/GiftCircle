@@ -8,6 +8,7 @@ import com.chouchongkeji.dial.pojo.gift.virtualItem.GiftRecord;
 import com.chouchongkeji.dial.pojo.gift.virtualItem.VirItemOrder;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.query.PageQuery;
+import com.chouchongkeji.service.backpack.gift.vo.GiftItemVo;
 
 import java.util.List;
 
@@ -74,10 +75,10 @@ public interface BpService {
     /**
      * 赠送的物品添加到背包
      *
-     * @param details 赠送的礼物列表
+     * @param detail 赠送的礼物信息
      * @return
      * @author yichenshanren
      * @date 2018/7/2
      */
-    int addFromGiftSent(GiftRecord record, List<GiftRecordDetail> details);
+    int addFromGiftSent(Integer recordDetailId, Integer userId, List<GiftItemVo> vos);
 }

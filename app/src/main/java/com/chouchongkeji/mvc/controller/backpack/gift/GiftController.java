@@ -2,8 +2,8 @@ package com.chouchongkeji.mvc.controller.backpack.gift;
 
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
-import com.chouchongkeji.service.backpack.gift.GiftSendVo;
-import com.chouchongkeji.service.backpack.gift.GiftService;
+import com.chouchongkeji.service.backpack.gift.vo.GiftSendVo;
+import com.chouchongkeji.service.backpack.gift.vo.GiftService;
 import com.yichen.auth.service.UserDetails;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1098,7 +1098,7 @@ CREATE TABLE `gift_record` (
   `type` tinyint(4) comment '1 立即赠送 2 按时间赠送 3 小程序选择好友赠送需要领取 4 小程序随机赠送需要领取',
   `event` varchar(64) comment '事件名称',
   `target_time` datetime comment '目标赠送赠送时间',
-  `status` tinyint(4) comment '1 已领取 2 待领取',
+  `status` tinyint(4) comment '1 未领取 2 已领取部分 3 已领取全部 4 超时领取失败 ',
   `updated` datetime,
   `created` datetime,
   PRIMARY KEY ( id ),

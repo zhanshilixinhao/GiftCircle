@@ -1,33 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.chouchongkeji.dial.dao.backpack.gift.GiftRecordMapper">
-  <resultMap id="BaseResultMap" type="com.chouchongkeji.dial.pojo.gift.virtualItem.GiftRecord">
-    <constructor>
-      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="greetting" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="type" javaType="java.lang.Byte" jdbcType="TINYINT" />
-      <arg column="event" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="target_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-      <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT" />
-      <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-      <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-    </constructor>
-  </resultMap>
-  <sql id="Base_Column_List">
+    <resultMap id="BaseResultMap" type="com.chouchongkeji.dial.pojo.gift.virtualItem.GiftRecord">
+        <constructor>
+            <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="greetting" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="type" javaType="java.lang.Byte" jdbcType="TINYINT"/>
+            <arg column="event" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="target_time" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT"/>
+            <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List">
     id, user_id, greetting, type, event, target_time, status, updated, created
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from gift_record
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from gift_record
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <resultMap id="GiftTaskVo" type="com.chouchongkeji.service.backpack.gift.vo.GiftTaskVo">
+        <result column="record_id" property="recordId"/>
+        <result column="record_detail_id" property="recordDetailId"/>
+        <result column="send_user_id" property="sendUserId"/>
+        <result column="user_id" property="userId"/>
+        <result column="target_time" property="targetTime"/>
+        <result column="content" property="giftItems" typeHandler="com.chouchongkeji.dial.handler.GiftItemVoTypeHandler"/>
+    </resultMap>
+
+    <select id="selectAllByTargetTime" resultMap="GiftTaskVo">
+        SELECT
+        a.id AS record_id,
+        a.user_id AS send_user_id,
+        b.id AS record_detail_id,
+        b.user_id,
+        b.content,
+        a.target_time
+        FROM
+        `gift_record` a
+        LEFT JOIN gift_record_detail b ON b.gift_record_id = b.id
+        WHERE
+        a.type = 2
+        AND a.STATUS = 1
+        AND UNIX_TIMESTAMP( a.target_time ) &lt; UNIX_TIMESTAMP( now( ) + 10 )
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from gift_record
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.gift.virtualItem.GiftRecord" keyProperty="id" useGeneratedKeys="true">
+    <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.gift.virtualItem.GiftRecord" keyProperty="id"
+            useGeneratedKeys="true">
     insert into gift_record (id, user_id, greetting, 
       type, event, target_time, 
       status, updated, created
@@ -37,98 +64,98 @@
       #{status,jdbcType=TINYINT}, now(), now()
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.gift.virtualItem.GiftRecord">
-    insert into gift_record
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="userId != null">
-        user_id,
-      </if>
-      <if test="greetting != null">
-        greetting,
-      </if>
-      <if test="type != null">
-        type,
-      </if>
-      <if test="event != null">
-        event,
-      </if>
-      <if test="targetTime != null">
-        target_time,
-      </if>
-      <if test="status != null">
-        status,
-      </if>
-      <if test="updated != null">
-        updated,
-      </if>
-      <if test="created != null">
-        created,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="userId != null">
-        #{userId,jdbcType=INTEGER},
-      </if>
-      <if test="greetting != null">
-        #{greetting,jdbcType=VARCHAR},
-      </if>
-      <if test="type != null">
-        #{type,jdbcType=TINYINT},
-      </if>
-      <if test="event != null">
-        #{event,jdbcType=VARCHAR},
-      </if>
-      <if test="targetTime != null">
-        #{targetTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="status != null">
-        #{status,jdbcType=TINYINT},
-      </if>
-      <if test="updated != null">
-        #{updated,jdbcType=TIMESTAMP},
-      </if>
-      <if test="created != null">
-        #{created,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.chouchongkeji.dial.pojo.gift.virtualItem.GiftRecord">
-    update gift_record
-    <set>
-      <if test="userId != null">
-        user_id = #{userId,jdbcType=INTEGER},
-      </if>
-      <if test="greetting != null">
-        greetting = #{greetting,jdbcType=VARCHAR},
-      </if>
-      <if test="type != null">
-        type = #{type,jdbcType=TINYINT},
-      </if>
-      <if test="event != null">
-        event = #{event,jdbcType=VARCHAR},
-      </if>
-      <if test="targetTime != null">
-        target_time = #{targetTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="status != null">
-        status = #{status,jdbcType=TINYINT},
-      </if>
-      <if test="updated != null">
-        updated = #{updated,jdbcType=TIMESTAMP},
-      </if>
-      <if test="created != null">
-        created = #{created,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.dial.pojo.gift.virtualItem.GiftRecord">
+    <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.gift.virtualItem.GiftRecord">
+        insert into gift_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="greetting != null">
+                greetting,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="event != null">
+                event,
+            </if>
+            <if test="targetTime != null">
+                target_time,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="updated != null">
+                updated,
+            </if>
+            <if test="created != null">
+                created,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="greetting != null">
+                #{greetting,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=TINYINT},
+            </if>
+            <if test="event != null">
+                #{event,jdbcType=VARCHAR},
+            </if>
+            <if test="targetTime != null">
+                #{targetTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=TINYINT},
+            </if>
+            <if test="updated != null">
+                #{updated,jdbcType=TIMESTAMP},
+            </if>
+            <if test="created != null">
+                #{created,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.chouchongkeji.dial.pojo.gift.virtualItem.GiftRecord">
+        update gift_record
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="greetting != null">
+                greetting = #{greetting,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                type = #{type,jdbcType=TINYINT},
+            </if>
+            <if test="event != null">
+                event = #{event,jdbcType=VARCHAR},
+            </if>
+            <if test="targetTime != null">
+                target_time = #{targetTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=TINYINT},
+            </if>
+            <if test="updated != null">
+                updated = #{updated,jdbcType=TIMESTAMP},
+            </if>
+            <if test="created != null">
+                created = #{created,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.dial.pojo.gift.virtualItem.GiftRecord">
     update gift_record
     set user_id = #{userId,jdbcType=INTEGER},
       greetting = #{greetting,jdbcType=VARCHAR},
@@ -140,4 +167,8 @@
       created = #{created,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+    <update id="updateStatusById">
+        update gift_record set status = #{status}
+        where id = #{recordId} and status = 1
+    </update>
 </mapper>
