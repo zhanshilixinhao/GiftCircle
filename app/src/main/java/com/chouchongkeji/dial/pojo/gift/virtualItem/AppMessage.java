@@ -9,7 +9,7 @@ public class AppMessage {
 
     private String title;
 
-    private String sumarry;
+    private String summary;
 
     private String content;
 
@@ -23,10 +23,10 @@ public class AppMessage {
 
     private Date updated;
 
-    public AppMessage(Integer id, String title, String sumarry, String content, Integer targetId, Byte targetType, Byte messageType, Date created, Date updated) {
+    public AppMessage(Integer id, String title, String summary, String content, Integer targetId, Byte targetType, Byte messageType, Date created, Date updated) {
         this.id = id;
         this.title = title;
-        this.sumarry = sumarry;
+        this.summary = summary;
         this.content = content;
         this.targetId = targetId;
         this.targetType = targetType;
@@ -55,12 +55,12 @@ public class AppMessage {
         this.title = title == null ? null : title.trim();
     }
 
-    public String getSumarry() {
-        return sumarry;
+    public String getSummary() {
+        return summary;
     }
 
-    public void setSumarry(String sumarry) {
-        this.sumarry = sumarry == null ? null : sumarry.trim();
+    public void setSummary(String summary) {
+        this.summary = summary;
     }
 
     public String getContent() {

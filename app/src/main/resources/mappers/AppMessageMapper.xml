@@ -5,7 +5,7 @@
     <constructor>
       <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="title" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="sumarry" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="summary" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="content" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="target_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="target_type" javaType="java.lang.Byte" jdbcType="TINYINT" />
@@ -15,7 +15,7 @@
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    id, title, sumarry, content, target_id, target_type, message_type, created, updated
+    id, title, summary, content, target_id, target_type, message_type, created, updated
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -28,11 +28,11 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.gift.virtualItem.AppMessage" useGeneratedKeys="true" keyProperty="id">
-    insert into app_message (id, title, sumarry, 
+    insert into app_message (id, title, summary,
       content, target_id, target_type, 
       message_type, created, updated
       )
-    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{sumarry,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{summary,jdbcType=VARCHAR},
       #{content,jdbcType=VARCHAR}, #{targetId,jdbcType=INTEGER}, #{targetType,jdbcType=TINYINT}, 
       #{messageType,jdbcType=TINYINT}, now(), now()
       )
@@ -46,8 +46,8 @@
       <if test="title != null">
         title,
       </if>
-      <if test="sumarry != null">
-        sumarry,
+      <if test="summary != null">
+        summary,
       </if>
       <if test="content != null">
         content,
@@ -75,8 +75,8 @@
       <if test="title != null">
         #{title,jdbcType=VARCHAR},
       </if>
-      <if test="sumarry != null">
-        #{sumarry,jdbcType=VARCHAR},
+      <if test="summary != null">
+        #{summary,jdbcType=VARCHAR},
       </if>
       <if test="content != null">
         #{content,jdbcType=VARCHAR},
@@ -104,8 +104,8 @@
       <if test="title != null">
         title = #{title,jdbcType=VARCHAR},
       </if>
-      <if test="sumarry != null">
-        sumarry = #{sumarry,jdbcType=VARCHAR},
+      <if test="summary != null">
+        summary = #{summary,jdbcType=VARCHAR},
       </if>
       <if test="content != null">
         content = #{content,jdbcType=VARCHAR},
@@ -131,7 +131,7 @@
   <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.dial.pojo.gift.virtualItem.AppMessage">
     update app_message
     set title = #{title,jdbcType=VARCHAR},
-      sumarry = #{sumarry,jdbcType=VARCHAR},
+      summary = #{summary,jdbcType=VARCHAR},
       content = #{content,jdbcType=VARCHAR},
       target_id = #{targetId,jdbcType=INTEGER},
       target_type = #{targetType,jdbcType=TINYINT},

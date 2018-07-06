@@ -1,6 +1,7 @@
 package com.chouchongkeji.service.message;
 
 import com.chouchongkeji.dial.pojo.gift.virtualItem.AppMessage;
+import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.util.Constants;
 
 import java.util.List;
@@ -39,10 +40,21 @@ public interface MessageService {
      * 添加一条消息
      *
      * @param summary 消息内容
-     * @param userId 用户id
+     * @param userId  用户id
      * @return
      * @author yichenshanren
      * @date 2018/7/3
      */
     int addMessage(Constants.APP_MESSAGE_TYPE type, String summary, Object content, Integer targetId, Integer userId);
+
+    /**
+     * 消息主页 列表
+     *
+     * @param userId 用户信息
+     * @return
+     * @author yichenshanren
+     * @date 2018/7/6
+     */
+    Response getHomeList(Integer userId);
+
 }

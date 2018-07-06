@@ -3275,3 +3275,58 @@ JSON：
 | pageNum | int | 是 | 无 | 分页 |
 | pageSize | int | 是 | 无 | 分页大小 |
 
+
+## 16 消息
+
+### 16.1 消息首页
+
+- 请求地址：auth/v1/message/home
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yichen
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+
+```js
+{
+    errCode: 0, 
+    result: 0, 
+    time: 1530850998639, 
+    data: [
+        {
+            messageType: 1, 
+            avatar: "", 
+            title: "礼物通知", 
+            summary: "什么送您了魏文侯", 
+            unread: 1, 
+            created: 1530846904000
+        }, 
+        {
+            messageType: 2, 
+            avatar: "", 
+            title: "系统通知", 
+            summary: "", 
+            unread: 0, 
+            created: 1530850998276
+        }, 
+        {
+            messageType: 3, 
+            avatar: "", 
+            title: "寄售台通知", 
+            summary: "您交易的物品被什么用户购买，快去看看吧", 
+            unread: 1, 
+            created: 1530697205000
+        }, 
+        {
+            messageType: 4, 
+            avatar: "", 
+            title: "礼物交换通知", 
+            summary: "", 
+            unread: 0, 
+            created: 1530850998570
+        }
+    ]
+}
+```

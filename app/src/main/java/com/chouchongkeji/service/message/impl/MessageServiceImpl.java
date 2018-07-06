@@ -7,13 +7,17 @@ import com.chouchongkeji.dial.pojo.gift.virtualItem.AppMessage;
 import com.chouchongkeji.dial.pojo.gift.virtualItem.AppMessageUser;
 import com.chouchongkeji.exception.ServiceException;
 import com.chouchongkeji.goexplore.common.ErrorCode;
+import com.chouchongkeji.goexplore.common.Response;
+import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.service.message.MessageService;
+import com.chouchongkeji.service.message.vo.MessageHomeVo;
 import com.chouchongkeji.util.Constants;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -80,7 +84,7 @@ public class MessageServiceImpl implements MessageService {
         AppMessage message = new AppMessage();
         message.setTitle(type.title());
         message.setMessageType(type.type());
-        message.setSumarry(summary);
+        message.setSummary(summary);
         message.setContent(JSON.toJSONString(content));
         message.setTargetId(targetId);
         return addMessage(message, userIds);
@@ -123,4 +127,31 @@ public class MessageServiceImpl implements MessageService {
     }
 
 
+    /**
+     * 消息主页 列表
+     *
+     * @param userId 用户信息
+     * @return
+     * @author yichenshanren
+     * @date 2018/7/6
+     */
+    @Override
+    public Response getHomeList(Integer userId) {
+        List<MessageHomeVo> vos = new ArrayList<>();
+        for (Constants.APP_MESSAGE_TYPE type : Constants.APP_MESSAGE_TYPE.values()) {
+            // 查询最后一条消息
+            MessageHomeVo vo = appMessageUserMapper.selectLastMessageByUserIdAndType(userId, type.type());
+            if (vo == null) {
+                vo = new MessageHomeVo();
+                vo.setCreated(new Date());
+            }
+            // 根据类型查询
+            Integer unread = appMessageUserMapper.selectUnredByUserIdAndType(userId, type.type());
+            vo.setUnread(unread);
+            vo.setTitle(type.title());
+            vo.setMessageType(type.type());
+            vos.add(vo);
+        }
+        return ResponseFactory.sucData(vos);
+    }
 }

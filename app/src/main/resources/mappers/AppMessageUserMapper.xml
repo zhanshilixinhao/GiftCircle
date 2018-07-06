@@ -20,6 +20,32 @@
     from app_message_user
     where id = #{id,jdbcType=INTEGER}
   </select>
+    <select id="selectUnredByUserIdAndType" resultType="java.lang.Integer">
+SELECT
+	count( 0 ) AS unread
+FROM
+	`app_message` a
+	LEFT JOIN app_message_user b ON a.id = b.app_message_id
+WHERE
+	b.user_id = #{userId}
+	AND a.message_type = #{type}
+	AND b.is_read = 2
+    </select>
+  <select id="selectLastMessageByUserIdAndType"
+          resultType="com.chouchongkeji.service.message.vo.MessageHomeVo">
+ SELECT
+	c.summary,
+	c.created
+FROM
+	`app_message` c
+	LEFT JOIN app_message_user d ON c.id = d.app_message_id
+WHERE
+	d.user_id = #{userId}
+	AND c.message_type = #{type}
+ORDER BY
+	c.id DESC
+	LIMIT 1
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from app_message_user
     where id = #{id,jdbcType=INTEGER}
