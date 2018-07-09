@@ -3997,3 +3997,64 @@ JSON：
     }
 }
 ```
+
+### 19.2 人情账簿列表查询
+
+- 请求地址：auth/v1/mall/record/list
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yichen
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| starting | long | 否 | 无 | 开始时间（13位时间戳） |
+| ending | long | 否 | 无 | 结束时间（13位时间戳） |
+| obType | String | 否 | 无 | 类型 ：个人、家庭 |
+| pageNum | int | 否 | 1 | 分页 |
+| pageSize | int | 否 | 14 | 分页大小 |
+
+* 请求结果示例
+
+```js
+{
+    errCode: 0, 
+    result: 0, 
+    time: 1531129307850, 
+    data: {
+        records: [
+            {
+                recordId: 2, // 记录id
+                inoutType: 1, // 收支类型 1 汁出 2 收入
+                amount: 54534, // 金额
+                event: "那年花开", // 赠送事件
+                greetting: "一厢情愿的不舍",  // 祝福语
+                obType: "个人", // 类型
+                created: 1530847416000 // 时间
+            }, 
+            {
+                recordId: 1, 
+                inoutType: 1, 
+                amount: 10987, 
+                event: "什么节", 
+                greetting: "么么哒", 
+                obType: "个人", 
+                created: 1530691318000
+            }, 
+            {
+                recordId: 1, 
+                inoutType: 2, 
+                amount: 10000, 
+                event: "什么节", 
+                greetting: "么么哒", 
+                obType: "个人", 
+                created: 1530691318000
+            }
+        ], 
+        inout: { // 查询条件下的收支统计
+            incoming: 10000, // 收入总数 
+            outgoings: 65521 // 汁出总数
+        }
+    }
+}
+```

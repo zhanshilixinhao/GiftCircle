@@ -1,6 +1,7 @@
 package com.chouchongkeji.mvc.controller.backpack.gift;
 
 import com.chouchongkeji.goexplore.common.Response;
+import com.chouchongkeji.goexplore.query.PageQuery;
 import com.chouchongkeji.service.backpack.gift.GiftRecordService;
 import com.yichen.auth.service.UserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,30 @@ public class GiftRecordController {
      */
     @PostMapping("inex")
     public Response getInEx(@AuthenticationPrincipal UserDetails userDetails) {
-        return giftRecordService.getInEx(userDetails.getUserId());
+        return giftRecordService.getInOut(userDetails.getUserId());
+    }
+
+    /**
+     * 获取人情账簿列表
+     *
+     * @param userDetails 用户信息
+     * @param starting    开始日期
+     * @param ending      结束日期
+     * @param obType      类型 个人 | 家庭
+     * @return
+     * @author yichenshanren
+     * @date 2018/7/9
+     */
+    @PostMapping("list")
+    public Response getList(@AuthenticationPrincipal UserDetails userDetails,
+                            Long starting, Long ending, String obType, PageQuery page) {
+        if (starting != null) {
+            starting = starting / 1000;
+        }
+        if (ending != null) {
+            ending = ending / 1000;
+        }
+        return giftRecordService.getList(userDetails.getUserId(), starting, ending, obType, page);
     }
 
 }

@@ -50,19 +50,47 @@
         AND a.STATUS = 1
         AND UNIX_TIMESTAMP( a.target_time ) &lt; UNIX_TIMESTAMP( now( ) + 10 )
     </select>
-    <select id="selectInExByUserId" resultType="java.util.Map">
-        SELECT
-	(
-SELECT
-	sum( amount )
+    <select id="selectInExByUserId" resultType="com.chouchongkeji.service.backpack.gift.vo.GiftInoutVo">
+  SELECT
+	sum( CASE WHEN inout_type = 1 THEN amount ELSE 0 END ) as outgoings,
+	sum( CASE WHEN inout_type = 2 THEN amount ELSE 0 END ) as incoming
 FROM
-	gift_record a
-	LEFT JOIN gift_record_detail b ON a.id = b.gift_record_id
-WHERE
-	a.user_id = #{userId}
-	AND b.`status` = 3
-	) AS outgoings,
-	( SELECT sum( amount ) FROM gift_record_detail WHERE user_id = #{userId} AND `status` = 3 ) as incoming
+	`v_gift_record`
+        <where>
+            <trim prefixOverrides="and">
+                and user_id = #{userId}
+                <if test="starting!=null">
+                    and UNIX_TIMESTAMP(created) >= #{starting}
+                </if>
+                <if test="ending!=null">
+                    and UNIX_TIMESTAMP(created) &lt;= #{ending}
+                </if>
+                <if test="obType!=null and obType!=''">
+                    and ob_type = #{obType}
+                </if>
+            </trim>
+        </where>
+    </select>
+    <select id="selectRecordByUserId" resultType="com.chouchongkeji.service.backpack.gift.vo.GiftRecordItemVo">
+        SELECT
+        *
+        FROM
+        `v_gift_record_user`
+        <where>
+            <trim prefixOverrides="and">
+                and user_id = #{userId}
+                <if test="starting!=null">
+                    and UNIX_TIMESTAMP(created) >= #{starting}
+                </if>
+                <if test="ending!=null">
+                    and UNIX_TIMESTAMP(created) &lt;= #{ending}
+                </if>
+                <if test="obType!=null and obType!=''">
+                    and ob_type = #{obType}
+                </if>
+            </trim>
+        </where>
+        order by created DESC
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from gift_record
