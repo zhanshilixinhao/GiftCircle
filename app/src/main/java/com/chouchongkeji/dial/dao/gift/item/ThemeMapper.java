@@ -23,7 +23,7 @@ public interface ThemeMapper {
      * 根据主题状态获得主题列表
      *
      * @param: [status 主题状态]
-     * @return: java.util.List<com.chouchongkeji.service.gift.item.vo.ThemeVo>
+     * @return: java.util.List<com.chouchongkeji.service.mall.item.vo.ThemeVo>
      * @author: yy
      * @Date: 2018/6/20
      */

@@ -34,7 +34,7 @@ public interface ItemMapper {
      * 获得商品的详情
      *
      * @param: [id 商品id]
-     * @return: com.chouchongkeji.service.gift.item.vo.ItemDetail
+     * @return: com.chouchongkeji.service.mall.item.vo.ItemDetail
      * @author: yy
      * @Date: 2018/6/13
      */

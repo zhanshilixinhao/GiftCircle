@@ -286,7 +286,7 @@ http 常用错误码
 
 ### 2.9 查看礼物偏好
 
-- 请求地址：auth/user/gift/preference/list
+- 请求地址：auth/user/mall/preference/list
 - 服务协议：HTTP/POST
 - 是否需要身份认证：否
 - 作者：yichen
@@ -334,7 +334,7 @@ http 常用错误码
 
 ### 2.10 修改礼物偏好
 
-- 请求地址：auth/user/gift/preference/modify
+- 请求地址：auth/user/mall/preference/modify
 - 服务协议：HTTP/POST
 - 是否需要身份认证：否
 - 作者：yichen
@@ -3315,7 +3315,7 @@ JSON：
 
 ### 15.1 app礼物怎送
 
-- 请求地址：auth/v1/gift/sendForApp
+- 请求地址：auth/v1/mall/sendForApp
 - 服务协议：HTTP/POST
 - 是否需要身份认证：是
 - 作者：yichen
@@ -3336,7 +3336,7 @@ JSON：
 
 ### 15.2 礼物赠送答谢
 
-- 请求地址：auth/v1/gift/acknowledge
+- 请求地址：auth/v1/mall/acknowledge
 - 服务协议：HTTP/POST
 - 是否需要身份认证：是
 - 作者：yichen

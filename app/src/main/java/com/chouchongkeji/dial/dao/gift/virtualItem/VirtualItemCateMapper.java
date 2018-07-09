@@ -23,7 +23,7 @@ public interface VirtualItemCateMapper {
      * 获得虚拟商品分类列表
      *
      * @param: [status 虚拟商品分类状态]
-     * @return: java.util.List<com.chouchongkeji.service.gift.virtualItem.vo.VirtualItemCateVo>
+     * @return: java.util.List<com.chouchongkeji.service.mall.virtualItem.vo.VirtualItemCateVo>
      * @author: yy
      * @Date: 2018/6/11
      */

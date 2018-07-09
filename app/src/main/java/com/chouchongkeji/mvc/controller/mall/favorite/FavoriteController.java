@@ -1,4 +1,4 @@
-package com.chouchongkeji.mvc.controller.gift.favorite;
+package com.chouchongkeji.mvc.controller.mall.favorite;
 
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.common.Response;

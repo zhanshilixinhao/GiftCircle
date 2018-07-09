@@ -23,7 +23,7 @@ public interface UserFavoriteMapper {
      * 查询用户是否收藏该商品
      *
      * @param: [userId 用户id, id 商品id]
-     * @return: com.chouchongkeji.dial.pojo.gift.favorite.UserFavorite
+     * @return: com.chouchongkeji.dial.pojo.mall.favorite.UserFavorite
      * @author: yy
      * @Date: 2018/6/13
      */
@@ -43,7 +43,7 @@ public interface UserFavoriteMapper {
      * 获取用户收藏列表
      *
      * @param: [userId 用户id]
-     * @return: java.util.List<com.chouchongkeji.service.gift.favorite.vo.FavoriteListVo>
+     * @return: java.util.List<com.chouchongkeji.service.mall.favorite.vo.FavoriteListVo>
      * @author: yy
      * @Date: 2018/6/13
      */

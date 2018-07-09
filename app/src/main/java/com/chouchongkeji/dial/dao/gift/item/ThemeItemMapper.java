@@ -23,7 +23,7 @@ public interface ThemeItemMapper {
      * 获得主题商品列表
      *
      * @param: [id 主题id]
-     * @return: java.util.List<com.chouchongkeji.service.gift.item.vo.ItemListVo>
+     * @return: java.util.List<com.chouchongkeji.service.mall.item.vo.ItemListVo>
      * @author: yy
      * @Date: 2018/6/20
      */

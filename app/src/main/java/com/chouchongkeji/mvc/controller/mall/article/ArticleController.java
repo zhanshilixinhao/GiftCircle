@@ -1,4 +1,4 @@
-package com.chouchongkeji.mvc.controller.gift.article;
+package com.chouchongkeji.mvc.controller.mall.article;
 
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;

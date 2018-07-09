@@ -33,7 +33,7 @@ public interface GiftService {
      * @param reply          回复内容
      * @return
      * @author yichenshanren
-     * @date 2018/7/2
+     * @date 2018/7/21
      */
     Response acknowledge(Integer userId, Integer recordDetailId, String reply);
 

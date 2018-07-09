@@ -1,4 +1,4 @@
-package com.chouchongkeji.mvc.controller.gift.virtualItem;
+package com.chouchongkeji.mvc.controller.mall.virtualItem;
 
 import com.chouchongkeji.goexplore.pay.alipay_v2.ALiPayV2Vo;
 import com.chouchongkeji.goexplore.pay.weixin.common.Util;

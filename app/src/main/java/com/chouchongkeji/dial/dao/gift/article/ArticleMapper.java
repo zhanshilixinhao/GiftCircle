@@ -25,7 +25,7 @@ public interface ArticleMapper {
      * 通过状态查询文章列表
      *
      * @param: [status 文章状态]
-     * @return: java.util.List<com.chouchongkeji.service.gift.article.vo.ArticleVo>
+     * @return: java.util.List<com.chouchongkeji.service.mall.article.vo.ArticleVo>
      * @author: yy
      * @Date: 2018/6/11
      */

@@ -20,7 +20,7 @@ public interface VirItemOrderMapper {
      * 根据订单号取出订单信息
      *
      * @param: [orderNo]
-     * @return: com.chouchongkeji.dial.pojo.gift.virtualItem.VirItemOrder
+     * @return: com.chouchongkeji.dial.pojo.mall.virtualItem.VirItemOrder
      * @author: yy
      * @Date: 2018/6/12
      */

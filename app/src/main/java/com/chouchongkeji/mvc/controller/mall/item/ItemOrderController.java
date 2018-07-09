@@ -1,4 +1,4 @@
-package com.chouchongkeji.mvc.controller.gift.item;
+package com.chouchongkeji.mvc.controller.mall.item;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;

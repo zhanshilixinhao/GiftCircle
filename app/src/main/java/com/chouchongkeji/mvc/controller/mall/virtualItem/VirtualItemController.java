@@ -1,4 +1,4 @@
-package com.chouchongkeji.mvc.controller.gift.virtualItem;
+package com.chouchongkeji.mvc.controller.mall.virtualItem;
 
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.query.PageQuery;

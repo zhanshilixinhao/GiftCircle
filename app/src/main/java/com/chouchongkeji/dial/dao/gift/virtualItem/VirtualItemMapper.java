@@ -23,7 +23,7 @@ public interface VirtualItemMapper {
      * 根据分类获得虚拟商品列表
      *
      * @param: [id 虚拟商品分类id, status 商品状态]
-     * @return: java.util.List<com.chouchongkeji.service.gift.virtualItem.vo.VirtualItemVo>
+     * @return: java.util.List<com.chouchongkeji.service.mall.virtualItem.vo.VirtualItemVo>
      * @author: yy
      * @Date: 2018/6/11
      */
