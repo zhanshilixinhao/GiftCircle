@@ -13,10 +13,10 @@
       <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
     </constructor>
   </resultMap>
-  <resultMap id="ResultMap" type="com.chouchongkeji.service.gift.item.vo.ItemFeatureVo">
+  <resultMap id="ResultMap" type="com.chouchongkeji.service.mall.item.vo.ItemFeatureVo">
       <result column="feature_id" property="featureId"/>
       <result column="name" property="name"/>
-    <collection property="values" ofType="com.chouchongkeji.service.gift.item.vo.ValueVo">
+    <collection property="values" ofType="com.chouchongkeji.service.mall.item.vo.ValueVo">
       <result column="value_id" property="valueId"/>
       <result column="value" property="value"/>
     </collection>

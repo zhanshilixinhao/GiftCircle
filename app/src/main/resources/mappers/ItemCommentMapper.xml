@@ -142,7 +142,7 @@
   </update>
 
   <!--商品详情字段-->
-  <resultMap id="ItemComment" type="com.chouchongkeji.service.gift.item.vo.ItemCommentVo">
+  <resultMap id="ItemComment" type="com.chouchongkeji.service.mall.item.vo.ItemCommentVo">
     <result column="content" property="content"/>
     <result column="phone" property="phone"/>
     <result column="avatar" property="avatar"/>

@@ -1,7 +1,7 @@
 package com.chouchongkeji.dial.dao.gift.favorite;
 
 import com.chouchongkeji.dial.pojo.gift.favorite.UserFavorite;
-import com.chouchongkeji.service.gift.favorite.vo.FavoriteListVo;
+import com.chouchongkeji.service.mall.favorite.vo.FavoriteListVo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

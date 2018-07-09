@@ -1,5 +1,6 @@
 package com.chouchongkeji.dial.pojo.backpack.gift;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class GiftRecordDetail {
@@ -8,6 +9,8 @@ public class GiftRecordDetail {
     private Integer giftRecordId;
 
     private Integer userId;
+
+    private BigDecimal amount;
 
     private String content;
 
@@ -21,10 +24,11 @@ public class GiftRecordDetail {
 
     private Date created;
 
-    public GiftRecordDetail(Integer id, Integer giftRecordId, Integer userId, String content, Byte isReply, String reply, Byte status, Date updated, Date created) {
+    public GiftRecordDetail(Integer id, Integer giftRecordId, Integer userId, BigDecimal amount, String content, Byte isReply, String reply, Byte status, Date updated, Date created) {
         this.id = id;
         this.giftRecordId = giftRecordId;
         this.userId = userId;
+        this.amount = amount;
         this.content = content;
         this.isReply = isReply;
         this.reply = reply;
@@ -107,5 +111,13 @@ public class GiftRecordDetail {
 
     public void setCreated(Date created) {
         this.created = created;
+    }
+
+    public BigDecimal getAmount() {
+        return amount;
+    }
+
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
     }
 }

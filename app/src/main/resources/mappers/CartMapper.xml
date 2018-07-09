@@ -13,7 +13,7 @@
       <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
     </constructor>
   </resultMap>
-  <resultMap id="ResultMap" type="com.chouchongkeji.service.gift.item.vo.CartListVo">
+  <resultMap id="ResultMap" type="com.chouchongkeji.service.mall.item.vo.CartListVo">
     <result column="item_id" property="itemId"/>
     <result column="sku_id" property="skuId"/>
     <result column="cover" property="cover"/>

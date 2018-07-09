@@ -2,7 +2,7 @@ package com.chouchongkeji.mvc.controller.mall.virtualItem;
 
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.query.PageQuery;
-import com.chouchongkeji.service.gift.virtualItem.VirtualItemService;
+import com.chouchongkeji.service.mall.virtualItem.VirtualItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

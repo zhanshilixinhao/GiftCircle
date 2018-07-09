@@ -1,7 +1,7 @@
 package com.chouchongkeji.dial.dao.gift.item;
 
 import com.chouchongkeji.dial.pojo.gift.item.Theme;
-import com.chouchongkeji.service.gift.item.vo.ThemeVo;
+import com.chouchongkeji.service.mall.item.vo.ThemeVo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

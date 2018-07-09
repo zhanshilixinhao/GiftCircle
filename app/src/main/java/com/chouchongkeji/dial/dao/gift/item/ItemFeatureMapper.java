@@ -1,7 +1,7 @@
 package com.chouchongkeji.dial.dao.gift.item;
 
 import com.chouchongkeji.dial.pojo.gift.item.ItemFeature;
-import com.chouchongkeji.service.gift.item.vo.ItemFeatureVo;
+import com.chouchongkeji.service.mall.item.vo.ItemFeatureVo;
 
 import java.util.List;
 

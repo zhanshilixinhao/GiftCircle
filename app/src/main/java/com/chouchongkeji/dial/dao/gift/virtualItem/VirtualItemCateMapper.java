@@ -1,7 +1,7 @@
 package com.chouchongkeji.dial.dao.gift.virtualItem;
 
 import com.chouchongkeji.dial.pojo.gift.virtualItem.VirtualItemCate;
-import com.chouchongkeji.service.gift.virtualItem.vo.VirtualItemCateVo;
+import com.chouchongkeji.service.mall.virtualItem.vo.VirtualItemCateVo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

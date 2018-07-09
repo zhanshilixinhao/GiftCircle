@@ -2,7 +2,7 @@ package com.chouchongkeji.mvc.controller.mall.item;
 
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.common.Response;
-import com.chouchongkeji.service.gift.item.CartService;
+import com.chouchongkeji.service.mall.item.CartService;
 import com.yichen.auth.service.UserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

@@ -2,7 +2,7 @@ package com.chouchongkeji.mvc.controller.mall.virtualItem;
 
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.common.Response;
-import com.chouchongkeji.service.gift.virtualItem.VirtualIteamOrderService;
+import com.chouchongkeji.service.mall.virtualItem.VirtualIteamOrderService;
 import com.chouchongkeji.util.Constants;
 import com.yichen.auth.mvc.AppClient;
 import com.yichen.auth.service.UserDetails;

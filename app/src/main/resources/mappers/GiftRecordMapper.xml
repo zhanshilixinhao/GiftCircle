@@ -30,7 +30,8 @@
         <result column="send_user_id" property="sendUserId"/>
         <result column="user_id" property="userId"/>
         <result column="target_time" property="targetTime"/>
-        <result column="content" property="giftItems" typeHandler="com.chouchongkeji.dial.handler.GiftItemVoTypeHandler"/>
+        <result column="content" property="giftItems"
+                typeHandler="com.chouchongkeji.dial.handler.GiftItemVoTypeHandler"/>
     </resultMap>
 
     <select id="selectAllByTargetTime" resultMap="GiftTaskVo">
@@ -48,6 +49,20 @@
         a.type = 2
         AND a.STATUS = 1
         AND UNIX_TIMESTAMP( a.target_time ) &lt; UNIX_TIMESTAMP( now( ) + 10 )
+    </select>
+    <select id="selectInExByUserId" resultType="java.util.Map">
+        SELECT
+	(
+SELECT
+	sum( amount )
+FROM
+	gift_record a
+	LEFT JOIN gift_record_detail b ON a.id = b.gift_record_id
+WHERE
+	a.user_id = #{userId}
+	AND b.`status` = 3
+	) AS outgoings,
+	( SELECT sum( amount ) FROM gift_record_detail WHERE user_id = #{userId} AND `status` = 3 ) as incoming
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from gift_record

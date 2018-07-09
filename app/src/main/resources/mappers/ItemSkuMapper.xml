@@ -16,7 +16,7 @@
     <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
   </constructor>
 </resultMap>
-  <resultMap id="ResultMap" type="com.chouchongkeji.service.gift.item.vo.SkuListVo">
+  <resultMap id="ResultMap" type="com.chouchongkeji.service.mall.item.vo.SkuListVo">
       <result column="sku_id" property="skuId"/>
       <result column="item_id" property="itemId"/>
       <result column="title" property="title"/>
@@ -24,7 +24,7 @@
       <result column="price" property="price"/>
       <result column="stock" property="stock"/>
       <result column="sales" property="sales"/>
-      <collection property="values" ofType="com.chouchongkeji.service.gift.item.vo.SkuValueVo">
+      <collection property="values" ofType="com.chouchongkeji.service.mall.item.vo.SkuValueVo">
         <result column="value_id" property="valueId"/>
         <result column="feature_id" property="featureId"/>
         <result column="value" property="value"/>

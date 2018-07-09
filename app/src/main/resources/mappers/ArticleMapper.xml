@@ -183,7 +183,7 @@
   </update>
 
   <!--获得文章列表 先按照排序值排序 排序值不存在按照时间排序-->
-  <select id="selectByStatus" resultType="com.chouchongkeji.service.gift.article.vo.ArticleVo">
+  <select id="selectByStatus" resultType="com.chouchongkeji.service.mall.article.vo.ArticleVo">
     SELECT
     id,
     title,

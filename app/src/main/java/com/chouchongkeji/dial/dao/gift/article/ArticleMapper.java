@@ -1,7 +1,7 @@
 package com.chouchongkeji.dial.dao.gift.article;
 
 import com.chouchongkeji.dial.pojo.gift.article.Article;
-import com.chouchongkeji.service.gift.article.vo.ArticleVo;
+import com.chouchongkeji.service.mall.article.vo.ArticleVo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

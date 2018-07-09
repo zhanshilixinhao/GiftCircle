@@ -352,7 +352,7 @@ WHERE
     </update>
 
     <!--商品详情字段-->
-    <resultMap id="ItemDetail" type="com.chouchongkeji.service.gift.item.vo.ItemDetail">
+    <resultMap id="ItemDetail" type="com.chouchongkeji.service.mall.item.vo.ItemDetail">
         <result column="id" property="id"/>
         <result column="title" property="title"/>
         <result column="price" property="price"/>
@@ -405,7 +405,7 @@ FROM
 WHERE
 	b.id = #{skuId}
     </select>
-    <select id="selectItemList" resultType="com.chouchongkeji.service.gift.item.vo.ItemListVo">
+    <select id="selectItemList" resultType="com.chouchongkeji.service.mall.item.vo.ItemListVo">
 SELECT
 	id AS item_id,
 	cover,

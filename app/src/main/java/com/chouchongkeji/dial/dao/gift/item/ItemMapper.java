@@ -2,8 +2,8 @@ package com.chouchongkeji.dial.dao.gift.item;
 
 import com.chouchongkeji.dial.pojo.gift.item.Item;
 import com.chouchongkeji.service.backpack.consignment.vo.DetailVo;
-import com.chouchongkeji.service.gift.item.vo.ItemDetail;
-import com.chouchongkeji.service.gift.item.vo.ItemListVo;
+import com.chouchongkeji.service.mall.item.vo.ItemDetail;
+import com.chouchongkeji.service.mall.item.vo.ItemListVo;
 import org.apache.ibatis.annotations.Param;
 
 import java.math.BigDecimal;

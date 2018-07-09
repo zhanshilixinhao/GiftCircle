@@ -3,7 +3,7 @@ package com.chouchongkeji.mvc.controller.mall.item;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.query.PageQuery;
-import com.chouchongkeji.service.gift.item.ThemeService;
+import com.chouchongkeji.service.mall.item.ThemeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
