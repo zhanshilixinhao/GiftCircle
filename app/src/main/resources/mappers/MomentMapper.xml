@@ -123,6 +123,7 @@
         <result column="user_id" property="createUserId"/>
         <result column="selfUserId" property="selfUserId"/>
         <result column="content" property="content"/>
+        <result column="show_gift" property="showGift"/>
         <result column="medias" property="medias"
                 typeHandler="com.chouchongkeji.dial.handler.MediaTypeHandler"/>
         <result column="created" property="created"/>

@@ -104,11 +104,14 @@ public class FriendController {
      */
     @PostMapping("search")
     public Response searchFriend(@AuthenticationPrincipal UserDetails userDetails,
-                                 String key) {
+                                 String key, Integer type) {
         if (StringUtils.isBlank(key)) {
             return ResponseFactory.errMissingParameter();
         }
-        return friendService.searchFriend(userDetails.getUserId(), key);
+        if (type == null) {
+            type = 1;
+        }
+        return friendService.searchFriend(userDetails.getUserId(), key, type);
     }
 
     /**

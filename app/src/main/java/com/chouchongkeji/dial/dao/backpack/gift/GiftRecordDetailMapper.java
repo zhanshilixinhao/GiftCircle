@@ -3,6 +3,9 @@ package com.chouchongkeji.dial.dao.backpack.gift;
 import com.chouchongkeji.dial.pojo.backpack.gift.GiftRecordDetail;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
+import java.util.List;
+
 public interface GiftRecordDetailMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -18,4 +21,7 @@ public interface GiftRecordDetailMapper {
 
     int updateStatusById(@Param("id") Integer id,
                          @Param("status") Byte status);
+
+    List<GiftRecordDetail> selectByDate(@Param("userId") Integer userId,
+                                        @Param("started") Date started);
 }

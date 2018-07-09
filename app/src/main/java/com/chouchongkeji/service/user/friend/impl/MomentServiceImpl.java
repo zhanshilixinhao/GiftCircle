@@ -9,13 +9,17 @@ import com.chouchongkeji.dial.pojo.user.memo.MomentPraise;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.query.PageQuery;
+import com.chouchongkeji.service.backpack.gift.GiftService;
 import com.chouchongkeji.service.user.friend.FriendService;
 import com.chouchongkeji.service.user.friend.MomentService;
 import com.chouchongkeji.service.user.friend.vo.MomentVo;
 import com.chouchongkeji.util.Constants;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -36,6 +40,9 @@ public class MomentServiceImpl implements MomentService {
 
     @Autowired
     private FriendService friendService;
+
+    @Autowired
+    private GiftService giftService;
 
     /**
      * 添加一条秀秀
@@ -149,7 +156,24 @@ public class MomentServiceImpl implements MomentService {
     @Override
     public Response getList(Integer userId, PageQuery page) {
         List<MomentVo> list = momentMapper.selectAll(userId, page);
-        return ResponseFactory.sucData(list);
+        return ResponseFactory.sucData(appendRecentGifts(list));
+    }
+
+    /**
+     * 添加最近30十天收到的礼物
+     *
+     * @param list 修胥列表
+     * @return
+     */
+    private Object appendRecentGifts(List<MomentVo> list) {
+        if (CollectionUtils.isNotEmpty(list)) {
+            for (MomentVo vo : list) {
+                if (vo.getShowGift() == 1) {
+                    vo.setGifts(giftService.getWithDays(vo.getCreateUserId(), DateUtils.addDays(new Date(), -30)));
+                }
+            }
+        }
+        return list;
     }
 
     /**
@@ -162,7 +186,11 @@ public class MomentServiceImpl implements MomentService {
      */
     @Override
     public Response getDetail(Integer userId, Integer momentId) {
-        return ResponseFactory.sucData(momentMapper.selectDetailById(userId, momentId));
+        MomentVo vo = momentMapper.selectDetailById(userId, momentId);
+        if (vo.getShowGift() == 1) {
+            vo.setGifts(giftService.getWithDays(vo.getCreateUserId(), DateUtils.addDays(new Date(), -30)));
+        }
+        return ResponseFactory.sucData(vo);
     }
 
     /**
@@ -178,7 +206,7 @@ public class MomentServiceImpl implements MomentService {
     @Override
     public Response getListForSelf(Integer userId, Integer targetUserId, PageQuery page) {
         List<MomentVo> list = momentMapper.selectAllByTargetUser(userId, targetUserId, page);
-        return ResponseFactory.sucData(list);
+        return ResponseFactory.sucData(appendRecentGifts(list));
     }
 
     /**

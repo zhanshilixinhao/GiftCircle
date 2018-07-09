@@ -205,4 +205,17 @@ public class BpServiceImpl implements BpService {
         return addBatch(items);
     }
 
+    /**
+     * 背包列表
+     *
+     * @param userId 用户信息
+     * @param key    关键字
+     * @return
+     * @author yichenshanren
+     * @date 2018/7/2
+     */
+    @Override
+    public Response search(Integer userId, String key, PageQuery page) {
+        return ResponseFactory.sucData(bpItemMapper.selectBySearch(userId, key));
+    }
 }

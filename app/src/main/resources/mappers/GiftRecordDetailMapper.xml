@@ -23,7 +23,14 @@
     from gift_record_detail
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="selectByDate" resultMap="BaseResultMap">
+  select <include refid="Base_Column_List"/>
+      from gift_record_detail
+      where user_id = #{userId}
+      and status = 3
+      and UNIX_TIMESTAMP(created) > #{started}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from gift_record_detail
     where id = #{id,jdbcType=INTEGER}
   </delete>

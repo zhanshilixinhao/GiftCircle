@@ -17,6 +17,8 @@ public class K {
     public static final String USER_SENT_PWD_VERIFY = "USER_SENT_PWD_VERIFY";
     // banner列表
     public static final String BANNERS = "banners";
+    // 用户最近收到的礼物
+    public static final String RECENT_GIFT = "RECENT_GIFT";
 
 
     public static String genKey(String name, Object id) {

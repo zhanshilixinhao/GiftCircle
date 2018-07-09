@@ -5,6 +5,7 @@ import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.query.PageQuery;
 import com.chouchongkeji.service.backpack.base.BpService;
 import com.yichen.auth.service.UserDetails;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,5 +41,20 @@ public class BpController {
         return bpService.getList(userDetails.getUserId(), type, page);
     }
 
-
+    /**
+     * 背包列表
+     *
+     * @param userDetails 用户信息
+     * @param key         关键字
+     * @return
+     * @author yichenshanren
+     * @date 2018/7/2
+     */
+    @PostMapping("search")
+    public Response search(@AuthenticationPrincipal UserDetails userDetails, String key, PageQuery page) {
+        if (StringUtils.isBlank(key)) {
+            return ResponseFactory.errMissingParameter();
+        }
+        return bpService.search(userDetails.getUserId(), key, page);
+    }
 }

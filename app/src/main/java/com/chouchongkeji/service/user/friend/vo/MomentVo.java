@@ -1,5 +1,6 @@
 package com.chouchongkeji.service.user.friend.vo;
 
+import com.chouchongkeji.service.backpack.gift.vo.GiftBaseVo;
 import com.yichen.auth.jackson.ImgUrl;
 
 import java.util.ArrayList;
@@ -23,6 +24,8 @@ public class MomentVo {
     private Integer selfUserId;
     private String nickname;
 
+    private Byte showGift;
+
     @ImgUrl
     private String avatar;
     private String remark;
@@ -31,6 +34,8 @@ public class MomentVo {
     private List<PraiseVo> praiseUsers;
 
     private List<CommentVo> comments;
+
+    private List<GiftBaseVo> gifts;
 
     public MomentVo() {
 
@@ -138,5 +143,21 @@ public class MomentVo {
 
     public void setComments(List<CommentVo> comments) {
         this.comments = comments;
+    }
+
+    public List<GiftBaseVo> getGifts() {
+        return gifts;
+    }
+
+    public void setGifts(List<GiftBaseVo> gifts) {
+        this.gifts = gifts;
+    }
+
+    public Byte getShowGift() {
+        return showGift;
+    }
+
+    public void setShowGift(Byte showGift) {
+        this.showGift = showGift;
     }
 }

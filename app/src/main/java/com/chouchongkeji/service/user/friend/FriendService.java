@@ -1,6 +1,5 @@
 package com.chouchongkeji.service.user.friend;
 
-import com.chouchongkeji.dial.pojo.friend.Friend;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.query.PageQuery;
 import com.chouchongkeji.service.user.friend.vo.FriendVo;
@@ -141,11 +140,12 @@ public interface FriendService {
      *
      * @param userId 用户id
      * @param key    搜索关键字-此处目前支支持手机号
+     * @param type
      * @return
      * @author yichenshanren
      * @date 2018/6/21
      */
-    Response searchFriend(Integer userId, String key);
+    Response searchFriend(Integer userId, String key, Integer type);
 
     FriendVo isFriend(Integer userId, Integer friendUserId);
 }

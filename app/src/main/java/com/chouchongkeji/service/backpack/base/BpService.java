@@ -79,4 +79,15 @@ public interface BpService {
      * @date 2018/7/2
      */
     int addFromGiftSent(Integer recordDetailId, Integer userId, List<GiftItemVo> vos);
+
+    /**
+     * 背包列表
+     *
+     * @param userId 用户信息
+     * @param key         关键字
+     * @return
+     * @author yichenshanren
+     * @date 2018/7/2
+     */
+    Response search(Integer userId, String key, PageQuery page);
 }

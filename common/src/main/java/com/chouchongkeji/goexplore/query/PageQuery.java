@@ -29,6 +29,9 @@ public class PageQuery {
         if (pageSize == null || pageSize < 1) {
             pageSize = 14;
         }
+        if (pageSize > 20) {
+            pageSize = 14;
+        }
         this.pageSize = pageSize;
     }
 

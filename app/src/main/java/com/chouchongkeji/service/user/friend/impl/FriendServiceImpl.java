@@ -124,24 +124,15 @@ public class FriendServiceImpl implements FriendService {
      *
      * @param userId 用户id
      * @param key    搜索关键字-此处目前支支持手机号
+     * @param type
      * @return
      * @author yichenshanren
      * @date 2018/6/21
      */
     @Override
-    public Response searchFriend(Integer userId, String key) {
-        AppUser user = appUserMapper.selectByPhone(key);
-        if (user == null) {
-            return ResponseFactory.suc();
-        }
-        // 判断是不是好友关系
-        FriendVo friend = friendMapper.selectByUserIdAndFriendUserId(userId, user.getId());
-        FriendBase friendBase = new FriendBase();
-        friendBase.setUserId(user.getId());
-        friendBase.setAvatar(user.getAvatar());
-        friendBase.setNickname(user.getNickname());
-        friendBase.setIsFriend(friend == null ? 2 : 1);
-        return ResponseFactory.sucData(friendBase);
+    public Response searchFriend(Integer userId, String key, Integer type) {
+        List<FriendBase> list = friendMapper.selectBySearch(key, userId);
+        return ResponseFactory.sucData(list);
     }
 
     /**

@@ -1,24 +1,31 @@
 package com.chouchongkeji.service.backpack.gift.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.chouchongkeji.dial.dao.backpack.VbpMapper;
 import com.chouchongkeji.dial.pojo.backpack.gift.GiftRecordDetail;
 import com.chouchongkeji.dial.dao.backpack.gift.GiftRecordDetailMapper;
 import com.chouchongkeji.dial.dao.backpack.gift.GiftRecordMapper;
 import com.chouchongkeji.dial.pojo.backpack.Vbp;
 import com.chouchongkeji.dial.pojo.gift.virtualItem.GiftRecord;
+import com.chouchongkeji.dial.redis.CacheCallback;
+import com.chouchongkeji.dial.redis.MRedisTemplate;
 import com.chouchongkeji.exception.ServiceException;
 import com.chouchongkeji.goexplore.common.ErrorCode;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
+import com.chouchongkeji.goexplore.utils.DateUtil;
+import com.chouchongkeji.goexplore.utils.K;
 import com.chouchongkeji.service.backpack.base.BpService;
+import com.chouchongkeji.service.backpack.gift.vo.GiftBaseVo;
 import com.chouchongkeji.service.backpack.gift.vo.GiftItemVo;
 import com.chouchongkeji.service.backpack.gift.vo.GiftSendVo;
-import com.chouchongkeji.service.backpack.gift.vo.GiftService;
+import com.chouchongkeji.service.backpack.gift.GiftService;
 import com.chouchongkeji.service.backpack.gift.vo.GiftTaskVo;
 import com.chouchongkeji.service.message.MessageService;
 import com.chouchongkeji.service.user.friend.FriendService;
 import com.chouchongkeji.service.user.friend.vo.FriendVo;
+import com.chouchongkeji.service.user.info.UserService;
 import com.chouchongkeji.util.Constants;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
@@ -30,8 +37,10 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author yichenshanren
@@ -61,6 +70,66 @@ public class GiftServiceImpl implements GiftService {
 
     @Autowired
     private BpService bpService;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private MRedisTemplate mRedisTemplate;
+
+
+    /*----------------------------------------礼物赠送------------------------------------------------------*/
+
+    /**
+     * 获取started之后收到的礼物记录
+     *
+     * @param userId  用户id
+     * @param started 开始日期
+     * @author yichenshanren
+     * @date 2018/7/2
+     */
+    public List<GiftBaseVo> getWithDays(Integer userId, Date started) {
+        return mRedisTemplate.get(K.genKey(K.RECENT_GIFT, userId), (int) (DateUtil.tomZeroDiff() / 1000),
+                TimeUnit.MILLISECONDS, new TypeReference<List<GiftBaseVo>>() {
+                },
+                () -> getGiftRecordWithDays(userId, started));
+    }
+
+    /**
+     * 从数据库中取出
+     *
+     * @param userId  用户id
+     * @param started 开始查询的时间
+     * @return
+     * @author yichenshanren
+     * @date 2018/7/2
+     */
+    private List<GiftBaseVo> getGiftRecordWithDays(Integer userId, Date started) {
+        List<GiftRecordDetail> details = giftRecordDetailMapper.selectByDate(userId, started);
+        if (CollectionUtils.isEmpty(details)) {
+            return null;
+        }
+        List<GiftBaseVo> baseVos = new ArrayList<>();
+        for (GiftRecordDetail detail : details) {
+            List<GiftItemVo> vos = JSON.parseObject(detail.getContent(), new TypeReference<List<GiftItemVo>>() {
+            });
+            if (CollectionUtils.isNotEmpty(vos)) {
+                for (GiftItemVo vo : vos) {
+                    GiftBaseVo baseVo = new GiftBaseVo();
+                    baseVo.setCover(vo.getCover());
+                    baseVo.setTitle(vo.getTitle());
+                    baseVo.setTargetId(vo.getTargetId());
+                    baseVo.setCreated(detail.getCreated());
+                    baseVo.setTargetType(vo.getTargetType());
+                    baseVos.add(baseVo);
+                }
+            }
+        }
+        return baseVos;
+    }
+
+    /*----------------------------------------礼物赠送------------------------------------------------------*/
+
 
     /*----------------------------------------礼物赠送------------------------------------------------------*/
 
@@ -92,7 +161,7 @@ public class GiftServiceImpl implements GiftService {
             // 添加物品到背包
             log.info("添加物品到背包");
             addItemToBp(vo.getRecordDetailId(), vo.getUserId(), vo.getGiftItems());
-            log.info("礼物{}赠送成功",vo.getRecordId());
+            log.info("礼物{}赠送成功", vo.getRecordId());
         }
     }
 
@@ -106,7 +175,12 @@ public class GiftServiceImpl implements GiftService {
      * @date 2018/7/2
      */
     @Override
-    public Response sendForApp(Integer userId, GiftSendVo sendVo) {
+    public Response sendForApp(Integer userId, GiftSendVo sendVo, String de, String s2, Integer client) {
+        // 校验支付密码
+        Response response = userService.changePwdVerify(userId, de, s2, client);
+        if (!response.isSuccessful()) {
+            return response;
+        }
         // 判断和被赠送的用户是不是好友关系
         FriendVo friend = friendService.isFriend(userId, sendVo.getFriendUserId());
         if (friend == null) {
@@ -196,6 +270,7 @@ public class GiftServiceImpl implements GiftService {
      * @date 2018/7/2
      */
     private int addItemToBp(Integer recordDetailId, Integer userId, List<GiftItemVo> list) {
+        mRedisTemplate.del(K.genKey(K.RECENT_GIFT, userId));
         return bpService.addFromGiftSent(recordDetailId, userId, list);
     }
 
@@ -270,7 +345,7 @@ public class GiftServiceImpl implements GiftService {
         }
         GiftRecordDetail newDetail = new GiftRecordDetail();
         newDetail.setId(detail.getId());
-        newDetail.setIsReply((byte)1);
+        newDetail.setIsReply((byte) 1);
         newDetail.setReply(reply);
         giftRecordDetailMapper.updateByPrimaryKeySelective(newDetail);
         return ResponseFactory.suc();

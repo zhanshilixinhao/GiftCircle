@@ -1,6 +1,11 @@
-package com.chouchongkeji.service.backpack.gift.vo;
+package com.chouchongkeji.service.backpack.gift;
 
 import com.chouchongkeji.goexplore.common.Response;
+import com.chouchongkeji.service.backpack.gift.vo.GiftBaseVo;
+import com.chouchongkeji.service.backpack.gift.vo.GiftSendVo;
+
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author yichenshanren
@@ -18,7 +23,7 @@ public interface GiftService {
      * @author yichenshanren
      * @date 2018/7/2
      */
-    Response sendForApp(Integer userId, GiftSendVo sendVo);
+    Response sendForApp(Integer userId, GiftSendVo sendVo, String de, String s2, Integer client);
 
     /**
      * 答谢礼物赠送
@@ -31,4 +36,15 @@ public interface GiftService {
      * @date 2018/7/2
      */
     Response acknowledge(Integer userId, Integer recordDetailId, String reply);
+
+
+    /**
+     * 获取started之后收到的礼物记录
+     *
+     * @param userId  用户id
+     * @param started 开始日期
+     * @author yichenshanren
+     * @date 2018/7/2
+     */
+    List<GiftBaseVo> getWithDays(Integer userId, Date started);
 }

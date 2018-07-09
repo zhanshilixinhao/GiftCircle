@@ -169,5 +169,15 @@ select *
 from v_bp
 where  user_id = #{userId} and `type` = #{type} and quantity > 0
     </select>
+    <select id="selectBySearch" resultType="com.chouchongkeji.dial.pojo.backpack.Vbp">
+SELECT
+	*
+FROM
+	v_bp
+WHERE
+	user_id = #{userId}
+	AND title LIKE concat( '%',#{key}, '%' )
+	AND quantity > 0
+    </select>
 
 </mapper>

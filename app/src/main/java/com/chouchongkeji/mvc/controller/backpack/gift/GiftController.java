@@ -3,7 +3,8 @@ package com.chouchongkeji.mvc.controller.backpack.gift;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.service.backpack.gift.vo.GiftSendVo;
-import com.chouchongkeji.service.backpack.gift.vo.GiftService;
+import com.chouchongkeji.service.backpack.gift.GiftService;
+import com.yichen.auth.mvc.AppClient;
 import com.yichen.auth.service.UserDetails;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,16 +35,17 @@ public class GiftController {
      */
     @RequestMapping("sendForApp")
     public Response sendForApp(@AuthenticationPrincipal UserDetails userDetails,
-                               GiftSendVo sendVo) {
+                               @AppClient Integer client,
+                               GiftSendVo sendVo, String s2, String de) {
         if (sendVo.getBpId() == null ||
                 sendVo.getFriendUserId() == null ||
                 sendVo.getType() == null ||
-                StringUtils.isAnyBlank(sendVo.getGreeting(), sendVo.getEvent()) ||
+                StringUtils.isAnyBlank(sendVo.getGreeting(), sendVo.getEvent(), s2, de) ||
                 (sendVo.getType() == 2 && (sendVo.getTargetTime() == null ||
                         sendVo.getTargetTime().getTime() < System.currentTimeMillis() + 60000))) {
             return ResponseFactory.errMissingParameter();
         }
-        return giftService.sendForApp(userDetails.getUserId(), sendVo);
+        return giftService.sendForApp(userDetails.getUserId(), sendVo, de, s2, client);
     }
 
     /**

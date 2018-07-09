@@ -1,6 +1,7 @@
 package com.chouchongkeji.dial.dao.friend;
 
 import com.chouchongkeji.dial.pojo.friend.Friend;
+import com.chouchongkeji.service.user.friend.vo.FriendBase;
 import com.chouchongkeji.service.user.friend.vo.FriendItem;
 import com.chouchongkeji.service.user.friend.vo.FriendVo;
 import org.apache.ibatis.annotations.Param;
@@ -40,4 +41,8 @@ public interface FriendMapper {
 
     int deleteByUserIdAndFriendUserId(@Param("userId") Integer userId,
                                       @Param("friendUserId") Integer friendUserId);
+
+    List<FriendBase> selectBySearch(@Param("phone") String phone,
+                                    @Param("userId") Integer userId);
+
 }

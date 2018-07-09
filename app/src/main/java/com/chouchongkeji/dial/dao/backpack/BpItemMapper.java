@@ -19,11 +19,13 @@ public interface BpItemMapper {
 
     int updateByPrimaryKey(BpItem record);
 
-
     BpItem selectByUserIdAndBpItemId(@Param("userId") Integer userId, @Param("bpId") Long bpId);
 
     List<Vbp> selectAllByUserId(@Param("userId") Integer userId,
                                 @Param("type") Integer type);
 
     int insertBatch(List<BpItem> list);
+
+    List<Vbp> selectBySearch(@Param("userId") Integer userId,
+                             @Param("key") String key);
 }

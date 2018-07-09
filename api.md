@@ -2415,7 +2415,7 @@ JSON：
 |   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
 | :----------: | :------: | :------: | :----: | :------: |
 | access_token |  string  |    是    |   无   | 访问令牌 |
-| key | string | 是 | 无 | 搜索关键字，目前只支持手机号搜索 |
+| key | string | 是 | 无 | 搜索关键字，支持手机号和昵称 |
 
 * 请求结果示例
 
@@ -2425,10 +2425,12 @@ JSON：
     result: 0, 
     time: 1529590714779, 
     data: {
-        userId: 1, 
-        avatar: "avatar.jpg", 
-        nickname: "什么", 
-        isFriend: 1 // 是否是好友 1 是 2 不是
+    	[
+            userId: 1, 
+            avatar: "avatar.jpg", 
+            nickname: "什么", 
+            isFriend: 1 // 是否是好友 1 是 2 不是
+        ]
     }
 }
 ```
@@ -2820,42 +2822,43 @@ JSON：
     data: [
         {
             momentId: 1, 
-            createUserId: 4, 
-            content: "既然不快乐又不喜欢这里", 
-            medias: [
+            content: "既然不快乐又不喜欢这里",
+            showGift: 1, // 1 显示 2 不显示
+            medias: [ // 包含的图片或视频
                 {
-                    type: 1, 
+                    type: 1, // 1 图片 2 视频
                     url: "https://io.shanren.group/image/avatar.jpg"
                 }
             ], 
             created: 1529988931000, 
             updated: 1529988931000, 
-            selfUserId: 4, 
-            nickname: "大秦帝国", 
+            selfUserId: 4, // 用户自己的id
+            createUserId: 4, // 创建者用户id
+            nickname: "大秦帝国", // 创建者昵称
             avatar: "https://io.shanren.group/image/avatar.jpg", 
-            remark: "", 
-            relationship: "", 
-            praiseUsers: [
+            remark: "", // 我对创建者的备注名称
+            relationship: "", // 我和创建者的关系
+            praiseUsers: [ // 攒过的用户列表
                 {
-                    praiseUserId: 4, 
+                    praiseUserId: 4, // 赞的用户id
                     momentId: 1, 
                     avatar: "https://io.shanren.group/image/avatar.jpg"
                 }
             ], 
-            comments: [
+            comments: [ // 评论列表
                 {
-                    commentId: 4, 
-                    content: "何时去大理", 
+                    commentId: 4, // 评论id
+                    content: "何时去大理", //评论内容
                     momentId: 1, 
-                    type: 2, 
-                    createUser: {
+                    type: 2, // 1评论 2回复
+                    createUser: { // 评论创建者信息
                         userId: 4, 
                         nickname: "大秦帝国", 
                         remark: "", 
                         relationship: "", 
                         avatar: "https://io.shanren.group/image/avatar.jpg"
                     }, 
-                    targetUser: {
+                    targetUser: { // 评论回复者信息
                         userId: 4, 
                         nickname: "大秦帝国", 
                         remark: "", 
@@ -2880,6 +2883,15 @@ JSON：
                     created: 1529983666000
                 }
             ]
+            gifts:[ // 最近30天收到的礼物
+                    {
+                        "title": "1元优惠券",
+                        "targetId": 2,
+                        "targetType": 3, // 礼物类型 1 物品 2 虚拟物品 3 
+                        "cover": "https://io.shanren.group/image/cover.jpg",
+                        "created": 1530847416000
+                    }
+                ]
         }
     ]
 }
@@ -2907,7 +2919,6 @@ JSON：
 | | type | int | 1 评论 2 回复 |
 | | createUser | obj | 创建这条评论的用户的信息 |
 | | targetUser | obj | 回复对象用户的信息 |
-
 
 
 ### 12.6 秀秀详情
@@ -3283,6 +3294,22 @@ JSON：
 }
 ```
 
+### 14.2 背包搜索
+
+- 请求地址：auth/v1/bp/search
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yichen
+
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| key | String | 是 | 无 | 搜索关键字 |
+| pageNum | int | 是 | 无 | 分页 |
+| pageSize | int | 是 | 无 | 分页大小 |
+
+* 请求结果和14.1一样
 
 ## 15 背包-礼物赠送
 

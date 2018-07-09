@@ -85,5 +85,4 @@ public interface UserService {
      * @date 2018/6/7
      */
     Response getInfo(Integer userId, Integer targetUserId);
-
 }
