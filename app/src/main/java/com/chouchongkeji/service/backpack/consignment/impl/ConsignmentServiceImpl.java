@@ -182,7 +182,7 @@ public class ConsignmentServiceImpl implements ConsignmentService {
         Long id = conVo.getBpId();
         BpItem bpItem = bpItemMapper.selectByPrimaryKey(id);
         if (bpItem == null){
-            throw new ServiceException(ErrorCode.ERROR.getCode(),"商品为空");
+            throw new ServiceException(ErrorCode.ERROR.getCode(),"背包商品为空");
         }
         bpItem.setQuantity(bpItem.getQuantity()+1);
         bpItemMapper.updateByPrimaryKeySelective(bpItem);

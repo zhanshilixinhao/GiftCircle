@@ -29,7 +29,7 @@
   </delete>
     <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.backpack.BpItem">
     insert into bp_item (id, user_id, target_id, 
-      quantity, price, from, 
+      quantity, price, `from`,
       type, created, updated
       )
     values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=INTEGER}, #{targetId,jdbcType=INTEGER}, 

@@ -30,6 +30,7 @@ import com.chouchongkeji.util.Constants;
 import com.chouchongkeji.util.OrderHelper;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -67,6 +68,18 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private ItemMapper itemMapper;
+
+    /**
+     * 按时取消订单
+     */
+    @Scheduled(fixedRate = 1200000)
+    public void timeTask(){
+        //取出所有需要按时支付的订单
+
+
+    }
+
+
     /**
      * 创建商品订单
      *

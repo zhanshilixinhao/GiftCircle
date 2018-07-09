@@ -194,9 +194,9 @@ public class ConOrderServiceImpl implements ConOrderService {
         vo.setOrderNo(order.getOrderNo());
         //支付宝
         if (payWay == Constants.PAY_TYPE.ALI) {
-            vo.setUrl("noauth/pay/item_order/ali");
+            vo.setUrl("noauth/pay/con_order/ali");
         } else if (payWay == Constants.PAY_TYPE.WX) {//微信
-            vo.setUrl("noauth/pay/item_order/wx");
+            vo.setUrl("noauth/pay/con_order/wx");
         }
         vo.setPrice(order.getPrice());
         return vo;

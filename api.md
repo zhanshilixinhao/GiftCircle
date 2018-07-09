@@ -1589,6 +1589,38 @@ JSON：
     "time": 1528880466970
 }
 ```
+### 6.14 商品搜索
+
+- 请求地址：noauth/item/search
+- 服务协议：HTTP/POST
+- 是否需要身份认证：否
+- 作者：linqin
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 |          参数说明           |
+| :----------: | :------: | :------: | :----: | :-------------------------: |
+| keyword |  string  |    是    |   无   |           关键字          |
+
+请求结果示例：
+
+```json
+{
+    "errCode": 0, 
+    "result": 0, 
+    "time": 1531117210397, 
+    "data": [
+        {
+            "itemId": 2, 
+            "cover": "https://io.shanren.group/image/cover.jpg", 
+            "title": "小黄人小黄人小黄人小黄人小黄人小黄人小黄人", 
+            "price": 50
+        }
+    ]
+}
+```
+
+
+
+
 ## 7. 购物车
 
 ### 7.1 购物车列表
@@ -3482,6 +3514,432 @@ JSON：
             nickname: "大秦", 
             avatar: "https://io.shanren.group/image/avatar.jpg", 
             days: 6.8072
+        }
+    ]
+}
+```
+
+### 17.2 首页商品（首页Banner）
+
+- 请求地址：noauth/v1/home/Banner
+- 服务协议：HTTP/POST
+- 是否需要身份认证：否
+- 作者：linqin
+- 无参数
+
+请求结果示例：
+
+```js
+{
+    "errCode": 0, 
+    "result": 0, 
+    "time": 1531108167151, 
+    "data": [
+        {
+            "id": 1, 
+            "targetid": "1", 
+            "cover": "https://io.shanren.group/image/cover.jpg", 
+            "requesturl": "", 
+            "title": "", 
+            "url": "", 
+            "type": 1, 
+            "status": 1, 
+            "createtime": 1530864451000, 
+            "updatetime": 1530864456000, 
+            "richtext": ""
+        }, 
+        {
+            "id": 2, 
+            "targetid": "1", 
+            "cover": "https://io.shanren.group/image/cover.jpg", 
+            "requesturl": "", 
+            "title": "", 
+            "url": "", 
+            "type": 2, 
+            "status": 1, 
+            "createtime": 1530864480000, 
+            "updatetime": 1530864483000, 
+            "richtext": ""
+        }
+    ]
+}
+```
+|   参数名称   | 参数类型 | 是否必传 | 参数说明 |
+| :----------: | :------: | :------: | :------: |
+| targetId |  String  |    是    |  跳转的目标id |
+| cover |  String  |    是    |  封面图片 |
+| requesturl |  String  |    是    |  跳转url |
+| title |  String  |    是    |  图片标题 |
+| url |  String  |    是    |  图片url地址 |
+| type |  int  |    是    |  banner类型,  1 跳转到商品详情 2 跳转到好物主题列表 |
+| status |  int  |    是    |  1 正常 2 禁用 |
+| richtext |  text  |    是    |  富文本 |
+
+
+### 17.3 首页寄售台新上架商品
+
+- 请求地址：noauth/v1/home/con_item
+- 服务协议：HTTP/POST
+- 是否需要身份认证：否
+- 作者：linqin
+- 无参数
+
+请求结果示例：
+
+```js
+{
+    "errCode": 0, 
+    "result": 0, 
+    "time": 1531109046841, 
+    "data": [
+        {
+            "consignmentId": 6, 
+            "bpId": 1, 
+            "targetId": 2, 
+            "price": 200, 
+            "type": 1, 
+            "status": 1, 
+            "cover": "https://io.shanren.group/image/cover.jpg", 
+            "title": "魏文侯", 
+            "updated": 1531103266000, 
+            "created": 1531103266000
+        }, 
+        {
+            "consignmentId": 4, 
+            "bpId": 3, 
+            "targetId": 1, 
+            "price": 888, 
+            "type": 1, 
+            "status": 1, 
+            "cover": "", 
+            "title": "", 
+            "updated": 1530456198000, 
+            "created": 1530456200000
+        }, 
+        {
+            "consignmentId": 3, 
+            "bpId": 2, 
+            "targetId": 2, 
+            "price": 999, 
+            "type": 3, 
+            "status": 1, 
+            "cover": "https://io.shanren.group/image/cover.jpg", 
+            "title": "1元优惠券", 
+            "updated": 1530456187000, 
+            "created": 1530456188000
+        }
+    ]
+}
+```
+
+
+
+## 18. 寄售台
+### 18.1 上架寄售台之前商品信息查询
+- 请求地址：auth/consignment/info
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：linqin
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| bpId |  Long  |    是    |   无   | 背包id |
+
+请求结果示例：
+
+```json
+{
+    "errCode": 0, 
+    "result": 0, 
+    "time": 1531102129342, 
+    "data": {
+        "newset": 200, 
+        "hight": 1000, 
+        "low": 100
+    }
+}
+```
+|   参数名称   | 参数类型 | 是否必传 | 参数说明 |
+| :----------: | :------: | :------:  | :------: |
+| newset |  int |    是    | 最新价格 |
+| hight |  int  |    是    | 历史最高价格 |
+| low |  int  |    是    | 历史最低价格 |
+
+### 18.2 寄售台上架商品
+- 请求地址：auth/consignment/putaway
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：linqin
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| bpId |  Long  |    是    |   无   | 背包id |
+| price |  int  |    是    |   无   | 上架商品价格 |
+
+请求结果示例：
+
+```json
+{
+    "errCode": 0, 
+    "result": 0, 
+    "msg": "商品上架成功", 
+    "time": 1531103266862
+}
+```
+
+### 18.3 寄售台某个商品列表
+- 请求地址：noauth/consignment/one_list
+- 服务协议：HTTP/POST
+- 是否需要身份认证：否
+- 作者：linqin
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| targetId |  int  |    是    |   无   | 目标物品id |
+| type |  int  |    是    |   无   |  1 商品 2虚拟物品 3 优惠券 |
+| pageNum |  int  |    是    |   1   | 分页 |
+| pageSize |  int  |    是    |   14   | 分页大小 |
+
+请求结果示例：
+
+```json
+{
+    "errCode": 0, 
+    "result": 0, 
+    "time": 1531103785826, 
+    "data": [
+        {
+            "consignmentId": 6, 
+            "bpId": 1, 
+            "targetId": 2, 
+            "price": 200, 
+            "type": 1, 
+            "status": null, 
+            "cover": "https://io.shanren.group/image/cover.jpg", 
+            "title": "魏文侯", 
+            "updated": 1531103266000, 
+            "created": 1531103266000
+        }
+    ]
+}
+```
+
+### 18.4 寄售台商品列表
+- 请求地址：noauth/consignment/all_list
+- 服务协议：HTTP/POST
+- 是否需要身份认证：否
+- 作者：linqin
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| pageNum |  int  |    是    |   1   | 分页 |
+| pageSize |  int  |    是    |   14   | 分页大小 |
+
+请求结果示例：
+
+```json
+{
+    "errCode": 0, 
+    "result": 0, 
+    "time": 1531104268478, 
+    "data": [
+        {
+            "targetId": 2, 
+            "type": 3, 
+            "cover": "https://io.shanren.group/image/cover.jpg", 
+            "title": "魏文侯", 
+            "newset": null, 
+            "hight": 999, 
+            "low": 999
+        }, 
+        {
+            "targetId": 1, 
+            "type": 1, 
+            "cover": "https://io.shanren.group/image/cover.jpg", 
+            "title": "秦孝公", 
+            "newset": null, 
+            "hight": 888, 
+            "low": 888
+        }, 
+        {
+            "targetId": 2, 
+            "type": 1, 
+            "cover": "https://io.shanren.group/image/cover.jpg", 
+            "title": "魏文侯", 
+            "newset": 1000, 
+            "hight": 1000, 
+            "low": 100
+        }
+    ]
+}
+```
+
+### 18.5 寄售台商品详情
+- 请求地址：noauth/consignment/item_detail
+- 服务协议：HTTP/POST
+- 是否需要身份认证：否
+- 作者：linqin
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| consignmentId |  int  |    是    |   无   | 寄售台id |
+
+请求结果示例：
+
+```json
+{
+    "errCode": 0, 
+    "result": 0, 
+    "time": 1531104571269, 
+    "data": {
+        "consignmentId": 1, 
+        "itemId": 1, 
+        "pictures": [
+            "https://io.shanren.group/image/cover.jpg", 
+            "https://io.shanren.group/image/cover1.jpg"
+        ], 
+        "title": "战国战国战国战国战国战国战国战国战国战国战国战国战国战国战国战国战国战国", 
+        "description": "东周末年", 
+        "detailUrl": "https://43.241.223.169:800/static/product.html?id=1"
+    }
+}
+```
+
+### 18.6 寄售台创建订单
+- 请求地址：auth/consignment/order/create
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：linqin
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| consignmentId |  int  |    是    |   无   | 寄售台id |
+| payWay |  int  |    是    |   无   | 支付方式,微信 24656 ，支付宝78990，余额 98001 |
+
+请求结果示例：
+
+```json
+{
+    "errCode": 0, 
+    "result": 0, 
+    "time": 1531105731332, 
+    "data": {
+        "params": "MYJRWzUWdcu33cOtjBbKmw/M0Eko50Lw5X5wR/wB9xSMvjCs8qBAWTngRc0fK9XFwfNjo31GX5YfigXSEustpapVSyEzm6nBjpe/FZEPD+rj7T9DWfUNbsuWoUPkLIe2ka+uhGVEQbUbFMzQz2otUNOAiKNNtjDtt9YvC3FZ/DZlgmUXKK7exueIRmzmgfQ2drqVqxIJMDkKQ+ByqjPlrJmRw+BIK5wsZzjJJLEEJ+3mCXqR727cephcZ1Xt6EhzLyjo4u4dviKaeQp8iNHkJFYUI/RYpkUe0VMV3Vy1X7uZU0SgFW3EBbsxZxstOpvMK4mrp9aDjeBU15o1B7FplQ==La+xb6eH2maxGPB0vcZfQ3jwgqiC/FKpw05sS1hfICtrcga9NiapY+F7UE8i1Xzkqw3kaURVoyFMQ1mslHOiEcM3+z4SDeB7tESqHu5JiP7mhjUBQ4KvLBIa9WVGI8L0tVcfvmcB9miUcg5A1mKQBzLyt9us0PpoecflaS9cgHrfOKY3eyzmeR+ZSNljWQI7Gc6mcnhSsONZivmdndjBNeAoG9PwbaVGoUTc2kldmyMpkRoC/idgMfYTzQUcbAzR9W/xcrwbWx16gcc5yihmOc6kxqpC+dZxV3P5NSbVAOWczMnn+W4ilH+5Ej1fI8gsUTbex9dorO3E7+G9X1sz3w==||344,344", 
+        "orderNo": 518070911106, 
+        "type": 24656
+    }
+}
+```
+
+### 18.7 寄售台订单支付
+- 请求地址：auth/consignment/order/pay
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：linqin
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| orderNo |  Long  |    是    |   无   | 订单号 |
+| payWay |  int  |    是    |   无   | 支付方式,微信 24656 ，支付宝78990，余额 98001 |
+
+请求结果示例：
+
+```json
+{
+    "errCode": 0, 
+    "result": 0, 
+    "time": 1530697397099, 
+    "data": {
+        "params": "xvz++2WUu79KrQ+0aCyWZt9QYSkkZZycK5xVTUesYJ75C92RZid3PiLzp04liFalM7m8705a6oK/D3UYT5CA1EZKDyAh64rw3Gd3kZ/xCdKJtOZicFhn6RKGnJFxtS9+2R83EqlXrYcn8gan5rWtqchZXOtTXro5ZvREsgEFInmGMgcb+EdfSNPGpYOSRxqcYGcw06A1RPFW1QTjHE1f+y/V+GEiWmkwiakLNSTIjkUI28pzKGTmDx8lZbKUpX/wy+JZ36XO7/HnegFrNtCU+jpp4dXucRcrX8b/yUUJHHPAhx3/kr9NgBgVNmO0uxxsjJcBf9erwGQoeaBjcAfb6g==ixVi3iTdL+lQDk30rlh+JzN58EFt80D8rScDAdRqM5Gwdw+4WHZ3fwkl9+3838rKNtF929Vl5GjmGmIW4J6yjKRfYllgBhO7PekTY+ejiOdTOGwwWm9wFqX77KD4DILs4Vv4Uo6i+HdtGNlCxLTm+L8G2Otms46FC5WW3Yv9f24RkBStLOKq/8Ct47u+C1gdZK9QzyGzFXOxfV6uKHQMlXAS+9gTdAGAcVuIIES80kmoee9ZS/iUjEs5xNVfaQRgBaEWRGJU6U9CNo4O/ZMrRLInVQ6YXBKR0BSNVrqx8iDiYwUvF3yGQ0de4+yaKMaXiC7qUftyrRi4VJrqEjqlyA==W0KKKbwOxS3ecOeY1Uqz/3RPulB2ma8PI96rsWbTqxgCFehXo3ftxV0aCQKz7sJb8Sc2V9mJ8rakjEMdqKDw5gloggXkPlUktRovHkRkdQVx8dFttmPr4Q2ebC9s/E8bLcdhuXQRvst3xJNl/SFszPLHeOC1+xcRIO/vY06H9or+LFZPtTSY3X/iAKB2Aqqnm61dVMoby/FXA1gahzVw/lcXmeY0Yj1PI4wN1PgF/p3wEZC9ec0Tnf5MDPq5rTPVhRPBjMZuf+sszePEXjirw3MmCvEnbPfOIWd2Y2FWNUji6O6sBCWvY87BzVyDgHmpjfe8K03x5kn6dkVudHyGBw==CM9aMfAAY///v9Uq3uryuGLQm6cCSd+cDL3aTWGjBuWgLFuPX/D30QNCWJGOy4huZyNktghTInpabGD+K/OwXQXskIAYx413OCxBLIt6DyyLLlXj5qWY3vrIVCnCH9rYvAYRR/sFhkPpNARg/jaE8NPKHtWlqgCljpIK+ocObw4lwqCIUjXC2xNU5Qc0RrTKtRvyMTZn4hTuEcbIQiSyP1CPXu5olqnLmslYgo8VJjjTwoqAJRSu0ZLf/jaWYdy+CsHTa7yGllKTqOKOY2iQ80gSNxzg0ut1J0RtNv8LDusmBJ3xYB2wVu0zVs572U/BUhD3Rp1uTRhLB3bFYhjGhQ==s1ZNSjVrI5l/v3XJwWtwtogAMKRqt2olxvsfMsPuBCp4xl02iUbsrrbT0L2lWd6d8llgXX5UZ+k+dqPXd6f0h/fivPscZJVEvXmCAcRofvTTakbBoq8xfWeSNszsA3qMiLR0EZiq+ttf/Kn5SoO4Bdno6JIoQV8XvzN9pG/wUsqjbJG3102A7jts3jrhom4zZxl0rND3wpypzZwFtuFtl7Ny47SbCf89Z9YS3iYyOY9kVgRccd8OdfOqjUR4ksyzR/2tB2kWDyniunQ4Uo0eGx3jWzOiAYTu0tCResDrLGbQL1ZmYphiXIfVkfvAW50rmtPnxzSJr1IE/0lblPEavQ==||344,344,344,344,344", 
+        "orderNo": 518070411109, 
+        "type": 78990
+    }
+}
+```
+
+### 18.8 寄售台下架功能
+- 请求地址：auth/consignment/sold_out
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：linqin
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| consignmentId |  int  |    是    |   无   | 寄售台id |
+
+请求结果示例：
+
+```json
+{
+    "errCode": 0, 
+    "result": 0, 
+    "msg": "下架成功", 
+    "time": 1531106851621
+}
+```
+
+### 18.9 寄售台买家/卖家列表
+- 请求地址：auth/consignment/bs_list
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：linqin
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| user |  byte  |    是    |   无   | 卖家/买家  1-卖家，2-买家 |
+| condition |  byte  |    是    |   无   | 商家订单状态 1-全部 ，2-交易中，3-已完成 |
+| pageNum |  int  |    是    |   1   | 分页 |
+| pageSize |  int  |    是    |   14   | 分页大小 |
+
+请求结果示例：
+
+```json
+{
+    "errCode": 0, 
+    "result": 0, 
+    "time": 1531107782720, 
+    "data": [
+        {
+            "consignmentId": 3, 
+            "bpId": 2, 
+            "targetId": 2, 
+            "price": 999, 
+            "type": 3, 
+            "status": 1, 
+            "cover": "https://io.shanren.group/image/cover.jpg", 
+            "title": "1元优惠券", 
+            "updated": 1530456187000, 
+            "created": 1530456188000
+        }, 
+        {
+            "consignmentId": 4, 
+            "bpId": 3, 
+            "targetId": 1, 
+            "price": 888, 
+            "type": 1, 
+            "status": 1, 
+            "cover": "", 
+            "title": "", 
+            "updated": 1530456198000, 
+            "created": 1530456200000
+        }, 
+        {
+            "consignmentId": 6, 
+            "bpId": 1, 
+            "targetId": 2, 
+            "price": 200, 
+            "type": 1, 
+            "status": 1, 
+            "cover": "https://io.shanren.group/image/cover.jpg", 
+            "title": "魏文侯", 
+            "updated": 1531103266000, 
+            "created": 1531103266000
         }
     ]
 }
