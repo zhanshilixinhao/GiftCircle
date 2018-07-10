@@ -24,4 +24,7 @@ public interface ItemSkuMapper {
     ItemSku selectBySkuId(Integer skuId);
 
     int updateSalesBySkuId(@Param("skuId") Integer skuId,@Param("quantity")Integer quantity);
+
+    int updateStockBySkuId(@Param("skuId") Integer skuId,@Param("quantity")Integer quantity);
+
 }

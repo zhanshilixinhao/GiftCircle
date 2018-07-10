@@ -210,4 +210,11 @@ WHERE
 WHERE
 	id = #{skuId}
   </update>
+  <update id="updateStockBySkuId">
+    UPDATE
+	`item_sku`
+	set stock = stock + #{quantity}
+WHERE
+	id = #{skuId}
+  </update>
 </mapper>

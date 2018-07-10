@@ -6,14 +6,17 @@ import com.chouchongkeji.dial.pojo.iwant.wallet.Wallet;
 import com.chouchongkeji.dial.pojo.iwant.wallet.WalletRecord;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
+import com.chouchongkeji.goexplore.query.PageQuery;
 import com.chouchongkeji.service.iwant.wallet.WalletService;
 import com.chouchongkeji.util.Constants;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * @author yy
@@ -29,6 +32,7 @@ public class WalletServiceImpl implements WalletService {
 
     @Autowired
     private WalletRecordMapper walletRecordMapper;
+
     /**
      * 获取钱包详情
      *
@@ -129,4 +133,22 @@ public class WalletServiceImpl implements WalletService {
     }
 
 
+
+    /**
+     *钱包收益记录
+     * @param userId 用户Id
+     * @param starting 开始时间
+     * @param ending 截至时间
+     * @return
+     * @author linqin
+     * @date 2018/6/7
+     */
+    @Override
+    public Response earnRecordList(Integer userId, PageQuery pageQuery,Long starting ,Long ending) {
+        //分页
+        PageHelper.startPage(pageQuery.getPageNum(),pageQuery.getPageSize());
+        //查询收益记录
+        List<WalletRecord> list = walletRecordMapper.selectByUserId(userId,starting,ending);
+        return ResponseFactory.sucData(list);
+    }
 }

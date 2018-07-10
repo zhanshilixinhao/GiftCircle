@@ -1,7 +1,6 @@
 package com.chouchongkeji;
 
 import com.chouchongkeji.goexplore.pay.PayVO;
-import com.chouchongkeji.goexplore.pay.alipay.service.AliPayService;
 import com.chouchongkeji.goexplore.pay.alipay_v2.AliPayServiceV2;
 import com.chouchongkeji.goexplore.utils.OkHttpUtil;
 import com.chouchongkeji.goexplore.utils.RequestParams;
@@ -39,5 +38,8 @@ public class TestPoat {
         String orderInfo = AliPayServiceV2.createOrderInfo(payVO);
         System.out.println(orderInfo);
     }
+
+
+
 
 }

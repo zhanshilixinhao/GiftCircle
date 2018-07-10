@@ -310,4 +310,11 @@ WHERE
       created = #{created,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+    <update id="updateQuantity">
+         UPDATE
+	consignment
+	set quantity = quantity + #{quantity}
+WHERE
+	id = #{consignmentId}
+    </update>
 </mapper>

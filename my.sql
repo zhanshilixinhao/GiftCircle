@@ -1076,7 +1076,7 @@ CREATE TABLE `consignment_order` (
   `consignment_id` int(11) comment '寄售台id',
   `quantity` int(10) comment '数量',
   `price` decimal(18,2) comment '价格',
-  `status` tinyint(4) comment '1 未支付 2 已支付',
+  `status` tinyint(4) comment '1 未支付 2 已支付 ,3 已取消,4 已删除',
   `updated` datetime,
   `created` datetime,
   PRIMARY KEY ( id ),

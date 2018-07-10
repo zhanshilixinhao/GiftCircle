@@ -21,16 +21,22 @@ import com.chouchongkeji.goexplore.utils.RSAProvider;
 import com.chouchongkeji.service.backpack.base.BpService;
 import com.chouchongkeji.service.backpack.consignment.ConOrderService;
 import com.chouchongkeji.service.iwant.wallet.WalletService;
+import com.chouchongkeji.service.mall.item.impl.OrderServiceImpl;
 import com.chouchongkeji.service.message.MessageService;
 import com.chouchongkeji.service.user.info.AppPaymentInfoService;
 import com.chouchongkeji.util.Constants;
 import com.chouchongkeji.util.OrderHelper;
+import org.apache.commons.collections.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * @author linqin
@@ -39,6 +45,8 @@ import java.math.BigDecimal;
 @Service
 @Transactional(rollbackFor = Exception.class, isolation = Isolation.REPEATABLE_READ)
 public class ConOrderServiceImpl implements ConOrderService {
+
+    private  static Logger log = LoggerFactory.getLogger(OrderServiceImpl.class);
 
     @Autowired
     private OrderHelper orderHelper;
@@ -63,6 +71,37 @@ public class ConOrderServiceImpl implements ConOrderService {
 
     @Autowired
     private BpService bpService;
+
+
+
+    /**
+     * 寄售台订单超时取消订单
+     */
+    @Scheduled(fixedRate = 600000)
+    public void conTimeTask(){
+        log.info("开始执行取消寄售台订单");
+        List<ConsignmentOrder> list = consignmentOrderMapper.selectAllByStatus();
+        if (CollectionUtils.isEmpty(list)){
+            log.info( "没有需要支付的订单");
+            return;
+        }
+        for ( ConsignmentOrder order:list) {
+            //更新订单状态为已取消
+            int count = consignmentOrderMapper.updateStatus(order.getOrderNo(), Constants.ORDER_STATUS.CANCELED);
+            if (count < 1) {
+                log.info("订单状态更新失败");
+                continue;
+            }
+            //更新寄售台数量
+            int i = consignmentMapper.updateQuantity(order.getConsignmentId(), order.getQuantity());
+            if (i < 1) {
+                log.info("数量更新失败");
+            }
+        }
+    }
+
+
+
     /**
      * 寄售台订单创建
      *

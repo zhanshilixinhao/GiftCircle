@@ -81,6 +81,7 @@ public class Constants {
     public interface CHARGE_ORDER_STATUS {
         byte NO_PAY = 1;
         byte PAY = 2;
+
     }
 
     /*商品订单状态 */
@@ -91,7 +92,7 @@ public class Constants {
     }
 
     /* 商品订单支付状态 */
-//    订单状态: 1-未付款，2-已付款
+//    订单状态: 1-未付款，2-已付款 ,3已取消 ,4-已删除
     public interface ORDER_BASE_STATUS {
         int NO_PAY = 1; // 未支付
         int PAID = 2;

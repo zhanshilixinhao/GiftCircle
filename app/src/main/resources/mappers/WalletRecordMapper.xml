@@ -14,7 +14,7 @@
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    id, user_id, explain, amount, target_id, type, updated, created
+    id, user_id, `explain`, amount, target_id, `type`, updated, created
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -22,7 +22,25 @@
     from wallet_record
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="selectByUserId" resultMap="BaseResultMap">
+      SELECT
+	<include refid="Base_Column_List"/>
+FROM
+	wallet_record
+<where>
+	<trim prefixOverrides="and">
+      and user_id = #{userId}
+      <if test="starting!=null">
+        and  UNIX_TIMESTAMP(created) >= #{starting}
+      </if>
+      <if test="ending !=null">
+        and UNIX_TIMESTAMP(created) &lt;= #{ending}
+      </if>
+    </trim>
+</where>
+      order by created DESC
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from wallet_record
     where id = #{id,jdbcType=INTEGER}
   </delete>

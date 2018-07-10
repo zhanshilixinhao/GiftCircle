@@ -2,6 +2,8 @@ package com.chouchongkeji.service.mall.item;
 
 import com.chouchongkeji.goexplore.common.Response;
 
+import java.util.HashSet;
+
 /**
  * @author linqin
  * @date 2018/6/13
@@ -25,7 +27,7 @@ public interface CartService {
      * @author linqin
      * @date 2018/6/13
      */
-    Response addItemToCart(Integer userId, Integer skuId);
+    Response addItemToCart(Integer userId, Integer skuId , Integer quantity);
 
     /**
      * 增加或减少购物车商品数量
@@ -47,5 +49,5 @@ public interface CartService {
      * @author linqin
      * @date 2018/6/13
      */
-    Response deleteItem(Integer userId, Integer skuId);
+    Response deleteItem(Integer userId, HashSet skuId);
 }

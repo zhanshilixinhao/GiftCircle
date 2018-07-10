@@ -11,6 +11,7 @@ import com.chouchongkeji.service.mall.item.vo.CartListVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -52,17 +53,16 @@ public class CartServiceImpl implements CartService {
      * @date 2018/6/13
      */
     @Override
-    public Response addItemToCart(Integer userId, Integer skuId) {
+    public Response addItemToCart(Integer userId, Integer skuId,Integer quantity) {
         Cart cartSku = cartMapper.selectBySkuIAndUserId(userId, skuId);
-
         ItemSku itemSku = itemSkuMapper.selectBySkuId(skuId);
         if (itemSku == null) {
-            return ResponseFactory.errMissingParameter();
+            return ResponseFactory.err("不存在该sku");
         }
         //校验cartSku是否存在
-        if (cartSku == null) {
+        if (cartSku == null) {//cartSku不存在
             //如果不存在插入一条数据
-            if (itemSku.getStock() < 1) {
+            if (itemSku.getStock() < quantity) {
                 return ResponseFactory.err("库存不足,无法加入购物车");
             }
             cartSku = new Cart();
@@ -70,14 +70,15 @@ public class CartServiceImpl implements CartService {
             cartSku.setItemId(itemSku.getItemId());
             cartSku.setSkuId(itemSku.getId());
             cartSku.setPrice(itemSku.getPrice());
-            cartSku.setQuantity(1);
+            cartSku.setQuantity(quantity);
             cartMapper.insert(cartSku);
             return ResponseFactory.sucMsg("加入购物车成功");
         }
+        //cartSku存在
         if (itemSku.getStock() <= cartSku.getQuantity()) {
             return ResponseFactory.err("库存不足,无法加入购物车");
         }
-        cartSku.setQuantity(cartSku.getQuantity() + 1);
+        cartSku.setQuantity(cartSku.getQuantity() + quantity);
         cartMapper.updateByPrimaryKeySelective(cartSku);
         return ResponseFactory.sucMsg("加入购物车成功");
     }
@@ -132,7 +133,7 @@ public class CartServiceImpl implements CartService {
      * @date 2018/6/13
      */
     @Override
-    public Response deleteItem(Integer userId, Integer skuId) {
+    public Response deleteItem(Integer userId, HashSet skuId) {
         int count = cartMapper.deleteByUserIdAndskuId(userId, skuId);
         if (count == 0){
             return ResponseFactory.err("删除失败");

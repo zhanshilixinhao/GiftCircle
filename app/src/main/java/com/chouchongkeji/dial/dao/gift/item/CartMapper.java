@@ -4,6 +4,7 @@ import com.chouchongkeji.dial.pojo.gift.item.Cart;
 import com.chouchongkeji.service.mall.item.vo.CartListVo;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.HashSet;
 import java.util.List;
 
 public interface CartMapper {
@@ -23,5 +24,5 @@ public interface CartMapper {
 
     Cart selectBySkuIAndUserId(@Param("userId") Integer userId,@Param("skuId") Integer skuId);
 
-    int deleteByUserIdAndskuId(@Param("userId") Integer userId,@Param("skuId") Integer skuId);
+    int deleteByUserIdAndskuId(@Param("userId") Integer userId,@Param("skuId") HashSet skuId);
 }

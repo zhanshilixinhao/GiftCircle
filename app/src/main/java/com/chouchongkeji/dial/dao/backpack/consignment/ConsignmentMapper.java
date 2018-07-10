@@ -35,4 +35,5 @@ public interface ConsignmentMapper {
 
     List<ConsignmentVo> selectAll();
 
+    int updateQuantity(@Param("consignmentId") Integer consignmentId,@Param("quantity") Integer quantity);
 }

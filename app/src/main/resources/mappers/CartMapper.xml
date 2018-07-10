@@ -64,8 +64,11 @@ WHERE
   </delete>
   <delete id="deleteByUserIdAndskuId">
     delete from cart
-    where user_id = #{userId}
-    and sku_id = #{skuId}
+    where sku_id in
+    <foreach collection="skuId" item="id" index="i" separator="," open="(" close=")" >
+      #{id}
+    </foreach>
+    and user_id = #{userId}
   </delete>
   <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.gift.item.Cart">
     insert into cart (id, user_id, item_id, 

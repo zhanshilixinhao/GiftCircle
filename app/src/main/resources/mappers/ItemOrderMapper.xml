@@ -82,7 +82,16 @@ LEFT JOIN item_order_detail b  on a.order_no = b.order_no
 WHERE a.user_id = #{userId}
 and a.status = #{status}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="selectAll" resultMap="BaseResultMap">
+SELECT
+	<include refid="Base_Column_List"/>
+FROM
+	`item_order`
+WHERE
+	`status` = 1
+      AND UNIX_TIMESTAMP( created + 1200) &lt;= UNIX_TIMESTAMP( now( )  )
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from item_order
     where id = #{id,jdbcType=INTEGER}
   </delete>
@@ -201,8 +210,10 @@ and a.status = #{status}
   </update>
   <update id="updateStatusByOrder">
     UPDATE item_order
-SET `status` = '2'
+SET `status` = #{status}
 WHERE
 	order_no = #{orderNo}
+	and status = 1
   </update>
+
 </mapper>

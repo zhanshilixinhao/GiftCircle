@@ -21,14 +21,17 @@ import com.chouchongkeji.goexplore.pay.weixin.service.WXPayService;
 import com.chouchongkeji.goexplore.query.PageQuery;
 import com.chouchongkeji.goexplore.utils.BigDecimalUtil;
 import com.chouchongkeji.goexplore.utils.RSAProvider;
+import com.chouchongkeji.service.iwant.wallet.WalletService;
 import com.chouchongkeji.service.mall.item.OrderService;
 import com.chouchongkeji.service.mall.item.vo.OrderListVo;
 import com.chouchongkeji.service.mall.item.vo.OrderVo;
-import com.chouchongkeji.service.iwant.wallet.WalletService;
 import com.chouchongkeji.service.user.info.AppPaymentInfoService;
 import com.chouchongkeji.util.Constants;
 import com.chouchongkeji.util.OrderHelper;
 import com.github.pagehelper.PageHelper;
+import org.apache.commons.collections.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -47,6 +50,7 @@ import java.util.List;
 @Service
 @Transactional(rollbackFor = Exception.class, isolation = Isolation.REPEATABLE_READ)
 public class OrderServiceImpl implements OrderService {
+    private static Logger log = LoggerFactory.getLogger(OrderServiceImpl.class);
 
     @Autowired
     private ItemOrderMapper itemOrderMapper;
@@ -72,11 +76,32 @@ public class OrderServiceImpl implements OrderService {
     /**
      * 按时取消订单
      */
-    @Scheduled(fixedRate = 1200000)
+    @Scheduled(fixedRate = 600000)
     public void timeTask(){
-        //取出所有需要按时支付的订单
-
-
+        //取出所有未支付的订单
+        List<ItemOrder> itemOrders = itemOrderMapper.selectAll();
+        if (CollectionUtils.isEmpty(itemOrders)){
+            log.info( "没有需要支付的订单");
+            return;
+        }
+        for (ItemOrder order:itemOrders ) {
+            Long orderNo = order.getOrderNo();
+            //更新订单状态为已取消
+            itemOrderMapper.updateStatusByOrder(orderNo,Constants.ORDER_STATUS.CANCELED);
+            //更新详细订单状态为已取消
+            List<ItemOrderDetail> list = itemOrderDetailMapper.selectByOrderNo(orderNo);
+            for (ItemOrderDetail orderDetail:list) {
+                //更新详细订单的状态
+                 itemOrderDetailMapper.updateStatus(orderNo, Constants.ORDER_STATUS.CANCELED);
+                //更新sku的库存(把商品退回到itemSku的库存中)
+                int count =  itemSkuMapper.updateStockBySkuId(orderDetail.getSkuId(),orderDetail.getQuantity());
+                if (count < 1) {
+                    log.info("库存更新失败");
+                }
+                log.info("库存更新成功");
+            }
+        }
+        log.info("订单取消成功");
     }
 
 
@@ -210,7 +235,7 @@ public class OrderServiceImpl implements OrderService {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "支付失败,请选择其他支付方式");
         }
         //更新订单状态
-        int i = itemOrderMapper.updateStatusByOrder(orderNo);
+        int i = itemOrderMapper.updateStatusByOrder(orderNo,Constants.ORDER_STATUS.PAID);
         if (i < 1) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "更新状态失败");
         }
