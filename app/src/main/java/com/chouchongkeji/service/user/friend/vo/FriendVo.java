@@ -1,5 +1,7 @@
 package com.chouchongkeji.service.user.friend.vo;
 
+import com.yichen.auth.jackson.ImgUrl;
+
 import java.util.Date;
 
 /**
@@ -19,6 +21,8 @@ public class FriendVo {
     private Integer sort;
     private Date created;
     private Date updated;
+
+    @ImgUrl
     private String avatar;
     private String nickname;
 

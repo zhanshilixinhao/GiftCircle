@@ -1199,7 +1199,23 @@ CREATE TABLE `Banner`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4  ROW_FORMAT = Compact COMMENT 'banner表'
 
 
-
+/*==============================================================*/
+/* Table: Banner                                   */
+/*==============================================================*/
+DROP TABLE IF EXISTS `gift_record_self`;
+CREATE TABLE `gift_record_self`  (
+  `id` INT(11) not NULL AUTO_INCREMENT COMMENT '表id',
+  `user_id` int(11) comment '备注用户id',
+  `amount` decimal(18,2) comment '记录金额',
+  `event` varchar(64) comment '说点什么',
+  `detail` varchar(255) comment '详情',
+  `ob_type` varchar(32) comment '类型 个人、家庭',
+  `inout_type` tinyint(4) comment '1 汁出 2 收入',
+  `target_time` DATETIME comment '记录时间',
+  `created` DATETIME DEFAULT NULL COMMENT '创建时间',
+  `updated` DATETIME DEFAULT NULL COMMENT '修改时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4  ROW_FORMAT = Compact COMMENT '自己补录的礼品记录'
 
 
 

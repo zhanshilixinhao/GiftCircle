@@ -1,9 +1,12 @@
 package com.chouchongkeji.mvc.controller.backpack.gift;
 
+import com.chouchongkeji.dial.pojo.home.GiftRecordSelf;
 import com.chouchongkeji.goexplore.common.Response;
+import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.query.PageQuery;
 import com.chouchongkeji.service.backpack.gift.GiftRecordService;
 import com.yichen.auth.service.UserDetails;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -60,4 +63,42 @@ public class GiftRecordController {
         return giftRecordService.getList(userDetails.getUserId(), starting, ending, obType, page);
     }
 
+    /**
+     * 礼品补录
+     *
+     * @param userDetails 用户信息
+     * @param record      礼物记录
+     * @return
+     * @author yichenshanren
+     * @date 2018/7/9
+     */
+    @PostMapping("add")
+    public Response addRecord(@AuthenticationPrincipal UserDetails userDetails,
+                              GiftRecordSelf record) {
+        if (StringUtils.isAnyBlank(record.getEvent(), record.getDetail(), record.getObType()) ||
+                record.getAmount() == null || record.getAmount().doubleValue() <= 0 ||
+                record.getInoutType() == null || record.getInoutType() < 1 || record.getInoutType() > 2 ||
+                record.getTargetTime() == null) {
+            return ResponseFactory.errMissingParameter();
+        }
+        return giftRecordService.addRecord(userDetails.getUserId(), record);
+    }
+
+    /**
+     * 人情往来记录
+     *
+     * @param userDetails  用户信息
+     * @param friendUserId 查看的好友用户id
+     * @return
+     * @author yichenshanren
+     * @date 2018/7/9
+     */
+    @PostMapping("friend")
+    public Response getRecordForFriend(@AuthenticationPrincipal UserDetails userDetails,
+                              Integer friendUserId, PageQuery page) {
+        if (friendUserId == null) {
+            return ResponseFactory.errMissingParameter();
+        }
+        return giftRecordService.getRecordForFriend(userDetails.getUserId(), friendUserId, page);
+    }
 }

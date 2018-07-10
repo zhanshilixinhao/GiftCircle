@@ -1,10 +1,7 @@
 package com.chouchongkeji.dial.dao.backpack.gift;
 
 import com.chouchongkeji.dial.pojo.gift.virtualItem.GiftRecord;
-import com.chouchongkeji.service.backpack.gift.vo.GiftInoutVo;
-import com.chouchongkeji.service.backpack.gift.vo.GiftRecordItemVo;
-import com.chouchongkeji.service.backpack.gift.vo.GiftRecordVo;
-import com.chouchongkeji.service.backpack.gift.vo.GiftTaskVo;
+import com.chouchongkeji.service.backpack.gift.vo.*;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -44,4 +41,7 @@ public interface GiftRecordMapper {
             @Param("starting") Long starting,
             @Param("ending") Long ending,
             @Param("obType") String obType);
+
+    List<GiftFriendVo> selectByFriendUserId(@Param("userId") Integer userId,
+                                            @Param("friendUserId") Integer friendUserId);
 }

@@ -34,14 +34,11 @@
     </select>
     <select id="selectByUserIdAndGroupId" resultType="com.chouchongkeji.service.user.friend.vo.FriendItem">
         SELECT
-        a.*,
-        b.avatar,
-        b.nickname
+        *
         FROM
-        friend a
-        LEFT JOIN app_user b on b.id = a.friend_user_id
+        v_friend
         WHERE
-        a.user_id = #{userId}
+        user_id = #{userId}
         <if test="groupId!=null">
             and group_id = #{groupId}
         </if>

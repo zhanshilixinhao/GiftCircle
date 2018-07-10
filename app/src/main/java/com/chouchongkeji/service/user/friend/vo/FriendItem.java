@@ -8,28 +8,10 @@ import com.yichen.auth.jackson.ImgUrl;
  * @date 2018/6/21
  */
 
-public class FriendItem extends Friend {
+public class FriendItem extends FriendVo {
 
-    @ImgUrl
-    private String avatar;
-    private String nickname;
+
     private Integer heartNum = 0;
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
 
     public Integer getHeartNum() {
         return heartNum;
