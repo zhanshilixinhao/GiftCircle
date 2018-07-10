@@ -2,6 +2,7 @@ package com.chouchongkeji.service.user.info.impl;
 
 import com.chouchongkeji.dial.dao.backpack.consignment.ConsignmentMapper;
 import com.chouchongkeji.dial.dao.backpack.consignment.ConsignmentOrderMapper;
+import com.chouchongkeji.dial.dao.gift.item.ItemOrderDetailMapper;
 import com.chouchongkeji.dial.dao.gift.item.ItemOrderMapper;
 import com.chouchongkeji.dial.dao.iwant.wallet.ChargeOrderMapper;
 import com.chouchongkeji.dial.dao.user.AppUserMapper;
@@ -9,6 +10,7 @@ import com.chouchongkeji.dial.dao.user.PaymentInfoMapper;
 import com.chouchongkeji.dial.pojo.backpack.consignment.Consignment;
 import com.chouchongkeji.dial.pojo.backpack.consignment.ConsignmentOrder;
 import com.chouchongkeji.dial.pojo.gift.item.ItemOrder;
+import com.chouchongkeji.dial.pojo.gift.item.ItemOrderDetail;
 import com.chouchongkeji.dial.pojo.iwant.wallet.ChargeOrder;
 import com.chouchongkeji.dial.pojo.user.AppUser;
 import com.chouchongkeji.dial.pojo.user.PaymentInfo;
@@ -41,6 +43,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -62,6 +65,9 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
 
     @Autowired
     private ItemOrderMapper itemOrderMapper;
+
+    @Autowired
+    private ItemOrderDetailMapper itemOrderDetailMapper;
 
     @Autowired
     private OrderService orderService;
@@ -163,6 +169,12 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
             }
             //更新详细订单状态和销量
             orderService.updateStatusSales(orderNo);
+            //物品添加到背包
+            List<ItemOrderDetail> list = itemOrderDetailMapper.selectByUserIdAndOrderNo(itemOrder.getUserId(),orderNo);
+            int add = bpService.addFromItemOrder(list);
+            if (add < 1) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(),"");
+            }
             //支付信息
             doAliPaySuccess(aLiPayV2Vo, orderType);
         } else if (i == 2) {
@@ -425,6 +437,12 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
             }
             //更新详细订单状态和销量
             orderService.updateStatusSales(orderNo);
+            //物品加入背包里
+            List<ItemOrderDetail> list = itemOrderDetailMapper.selectByUserIdAndOrderNo(itemOrder.getUserId(),orderNo);
+            int add = bpService.addFromItemOrder(list);
+            if (add < 1) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(),"");
+            }
             //支付信息
             doWXPaySuccess(notifyData, orderType);
         } else if (re == 2) {

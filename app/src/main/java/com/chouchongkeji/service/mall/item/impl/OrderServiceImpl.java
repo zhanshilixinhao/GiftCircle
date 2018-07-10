@@ -21,6 +21,7 @@ import com.chouchongkeji.goexplore.pay.weixin.service.WXPayService;
 import com.chouchongkeji.goexplore.query.PageQuery;
 import com.chouchongkeji.goexplore.utils.BigDecimalUtil;
 import com.chouchongkeji.goexplore.utils.RSAProvider;
+import com.chouchongkeji.service.backpack.base.BpService;
 import com.chouchongkeji.service.iwant.wallet.WalletService;
 import com.chouchongkeji.service.mall.item.OrderService;
 import com.chouchongkeji.service.mall.item.vo.OrderListVo;
@@ -73,6 +74,8 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private ItemMapper itemMapper;
 
+    @Autowired
+    private BpService bpService;
     /**
      * 按时取消订单
      */
@@ -170,6 +173,11 @@ public class OrderServiceImpl implements OrderService {
            int i =  updateStatusSales(orderNo);
             if (i < 1) {
                 throw new ServiceException(ErrorCode.ERROR.getCode(),"更新销量和详细订单状态失败");
+            }
+             //物品添加到背包
+            int add = bpService.addFromItemOrder(list);
+            if (add < 1) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(),"");
             }
             //保存支付信息
             appPaymentInfoService.doYuePaySuccess(orderNo, userId, itemOrder.getCreated(), Constants.ORDER_TYPE.ITEM,
@@ -311,6 +319,12 @@ public class OrderServiceImpl implements OrderService {
             int sales = updateStatusSales(orderNo);
             if (sales < 1) {
                 throw new ServiceException(ErrorCode.ERROR.getCode(),"更新余额,扣减余额失败");
+            }
+            //物品添加到背包
+            List<ItemOrderDetail> list = itemOrderDetailMapper.selectByUserIdAndOrderNo(userId,orderNo);
+            int add = bpService.addFromItemOrder(list);
+            if (add < 1) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(),"");
             }
             //保存支付信息
             appPaymentInfoService.doYuePaySuccess(orderNo, userId, itemOrder.getCreated(), Constants.ORDER_TYPE.ITEM,
