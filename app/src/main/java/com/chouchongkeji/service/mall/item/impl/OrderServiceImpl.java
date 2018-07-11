@@ -5,6 +5,7 @@ import com.chouchongkeji.dial.dao.gift.item.ItemMapper;
 import com.chouchongkeji.dial.dao.gift.item.ItemOrderDetailMapper;
 import com.chouchongkeji.dial.dao.gift.item.ItemOrderMapper;
 import com.chouchongkeji.dial.dao.gift.item.ItemSkuMapper;
+import com.chouchongkeji.dial.pojo.gift.item.Item;
 import com.chouchongkeji.dial.pojo.gift.item.ItemOrder;
 import com.chouchongkeji.dial.pojo.gift.item.ItemOrderDetail;
 import com.chouchongkeji.dial.pojo.gift.item.ItemSku;
@@ -21,6 +22,7 @@ import com.chouchongkeji.goexplore.pay.weixin.service.WXPayService;
 import com.chouchongkeji.goexplore.query.PageQuery;
 import com.chouchongkeji.goexplore.utils.BigDecimalUtil;
 import com.chouchongkeji.goexplore.utils.RSAProvider;
+import com.chouchongkeji.properties.ServiceProperties;
 import com.chouchongkeji.service.backpack.base.BpService;
 import com.chouchongkeji.service.iwant.wallet.WalletService;
 import com.chouchongkeji.service.mall.item.OrderService;
@@ -76,6 +78,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private BpService bpService;
+
+    @Autowired
+    ServiceProperties serviceProperties;
     /**
      * 按时取消订单
      */
@@ -125,17 +130,26 @@ public class OrderServiceImpl implements OrderService {
         BigDecimal totalPrice = new BigDecimal("0");
         int quantity = 0;
         for (OrderVo order : skus) {
-            //判断sku是否存在，并且判断库存是否充足
-            //1.判断sku是否存在
+            //判断sku是否存在
             ItemSku itemSku = itemSkuMapper.selectBySkuId(order.getSkuId());
             if (itemSku == null) {
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "该商品不存在");
             }
-            //2.判断库存是否充足
+            //判断状态是否正常
+            //1.判断商品状态
+            Integer itemId = itemSku.getItemId();
+            Item item = itemMapper.selectByPrimaryKey(itemId);
+            if (item.getStatus()!=Constants.ITEM.NORMAL){
+                throw new ServiceException(ErrorCode.ERROR.getCode(),"该商品已下架或者删除");
+            }
+            //2.判断sku状态
+            if (itemSku.getStatus()!=Constants.ITEM.NORMAL){
+                throw new ServiceException(ErrorCode.ERROR.getCode(),"该商品已下架或者删除");
+            }
+            //.判断库存是否充足
             int count = itemSku.getStock();
             if (count < order.getQuantity()) {
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "库存不足");
-
             }
             //计算商品价格
             BigDecimal price = itemSku.getPrice().multiply(new BigDecimal(order.getQuantity()));
@@ -218,9 +232,9 @@ public class OrderServiceImpl implements OrderService {
         vo.setOrderNo(order.getOrderNo());
         //支付宝
         if (payWay == Constants.PAY_TYPE.ALI) {
-            vo.setUrl("noauth/pay/item_order/ali");
+            vo.setUrl(serviceProperties.getHost()+"noauth/pay/item_order/ali");
         } else if (payWay == Constants.PAY_TYPE.WX) {//微信
-            vo.setUrl("noauth/pay/item_order/wx");
+            vo.setUrl(serviceProperties.getHost()+"noauth/pay/item_order/wx");
         }
         vo.setPrice(order.getTotalPrice());
         return vo;

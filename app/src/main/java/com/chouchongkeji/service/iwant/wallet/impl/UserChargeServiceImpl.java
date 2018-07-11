@@ -14,6 +14,7 @@ import com.chouchongkeji.goexplore.pay.weixin.service.WXPayDto;
 import com.chouchongkeji.goexplore.pay.weixin.service.WXPayService;
 import com.chouchongkeji.goexplore.utils.RSAProvider;
 import com.chouchongkeji.dial.pojo.iwant.wallet.ChargeOrder;
+import com.chouchongkeji.properties.ServiceProperties;
 import com.chouchongkeji.service.iwant.wallet.UserChargeService;
 import com.chouchongkeji.util.Constants;
 import com.chouchongkeji.util.OrderHelper;
@@ -38,6 +39,8 @@ public class UserChargeServiceImpl implements UserChargeService {
     @Autowired
     private OrderHelper orderHelper;
 
+    @Autowired
+    ServiceProperties serviceProperties;
     /**
      * 创建充值订单
      *
@@ -108,9 +111,9 @@ public class UserChargeServiceImpl implements UserChargeService {
         vo.setOrderNo(order.getOrderNo());
         //支付宝
         if (payWay == Constants.PAY_TYPE.ALI){
-            vo.setUrl("noauth/pay/charge_order/ali");
+            vo.setUrl(serviceProperties.getHost()+"noauth/pay/charge_order/ali");
         } else if (payWay == Constants.PAY_TYPE.WX){//微信
-            vo.setUrl("noauth/pay/charge_order/wx");
+            vo.setUrl(serviceProperties.getHost()+"noauth/pay/charge_order/wx");
         }
         vo.setPrice(order.getAmount());
         return vo;

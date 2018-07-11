@@ -18,6 +18,7 @@ import com.chouchongkeji.goexplore.pay.alipay_v2.AliPayServiceV2;
 import com.chouchongkeji.goexplore.pay.weixin.service.WXPayDto;
 import com.chouchongkeji.goexplore.pay.weixin.service.WXPayService;
 import com.chouchongkeji.goexplore.utils.RSAProvider;
+import com.chouchongkeji.properties.ServiceProperties;
 import com.chouchongkeji.service.backpack.base.BpService;
 import com.chouchongkeji.service.backpack.consignment.ConOrderService;
 import com.chouchongkeji.service.iwant.wallet.WalletService;
@@ -72,7 +73,8 @@ public class ConOrderServiceImpl implements ConOrderService {
     @Autowired
     private BpService bpService;
 
-
+    @Autowired
+    ServiceProperties serviceProperties;
 
     /**
      * 寄售台订单超时取消订单
@@ -233,9 +235,9 @@ public class ConOrderServiceImpl implements ConOrderService {
         vo.setOrderNo(order.getOrderNo());
         //支付宝
         if (payWay == Constants.PAY_TYPE.ALI) {
-            vo.setUrl("noauth/pay/con_order/ali");
+            vo.setUrl(serviceProperties.getHost()+"noauth/pay/con_order/ali");
         } else if (payWay == Constants.PAY_TYPE.WX) {//微信
-            vo.setUrl("noauth/pay/con_order/wx");
+            vo.setUrl(serviceProperties.getHost()+"noauth/pay/con_order/wx");
         }
         vo.setPrice(order.getPrice());
         return vo;

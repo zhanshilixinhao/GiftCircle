@@ -1217,6 +1217,26 @@ CREATE TABLE `gift_record_self`  (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4  ROW_FORMAT = Compact COMMENT '自己补录的礼品记录'
 
+/*==============================================================*/
+/* Table: discounting                                   */
+/*==============================================================*/
+DROP TABLE IF EXISTS `discounting`;
+CREATE TABLE `discounting`  (
+  `id` INT(11) not NULL AUTO_INCREMENT COMMENT '表id',
+  `user_id` int(11) comment '用户id',
+  `bp_id` BIGINT comment '背包id',
+  `item_price` decimal(18,2) comment '商品价格',
+  `discount_price` decimal(18,2) comment '折现后价格',
+  `explain` varchar(2000) comment '折现说明',
+  `status` tinyint(4) comment '折现状态，1-等待折现，2-折现完成，3-折现失败',
+  `type` tinyint(4) comment '1-物品，2-虚拟物品',
+  `created` DATETIME DEFAULT NULL COMMENT '创建时间',
+  `updated` DATETIME DEFAULT NULL COMMENT '修改时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  key user_id (user_id),
+  key bp_id (bp_id)
+) ENGINE = InnoDB CHARACTER SET = utf8mb4  ROW_FORMAT = Compact COMMENT '折现记录'
+
 
 
 

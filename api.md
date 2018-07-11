@@ -1900,7 +1900,7 @@ JSON：
 | :------: | :------: | :------: | :----: | :------: |
 |  access_token  |   String    |    是    |   无   |  访问令牌  |
 | skus | String | 是 | 无 | json数组，数组格式，[{"skuId":skuId,"quantity":quantity}] |
-| payWay | int | 是 | 无 | 支付方式，微信 24656 ，支付宝 78990 |
+| payWay | int | 是 | 无 | 支付方式，微信 24656 ，支付宝 78990，余额98001 |
 
 请求结果示例：
 ```json
@@ -1925,7 +1925,7 @@ JSON：
 | :------: | :------: | :------: | :----: | :------: |
 |  access_token  |   String    |    是    |   无   |  访问令牌  |
 | orderNo | Long | 是 | 无 | 订单号 |
-| payWay | int | 是 | 无 | 支付方式，微信 24656 ，支付宝 78990 |
+| payWay | int | 是 | 无 | 支付方式，微信 24656 ，支付宝 78990，余额98001 |
 
 请求结果示例：
 ```json
@@ -4107,101 +4107,3 @@ JSON：
     }
 }
 ```
-
-
-
-### 19.3 人情账簿礼品补录
-
-- 请求地址：auth/v1/mall/record/add
-- 服务协议：HTTP/POST
-- 是否需要身份认证：是
-- 作者：yichen
-
-|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
-| :----------: | :------: | :------: | :----: | :------: |
-| access_token |  string  |    是    |   无   | 访问令牌 |
-| amount | decimal | 是 | 无 | 金额 |
-| event | string | 是 | 无 | 事件 |
-| detail | string | 是 | 无 | 详情 |
-| obType | string | 是 | 无 | 类型，个人、家庭 |
-| inoutType | int | 是 | 无 | 1 汁出 2 收入 |
-| targetTime | long | 是 | 无 | 记录时间，传13位时间戳 |
-
-
-
-### 19.3 人情账簿好友往来
-
-- 请求地址：auth/v1/mall/record/friend
-- 服务协议：HTTP/POST
-- 是否需要身份认证：是
-- 作者：yichen
-
-|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
-| :----------: | :------: | :------: | :----: | :------: |
-| access_token |  string  |    是    |   无   | 访问令牌 |
-| friendUserId | int | 是 | 无 | 好友用户id |
-| pageNum | int | 否 | 1 | 分页 |
-| pageSize | int | 否 | 14 | 分页大小 |
-
-* 请求结果示例
-
-```js
-{
-    errCode: 0, 
-    result: 0, 
-    time: 1531208508545, 
-    data: [
-        {
-            recordId: 1, 
-            greetting: "么么哒", 
-            giftType: 2, 
-            event: "什么节", 
-            created: 1530691318000, 
-            recordDetailId: 3, 
-            amount: 987, 
-            gifts: [
-                {
-                    bpId: 2, 
-                    targetId: 2, 
-                    targetType: 1, 
-                    giftType: 1, 
-                    price: 1000, 
-                    title: "魏文侯", 
-                    cover: "https://io.shanren.group/image/cover.jpg", 
-                    description: "东周末年", 
-                    brand: "公牛"
-                }
-            ], 
-            inoutType: 1
-        }, 
-        {
-            recordId: 2, 
-            greetting: "一厢情愿的不舍", 
-            giftType: 1, 
-            event: "那年花开", 
-            created: 1530847416000, 
-            recordDetailId: 2, 
-            amount: 54534, 
-            gifts: [
-                {
-                    bpId: 2, 
-                    targetId: 2, 
-                    targetType: 3, 
-                    giftType: 1, 
-                    price: 100, 
-                    title: "1元优惠券", 
-                    cover: "https://io.shanren.group/image/cover.jpg", 
-                    description: "{
- \"type\": \"优惠券\",
- \"discunt\":\"1元\",
- \"decription\":\"仅限购买三只松鼠\"
-}", 
-                    brand: "小牛"
-                }
-            ], 
-            inoutType: 1
-        }
-    ]
-}
-```
-

@@ -85,7 +85,7 @@
                 <if test="maxPrice!=null">
                     a.price &lt;= #{maxPrice} and
                 </if>
-
+                a.status = 1 and
             </trim>
         </where>
         order by
@@ -415,6 +415,7 @@ FROM
 	item
 WHERE
 	title LIKE concat('%',#{keyword},'%')
+	and status = 1
     </select>
 
 </mapper>

@@ -76,8 +76,10 @@ yichen:
       needSplice: true
       host: https://io.shanren.group/image/
   service:
+    host: https://io.shanren.group/app/
     productDetail: https://43.241.223.169:800/static/product.html?id=
     articleDetail: https://43.241.223.169:800/static/article.html?id=
+
 #    logo: http://43.241.223.169:800/image/logo.jpg
 #server:
 #  port: 80
