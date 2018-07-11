@@ -2,12 +2,10 @@ package com.chouchongkeji.service.file.impl;
 
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
-import com.chouchongkeji.properties.ServiceProperties;
 import com.chouchongkeji.service.file.FileService;
 import com.chouchongkeji.service.file.ImageVo;
 import com.chouchongkeji.util.ImageUploadUtil;
 import com.chouchongkeji.util.ImageUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 

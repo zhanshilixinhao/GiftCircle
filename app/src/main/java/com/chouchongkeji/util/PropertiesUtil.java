@@ -19,6 +19,6 @@ public class PropertiesUtil {
     }
 
     public static String imgSavePath() {
-        return "/usr/local/tomcat/webapps/image/";
+        return "/data/console/dist/static/upload/image";
     }
 }

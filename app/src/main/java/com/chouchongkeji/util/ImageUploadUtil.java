@@ -192,7 +192,8 @@ public class ImageUploadUtil {
      * ]
      * }
      */
-    public static void wangEditorUpdload(HttpServletRequest request, HttpServletResponse response, String DirectoryName, int type)
+    public static void wangEditorUpdload(HttpServletRequest request, HttpServletResponse response,
+                                         String DirectoryName, int type)
             throws IOException {
         String fileName = "../upload/" + upload(request, fileTypes, DirectoryName);
         // imageContextPath为图片在服务器地址，如upload/123.jpg,非绝对路径
