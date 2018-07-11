@@ -272,9 +272,9 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
             return 2;
         }
         /** 判断这次回调请求的订单是否已处理 **/
-        int count = paymentInfoMapper.checkPaymentInfo(orderNo);
+        PaymentInfo count = paymentInfoMapper.checkPaymentInfo(orderNo);
         /** 1 为已处理 直接返回通知支付宝 **/
-        if (count == 1) {
+        if (count != null) {
             return 1;
         }
         /** 验签正确以后,验证是否是支付宝发来的通知 **/
@@ -547,9 +547,9 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
 //        }
         /** 判断该请求订单是否已经处理 **/
         /** 判断这次回调请求的订单是否已处理 **/
-        int count = paymentInfoMapper.checkPaymentInfo(orderNo);
+        PaymentInfo count = paymentInfoMapper.checkPaymentInfo(orderNo);
         /** count==1 为已处理 直接返回成功 **/
-        if (count == 1) {
+        if (count != null) {
             return 1;
         }
         /** 验证签名是否合法 **/

@@ -4,6 +4,8 @@ import com.chouchongkeji.dial.dao.iwant.wallet.WalletMapper;
 import com.chouchongkeji.dial.dao.iwant.wallet.WalletRecordMapper;
 import com.chouchongkeji.dial.pojo.iwant.wallet.Wallet;
 import com.chouchongkeji.dial.pojo.iwant.wallet.WalletRecord;
+import com.chouchongkeji.exception.ServiceException;
+import com.chouchongkeji.goexplore.common.ErrorCode;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.query.PageQuery;
@@ -116,7 +118,7 @@ public class WalletServiceImpl implements WalletService {
         }
         balance = balance.add(amount);
         if (balance.doubleValue()<0){
-            throw new SecurityException("余额不足");
+            throw new ServiceException(ErrorCode.ERROR.getCode(),"余额不足");
         }
         //更新余额
         detail.setBalance(balance);

@@ -69,6 +69,7 @@ yichen:
     sign:
       needSign: true
       urls:
+        - /noauth/pay/**
         - /druid/**
         - /noauth/file/**
   # 图片地址拼接
@@ -76,7 +77,7 @@ yichen:
       needSplice: true
       host: https://io.shanren.group/static/upload/image/
   service:
-    host: https://io.shanren.group/app/
+    host: http://yichen.4kb.cn/
     productDetail: https://43.241.223.169:800/static/product.html?id=
     articleDetail: https://43.241.223.169:800/static/article.html?id=
 

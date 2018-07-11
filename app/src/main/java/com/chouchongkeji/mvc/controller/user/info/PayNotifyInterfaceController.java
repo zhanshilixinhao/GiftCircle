@@ -66,9 +66,9 @@ public class PayNotifyInterfaceController {
      * @date 2018/6/21
      */
     @PostMapping("item_order/ali")
-    public String itemOrderAliPay(ALiPayV2Vo aLiPayV2Vo, Map parameterMap) {
+    public String itemOrderAliPay(ALiPayV2Vo aLiPayV2Vo, HttpServletRequest request) {
         /** 调用基础方法 **/
-        return this.itemBaseAliPay(aLiPayV2Vo, parameterMap, Constants.ORDER_TYPE.ITEM);
+        return this.itemBaseAliPay(aLiPayV2Vo, request.getParameterMap(), Constants.ORDER_TYPE.ITEM);
     }
 
     /**
@@ -98,9 +98,9 @@ public class PayNotifyInterfaceController {
      * @date 2018/7/5
      */
     @PostMapping("con_order/ali")
-    public String conOrderAliPay(ALiPayV2Vo aLiPayV2Vo, Map parameterMap) {
+    public String conOrderAliPay(ALiPayV2Vo aLiPayV2Vo, HttpServletRequest request) {
         /** 调用基础方法 **/
-        return this.conBaseAliPay(aLiPayV2Vo, parameterMap, Constants.ORDER_TYPE.CON_ITEM);
+        return this.conBaseAliPay(aLiPayV2Vo, request.getParameterMap(), Constants.ORDER_TYPE.CON_ITEM);
     }
 
 

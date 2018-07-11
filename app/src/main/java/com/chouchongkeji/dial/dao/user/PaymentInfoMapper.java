@@ -15,6 +15,6 @@ public interface PaymentInfoMapper {
 
     int updateByPrimaryKey(PaymentInfo record);
 
-    int checkPaymentInfo(Long orderNo);
+    PaymentInfo checkPaymentInfo(Long orderNo);
 
 }

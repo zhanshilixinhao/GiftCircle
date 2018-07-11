@@ -1,5 +1,6 @@
 package com.chouchongkeji.goexplore.utils;
 
+import okhttp3.Response;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -14,6 +15,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -187,39 +189,15 @@ public class HttpClientUtils {
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
     public static String doPost(String url, Map<String, String> map, String charset) {
-
-        HttpClient httpClient = null;
-        HttpPost httpPost = null;
-        String result = null;
         try {
-            httpClient = getHttpsClient();
-            httpPost = new HttpPost(url);
-            // 设置参数
-            List<NameValuePair> list = new ArrayList<NameValuePair>();
-            Iterator iterator = map.entrySet().iterator();
-            while (iterator.hasNext()) {
-                Entry<String, String> elem = (Entry<String, String>) iterator.next();
-                list.add(new BasicNameValuePair(elem.getKey(), elem.getValue()));
+            Response post = OkHttpUtil.post(OkHttpManager.create(null, null), url, RequestParams.valueof(map));
+            if (post.isSuccessful()) {
+                return post.body().string();
             }
-            if (list.size() > 0) {
-                UrlEncodedFormEntity entity = new UrlEncodedFormEntity(list, charset);
-                httpPost.setEntity(entity);
-            }
-            HttpResponse response = httpClient.execute(httpPost);
-            if (response != null) {
-                HttpEntity resEntity = response.getEntity();
-                if (resEntity != null) {
-                    result = EntityUtils.toString(resEntity, charset);
-                }
-            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        finally {
-            httpPost.releaseConnection();
-        }
-        return result;
+        return null;
     }
 
     /**
