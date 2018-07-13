@@ -1180,23 +1180,22 @@ CREATE TABLE `coupon` (
 
 
 /*==============================================================*/
-/* Table: Banner                                   */
+/* Table: banner                                   */
 /*==============================================================*/
-DROP TABLE IF EXISTS `Banner`;
-CREATE TABLE `Banner`  (
+DROP TABLE IF EXISTS `banner`;
+CREATE TABLE `banner`  (
   `id` INT(8) not NULL AUTO_INCREMENT COMMENT '表id',
-  `targetId` VARCHAR(32) DEFAULT NULL COMMENT '跳转的目标id',
+  `target_id` VARCHAR(32) DEFAULT NULL COMMENT '跳转的目标id',
   `cover` VARCHAR(100)default null comment '封面图片',
-  `requestUrl` VARCHAR(200) DEFAULT NULL COMMENT '跳转url',
+  `request_url` VARCHAR(200) DEFAULT NULL COMMENT '跳转url',
   `title` VARCHAR(32) DEFAULT NULL COMMENT '	图片标题',
-  `url` VARCHAR(200) DEFAULT NULL  COMMENT 	'图片url地址',
-  `richText` TEXT DEFAULT NULL  COMMENT 	'富文本',
-  `type` TINYINT(4) DEFAULT NULL COMMENT 'banner类型,  1 跳转到商品详情 2 跳转到好物主题列表',
+  `rich_text` TEXT DEFAULT NULL  COMMENT 	'富文本',
+  `type` TINYINT(4) DEFAULT NULL COMMENT 'banner类型,  1 跳转到商品详情 2 跳转到好物主题列表 3-跳转url,4-纯展示',
   `status` TINYINT(4) DEFAULT NULL COMMENT '1 正常 2 禁用',
-  `createTime` DATETIME DEFAULT NULL COMMENT '创建时间',
-  `updateTime` DATETIME DEFAULT NULL COMMENT '修改时间',
+  `created` DATETIME DEFAULT NULL COMMENT '创建时间',
+  `updated` DATETIME DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4  ROW_FORMAT = Compact COMMENT 'banner表'
+) ENGINE = InnoDB CHARACTER SET = utf8mb4  ROW_FORMAT = Compact COMMENT 'banner表';
 
 
 /*==============================================================*/
@@ -1238,6 +1237,24 @@ CREATE TABLE `discounting`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4  ROW_FORMAT = Compact COMMENT '折现记录'
 
 
+/*==============================================================*/
+/* Table: for_record                                */
+/*==============================================================*/
+DROP TABLE IF EXISTS `for_record`;
+CREATE TABLE `for_record`  (
+  `id` INT(11) not NULL AUTO_INCREMENT COMMENT '表id',
+  `user_id` int(11) comment '用户id',
+  `bp_id` BIGINT comment '背包id',
+  `friend_user_id` int(11) comment '好友用户id',
+  `status` tinyint(4) comment '索要状态，1-索要中，2-索要成功，3-索要失败',
+  `operation` tinyint(4) comment '0-默认无操作，1-同意好友索要，2-拒绝好友索要',
+  `created` DATETIME DEFAULT NULL COMMENT '创建时间',
+  `updated` DATETIME DEFAULT NULL COMMENT '修改时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  key user_id (user_id),
+  key bp_id (bp_id),
+  key friend_user_id (friend_user_id)
+) ENGINE = InnoDB CHARACTER SET = utf8mb4  ROW_FORMAT = Compact COMMENT '索要记录'
 
 
 

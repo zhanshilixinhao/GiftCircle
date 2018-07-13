@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.chouchongkeji.dial.dao.backpack.BpItemMapper;
 import com.chouchongkeji.dial.dao.backpack.consignment.ConsignmentMapper;
 import com.chouchongkeji.dial.pojo.backpack.BpItem;
+import com.chouchongkeji.dial.pojo.backpack.ForRecord;
 import com.chouchongkeji.dial.pojo.backpack.Vbp;
 import com.chouchongkeji.dial.pojo.backpack.consignment.Consignment;
 import com.chouchongkeji.dial.pojo.backpack.consignment.ConsignmentOrder;
@@ -20,7 +21,7 @@ import com.chouchongkeji.util.Constants;
 import com.chouchongkeji.util.OrderHelper;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ import java.util.List;
  * @date 2018/7/2
  */
 
-@Component
+@Service
 public class BpServiceImpl implements BpService {
 
     @Autowired
@@ -204,6 +205,23 @@ public class BpServiceImpl implements BpService {
         }
         return addBatch(items);
     }
+
+
+    /**
+     * 向好友索要物品成功添加到背包
+     * @param forRecord
+     * @param bpItem
+     * @return
+     */
+    public int addFromFriendBp(ForRecord forRecord,BpItem bpItem){
+        JSONObject object = new JSONObject();
+        object.put("type", Constants.BP_ITEM_FROM.ASK_FOR);
+        object.put("forRecordId",forRecord.getId() );
+        return add(assembleBpItem(forRecord.getUserId(),
+                1, bpItem.getPrice(),
+                bpItem.getTargetId(), bpItem.getType(), object.toJSONString()));
+    }
+
 
     /**
      * 背包列表

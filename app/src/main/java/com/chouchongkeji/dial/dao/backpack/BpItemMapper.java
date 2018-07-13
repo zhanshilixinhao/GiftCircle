@@ -28,4 +28,6 @@ public interface BpItemMapper {
 
     List<Vbp> selectBySearch(@Param("userId") Integer userId,
                              @Param("key") String key);
+
+    Vbp selectByUserIdBpId(@Param("userId") Integer userId,@Param("bpId") Long bpId);
 }

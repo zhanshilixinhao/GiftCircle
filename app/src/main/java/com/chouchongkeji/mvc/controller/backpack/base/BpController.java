@@ -1,4 +1,4 @@
-package com.chouchongkeji.mvc.controller.backpack;
+package com.chouchongkeji.mvc.controller.backpack.base;
 
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;

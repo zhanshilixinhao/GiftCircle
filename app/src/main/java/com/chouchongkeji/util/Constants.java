@@ -61,6 +61,21 @@ public class Constants {
         return name;
     }
 
+    /* 背包物品索要操作 */
+    public interface BP_ITEM {
+        byte DEFAULT = 0;    // 默认无操作
+        byte AGREE = 1;      // 同意
+        byte REFUSE = 2;    // 拒绝
+    }
+
+    /* 背包物品索要状态 */
+    public interface FOR_RECORD_STATUS {
+        byte ASK_FOR_THE = 1;    // 1-索要中
+        byte ACCESS = 2;      // 2-索要成功
+        byte FAIL = 3;    // 3-索要失败
+    }
+
+
     /* 商品的状态 */
     public interface ITEM {
         byte NORMAL = 1;    // 正常
@@ -82,6 +97,18 @@ public class Constants {
         byte NO_PAY = 1;
         byte PAY = 2;
 
+    }
+
+    /*折现状态 1-等待折现，2-折现完成，3-取消折现*/
+    public interface DISCOUNT_STATUS {
+        byte DISCOUNTING = 1;
+        byte DONE = 2;
+        byte cancel = 3;
+    }
+
+    /*背包物品折现率*/
+    public interface DISCOUNT_RATE {
+        double DISCOUNTING = 0.95;
     }
 
     /*商品订单状态 */
@@ -404,5 +431,6 @@ public class Constants {
         byte GIFT = 4; // 礼物赠送
         byte GIFT_CHANGE = 5; // 礼物互换
         byte CONSIGNMENG_ORDER = 6; // 寄售台商品购买
+        byte ASK_FOR = 7; //向好友索要物品
      }
 }

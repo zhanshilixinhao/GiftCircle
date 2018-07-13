@@ -1,6 +1,7 @@
 package com.chouchongkeji.service.backpack.base;
 
 import com.chouchongkeji.dial.pojo.backpack.BpItem;
+import com.chouchongkeji.dial.pojo.backpack.ForRecord;
 import com.chouchongkeji.dial.pojo.backpack.consignment.ConsignmentOrder;
 import com.chouchongkeji.dial.pojo.gift.item.ItemOrderDetail;
 import com.chouchongkeji.dial.pojo.gift.virtualItem.VirItemOrder;
@@ -90,4 +91,12 @@ public interface BpService {
      * @date 2018/7/2
      */
     Response search(Integer userId, String key, PageQuery page);
+
+    /**
+     * 向好友索要物品成功添加到背包
+     * @param forRecord
+     * @param bpItem
+     * @return
+     */
+    int addFromFriendBp(ForRecord forRecord, BpItem bpItem);
 }

@@ -123,21 +123,9 @@
             <if test="quantity != null">
                 quantity = #{quantity,jdbcType=INTEGER},
             </if>
-            <if test="price != null">
-                price = #{price,jdbcType=DECIMAL},
-            </if>
-            <if test="from != null">
-                from = #{from,jdbcType=VARCHAR},
-            </if>
-            <if test="type != null">
-                type = #{type,jdbcType=TINYINT},
-            </if>
-            <if test="created != null">
-                created = #{created,jdbcType=TIMESTAMP},
-            </if>
-            <if test="updated != null">
-                updated = #{updated,jdbcType=TIMESTAMP},
-            </if>
+
+                updated = now(),
+
         </set>
         where id = #{id,jdbcType=BIGINT}
     </update>
@@ -178,6 +166,11 @@ WHERE
 	user_id = #{userId}
 	AND title LIKE concat( '%',#{key}, '%' )
 	AND quantity > 0
+    </select>
+    <select id="selectByUserIdBpId" resultType="com.chouchongkeji.dial.pojo.backpack.Vbp">
+        select *
+from v_bp
+where  user_id = #{userId} and `id` = #{bpId} and quantity > 0
     </select>
 
 </mapper>

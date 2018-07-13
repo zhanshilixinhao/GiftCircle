@@ -3360,6 +3360,251 @@ JSON：
 
 * 请求结果和14.1一样
 
+### 14.3 背包物品折现
+
+- 请求地址：auth/v1/discount/add_record
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：linqin
+
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| bpId | long | 是 | 无 | 背包id |
+
+* 请求结果示例：
+
+```json
+{
+    "errCode": 0, 
+    "result": 0, 
+    "msg": "申请折现成功", 
+    "time": 1531365179080
+}
+```
+
+### 14.4 好友背包物品列表
+
+- 请求地址：auth/friend/bp/list
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：linqin
+
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| friendUserId | int | 是 | 无 | 好友用户id |
+| type | int | 是 | 无 | 1 物品 2 虚拟物品 3 优惠券 |
+| pageNum | int | 是 | 无 | 分页 |
+| pageSize | int | 是 | 无 | 分页大小 |
+
+* 请求结果示例：
+
+```json
+{
+    "errCode": 0, 
+    "result": 0, 
+    "time": 1531378367533, 
+    "data": [
+        {
+            "id": 7718071116139, 
+            "userId": 4, 
+            "targetId": 2, 
+            "price": 0.01, 
+            "title": "2元现金券", 
+            "cover": "https://io.shanren.group/static/upload/image//item/180711/f5b7f1d6-3c18-457b-b920-b1a941337862.png", 
+            "description": "{
+ \"type\": \"优惠券\",
+ \"discunt\":\"1元\",
+ \"decription\":\"仅限购买三只松鼠\"
+}", 
+            "brand": "七牛", 
+            "type": 3, 
+            "quantity": 1, 
+            "created": 1531297967000
+        }, 
+        {
+            "id": 7718070611101, 
+            "userId": 4, 
+            "targetId": 2, 
+            "price": 100, 
+            "title": "2元现金券", 
+            "cover": "https://io.shanren.group/static/upload/image//item/180711/f5b7f1d6-3c18-457b-b920-b1a941337862.png", 
+            "description": "{
+ \"type\": \"优惠券\",
+ \"discunt\":\"1元\",
+ \"decription\":\"仅限购买三只松鼠\"
+}", 
+            "brand": "七牛", 
+            "type": 3, 
+            "quantity": 1, 
+            "created": 1530847417000
+        }
+    ]
+}
+```
+
+### 14.5 好友背包物品详情
+
+- 请求地址：auth/friend/bp/detail
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：linqin
+
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| friendUserId | int | 是 | 无 | 好友用户id |
+| bpId | int | 是 | 无 | 背包id |
+
+* 请求结果示例：
+
+```json
+{
+    "errCode": 0, 
+    "result": 0, 
+    "time": 1531377954178, 
+    "data": [
+        {
+            "id": 7718071115126, 
+            "userId": 4, 
+            "targetId": 1, 
+            "price": 0.01, 
+            "title": "小苹果", 
+            "cover": "https://io.shanren.group/static/upload/image/http://thirdwx.qlogo.cn/mmopen/vi_32/jhXsk4K6SZs58GvXyrPichgxlDv6y4IYrrKN5GCA1UTvHRKbRGtiac2SxmGMYibJSvCZzcLhNmQEykDgXTTzkPOXQ/132", 
+            "description": "象征和平的小苹果", 
+            "brand": "不知名", 
+            "type": 2, 
+            "quantity": 1, 
+            "created": 1531294845000
+        }
+    ]
+}
+```
+
+### 14.6 好友背包物品添加到索要记录
+
+- 请求地址：auth/friend/bp/add_for_record
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：linqin
+
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| friendUserId | int | 是 | 无 | 好友用户id |
+| bpId | int | 是 | 无 | 背包id |
+
+* 请求结果示例：
+
+```json
+{
+    "errCode": 0, 
+    "result": 0, 
+    "msg": "向好友发起索要背包物品消息成功", 
+    "time": 1531447797626
+}
+```
+
+### 14.7 索要记录列表
+
+- 请求地址：auth/friend/bp/record_list
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：linqin
+
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| pageNum | int | 是 | 无 | 分页 |
+| pageSize | int | 是 | 无 | 分页大小 |
+
+* 请求结果示例：
+
+```json
+{
+    "errCode": 0, 
+    "result": 0, 
+    "time": 1531448171000, 
+    "data": [
+        {
+            "id": 1, 
+            "userId": 1, 
+            "bpId": 1, 
+            "friendUserId": 4, 
+            "status": 1, 
+            "operation": 0, 
+            "type": 1, 
+            "cover": "https://io.shanren.group/static/upload/image/cover.jpg", 
+            "title": "魏文侯", 
+            "price": 100, 
+            "avatar": "https://io.shanren.group/static/upload/image/avatar.jpg", 
+            "nickname": "大秦", 
+            "created": 1531387784000
+        }, 
+        {
+            "id": 3, 
+            "userId": 1, 
+            "bpId": 7718071116140, 
+            "friendUserId": 4, 
+            "status": 1, 
+            "operation": 0, 
+            "type": 1, 
+            "cover": "https://io.shanren.group/static/upload/image/cover.jpg", 
+            "title": "秦孝公", 
+            "price": 0.01, 
+            "avatar": "https://io.shanren.group/static/upload/image/avatar.jpg", 
+            "nickname": "大秦", 
+            "created": 1531447827000
+        }
+    ]
+}
+```
+
+|   参数名称   | 参数类型 | 是否必传 | 参数说明 |
+| :----------: | :------: | :------: | :------: |
+| bpId | int | 是 | 背包id |
+| friendUserId | int | 是 | 好友用户id |
+| status | int | 是 | 索要状态，1-索要中，2-索要成功，3-索要失败 |
+| operation | int | 是 | 0-默认无操作，1-同意好友索要，2-拒绝好友索要 |
+| type | String | 是 | 1-用户向好友索要商品 ，2-好友向用户索要商品 |
+| cover | string | 是 | 商品封面 |
+| title | string | 是 | 商品标题 |
+| price | int | 是 | 商品价格 |
+| avatar | string | 是 | 好友头像 |
+| nickname | string | 是 | 好友昵称 |
+
+### 14.8 同意或者拒绝好友索要背包物品
+
+- 请求地址：auth/friend/bp/operation
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：linqin
+
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| forRecordId | int | 是 | 无 | 索要记录id |
+| operation | byte | 是 | 无 | 0-默认无操作，1-同意好友索要，2-拒绝好友索要 |
+
+* 请求结果示例：
+
+```json
+{
+    "errCode": 0, 
+    "result": 0, 
+    "msg": "已同意好友索要物品", 
+    "time": 1531466941300
+}
+```
+
+
 ## 15 背包-礼物赠送
 
 ### 15.1 app礼物怎送

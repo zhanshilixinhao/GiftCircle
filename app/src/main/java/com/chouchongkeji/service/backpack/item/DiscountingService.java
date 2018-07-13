@@ -16,5 +16,5 @@ public interface DiscountingService {
      * @author linqin
      * @date 2018/7/11
      */
-    Response discountRecord(Integer userId, Integer bpId);
+    Response addDiscountRecord(Integer userId, Long bpId);
 }

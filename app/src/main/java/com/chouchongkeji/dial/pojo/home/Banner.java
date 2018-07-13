@@ -1,58 +1,51 @@
 package com.chouchongkeji.dial.pojo.home;
 
-import com.yichen.auth.jackson.ImgUrl;
-
 import java.util.Date;
 
 public class Banner {
     private Integer id;
 
-    private String targetid;
+    private String targetId;
 
-    @ImgUrl
     private String cover;
 
-    private String requesturl;
+    private String requestUrl;
 
     private String title;
-
-    private String url;
 
     private Byte type;
 
     private Byte status;
 
-    private Date createtime;
+    private Date created;
 
-    private Date updatetime;
+    private Date updated;
 
-    private String richtext;
+    private String richText;
 
-    public Banner(Integer id, String targetid, String cover, String requesturl, String title, String url, Byte type, Byte status, Date createtime, Date updatetime) {
+    public Banner(Integer id, String targetId, String cover, String requestUrl, String title, Byte type, Byte status, Date created, Date updated) {
         this.id = id;
-        this.targetid = targetid;
+        this.targetId = targetId;
         this.cover = cover;
-        this.requesturl = requesturl;
+        this.requestUrl = requestUrl;
         this.title = title;
-        this.url = url;
         this.type = type;
         this.status = status;
-        this.createtime = createtime;
-        this.updatetime = updatetime;
+        this.created = created;
+        this.updated = updated;
     }
 
-    public Banner(Integer id, String targetid, String cover, String requesturl, String title, String url, Byte type, Byte status, Date createtime, Date updatetime, String richtext) {
+    public Banner(Integer id, String targetId, String cover, String requestUrl, String title, Byte type, Byte status, Date created, Date updated, String richText) {
         this.id = id;
-        this.targetid = targetid;
+        this.targetId = targetId;
         this.cover = cover;
-        this.requesturl = requesturl;
+        this.requestUrl = requestUrl;
         this.title = title;
-        this.url = url;
         this.type = type;
         this.status = status;
-        this.createtime = createtime;
-        this.updatetime = updatetime;
-        this.richtext = richtext;
+        this.created = created;
+        this.updated = updated;
+        this.richText = richText;
     }
 
     public Banner() {
@@ -67,12 +60,12 @@ public class Banner {
         this.id = id;
     }
 
-    public String getTargetid() {
-        return targetid;
+    public String getTargetId() {
+        return targetId;
     }
 
-    public void setTargetid(String targetid) {
-        this.targetid = targetid == null ? null : targetid.trim();
+    public void setTargetId(String targetId) {
+        this.targetId = targetId == null ? null : targetId.trim();
     }
 
     public String getCover() {
@@ -83,12 +76,12 @@ public class Banner {
         this.cover = cover == null ? null : cover.trim();
     }
 
-    public String getRequesturl() {
-        return requesturl;
+    public String getRequestUrl() {
+        return requestUrl;
     }
 
-    public void setRequesturl(String requesturl) {
-        this.requesturl = requesturl == null ? null : requesturl.trim();
+    public void setRequestUrl(String requestUrl) {
+        this.requestUrl = requestUrl == null ? null : requestUrl.trim();
     }
 
     public String getTitle() {
@@ -97,14 +90,6 @@ public class Banner {
 
     public void setTitle(String title) {
         this.title = title == null ? null : title.trim();
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url == null ? null : url.trim();
     }
 
     public Byte getType() {
@@ -123,27 +108,27 @@ public class Banner {
         this.status = status;
     }
 
-    public Date getCreatetime() {
-        return createtime;
+    public Date getCreated() {
+        return created;
     }
 
-    public void setCreatetime(Date createtime) {
-        this.createtime = createtime;
+    public void setCreated(Date created) {
+        this.created = created;
     }
 
-    public Date getUpdatetime() {
-        return updatetime;
+    public Date getUpdated() {
+        return updated;
     }
 
-    public void setUpdatetime(Date updatetime) {
-        this.updatetime = updatetime;
+    public void setUpdated(Date updated) {
+        this.updated = updated;
     }
 
-    public String getRichtext() {
-        return richtext;
+    public String getRichText() {
+        return richText;
     }
 
-    public void setRichtext(String richtext) {
-        this.richtext = richtext == null ? null : richtext.trim();
+    public void setRichText(String richText) {
+        this.richText = richText == null ? null : richText.trim();
     }
 }

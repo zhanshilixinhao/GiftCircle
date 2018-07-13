@@ -30,13 +30,33 @@ public class DiscountingController {
      * @author linqin
      * @date 2018/7/11
      */
-    @PostMapping("record")
-    public Response discountRecord(@AuthenticationPrincipal UserDetails userDetails, Integer bpId){
+    @PostMapping("add_record")
+    public Response addDiscountRecord(@AuthenticationPrincipal UserDetails userDetails, Long bpId){
         //校验参数
         if (bpId == null){
             return ResponseFactory.errMissingParameter();
         }
-        return discountingService.discountRecord(userDetails.getUserId(),bpId);
+        return discountingService.addDiscountRecord(userDetails.getUserId(),bpId);
     }
+
+
+//    /**
+//     * 背包物品折现记录
+//     * @param userDetails
+//     * @param status 状态,0-所有折现记录，1-已完成的折现记录，2-未完成的折现记录
+//     * @return
+//     * @author linqin
+//     * @date 2018/7/11
+//     */
+//    @PostMapping("add_record")
+//    public Response discountRecord(@AuthenticationPrincipal UserDetails userDetails,Integer status){
+//        //校验参数
+//        if (status == null){
+//
+//        }
+//        return discountingService.discountRecord(userDetails.getUserId(),status);
+//    }
+
+
 
 }
