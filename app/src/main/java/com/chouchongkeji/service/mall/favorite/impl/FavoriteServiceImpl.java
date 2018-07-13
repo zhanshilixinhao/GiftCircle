@@ -76,9 +76,12 @@ public class FavoriteServiceImpl implements FavoriteService {
         String [] array = ids.split(",");
         for (int i = 0; i < array.length; i++) {
             int id = Integer.parseInt(array[i]);
-            userFavoriteMapper.deleteByPrimaryKey(id);
+            int count = userFavoriteMapper.deleteByPrimaryKey(id);
+            if (count > 0) {
+                return ResponseFactory.sucMsg("删除成功");
+            }
         }
-        return ResponseFactory.sucMsg("删除成功");
+        return ResponseFactory.err("删除失败");
     }
 
 
