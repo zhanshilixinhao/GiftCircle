@@ -10,14 +10,24 @@ FROM
 WHERE
 	user_id = #{userId}
 	AND id = #{bpId}
+	and quantity &gt; 0
     </select>
+
 
 	<update id="updateQuantityById">
 		update
 		bp_item
 		set quantity = quantity-#{quantity}
 		where id = #{id}
-		and quantity >= quantity-#{quantity}
+		and quantity >= #{quantity}
+	</update>
+	<update id="updateQuantityByBpIdUserId">
+		update
+		bp_item
+		set quantity = quantity-#{quantity}
+		where id = #{bpId}
+		and user_id = #{userId}
+		and quantity >= #{quantity}
 	</update>
 
 </mapper>

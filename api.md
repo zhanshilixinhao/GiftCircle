@@ -4352,3 +4352,251 @@ JSON：
     }
 }
 ```
+
+
+
+## 20 背包—礼物互换
+### 20.1 用户添加想要交换的物品到交换记录
+
+- 请求地址：auth/v1/exchange/add
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：linqin
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| friendUserId | int | 是 | 无 | 好友Id |
+| exchangeBpId | String | 是 | 无 | 想交换的礼物 背包Id用逗号隔开 |
+| wantBpId | String | 是 | 无 | 想要的礼物  背包Id用逗号隔开 |
+
+
+* 请求结果示例
+
+```js
+{
+    "errCode": 0, 
+    "result": 0, 
+    "msg": "用户添加交换礼物成功", 
+    "time": 1531645689773, 
+    "data": "http://baidu.com"
+}
+```
+
+### 20.2 好友提交要交换的物品
+
+- 请求地址：auth/v1/exchange/friend_add
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：linqin
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| giftExchangeId | int | 是 | 无 | 物品交换记录Id |
+| submitId | String | 是 | 无 | 提交的物品Id 背包Id用逗号隔开 |
+
+
+* 请求结果示例
+
+```js
+{
+    "errCode": 0, 
+    "result": 0, 
+    "msg": "礼物交换添加成功", 
+    "time": 1531646184612, 
+    "data": "http://baidu.com"
+}
+```
+
+
+### 20.3 确认交换礼物
+
+- 请求地址：auth/v1/exchange/confirm
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：linqin
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| giftExchangeId | int | 是 | 无 | 物品交换记录Id |
+| operation | String | 否 | 0 | 操作 0-默认，1-确认交换，2-取消交换 |
+
+
+* 请求结果示例
+
+```js
+{
+    "errCode": 0, 
+    "result": 0, 
+    "msg": "礼物交换成功", 
+    "time": 1531646446320
+}
+```
+
+### 20.4 礼物交换记录
+
+- 请求地址：auth/v1/exchange/list
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：linqin
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| status | byte | 是 | 无 | 状态，0-全部，1-交易中，2-已完成， |
+| pageNum | int | 否 | 1 | 分页 |
+| pageSize | int | 否 | 14 | 分页大小 |
+
+
+* 请求结果示例
+
+```js
+{
+    "errCode": 0, 
+    "result": 0, 
+    "time": 1531646566782, 
+    "data": [
+        {
+            "id": 2, 
+            "userId": 1, 
+            "friendUserId": 4,   //好友用户Id
+            "friendNickname": "大秦", //好友昵称
+            "friendAvatar":   //好友头像 "https://io.shanren.group/static/upload/image/avatar.jpg", 
+            "type": 1,  //1-用户向好友提出交换礼物 ，2-好友向用户提出交换礼物
+            "status": 3, 
+            "created": 1531645688000
+        }, 
+        {
+            "id": 1, 
+            "userId": 1, 
+            "friendUserId": 4, 
+            "friendNickname": "大秦", 
+            "friendAvatar": "https://io.shanren.group/static/upload/image/avatar.jpg", 
+            "type": 1, 
+            "status": 3, 
+            "created": 1531559723000
+        }
+    ]
+}
+
+```
+
+### 20.5 礼物交换详情
+
+- 请求地址：auth/v1/exchange/detail
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：linqin
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| giftExchangeId | int | 是 | 无 | 礼物交换记录Id |
+
+
+
+* 请求结果示例
+
+```js
+{
+    "errCode": 0, 
+    "result": 0, 
+    "time": 1531646787701, 
+    "data": {
+        "id": 1, 
+        "userId": 1, 
+        "friendUserId": 4, 
+        "friendNickname": "大秦", 
+        "friendAvatar": "https://io.shanren.group/static/upload/image/avatar.jpg", 
+        "type": 1, //1-用户向好友提出交换礼物 ，2-好友向用户提出交换礼物
+        "status": 3, 
+        "created": 1531559723000, 
+        "exchangeGifts": [ //用户交换的物品
+            {
+                "bpId": 1, 
+                "targetId": 2, 
+                "price": 100, 
+                "title": "魏文侯", 
+                "cover": "https://io.shanren.group/static/upload/image/cover.jpg", 
+                "description": "东周末年", 
+                "brand": "公牛", 
+                "type": 1, 
+                "quantity": 4
+            }, 
+            {
+                "bpId": 2, 
+                "targetId": 2, 
+                "price": 100, 
+                "title": "2元现金券", 
+                "cover": "https://io.shanren.group/static/upload/image//item/180711/f5b7f1d6-3c18-457b-b920-b1a941337862.png", 
+                "description": "{
+ \"type\": \"优惠券\",
+ \"discunt\":\"1元\",
+ \"decription\":\"仅限购买三只松鼠\"
+}", 
+                "brand": "七牛", 
+                "type": 3, 
+                "quantity": 3
+            }
+        ], 
+        "wantGifts": [     //用户想要的物品
+            {
+                "bpId": 7718071115125, 
+                "targetId": 1, 
+                "price": 0.01, 
+                "title": "秦孝公", 
+                "cover": "https://io.shanren.group/static/upload/image/cover.jpg", 
+                "description": "东周末年", 
+                "brand": "公牛", 
+                "type": 1, 
+                "quantity": 1
+            }, 
+            {
+                "bpId": 7718070611101, 
+                "targetId": 2, 
+                "price": 100, 
+                "title": "2元现金券", 
+                "cover": "https://io.shanren.group/static/upload/image//item/180711/f5b7f1d6-3c18-457b-b920-b1a941337862.png", 
+                "description": "{
+ \"type\": \"优惠券\",
+ \"discunt\":\"1元\",
+ \"decription\":\"仅限购买三只松鼠\"
+}", 
+                "brand": "七牛", 
+                "type": 3, 
+                "quantity": 1
+            }
+        ], 
+        "submitGifts": [    //好友提交的物品
+            {
+                "bpId": 7718071315102, 
+                "targetId": 1, 
+                "price": 1000, 
+                "title": "秦孝公", 
+                "cover": "https://io.shanren.group/static/upload/image/cover.jpg", 
+                "description": "东周末年", 
+                "brand": "公牛", 
+                "type": 1, 
+                "quantity": 1
+            }, 
+            {
+                "bpId": 7718071315101, 
+                "targetId": 2, 
+                "price": 100, 
+                "title": "2元现金券", 
+                "cover": "https://io.shanren.group/static/upload/image//item/180711/f5b7f1d6-3c18-457b-b920-b1a941337862.png", 
+                "description": "{
+ \"type\": \"优惠券\",
+ \"discunt\":\"1元\",
+ \"decription\":\"仅限购买三只松鼠\"
+}", 
+                "brand": "七牛", 
+                "type": 3, 
+                "quantity": 1
+            }
+        ]
+    }
+}
+```

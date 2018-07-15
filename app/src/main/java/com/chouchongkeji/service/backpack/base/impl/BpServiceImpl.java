@@ -16,6 +16,7 @@ import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.query.PageQuery;
 import com.chouchongkeji.service.backpack.base.BpService;
+import com.chouchongkeji.service.backpack.gift.vo.GiftExItemVo;
 import com.chouchongkeji.service.backpack.gift.vo.GiftItemVo;
 import com.chouchongkeji.util.Constants;
 import com.chouchongkeji.util.OrderHelper;
@@ -206,19 +207,42 @@ public class BpServiceImpl implements BpService {
         return addBatch(items);
     }
 
+    /**
+     * 礼物互换添加到背包
+     * @param giftExchangeId
+     * @param userId
+     * @param vos
+     * @return
+     * @author yichenshanren
+     * @date 2018/7/2
+     */
+    public int addFromGiftExchange(Integer giftExchangeId, Integer userId, List<GiftExItemVo> vos) {
+        JSONObject object = new JSONObject();
+        object.put("type", Constants.BP_ITEM_FROM.GIFT_CHANGE);
+        object.put("giftExchangeId", giftExchangeId);
+
+        List<BpItem> items = new ArrayList<>();
+        for (GiftExItemVo vo : vos) {
+            items.add(assembleBpItem(userId, vo.getQuantity(), vo.getPrice(),
+                    vo.getTargetId(), vo.getType(), object.toJSONString()));
+        }
+        return addBatch(items);
+    }
 
     /**
      * 向好友索要物品成功添加到背包
      * @param forRecord
      * @param bpItem
      * @return
+     * @author yichenshanren
+     * @date 2018/7/2
      */
     public int addFromFriendBp(ForRecord forRecord,BpItem bpItem){
         JSONObject object = new JSONObject();
         object.put("type", Constants.BP_ITEM_FROM.ASK_FOR);
         object.put("forRecordId",forRecord.getId() );
         return add(assembleBpItem(forRecord.getUserId(),
-                1, bpItem.getPrice(),
+                bpItem.getQuantity(), bpItem.getPrice(),
                 bpItem.getTargetId(), bpItem.getType(), object.toJSONString()));
     }
 

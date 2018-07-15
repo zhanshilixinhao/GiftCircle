@@ -1,4 +1,3 @@
-
 drop table if exists app_user;
 
 drop table if exists article;
@@ -10,7 +9,6 @@ drop table if exists brand;
 drop table if exists charge_order;
 
 drop table if exists district;
-
 
 
 drop table if exists item_category;
@@ -101,8 +99,6 @@ create table article
   comment '文章';
 
 
-
-
 /*==============================================================*/
 /* Table: bank_dict                                             */
 /*==============================================================*/
@@ -117,7 +113,8 @@ create table bank_dict
   updated   datetime comment '更新时间',
   primary key id (id)
 )
-  engine = innodb, character set = utf8mb4 comment '银行';
+  engine = innodb, character set = utf8mb4
+  comment '银行';
 
 /*==============================================================*/
 /* Table: brand                                                 */
@@ -131,7 +128,8 @@ create table brand
   updated datetime,
   primary key id (id)
 )
-  engine = innodb, character set = utf8mb4 comment '品牌';
+  engine = innodb, character set = utf8mb4
+  comment '品牌';
 
 /*==============================================================*/
 /* Table: charge_order                                          */
@@ -151,7 +149,8 @@ create table charge_order
   unique KEY order_no (`order_no`),
   key user_id (user_id)
 )
-  engine = innodb, character set = utf8mb4 comment '充值订单';
+  engine = innodb, character set = utf8mb4
+  comment '充值订单';
 
 /*==============================================================*/
 /* Table: district                                              */
@@ -169,7 +168,8 @@ create table district
   primary key id (adcode),
   key adcode (adcode)
 )
-  engine = innodb, character set = utf8mb4 comment '全国行政区';
+  engine = innodb, character set = utf8mb4
+  comment '全国行政区';
 
 /*==============================================================*/
 /* Table: item                                                  */
@@ -190,8 +190,10 @@ create table item
   category_id datetime comment '分类id',
   cover       varchar(255) comment '封面图',
   pictures    varchar(2000) comment '商品相册',
-  choiceness  tinyint default 0 comment '精选，0-否，1-是',
-  hot         tinyint default 0 comment '热门，0-否，1-是',
+  choiceness  tinyint default 0
+  comment '精选，0-否，1-是',
+  hot         tinyint default 0
+  comment '热门，0-否，1-是',
   status      tinyint comment '1 正常 2 禁用 3 已删除',
   is_audit    tinyint default 0
   comment '1 审核通过 2 审核失败',
@@ -202,7 +204,8 @@ create table item
   key category_id (`category_id`),
   key brand_id (brand_id)
 )
-  engine = innodb, character set = utf8mb4 comment '商品信息';
+  engine = innodb, character set = utf8mb4
+  comment '商品信息';
 
 /*==============================================================*/
 /* Table: item_category                                         */
@@ -220,7 +223,8 @@ create table item_category
   primary key id (id),
   key pid (pid)
 )
-  engine = innodb, character set = utf8mb4 comment '商品分类';
+  engine = innodb, character set = utf8mb4
+  comment '商品分类';
 
 
 /*==============================================================*/
@@ -229,17 +233,18 @@ create table item_category
 drop table if exists item_event;
 create table item_event
 (
-  id      int auto_increment not null,
-  event_id     int comment '事件id',
-  item_id    int comment '商品id',
-  created datetime,
-  updated datetime,
+  id       int auto_increment not null,
+  event_id int comment '事件id',
+  item_id  int comment '商品id',
+  created  datetime,
+  updated  datetime,
   primary key id (id),
   key event_id (event_id),
   key item_id (item_id)
 
 )
-  engine = innodb, character set = utf8mb4 comment '商品事件';
+  engine = innodb, character set = utf8mb4
+  comment '商品事件';
 
 
 /*==============================================================*/
@@ -248,7 +253,7 @@ create table item_event
 create table item_comment
 (
   id       int auto_increment not null,
-  sku_id  int comment '最小销售单元id',
+  sku_id   int comment '最小销售单元id',
   item_id  int comment '商品id',
   order_no bigint comment '订单号',
   user_id  int comment '用户id',
@@ -263,7 +268,8 @@ create table item_comment
   key item_id (item_id),
   key user_id (user_id)
 )
-  engine = innodb, character set = utf8mb4 comment '商品评价';
+  engine = innodb, character set = utf8mb4
+  comment '商品评价';
 
 
 /*==============================================================*/
@@ -275,7 +281,8 @@ create table item_detail
   detail  text comment '详情富文本',
   primary key id (item_id)
 )
-  engine = innodb, character set = utf8mb4 comment '商品详情';
+  engine = innodb, character set = utf8mb4
+  comment '商品详情';
 
 
 /*==============================================================*/
@@ -293,7 +300,8 @@ create table item_feature
   updated   datetime,
   primary key id (id)
 )
-  engine = innodb, character set = utf8mb4 comment '商品属性';
+  engine = innodb, character set = utf8mb4
+  comment '商品属性';
 
 /*==============================================================*/
 /* Table: item_sku                                              */
@@ -314,7 +322,8 @@ create table item_sku
   primary key id (id),
   key item_id (item_id)
 )
-  engine = innodb, character set = utf8mb4 comment '商品最小销售单元';
+  engine = innodb, character set = utf8mb4
+  comment '商品最小销售单元';
 
 /*==============================================================*/
 /* Table: item_sku_value                                        */
@@ -331,7 +340,8 @@ create table item_sku_value
   key sku_id (sku_id),
   key (value_id)
 )
-  engine = innodb, character set = utf8mb4 comment 'sku和属性关联表';
+  engine = innodb, character set = utf8mb4
+  comment 'sku和属性关联表';
 
 /*==============================================================*/
 /* Table: item_value                                            */
@@ -349,7 +359,8 @@ create table item_value
   key item_id (item_id),
   key feature_id (feature_id)
 )
-  engine = innodb, character set = utf8mb4 comment '商品属性';
+  engine = innodb, character set = utf8mb4
+  comment '商品属性';
 
 /*==============================================================*/
 /* Table: merchant                                              */
@@ -373,7 +384,8 @@ create table merchant
   key user_id (user_id),
   key admin_id (admin_id)
 )
-  engine = innodb, character set = utf8mb4 comment '商家';
+  engine = innodb, character set = utf8mb4
+  comment '商家';
 
 /*==============================================================*/
 /* Table: payment_info                                          */
@@ -395,7 +407,9 @@ create table payment_info
   updated         datetime comment '更新时间',
   primary key id (id),
   unique key order_no (order_no)
-)  engine = innodb, character set = utf8mb4 comment '支付信息记录';
+)
+  engine = innodb, character set = utf8mb4
+  comment '支付信息记录';
 
 
 /*==============================================================*/
@@ -416,7 +430,8 @@ create table shipping
   primary key id (id),
   key user_id (user_id)
 )
-  engine = innodb, character set = utf8mb4 comment '收货地址';
+  engine = innodb, character set = utf8mb4
+  comment '收货地址';
 
 /*==============================================================*/
 /* Table: store                                                 */
@@ -432,24 +447,28 @@ create table store
   updated     datetime,
   primary key id (id),
   key merchant_id (merchant_id)
-)  engine = innodb, character set = utf8mb4 comment '店铺';
+)
+  engine = innodb, character set = utf8mb4
+  comment '店铺';
 
 /*==============================================================*/
 /* Table: third_account                                         */
 /*==============================================================*/
 create table third_account
 (
-  id       integer auto_increment not null
+  id      integer auto_increment not null
   comment '表id',
-  open_id  varchar(64) comment '第三方账号唯一标识',
-  phone    varchar(32) comment '用户账号',
-  type     tinyint comment '第三方账号类型，1-App微信，2-微信小程序',
-  created  datetime comment '创建时间',
-  updated  datetime comment '更新时间',
+  open_id varchar(64) comment '第三方账号唯一标识',
+  phone   varchar(32) comment '用户账号',
+  type    tinyint comment '第三方账号类型，1-App微信，2-微信小程序',
+  created datetime comment '创建时间',
+  updated datetime comment '更新时间',
   primary key id (id),
   key phone (phone),
   unique key phone_type(phone, type)
-)  engine = innodb, character set = utf8mb4 comment '第三发账号';
+)
+  engine = innodb, character set = utf8mb4
+  comment '第三发账号';
 
 /*==============================================================*/
 /* Table: user_bankcard                                         */
@@ -470,7 +489,9 @@ create table user_bankcard
   primary key id (id),
   key user_id (user_id),
   key bank_id (bank_id)
-)  engine = innodb, character set = utf8mb4 comment '用户银行卡';
+)
+  engine = innodb, character set = utf8mb4
+  comment '用户银行卡';
 
 
 /*==============================================================*/
@@ -488,7 +509,9 @@ create table user_favorite
   primary key id (id),
   key user_id (user_id),
   key target_id (target_id)
-)  engine = innodb, character set = utf8mb4 comment '用户收藏';
+)
+  engine = innodb, character set = utf8mb4
+  comment '用户收藏';
 
 /*==============================================================*/
 /* Table: user_withdraw                                         */
@@ -508,7 +531,9 @@ create table user_withdraw
   primary key id (id),
   key user_id (user_id),
   key user_bankcard_id (user_bankcard_id)
-) engine = innodb, character set = utf8mb4 comment '提现记录';
+)
+  engine = innodb, character set = utf8mb4
+  comment '提现记录';
 
 
 /*==============================================================*/
@@ -527,7 +552,9 @@ create table virtual_item
   updated     datetime,
   primary key id (id),
   key cate_id (cate_id)
-)engine = innodb, character set = utf8mb4 comment '虚拟商品';
+)
+  engine = innodb, character set = utf8mb4
+  comment '虚拟商品';
 
 /*==============================================================*/
 /* Table: virtual_item_category                                 */
@@ -539,8 +566,10 @@ create table virtual_item_category
   sort    int comment '排序值',
   created datetime,
   updated datetime,
-    primary key id (id)
-)engine = innodb, character set = utf8mb4 comment '虚拟商品分类';
+  primary key id (id)
+)
+  engine = innodb, character set = utf8mb4
+  comment '虚拟商品分类';
 
 /*==============================================================*/
 /* Table: wallet                                                */
@@ -554,8 +583,10 @@ create table wallet
   consume_amount decimal(18, 2) comment '消费总金额',
   created        datetime comment '创建时间',
   updated        datetime comment '更新时间',
-    primary key id (user_id)
-)engine = innodb, character set = utf8mb4 comment '钱包';
+  primary key id (user_id)
+)
+  engine = innodb, character set = utf8mb4
+  comment '钱包';
 
 /*==============================================================*/
 /* Table: suggestion                                                */
@@ -563,39 +594,56 @@ create table wallet
 drop table if exists suggestion;
 create table suggestion
 (
-  id        int auto_increment not null comment '表id',
-  user_id   int (11) comment '用户id',
+  id          int auto_increment not null
+  comment '表id',
+  user_id     int(11) comment '用户id',
   type        tinyint(4) comment '意见类型，1-提个建议，2-程序出错啦，3-不好用，4-其他',
   feedback    varchar(255) comment '意见反馈文字',
-  contact_way  varchar(100) comment '联系方式',
-  created        datetime comment '创建时间',
-  updated        datetime comment '更新时间',
+  contact_way varchar(100) comment '联系方式',
+  created     datetime comment '创建时间',
+  updated     datetime comment '更新时间',
   primary key id (id)
-)engine = innodb, character set = utf8mb4 comment '意见反馈';
+)
+  engine = innodb, character set = utf8mb4
+  comment '意见反馈';
 
 /*==============================================================*/
 /* Table: virtual_item_order                                                */
 /*==============================================================*/
 
 DROP TABLE IF EXISTS `virtual_item_order`;
-CREATE TABLE `virtual_item_order`  (
-  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '虚拟商品订单id',
-   order_no bigint comment '订单号',
-  `user_id` INT(11) DEFAULT NULL COMMENT '用户id',
-  `virtual_item_id` INT(11) DEFAULT NULL COMMENT '虚拟商品id',
-  `quantity` INT(11) DEFAULT NULL COMMENT '数量',
-  `name` varchar(200)  DEFAULT NULL COMMENT '商品名称',
-  `cover` varchar(500)  DEFAULT NULL COMMENT '虚拟商品封面图片',
-  `summary` varchar(500)  DEFAULT NULL COMMENT '虚拟商品描述',
-   price   decimal(18, 2) comment '商品单价',
-   total_price decimal(18, 2) comment '订单总价',
-   `status` tinyint(4) DEFAULT NULL COMMENT '订单状态, 1 未支付 2 已支付 3 已取消',
-  `created` datetime(0) DEFAULT NULL COMMENT '创建时间',
-  `updated` datetime(0) DEFAULT NULL COMMENT '更新时间',
-  PRIMARY KEY ( id ),
-  KEY `user_id` ( `user_id` ),
-  KEY `virtual_item_id` ( `virtual_item_id` )
-) ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8mb4 COMMENT = '虚拟商品订单表';
+CREATE TABLE `virtual_item_order` (
+  `id`              int(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  COMMENT '虚拟商品订单id',
+  order_no          bigint comment '订单号',
+  `user_id`         INT(11)                   DEFAULT NULL
+  COMMENT '用户id',
+  `virtual_item_id` INT(11)                   DEFAULT NULL
+  COMMENT '虚拟商品id',
+  `quantity`        INT(11)                   DEFAULT NULL
+  COMMENT '数量',
+  `name`            varchar(200)              DEFAULT NULL
+  COMMENT '商品名称',
+  `cover`           varchar(500)              DEFAULT NULL
+  COMMENT '虚拟商品封面图片',
+  `summary`         varchar(500)              DEFAULT NULL
+  COMMENT '虚拟商品描述',
+  price             decimal(18, 2) comment '商品单价',
+  total_price       decimal(18, 2) comment '订单总价',
+  `status`          tinyint(4)                DEFAULT NULL
+  COMMENT '订单状态, 1 未支付 2 已支付 3 已取消',
+  `created`         datetime(0)               DEFAULT NULL
+  COMMENT '创建时间',
+  `updated`         datetime(0)               DEFAULT NULL
+  COMMENT '更新时间',
+  PRIMARY KEY (id),
+  KEY `user_id` (`user_id`),
+  KEY `virtual_item_id` (`virtual_item_id`)
+)
+  ENGINE = InnoDB
+  AUTO_INCREMENT = 100
+  CHARACTER SET = utf8mb4
+  COMMENT = '虚拟商品订单表';
 
 
 /*==============================================================*/
@@ -603,34 +651,50 @@ CREATE TABLE `virtual_item_order`  (
 /*==============================================================*/
 create table event
 (
-  id        int auto_increment not null comment '表id',
-  event_name    varchar(100) comment '事件名称',
-  created        datetime comment '创建时间',
-  updated        datetime comment '更新时间',
+  id         int auto_increment not null
+  comment '表id',
+  event_name varchar(100) comment '事件名称',
+  created    datetime comment '创建时间',
+  updated    datetime comment '更新时间',
   primary key id (id)
-)engine = innodb, character set = utf8mb4 comment '事件列表';
+)
+  engine = innodb, character set = utf8mb4
+  comment '事件列表';
 
 /*==============================================================*/
 /* Table: user_virtual_item                                                */
 /*==============================================================*/
 
 DROP TABLE IF EXISTS `user_virtual_item`;
-CREATE TABLE `user_virtual_item`  (
-  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '用户虚拟商品id',
-  `user_id` INT(11) DEFAULT NULL COMMENT '用户id',
-  `virtual_item_id` INT(11) DEFAULT NULL COMMENT '虚拟商品id',
-  `quantity` INT(11) DEFAULT NULL COMMENT '数量',
-  `name` varchar(200)  DEFAULT NULL COMMENT '商品名称',
-  `cover` varchar(500)  DEFAULT NULL COMMENT '虚拟商品封面图片',
-  `summary` varchar(500)  DEFAULT NULL COMMENT '虚拟商品描述',
-   price   decimal(18, 2) comment '商品单价',
-   total_price decimal(18, 2) comment '商品总价',
-  `created` datetime(0) DEFAULT NULL COMMENT '创建时间',
-  `updated` datetime(0) DEFAULT NULL COMMENT '更新时间',
-  PRIMARY KEY ( id ),
-  KEY `user_id` ( `user_id` ),
-  KEY `virtual_item_id` ( `virtual_item_id` )
-) ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8mb4 COMMENT = '用户虚拟商品表';
+CREATE TABLE `user_virtual_item` (
+  `id`              int(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  COMMENT '用户虚拟商品id',
+  `user_id`         INT(11)                   DEFAULT NULL
+  COMMENT '用户id',
+  `virtual_item_id` INT(11)                   DEFAULT NULL
+  COMMENT '虚拟商品id',
+  `quantity`        INT(11)                   DEFAULT NULL
+  COMMENT '数量',
+  `name`            varchar(200)              DEFAULT NULL
+  COMMENT '商品名称',
+  `cover`           varchar(500)              DEFAULT NULL
+  COMMENT '虚拟商品封面图片',
+  `summary`         varchar(500)              DEFAULT NULL
+  COMMENT '虚拟商品描述',
+  price             decimal(18, 2) comment '商品单价',
+  total_price       decimal(18, 2) comment '商品总价',
+  `created`         datetime(0)               DEFAULT NULL
+  COMMENT '创建时间',
+  `updated`         datetime(0)               DEFAULT NULL
+  COMMENT '更新时间',
+  PRIMARY KEY (id),
+  KEY `user_id` (`user_id`),
+  KEY `virtual_item_id` (`virtual_item_id`)
+)
+  ENGINE = InnoDB
+  AUTO_INCREMENT = 100
+  CHARACTER SET = utf8mb4
+  COMMENT = '用户虚拟商品表';
 
 
 /*==============================================================*/
@@ -639,57 +703,71 @@ CREATE TABLE `user_virtual_item`  (
 
 DROP TABLE IF EXISTS `memo_activity`;
 CREATE TABLE `memo_activity` (
-  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '用户虚拟商品id',
-  `user_id` INT(11) COMMENT '创建用户id',
+  `id`          int(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  COMMENT '用户虚拟商品id',
+  `user_id`     INT(11) COMMENT '创建用户id',
   `target_time` datetime COMMENT '标记的备忘时间',
-  `address` varchar(255) comment '地点',
-  `count` int(10) comment '人数',
-  `title` varchar(128) comment '标题',
-  `detail` varchar(255) comment '活动详情',
-  `users` varchar(500) comment '被邀请的用户id集合',
-  `created` datetime(0) COMMENT '创建时间',
-  `updated` datetime(0) COMMENT '更新时间',
-  PRIMARY KEY ( id ),
-  KEY `user_id` ( `user_id` )
-) ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8mb4 COMMENT = '备忘录活动';
+  `address`     varchar(255) comment '地点',
+  `count`       int(10) comment '人数',
+  `title`       varchar(128) comment '标题',
+  `detail`      varchar(255) comment '活动详情',
+  `users`       varchar(500) comment '被邀请的用户id集合',
+  `created`     datetime(0) COMMENT '创建时间',
+  `updated`     datetime(0) COMMENT '更新时间',
+  PRIMARY KEY (id),
+  KEY `user_id` (`user_id`)
+)
+  ENGINE = InnoDB
+  AUTO_INCREMENT = 100
+  CHARACTER SET = utf8mb4
+  COMMENT = '备忘录活动';
 /*==============================================================*/
 /* Table: event                                                */
 /*==============================================================*/
 drop table if exists `cart`;
 create table `cart`
 (
-  id        int auto_increment not null comment '表id',
-  user_id     int(11) comment '用户id',
-  item_id     int(11) comment '商品id',
-  sku_id      int(11) comment 'sku_id',
-  price       decimal(18, 2) comment '价格',
-  `quantity`    int(11) comment '数量',
-  created        datetime comment '创建时间',
-  updated        datetime comment '更新时间',
+  id         int auto_increment not null
+  comment '表id',
+  user_id    int(11) comment '用户id',
+  item_id    int(11) comment '商品id',
+  sku_id     int(11) comment 'sku_id',
+  price      decimal(18, 2) comment '价格',
+  `quantity` int(11) comment '数量',
+  created    datetime comment '创建时间',
+  updated    datetime comment '更新时间',
   primary key id (id),
   key `user_id` (`user_id`),
   key `item_id` (`item_id`),
   key `sku_id` (`sku_id`)
 
-)engine = innodb, character set = utf8mb4 comment '购物车';
+)
+  engine = innodb, character set = utf8mb4
+  comment '购物车';
 
 /*==============================================================*/
 /* Table: memo_event                                               */
 /*==============================================================*/
 DROP TABLE IF EXISTS `memo_event`;
 CREATE TABLE `memo_event` (
-  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '用户虚拟商品id',
-  `user_id` INT(11) COMMENT '创建用户id',
-  `event_time` datetime comment '事件事件',
+  `id`          int(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  COMMENT '用户虚拟商品id',
+  `user_id`     INT(11) COMMENT '创建用户id',
+  `event_time`  datetime comment '事件事件',
   `target_time` datetime COMMENT '标记的备忘时间',
-  `title` varchar(128) comment '标题',
-  `detail` varchar(255) comment '活动详情',
-  `is_public` tinyint(4) default 2 comment '是否公开 1 公开 2 不公开',
-  `created` datetime(0) COMMENT '创建时间',
-  `updated` datetime(0) COMMENT '更新时间',
-  PRIMARY KEY ( id ),
-  KEY `user_id` ( `user_id` )
-) ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8mb4 COMMENT = '备忘录事件';
+  `title`       varchar(128) comment '标题',
+  `detail`      varchar(255) comment '活动详情',
+  `is_public`   tinyint(4)                default 2
+  comment '是否公开 1 公开 2 不公开',
+  `created`     datetime(0) COMMENT '创建时间',
+  `updated`     datetime(0) COMMENT '更新时间',
+  PRIMARY KEY (id),
+  KEY `user_id` (`user_id`)
+)
+  ENGINE = InnoDB
+  AUTO_INCREMENT = 100
+  CHARACTER SET = utf8mb4
+  COMMENT = '备忘录事件';
 
 
 /*==============================================================*/
@@ -697,18 +775,23 @@ CREATE TABLE `memo_event` (
 /*==============================================================*/
 DROP TABLE IF EXISTS `app_message`;
 CREATE TABLE `app_message` (
-  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '用户虚拟商品id',
-  `title` varchar(128) comment '标题',
-  `sumarry` varchar(255) comment '简介',
-  `content` varchar(500) comment '消息内容可以是json',
-  `target_id` int(11) comment '目标id',
-  target_type tinyint(4) comment '目标类型11 礼物实物 12 礼物虚拟物品 41 ',
+  `id`         int(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  COMMENT '用户虚拟商品id',
+  `title`      varchar(128) comment '标题',
+  `sumarry`    varchar(255) comment '简介',
+  `content`    varchar(500) comment '消息内容可以是json',
+  `target_id`  int(11) comment '目标id',
+  target_type  tinyint(4) comment '目标类型11 礼物实物 12 礼物虚拟物品 41 ',
   message_type tinyint(4) comment '消息类型 1 礼物 2 系统 3 寄售台 4 礼品交换',
-  `created` datetime(0) COMMENT '创建时间',
-  `updated` datetime(0) COMMENT '更新时间',
-  PRIMARY KEY ( id ),
+  `created`    datetime(0) COMMENT '创建时间',
+  `updated`    datetime(0) COMMENT '更新时间',
+  PRIMARY KEY (id),
   key `target_id` (`target_id`)
-) ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8mb4 COMMENT = 'app消息通知';
+)
+  ENGINE = InnoDB
+  AUTO_INCREMENT = 100
+  CHARACTER SET = utf8mb4
+  COMMENT = 'app消息通知';
 
 
 /*==============================================================*/
@@ -716,37 +799,48 @@ CREATE TABLE `app_message` (
 /*==============================================================*/
 DROP TABLE IF EXISTS `app_message_user`;
 CREATE TABLE `app_message_user` (
-  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '用户虚拟商品id',
-  `user_id` int(11) comment '用户id',
+  `id`             int(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  COMMENT '用户虚拟商品id',
+  `user_id`        int(11) comment '用户id',
   `app_message_id` int(11) comment '消息id',
-  `is_read` tinyint(4) comment '是否已读 1 已读 2 未读',
-  `created` datetime(0) COMMENT '创建时间',
-  `updated` datetime(0) COMMENT '更新时间',
-  PRIMARY KEY ( id ),
+  `is_read`        tinyint(4) comment '是否已读 1 已读 2 未读',
+  `created`        datetime(0) COMMENT '创建时间',
+  `updated`        datetime(0) COMMENT '更新时间',
+  PRIMARY KEY (id),
   key user_id (user_id),
   key app_message_id (app_message_id)
-) ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8mb4 COMMENT = '用户消息关联';
+)
+  ENGINE = InnoDB
+  AUTO_INCREMENT = 100
+  CHARACTER SET = utf8mb4
+  COMMENT = '用户消息关联';
 
 /*==============================================================*/
 /* Table: user_friend                                               */
 /*==============================================================*/
 DROP TABLE IF EXISTS `friend`;
 CREATE TABLE `friend` (
-  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '用户虚拟商品id',
-  `user_id` int(11) comment '用户id',
+  `id`             int(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  COMMENT '用户虚拟商品id',
+  `user_id`        int(11) comment '用户id',
   `friend_user_id` int(11) comment '好友用户id',
-  `remark` varchar(64) comment '备注',
-  `relationship` varchar(64) comment '该好友和我的关系',
-  `group_id` int(11) comment '分组id',
-  `sort` int(10) default 0 comment '排序',
-  `created` datetime(0) COMMENT '创建时间',
-  `updated` datetime(0) COMMENT '更新时间',
-  PRIMARY KEY ( id ),
+  `remark`         varchar(64) comment '备注',
+  `relationship`   varchar(64) comment '该好友和我的关系',
+  `group_id`       int(11) comment '分组id',
+  `sort`           int(10)                   default 0
+  comment '排序',
+  `created`        datetime(0) COMMENT '创建时间',
+  `updated`        datetime(0) COMMENT '更新时间',
+  PRIMARY KEY (id),
   unique key user_friend (user_id, friend_user_id),
   key user_id (user_id),
   key group_id (group_id),
   key friend_user_id (friend_user_id)
-) ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8mb4 COMMENT = '用户好友关系表';
+)
+  ENGINE = InnoDB
+  AUTO_INCREMENT = 100
+  CHARACTER SET = utf8mb4
+  COMMENT = '用户好友关系表';
 
 
 /*==============================================================*/
@@ -754,36 +848,51 @@ CREATE TABLE `friend` (
 /*==============================================================*/
 DROP TABLE IF EXISTS `friend_group`;
 CREATE TABLE `friend_group` (
-  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '用户虚拟商品id',
+  `id`      int(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  COMMENT '用户虚拟商品id',
   `user_id` int(11) comment '用户id',
-  `name` varchar(64) comment '分组名称',
-  `sort` int(10) default 0 comment '排序',
+  `name`    varchar(64) comment '分组名称',
+  `sort`    int(10)                   default 0
+  comment '排序',
   `created` datetime(0) COMMENT '创建时间',
   `updated` datetime(0) COMMENT '更新时间',
-  PRIMARY KEY ( id ),
+  PRIMARY KEY (id),
   key user_id (user_id)
-) ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8mb4 COMMENT = '好友分组';
+)
+  ENGINE = InnoDB
+  AUTO_INCREMENT = 100
+  CHARACTER SET = utf8mb4
+  COMMENT = '好友分组';
 
 /*==============================================================*/
 /* Table: new_friend_notify                                               */
 /*==============================================================*/
 DROP TABLE IF EXISTS `new_friend_notify`;
 CREATE TABLE `new_friend_notify` (
-  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '用户虚拟商品id',
-  `user_id` int(11) comment '创建用户id',
-  `target_user_id` int(11) comment '目标用户id',
-  `notify_type` tinyint(4) default 1 comment '消息通知类型 1 好友申请通知',
-  `status` tinyint(4) default 1 comment '消息处理状态 1 待验证 2 同意 3 拒绝 4 已回复',
-  `user_status` tinyint(4) default 1 comment '消息创建者对于这条消息的状态',
-  `target_user_status` tinyint(4) default 0 comment '目标用户对于这条消息的状态',
-  `content` varchar(500) comment '添加用户的可选属性{"remark":"加好友之后的备注","groupId":加好友之后的分组id}',
-  `validation_msg` varchar(128) comment '验证消息',
-  `reply` varchar(128) comment '回复消息',
-  `created` datetime(0) COMMENT '创建时间',
-  `updated` datetime(0) COMMENT '更新时间',
-  PRIMARY KEY ( id ),
+  `id`                 int(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  COMMENT '用户虚拟商品id',
+  `user_id`            int(11) comment '创建用户id',
+  `target_user_id`     int(11) comment '目标用户id',
+  `notify_type`        tinyint(4)                default 1
+  comment '消息通知类型 1 好友申请通知',
+  `status`             tinyint(4)                default 1
+  comment '消息处理状态 1 待验证 2 同意 3 拒绝 4 已回复',
+  `user_status`        tinyint(4)                default 1
+  comment '消息创建者对于这条消息的状态',
+  `target_user_status` tinyint(4)                default 0
+  comment '目标用户对于这条消息的状态',
+  `content`            varchar(500) comment '添加用户的可选属性{"remark":"加好友之后的备注","groupId":加好友之后的分组id}',
+  `validation_msg`     varchar(128) comment '验证消息',
+  `reply`              varchar(128) comment '回复消息',
+  `created`            datetime(0) COMMENT '创建时间',
+  `updated`            datetime(0) COMMENT '更新时间',
+  PRIMARY KEY (id),
   key user_id (user_id)
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COMMENT = '新的朋友里面的通知消息';
+)
+  ENGINE = InnoDB
+  AUTO_INCREMENT = 2
+  CHARACTER SET = utf8mb4
+  COMMENT = '新的朋友里面的通知消息';
 
 
 /*==============================================================*/
@@ -791,51 +900,67 @@ CREATE TABLE `new_friend_notify` (
 /*==============================================================*/
 DROP TABLE IF EXISTS `theme`;
 CREATE TABLE `theme` (
-  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '好物主题id',
-  `name` varchar(64) comment '好物主题名称',
-  `cover` varchar(255) comment '好物主题封面图',
-  `sort` int(11) comment '排序值',
-  `status` tinyint(4) default 2 comment '主题状态 1 使用 2 禁用',
+  `id`      int(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  COMMENT '好物主题id',
+  `name`    varchar(64) comment '好物主题名称',
+  `cover`   varchar(255) comment '好物主题封面图',
+  `sort`    int(11) comment '排序值',
+  `status`  tinyint(4)                default 2
+  comment '主题状态 1 使用 2 禁用',
   `created` datetime(0) COMMENT '创建时间',
   `updated` datetime(0) COMMENT '更新时间',
-  PRIMARY KEY ( id )
-) ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8mb4 COMMENT = '好物主题';
+  PRIMARY KEY (id)
+)
+  ENGINE = InnoDB
+  AUTO_INCREMENT = 100
+  CHARACTER SET = utf8mb4
+  COMMENT = '好物主题';
 
 /*==============================================================*/
 /* Table: theme_item                                               */
 /*==============================================================*/
 DROP TABLE IF EXISTS `theme_item`;
 CREATE TABLE `theme_item` (
-  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '好物主题商品id',
-  `item_id` int(11) comment '商品id',
+  `id`       int(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  COMMENT '好物主题商品id',
+  `item_id`  int(11) comment '商品id',
   `theme_id` int(11) comment '主题id',
-  `sort` int(11) comment '排序值',
-  `created` datetime(0) COMMENT '创建时间',
-  `updated` datetime(0) COMMENT '更新时间',
-  PRIMARY KEY ( id ),
+  `sort`     int(11) comment '排序值',
+  `created`  datetime(0) COMMENT '创建时间',
+  `updated`  datetime(0) COMMENT '更新时间',
+  PRIMARY KEY (id),
   key item_id (item_id),
   key theme_id (theme_id)
-) ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8mb4 COMMENT = '好物主题商品';
+)
+  ENGINE = InnoDB
+  AUTO_INCREMENT = 100
+  CHARACTER SET = utf8mb4
+  COMMENT = '好物主题商品';
 
 /*==============================================================*/
 /* Table: item_order                                               */
 /*==============================================================*/
 DROP TABLE IF EXISTS `item_order`;
 CREATE TABLE `item_order` (
-  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '商品订单id',
-  `user_id` int(11) comment '用户id',
-  `store_id` int(11) comment '店铺id',
-  `order_no` bigint(20) comment '订单号',
-  `total_price` decimal(18,2) comment '商品总价',
-  `quantity` int(11) comment '数量',
-  `status` tinyint(4) comment '订单状态，1-未支付，2-已支付，3-已取消,4-已删除',
-  `created` datetime(0) COMMENT '创建时间',
-  `updated` datetime(0) COMMENT '更新时间',
-  PRIMARY KEY ( id ),
+  `id`          int(11) UNSIGNED NOT NULL AUTO_INCREMENT
+  COMMENT '商品订单id',
+  `user_id`     int(11) comment '用户id',
+  `store_id`    int(11) comment '店铺id',
+  `order_no`    bigint(20) comment '订单号',
+  `total_price` decimal(18, 2) comment '商品总价',
+  `quantity`    int(11) comment '数量',
+  `status`      tinyint(4) comment '订单状态，1-未支付，2-已支付，3-已取消,4-已删除',
+  `created`     datetime(0) COMMENT '创建时间',
+  `updated`     datetime(0) COMMENT '更新时间',
+  PRIMARY KEY (id),
   key user_id (user_id),
   key store_id (store_id),
   unique key order_no (order_no)
-) ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8mb4 COMMENT = '创建商品订单';
+)
+  ENGINE = InnoDB
+  AUTO_INCREMENT = 100
+  CHARACTER SET = utf8mb4
+  COMMENT = '创建商品订单';
 
 
 /*==============================================================*/
@@ -843,55 +968,80 @@ CREATE TABLE `item_order` (
 /*==============================================================*/
 DROP TABLE IF EXISTS `item_order_detail`;
 CREATE TABLE `item_order_detail` (
-  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT ,
-  `user_id` int(11) comment '用户id',
-  `item_id` int(11) comment '商品id',
-  `sku_id` int(11) comment '商品最小销售单元id',
-  `order_no` bigint(20) comment '订单号',
-  `title` varchar(64) comment '标题',
+  `id`          int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `user_id`     int(11) comment '用户id',
+  `item_id`     int(11) comment '商品id',
+  `sku_id`      int(11) comment '商品最小销售单元id',
+  `order_no`    bigint(20) comment '订单号',
+  `title`       varchar(64) comment '标题',
   `description` varchar(200) comment '商品描述',
-  `cover` varchar(200) comment '封面图片',
-  `price` decimal(18,2) comment '商品单价',
-  `total_price` decimal(18,2) comment '商品总价',
-  `quantity` int(11) comment '数量',
-  `status` tinyint(4) comment '订单状态，1-未支付，2-已支付，3-已取消,4-已删除',
-  `created` datetime(0) COMMENT '创建时间',
-  `updated` datetime(0) COMMENT '更新时间',
-  PRIMARY KEY ( id ),
+  `cover`       varchar(200) comment '封面图片',
+  `price`       decimal(18, 2) comment '商品单价',
+  `total_price` decimal(18, 2) comment '商品总价',
+  `quantity`    int(11) comment '数量',
+  `status`      tinyint(4) comment '订单状态，1-未支付，2-已支付，3-已取消,4-已删除',
+  `created`     datetime(0) COMMENT '创建时间',
+  `updated`     datetime(0) COMMENT '更新时间',
+  PRIMARY KEY (id),
   key user_id (user_id),
   key item_id (item_id),
   key sku_id (sku_id),
   key order_no (order_no)
 
-) ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8mb4 COMMENT = '商品订单详情';
-
+)
+  ENGINE = InnoDB
+  AUTO_INCREMENT = 100
+  CHARACTER SET = utf8mb4
+  COMMENT = '商品订单详情';
 
 -- ----------------------------
 -- Table structure for sys_admin
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_admin`;
-CREATE TABLE `sys_admin`  (
-  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增主键',
-  `account` varchar(20)  DEFAULT NULL COMMENT '登录用户名',
-  `password` varchar(128)  DEFAULT NULL COMMENT '登录密码MD5加密',
-  `active` tinyint(4) UNSIGNED DEFAULT NULL COMMENT '1.启用 0.禁用',
-  `avatar` varchar(255)  DEFAULT NULL COMMENT '头像',
-  `real_name` varchar(20)  DEFAULT NULL COMMENT '用户真实姓名',
-  `phone` varchar(15)  DEFAULT NULL COMMENT '用户手机号',
-  `id_number` varchar(20)  DEFAULT NULL COMMENT '身份证号',
-  `gender` tinyint(4) UNSIGNED DEFAULT NULL COMMENT '1.男 2.女',
-  `email` varchar(255)  DEFAULT NULL COMMENT '电子邮箱地址',
-  `qq` varchar(255)  DEFAULT NULL COMMENT 'QQ号',
-  `weChat` varchar(255)  DEFAULT NULL COMMENT '微信号',
-  `created` datetime(0) DEFAULT NULL COMMENT '注册时间',
-  `updated` datetime(0) DEFAULT NULL COMMENT '更新时间',
-  `create_ip` varchar(20)  DEFAULT NULL COMMENT '注册ip',
-  `login_count` int(10) UNSIGNED DEFAULT NULL COMMENT '登录次数',
-  `last_login_time` datetime(0) DEFAULT NULL COMMENT '最后一次登录时间',
-  `last_login_ip` varchar(20)  DEFAULT NULL COMMENT '最后一次登录ip',
+CREATE TABLE `sys_admin` (
+  `id`              int(10) UNSIGNED NOT NULL AUTO_INCREMENT
+  COMMENT '自增主键',
+  `account`         varchar(20)               DEFAULT NULL
+  COMMENT '登录用户名',
+  `password`        varchar(128)              DEFAULT NULL
+  COMMENT '登录密码MD5加密',
+  `active`          tinyint(4) UNSIGNED       DEFAULT NULL
+  COMMENT '1.启用 0.禁用',
+  `avatar`          varchar(255)              DEFAULT NULL
+  COMMENT '头像',
+  `real_name`       varchar(20)               DEFAULT NULL
+  COMMENT '用户真实姓名',
+  `phone`           varchar(15)               DEFAULT NULL
+  COMMENT '用户手机号',
+  `id_number`       varchar(20)               DEFAULT NULL
+  COMMENT '身份证号',
+  `gender`          tinyint(4) UNSIGNED       DEFAULT NULL
+  COMMENT '1.男 2.女',
+  `email`           varchar(255)              DEFAULT NULL
+  COMMENT '电子邮箱地址',
+  `qq`              varchar(255)              DEFAULT NULL
+  COMMENT 'QQ号',
+  `weChat`          varchar(255)              DEFAULT NULL
+  COMMENT '微信号',
+  `created`         datetime(0)               DEFAULT NULL
+  COMMENT '注册时间',
+  `updated`         datetime(0)               DEFAULT NULL
+  COMMENT '更新时间',
+  `create_ip`       varchar(20)               DEFAULT NULL
+  COMMENT '注册ip',
+  `login_count`     int(10) UNSIGNED          DEFAULT NULL
+  COMMENT '登录次数',
+  `last_login_time` datetime(0)               DEFAULT NULL
+  COMMENT '最后一次登录时间',
+  `last_login_ip`   varchar(20)               DEFAULT NULL
+  COMMENT '最后一次登录ip',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `account`(`account`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COMMENT = '后台用户表';
+)
+  ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  CHARACTER SET = utf8mb4
+  COMMENT = '后台用户表';
 
 
 /*==============================================================*/
@@ -899,26 +1049,34 @@ CREATE TABLE `sys_admin`  (
 /*==============================================================*/
 DROP TABLE IF EXISTS `user_tag_dict`;
 CREATE TABLE `user_tag_dict` (
-  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT ,
-  `tag` varchar(64) comment '标签名字',
-  `type` tinyint(4) comment '1 正面的 2 负面的',
+  `id`      int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `tag`     varchar(64) comment '标签名字',
+  `type`    tinyint(4) comment '1 正面的 2 负面的',
   `created` datetime,
   `updated` datetime,
-  PRIMARY KEY ( id )
-) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8mb4 COMMENT = '好友印象标签字典';
+  PRIMARY KEY (id)
+)
+  ENGINE = InnoDB
+  AUTO_INCREMENT = 12
+  CHARACTER SET = utf8mb4
+  COMMENT = '好友印象标签字典';
 
 /*==============================================================*/
 /* Table: gift_preference_dict                                               */
 /*==============================================================*/
 DROP TABLE IF EXISTS `gift_preference_dict`;
 CREATE TABLE `gift_preference_dict` (
-  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT ,
-  `text` varchar(64) comment '标签名字',
-  `type` tinyint(4) comment '1 正面的 2 负面的',
+  `id`      int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `text`    varchar(64) comment '标签名字',
+  `type`    tinyint(4) comment '1 正面的 2 负面的',
   `created` datetime,
   `updated` datetime,
-  PRIMARY KEY ( id )
-) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8mb4 COMMENT = '礼物偏好字典';
+  PRIMARY KEY (id)
+)
+  ENGINE = InnoDB
+  AUTO_INCREMENT = 12
+  CHARACTER SET = utf8mb4
+  COMMENT = '礼物偏好字典';
 
 
 /*==============================================================*/
@@ -926,47 +1084,49 @@ CREATE TABLE `gift_preference_dict` (
 /*==============================================================*/
 DROP TABLE IF EXISTS `user_preference`;
 CREATE TABLE `user_preference` (
-  `user_id` int(11) UNSIGNED NOT NULL ,
-  `tags` varchar(1000) comment '好友标签json数组[{tag:标签,num:次数,type:1}]',
+  `user_id`         int(11) UNSIGNED NOT NULL,
+  `tags`            varchar(1000) comment '好友标签json数组[{tag:标签,num:次数,type:1}]',
   `gift_preference` varchar(255) comment '礼物偏好json数组',
-  `created` datetime,
-  `updated` datetime,
-  PRIMARY KEY ( user_id )
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COMMENT = '用户信息补充';
+  `created`         datetime,
+  `updated`         datetime,
+  PRIMARY KEY (user_id)
+)
+  ENGINE = InnoDB
+  CHARACTER SET = utf8mb4
+  COMMENT = '用户信息补充';
 
 /*==============================================================*/
 /* Table:  receive_item_order                                            */
 /*==============================================================*/
 DROP TABLE IF EXISTS `receive_item_order`;
 CREATE TABLE `receive_item_order` (
-  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT ,
-  `user_id` int(11) comment '用户id',
-  `item_id` int(11) comment '商品id',
-  `bp_id` bigint(20) comment '背包id',
-  `sku_id` int(11) comment '商品最小销售单元id',
-  `order_no` bigint(20) comment '订单号',
-  `title` varchar(64) comment '标题',
-  `description` varchar(200) comment '商品描述',
-  `cover` varchar(200) comment '封面图片',
-  `price` decimal(18,2) comment '商品单价',
-  `total_price` decimal(18,2) comment '商品总价',
-  `quantity` int(11) comment '数量',
-  `receive_info` varchar(255) comment '收货信息',
+  `id`             int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `user_id`        int(11) comment '用户id',
+  `item_id`        int(11) comment '商品id',
+  `bp_id`          bigint(20) comment '背包id',
+  `sku_id`         int(11) comment '商品最小销售单元id',
+  `order_no`       bigint(20) comment '订单号',
+  `title`          varchar(64) comment '标题',
+  `description`    varchar(200) comment '商品描述',
+  `cover`          varchar(200) comment '封面图片',
+  `price`          decimal(18, 2) comment '商品单价',
+  `total_price`    decimal(18, 2) comment '商品总价',
+  `quantity`       int(11) comment '数量',
+  `receive_info`   varchar(255) comment '收货信息',
   `logistics_info` varchar(255) comment '物流信息',
-  `status` tinyint(4) comment '订单状态，1-待发货；2-已发货；3-已收货,待评价，4-已评价,5-取消，6-删除',
-  `created` datetime(0) COMMENT '创建时间',
-  `updated` datetime(0) COMMENT '更新时间',
-  PRIMARY KEY ( id ),
+  `status`         tinyint(4) comment '订单状态，1-待发货；2-已发货；3-已收货,待评价，4-已评价,5-取消，6-删除',
+  `created`        datetime(0) COMMENT '创建时间',
+  `updated`        datetime(0) COMMENT '更新时间',
+  PRIMARY KEY (id),
   unique key order_no (order_no),
   key user_id (user_id),
   key bp_item_id (bp_item_id)
 
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COMMENT = '提货订单';
-
-
-
-
-
+)
+  ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  CHARACTER SET = utf8mb4
+  COMMENT = '提货订单';
 
 
 /*==============================================================*/
@@ -974,16 +1134,20 @@ CREATE TABLE `receive_item_order` (
 /*==============================================================*/
 DROP TABLE IF EXISTS `moment`;
 CREATE TABLE `moment` (
-  `id` int(11) not null auto_increment,
-  `user_id` int(11) UNSIGNED NOT NULL ,
-  `content` varchar(512) comment '秀秀文字内容',
-  `medias` varchar(2000) comment '秀秀图片或视频内容json数组[{type://1图片2视频,url:图片或视频地址}]',
-  `show_gift` tinyint(4) default 2 comment '是否显示最近收到的礼物 1 显示 2 不显示',
-  `created` datetime,
-  `updated` datetime,
-  PRIMARY KEY ( id ),
+  `id`        int(11)          not null auto_increment,
+  `user_id`   int(11) UNSIGNED NOT NULL,
+  `content`   varchar(512) comment '秀秀文字内容',
+  `medias`    varchar(2000) comment '秀秀图片或视频内容json数组[{type://1图片2视频,url:图片或视频地址}]',
+  `show_gift` tinyint(4)                default 2
+  comment '是否显示最近收到的礼物 1 显示 2 不显示',
+  `created`   datetime,
+  `updated`   datetime,
+  PRIMARY KEY (id),
   key user_id (user_id)
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COMMENT = '用户秀秀';
+)
+  ENGINE = InnoDB
+  CHARACTER SET = utf8mb4
+  COMMENT = '用户秀秀';
 
 
 /*==============================================================*/
@@ -991,19 +1155,23 @@ CREATE TABLE `moment` (
 /*==============================================================*/
 DROP TABLE IF EXISTS `moment_comment`;
 CREATE TABLE `moment_comment` (
-  `id` int(11) not null auto_increment,
-  `moment_id` int(11) comment '秀秀id',
-  `user_id` int(11) UNSIGNED NOT NULL comment '评论者id',
+  `id`             int(11)          not null auto_increment,
+  `moment_id`      int(11) comment '秀秀id',
+  `user_id`        int(11) UNSIGNED NOT NULL
+  comment '评论者id',
   `target_user_id` int(11) comment '回复对像用户id',
-  `content` varchar(512) comment '评论或回复文字内容',
-  `type` tinyint(4) comment '1 评论 2 回复',
-  `created` datetime,
-  `updated` datetime,
-  PRIMARY KEY ( id ),
+  `content`        varchar(512) comment '评论或回复文字内容',
+  `type`           tinyint(4) comment '1 评论 2 回复',
+  `created`        datetime,
+  `updated`        datetime,
+  PRIMARY KEY (id),
   key user_id (user_id),
   key moment_id (moment_id),
   key target_user_id (target_user_id)
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COMMENT = '用户秀秀评论';
+)
+  ENGINE = InnoDB
+  CHARACTER SET = utf8mb4
+  COMMENT = '用户秀秀评论';
 
 
 /*==============================================================*/
@@ -1011,15 +1179,19 @@ CREATE TABLE `moment_comment` (
 /*==============================================================*/
 DROP TABLE IF EXISTS `moment_praise`;
 CREATE TABLE `moment_praise` (
-  `id` int(11) not null auto_increment,
+  `id`        int(11)          not null auto_increment,
   `moment_id` int(11) comment '秀秀id',
-  `user_id` int(11) UNSIGNED NOT NULL comment '评论者id',
-  `created` datetime,
-  `updated` datetime,
-  PRIMARY KEY ( id ),
+  `user_id`   int(11) UNSIGNED NOT NULL
+  comment '评论者id',
+  `created`   datetime,
+  `updated`   datetime,
+  PRIMARY KEY (id),
   key user_id (user_id),
   key moment_id (moment_id)
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COMMENT = '用户赞';
+)
+  ENGINE = InnoDB
+  CHARACTER SET = utf8mb4
+  COMMENT = '用户赞';
 
 
 /*==============================================================*/
@@ -1027,20 +1199,23 @@ CREATE TABLE `moment_praise` (
 /*==============================================================*/
 DROP TABLE IF EXISTS `bp_item`;
 CREATE TABLE `bp_item` (
-  `id` bigint(20) not null,
-  `user_id` int(11) UNSIGNED NOT NULL comment '评论者id',
+  `id`        bigint(20)       not null,
+  `user_id`   int(11) UNSIGNED NOT NULL
+  comment '评论者id',
   `target_id` int(11) comment '目标物品id，type=1商品skuId，type=2虚拟物品id，type=3优惠券id',
-  `quantity` int(10) comment '数量',
-  `price` decimal(18,2) comment '价格',
-  `from` varchar(255) comment '来源json字符串{}',
-  `type` tinyint(4) comment '1 物品 2 虚拟物品 3 优惠券',
-  `created` datetime,
-  `updated` datetime,
-  PRIMARY KEY ( id ),
+  `quantity`  int(10) comment '数量',
+  `price`     decimal(18, 2) comment '价格',
+  `from`      varchar(255) comment '来源json字符串{}',
+  `type`      tinyint(4) comment '1 物品 2 虚拟物品 3 优惠券',
+  `created`   datetime,
+  `updated`   datetime,
+  PRIMARY KEY (id),
   key user_id (user_id),
   key target_id (target_id)
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COMMENT = '背包商品';
-
+)
+  ENGINE = InnoDB
+  CHARACTER SET = utf8mb4
+  COMMENT = '背包商品';
 
 
 /*==============================================================*/
@@ -1048,43 +1223,52 @@ CREATE TABLE `bp_item` (
 /*==============================================================*/
 DROP TABLE IF EXISTS `consignment`;
 CREATE TABLE `consignment` (
-  `id` int(11) not null auto_increment,
-  `bp_id` bigint(20) comment '背包id',
-  `user_id` int(11) UNSIGNED NOT NULL comment '发布者id',
+  `id`        int(11)          not null auto_increment,
+  `bp_id`     bigint(20) comment '背包id',
+  `user_id`   int(11) UNSIGNED NOT NULL
+  comment '发布者id',
   `target_id` int(11) comment '目标物品id',
-  `quantity` int(10) comment '数量',
-  `price` decimal(18,2) comment '价格',
-  `type` tinyint(4) comment '1 商品 2虚拟物品 3 优惠券',
-  `status` tinyint(4) comment '1 上架 2 已购买未支付 3 交易完成 4 已下架',
-  `updated` datetime,
-  `created` datetime,
-  PRIMARY KEY ( id ),
+  `quantity`  int(10) comment '数量',
+  `price`     decimal(18, 2) comment '价格',
+  `type`      tinyint(4) comment '1 商品 2虚拟物品 3 优惠券',
+  `status`    tinyint(4) comment '1 上架 2 已购买未支付 3 交易完成 4 已下架',
+  `updated`   datetime,
+  `created`   datetime,
+  PRIMARY KEY (id),
   key user_id (user_id),
   key target_id (target_id),
   key bp_id (bp_id)
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COMMENT = '寄售台';
+)
+  ENGINE = InnoDB
+  CHARACTER SET = utf8mb4
+  COMMENT = '寄售台';
 
 /*==============================================================*/
 /* Table: consignment_order                                              */
 /*==============================================================*/
 DROP TABLE IF EXISTS `consignment_order`;
 CREATE TABLE `consignment_order` (
-  `id` int(11) not null auto_increment,
-  `order_no` bigint(20) comment '订单号',
-  `user_id` int(11) UNSIGNED NOT NULL comment '买家用户id',
-  `sell_user_id` int(11) UNSIGNED NOT NULL comment '发布者id',
+  `id`             int(11)          not null auto_increment,
+  `order_no`       bigint(20) comment '订单号',
+  `user_id`        int(11) UNSIGNED NOT NULL
+  comment '买家用户id',
+  `sell_user_id`   int(11) UNSIGNED NOT NULL
+  comment '发布者id',
   `consignment_id` int(11) comment '寄售台id',
-  `quantity` int(10) comment '数量',
-  `price` decimal(18,2) comment '价格',
-  `status` tinyint(4) comment '1 未支付 2 已支付 ,3 已取消,4 已删除',
-  `updated` datetime,
-  `created` datetime,
-  PRIMARY KEY ( id ),
+  `quantity`       int(10) comment '数量',
+  `price`          decimal(18, 2) comment '价格',
+  `status`         tinyint(4) comment '1 未支付 2 已支付 ,3 已取消,4 已删除',
+  `updated`        datetime,
+  `created`        datetime,
+  PRIMARY KEY (id),
   key user_id (user_id),
   key buyer_user_id (sell_user_id),
   key consignment_id (consignment_id),
   unique key order_no (order_no)
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COMMENT = '寄售台订单';
+)
+  ENGINE = InnoDB
+  CHARACTER SET = utf8mb4
+  COMMENT = '寄售台订单';
 
 
 /*==============================================================*/
@@ -1092,18 +1276,22 @@ CREATE TABLE `consignment_order` (
 /*==============================================================*/
 DROP TABLE IF EXISTS `gift_record`;
 CREATE TABLE `gift_record` (
-  `id` int(11) not null auto_increment,
-  `user_id` int(11) UNSIGNED NOT NULL comment '送礼者id',
-  `greetting` varchar(255) comment '祝福语',
-  `type` tinyint(4) comment '1 立即赠送 2 按时间赠送 3 小程序选择好友赠送需要领取 4 小程序随机赠送需要领取',
-  `event` varchar(64) comment '事件名称',
+  `id`          int(11)          not null auto_increment,
+  `user_id`     int(11) UNSIGNED NOT NULL
+  comment '送礼者id',
+  `greetting`   varchar(255) comment '祝福语',
+  `type`        tinyint(4) comment '1 立即赠送 2 按时间赠送 3 小程序选择好友赠送需要领取 4 小程序随机赠送需要领取',
+  `event`       varchar(64) comment '事件名称',
   `target_time` datetime comment '目标赠送赠送时间',
-  `status` tinyint(4) comment '1 未领取 2 已领取部分 3 已领取全部 4 超时领取失败 ',
-  `updated` datetime,
-  `created` datetime,
-  PRIMARY KEY ( id ),
+  `status`      tinyint(4) comment '1 未领取 2 已领取部分 3 已领取全部 4 超时领取失败 ',
+  `updated`     datetime,
+  `created`     datetime,
+  PRIMARY KEY (id),
   key user_id (user_id)
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COMMENT = '送礼记录';
+)
+  ENGINE = InnoDB
+  CHARACTER SET = utf8mb4
+  COMMENT = '送礼记录';
 
 
 /*==============================================================*/
@@ -1111,18 +1299,22 @@ CREATE TABLE `gift_record` (
 /*==============================================================*/
 DROP TABLE IF EXISTS `gift_record_detail`;
 CREATE TABLE `gift_record_detail` (
-  `id` int(11) not null auto_increment,
+  `id`             int(11)          not null auto_increment,
   `gift_record_id` int(11) comment '礼物记录id',
-  `user_id` int(11) UNSIGNED NOT NULL comment '接收礼物的用户id',
-  `content` varchar(2000) comment '礼物内容json数组',
-  `reply` varchar(255) comment '答谢回复',
-  `status` tinyint(4) comment '1 待领取 2 已领取 3 超时未领取',
-  `updated` datetime,
-  `created` datetime,
-  PRIMARY KEY ( id ),
+  `user_id`        int(11) UNSIGNED NOT NULL
+  comment '接收礼物的用户id',
+  `content`        varchar(2000) comment '礼物内容json数组',
+  `reply`          varchar(255) comment '答谢回复',
+  `status`         tinyint(4) comment '1 待领取 2 已领取 3 超时未领取',
+  `updated`        datetime,
+  `created`        datetime,
+  PRIMARY KEY (id),
   key user_id (user_id),
   key gift_record_id (gift_record_id)
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COMMENT = '送礼记录详细信息';
+)
+  ENGINE = InnoDB
+  CHARACTER SET = utf8mb4
+  COMMENT = '送礼记录详细信息';
 
 
 /*==============================================================*/
@@ -1130,13 +1322,17 @@ CREATE TABLE `gift_record_detail` (
 /*==============================================================*/
 DROP TABLE IF EXISTS `virtual_item_brand`;
 CREATE TABLE `virtual_item_brand` (
-  `id` int(11) not null auto_increment,
-  `name` varchar(200)  DEFAULT NULL COMMENT '虚拟商品品牌名称',
-  `status` tinyint(4) comment '1 正常 2 删除',
+  `id`      int(11) not null auto_increment,
+  `name`    varchar(200)     DEFAULT NULL
+  COMMENT '虚拟商品品牌名称',
+  `status`  tinyint(4) comment '1 正常 2 删除',
   `updated` datetime,
   `created` datetime,
-  PRIMARY KEY ( id )
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COMMENT = '虚拟商品品牌信息';
+  PRIMARY KEY (id)
+)
+  ENGINE = InnoDB
+  CHARACTER SET = utf8mb4
+  COMMENT = '虚拟商品品牌信息';
 
 
 /*==============================================================*/
@@ -1144,16 +1340,19 @@ CREATE TABLE `virtual_item_brand` (
 /*==============================================================*/
 DROP TABLE IF EXISTS `wallet_record`;
 CREATE TABLE `wallet_record` (
-  `id` int(11) not null auto_increment,
-  `user_id` int(11) comment '用户id',
-  `explain` varchar(200)  COMMENT '钱包使用记录说明',
-  `amount` decimal(18,2) comment '变动金额',
+  `id`        int(11) not null auto_increment,
+  `user_id`   int(11) comment '用户id',
+  `explain`   varchar(200) COMMENT '钱包使用记录说明',
+  `amount`    decimal(18, 2) comment '变动金额',
   `target_id` int(11) comment '目标Id',
-  `type` tinyint(4) comment '记录类型 1-充值，2-商品折现，3-虚拟物品折现，4-寄售台出售物品，5-购买商品，6-寄售台物品购买',
-  `updated` datetime,
-  `created` datetime,
-  PRIMARY KEY ( id )
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COMMENT = '钱包收益记录';
+  `type`      tinyint(4) comment '记录类型 1-充值，2-商品折现，3-虚拟物品折现，4-寄售台出售物品，5-购买商品，6-寄售台物品购买',
+  `updated`   datetime,
+  `created`   datetime,
+  PRIMARY KEY (id)
+)
+  ENGINE = InnoDB
+  CHARACTER SET = utf8mb4
+  COMMENT = '钱包收益记录';
 
 
 /*==============================================================*/
@@ -1161,103 +1360,158 @@ CREATE TABLE `wallet_record` (
 /*==============================================================*/
 DROP TABLE IF EXISTS `coupon`;
 CREATE TABLE `coupon` (
-  `id` int(11) not null auto_increment,
+  `id`          int(11) not null auto_increment,
   `merchant_id` int(11) comment '合作商id',
-  `admin_id` int(11)  COMMENT '管理员id',
-  `title` varchar(64) comment '标题,例如5元',
-  `content` varchar(255) comment '描述json字符床{discount:5元/7折,type:抵用券/折扣券,detail:不限时间不限礼品}',
-  `cover` varchar(255) comment '优惠券图片',
-  `brand_id` int(11) comment '品牌id',
-  `expire` tinyint(4) comment '1 过期 2 不过期',
-  `starting` datetime comment '开始时间',
-  `ending` datetime comment '结束时间',
-  `updated` datetime,
-  `created` datetime,
-  PRIMARY KEY ( id ),
+  `admin_id`    int(11) COMMENT '管理员id',
+  `title`       varchar(64) comment '标题,例如5元',
+  `content`     varchar(255) comment '描述json字符床{discount:5元/7折,type:抵用券/折扣券,detail:不限时间不限礼品}',
+  `cover`       varchar(255) comment '优惠券图片',
+  `brand_id`    int(11) comment '品牌id',
+  `expire`      tinyint(4) comment '1 过期 2 不过期',
+  `starting`    datetime comment '开始时间',
+  `ending`      datetime comment '结束时间',
+  `updated`     datetime,
+  `created`     datetime,
+  PRIMARY KEY (id),
   key merchant_id (merchant_id),
   key admin_id (admin_id)
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COMMENT = '优惠券';
+)
+  ENGINE = InnoDB
+  CHARACTER SET = utf8mb4
+  COMMENT = '优惠券';
 
 
 /*==============================================================*/
 /* Table: banner                                   */
 /*==============================================================*/
 DROP TABLE IF EXISTS `banner`;
-CREATE TABLE `banner`  (
-  `id` INT(8) not NULL AUTO_INCREMENT COMMENT '表id',
-  `target_id` VARCHAR(32) DEFAULT NULL COMMENT '跳转的目标id',
-  `cover` VARCHAR(100)default null comment '封面图片',
-  `request_url` VARCHAR(200) DEFAULT NULL COMMENT '跳转url',
-  `title` VARCHAR(32) DEFAULT NULL COMMENT '	图片标题',
-  `rich_text` TEXT DEFAULT NULL  COMMENT 	'富文本',
-  `type` TINYINT(4) DEFAULT NULL COMMENT 'banner类型,  1 跳转到商品详情 2 跳转到好物主题列表 3-跳转url,4-纯展示',
-  `status` TINYINT(4) DEFAULT NULL COMMENT '1 正常 2 禁用',
-  `created` DATETIME DEFAULT NULL COMMENT '创建时间',
-  `updated` DATETIME DEFAULT NULL COMMENT '修改时间',
+CREATE TABLE `banner` (
+  `id`          INT(8) not NULL AUTO_INCREMENT
+  COMMENT '表id',
+  `target_id`   VARCHAR(32)     DEFAULT NULL
+  COMMENT '跳转的目标id',
+  `cover`       VARCHAR(100)    default null
+  comment '封面图片',
+  `request_url` VARCHAR(200)    DEFAULT NULL
+  COMMENT '跳转url',
+  `title`       VARCHAR(32)     DEFAULT NULL
+  COMMENT '	图片标题',
+  `rich_text`   TEXT            DEFAULT NULL
+  COMMENT '富文本',
+  `type`        TINYINT(4)      DEFAULT NULL
+  COMMENT 'banner类型,  1 跳转到商品详情 2 跳转到好物主题列表 3-跳转url,4-纯展示',
+  `status`      TINYINT(4)      DEFAULT NULL
+  COMMENT '1 正常 2 禁用',
+  `created`     DATETIME        DEFAULT NULL
+  COMMENT '创建时间',
+  `updated`     DATETIME        DEFAULT NULL
+  COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4  ROW_FORMAT = Compact COMMENT 'banner表';
+)
+  ENGINE = InnoDB
+  CHARACTER SET = utf8mb4
+  ROW_FORMAT = Compact
+  COMMENT 'banner表';
 
 
 /*==============================================================*/
 /* Table: Banner                                   */
 /*==============================================================*/
 DROP TABLE IF EXISTS `gift_record_self`;
-CREATE TABLE `gift_record_self`  (
-  `id` INT(11) not NULL AUTO_INCREMENT COMMENT '表id',
-  `user_id` int(11) comment '备注用户id',
-  `amount` decimal(18,2) comment '记录金额',
-  `event` varchar(64) comment '说点什么',
-  `detail` varchar(255) comment '详情',
-  `ob_type` varchar(32) comment '类型 个人、家庭',
-  `inout_type` tinyint(4) comment '1 汁出 2 收入',
+CREATE TABLE `gift_record_self` (
+  `id`          INT(11) not NULL AUTO_INCREMENT
+  COMMENT '表id',
+  `user_id`     int(11) comment '备注用户id',
+  `amount`      decimal(18, 2) comment '记录金额',
+  `event`       varchar(64) comment '说点什么',
+  `detail`      varchar(255) comment '详情',
+  `ob_type`     varchar(32) comment '类型 个人、家庭',
+  `inout_type`  tinyint(4) comment '1 汁出 2 收入',
   `target_time` DATETIME comment '记录时间',
-  `created` DATETIME DEFAULT NULL COMMENT '创建时间',
-  `updated` DATETIME DEFAULT NULL COMMENT '修改时间',
+  `created`     DATETIME         DEFAULT NULL
+  COMMENT '创建时间',
+  `updated`     DATETIME         DEFAULT NULL
+  COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4  ROW_FORMAT = Compact COMMENT '自己补录的礼品记录'
+)
+  ENGINE = InnoDB
+  CHARACTER SET = utf8mb4
+  ROW_FORMAT = Compact
+  COMMENT '自己补录的礼品记录';
 
 /*==============================================================*/
 /* Table: discounting                                   */
 /*==============================================================*/
 DROP TABLE IF EXISTS `discounting`;
-CREATE TABLE `discounting`  (
-  `id` INT(11) not NULL AUTO_INCREMENT COMMENT '表id',
-  `user_id` int(11) comment '用户id',
-  `bp_id` BIGINT comment '背包id',
-  `item_price` decimal(18,2) comment '商品价格',
-  `discount_price` decimal(18,2) comment '折现后价格',
-  `explain` varchar(2000) comment '折现说明',
-  `status` tinyint(4) comment '折现状态，1-等待折现，2-折现完成，3-折现失败',
-  `type` tinyint(4) comment '1-物品，2-虚拟物品',
-  `created` DATETIME DEFAULT NULL COMMENT '创建时间',
-  `updated` DATETIME DEFAULT NULL COMMENT '修改时间',
+CREATE TABLE `discounting` (
+  `id`             INT(11) not NULL AUTO_INCREMENT
+  COMMENT '表id',
+  `user_id`        int(11) comment '用户id',
+  `bp_id`          BIGINT comment '背包id',
+  `item_price`     decimal(18, 2) comment '商品价格',
+  `discount_price` decimal(18, 2) comment '折现后价格',
+  `explain`        varchar(2000) comment '折现说明',
+  `status`         tinyint(4) comment '折现状态，1-等待折现，2-折现完成，3-折现失败',
+  `type`           tinyint(4) comment '1-物品，2-虚拟物品',
+  `created`        DATETIME         DEFAULT NULL
+  COMMENT '创建时间',
+  `updated`        DATETIME         DEFAULT NULL
+  COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   key user_id (user_id),
   key bp_id (bp_id)
-) ENGINE = InnoDB CHARACTER SET = utf8mb4  ROW_FORMAT = Compact COMMENT '折现记录'
+)
+  ENGINE = InnoDB
+  CHARACTER SET = utf8mb4
+  ROW_FORMAT = Compact
+  COMMENT '折现记录';
 
 
 /*==============================================================*/
 /* Table: for_record                                */
 /*==============================================================*/
 DROP TABLE IF EXISTS `for_record`;
-CREATE TABLE `for_record`  (
-  `id` INT(11) not NULL AUTO_INCREMENT COMMENT '表id',
-  `user_id` int(11) comment '用户id',
-  `bp_id` BIGINT comment '背包id',
+CREATE TABLE `for_record` (
+  `id`             INT(11) not NULL AUTO_INCREMENT
+  COMMENT '表id',
+  `user_id`        int(11) comment '用户id',
+  `bp_id`          BIGINT comment '背包id',
   `friend_user_id` int(11) comment '好友用户id',
-  `status` tinyint(4) comment '索要状态，1-索要中，2-索要成功，3-索要失败',
-  `operation` tinyint(4) comment '0-默认无操作，1-同意好友索要，2-拒绝好友索要',
-  `created` DATETIME DEFAULT NULL COMMENT '创建时间',
-  `updated` DATETIME DEFAULT NULL COMMENT '修改时间',
+  `status`         tinyint(4) comment '索要状态，1-索要中，2-索要成功，3-索要失败',
+  `operation`      tinyint(4) comment '0-默认无操作，1-同意好友索要，2-拒绝好友索要',
+  `created`        DATETIME         DEFAULT NULL
+  COMMENT '创建时间',
+  `updated`        DATETIME         DEFAULT NULL
+  COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   key user_id (user_id),
   key bp_id (bp_id),
   key friend_user_id (friend_user_id)
-) ENGINE = InnoDB CHARACTER SET = utf8mb4  ROW_FORMAT = Compact COMMENT '索要记录'
+)
+  ENGINE = InnoDB
+  CHARACTER SET = utf8mb4
+  ROW_FORMAT = Compact
+  COMMENT '索要记录';
 
 
-
+/*==============================================================*/
+/* Table: gift_exchange_record                                */
+/*==============================================================*/
+DROP TABLE IF EXISTS `gift_exchange`;
+CREATE TABLE `gift_exchange` (
+  `id`             INT(11) not NULL AUTO_INCREMENT COMMENT '表id',
+  `user_id`        int(11) comment '用户id',
+  `friend_user_id` int(11) comment '好友用户id',
+  `exchange_gifts` VARCHAR(1000) comment '想要交换的物品',
+  `want_gifts`     VARCHAR(1000) comment '想要的物品',
+  `submit_gifts`   VARCHAR(1000) comment '好友提交的物品',
+  `status`         tinyint(4) comment '礼品添加状态，1-全部，2-交易中，3-已完成，4-交换失败',
+  `created`        DATETIME DEFAULT NULL COMMENT '创建时间',
+  `updated`        DATETIME DEFAULT NULL COMMENT '修改时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  key user_id (user_id),
+  key friend_user_id (friend_user_id)
+)ENGINE = InnoDB CHARACTER SET = utf8mb4 ROW_FORMAT = Compact COMMENT '礼物交换';
 
 
 

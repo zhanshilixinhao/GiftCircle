@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chouchongkeji.dial.dao.backpack.gift.GiftExchangeMapper">
+    <resultMap id="BaseResultMap" type="com.chouchongkeji.dial.pojo.backpack.gift.GiftExchange">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="friend_user_id" property="friendUserId"/>
+        <result column="exchange_gifts" property="exchangeGifts"
+                typeHandler="com.chouchongkeji.dial.handler.GiftExItemVoHandler"/>
+        <result column="want_gifts" property="wantGifts"
+                typeHandler="com.chouchongkeji.dial.handler.GiftExItemVoHandler"/>
+        <result column="submit_gifts" property="submitGifts"
+                typeHandler="com.chouchongkeji.dial.handler.GiftExItemVoHandler"/>
+        <result column="status" property="status"/>
+        <result column="created" property="created"/>
+        <result column="updated" property="updated"/>
+    </resultMap>
+    <resultMap id="ResultMap" type="com.chouchongkeji.service.backpack.gift.vo.GiftExDetailVo">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="friend_user_id" property="friendUserId"/>
+        <result column="friend_nickname" property="friendNickname"/>
+        <result column="friend_avatar" property="friendAvatar"/>
+        <result column="exchange_gifts" property="exchangeGifts"
+                typeHandler="com.chouchongkeji.dial.handler.GiftExItemVoHandler"/>
+        <result column="want_gifts" property="wantGifts"
+                typeHandler="com.chouchongkeji.dial.handler.GiftExItemVoHandler"/>
+        <result column="submit_gifts" property="submitGifts"
+                typeHandler="com.chouchongkeji.dial.handler.GiftExItemVoHandler"/>
+        <result column="type" property="type"/>
+        <result column="status" property="status"/>
+        <result column="created" property="created"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, user_id, friend_user_id, exchange_gifts, want_gifts, submit_gifts, status, created, 
+    updated
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from gift_exchange
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectByUserIdAndId" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        `gift_exchange`
+        WHERE
+        id = #{id}
+        and friend_user_id = #{usrId}
+        and status = 1
+    </select>
+    <select id="selectByUserIdGiftExId" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        `gift_exchange`
+        WHERE
+        id = #{giftExchangeId}
+        and user_id = #{usrId}
+        and status = 2
+    </select>
+    <select id="selectListByUserIdStatus" resultType="com.chouchongkeji.service.backpack.gift.vo.GiftExListVo">
+        SELECT
+        a.*,
+        b.nickname as friend_nickname,
+        b.avatar as friend_avatar
+        FROM
+        (
+        SELECT
+        id,
+        user_id,
+        friend_user_id,
+        `status`,
+        created,
+        1 as type
+        FROM
+        gift_exchange
+        WHERE user_id = #{usrId} UNION
+        SELECT
+        id,
+        friend_user_id as user_id,
+        user_id as friend_user_id,
+        `status`,
+        created ,
+        2 as type
+        FROM
+        gift_exchange
+        WHERE
+        friend_user_id = #{usrId}
+        ) a
+        LEFT JOIN app_user b on a.friend_user_id = b.id
+        <where>
+            <trim prefixOverrides="and">
+                <if test="status==null||status==0">
+                    and a.status &lt; 4
+                </if>
+                <if test="status==1">
+                    and a.status = 1 or a.status = 2
+                </if>
+                <if test="status==2">
+                    and a.status = 3
+                </if>
+            </trim>
+        </where>
+        order by a.id DESC
+    </select>
+    <select id="selectByUserIdgiftEXchangeId"
+            resultMap="ResultMap">
+        SELECT
+	a.*,
+	b.nickname AS friend_nickname,
+	b.avatar AS friend_avatar
+FROM
+	(
+SELECT
+	id,
+	user_id,
+	friend_user_id,
+	exchange_gifts,
+	want_gifts,
+	submit_gifts,
+	`status`,
+	created,
+	1 AS type
+FROM
+	gift_exchange
+WHERE
+ id = #{giftExchangeId}
+and	user_id = #{usrId} UNION
+SELECT
+	id,
+	friend_user_id AS user_id,
+	user_id AS friend_user_id,
+	exchange_gifts,
+	want_gifts,
+	submit_gifts,
+	`status`,
+	created,
+	2 AS type
+FROM
+	gift_exchange
+WHERE
+id = #{giftExchangeId}
+and	friend_user_id = #{usrId}
+	) a
+	LEFT JOIN app_user b ON a.friend_user_id = b.id
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from gift_exchange
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.backpack.gift.GiftExchange">
+    insert into gift_exchange (id, user_id, friend_user_id, 
+      exchange_gifts, want_gifts, submit_gifts, 
+      status, created, updated
+      )
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{friendUserId,jdbcType=INTEGER}, 
+      #{exchangeGifts,jdbcType=VARCHAR,typeHandler=com.chouchongkeji.dial.handler.GiftExItemVoHandler},
+      #{wantGifts,jdbcType=VARCHAR,typeHandler=com.chouchongkeji.dial.handler.GiftExItemVoHandler},
+       #{submitGifts,jdbcType=VARCHAR,typeHandler=com.chouchongkeji.dial.handler.GiftExItemVoHandler},
+      #{status,jdbcType=TINYINT}, now(), now()
+      )
+  </insert>
+    <!--<insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.backpack.gift.GiftExchange">-->
+    <!--insert into gift_exchange-->
+    <!--<trim prefix="(" suffix=")" suffixOverrides=",">-->
+    <!--<if test="id != null">-->
+    <!--id,-->
+    <!--</if>-->
+    <!--<if test="userId != null">-->
+    <!--user_id,-->
+    <!--</if>-->
+    <!--<if test="friendUserId != null">-->
+    <!--friend_user_id,-->
+    <!--</if>-->
+    <!--<if test="exchangeGifts != null">-->
+    <!--exchange_gifts,-->
+    <!--</if>-->
+    <!--<if test="wantGifts != null">-->
+    <!--want_gifts,-->
+    <!--</if>-->
+    <!--<if test="submitGifts != null">-->
+    <!--submit_gifts,-->
+    <!--</if>-->
+    <!--<if test="status != null">-->
+    <!--status,-->
+    <!--</if>-->
+    <!--<if test="created != null">-->
+    <!--created,-->
+    <!--</if>-->
+    <!--<if test="updated != null">-->
+    <!--updated,-->
+    <!--</if>-->
+    <!--</trim>-->
+    <!--<trim prefix="values (" suffix=")" suffixOverrides=",">-->
+    <!--<if test="id != null">-->
+    <!--#{id,jdbcType=INTEGER},-->
+    <!--</if>-->
+    <!--<if test="userId != null">-->
+    <!--#{userId,jdbcType=INTEGER},-->
+    <!--</if>-->
+    <!--<if test="friendUserId != null">-->
+    <!--#{friendUserId,jdbcType=INTEGER},-->
+    <!--</if>-->
+    <!--<if test="exchangeGifts != null">-->
+    <!--#{exchangeGifts,jdbcType=VARCHAR},-->
+    <!--</if>-->
+    <!--<if test="wantGifts != null">-->
+    <!--#{wantGifts,jdbcType=VARCHAR},-->
+    <!--</if>-->
+    <!--<if test="submitGifts != null">-->
+    <!--#{submitGifts,jdbcType=VARCHAR},-->
+    <!--</if>-->
+    <!--<if test="status != null">-->
+    <!--#{status,jdbcType=TINYINT},-->
+    <!--</if>-->
+    <!--<if test="created != null">-->
+    <!--#{created,jdbcType=TIMESTAMP},-->
+    <!--</if>-->
+    <!--<if test="updated != null">-->
+    <!--#{updated,jdbcType=TIMESTAMP},-->
+    <!--</if>-->
+    <!--</trim>-->
+    <!--</insert>-->
+    <update id="updateByPrimaryKeySelective" parameterType="com.chouchongkeji.dial.pojo.backpack.gift.GiftExchange">
+        update gift_exchange
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="friendUserId != null">
+                friend_user_id = #{friendUserId,jdbcType=INTEGER},
+            </if>
+            <if test="exchangeGifts != null">
+                exchange_gifts =
+                #{exchangeGifts,jdbcType=VARCHAR,typeHandler=com.chouchongkeji.dial.handler.GiftExItemVoHandler},
+            </if>
+            <if test="wantGifts != null">
+                want_gifts =
+                #{wantGifts,jdbcType=VARCHAR,typeHandler=com.chouchongkeji.dial.handler.GiftExItemVoHandler},
+            </if>
+            <if test="submitGifts != null">
+                submit_gifts =
+                #{submitGifts,jdbcType=VARCHAR,typeHandler=com.chouchongkeji.dial.handler.GiftExItemVoHandler},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=TINYINT},
+            </if>
+            <if test="created != null">
+                created = #{created,jdbcType=TIMESTAMP},
+            </if>
+
+            updated = now(),
+
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.dial.pojo.backpack.gift.GiftExchange">
+    update gift_exchange
+    set user_id = #{userId,jdbcType=INTEGER},
+      friend_user_id = #{friendUserId,jdbcType=INTEGER},
+      exchange_gifts = #{exchangeGifts,jdbcType=VARCHAR,typeHandler=com.chouchongkeji.dial.handler.GiftExItemVoHandler},
+      want_gifts = #{wantGifts,jdbcType=VARCHAR,typeHandler=com.chouchongkeji.dial.handler.GiftExItemVoHandler},
+      submit_gifts = #{submitGifts,jdbcType=VARCHAR,typeHandler=com.chouchongkeji.dial.handler.GiftExItemVoHandler},
+      status = #{status,jdbcType=TINYINT},
+      created = #{created,jdbcType=TIMESTAMP},
+      updated = #{updated,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

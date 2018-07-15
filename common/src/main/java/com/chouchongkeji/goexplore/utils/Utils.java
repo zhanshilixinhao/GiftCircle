@@ -126,6 +126,26 @@ public class Utils {
         return false;
     }
 
+    public static boolean getIdsForLong(String string, HashSet<Long> idSet) {
+        if (StringUtils.isBlank(string)) return true;
+        String[] split = string.split(",");
+        return getIdsForLong(split, idSet);
+    }
+
+    public static boolean getIdsForLong(String[] strings, HashSet<Long> idSet) {
+        try {
+            Long id = null;
+            for (String idStr : strings) {
+                id = Long.parseLong(idStr);
+                idSet.add(id);
+            }
+        } catch (Throwable e) {
+            e.printStackTrace();
+            return true;
+        }
+        return false;
+    }
+
     public static String toIds(HashSet<Integer> idSet) {
         if (CollectionUtils.isNotEmpty(idSet)) {
             StringBuilder sb = new StringBuilder();

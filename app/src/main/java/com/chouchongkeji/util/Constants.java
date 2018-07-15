@@ -61,7 +61,7 @@ public class Constants {
         return name;
     }
 
-    /* 背包物品索要操作 */
+    /* 背包物品索要/交换操作 */
     public interface BP_ITEM {
         byte DEFAULT = 0;    // 默认无操作
         byte AGREE = 1;      // 同意
@@ -75,6 +75,13 @@ public class Constants {
         byte FAIL = 3;    // 3-索要失败
     }
 
+    /* 背包物品交换 */ //礼品添加状态，1-用户提交，2-好友提交，3-已完成，4-交换失败
+    public interface GIFT_EXCHANGE {
+        byte USER_EX = 1;      // 1-用户提交
+        byte FRIEND_EX = 2;      // 2-好友提交
+        byte ACCESS = 3;      // // 3-已完成
+        byte FAIL = 4;    // 4-交换失败
+    }
 
     /* 商品的状态 */
     public interface ITEM {
