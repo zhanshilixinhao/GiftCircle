@@ -3411,7 +3411,7 @@ JSON：
         {
             "id": 7718071116139, 
             "userId": 4, 
-            "targetId": 2, 
+            "targetId": 2, //目标物品Id
             "price": 0.01, 
             "title": "2元现金券", 
             "cover": "https://io.shanren.group/static/upload/image//item/180711/f5b7f1d6-3c18-457b-b920-b1a941337862.png", 
@@ -3420,7 +3420,7 @@ JSON：
  \"discunt\":\"1元\",
  \"decription\":\"仅限购买三只松鼠\"
 }", 
-            "brand": "七牛", 
+            "brand": "七牛", //品牌
             "type": 3, 
             "quantity": 1, 
             "created": 1531297967000
@@ -3471,7 +3471,7 @@ JSON：
         {
             "id": 7718071115126, 
             "userId": 4, 
-            "targetId": 1, 
+            "targetId": 1, //目标物品id
             "price": 0.01, 
             "title": "小苹果", 
             "cover": "https://io.shanren.group/static/upload/image/http://thirdwx.qlogo.cn/mmopen/vi_32/jhXsk4K6SZs58GvXyrPichgxlDv6y4IYrrKN5GCA1UTvHRKbRGtiac2SxmGMYibJSvCZzcLhNmQEykDgXTTzkPOXQ/132", 
@@ -3952,6 +3952,13 @@ JSON：
     ]
 }
 ```
+|   参数名称   | 参数类型 | 是否必传 | 参数说明 |
+| :----------: | :------: | :------: | :------: |
+| consignmentId |  int  |    是    |  寄售台id |
+| bpId |  long  |    是    |  背包id |
+| targetId |  int  |    是    |  目标物品id |
+| type |  int  |    是    |  1-商品，2-虚拟商品， 3-优惠券 |
+| status |  int  |    是    |  1 上架 2 已购买未支付 3 交易完成 4 已下架 |
 
 
 
@@ -4046,6 +4053,13 @@ JSON：
     ]
 }
 ```
+|   参数名称   | 参数类型 | 是否必传 | 参数说明 |
+| :----------: | :------: | :------: | :------: |
+| consignmentId |  int  |    是    |  寄售台id |
+| bpId |  long  |    是    |  背包id |
+| targetId |  int  |    是    |  目标物品id |
+| status |  int  |    是    |  1 上架 2 已购买未支付 3 交易完成 4 已下架 |
+
 
 ### 18.4 寄售台商品列表
 - 请求地址：noauth/consignment/all_list
@@ -4096,6 +4110,14 @@ JSON：
     ]
 }
 ```
+|   参数名称   | 参数类型 | 是否必传 | 参数说明 |
+| :----------: | :------: | :------:  | :------: |
+| newset |  int |    是    | 最新价格 |
+| hight |  int  |    是    | 历史最高价格 |
+| low |  int  |    是    | 历史最低价格 |
+| targetId |  int  |    是    |  目标物品id |
+| type |  int  |    是    |   1 商品 2虚拟物品 3 优惠券 |
+
 
 ### 18.5 寄售台商品详情
 - 请求地址：noauth/consignment/item_detail
@@ -4115,8 +4137,8 @@ JSON：
     "result": 0, 
     "time": 1531104571269, 
     "data": {
-        "consignmentId": 1, 
-        "itemId": 1, 
+        "consignmentId": 1, //寄售台Id
+        "itemId": 1,  //物品Id
         "pictures": [
             "https://io.shanren.group/image/cover.jpg", 
             "https://io.shanren.group/image/cover1.jpg"
@@ -4149,8 +4171,8 @@ JSON：
     "time": 1531105731332, 
     "data": {
         "params": "MYJRWzUWdcu33cOtjBbKmw/M0Eko50Lw5X5wR/wB9xSMvjCs8qBAWTngRc0fK9XFwfNjo31GX5YfigXSEustpapVSyEzm6nBjpe/FZEPD+rj7T9DWfUNbsuWoUPkLIe2ka+uhGVEQbUbFMzQz2otUNOAiKNNtjDtt9YvC3FZ/DZlgmUXKK7exueIRmzmgfQ2drqVqxIJMDkKQ+ByqjPlrJmRw+BIK5wsZzjJJLEEJ+3mCXqR727cephcZ1Xt6EhzLyjo4u4dviKaeQp8iNHkJFYUI/RYpkUe0VMV3Vy1X7uZU0SgFW3EBbsxZxstOpvMK4mrp9aDjeBU15o1B7FplQ==La+xb6eH2maxGPB0vcZfQ3jwgqiC/FKpw05sS1hfICtrcga9NiapY+F7UE8i1Xzkqw3kaURVoyFMQ1mslHOiEcM3+z4SDeB7tESqHu5JiP7mhjUBQ4KvLBIa9WVGI8L0tVcfvmcB9miUcg5A1mKQBzLyt9us0PpoecflaS9cgHrfOKY3eyzmeR+ZSNljWQI7Gc6mcnhSsONZivmdndjBNeAoG9PwbaVGoUTc2kldmyMpkRoC/idgMfYTzQUcbAzR9W/xcrwbWx16gcc5yihmOc6kxqpC+dZxV3P5NSbVAOWczMnn+W4ilH+5Ej1fI8gsUTbex9dorO3E7+G9X1sz3w==||344,344", 
-        "orderNo": 518070911106, 
-        "type": 24656
+        "orderNo": 518070911106,  //订单号
+        "type": 24656 //支付类型
     }
 }
 ```
@@ -4228,12 +4250,12 @@ JSON：
     "time": 1531107782720, 
     "data": [
         {
-            "consignmentId": 3, 
-            "bpId": 2, 
-            "targetId": 2, 
+            "consignmentId": 3, //寄售台Id
+            "bpId": 2,  //背包id
+            "targetId": 2,  //目标物品Id
             "price": 999, 
-            "type": 3, 
-            "status": 1, 
+            "type": 2, // 1 商品 2虚拟物品 3 优惠券
+            "status": 1, //1 上架 2 已购买未支付 3 交易完成 4 已下架
             "cover": "https://io.shanren.group/image/cover.jpg", 
             "title": "1元优惠券", 
             "updated": 1530456187000, 
@@ -4465,7 +4487,7 @@ JSON：
             "friendNickname": "大秦", //好友昵称
             "friendAvatar":   //好友头像 "https://io.shanren.group/static/upload/image/avatar.jpg", 
             "type": 1,  //1-用户向好友提出交换礼物 ，2-好友向用户提出交换礼物
-            "status": 3, 
+            "status": 3, //礼品添加状态，1-用户提交，2-好友提交，3-已完成，4-交换失败
             "created": 1531645688000
         }, 
         {
@@ -4507,21 +4529,21 @@ JSON：
     "data": {
         "id": 1, 
         "userId": 1, 
-        "friendUserId": 4, 
-        "friendNickname": "大秦", 
+        "friendUserId": 4,  //好友用户id
+        "friendNickname": "大秦",  //好友用户昵称
         "friendAvatar": "https://io.shanren.group/static/upload/image/avatar.jpg", 
         "type": 1, //1-用户向好友提出交换礼物 ，2-好友向用户提出交换礼物
-        "status": 3, 
+        "status": 3,  //礼品添加状态，1-用户提交，2-好友提交，3-已完成，4-交换失败
         "created": 1531559723000, 
         "exchangeGifts": [ //用户交换的物品
             {
                 "bpId": 1, 
-                "targetId": 2, 
+                "targetId": 2, //目标物品Id
                 "price": 100, 
-                "title": "魏文侯", 
+                "title": "魏文侯",  
                 "cover": "https://io.shanren.group/static/upload/image/cover.jpg", 
                 "description": "东周末年", 
-                "brand": "公牛", 
+                "brand": "公牛",  //牌子
                 "type": 1, 
                 "quantity": 4
             }, 
