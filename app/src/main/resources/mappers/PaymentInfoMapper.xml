@@ -46,7 +46,7 @@
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, 
       #{orderNo,jdbcType=BIGINT}, #{totalFee,jdbcType=DECIMAL}, #{payPlatform,jdbcType=TINYINT}, 
       #{platformNumber,jdbcType=VARCHAR}, #{platformStatus,jdbcType=VARCHAR}, #{seller,jdbcType=VARCHAR}, 
-      #{buyer,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP}
+      #{buyer,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP}, now()
       )
   </insert>
   <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.user.PaymentInfo">

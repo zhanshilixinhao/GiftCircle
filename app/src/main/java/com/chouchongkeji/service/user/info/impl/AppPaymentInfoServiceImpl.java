@@ -328,7 +328,6 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
         payment.setPlatformNumber(aLiPayV2Vo.getTrade_no());
         /** 交易标识 **/
         payment.setPlatformStatus(aLiPayV2Vo.getTrade_status());
-
         /** -------------支付成功逻辑处理-------------- **/
         // 保存订单支付信息
         int count = paymentInfoMapper.insert(payment);
