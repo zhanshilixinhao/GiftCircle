@@ -128,7 +128,7 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
             Integer userId = chargeOrder.getUserId();
             walletService.updateBalance(userId, amount);
             //支付信息
-            doAliPaySuccess(aLiPayV2Vo, orderType);
+            doAliPaySuccess(aLiPayV2Vo, orderType,chargeOrder.getUserId());
         } else if (re == 2) {
             return "ERROR";
         }
@@ -176,7 +176,7 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
                 throw new ServiceException(ErrorCode.ERROR.getCode(),"");
             }
             //支付信息
-            doAliPaySuccess(aLiPayV2Vo, orderType);
+            doAliPaySuccess(aLiPayV2Vo, orderType,itemOrder.getUserId());
         } else if (i == 2) {
             return "ERROR";
         }
@@ -242,7 +242,7 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
                 throw new ServiceException(ErrorCode.ERROR.getCode(),"");
             }
             //保存支付信息
-            doAliPaySuccess(aLiPayV2Vo,orderType);
+            doAliPaySuccess(aLiPayV2Vo,orderType,conOrder.getUserId());
         }else if (checkInfo == 2) {
             return "ERROR";
         }
@@ -306,10 +306,12 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
      * @author linqin
      * @date 2018/6/8
      */
-    private PaymentInfo doAliPaySuccess(ALiPayV2Vo aLiPayV2Vo, Byte orderType) {
+    private PaymentInfo doAliPaySuccess(ALiPayV2Vo aLiPayV2Vo, Byte orderType,Integer userId) {
         PaymentInfo payment = new PaymentInfo();
         /** 订单号 **/
         payment.setOrderNo(Long.parseLong(aLiPayV2Vo.getOut_trade_no()));
+        /** 用户Id **/
+        payment.setUserId(userId);
         /** 买家账号 **/
         payment.setBuyer(aLiPayV2Vo.getBuyer_id());
         /** 付款时间 **/
@@ -390,7 +392,7 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
             Integer userId = chargeOrder.getUserId();
             walletService.updateBalance(userId, amount);
             //支付信息
-            doWXPaySuccess(notifyData, orderType);
+            doWXPaySuccess(notifyData, orderType,chargeOrder.getUserId());
         } else if (re == 2) {
             return "ERROR";
         }
@@ -444,7 +446,7 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
                 throw new ServiceException(ErrorCode.ERROR.getCode(),"");
             }
             //支付信息
-            doWXPaySuccess(notifyData, orderType);
+            doWXPaySuccess(notifyData, orderType,itemOrder.getUserId());
         } else if (re == 2) {
             return "ERROR";
         }
@@ -517,7 +519,7 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
                 throw new ServiceException(ErrorCode.ERROR.getCode(),"");
             }
             //保存支付信息
-            doWXPaySuccess(notifyData,orderType);
+            doWXPaySuccess(notifyData,orderType,conOrder.getUserId());
         } else if (re == 2) {
             return "ERROR";
         }
@@ -575,11 +577,13 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
      * @author linqin
      * @date 2018/6/8
      */
-    private PaymentInfo doWXPaySuccess(NotifyData notifyData, Byte orderType) {
+    private PaymentInfo doWXPaySuccess(NotifyData notifyData, Byte orderType,Integer userId) {
         /** -------------支付成功逻辑处理-------------- **/
         PaymentInfo payment = new PaymentInfo();
         /** 订单号 **/
         payment.setOrderNo(Long.parseLong(notifyData.getOut_trade_no()));
+        /** 用户Id **/
+        payment.setUserId(userId);
         /** 买家账号 **/
         payment.setBuyer(notifyData.getOpenid());
         /** 付款时间 **/
@@ -623,6 +627,8 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
         PaymentInfo payment = new PaymentInfo();
         /** 订单号 **/
         payment.setOrderNo(orderNo);
+        /** 用户Id **/
+        payment.setUserId(userId);
         /** 买家账号 **/
         payment.setBuyer(userId.toString());
         /** 付款时间 **/

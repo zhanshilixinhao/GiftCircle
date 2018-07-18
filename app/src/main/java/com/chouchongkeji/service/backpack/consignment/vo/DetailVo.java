@@ -2,6 +2,7 @@ package com.chouchongkeji.service.backpack.consignment.vo;
 
 import com.yichen.auth.jackson.ImgUrl;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -14,6 +15,8 @@ public class DetailVo {
 
     private Integer itemId; //商品Id
 
+    private BigDecimal price;//商品价格
+
     @ImgUrl
     private List<String> pictures; //图片集
 
@@ -22,6 +25,14 @@ public class DetailVo {
     private String description; //描述
 
     private String detailUrl;//详情地址
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
 
     public String getDetailUrl() {
         return detailUrl;

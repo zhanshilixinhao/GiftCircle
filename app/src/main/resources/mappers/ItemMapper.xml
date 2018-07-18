@@ -30,6 +30,7 @@
         <result property="consignmentId" column="consignment_id"/>
         <result property="itemId" column="item_id"/>
         <result property="title" column="title"/>
+        <result property="price" column="price"/>
         <result property="pictures" column="pictures" typeHandler="com.chouchongkeji.goexplore.handler.PicturesHandler"/>
         <result property="description" column="description"/>
         <result property="detailUrl" column="detailUrl"/>
@@ -396,6 +397,7 @@ WHERE
     <select id="selectItemDtail" resultMap="ResultMap">
        SELECT
 	b.item_id,
+	b.price,
 	a.pictures,
 	a.title,
 	a.description

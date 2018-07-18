@@ -3862,7 +3862,6 @@ JSON：
             "cover": "https://io.shanren.group/image/cover.jpg", 
             "requesturl": "", 
             "title": "", 
-            "url": "", 
             "type": 1, 
             "status": 1, 
             "createtime": 1530864451000, 
@@ -3875,7 +3874,6 @@ JSON：
             "cover": "https://io.shanren.group/image/cover.jpg", 
             "requesturl": "", 
             "title": "", 
-            "url": "", 
             "type": 2, 
             "status": 1, 
             "createtime": 1530864480000, 
@@ -3891,8 +3889,7 @@ JSON：
 | cover |  String  |    是    |  封面图片 |
 | requesturl |  String  |    是    |  跳转url |
 | title |  String  |    是    |  图片标题 |
-| url |  String  |    是    |  图片url地址 |
-| type |  int  |    是    |  banner类型,  1 跳转到商品详情 2 跳转到好物主题列表 |
+| type |  int  |    是    | banner类型,  1 跳转到商品详情 2 跳转到好物主题列表 3-跳转url,4-纯展示 |
 | status |  int  |    是    |  1 正常 2 禁用 |
 | richtext |  text  |    是    |  富文本 |
 
@@ -4139,6 +4136,7 @@ JSON：
     "data": {
         "consignmentId": 1, //寄售台Id
         "itemId": 1,  //物品Id
+        "price": 0.01,
         "pictures": [
             "https://io.shanren.group/image/cover.jpg", 
             "https://io.shanren.group/image/cover1.jpg"
