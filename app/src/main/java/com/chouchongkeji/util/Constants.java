@@ -183,6 +183,10 @@ public class Constants {
         int yue = 98001; //钱包余额
     }
 
+//    public static void main(String[] args) {
+//        System.out.println((byte)PAY_TYPE.yue);
+//    }
+
     /* 订单类型 */   //1-充值订单，2-商品订单,3-寄售台订单
     public interface ORDER_TYPE {
         byte CHARGE = 1;// 充值订单

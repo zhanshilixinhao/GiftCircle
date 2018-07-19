@@ -107,7 +107,7 @@ public class VirPayNotifyServiceImpl implements VirPayNotifyService{
                 virtualItem.setSales(virtualItem.getSales() + virItemOrder.getQuantity());
                 virtualItemMapper.updateByPrimaryKey(virtualItem);
             }
-            doAliPaySuccess(aLiPayV2Vo, orderType);
+            doAliPaySuccess(aLiPayV2Vo, orderType,virItemOrder.getUserId());
         } else if (re == 2) {
             return "ERROR";
         }
@@ -170,12 +170,14 @@ public class VirPayNotifyServiceImpl implements VirPayNotifyService{
      * @author linqin
      *  @date 2018/6/8
      */
-    private PaymentInfo doAliPaySuccess(ALiPayV2Vo aLiPayV2Vo, Byte orderType) {
+    private PaymentInfo doAliPaySuccess(ALiPayV2Vo aLiPayV2Vo, Byte orderType,Integer userId) {
         PaymentInfo payment = new PaymentInfo();
         /** 订单号 **/
         payment.setOrderNo(Long.parseLong(aLiPayV2Vo.getOut_trade_no()));
         /** 买家账号 **/
         payment.setBuyer(aLiPayV2Vo.getBuyer_id());
+        /** 用户Id **/
+        payment.setUserId(userId);
         /** 付款时间 **/
         payment.setCreated(DateUtil.string2date(aLiPayV2Vo.getGmt_payment()));
         /** 订单类型 **/
@@ -251,7 +253,7 @@ public class VirPayNotifyServiceImpl implements VirPayNotifyService{
             userVirtualItem.setCreated(new Date());
             userVirtualItem.setCover(virItemOrder.getCover());
             userVirtualItemMapper.insert(userVirtualItem);
-            doWXPaySuccess(notifyData,orderType);
+            doWXPaySuccess(notifyData,orderType,virItemOrder.getUserId());
         } else if (re == 2) {
             return "ERROR";
         }
@@ -287,13 +289,15 @@ public class VirPayNotifyServiceImpl implements VirPayNotifyService{
 
     }
 
-    private PaymentInfo doWXPaySuccess(NotifyData notifyData, Byte orderType) {
+    private PaymentInfo doWXPaySuccess(NotifyData notifyData, Byte orderType,Integer userId) {
         /** -------------支付成功逻辑处理-------------- **/
         PaymentInfo payment = new PaymentInfo();
         /** 订单号 **/
         payment.setOrderNo(Long.parseLong(notifyData.getOut_trade_no()));
         /** 买家账号 **/
         payment.setBuyer(notifyData.getOpenid());
+        /** 用户Id **/
+        payment.setUserId(userId);
         /** 付款时间 **/
         payment.setCreated(DateUtil.string2date(notifyData.getTime_end(), "yyyyMMddHHmmss"));
         /** 订单类型 **/
