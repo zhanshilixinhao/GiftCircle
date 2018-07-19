@@ -31,12 +31,10 @@ public class ImageUploadUtil {
     private static final long MAX_SIZE = 1024 * 200; // 200kb
 
     // 图片类型
-    private static List<String> fileTypes = new ArrayList<String>();
+    private static List<String> fileTypes = new ArrayList<>();
 
     static {
         fileTypes.add(".jpg");
-        fileTypes.add(".jpeg");
-        fileTypes.add(".gif");
         fileTypes.add(".png");
     }
 

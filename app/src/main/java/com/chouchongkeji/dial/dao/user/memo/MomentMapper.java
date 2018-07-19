@@ -32,4 +32,7 @@ public interface MomentMapper {
 
     List<Moment> selectRecentByUserId(@Param("userId") Integer userId);
 
+    List<MomentVo> selectAllAny(
+            @Param("userId") Integer userId,
+            @Param("page") PageQuery page);
 }

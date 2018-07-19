@@ -269,6 +269,7 @@ public class GiftServiceImpl implements GiftService {
      * @date 2018/7/2
      */
     private int addItemToBp(Integer recordDetailId, Integer userId, List<GiftItemVo> list) {
+
         mRedisTemplate.del(K.genKey(K.RECENT_GIFT, userId));
         return bpService.addFromGiftSent(recordDetailId, userId, list);
     }

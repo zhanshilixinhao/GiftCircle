@@ -130,6 +130,7 @@
         <result column="updated" property="updated"/>
         <result column="nickname" property="nickname"/>
         <result column="avatar" property="avatar"/>
+        <result column="is_friend" property="isFriend"/>
         <result column="remark" property="remark"/>
         <result column="relationship" property="relationship"/>
         <collection property="praiseUsers" ofType="com.chouchongkeji.service.user.friend.vo.PraiseVo"
@@ -139,7 +140,8 @@
     </resultMap>
     <select id="selectAll" resultMap="Moment">
 SELECT
-	*
+	*,
+	1 as is_friend
 FROM
 	(
 SELECT
@@ -171,6 +173,25 @@ WHERE
 	selfUserId = #{userId}
 ORDER BY
 	id DESC
+	limit ${( page.pageNum -1 ) * page.pageSize},${page.pageNum * page.pageSize}
+    </select>
+
+    <select id="selectAllAny" resultMap="Moment">
+SELECT
+	a.*,
+	4 AS selfUserId,
+	b.nickname,
+	b.avatar,
+	c.remark,
+	c.relationship,
+	( c.id IS NULL ) + 1 AS is_friend
+FROM
+	moment a
+	LEFT JOIN app_user b ON b.id = a.user_id
+	LEFT JOIN friend c ON c.user_id = 4
+	AND c.friend_user_id = a.user_id
+ORDER BY
+	a.id DESC
 	limit ${( page.pageNum -1 ) * page.pageSize},${page.pageNum * page.pageSize}
     </select>
 
@@ -244,7 +265,8 @@ SELECT
 	c.nickname,
 	c.avatar,
 	b.remark,
-	b.relationship
+	b.relationship,
+	(b.id is null) + 1 as is_friend
 FROM
 	moment a
 	LEFT JOIN friend b ON b.user_id = #{userId} and b.friend_user_id = a.user_id
@@ -258,8 +280,9 @@ SELECT
 	#{userId} AS selfUserId,
 	b.nickname,
 	b.avatar,
-	NULL AS remark,
-	NULL AS relationship
+	c.remark,
+	c.relationship,
+	(c.id is null) + 1 as is_friend
 FROM
 	moment a
 	LEFT JOIN app_user b ON b.id = a.user_id

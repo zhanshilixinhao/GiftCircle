@@ -217,8 +217,4 @@ public class PayNotifyInterfaceController {
         return appPaymentInfoService.conOrderWXPay(xml, orderType);
     }
 
-
-
-
-
 }

@@ -189,6 +189,7 @@ public class HttpClientUtils {
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
     public static String doPost(String url, Map<String, String> map, String charset) {
+
         try {
             Response post = OkHttpUtil.post(OkHttpManager.create(null, null), url, RequestParams.valueof(map));
             if (post.isSuccessful()) {
@@ -198,6 +199,38 @@ public class HttpClientUtils {
             e.printStackTrace();
         }
         return null;
+//        HttpClient httpClient = null;
+//        HttpPost httpPost = null;
+//        String result = null;
+//        try {
+//            httpClient = getHttpsClient();
+//            httpPost = new HttpPost(url);
+//            // 设置参数
+//            List<NameValuePair> list = new ArrayList<NameValuePair>();
+//            Iterator iterator = map.entrySet().iterator();
+//            while (iterator.hasNext()) {
+//                Entry<String, String> elem = (Entry<String, String>) iterator.next();
+//                list.add(new BasicNameValuePair(elem.getKey(), elem.getValue()));
+//            }
+//            if (list.size() > 0) {
+//                UrlEncodedFormEntity entity = new UrlEncodedFormEntity(list, charset);
+//                httpPost.setEntity(entity);
+//            }
+//            HttpResponse response = httpClient.execute(httpPost);
+//            if (response != null) {
+//                HttpEntity resEntity = response.getEntity();
+//                if (resEntity != null) {
+//                    result = EntityUtils.toString(resEntity, charset);
+//                }
+//            }
+//        }
+//        catch (Exception ex) {
+//            ex.printStackTrace();
+//        }
+//        finally {
+//            httpPost.releaseConnection();
+//        }
+//        return result;
     }
 
     /**

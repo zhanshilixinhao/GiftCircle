@@ -149,13 +149,19 @@ public class MomentServiceImpl implements MomentService {
      * 秀秀列表-包括好友
      *
      * @param userId 用户i西南西
+     * @param type
      * @return
      * @author yichenshanren
      * @date 2018/6/26
      */
     @Override
-    public Response getList(Integer userId, PageQuery page) {
-        List<MomentVo> list = momentMapper.selectAll(userId, page);
+    public Response getList(Integer userId, Integer type, PageQuery page) {
+        List<MomentVo> list;
+        if (type == 1) {
+            list = momentMapper.selectAllAny(userId, page);
+        } else {
+            list = momentMapper.selectAll(userId, page);
+        }
         return ResponseFactory.sucData(appendRecentGifts(list));
     }
 

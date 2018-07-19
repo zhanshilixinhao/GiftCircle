@@ -48,11 +48,12 @@ public interface MomentService {
      * 秀秀列表-包括好友
      *
      * @param userId 用户i西南西
+     * @param type
      * @return
      * @author yichenshanren
      * @date 2018/6/26
      */
-    Response getList(Integer userId, PageQuery page);
+    Response getList(Integer userId, Integer type, PageQuery page);
 
     /**
      * 添加评论

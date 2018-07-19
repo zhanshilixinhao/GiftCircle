@@ -17,6 +17,12 @@ public class RequestParams {
         params = new HashMap<>();
     }
 
+    public static RequestParams valueof(Map<String, String> map) {
+        RequestParams params = new RequestParams();
+        map.forEach((s, s2) -> params.put(s, s2));
+        return params;
+    }
+
     public Object put(String key, Object value) {
         return params.put(key, value);
     }

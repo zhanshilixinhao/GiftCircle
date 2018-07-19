@@ -26,6 +26,8 @@ public class MomentVo {
 
     private Byte showGift;
 
+    private Integer isFriend;
+
     @ImgUrl
     private String avatar;
     private String remark;
@@ -159,5 +161,13 @@ public class MomentVo {
 
     public void setShowGift(Byte showGift) {
         this.showGift = showGift;
+    }
+
+    public Integer getIsFriend() {
+        return isFriend;
+    }
+
+    public void setIsFriend(Integer isFriend) {
+        this.isFriend = isFriend;
     }
 }

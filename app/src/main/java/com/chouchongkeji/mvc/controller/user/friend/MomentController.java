@@ -167,8 +167,11 @@ public class MomentController {
      * @date 2018/6/26
      */
     @PostMapping("list")
-    public Response getList(@AuthenticationPrincipal UserDetails userDetails, PageQuery page) {
-        return momentService.getList(userDetails.getUserId(), page);
+    public Response getList(@AuthenticationPrincipal UserDetails userDetails, Integer type, PageQuery page) {
+        if (type == null || type < 0 || type > 2) {
+            type = 1;
+        }
+        return momentService.getList(userDetails.getUserId(), type, page);
     }
 
     /**
@@ -185,7 +188,7 @@ public class MomentController {
         if (targetUserId == null) {
             targetUserId = userDetails.getUserId();
         }
-        return momentService.getListForSelf(userDetails.getUserId(),targetUserId, page);
+        return momentService.getListForSelf(userDetails.getUserId(), targetUserId, page);
     }
 
 

@@ -19,6 +19,6 @@ public class PropertiesUtil {
     }
 
     public static String imgSavePath() {
-        return "/data/console/dist/static/upload/image";
+        return "/data/upload/image";
     }
 }
