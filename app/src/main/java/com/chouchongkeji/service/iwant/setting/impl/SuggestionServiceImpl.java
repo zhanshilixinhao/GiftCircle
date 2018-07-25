@@ -8,6 +8,8 @@ import com.chouchongkeji.service.iwant.setting.SuggestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 /**
  * @author linqin
  * @date 2018/6/7
@@ -35,6 +37,8 @@ public class SuggestionServiceImpl implements SuggestionService {
         suggestion.setType(type.byteValue());
         suggestion.setFeedback(feedback);
         suggestion.setContactWay(contactWay);
+        suggestion.setCreated(new Date());
+        suggestion.setUpdated(new Date());
         suggestionMapper.insert(suggestion);
         return ResponseFactory.sucMsg("反馈成功");
     }
