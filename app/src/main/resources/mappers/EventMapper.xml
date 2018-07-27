@@ -4,13 +4,14 @@
   <resultMap id="BaseResultMap" type="com.chouchongkeji.dial.pojo.event.Event">
     <constructor>
       <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <idArg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="event_name" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
       <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    id, event_name, created, updated
+    id,user_id, event_name, created, updated
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -19,19 +20,23 @@
     where id = #{id,jdbcType=INTEGER}
   </select>
     <select id="selectAll" resultMap="BaseResultMap">
-      select
-      <include refid="Base_Column_List"/>
-      from event
+SELECT
+	<include refid="Base_Column_List"/>
+FROM
+	`event`
+	WHERE user_id = 0
+	or user_id = #{userId}
     </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from event
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.event.Event">
-    insert into event (id, event_name, created, 
+    insert into event (id,user_id, event_name, created,
       updated)
-    values (#{id,jdbcType=INTEGER}, #{eventName,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP}, 
-      #{updated,jdbcType=TIMESTAMP})
+    values (#{id,jdbcType=INTEGER},#{userId,jdbcType=INTEGER}, #{eventName,jdbcType=VARCHAR},now(),
+      now())
   </insert>
   <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.event.Event">
     insert into event

@@ -17,6 +17,7 @@ public interface EventMapper {
 
     int updateByPrimaryKey(Event record);
 
-    List<Event> selectAll();
+    List<Event> selectAll(Integer userId);
+
 
 }

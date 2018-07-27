@@ -653,6 +653,7 @@ create table event
 (
   id         int auto_increment not null
   comment '表id',
+  user_id int(11) comment '用户id(0代表系统添加)',
   event_name varchar(100) comment '事件名称',
   created    datetime comment '创建时间',
   updated    datetime comment '更新时间',

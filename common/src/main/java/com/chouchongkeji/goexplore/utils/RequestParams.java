@@ -61,10 +61,10 @@ public class RequestParams {
         }
         return true;
     }
-    public static RequestParams valueof(Map<String, String> map) {
-        RequestParams params = new RequestParams();
-        map.forEach((s, s2) -> params.put(s, s2));
-        return params;
-    }
+//    public static RequestParams valueof(Map<String, String> map) {
+//        RequestParams params = new RequestParams();
+//        map.forEach((s, s2) -> params.put(s, s2));
+//        return params;
+//    }
 
 }

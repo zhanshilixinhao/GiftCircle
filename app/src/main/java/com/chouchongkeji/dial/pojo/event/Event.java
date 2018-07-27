@@ -5,14 +5,17 @@ import java.util.Date;
 public class Event {
     private Integer id;
 
+    private Integer userId;
+
     private String eventName;
 
     private Date created;
 
     private Date updated;
 
-    public Event(Integer id, String eventName, Date created, Date updated) {
+    public Event(Integer id,Integer userId, String eventName, Date created, Date updated) {
         this.id = id;
+        this.userId = userId;
         this.eventName = eventName;
         this.created = created;
         this.updated = updated;
@@ -28,6 +31,14 @@ public class Event {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public String getEventName() {

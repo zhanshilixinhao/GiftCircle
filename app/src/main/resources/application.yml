@@ -67,7 +67,7 @@ yichen:
         - {clientId: giftcircler-dl,clientSecret: qMEjFl8w63EtAX17cRX83L0iMkK2U4mg,accessTokenValidityTime: 6592000}
 # 配置接口签名
     sign:
-      needSign: true
+      needSign: false
       urls:
         - /noauth/pay/**
         - /druid/**
