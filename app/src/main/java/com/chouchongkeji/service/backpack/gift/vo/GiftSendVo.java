@@ -14,9 +14,18 @@ public class GiftSendVo {
     private Integer friendUserId;
     private List<Long> subBpIds;
     private String greeting;
-    private Byte type;
+    private Byte type; // 1 未领取 2 已领取部分 3 已领取全部 4 超时领取失败
     private String event;
     private Date targetTime;
+    private Float p;
+
+    public Float getP() {
+        return p;
+    }
+
+    public void setP(Float p) {
+        this.p = p;
+    }
 
     public Long getBpId() {
         return bpId;

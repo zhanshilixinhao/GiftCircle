@@ -21,7 +21,9 @@ public class GiftRecord {
 
     private Date created;
 
-    public GiftRecord(Integer id, Integer userId, String greetting, Byte type, String event, Date targetTime, Byte status, Date updated, Date created) {
+    private Float p;
+
+    public GiftRecord(Integer id, Integer userId, String greetting, Byte type, String event, Date targetTime, Byte status, Date updated, Date created, Float p) {
         this.id = id;
         this.userId = userId;
         this.greetting = greetting;
@@ -31,6 +33,15 @@ public class GiftRecord {
         this.status = status;
         this.updated = updated;
         this.created = created;
+        this.p = p;
+    }
+
+    public Float getP() {
+        return p;
+    }
+
+    public void setP(Float p) {
+        this.p = p;
     }
 
     public GiftRecord() {

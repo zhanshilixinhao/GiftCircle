@@ -24,4 +24,9 @@ public interface GiftRecordDetailMapper {
 
     List<GiftRecordDetail> selectByDate(@Param("userId") Integer userId,
                                         @Param("started") Date started);
+
+    int updateUserIdAndStatusByRecordId(@Param("giftRecordId") Integer giftRecordId,
+                                        @Param("userId") Integer userId);
+
+    List<GiftRecordDetail> selectByRecordId(@Param("recordId") Integer id);
 }

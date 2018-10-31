@@ -17,16 +17,15 @@ import com.chouchongkeji.goexplore.utils.DateUtil;
 import com.chouchongkeji.goexplore.utils.K;
 import com.chouchongkeji.service.backpack.base.BpService;
 import com.chouchongkeji.service.backpack.gift.GiftService;
-import com.chouchongkeji.service.backpack.gift.vo.GiftBaseVo;
-import com.chouchongkeji.service.backpack.gift.vo.GiftItemVo;
-import com.chouchongkeji.service.backpack.gift.vo.GiftSendVo;
-import com.chouchongkeji.service.backpack.gift.vo.GiftTaskVo;
+import com.chouchongkeji.service.backpack.gift.vo.*;
 import com.chouchongkeji.service.message.MessageService;
+import com.chouchongkeji.service.message.vo.GiftMessageVo;
 import com.chouchongkeji.service.user.friend.FriendService;
 import com.chouchongkeji.service.user.friend.vo.FriendVo;
 import com.chouchongkeji.service.user.info.UserService;
 import com.chouchongkeji.util.Constants;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,10 +34,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -165,6 +161,113 @@ public class GiftServiceImpl implements GiftService {
     }
 
     /**
+     * 小程序领取好友分享的礼物
+     *
+     * @param userId       赠送者信息
+     * @param giftRecordId 礼物赠送记录id
+     * @return
+     * @author yichenshanren
+     * @date 2018/7/2
+     */
+    @Override
+    public Response wxGetGift(Integer userId, Integer giftRecordId) {
+        // 取出礼物记录
+        GiftRecord giftRecord = giftRecordMapper.selectByPrimaryKey(giftRecordId);
+        if (giftRecord == null) {
+            return ResponseFactory.err("礼物不存在或已过期!");
+        }
+        // 判断礼物是否还可以领取
+        if (giftRecord.getStatus() > Constants.GIFT_STATUS.PART_SEND) {
+            return ResponseFactory.err("礼物已被领取或已过期!");
+        }
+        // 取出礼物记录详情
+        List<GiftRecordDetail> details = giftRecordDetailMapper.selectByRecordId(giftRecord.getId());
+        if (CollectionUtils.isEmpty(details)) {
+            return ResponseFactory.err("礼物不存在!");
+        }
+        // 如果开可以领取，
+        if (giftRecord.getType() == Constants.GIFT_SEND_TYPE.WX_FRIEND) {
+            // 如果是 直接赠送的，直接更新状态为已赠送
+            return updateWXSent(userId, giftRecord, details);
+        } else {
+            return updateWXSentRandom(userId, giftRecord, details);
+        }
+    }
+
+    /**
+     * 微信好友领取礼物，随机礼物
+     * 根据中奖概率计算该用户能否领取
+     * 领取之后
+     * * 更新礼物记录状态为已赠送
+     * * 把物品放到好友背包
+     * * 添加一条消息记录
+     *
+     * @param userId     领取礼物的用户id
+     * @param giftRecord 礼物赠送记录
+     * @return
+     */
+    private Response updateWXSentRandom(Integer userId, GiftRecord giftRecord, List<GiftRecordDetail> details) {
+        // 取出概率
+        Float p = giftRecord.getP();
+        if (p == null) {
+            return ResponseFactory.err("中奖概率错误!");
+        }
+        // 计算是否能中奖
+
+        return null;
+    }
+
+    public static void main(String[] args) {
+        System.out.println((int)(Math.random() * 100));
+        System.out.println((int)(Math.random() * 100));
+        System.out.println((int)(Math.random() * 100));
+        System.out.println((int)(Math.random() * 100));
+        System.out.println((int)(Math.random() * 100));
+    }
+
+    /**
+     * 微信赠送，好友领取
+     * 更新礼物记录状态为已赠送
+     * 把物品放到好友背包
+     * 添加一条消息记录
+     *
+     * @param userId     领取用户id
+     * @param giftRecord 礼物记录
+     * @return
+     */
+    private Response updateWXSent(Integer userId, GiftRecord giftRecord, List<GiftRecordDetail> details) {
+        // 更新记录状态为已赠送
+        giftRecord.setStatus(Constants.GIFT_STATUS.SEND);
+        giftRecordMapper.updateByPrimaryKeySelective(giftRecord);
+        GiftRecordDetail detail = details.get(0);
+        // 更新记录详情状态为已赠送
+        detail.setStatus(Constants.GIFT_STATUS.SEND);
+        detail.setUserId(userId);
+        giftRecordDetailMapper.updateByPrimaryKeySelective(detail);
+
+        // 添加礼物通知消息
+        List<GiftItemVo> list = JSON.parseArray(detail.getContent(), GiftItemVo.class);
+        addGiftNotifyMessage(giftRecord.getUserId(), userId, giftRecord.getId(),
+                list);
+        // 添加物品到背包
+        addItemToBp(detail.getId(), userId, list);
+        WXGetGiftResVo<GiftMessageVo> vo = new WXGetGiftResVo<>();
+        vo.setType(giftRecord.getType());
+        // 返回礼物赠送信息
+        GiftMessageVo messageVo = new GiftMessageVo();
+        messageVo.setRecordDetailId(detail.getId());
+        messageVo.setUserId(userId);
+        messageVo.setGreetting(giftRecord.getGreetting());
+        messageVo.setGiftItems(list);
+        messageVo.setSendUserId(giftRecord.getUserId());
+        messageVo.setIsReply((byte) 2);
+        vo.setGiftInfo(messageVo);
+
+        return ResponseFactory.sucData(vo);
+    }
+
+
+    /**
      * app赠送礼物实现
      *
      * @param userId 赠送者信息
@@ -257,6 +360,110 @@ public class GiftServiceImpl implements GiftService {
             return ResponseFactory.sucMsg("赠送成功");
         } else {
             return ResponseFactory.sucMsg("礼物将在预定时间内送达!");
+        }
+    }
+
+    /**
+     * app赠送礼物实现
+     *
+     * @param userId 赠送者信息
+     * @param sendVo 赠送礼物信息 type 1 未领取 2 已领取部分 3 已领取全部 4 超时领取失败
+     * @return
+     * @author yichenshanren
+     * @date 2018/7/2
+     */
+    @Override
+    public Response sendForWx(Integer userId, GiftSendVo sendVo, Integer client) {
+        if (StringUtils.isBlank(sendVo.getEvent())) {
+            sendVo.setEvent("小程序赠送");
+        }
+
+        // 判断赠送的物品是否在背包里面
+        HashMap<Long, Integer> map = new HashMap<>();
+        // 保存礼物信息
+        List<Vbp> vbps = new ArrayList<>();
+        Vbp vbp = vbpMapper.selectByUserIdBpId(userId, sendVo.getBpId());
+        if (vbp == null || vbp.getQuantity() < 1) {
+            return ResponseFactory.err("赠送的礼物不存在背包中或赠送的数量大于背包中的数量!");
+        }
+        vbps.add(vbp);
+        map.put(sendVo.getBpId(), 1);
+        // 判断附属物品是否存在
+        Integer quantity;
+        if (CollectionUtils.isNotEmpty(sendVo.getSubBpIds())) {
+            for (Long id : sendVo.getSubBpIds()) {
+                // 取出
+                vbp = vbpMapper.selectByUserIdBpId(userId, sendVo.getBpId());
+                quantity = map.get(id);
+                quantity = quantity == null ? 1 : quantity + 1;
+                if (vbp == null || vbp.getQuantity() < quantity) {
+                    return ResponseFactory.err("赠送的礼物不存在背包中或赠送的数量大于背包中的数量!");
+                }
+                vbps.add(vbp);
+            }
+        }
+        // 增加送礼记录
+        GiftRecord record = new GiftRecord();
+        record.setUserId(userId);
+        record.setGreetting(sendVo.getGreeting());
+        record.setEvent(sendVo.getEvent());
+        record.setType(sendVo.getType());
+        record.setP(sendVo.getP());
+        // 小程序的状态都是待领取
+        byte status = Constants.GIFT_STATUS.WAIT;
+        record.setStatus(status);
+        // 保存礼物记录
+        int count = giftRecordMapper.insert(record);
+        if (count == 0) {
+            return ResponseFactory.err("赠送失败!");
+        }
+        // 先保存详情
+        List<GiftItemVo> list = new ArrayList<>();
+        for (Vbp item : vbps) {
+            // 更新背包物品的数量
+            count = vbpMapper.updateQuantityById(item.getId(), 1, item.getType());
+            if (count < 1) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "更新数量失败!");
+            }
+            // 如果是随机赠送，需要分别添加每个物品到礼物详情记录
+            if (sendVo.getType() == Constants.GIFT_SEND_TYPE.WX_FRIEND_RANDOM) {
+                list = new ArrayList<>();
+                list.add(assembleDetail(sendVo, item));
+                saveGiftSendDetail(sendVo, record, list, status);
+            } else {
+                list.add(assembleDetail(sendVo, item));
+            }
+        }
+
+        // 如果是直接赠送，礼物信息一起保存，忘记为什么要这么做了
+        if (sendVo.getType() == Constants.GIFT_SEND_TYPE.WX_FRIEND) {
+            saveGiftSendDetail(sendVo, record, list, status);
+        }
+
+        // 返回礼物赠送记录id，用于分享给微信好友
+        Map<String, Object> result = new HashMap<>();
+        result.put("giftRecordId", record.getId());
+        return ResponseFactory.sucData(result);
+    }
+
+    /**
+     * 保存礼物记录的详细信息
+     *
+     * @param sendVo 赠送信息
+     * @param record 礼物赠送记录信息
+     * @param list   礼物赠送列表
+     * @param status 状态
+     */
+    private void saveGiftSendDetail(GiftSendVo sendVo, GiftRecord record, List<GiftItemVo> list, byte status) {
+        // 保存礼物详情记录
+        GiftRecordDetail detail = new GiftRecordDetail();
+        detail.setUserId(sendVo.getFriendUserId());
+        detail.setGiftRecordId(record.getId());
+        detail.setStatus(status);
+        detail.setContent(JSON.toJSONString(list));
+        int count = giftRecordDetailMapper.insert(detail);
+        if (count == 0) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "赠送失败!");
         }
     }
 

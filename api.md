@@ -3627,8 +3627,6 @@ JSON：
 | event | string | 是 | 无 | 事件名称 |
 | type | int | 是 | 无 | 1 立即赠送 2 按时间赠送|
 | targetTime | long | 是 | 无 | 赠送时间的时间戳 |
-| pageNum | int | 是 | 无 | 分页 |
-| pageSize | int | 是 | 无 | 分页大小 |
 
 ### 15.2 礼物赠送答谢
 
@@ -3704,7 +3702,83 @@ JSON：
 }
 ```
 
+### 15.5 微信礼物赠送（分享之前需请求该接口）
 
+- 请求地址：auth/v1/mall/sendForWx
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yichen
+
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| bpId | int | 是 | 无 | 赠送的物品在背包里的id |
+| subBpIds | string | 否 | 无 | 赠送的附属物品的id集合，多个用，隔开 |
+| greeting | string | 是 | 无 | 祝福语 |
+| event | string | 是 | 无 | 事件名称 |
+| type | int | 是 | 无 | 3 直接赠送 4 随机赠送 |
+| p | float | 否 | 无 | type=4时必传 中奖率 0-1之间的小数 |
+
+* 请求结果示例
+
+```js
+{
+    errCode: 0.
+    data: {
+        giftRecordId: 101 // 礼物赠送记录id，分享此id
+    }
+}
+```
+
+### 15.6 微信领取好友分享的礼物
+
+- 请求地址：auth/v1/mall/
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yichen
+
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| giftRecordId | int | 是 | 无 | 礼物记录id |
+
+× 请求结果示例
+
+```js
+// type=3 直接送礼时放回结果
+{
+    errCode: 0,
+    data: {
+        type: 3,
+        giftInfo:  {
+            recordDetailId: 2,  // 礼物赠送记录详情id，可用于答谢
+            userId: 4, 
+            greetting: "一厢情愿的不舍", // 祝福语
+            giftItems: [ // 赠送的礼物信息
+                {
+                    bpId: 2,  // 背包id
+                    targetId: 2,  
+                    targetType: 3, // 1 物品 2 虚拟物品 3 优惠券 
+                    giftType: 1,  
+                    price: 100, // 物品价格
+                    title: "1元优惠券",  // 物品名称
+                    cover: "https://io.shanren.group/image/cover.jpg", 
+                    description: "{ // 物品描述
+ \"type\": \"优惠券\",
+ \"discunt\":\"1元\",
+ \"decription\":\"仅限购买三只松鼠\"
+}", 
+                    brand: "小牛" // 物品品牌
+                }
+            ], 
+            // 赠送者信息
+            sendUserId: 1, // 赠送者用户id 
+            isReply: 2, // 1 已答谢 2 未答谢
+    }
+}
+```
 
 ## 16 消息
 

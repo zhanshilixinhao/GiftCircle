@@ -14,7 +14,6 @@ import org.springframework.context.annotation.ComponentScan;
  */
 
 @SpringBootApplication
-@EnableAutoConfiguration
 @ComponentScan({"com.yichen.auth", "com.chouchongkeji"})
 @MapperScan("com.chouchongkeji.dial.dao")
 public class App extends SpringBootServletInitializer {

@@ -32,6 +32,11 @@
         and status = 3
         and UNIX_TIMESTAMP(created) > #{started}
     </select>
+    <select id="selectByRecordId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        where gift_record_id = #{recordId}
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from gift_record_detail
     where id = #{id,jdbcType=INTEGER}
@@ -154,5 +159,10 @@
     <update id="updateStatusById">
            update gift_record_detail set status = #{status}
            where id = #{id} and status = 1
+    </update>
+    <update id="updateUserIdAndStatusByRecordId">
+        update gift_record_detail set status = 3,
+                user_id = #{userId}
+        where gift_record_id = #{giftRecordId} and status &lt; 3
     </update>
 </mapper>

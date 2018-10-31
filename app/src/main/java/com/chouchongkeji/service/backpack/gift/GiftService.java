@@ -47,4 +47,26 @@ public interface GiftService {
      * @date 2018/7/2
      */
     List<GiftBaseVo> getWithDays(Integer userId, Date started);
+
+    /**
+     * app赠送礼物实现
+     *
+     * @param userId 赠送者信息
+     * @param sendVo 赠送礼物信息 type 1 未领取 2 已领取部分 3 已领取全部 4 超时领取失败
+     * @return
+     * @author yichenshanren
+     * @date 2018/7/2
+     */
+    Response sendForWx(Integer userId, GiftSendVo sendVo, Integer client);
+
+    /**
+     * 小程序领取好友分享的礼物
+     *
+     * @param userId       赠送者信息
+     * @param giftRecordId 礼物赠送记录id
+     * @return
+     * @author yichenshanren
+     * @date 2018/7/2
+     */
+    Response wxGetGift(Integer userId, Integer giftRecordId);
 }

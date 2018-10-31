@@ -12,10 +12,11 @@
             <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT"/>
             <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
             <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="p" javaType="java.lang.Float" jdbcType="FLOAT"/>
         </constructor>
     </resultMap>
     <sql id="Base_Column_List">
-    id, user_id, greetting, type, event, target_time, status, updated, created
+    id, user_id, greetting, type, event, target_time, status, updated, created, p
   </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
@@ -154,11 +155,11 @@ ORDER BY
             useGeneratedKeys="true">
     insert into gift_record (id, user_id, greetting, 
       type, event, target_time, 
-      status, updated, created
+      status, updated, created,p
       )
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{greetting,jdbcType=VARCHAR}, 
       #{type,jdbcType=TINYINT}, #{event,jdbcType=VARCHAR}, #{targetTime,jdbcType=TIMESTAMP}, 
-      #{status,jdbcType=TINYINT}, now(), now()
+      #{status,jdbcType=TINYINT}, now(), now(), #{p}
       )
   </insert>
     <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.gift.virtualItem.GiftRecord">

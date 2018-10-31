@@ -18,21 +18,24 @@ import java.util.UUID;
  */
 @Service
 public class UserLoginServiceImpl implements UserLoginService {
+
     @Autowired
     private SecurityProperties securityProperties;
 
     @Autowired
     private MRedisTemplate mRedisTemplate;
+
     /**
      * 微信授权登录
-     * @param client  1-android,2-ios,3-小程序
-     * @param code 微信code
+     *
+     * @param client 1-android,2-ios,3-小程序
+     * @param code   微信code
      * @return
      */
     @Override
     public Response wxLogin(Integer client, String code) {
         //换取openId
-        WXResult result = WXCodeApi.getSession(client,code);
+        WXResult result = WXCodeApi.getSession(client, code);
         // 如果换取openid失败
         if (result.getErrcode() != 0) {
             return ResponseFactory.errMsg(result.getErrcode(), result.getErrmsg());
