@@ -3749,7 +3749,7 @@ JSON：
 ```js
 // type=3 直接送礼时放回结果
 {
-    errCode: 0,
+    errCode: 0, // 0 领取成功 20003 礼物不存在或已过期 20004 礼物已被领取或已过期 20005 礼物不存在
     data: {
         type: 3,
         giftInfo:  {
@@ -3757,6 +3757,39 @@ JSON：
             userId: 4, 
             greetting: "一厢情愿的不舍", // 祝福语
             giftItems: [ // 赠送的礼物信息
+                {
+                    bpId: 2,  // 背包id
+                    targetId: 2,  
+                    targetType: 3, // 1 物品 2 虚拟物品 3 优惠券 
+                    giftType: 1,  
+                    price: 100, // 物品价格
+                    title: "1元优惠券",  // 物品名称
+                    cover: "https://io.shanren.group/image/cover.jpg", 
+                    description: "{ // 物品描述
+ \"type\": \"优惠券\",
+ \"discunt\":\"1元\",
+ \"decription\":\"仅限购买三只松鼠\"
+}", 
+                    brand: "小牛" // 物品品牌
+                }
+            ], 
+            // 赠送者信息
+            sendUserId: 1, // 赠送者用户id 
+            isReply: 2, // 1 已答谢 2 未答谢
+    }
+}
+
+// type=4 随机送礼返回
+{
+    errCode: 0, // 0 领取成功 20001 运气太差啦，没有抢到礼品! 20002 手速太慢啦，礼品都没有了!
+    data: {
+        type: 3,
+        giftInfo:  {
+            reNum: 10, // 剩余礼物数量
+            recordDetailId: 2,  // 礼物赠送记录详情id，可用于答谢
+            userId: 4, 
+            greetting: "一厢情愿的不舍", // 祝福语
+            giftItems: [ // errCode=0时返回领取到的礼物信息，errCode=20001时返回剩余礼物信息
                 {
                     bpId: 2,  // 背包id
                     targetId: 2,  

@@ -35,6 +35,8 @@ public class GiftMessageVo {
 
     private Date created;
 
+    private Integer reNum; // 剩余数量
+
     public String getSummary() {
         return summary;
     }
@@ -169,5 +171,13 @@ public class GiftMessageVo {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public Integer getReNum() {
+        return reNum;
+    }
+
+    public void setReNum(Integer reNum) {
+        this.reNum = reNum;
     }
 }
