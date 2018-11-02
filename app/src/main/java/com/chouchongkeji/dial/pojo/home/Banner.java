@@ -1,5 +1,7 @@
 package com.chouchongkeji.dial.pojo.home;
 
+import com.yichen.auth.jackson.ImgUrl;
+
 import java.util.Date;
 
 public class Banner {
@@ -7,6 +9,7 @@ public class Banner {
 
     private String targetId;
 
+    @ImgUrl
     private String cover;
 
     private String requestUrl;
