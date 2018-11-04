@@ -3611,7 +3611,7 @@ JSON：
 
 ### 15.1 app礼物怎送
 
-- 请求地址：auth/v1/mall/sendForApp
+- 请求地址：auth/v1/gift/sendForApp
 - 服务协议：HTTP/POST
 - 是否需要身份认证：是
 - 作者：yichen
@@ -3630,7 +3630,7 @@ JSON：
 
 ### 15.2 礼物赠送答谢
 
-- 请求地址：auth/v1/mall/acknowledge
+- 请求地址：auth/v1/gift/acknowledge
 - 服务协议：HTTP/POST
 - 是否需要身份认证：是
 - 作者：yichen
@@ -3704,7 +3704,7 @@ JSON：
 
 ### 15.5 微信礼物赠送（分享之前需请求该接口）
 
-- 请求地址：auth/v1/mall/sendForWx
+- 请求地址：auth/v1/gift/sendForWx
 - 服务协议：HTTP/POST
 - 是否需要身份认证：是
 - 作者：yichen
@@ -3733,7 +3733,7 @@ JSON：
 
 ### 15.6 微信领取好友分享的礼物
 
-- 请求地址：auth/v1/mall/
+- 请求地址：auth/v1/gift/getGift
 - 服务协议：HTTP/POST
 - 是否需要身份认证：是
 - 作者：yichen
