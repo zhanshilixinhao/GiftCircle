@@ -47,7 +47,7 @@
       status, updated, created
       )
     values (#{id,jdbcType=INTEGER}, #{giftRecordId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER},
-    #{amount}
+    #{amount},
       #{content,jdbcType=VARCHAR}, 2, #{reply,jdbcType=VARCHAR},
       #{status,jdbcType=TINYINT}, now(), now()
       )
