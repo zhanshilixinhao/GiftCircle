@@ -23,7 +23,7 @@
 
 ## 1 接口说明
 ### 1.1 接口访问地址
-https://io.shanren.group/app/
+https://liyuquan.cn/app/
 ### 1.2 接口签名
 apikey
 ```java
