@@ -1,6 +1,7 @@
 package com.chouchongkeji.dial.dao.user;
 
 import com.chouchongkeji.dial.pojo.user.ThirdAccount;
+import org.apache.ibatis.annotations.Param;
 
 public interface ThirdAccountMapper {
     int deleteByPrimaryKey(Integer id);
@@ -15,5 +16,6 @@ public interface ThirdAccountMapper {
 
     int updateByPrimaryKey(ThirdAccount record);
 
-    ThirdAccount selectByOpenIdAndType(String openId, int type);
+    ThirdAccount selectByOpenIdAndType(@Param("openId") String openId,
+                                       @Param("type") int type);
 }

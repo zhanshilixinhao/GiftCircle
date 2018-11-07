@@ -25,8 +25,14 @@ public class WXCodeApi {
 
     public static final String URL = "https://api.weixin.qq.com/sns/oauth2/access_token";
     public static final String URL_M = "https://api.weixin.qq.com/sns/jscode2session";
-    public static final String LOGIN_URL = "http://localhost:8080";
-    private static final String APPID = "wx4e47fc336f8578df"; // wx4e47fc336f8578df
+    public static final String LOGIN_URL = "http://localhost:8080/login/third";
+
+    // 小程序
+    private static final String WX_APPID = "wx3e38146df77ddbd9"; // wx4e47fc336f8578df
+    private static final String WX_APP_SECRET = "2e45e7696cfa2eeb7dcf8900c63163e9";
+
+    // app
+    private static final String APPID = "wx3e38146df77ddbd9"; // wx4e47fc336f8578df
     private static final String APP_SECRET = "d07549e509a92af67f5158707449d742";
 
     /**
@@ -40,17 +46,24 @@ public class WXCodeApi {
     public static WXResult getSession(Integer clientApp, String code) {
         String codeKey;
         String url;
+
+        String appId = "";
+        String secret = "";
         if (clientApp != 3) {
             codeKey = "code";
             url = URL;
+            appId = APPID;
+            secret = APP_SECRET;
         } else {
             codeKey = "js_code";
             url = URL_M;
+            appId = WX_APPID;
+            secret = WX_APP_SECRET;
         }
         OkHttpClient client = OkHttpManager.create(null, null);
         RequestParams params = new RequestParams();
-        params.put("appid", APPID);
-        params.put("secret", APP_SECRET);
+        params.put("appid", appId);
+        params.put("secret", secret);
         params.put(codeKey, code);
         params.put("grant_type", "authorization_code");
         WXResult result = new WXResult();
@@ -86,7 +99,7 @@ public class WXCodeApi {
         params.put("sign", sing);
         // 执行登录
         try {
-            Response response = OkHttpUtil.post(OkHttpManager.create(), LOGIN_URL, params);
+            Response response = OkHttpUtil.post(OkHttpManager.create(null, null), LOGIN_URL, params);
             String re = response.body().string();
 //            System.out.println(re);
             com.chouchongkeji.goexplore.common.Response res = JSON.parseObject(
