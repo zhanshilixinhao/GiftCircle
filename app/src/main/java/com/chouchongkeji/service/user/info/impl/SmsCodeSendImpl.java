@@ -1,5 +1,6 @@
 package com.chouchongkeji.service.user.info.impl;
 
+import com.chouchongkeji.util.SendUtil;
 import com.yichen.auth.verify.SmsCodeSender;
 import com.yichen.auth.verify.SmsSendResult;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ public class SmsCodeSendImpl implements SmsCodeSender {
 
     @Override
     public SmsSendResult sendTemplate(String phone, String code, int tid) {
-     return new SmsSendResult(0);
+        return SendUtil.smsSend(phone,code);
+//     return new SmsSendResult(0);
     }
 }
