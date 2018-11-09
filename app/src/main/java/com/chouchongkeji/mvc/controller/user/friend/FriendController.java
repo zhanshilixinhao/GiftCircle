@@ -227,4 +227,5 @@ public class FriendController {
         }
         return friendService.optNotifyMsg(userDetails.getUserId(), opt, msgId, reply);
     }
+    
 }
