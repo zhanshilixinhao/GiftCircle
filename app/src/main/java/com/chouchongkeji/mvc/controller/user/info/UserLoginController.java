@@ -66,6 +66,9 @@ public class UserLoginController {
         }
         //根据key取出openId
         String openid = mRedisTemplate.getString(key);
+        if (StringUtils.isBlank(openid)) {
+            return ResponseFactory.err("key无效或过期!");
+        }
         //绑定手机号
         return thirdAccService.addOpenAccDetail(openid, client == 3 ? 2 : 1, phone);
 
