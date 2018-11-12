@@ -1,11 +1,10 @@
 package com.chouchongkeji.mvc.controller.user.info;
 
+import com.chouchongkeji.dial.redis.MRedisTemplate;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
-import com.chouchongkeji.dial.redis.MRedisTemplate;
 import com.chouchongkeji.service.user.info.UserLoginService;
 import com.yichen.auth.mvc.AppClient;
-import com.yichen.auth.service.ThirdAccService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,9 +25,6 @@ public class UserLoginController {
 
     @Autowired
     private UserLoginService userLoginService;
-
-    @Autowired
-    private ThirdAccService thirdAccService;
 
     /**
      * 微信授权登录
@@ -70,7 +66,7 @@ public class UserLoginController {
             return ResponseFactory.err("key无效或过期!");
         }
         //绑定手机号
-        return thirdAccService.addOpenAccDetail(openid, client == 3 ? 2 : 1, phone);
+        return userLoginService.bindPhone(phone, openid, client);
 
     }
 

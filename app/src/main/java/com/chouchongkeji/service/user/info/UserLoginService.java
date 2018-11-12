@@ -8,5 +8,7 @@ import com.yichen.auth.mvc.AppClient;
  * @date 2018/6/5
  */
 public interface UserLoginService {
-    Response wxLogin(@AppClient Integer client, String code);
+    Response wxLogin( Integer client, String code);
+
+    Response bindPhone(String phone, String openid, Integer client);
 }

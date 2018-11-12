@@ -7,6 +7,7 @@ import com.chouchongkeji.service.user.info.UserLoginService;
 import com.chouchongkeji.service.wxapi.WXCodeApi;
 import com.chouchongkeji.service.wxapi.WXResult;
 import com.yichen.auth.properties.SecurityProperties;
+import com.yichen.auth.service.ThirdAccService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,9 @@ public class UserLoginServiceImpl implements UserLoginService {
 
     @Autowired
     private MRedisTemplate mRedisTemplate;
+
+    @Autowired
+    private ThirdAccService thirdAccService;
 
     /**
      * 微信授权登录
@@ -50,6 +54,28 @@ public class UserLoginServiceImpl implements UserLoginService {
             mRedisTemplate.setString(key, result.getOpenid(), 300);
             return ResponseFactory.errData(response.getErrCode(), response.getMsg(), key);
         }
+        return response;
+    }
+
+    /**
+     * 绑定手机号
+     *
+     * @param phone  手机号
+     * @param openid openid
+     * @param client 客户端id
+     * @return
+     */
+    @Override
+    public Response bindPhone(String phone, String openid, Integer client) {
+        // 绑定手机号
+        Response response = thirdAccService.addOpenAccDetail(openid, client == 3 ? 2 : 1, phone);
+        if (!response.isSuccessful()) {
+            return response;
+        }
+        // 绑定成功后登录
+        response = WXCodeApi.login(openid,
+                securityProperties.getOauth2().getClient()[0].getClientId(),
+                securityProperties.getOauth2().getClient()[0].getClientSecret());
         return response;
     }
 }
