@@ -87,11 +87,11 @@ public class WXCodeApi {
      * @author yichenshanren
      * @date 2018/2/6
      */
-    public static com.chouchongkeji.goexplore.common.Response login(String openid, String appId, String appSecret) {
+    public static com.chouchongkeji.goexplore.common.Response login(String openid, String appId, String appSecret, int type) {
         // 构造登录参数
         RequestParams params = new RequestParams();
         params.put("openId", openid);
-        params.put("accType", 3);
+        params.put("accType", type);
         params.put("app_id", appId);
         params.put("app_secret", appSecret);
         params.put("time", System.currentTimeMillis());

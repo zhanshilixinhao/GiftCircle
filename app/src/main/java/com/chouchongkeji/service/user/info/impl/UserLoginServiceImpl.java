@@ -11,6 +11,8 @@ import com.yichen.auth.service.ThirdAccService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -47,11 +49,17 @@ public class UserLoginServiceImpl implements UserLoginService {
         //换取openId后登录
         Response response = WXCodeApi.login(result.getOpenid(),
                 securityProperties.getOauth2().getClient()[0].getClientId(),
-                securityProperties.getOauth2().getClient()[0].getClientSecret());
+                securityProperties.getOauth2().getClient()[0].getClientSecret(),
+                client == 3 ? 2 : 1);
         // 登录成功!
         if (!response.isSuccessful()) {
             String key = UUID.randomUUID().toString();
             mRedisTemplate.setString(key, result.getOpenid(), 300);
+            if (client == 1) {
+                Map<String, String> map = new HashMap<>();
+                map.put("key", key);
+                return ResponseFactory.errData(response.getErrCode(), response.getMsg(), map);
+            } else
             return ResponseFactory.errData(response.getErrCode(), response.getMsg(), key);
         }
         return response;
@@ -75,7 +83,7 @@ public class UserLoginServiceImpl implements UserLoginService {
         // 绑定成功后登录
         response = WXCodeApi.login(openid,
                 securityProperties.getOauth2().getClient()[0].getClientId(),
-                securityProperties.getOauth2().getClient()[0].getClientSecret());
+                securityProperties.getOauth2().getClient()[0].getClientSecret(), client == 3 ? 2 : 1);
         return response;
     }
 }

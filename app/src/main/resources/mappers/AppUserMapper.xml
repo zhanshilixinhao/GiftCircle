@@ -45,12 +45,11 @@
 	   id = #{userId}
     </select>
 
-
-    <!--<select id="selectByAccount" resultMap="BaseResultMap">-->
-    <!--select -->
-    <!--<include refid="Base_Column_List"/>-->
-    <!--from app_user-->
-    <!--where account = #{phone}-->
+  <!--<select id="selectByAccount" resultMap="BaseResultMap">-->
+  <!--select -->
+  <!--<include refid="Base_Column_List"/>-->
+  <!--from app_user-->
+  <!--where account = #{phone}-->
   <!--</select>-->
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from app_user
