@@ -457,7 +457,7 @@ public class GiftServiceImpl implements GiftService {
         if (CollectionUtils.isNotEmpty(sendVo.getSubBpIds())) {
             for (Long id : sendVo.getSubBpIds()) {
                 // 取出
-                vbp = vbpMapper.selectByUserIdBpId(userId, sendVo.getBpId());
+                vbp = vbpMapper.selectByUserIdBpId(userId, id);
                 quantity = map.get(id);
                 quantity = quantity == null ? 1 : quantity + 1;
                 if (vbp == null || vbp.getQuantity() < quantity) {

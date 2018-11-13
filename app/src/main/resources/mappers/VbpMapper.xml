@@ -13,7 +13,6 @@ WHERE
 	and quantity &gt; 0
     </select>
 
-
 	<update id="updateQuantityById">
 		update
 		bp_item
@@ -21,6 +20,7 @@ WHERE
 		where id = #{id}
 		and quantity >= #{quantity}
 	</update>
+
 	<update id="updateQuantityByBpIdUserId">
 		update
 		bp_item
