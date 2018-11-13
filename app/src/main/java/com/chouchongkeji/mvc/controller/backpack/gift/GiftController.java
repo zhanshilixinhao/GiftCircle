@@ -67,7 +67,7 @@ public class GiftController {
             return ResponseFactory.errMissingParameter();
         }
         // 判断随机赠送的概率
-        if (sendVo.getP() == null || sendVo.getP() <= 0 || sendVo.getP() >= 1) {
+        if (sendVo.getType() == 4 && (sendVo.getP() == null || sendVo.getP() <= 0 || sendVo.getP() >= 1)) {
             return ResponseFactory.err("请输入中奖率");
         }
         return giftService.sendForWx(userDetails.getUserId(), sendVo, client);
