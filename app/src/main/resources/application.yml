@@ -82,7 +82,7 @@ yichen:
     articleDetail: https://43.241.223.169:800/static/article.html?id=
 
 #    logo: http://43.241.223.169:800/image/logo.jpg
-#server:
-#  port: 80
+server:
+  port: 8088
 
 

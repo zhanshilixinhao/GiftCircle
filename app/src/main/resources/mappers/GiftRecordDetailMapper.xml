@@ -35,6 +35,7 @@
     <select id="selectByRecordId" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
+        from gift_record_detail
         where gift_record_id = #{recordId}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
