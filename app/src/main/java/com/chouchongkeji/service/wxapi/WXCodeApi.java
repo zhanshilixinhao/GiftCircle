@@ -25,7 +25,7 @@ public class WXCodeApi {
 
     public static final String URL = "https://api.weixin.qq.com/sns/oauth2/access_token";
     public static final String URL_M = "https://api.weixin.qq.com/sns/jscode2session";
-    public static final String LOGIN_URL = "http://localhost:8080/login/third";
+    public static final String LOGIN_URL = "http://localhost:8088/login/third";
 
     // 小程序
     private static final String WX_APPID = "wx3e38146df77ddbd9"; // wx4e47fc336f8578df

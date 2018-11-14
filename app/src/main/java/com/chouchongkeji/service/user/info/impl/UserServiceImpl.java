@@ -82,11 +82,11 @@ public class UserServiceImpl implements UserService {
         vo.setWxid(user.getWxid());
         // 取出标签信息
         UserPreference preference = userPreferenceMapper.selectByPrimaryKey(targetUserId);
-        if (StringUtils.isNotBlank(preference.getTags())) {
+        if (preference != null && StringUtils.isNotBlank(preference.getTags())) {
             vo.setTags(JSON.parseObject(preference.getTags(), new TypeReference<HashSet<UserTagVo>>() {
             }));
         }
-        Integer isFriend = userId.equals(targetUserId) ? 1 : 2;
+        int isFriend = userId.equals(targetUserId) ? 1 : 2;
         if (isFriend == 2) {
             FriendVo friend = friendService.isFriend(userId, targetUserId);
             if (friend != null) {
