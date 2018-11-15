@@ -28,7 +28,7 @@ public class ReceiveItemController {
      * 创建提货订单
      *
      * @param userDetails
-     * @param bpId    背包商品id
+     * @param bpId        背包商品id
      * @param shippingId  收货地址id
      * @return
      * @author linqin
@@ -75,7 +75,7 @@ public class ReceiveItemController {
      * 提货订单详情
      *
      * @param userDetails
-     * @param orderNo 提货订单号
+     * @param orderNo     提货订单号
      * @return
      * @author linqin
      * @date 2018/6/29
@@ -86,14 +86,14 @@ public class ReceiveItemController {
         if (orderNo == null) {
             return ResponseFactory.err("参数错误");
         }
-        return receiveItemService.getOrderDetail(userDetails.getUserId(),orderNo);
+        return receiveItemService.getOrderDetail(userDetails.getUserId(), orderNo);
     }
 
     /**
      * 提货订单状态处理,确认收货
      *
      * @param userDetails
-     * @param orderNo 提货订单号
+     * @param orderNo     提货订单号
      * @return
      * @author linqin
      * @date 2018/6/29
@@ -104,38 +104,36 @@ public class ReceiveItemController {
         if (orderNo == null) {
             return ResponseFactory.err("参数错误");
         }
-        return receiveItemService.confirmOrder(userDetails.getUserId(),orderNo);
+        return receiveItemService.confirmOrder(userDetails.getUserId(), orderNo);
     }
 
     /**
      * 提货订单状态处理,评论订单
      *
      * @param userDetails
-     * @param orderNo 提货订单号
-     * @param star 评价星星
-     * @param content 评论文字
-     * @param pictures 评论照片
+     * @param orderNo     提货订单号
+     * @param star        评价星星
+     * @param content     评论文字
+     * @param pictures    评论照片
      * @return
      * @author linqin
      * @date 2018/6/30
      */
     @PostMapping("comment")
-    public Response commentOrder(@AuthenticationPrincipal UserDetails userDetails, Long orderNo,Integer star,
-                                 String content,String pictures ) {
+    public Response commentOrder(@AuthenticationPrincipal UserDetails userDetails, Long orderNo, Integer star,
+                                 String content, String pictures) {
         //参数校验
         if (orderNo == null) {
             return ResponseFactory.err("参数错误");
         }
-        if (star == null){
+        if (star == null) {
             return ResponseFactory.err("请对宝贝做出相符描述");
         }
-        if (StringUtils.isBlank(content)){
+        if (StringUtils.isBlank(content)) {
             return ResponseFactory.err("请对宝贝做出相符描述");
         }
-        return receiveItemService.commentOrder(userDetails.getUserId(),orderNo,star,content,pictures);
+        return receiveItemService.commentOrder(userDetails.getUserId(), orderNo, star, content, pictures);
     }
-
-
 
 
 }

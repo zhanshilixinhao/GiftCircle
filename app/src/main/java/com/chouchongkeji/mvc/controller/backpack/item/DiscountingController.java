@@ -24,19 +24,20 @@ public class DiscountingController {
 
     /**
      * 背包物品折现
+     *
      * @param userDetails
-     * @param bpId 背包id
+     * @param bpId        背包id
      * @return
      * @author linqin
      * @date 2018/7/11
      */
     @PostMapping("add_record")
-    public Response addDiscountRecord(@AuthenticationPrincipal UserDetails userDetails, Long bpId){
+    public Response addDiscountRecord(@AuthenticationPrincipal UserDetails userDetails, Long bpId) {
         //校验参数
-        if (bpId == null){
+        if (bpId == null) {
             return ResponseFactory.errMissingParameter();
         }
-        return discountingService.addDiscountRecord(userDetails.getUserId(),bpId);
+        return discountingService.addDiscountRecord(userDetails.getUserId(), bpId);
     }
 
 
@@ -56,7 +57,6 @@ public class DiscountingController {
 //        }
 //        return discountingService.discountRecord(userDetails.getUserId(),status);
 //    }
-
 
 
 }
