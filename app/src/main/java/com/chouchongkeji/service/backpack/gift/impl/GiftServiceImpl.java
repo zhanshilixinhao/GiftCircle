@@ -5,9 +5,11 @@ import com.alibaba.fastjson.TypeReference;
 import com.chouchongkeji.dial.dao.backpack.VbpMapper;
 import com.chouchongkeji.dial.dao.backpack.gift.GiftRecordDetailMapper;
 import com.chouchongkeji.dial.dao.backpack.gift.GiftRecordMapper;
+import com.chouchongkeji.dial.dao.user.AppUserMapper;
 import com.chouchongkeji.dial.pojo.backpack.Vbp;
 import com.chouchongkeji.dial.pojo.backpack.gift.GiftRecordDetail;
 import com.chouchongkeji.dial.pojo.gift.virtualItem.GiftRecord;
+import com.chouchongkeji.dial.pojo.user.AppUser;
 import com.chouchongkeji.dial.redis.MRedisTemplate;
 import com.chouchongkeji.exception.ServiceException;
 import com.chouchongkeji.goexplore.common.ErrorCode;
@@ -30,6 +32,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.core.userdetails.UserCache;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -71,6 +74,9 @@ public class GiftServiceImpl implements GiftService {
 
     @Autowired
     private MRedisTemplate mRedisTemplate;
+
+    @Autowired
+    private AppUserMapper appUserMapper;
 
 
     /*----------------------------------------礼物赠送------------------------------------------------------*/
@@ -319,7 +325,12 @@ public class GiftServiceImpl implements GiftService {
         // 返回礼物赠送信息
         GiftMessageVo messageVo = new GiftMessageVo();
         messageVo.setRecordDetailId(detail.getId());
+        // 赠送者信息
+        AppUser appUser = appUserMapper.selectByUserId(userId);
         messageVo.setUserId(userId);
+        if (appUser != null) {
+            messageVo.setAvatar(appUser.getAvatar());
+        }
         messageVo.setGreetting(giftRecord.getGreetting());
         messageVo.setGiftItems(list);
         messageVo.setSendUserId(giftRecord.getUserId());
