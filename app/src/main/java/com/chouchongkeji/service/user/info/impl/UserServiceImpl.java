@@ -5,7 +5,6 @@ import com.alibaba.fastjson.TypeReference;
 import com.chouchongkeji.dial.dao.user.AppUserMapper;
 import com.chouchongkeji.dial.dao.user.UserPreferenceMapper;
 import com.chouchongkeji.dial.dao.user.memo.MomentMapper;
-import com.chouchongkeji.dial.pojo.friend.Friend;
 import com.chouchongkeji.dial.pojo.user.AppUser;
 import com.chouchongkeji.dial.pojo.user.UserPreference;
 import com.chouchongkeji.dial.pojo.user.memo.Moment;
@@ -85,6 +84,8 @@ public class UserServiceImpl implements UserService {
         if (preference != null && StringUtils.isNotBlank(preference.getTags())) {
             vo.setTags(JSON.parseObject(preference.getTags(), new TypeReference<HashSet<UserTagVo>>() {
             }));
+        } else {
+            vo.setTags(new HashSet<>());
         }
         int isFriend = userId.equals(targetUserId) ? 1 : 2;
         if (isFriend == 2) {

@@ -1,5 +1,8 @@
 package com.chouchongkeji;
 
+import com.chouchongkeji.goexplore.pay.PayVO;
+import com.chouchongkeji.goexplore.pay.weixin.service.WXPayDto;
+import com.chouchongkeji.goexplore.pay.weixin.service.WXPayService;
 import com.chouchongkeji.goexplore.utils.ApiSignUtil;
 import com.chouchongkeji.goexplore.utils.OkHttpManager;
 import com.chouchongkeji.goexplore.utils.OkHttpUtil;
@@ -10,6 +13,7 @@ import org.junit.Test;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Map;
 
@@ -31,6 +35,14 @@ public class AppTest
     @Test
     public void md5() {
         System.out.println(DateUtils.addDays(new Date(), 2).getTime());
+        PayVO payVO = new PayVO();
+        payVO.setBody("测试");
+        payVO.setSubject("测试");
+        payVO.setOrderNo(122222);
+        payVO.setPrice(new BigDecimal("0.01"));
+        payVO.setUrl("dddd");
+        WXPayDto prePay = WXPayService.service(payVO).createPrePay();
+        System.out.println(prePay);
     }
 
 
@@ -51,5 +63,17 @@ public class AppTest
         Response response = OkHttpUtil.post(OkHttpManager.create(null, null),
                 "https://liyuquan.cn/app/login/phone", params);
         System.out.println(response.body().string());
+    }
+
+    @Test
+    public void wxLogin() throws IOException {
+        RequestParams params = new RequestParams();
+        params.put("code", "ewqrewrewr");
+        params.put("time", "43432432");
+
+        params.put("sign",ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID).get(ApiSignUtil.ANDROID));
+
+        Response post = OkHttpUtil.post("https://liyuquan.cn/app/noauth/user/wxLogin", params);
+        System.out.println(post.body().string());
     }
 }
