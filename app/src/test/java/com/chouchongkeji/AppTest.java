@@ -1,6 +1,7 @@
 package com.chouchongkeji;
 
 import com.chouchongkeji.goexplore.pay.PayVO;
+import com.chouchongkeji.goexplore.pay.alipay_v2.AliPayServiceV2;
 import com.chouchongkeji.goexplore.pay.weixin.service.WXPayDto;
 import com.chouchongkeji.goexplore.pay.weixin.service.WXPayService;
 import com.chouchongkeji.goexplore.utils.ApiSignUtil;
@@ -41,8 +42,9 @@ public class AppTest
         payVO.setOrderNo(122222);
         payVO.setPrice(new BigDecimal("0.01"));
         payVO.setUrl("dddd");
-        WXPayDto prePay = WXPayService.service(payVO).createPrePay();
-        System.out.println(prePay);
+//        WXPayDto prePay = WXPayService.service(payVO).createPrePay();
+        String orderInfo = AliPayServiceV2.createOrderInfo(payVO);
+        System.out.println(orderInfo);
     }
 
 
@@ -76,4 +78,5 @@ public class AppTest
         Response post = OkHttpUtil.post("https://liyuquan.cn/app/noauth/user/wxLogin", params);
         System.out.println(post.body().string());
     }
+
 }

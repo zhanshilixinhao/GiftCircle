@@ -73,7 +73,7 @@ public class ReceiveItemServiceImpl implements ReceiveItemService {
         if (bpItem == null) {
             return ResponseFactory.err("背包里不存在该商品");
         }
-        if (bpItem.getType()!=Constants.BACKPACK_TYPE.ITEM) {
+        if (bpItem.getType() != Constants.BACKPACK_TYPE.ITEM) {
             return ResponseFactory.err("物品才能提货!");
         }
 
@@ -188,9 +188,12 @@ public class ReceiveItemServiceImpl implements ReceiveItemService {
         //显示物流信息
         vo.setLogisticsInfo(logisticsInfoVo);
         //根据物流公司和订单号查询物流信息
-        KdResult logisticsInfo = ExpressApi.getLogisticsInfo(logisticsInfoVo.getCom(), logisticsInfoVo.getExpressNo());
+        KdResult logisticsInfo = null;
+        if (logisticsInfoVo != null) {
+            logisticsInfo = ExpressApi.getLogisticsInfo(logisticsInfoVo.getCom(), logisticsInfoVo.getExpressNo());
+        }
         //把物流信息返回给前端
-        vo.setLogisticsTrace(logisticsInfo.getData());
+        vo.setLogisticsTrace(logisticsInfo != null ? logisticsInfo.getData() : new ArrayList<>());
         vo.setCreated(itemOrder.getCreated());
         vo.setUpdated(itemOrder.getUpdated());
         return ResponseFactory.sucData(vo);
