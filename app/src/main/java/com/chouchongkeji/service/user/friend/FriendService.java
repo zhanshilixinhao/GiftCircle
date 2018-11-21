@@ -148,4 +148,6 @@ public interface FriendService {
     Response searchFriend(Integer userId, String key, Integer type);
 
     FriendVo isFriend(Integer userId, Integer friendUserId);
+
+    void addWXFriend(Integer userId, Integer friendUserId);
 }

@@ -305,6 +305,10 @@ public class GiftServiceImpl implements GiftService {
      * @return
      */
     private Response updateWXSent(Integer userId, GiftRecord giftRecord, List<GiftRecordDetail> details, Integer reNum) {
+        // 判断是不是好友关系
+        friendService.addWXFriend(giftRecord.getUserId(), userId);
+
+
         // 更新记录状态为已赠送
         giftRecord.setStatus(Constants.GIFT_STATUS.SEND);
         giftRecordMapper.updateByPrimaryKeySelective(giftRecord);

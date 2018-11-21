@@ -147,6 +147,29 @@ public class FriendServiceImpl implements FriendService {
         return friendMapper.selectByUserIdAndFriendUserId(userId, friendUserId);
     }
 
+    @Override
+    public void addWXFriend(Integer userId, Integer friendUserId) {
+        FriendVo friendVo = friendMapper.selectByUserIdAndFriendUserId(userId, friendUserId);
+        if (friendVo != null) return;
+        // 添加我和对方的好友关系
+        Friend friend1 = new Friend();
+        friend1.setUserId(friendUserId);
+        friend1.setFriendUserId(userId);
+        friend1.setGroupId(0);
+        friend1.setSort(0);
+        // 保存
+        friendMapper.insert(friend1);
+        // 添加对方和我的好友关系
+        friend1 = new Friend();
+        friend1.setFriendUserId(friendUserId);
+        friend1.setUserId(userId);
+        friend1.setSort(0);
+        // 取出添加好友时的那啥
+        friend1.setGroupId(0);
+        friendMapper.insert(friend1);
+
+    }
+
     /**
      * 获取好友列表
      *

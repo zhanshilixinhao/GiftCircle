@@ -2,8 +2,6 @@ package com.chouchongkeji;
 
 import com.chouchongkeji.goexplore.pay.PayVO;
 import com.chouchongkeji.goexplore.pay.alipay_v2.AliPayServiceV2;
-import com.chouchongkeji.goexplore.pay.weixin.service.WXPayDto;
-import com.chouchongkeji.goexplore.pay.weixin.service.WXPayService;
 import com.chouchongkeji.goexplore.utils.ApiSignUtil;
 import com.chouchongkeji.goexplore.utils.OkHttpManager;
 import com.chouchongkeji.goexplore.utils.OkHttpUtil;
