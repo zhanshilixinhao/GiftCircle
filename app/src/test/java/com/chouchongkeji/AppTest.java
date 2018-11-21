@@ -19,7 +19,7 @@ import java.util.Map;
 /**
  * Unit test for simple App.
  */
-public class AppTest 
+public class AppTest
 {
     /**
      * Rigorous Test :-)
@@ -62,6 +62,18 @@ public class AppTest
         System.out.println(map);
         Response response = OkHttpUtil.post(OkHttpManager.create(null, null),
                 "https://liyuquan.cn/app/login/phone", params);
+        System.out.println(response.body().string());
+    }
+
+    @Test
+    public void sms() throws IOException {
+        RequestParams params = new RequestParams();
+        params.put("phone","15752400657");
+        params.put("type",1);
+        params.put("time", "1526539545791");
+        Map map =ApiSignUtil.sign1(params.getParams(),ApiSignUtil.ANDROID);
+        params.put("sign",map.get(ApiSignUtil.ANDROID));
+        Response response = OkHttpUtil.post("https://liyuquan.cn/app/ask/code",params);
         System.out.println(response.body().string());
     }
 
