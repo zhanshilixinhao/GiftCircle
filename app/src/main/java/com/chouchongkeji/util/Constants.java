@@ -387,7 +387,8 @@ public class Constants {
         VAR_ITEM_DISCOUNT(3, "虚拟商品折现"),
         CONSIGNMENT_ITEM(4, "寄售台出售物品"),
         BUY_ITEM(5, "购买商品"),
-        CON_BUY_ITEM(6, "寄售台物品购买");
+        CON_BUY_ITEM(6, "寄售台物品购买"),
+        CON_BUY_VIRITEM(7, "虚拟物品购买");
 
         public int type;
         public String explain;
