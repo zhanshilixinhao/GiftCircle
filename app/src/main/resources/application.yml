@@ -78,8 +78,8 @@ yichen:
       host: https://liyuquan.cn/static
   service:
     host: https://liyuquan.cn/
-    productDetail: https://43.241.223.169:800/static/product.html?id=
-    articleDetail: https://43.241.223.169:800/static/article.html?id=
+    productDetail: https://liyuquan.cn/static/product.html?id=
+    articleDetail: https://liyuquan.cn/static/article.html?id=
 
 #    logo: http://43.241.223.169:800/image/logo.jpg
 server:
