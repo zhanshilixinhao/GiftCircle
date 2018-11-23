@@ -1,8 +1,12 @@
 package com.chouchongkeji.service.mall.virtualItem.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.chouchongkeji.dial.dao.gift.virtualItem.UserVirtualItemMapper;
 import com.chouchongkeji.dial.dao.gift.virtualItem.VirItemOrderMapper;
 import com.chouchongkeji.dial.dao.gift.virtualItem.VirtualItemMapper;
+import com.chouchongkeji.dial.pojo.gift.virtualItem.UserVirtualItem;
+import com.chouchongkeji.exception.ServiceException;
+import com.chouchongkeji.goexplore.common.ErrorCode;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.pay.KeyUtil;
@@ -14,7 +18,9 @@ import com.chouchongkeji.goexplore.pay.weixin.service.WXPayService;
 import com.chouchongkeji.goexplore.utils.RSAProvider;
 import com.chouchongkeji.dial.pojo.gift.virtualItem.VirItemOrder;
 import com.chouchongkeji.dial.pojo.gift.virtualItem.VirtualItem;
+import com.chouchongkeji.service.iwant.wallet.WalletService;
 import com.chouchongkeji.service.mall.virtualItem.VirtualIteamOrderService;
+import com.chouchongkeji.service.user.info.AppPaymentInfoService;
 import com.chouchongkeji.util.Constants;
 import com.chouchongkeji.util.OrderHelper;
 import com.chouchongkeji.service.vo.BaseOrderVo;
@@ -39,6 +45,15 @@ public class VirtualIteamOrderServiceImpl implements VirtualIteamOrderService {
 
     @Autowired
     private VirtualItemMapper virtualItemMapper;
+
+    @Autowired
+    private AppPaymentInfoService appPaymentInfoService;
+
+    @Autowired
+    private WalletService walletService;
+
+    @Autowired
+    private UserVirtualItemMapper userVirtualItemMapper;
 
     @Autowired
     private OrderHelper orderHelper;
@@ -96,8 +111,51 @@ public class VirtualIteamOrderServiceImpl implements VirtualIteamOrderService {
         if (!virItemOrder.getUserId().equals(userId)) {
             ResponseFactory.err("无权操作");
         }
-        if (!virItemOrder.getStatus().equals(1)) {
+        if (virItemOrder.getStatus().intValue() == 2) {
             return ResponseFactory.err("该订单已支付!");
+        }
+        //余额支付
+        if (payWay == Constants.PAY_TYPE.yue) {
+            //扣减余额，更新余额，钱包记录
+            int count = walletService.updateBalance(userId, virItemOrder.getTotalPrice(), Constants.WALLET_RECORD.CON_BUY_VIRITEM,virItemOrder.getId());
+            if (count < 1) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "支付失败,请选择其他支付方式");
+            }
+            //更新订单状态
+            virItemOrder.setStatus(Constants.CHARGE_ORDER_STATUS.PAY);
+            virItemOrder.setUpdated(new Date());
+            int i = virItemOrderMapper.updateByPrimaryKey(virItemOrder);
+            if (i < 1) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "更新状态失败");
+            }
+            //更新销量和详细订单状
+            VirtualItem virtualItem = virtualItemMapper.selectByPrimaryKey(virItemOrder.getVirtualItemId());
+            virtualItem.setSales(virtualItem.getSales() + virItemOrder.getQuantity());
+            virtualItem.setUpdated(new Date());
+            i = virtualItemMapper.updateByPrimaryKey(virtualItem);
+            if (i < 1) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(),"更新销量失败");
+            }
+            //  保存用户虚拟商品
+            UserVirtualItem userVirtualItem = new UserVirtualItem();
+            userVirtualItem.setVirtualItemId(virItemOrder.getVirtualItemId());
+            userVirtualItem.setUserId(userId);
+            userVirtualItem.setUpdated(new Date());
+            userVirtualItem.setTotalPrice(virItemOrder.getTotalPrice());
+            userVirtualItem.setSummary(virItemOrder.getSummary());
+            userVirtualItem.setQuantity(virItemOrder.getQuantity());
+            userVirtualItem.setPrice(virItemOrder.getPrice());
+            userVirtualItem.setName(virItemOrder.getName());
+            userVirtualItem.setCreated(new Date());
+            userVirtualItem.setCover(virItemOrder.getCover());
+            i = userVirtualItemMapper.insert(userVirtualItem);
+            if (i < 1) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(),"余额支付失败");
+            }
+            //保存支付信息
+            appPaymentInfoService.doYuePaySuccess(orderNo, userId, virItemOrder.getCreated(), Constants.ORDER_TYPE.ITEM,
+                    0,virItemOrder.getTotalPrice());
+            return ResponseFactory.sucMsg("支付成功");
         }
         // 创建订单参数
         PayVO payVO = assemblePayOrder(virItemOrder, payWay);
