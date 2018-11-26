@@ -42,7 +42,7 @@ public class ArticleController {
      * @author: yy
      * @Date: 2018/6/11
      */
-    @PostMapping("detail")
+    @RequestMapping("detail")
     public Response getArticleDetail(Integer id) {
         return articleService.getArticleDetail(id);
     }

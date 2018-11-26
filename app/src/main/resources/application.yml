@@ -1,11 +1,11 @@
 spring:
-#数据源基本配置
+  #数据源基本配置
   datasource:
     username: mpmalluser
     password: 1MhJK1tH9n60g1&L9Lqm
     url: jdbc:mysql://43.241.223.169:3306/giftcircler?useUnicode=yes&characterEncoding=UTF-8&useSSL=false
     driver-class-name:
-# 指定自定义的数据库连接池替换默认的
+    # 指定自定义的数据库连接池替换默认的
     type: com.alibaba.druid.pool.DruidDataSource
     # druid数据源其他的配置
     initialSize: 1
@@ -19,7 +19,7 @@ spring:
     testOnBorrow: false
     testOnReturn: false
     poolPreparedStatements: true
-#   配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+    #   配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
     filters: stat,wall,log4j
     maxPoolPreparedStatementPerConnectionSize: 20
     useGlobalDataSourceStat: true
@@ -27,24 +27,24 @@ spring:
   # redis
   ## Redis数据库索引（默认为0）
   redis:
-      database: 0
-  ## Redis服务器地址
-      host: 43.241.223.169
-  ## Redis服务器连接端口
-      port: 6379
-  ## Redis服务器连接密码（默认为空）
-      password: wDts5eWPadrkhxi4IZKm
-  ## 连接超时时间（毫秒）
-      timeout: 10000
-  ## 连接池最大连接数（使用负值表示没有限制）
-      pool:
-        max-active: 100
-  ## 连接池最大阻塞等待时间（使用负值表示没有限制）
-        max-wait: 10000
-  ## 连接池中的最大空闲连接
-        max-idle: 10
-  ## 连接池中的最小空闲连接
-        min-idle: 1
+    database: 0
+    ## Redis服务器地址
+    host: 43.241.223.169
+    ## Redis服务器连接端口
+    port: 6379
+    ## Redis服务器连接密码（默认为空）
+    password: wDts5eWPadrkhxi4IZKm
+    ## 连接超时时间（毫秒）
+    timeout: 10000
+    ## 连接池最大连接数（使用负值表示没有限制）
+    pool:
+      max-active: 100
+      ## 连接池最大阻塞等待时间（使用负值表示没有限制）
+      max-wait: 10000
+      ## 连接池中的最大空闲连接
+      max-idle: 10
+      ## 连接池中的最小空闲连接
+      min-idle: 1
   output:
     ansi:
       enabled: always
@@ -55,34 +55,36 @@ mybatis:
   type-aliases-package: com.chouchongkeji.dial.pojo
 yichen:
   security:
-##验证码的有效时间
+    ##验证码的有效时间
     smscode:
       length: 7
       expire: 180
       urls:
         - {url: /noauth/user/bindPhone, type: 1}
-##配置客户端信息
+    ##配置客户端信息
     oauth2:
       client:
         - {clientId: giftcircler-dl,clientSecret: qMEjFl8w63EtAX17cRX83L0iMkK2U4mg,accessTokenValidityTime: 6592000}
-# 配置接口签名
+    # 配置接口签名
     sign:
       needSign: true
       urls:
         - /noauth/pay/**
         - /druid/**
         - /noauth/file/**
-  # 图片地址拼接
+        - /noauth/item/html_detail
+        - /noauth/v1/article/html
+    # 图片地址拼接
     image:
       needSplice: true
       host: https://liyuquan.cn/static
   service:
-    host: https://liyuquan.cn/
-    productDetail: https://liyuquan.cn/static/product.html?id=
-    articleDetail: https://liyuquan.cn/static/article.html?id=
+    host: https://liyuquan.cn/app/
+    productDetail: https://liyuquan.cn/static/product.html?uid=
+    articleDetail: https://liyuquan.cn/static/article.html?uid=
 
 #    logo: http://43.241.223.169:800/image/logo.jpg
 server:
-  port: 8088
+  port: 8089
 
 

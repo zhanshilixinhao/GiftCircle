@@ -1,219 +1,229 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.chouchongkeji.dial.dao.gift.item.ItemOrderMapper">
-  <resultMap id="BaseResultMap" type="com.chouchongkeji.dial.pojo.gift.item.ItemOrder">
-    <constructor>
-      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="store_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="order_no" javaType="java.lang.Long" jdbcType="BIGINT" />
-      <arg column="total_price" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
-      <arg column="quantity" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT" />
-      <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-      <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-    </constructor>
-  </resultMap>
-  <resultMap id="ResultMap" type="com.chouchongkeji.service.mall.item.vo.OrderListVo">
-    <result property="id" column="id"/>
-    <result property="userId" column="user_id"/>
-    <result property="storeId" column="store_id"/>
-    <result property="orderNo" column="order_no"/>
-    <result property="totalPrice" column="total_price"/>
-    <result property="quantity" column="quantity"/>
-    <result property="status" column="status"/>
-    <result property="created" column="created"/>
-    <result property="updated" column="updated"/>
-     <collection property="detailVos" ofType="com.chouchongkeji.service.mall.item.vo.OrderDetailVo">
-       <result property="itemId" column="item_id"/>
-       <result property="skuId" column="sku_id"/>
-       <result property="title" column="title"/>
-       <result property="price" column="price"/>
-       <result property="cover" column="cover"/>
-       <result property="quantity" column="bQuantity"/>
-     </collection>
-  </resultMap>
-  <sql id="Base_Column_List">
-    id, user_id, store_id, order_no, total_price, quantity, status, created, updated
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from item_order
-    where id = #{id,jdbcType=INTEGER}
-  </select>
+    <resultMap id="BaseResultMap" type="com.chouchongkeji.dial.pojo.gift.item.ItemOrder">
+        <constructor>
+            <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="store_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="order_no" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <arg column="total_price" javaType="java.math.BigDecimal" jdbcType="DECIMAL"/>
+            <arg column="quantity" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT"/>
+            <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+        </constructor>
+    </resultMap>
+    <resultMap id="ResultMap" type="com.chouchongkeji.service.mall.item.vo.OrderListVo">
+        <result property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="storeId" column="store_id"/>
+        <result property="orderNo" column="order_no"/>
+        <result property="totalPrice" column="total_price"/>
+        <result property="quantity" column="quantity"/>
+        <result property="status" column="status"/>
+        <result property="created" column="created"/>
+        <result property="updated" column="updated"/>
+        <collection property="detailVos" ofType="com.chouchongkeji.service.mall.item.vo.OrderDetailVo">
+            <result property="itemId" column="item_id"/>
+            <result property="skuId" column="sku_id"/>
+            <result property="title" column="title"/>
+            <result property="price" column="price"/>
+            <result property="cover" column="cover"/>
+            <result property="quantity" column="bQuantity"/>
+        </collection>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id
+        ,
+        user_id,
+        store_id,
+        order_no,
+        total_price,
+        quantity,
+        status,
+        created,
+        updated
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from item_order
+        where id = #{id,jdbcType=INTEGER}
+    </select>
     <select id="selectByUserIdOrderNo" resultMap="BaseResultMap">
         SELECT
-	<include refid="Base_Column_List"/>
-FROM
-	`item_order`
-WHERE
-	user_id = #{userId}
-	AND order_no = #{orderNo}
+        <include refid="Base_Column_List"/>
+        FROM
+        `item_order`
+        WHERE
+        user_id = #{userId}
+        AND order_no = #{orderNo}
     </select>
-  <select id="selectByUserId" resultMap="BaseResultMap">
-    SELECT
-	<include refid="Base_Column_List"/>
-FROM
-	`item_order`
-WHERE
-	user_id = #{userId}
+    <select id="selectByUserId" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        `item_order`
+        WHERE
+        user_id = #{userId}
 
-  </select>
-    <select id="selectByOrderNo" resultMap="BaseResultMap">
-      SELECT
-	<include refid="Base_Column_List"/>
-FROM
-	`item_order`
-WHERE
-	order_no = #{orderNo}
     </select>
-  <select id="selectDetailByUserId" resultMap="ResultMap">
-    SELECT
-a.*,
-b.item_id,
-b.sku_id,
-b.title,
-b.price,
-b.cover,
-b.quantity as bQuantity
-FROM item_order a
-LEFT JOIN item_order_detail b  on a.order_no = b.order_no
-WHERE a.user_id = #{userId}
-and a.status = #{status}
-  </select>
+    <select id="selectByOrderNo" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        `item_order`
+        WHERE
+        order_no = #{orderNo}
+    </select>
+    <select id="selectDetailByUserId" resultMap="ResultMap">
+        SELECT
+            a.*,
+            b.item_id,
+            b.sku_id,
+            b.title,
+            b.price,
+            b.cover,
+            b.quantity as bQuantity
+        FROM item_order a
+                 LEFT JOIN item_order_detail b on a.order_no = b.order_no
+        WHERE a.user_id = #{userId}
+          and a.status = #{status}
+        order by a.id DESC
+    </select>
     <select id="selectAll" resultMap="BaseResultMap">
-SELECT
-	<include refid="Base_Column_List"/>
-FROM
-	`item_order`
-WHERE
-	`status` = 1
-      AND UNIX_TIMESTAMP( created + 1200) &lt;= UNIX_TIMESTAMP( now( )  )
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        `item_order`
+        WHERE
+        `status` = 1
+        AND UNIX_TIMESTAMP( created + 1200) &lt;= UNIX_TIMESTAMP( now( ) )
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from item_order
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.gift.item.ItemOrder" keyProperty="id" useGeneratedKeys="true">
-    insert into item_order (id, user_id, store_id, 
-      order_no, total_price, quantity, 
-      status, created, updated
-      )
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{storeId,jdbcType=INTEGER}, 
-      #{orderNo,jdbcType=BIGINT}, #{totalPrice,jdbcType=DECIMAL}, #{quantity,jdbcType=INTEGER}, 
-      #{status,jdbcType=TINYINT},now(), now()
-      )
-  </insert>
-  <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.gift.item.ItemOrder">
-    insert into item_order
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="userId != null">
-        user_id,
-      </if>
-      <if test="storeId != null">
-        store_id,
-      </if>
-      <if test="orderNo != null">
-        order_no,
-      </if>
-      <if test="totalPrice != null">
-        total_price,
-      </if>
-      <if test="quantity != null">
-        quantity,
-      </if>
-      <if test="status != null">
-        status,
-      </if>
-      <if test="created != null">
-        created,
-      </if>
-      <if test="updated != null">
-        updated,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="userId != null">
-        #{userId,jdbcType=INTEGER},
-      </if>
-      <if test="storeId != null">
-        #{storeId,jdbcType=INTEGER},
-      </if>
-      <if test="orderNo != null">
-        #{orderNo,jdbcType=BIGINT},
-      </if>
-      <if test="totalPrice != null">
-        #{totalPrice,jdbcType=DECIMAL},
-      </if>
-      <if test="quantity != null">
-        #{quantity,jdbcType=INTEGER},
-      </if>
-      <if test="status != null">
-        #{status,jdbcType=TINYINT},
-      </if>
-      <if test="created != null">
-        #{created,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updated != null">
-        #{updated,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.chouchongkeji.dial.pojo.gift.item.ItemOrder">
-    update item_order
-    <set>
-      <if test="userId != null">
-        user_id = #{userId,jdbcType=INTEGER},
-      </if>
-      <if test="storeId != null">
-        store_id = #{storeId,jdbcType=INTEGER},
-      </if>
-      <if test="orderNo != null">
-        order_no = #{orderNo,jdbcType=BIGINT},
-      </if>
-      <if test="totalPrice != null">
-        total_price = #{totalPrice,jdbcType=DECIMAL},
-      </if>
-      <if test="quantity != null">
-        quantity = #{quantity,jdbcType=INTEGER},
-      </if>
-      <if test="status != null">
-        status = #{status,jdbcType=TINYINT},
-      </if>
-      <if test="created != null">
-        created = #{created,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updated != null">
-        updated = #{updated,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.dial.pojo.gift.item.ItemOrder">
-    update item_order
-    set user_id = #{userId,jdbcType=INTEGER},
-      store_id = #{storeId,jdbcType=INTEGER},
-      order_no = #{orderNo,jdbcType=BIGINT},
-      total_price = #{totalPrice,jdbcType=DECIMAL},
-      quantity = #{quantity,jdbcType=INTEGER},
-      status = #{status,jdbcType=TINYINT},
-      created = #{created,jdbcType=TIMESTAMP},
-      updated = #{updated,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateStatusByOrder">
-    UPDATE item_order
-SET `status` = #{status}
-WHERE
-	order_no = #{orderNo}
-	and status = 1
-  </update>
+        delete
+        from item_order
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.gift.item.ItemOrder" keyProperty="id"
+            useGeneratedKeys="true">
+        insert into item_order (id, user_id, store_id,
+                                order_no, total_price, quantity,
+                                status, created, updated)
+        values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{storeId,jdbcType=INTEGER},
+                #{orderNo,jdbcType=BIGINT}, #{totalPrice,jdbcType=DECIMAL}, #{quantity,jdbcType=INTEGER},
+                #{status,jdbcType=TINYINT}, now(), now())
+    </insert>
+    <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.gift.item.ItemOrder">
+        insert into item_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="storeId != null">
+                store_id,
+            </if>
+            <if test="orderNo != null">
+                order_no,
+            </if>
+            <if test="totalPrice != null">
+                total_price,
+            </if>
+            <if test="quantity != null">
+                quantity,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="created != null">
+                created,
+            </if>
+            <if test="updated != null">
+                updated,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="storeId != null">
+                #{storeId,jdbcType=INTEGER},
+            </if>
+            <if test="orderNo != null">
+                #{orderNo,jdbcType=BIGINT},
+            </if>
+            <if test="totalPrice != null">
+                #{totalPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="quantity != null">
+                #{quantity,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=TINYINT},
+            </if>
+            <if test="created != null">
+                #{created,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updated != null">
+                #{updated,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.chouchongkeji.dial.pojo.gift.item.ItemOrder">
+        update item_order
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="storeId != null">
+                store_id = #{storeId,jdbcType=INTEGER},
+            </if>
+            <if test="orderNo != null">
+                order_no = #{orderNo,jdbcType=BIGINT},
+            </if>
+            <if test="totalPrice != null">
+                total_price = #{totalPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="quantity != null">
+                quantity = #{quantity,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=TINYINT},
+            </if>
+            <if test="created != null">
+                created = #{created,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updated != null">
+                updated = #{updated,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.dial.pojo.gift.item.ItemOrder">
+        update item_order
+        set user_id     = #{userId,jdbcType=INTEGER},
+            store_id    = #{storeId,jdbcType=INTEGER},
+            order_no    = #{orderNo,jdbcType=BIGINT},
+            total_price = #{totalPrice,jdbcType=DECIMAL},
+            quantity    = #{quantity,jdbcType=INTEGER},
+            status      = #{status,jdbcType=TINYINT},
+            created     = #{created,jdbcType=TIMESTAMP},
+            updated     = #{updated,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateStatusByOrder">
+        UPDATE item_order
+        SET `status` = #{status}
+        WHERE
+            order_no = #{orderNo}
+          and status = 1
+    </update>
 
 </mapper>

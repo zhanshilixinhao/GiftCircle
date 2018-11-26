@@ -85,4 +85,13 @@ public interface UserService {
      * @date 2018/6/7
      */
     Response getInfo(Integer userId, Integer targetUserId);
+
+    /**
+     * 扫描用户的二位啊
+     *
+     * @param userId 用户id
+     * @param qrcode 二维码内容
+     * @return
+     */
+    Response scanQrcode(Integer userId, String qrcode);
 }

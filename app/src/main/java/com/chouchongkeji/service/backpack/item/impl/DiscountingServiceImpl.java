@@ -74,7 +74,7 @@ public class DiscountingServiceImpl implements DiscountingService {
         //减少背包里已经提货的物品
         BpItem bpItem = new BpItem();
         bpItem.setId(bpId);
-        bpItem.setQuantity(bpItem.getQuantity() - 1);
+        bpItem.setQuantity(vbp.getQuantity() - 1);
         //更新背包
         bpItemMapper.updateByPrimaryKeySelective(bpItem);
         // 减少背包物品数量

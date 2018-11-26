@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <head>
 
-    <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 
     <script type="text/javascript">
-        function loadXMLDoc(id,type) {
+        function loadXMLDoc(id, type) {
             var xmlhttp;
             if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
                 xmlhttp = new XMLHttpRequest();
-            }
-            else {// code for IE6, IE5
+            } else {// code for IE6, IE5
                 xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
             }
             xmlhttp.onreadystatechange = function () {
@@ -20,7 +20,7 @@
 
                 }
             }
-            xmlhttp.open("GET", "/fauth/item/html_detail?id=" + id+'&type='+type, true);
+            xmlhttp.open("GET", "/app/noauth/item/html_detail?id=" + id + '&type=' + type, true);
             xmlhttp.send();
         }
 

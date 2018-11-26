@@ -32,6 +32,8 @@ import com.chouchongkeji.service.iwant.wallet.WalletService;
 import com.chouchongkeji.service.message.MessageService;
 import com.chouchongkeji.service.user.info.AppPaymentInfoService;
 import com.chouchongkeji.util.Constants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -53,6 +55,8 @@ import java.util.Map;
 @Service
 @Transactional(rollbackFor = Exception.class, isolation = Isolation.REPEATABLE_READ)
 public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
+
+    private static final Logger log = LoggerFactory.getLogger(AppPaymentInfoServiceImpl.class);
 
     @Autowired
     private WalletService walletService;
@@ -85,7 +89,7 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
     private AppUserMapper appUserMapper;
 
     @Autowired
-     private BpService bpService;
+    private BpService bpService;
     /**
      * 支付宝提供给商户的服务接入网关URL(新)
      */
@@ -102,6 +106,7 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
      */
     @Override
     public String orderAliPay(ALiPayV2Vo aLiPayV2Vo, Map map, Byte orderType) {
+        log.info("支付宝充值订单");
         Long orderNo = Long.parseLong(aLiPayV2Vo.getOut_trade_no());
         //检测订单号
         ChargeOrder chargeOrder = chargeOrderMapper.selectByOrderNo(orderNo);
@@ -128,7 +133,7 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
             Integer userId = chargeOrder.getUserId();
             walletService.updateBalance(userId, amount);
             //支付信息
-            doAliPaySuccess(aLiPayV2Vo, orderType,chargeOrder.getUserId());
+            doAliPaySuccess(aLiPayV2Vo, orderType, chargeOrder.getUserId());
         } else if (re == 2) {
             return "ERROR";
         }
@@ -147,15 +152,18 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
      */
     @Override
     public String itemOrderAli(ALiPayV2Vo aLiPayV2Vo, Map parameterMap, Byte orderType) {
+        log.info("支付宝商品订单");
         //校验订单号
         Long orderNo = Long.parseLong(aLiPayV2Vo.getOut_trade_no());
         ItemOrder itemOrder = itemOrderMapper.selectByOrderNo(orderNo);
         if (itemOrder == null) {
+            log.info("支付宝商品订单订单不存在{}", orderNo);
             return "ERROR";
         }
         //校验支付金额
         BigDecimal price = itemOrder.getTotalPrice();
         if (price.compareTo(new BigDecimal(aLiPayV2Vo.getTotal_amount())) != 0) {
+            log.info("支付宝商品订单价格校验失败");
             return "ERROR";
         }
         //支付宝相关校验
@@ -170,13 +178,13 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
             //更新详细订单状态和销量
             orderService.updateStatusSales(orderNo);
             //物品添加到背包
-            List<ItemOrderDetail> list = itemOrderDetailMapper.selectByUserIdAndOrderNo(itemOrder.getUserId(),orderNo);
+            List<ItemOrderDetail> list = itemOrderDetailMapper.selectByUserIdAndOrderNo(itemOrder.getUserId(), orderNo);
             int add = bpService.addFromItemOrder(list);
             if (add < 1) {
-                throw new ServiceException(ErrorCode.ERROR.getCode(),"");
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "");
             }
             //支付信息
-            doAliPaySuccess(aLiPayV2Vo, orderType,itemOrder.getUserId());
+            doAliPaySuccess(aLiPayV2Vo, orderType, itemOrder.getUserId());
         } else if (i == 2) {
             return "ERROR";
         }
@@ -196,6 +204,7 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
      */
     @Override
     public String conOrderAli(ALiPayV2Vo aLiPayV2Vo, Map parameterMap, Byte orderType) {
+        log.info("寄售台支付宝回");
         //校验订单号
         Long orderNo = Long.parseLong(aLiPayV2Vo.getOut_trade_no());
         ConsignmentOrder conOrder = consignmentOrderMapper.selectByOrderNo(orderNo);
@@ -234,16 +243,16 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
             int wall = walletService.updateBalance(conOrder.getSellUserId(), conOrder.getPrice(),
                     Constants.WALLET_RECORD.CONSIGNMENT_ITEM, conOrder.getId());
             if (wall < 1) {
-                throw new ServiceException(ErrorCode.ERROR.getCode(),"卖家余额添加失败");
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "卖家余额添加失败");
             }
             //物品添加到背包
             int add = bpService.addFromConsignmengOrder(conOrder);
             if (add < 1) {
-                throw new ServiceException(ErrorCode.ERROR.getCode(),"");
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "");
             }
             //保存支付信息
-            doAliPaySuccess(aLiPayV2Vo,orderType,conOrder.getUserId());
-        }else if (checkInfo == 2) {
+            doAliPaySuccess(aLiPayV2Vo, orderType, conOrder.getUserId());
+        } else if (checkInfo == 2) {
             return "ERROR";
         }
         return "SUCCESS";
@@ -306,7 +315,7 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
      * @author linqin
      * @date 2018/6/8
      */
-    private PaymentInfo doAliPaySuccess(ALiPayV2Vo aLiPayV2Vo, Byte orderType,Integer userId) {
+    private PaymentInfo doAliPaySuccess(ALiPayV2Vo aLiPayV2Vo, Byte orderType, Integer userId) {
         PaymentInfo payment = new PaymentInfo();
         /** 订单号 **/
         payment.setOrderNo(Long.parseLong(aLiPayV2Vo.getOut_trade_no()));
@@ -360,6 +369,7 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
         /** 获取微信服务请求XML参数 **/
         //获取微信服务请求xml参数
         /** XML转对象 **/
+        log.info("微信充值{}", xml);
         NotifyData notifyData = (NotifyData) Util.getObjectFromXML(xml, NotifyData.class);
         //校验订单号
         Long orderNo = Long.parseLong(notifyData.getOut_trade_no());
@@ -391,7 +401,7 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
             Integer userId = chargeOrder.getUserId();
             walletService.updateBalance(userId, amount);
             //支付信息
-            doWXPaySuccess(notifyData, orderType,chargeOrder.getUserId());
+            doWXPaySuccess(notifyData, orderType, chargeOrder.getUserId());
         } else if (re == 2) {
             return "ERROR";
         }
@@ -415,6 +425,7 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
         /** 获取微信服务请求XML参数 **/
         //获取微信服务请求xml参数
         /** XML转对象 **/
+        log.info("微信商品读不到{}", xml);
         NotifyData notifyData = (NotifyData) Util.getObjectFromXML(xml, NotifyData.class);
         //校验订单号
         Long orderNo = Long.parseLong(notifyData.getOut_trade_no());
@@ -439,13 +450,13 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
             //更新详细订单状态和销量
             orderService.updateStatusSales(orderNo);
             //物品加入背包里
-            List<ItemOrderDetail> list = itemOrderDetailMapper.selectByUserIdAndOrderNo(itemOrder.getUserId(),orderNo);
+            List<ItemOrderDetail> list = itemOrderDetailMapper.selectByUserIdAndOrderNo(itemOrder.getUserId(), orderNo);
             int add = bpService.addFromItemOrder(list);
             if (add < 1) {
-                throw new ServiceException(ErrorCode.ERROR.getCode(),"");
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "");
             }
             //支付信息
-            doWXPaySuccess(notifyData, orderType,itemOrder.getUserId());
+            doWXPaySuccess(notifyData, orderType, itemOrder.getUserId());
         } else if (re == 2) {
             return "ERROR";
         }
@@ -461,16 +472,17 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
      * @return
      * @throws Exception
      * @author linqin
-     *  @date 2018/7/5
+     * @date 2018/7/5
      */
     @Override
-    public String conOrderWXPay(String xml, Byte orderType)throws ParserConfigurationException, SAXException, IOException {
+    public String conOrderWXPay(String xml, Byte orderType) throws ParserConfigurationException, SAXException, IOException {
         /** 支付成功微信服务器通知XML **/
         String resXml = "<xml>" + "<return_code><![CDATA[SUCCESS]]></return_code>"
                 + "<return_msg><![CDATA[OK]]></return_msg>" + "</xml> ";
         /** 获取微信服务请求XML参数 **/
         //获取微信服务请求xml参数
         /** XML转对象 **/
+        log.info("微信几首太{}", xml);
         NotifyData notifyData = (NotifyData) Util.getObjectFromXML(xml, NotifyData.class);
         //校验订单号
         Long orderNo = Long.parseLong(notifyData.getOut_trade_no());
@@ -510,15 +522,15 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
             int wall = walletService.updateBalance(conOrder.getSellUserId(), conOrder.getPrice(),
                     Constants.WALLET_RECORD.CONSIGNMENT_ITEM, conOrder.getId());
             if (wall < 1) {
-                throw new ServiceException(ErrorCode.ERROR.getCode(),"");
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "");
             }
             //物品添加到背包
             int add = bpService.addFromConsignmengOrder(conOrder);
             if (add < 1) {
-                throw new ServiceException(ErrorCode.ERROR.getCode(),"");
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "");
             }
             //保存支付信息
-            doWXPaySuccess(notifyData,orderType,conOrder.getUserId());
+            doWXPaySuccess(notifyData, orderType, conOrder.getUserId());
         } else if (re == 2) {
             return "ERROR";
         }
@@ -561,7 +573,7 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
             if ("SUCCESS".equalsIgnoreCase(notifyData.getReturn_code())
                     && "SUCCESS".equalsIgnoreCase(notifyData.getResult_code())) {
 //                logger.error("------------------收到回调 支付成功");
-                return 1;
+                return 0;
             }
         }
         return 2;
@@ -576,7 +588,7 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
      * @author linqin
      * @date 2018/6/8
      */
-    private PaymentInfo doWXPaySuccess(NotifyData notifyData, Byte orderType,Integer userId) {
+    private PaymentInfo doWXPaySuccess(NotifyData notifyData, Byte orderType, Integer userId) {
         /** -------------支付成功逻辑处理-------------- **/
         PaymentInfo payment = new PaymentInfo();
         /** 订单号 **/

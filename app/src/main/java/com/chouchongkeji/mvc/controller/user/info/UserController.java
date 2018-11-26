@@ -37,6 +37,11 @@ public class UserController {
         return userService.getProfile(userDetails.getUserId());
     }
 
+    @PostMapping("/scanQrcode")
+    public Response scanQrcode(@AuthenticationPrincipal UserDetails userDetails, String qrcode) {
+        return userService.scanQrcode(userDetails.getUserId(), qrcode);
+    }
+
 
     /**
      * 修改用户信息

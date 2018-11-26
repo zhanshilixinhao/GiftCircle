@@ -36,6 +36,8 @@ public class AppUser {
 
     private Date updated;
 
+    private String qrcode;
+
     public AppUser(Integer id, String account, String password, String phone, String avatar, String nickname, Integer age, Byte gender, String signature, String district, Byte status, String sentPwd, String wxid, Date created, Date updated) {
         this.id = id;
         this.account = account;
@@ -176,5 +178,13 @@ public class AppUser {
 
     public void setUpdated(Date updated) {
         this.updated = updated;
+    }
+
+    public String getQrcode() {
+        return qrcode;
+    }
+
+    public void setQrcode(String qrcode) {
+        this.qrcode = qrcode;
     }
 }

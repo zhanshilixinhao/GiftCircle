@@ -11,6 +11,7 @@ import com.chouchongkeji.dial.pojo.user.memo.Moment;
 import com.chouchongkeji.dial.redis.MRedisTemplate;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
+import com.chouchongkeji.goexplore.utils.AESUtils;
 import com.chouchongkeji.goexplore.utils.ApiSignUtil;
 import com.chouchongkeji.goexplore.utils.K;
 import com.chouchongkeji.goexplore.utils.Utils;
@@ -21,6 +22,7 @@ import com.chouchongkeji.service.user.info.UserService;
 import com.chouchongkeji.service.user.info.vo.UserInfoVo;
 import com.chouchongkeji.service.user.info.vo.UserTagVo;
 import com.chouchongkeji.util.SentPwdUtil;
+import com.chouchongkeji.util.UserInfoUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -132,6 +134,23 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
+     * 扫描用户的二位啊
+     *
+     * @param userId 用户id
+     * @param qrcode 二维码内容
+     * @return
+     */
+    @Override
+    public Response scanQrcode(Integer userId, String qrcode) {
+        // 1.1-解析二维码内容
+        Integer targetUserId = UserInfoUtils.decrypt(qrcode);
+        if (targetUserId == null) {
+            return ResponseFactory.err("无效的二维码!");
+        }
+        return getInfo(userId, targetUserId);
+    }
+
+    /**
      * 获取用户详细信息
      *
      * @param userId 用户id
@@ -151,6 +170,7 @@ public class UserServiceImpl implements UserService {
         appUser.setPassword(null);
         appUser.setSentPwd(null);
         appUser.setAvatar(appUser.getAvatar());
+        appUser.setQrcode(UserInfoUtils.encrypt(userId));
         return ResponseFactory.sucData(appUser);
     }
 
@@ -303,7 +323,7 @@ public class UserServiceImpl implements UserService {
         if (passwordEncoder.matches(pwd, user.getSentPwd())) {
             // 保存验证状态
             String key = UUID.randomUUID().toString();
-            mRedisTemplate.setString(key, "true", 60);
+            mRedisTemplate.setString(key, "true", 6000);
             Map<String, String> map = new HashMap<>();
             map.put("key", key);
             map.put("s1", getRandomNum(userId));

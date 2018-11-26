@@ -33,7 +33,7 @@ public class PayNotifyInterfaceController {
      * @author linqin
      * @date 2018/6/8
      */
-    @PostMapping("charge_order/ali")
+    @RequestMapping("charge_order/ali")
     public String chargeOrderAliPay(ALiPayV2Vo alipayVo, HttpServletRequest request) throws Exception {
         /** 调用基础方法 **/
         return this.baseAliPay(alipayVo, request.getParameterMap(), Constants.ORDER_TYPE.CHARGE);
@@ -65,7 +65,7 @@ public class PayNotifyInterfaceController {
      * @author linqin
      * @date 2018/6/21
      */
-    @PostMapping("item_order/ali")
+    @RequestMapping("item_order/ali")
     public String itemOrderAliPay(ALiPayV2Vo aLiPayV2Vo, HttpServletRequest request) {
         /** 调用基础方法 **/
         return this.itemBaseAliPay(aLiPayV2Vo, request.getParameterMap(), Constants.ORDER_TYPE.ITEM);
@@ -97,7 +97,7 @@ public class PayNotifyInterfaceController {
      * @author linqin
      * @date 2018/7/5
      */
-    @PostMapping("con_order/ali")
+    @RequestMapping("con_order/ali")
     public String conOrderAliPay(ALiPayV2Vo aLiPayV2Vo, HttpServletRequest request) {
         /** 调用基础方法 **/
         return this.conBaseAliPay(aLiPayV2Vo, request.getParameterMap(), Constants.ORDER_TYPE.CON_ITEM);
@@ -134,7 +134,7 @@ public class PayNotifyInterfaceController {
      * @author linqin
      * @date 2018/6/8
      */
-    @PostMapping("charge_order/wx")
+    @RequestMapping("charge_order/wx")
     public String orderWeixinPay(HttpServletRequest request) throws Exception {
         /** 调用基础方法 **/
         return this.baseWeixinPay(request, Constants.ORDER_TYPE.CHARGE);
@@ -165,7 +165,7 @@ public class PayNotifyInterfaceController {
      * @author linqin
      * @date 2018/6/21
      */
-    @PostMapping("item_order/wx")
+    @RequestMapping("item_order/wx")
     public String itemOrderWXPay(HttpServletRequest request) throws Exception {
         /** 调用基础方法 **/
         return this.itemBaseWXPay(request, Constants.ORDER_TYPE.ITEM);
@@ -196,7 +196,7 @@ public class PayNotifyInterfaceController {
      * @author linqin
      * @date 2018/7/5
      */
-    @PostMapping("con_order/wx")
+    @RequestMapping("con_order/wx")
     public String conOrderWXPay(HttpServletRequest request) throws Exception {
         /** 调用基础方法 **/
         return this.conBaseWXPay(request, Constants.ORDER_TYPE.CON_ITEM);

@@ -120,7 +120,7 @@ public class ReceiveItemController {
      * @date 2018/6/30
      */
     @PostMapping("comment")
-    public Response commentOrder(@AuthenticationPrincipal UserDetails userDetails, Long orderNo, Integer star,
+    public Response commentOrder(@AuthenticationPrincipal UserDetails userDetails, Long orderNo, Float star,
                                  String content, String pictures) {
         //参数校验
         if (orderNo == null) {
@@ -132,7 +132,7 @@ public class ReceiveItemController {
         if (StringUtils.isBlank(content)) {
             return ResponseFactory.err("请对宝贝做出相符描述");
         }
-        return receiveItemService.commentOrder(userDetails.getUserId(), orderNo, star, content, pictures);
+        return receiveItemService.commentOrder(userDetails.getUserId(), orderNo, star.intValue(), content, pictures);
     }
 
 
