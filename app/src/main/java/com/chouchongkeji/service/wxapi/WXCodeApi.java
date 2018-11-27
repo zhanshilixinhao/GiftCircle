@@ -32,7 +32,7 @@ public class WXCodeApi {
     private static final String WX_APP_SECRET = "2e45e7696cfa2eeb7dcf8900c63163e9";
 
     // app
-    private static final String APPID = "wxe54fd2867936a895"; // wx4e47fc336f8578df
+    private static final String APPID =      "wxe54fd2867936a895";
     private static final String APP_SECRET = "01426797b62a5c00d86a0a8928fd9a0c";
 
     /**

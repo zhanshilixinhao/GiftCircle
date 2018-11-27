@@ -100,7 +100,23 @@ http 常用错误码
 | :------: | :------: | :------: | :----: | :------: |
 |   code   |  string  |    是    |   无   | 微信授权 |
 
+- 请求结果示例
 
+```js
+// 登录未绑定手机号返回
+{
+    errCode:1004, // 未绑定手机号
+    data: "dagagsdfwerewrewrew" // key 用于下一步绑定手机号
+}
+// 登录成功返回
+{
+    errCode: 0,
+    data: {
+        access_token: "访问令牌",
+        refresh_token: "用于刷新访问令牌"
+    }
+}
+```
 
 ### 2.2 第三方账号绑定手机号
 
@@ -112,10 +128,22 @@ http 常用错误码
 | 参数名称 | 参数类型 | 是否必传 | 默认值 |    参数说明     |
 | :------: | :------: | :------: | :----: | :-------------: |
 |  phone   |  String  |    是    |   无   |      电话       |
-|   key    |  String  |    是    |   无   | 缓存openId的key |
+|   key    |  String  |    是    |   无   | 缓存openId的key,2.1中返回的data内容 |
+|   key    |  String  |    是    |   无   | 缓存openId的key,2.1中返回的data内容 |
+|   code    |  String  |    是    |   无   | 短信验证码 |
 
+- 请求接轨哦示例
 
-
+```js
+// 登录成功返回
+{
+    errCode: 0,
+    data: {
+        access_token: "访问令牌",
+        refresh_token: "用于刷新访问令牌"
+    }
+}
+```
 
 
 ### 2.3 获取用户详细信息
@@ -141,12 +169,12 @@ http 常用错误码
         "account": "15752400657", 
         "password": "", 
         "phone": "15752400657", 
-        "avatar": "avatar.jpg", 
-        "nickname": "三生石", 
-        "age": 21, 
-        "gender": 2, 
-        "signature": "没有", 
-        "district": "昆明", 
+        "avatar": "avatar.jpg",  // 头像
+        "nickname": "三生石",  // 昵称
+        "age": 21, // 年龄
+        "gender": 2, // 性别 1 男 2 女
+        "signature": "没有", // 签名
+        "district": "昆明", // 地区
         "status": 1, 
         "sentPwd": "123456", 
         "wxid": "123", 
@@ -220,7 +248,7 @@ http 常用错误码
 |   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
 | :----------: | :------: | :------: | :----: | :------: |
 | phone |  string  |    是    |   无   | 电话号码 |
-| type |  int  |    是    |   无   | 验证码类型 |
+| type |  int  |    是    |   无   | 验证码类型 1 绑定手机号 2 重置赠送密码 |
 
 请求结果示例：
 
@@ -255,7 +283,7 @@ http 常用错误码
         {
             id: 36, 
             tag: "不合群", 
-            type: 2, 
+            type: 2, // 标签颜色 1 蓝色 2 粉色
             created: 1529588441000, 
             updated: 1529588441000
         }, 
@@ -4699,7 +4727,6 @@ JSON：
 | :----------: | :------: | :------: | :----: | :------: |
 | access_token |  string  |    是    |   无   | 访问令牌 |
 | giftExchangeId | int | 是 | 无 | 礼物交换记录Id |
-
 
 
 * 请求结果示例
