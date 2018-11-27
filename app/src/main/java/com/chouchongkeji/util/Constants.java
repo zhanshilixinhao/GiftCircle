@@ -106,16 +106,17 @@ public class Constants {
 
     }
 
-    /*折现状态 1-等待折现，2-折现完成，3-取消折现*/
+    /*折现状态 1-折现成功，2-折现失败，3-取消折现 -1删除折现记录*/
     public interface DISCOUNT_STATUS {
         byte DISCOUNTING = 1;
         byte DONE = 2;
-        byte cancel = 3;
+        byte CANCEL = 3;
+        byte DELETE = 3;
     }
 
     /*背包物品折现率*/
     public interface DISCOUNT_RATE {
-        double DISCOUNTING = 0.95;
+        double DISCOUNTING = 0.85;
     }
 
     /*商品订单状态 */

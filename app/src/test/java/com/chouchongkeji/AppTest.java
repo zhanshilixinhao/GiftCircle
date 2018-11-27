@@ -50,7 +50,7 @@ public class AppTest
     public void login() throws IOException {
 
         RequestParams params = new RequestParams();
-        params.put("username", "18313747954");
+        params.put("username", "15752400657");
         params.put("password", "123456");
         params.put("exploringId", 24);
         params.put("time", "1526539545791");
@@ -89,4 +89,18 @@ public class AppTest
         System.out.println(post.body().string());
     }
 
+
+    @Test
+    public void messageList() throws IOException {
+        RequestParams params = new RequestParams();
+        params.put("time",System.currentTimeMillis());
+        params.put("access_token","f3e7f648-845e-4614-a49e-bbd8f43add65");
+        params.put("messageType",2);
+        params.put("pageNum",1);
+        params.put("pageSize",14);
+        Map map = ApiSignUtil.sign1(params.getParams(),ApiSignUtil.ANDROID);
+        params.put("sign",map.get(ApiSignUtil.ANDROID));
+        Response post = OkHttpUtil.post("http://localhost:8089/auth/v1/message/list", params);
+        System.out.println(post.body().string());
+    }
 }

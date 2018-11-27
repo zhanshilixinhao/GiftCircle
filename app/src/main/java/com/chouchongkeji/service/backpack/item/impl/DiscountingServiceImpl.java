@@ -6,10 +6,12 @@ import com.chouchongkeji.dial.dao.backpack.item.DiscountingMapper;
 import com.chouchongkeji.dial.pojo.backpack.BpItem;
 import com.chouchongkeji.dial.pojo.backpack.Vbp;
 import com.chouchongkeji.dial.pojo.backpack.item.Discounting;
+import com.chouchongkeji.dial.pojo.iwant.wallet.Wallet;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.utils.BigDecimalUtil;
 import com.chouchongkeji.service.backpack.item.DiscountingService;
+import com.chouchongkeji.service.iwant.wallet.WalletService;
 import com.chouchongkeji.util.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +34,8 @@ public class DiscountingServiceImpl implements DiscountingService {
 
     @Autowired
     private BpItemMapper bpItemMapper;
+    @Autowired
+    private WalletService walletService;
 
     /**
      * 背包物品折现
@@ -64,12 +68,12 @@ public class DiscountingServiceImpl implements DiscountingService {
         discounting.setItemPrice(vbp.getPrice());
         BigDecimal discountPrice = BigDecimalUtil.multi(vbp.getPrice().doubleValue(), Constants.DISCOUNT_RATE.DISCOUNTING);
         discounting.setDiscountPrice(discountPrice);
-        discounting.setExplain("申请折现");
+        discounting.setExplain("背包物品折现");
         discounting.setStatus(Constants.DISCOUNT_STATUS.DISCOUNTING);
         discounting.setType(vbp.getType());
         int insert = discountingMapper.insert(discounting);
         if (insert < 1) {
-            return ResponseFactory.err("申请折现失败");
+            return ResponseFactory.err("折现失败");
         }
         //减少背包里已经提货的物品
         BpItem bpItem = new BpItem();
@@ -77,7 +81,8 @@ public class DiscountingServiceImpl implements DiscountingService {
         bpItem.setQuantity(vbp.getQuantity() - 1);
         //更新背包
         bpItemMapper.updateByPrimaryKeySelective(bpItem);
-        // 减少背包物品数量
-        return ResponseFactory.sucMsg("申请折现成功");
+        // 更新钱包余额
+        walletService.updateBalance(userId,discountPrice);
+        return ResponseFactory.sucMsg("折现成功");
     }
 }

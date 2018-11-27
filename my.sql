@@ -1452,7 +1452,7 @@ CREATE TABLE `discounting` (
   `item_price`     decimal(18, 2) comment '商品价格',
   `discount_price` decimal(18, 2) comment '折现后价格',
   `explain`        varchar(2000) comment '折现说明',
-  `status`         tinyint(4) comment '折现状态，1-等待折现，2-折现完成，3-折现失败',
+  `status`         tinyint(4) comment '折现状态，1-折现成功，2-折现失败，-1删除记录',
   `type`           tinyint(4) comment '1-物品，2-虚拟物品',
   `created`        DATETIME         DEFAULT NULL
   COMMENT '创建时间',
