@@ -1,5 +1,6 @@
 package com.chouchongkeji.goexplore.pay.alipay_v2;
 
+import com.alibaba.fastjson.JSON;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
@@ -53,11 +54,11 @@ public class AliPayServiceV2 {
         return null;
     }
 
-    public static boolean notiyVerify(Map requestParams){
+    public static boolean notiyVerify(Map requestParams) {
         //获取支付宝POST过来反馈信息
-        Map<String,String> params = new HashMap<>();
+        Map<String, String> params = new HashMap<>();
 //        Map requestParams = request.getParameterMap();
-        for (Iterator iter = requestParams.keySet().iterator(); iter.hasNext();) {
+        for (Iterator iter = requestParams.keySet().iterator(); iter.hasNext(); ) {
             String name = (String) iter.next();
             String[] values = (String[]) requestParams.get(name);
             String valueStr = "";
@@ -75,13 +76,22 @@ public class AliPayServiceV2 {
         //boolean AlipaySignature.rsaCheckV1(Map<String, String> params, String publicKey, String charset, String sign_type)
         boolean flag = false;
         try {
-            flag = AlipaySignature.rsaCheckV1(params, ConfigV2.ali_public_key, ConfigV2.input_charset, ConfigV2.sign_type);
+            flag = AlipaySignature.rsaCheckV1(
+                    params,
+                    ConfigV2.ali_public_key,
+                    ConfigV2.input_charset,
+                    ConfigV2.sign_type);
         } catch (AlipayApiException e) {
             e.printStackTrace();
         }
         return flag;
     }
 
-
-
+    public static void main(String[] args) {
+        Map map = JSON.parseObject("{\"app_id\":\"2018082361125281\",\"body\":\"礼遇圈\",\"buyer_id\":\"2088702252957362\",\"buyer_logon_id\":\"111***@qq.com\",\"buyer_pay_amount\":\"0.01\",\"charset\":\"utf-8\",\"fund_bill_list\":\"[{\\\"amount\\\":\\\"0.01\\\",\\\"fundChannel\\\":\\\"PCREDIT\\\"}]\",\"gmt_create\":\"2018-11-27 21:17:41\",\"gmt_payment\":\"2018-11-27 21:17:41\",\"invoice_amount\":\"0.01\",\"notify_id\":\"2018112700222211741057361026886987\",\"notify_time\":\"2018-11-27 21:17:42\",\"notify_type\":\"trade_status_sync\",\"out_trade_no\":\"1218112721101\",\"point_amount\":\"0.00\",\"receipt_amount\":\"0.01\",\"seller_email\":\"3436609882@qq.com\",\"seller_id\":\"2088231386393754\",\"sign\":\"MPh7FtpdfRq9d58UAGJm6Tmn4N7bNvrqbYJF8yQwuc9Wk6ny110DHmxXJKSzqVMmmHw7GmQK4NK/BYxrsHu7g804bEzNDYDFMXCYMkRjVn+27W6w5f76A3aC6vDjN+3SuJXl1ZnK0Xsp+weTMYOnDgOceIlSzaYaNnON+pws1o4TTetfcWRvPjyS0x+HHuZOoLW0wCxFQqQdNWdgQpSRrFDN56dNNlT6UKyZi01kLjb8Jkzl3bBVOAXqg5V+njukKLC4Q+bdebicEkemJ96rLG7XM1v6YK4tXyzKOz48gvwYCAa9Dqj2zS1aOhC8DSZ/9CgNg3av2O9Ar9YZvmErZw==\",\"sign_type\":\"RSA2\",\"subject\":\"-商品购买\",\"total_amount\":\"0.01\",\"trade_no\":\"2018112722001457361008288970\",\"trade_status\":\"TRADE_SUCCESS\",\"version\":\"1.0\"}\n",
+                HashMap.class);
+        System.out.println(map);
+        boolean b = notiyVerify(map);
+        System.out.println(b);
+    }
 }

@@ -1,16 +1,23 @@
 package com.chouchongkeji.user;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.chouchongkeji.App;
 import com.chouchongkeji.dial.dao.user.GiftPreferenceDictMapper;
 import com.chouchongkeji.dial.dao.user.UserTagDictMapper;
 import com.chouchongkeji.dial.pojo.user.GiftPreferenceDict;
 import com.chouchongkeji.dial.pojo.user.UserTagDict;
+import com.chouchongkeji.goexplore.pay.alipay_v2.ALiPayV2Vo;
+import com.chouchongkeji.service.user.info.AppPaymentInfoService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author yichenshanren
@@ -26,24 +33,19 @@ public class UserPreference {
     private UserTagDictMapper userTagDictMapper;
 
     @Autowired
+    private AppPaymentInfoService appPaymentInfoService;
+
+    @Autowired
     private GiftPreferenceDictMapper giftPreferenceDictMapper;
 
     @Test
     public void addTagDict() {
-        String tags = "外向，善交际，守秩序，细心，上进，有志向，白富美，高富帅，勤劳，聪明，言行一致，才华横溢，出口成章，勇敢，内向，不上进，无追求，自私，悲观，人缘差，矮矬穷，屌丝女，懒惰，表里不一，不合群";
-        String[] strings = tags.split("，");
-        int i = 0;
-        for (String string : strings) {
-            UserTagDict dict = new UserTagDict();
-            dict.setTag(string);
-            if (i < 14) {
-                dict.setType((byte) 1);
-            } else {
-                dict.setType((byte) 2);
-            }
-            i++;
-            userTagDictMapper.insert(dict);
-        }
+        ALiPayV2Vo v2Vo = JSON.parseObject("{\"app_id\":\"2018082361125281\",\"body\":\"礼遇圈\",\"buyer_id\":\"2088702252957362\",\"buyer_logon_id\":\"111***@qq.com\",\"buyer_pay_amount\":\"0.01\",\"charset\":\"utf-8\",\"fund_bill_list\":\"[{\\\"amount\\\":\\\"0.01\\\",\\\"fundChannel\\\":\\\"PCREDIT\\\"}]\",\"gmt_create\":\"2018-11-23 20:44:59\",\"gmt_payment\":\"2018-11-23 20:44:59\",\"invoice_amount\":\"0.01\",\"notify_id\":\"2018112300222204459057361025915904\",\"notify_time\":\"2018-11-23 20:44:59\",\"notify_type\":\"trade_status_sync\",\"out_trade_no\":\"1218112320142\",\"point_amount\":\"0.00\",\"receipt_amount\":\"0.01\",\"seller_email\":\"3436609882@qq.com\",\"seller_id\":\"2088231386393754\",\"sign\":\"e+HELc3UriB6XBs7jaLCpdlh3O5ao4K6xp2KwB+3bAKUUeSnHU9BtY1lVyV2lb//D9NLORzdQxIo62w8W5Up9Htgj2DLbI5Z2EsDgZobyT8Po8/j/mAZqoOsPY+KuiqaD8eDRkboo95OCTrU+w5PAma0sSP2PqOTxn7siAZbQIPPsyULH1/tbbI+GOXyfkL6Db+PtLnvKIlfvMcI7VrnP3g+K6wqzX0RcAQUEvNQ2SApYwBzgprXgzbYwBnmOy9CQuU7IYohx8lQF8hyiLNoUVhA7EsAHx16qU/5OP9iyPOVUosH6I7b9YAcbQEyd36nOnM8c/HCmA5+iASlSnSEpQ==\",\"sign_type\":\"RSA2\",\"subject\":\"-商品购买\",\"total_amount\":\"0.01\",\"trade_no\":\"2018112322001457361008067775\",\"trade_status\":\"TRADE_SUCCESS\",\"version\":\"1.0\"}",
+                ALiPayV2Vo.class);
+        Map<String, Object> map = JSON.parseObject("{\"app_id\":\"2018082361125281\",\"body\":\"礼遇圈\",\"buyer_id\":\"2088702252957362\",\"buyer_logon_id\":\"111***@qq.com\",\"buyer_pay_amount\":\"0.01\",\"charset\":\"utf-8\",\"fund_bill_list\":\"[{\\\"amount\\\":\\\"0.01\\\",\\\"fundChannel\\\":\\\"PCREDIT\\\"}]\",\"gmt_create\":\"2018-11-23 20:44:59\",\"gmt_payment\":\"2018-11-23 20:44:59\",\"invoice_amount\":\"0.01\",\"notify_id\":\"2018112300222204459057361025915904\",\"notify_time\":\"2018-11-23 20:44:59\",\"notify_type\":\"trade_status_sync\",\"out_trade_no\":\"1218112320142\",\"point_amount\":\"0.00\",\"receipt_amount\":\"0.01\",\"seller_email\":\"3436609882@qq.com\",\"seller_id\":\"2088231386393754\",\"sign\":\"e+HELc3UriB6XBs7jaLCpdlh3O5ao4K6xp2KwB+3bAKUUeSnHU9BtY1lVyV2lb//D9NLORzdQxIo62w8W5Up9Htgj2DLbI5Z2EsDgZobyT8Po8/j/mAZqoOsPY+KuiqaD8eDRkboo95OCTrU+w5PAma0sSP2PqOTxn7siAZbQIPPsyULH1/tbbI+GOXyfkL6Db+PtLnvKIlfvMcI7VrnP3g+K6wqzX0RcAQUEvNQ2SApYwBzgprXgzbYwBnmOy9CQuU7IYohx8lQF8hyiLNoUVhA7EsAHx16qU/5OP9iyPOVUosH6I7b9YAcbQEyd36nOnM8c/HCmA5+iASlSnSEpQ==\",\"sign_type\":\"RSA2\",\"subject\":\"-商品购买\",\"total_amount\":\"0.01\",\"trade_no\":\"2018112322001457361008067775\",\"trade_status\":\"TRADE_SUCCESS\",\"version\":\"1.0\"}",
+                new TypeReference<HashMap<String, Object>>() {
+                });
+        appPaymentInfoService.itemOrderAli(v2Vo, map, (byte) 2);
     }
 
     @Test

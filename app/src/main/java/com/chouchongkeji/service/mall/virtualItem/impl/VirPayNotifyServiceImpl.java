@@ -41,7 +41,7 @@ import java.util.Map;
 
 @Service
 @Transactional(rollbackFor = Exception.class, isolation = Isolation.REPEATABLE_READ)
-public class VirPayNotifyServiceImpl implements VirPayNotifyService{
+public class VirPayNotifyServiceImpl implements VirPayNotifyService {
     @Autowired
     private PaymentInfoMapper paymentInfoMapper;
 
@@ -75,7 +75,7 @@ public class VirPayNotifyServiceImpl implements VirPayNotifyService{
             return "ERROR";
         }
         BigDecimal price = virItemOrder.getTotalPrice();
-                if (price.compareTo(new BigDecimal(aLiPayV2Vo.getTotal_amount())) != 0) {
+        if (price.compareTo(new BigDecimal(aLiPayV2Vo.getTotal_amount())) != 0) {
             return "ERROR";
         }
         //校验金额
@@ -85,7 +85,7 @@ public class VirPayNotifyServiceImpl implements VirPayNotifyService{
             virItemOrder.setStatus(Constants.CHARGE_ORDER_STATUS.PAY);
             virItemOrder.setUpdated(new Date());
             int count = virItemOrderMapper.updateByPrimaryKeySelective(virItemOrder);
-            if (count == 0){
+            if (count == 0) {
                 return "ERROR";
             }
             //  保存用户虚拟商品
@@ -107,7 +107,7 @@ public class VirPayNotifyServiceImpl implements VirPayNotifyService{
                 virtualItem.setSales(virtualItem.getSales() + virItemOrder.getQuantity());
                 virtualItemMapper.updateByPrimaryKey(virtualItem);
             }
-            doAliPaySuccess(aLiPayV2Vo, orderType,virItemOrder.getUserId());
+            doAliPaySuccess(aLiPayV2Vo, orderType, virItemOrder.getUserId());
         } else if (re == 2) {
             return "ERROR";
         }
@@ -121,7 +121,7 @@ public class VirPayNotifyServiceImpl implements VirPayNotifyService{
      * @param map
      * @return
      * @author linqin
-     *  @date 2018/6/8
+     * @date 2018/6/8
      */
     public int checkAliPayBaseInfo(ALiPayV2Vo aLiPayV2Vo, Map map, Long orderNo) {
         // 校验签名
@@ -168,9 +168,9 @@ public class VirPayNotifyServiceImpl implements VirPayNotifyService{
      * @param aLiPayV2Vo
      * @param orderType
      * @author linqin
-     *  @date 2018/6/8
+     * @date 2018/6/8
      */
-    private PaymentInfo doAliPaySuccess(ALiPayV2Vo aLiPayV2Vo, Byte orderType,Integer userId) {
+    private PaymentInfo doAliPaySuccess(ALiPayV2Vo aLiPayV2Vo, Byte orderType, Integer userId) {
         PaymentInfo payment = new PaymentInfo();
         /** 订单号 **/
         payment.setOrderNo(Long.parseLong(aLiPayV2Vo.getOut_trade_no()));
@@ -203,7 +203,6 @@ public class VirPayNotifyServiceImpl implements VirPayNotifyService{
     }
 
 
-
     /**
      * 微信支付订单
      *
@@ -230,13 +229,13 @@ public class VirPayNotifyServiceImpl implements VirPayNotifyService{
         }
         BigDecimal price = virItemOrder.getTotalPrice();
         //校验金额
-        int re = checkBaseWxPayInfo(notifyData, xml,orderNo, price);
+        int re = checkBaseWxPayInfo(notifyData, xml, orderNo, price);
         if (re == 0) {
             //更新订单支付状态
             virItemOrder.setStatus(Constants.CHARGE_ORDER_STATUS.PAY);
             virItemOrder.setUpdated(new Date());
             int count = virItemOrderMapper.updateByPrimaryKeySelective(virItemOrder);
-            if (count == 0){
+            if (count == 0) {
                 return "ERROR";
             }
             //  保存用户虚拟商品
@@ -253,7 +252,7 @@ public class VirPayNotifyServiceImpl implements VirPayNotifyService{
             userVirtualItem.setCreated(new Date());
             userVirtualItem.setCover(virItemOrder.getCover());
             userVirtualItemMapper.insert(userVirtualItem);
-            doWXPaySuccess(notifyData,orderType,virItemOrder.getUserId());
+            doWXPaySuccess(notifyData, orderType, virItemOrder.getUserId());
         } else if (re == 2) {
             return "ERROR";
         }
@@ -261,7 +260,7 @@ public class VirPayNotifyServiceImpl implements VirPayNotifyService{
 
     }
 
-    private int checkBaseWxPayInfo(NotifyData notifyData,String xml,Long orderNo, BigDecimal price)throws IOException, SAXException, ParserConfigurationException {
+    private int checkBaseWxPayInfo(NotifyData notifyData, String xml, Long orderNo, BigDecimal price) throws IOException, SAXException, ParserConfigurationException {
         // 检验支付金额
         if (price.compareTo(
                 BigDecimalUtil.div(new BigDecimal(notifyData.getTotal_fee()).doubleValue(), 100)) != 0) {
@@ -272,7 +271,7 @@ public class VirPayNotifyServiceImpl implements VirPayNotifyService{
         PaymentInfo count = paymentInfoMapper.checkPaymentInfo(orderNo);
         /** count==1 为已处理 直接返回成功 **/
         if (count != null) {
-            return 1;
+            return 0;
         }
         /** 验证签名是否合法 **/
         Boolean isSign = Signature.checkIsSignValidFromResponseString(xml);
@@ -289,7 +288,7 @@ public class VirPayNotifyServiceImpl implements VirPayNotifyService{
 
     }
 
-    private PaymentInfo doWXPaySuccess(NotifyData notifyData, Byte orderType,Integer userId) {
+    private PaymentInfo doWXPaySuccess(NotifyData notifyData, Byte orderType, Integer userId) {
         /** -------------支付成功逻辑处理-------------- **/
         PaymentInfo payment = new PaymentInfo();
         /** 订单号 **/
@@ -303,7 +302,7 @@ public class VirPayNotifyServiceImpl implements VirPayNotifyService{
         /** 订单类型 **/
         payment.setType(orderType);
         /** 支付平台 **/
-        payment.setPayPlatform((byte)Constants.PAY_TYPE.WX);
+        payment.setPayPlatform((byte) Constants.PAY_TYPE.WX);
         /** 卖家账号 **/
         payment.setSeller(notifyData.getMch_id());
         /** 支付总价--分为单位 **/
@@ -315,7 +314,7 @@ public class VirPayNotifyServiceImpl implements VirPayNotifyService{
         // 保存订单支付信息
         int count = paymentInfoMapper.insert(payment);
         if (count == 0) {
-            throw new ServiceException(200,"pay failed");
+            throw new ServiceException(200, "pay failed");
         }
         return payment;
     }

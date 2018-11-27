@@ -91,15 +91,15 @@ public class WalletServiceImpl implements WalletService {
     /**
      * 扣减余额，更新余额
      *
-     * @param userId 用户id
-     * @param amount 变得金额
-     * @param type   记录类型
-     * @param targetId   目标id（订单id）
+     * @param userId   用户id
+     * @param amount   变得金额
+     * @param type     记录类型
+     * @param targetId 目标id（订单id）
      * @return
      * @author linqin
      * @date 2018/7/3
      */
-    public int updateBalance(Integer userId, BigDecimal amount, Constants.WALLET_RECORD type,Integer targetId) {
+    public int updateBalance(Integer userId, BigDecimal amount, Constants.WALLET_RECORD type, Integer targetId) {
         //根据用户id取出钱包信息
         Wallet detail = getWallet(userId);
         //在钱包里查出余额
@@ -117,8 +117,8 @@ public class WalletServiceImpl implements WalletService {
                 break;
         }
         balance = balance.add(amount);
-        if (balance.doubleValue()<0){
-            throw new ServiceException(ErrorCode.ERROR.getCode(),"余额不足");
+        if (balance.doubleValue() < 0) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "余额不足");
         }
         //更新余额
         detail.setBalance(balance);
@@ -129,28 +129,28 @@ public class WalletServiceImpl implements WalletService {
         record.setExplain(type.explain);
         record.setAmount(amount);
         record.setTargetId(Long.valueOf(targetId));
-        record.setType((byte)type.type);
+        record.setType((byte) type.type);
         walletRecordMapper.insert(record);
         return 1;
     }
 
 
-
     /**
-     *钱包收益记录
-     * @param userId 用户Id
+     * 钱包收益记录
+     *
+     * @param userId   用户Id
      * @param starting 开始时间
-     * @param ending 截至时间
+     * @param ending   截至时间
      * @return
      * @author linqin
      * @date 2018/6/7
      */
     @Override
-    public Response earnRecordList(Integer userId, PageQuery pageQuery,Long starting ,Long ending) {
+    public Response earnRecordList(Integer userId, PageQuery pageQuery, Long starting, Long ending) {
         //分页
-        PageHelper.startPage(pageQuery.getPageNum(),pageQuery.getPageSize());
+        PageHelper.startPage(pageQuery.getPageNum(), pageQuery.getPageSize());
         //查询收益记录
-        List<WalletRecord> list = walletRecordMapper.selectByUserId(userId,starting,ending);
+        List<WalletRecord> list = walletRecordMapper.selectByUserId(userId, starting, ending);
         return ResponseFactory.sucData(list);
     }
 }

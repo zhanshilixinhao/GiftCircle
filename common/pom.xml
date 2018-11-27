@@ -92,11 +92,9 @@
         </dependency>
 
         <dependency>
-            <groupId>com.alipay.api</groupId>
-            <artifactId>alipay-api</artifactId>
-            <version>2.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/libs/alipay-sdk-java20171027120314.jar</systemPath>
+            <groupId>com.alipay.sdk</groupId>
+            <artifactId>alipay-sdk-java</artifactId>
+            <version>3.4.49.ALL</version>
         </dependency>
         <dependency>
             <groupId>org.mybatis</groupId>

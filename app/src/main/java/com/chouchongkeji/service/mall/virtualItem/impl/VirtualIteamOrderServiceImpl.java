@@ -117,7 +117,7 @@ public class VirtualIteamOrderServiceImpl implements VirtualIteamOrderService {
         //余额支付
         if (payWay == Constants.PAY_TYPE.yue) {
             //扣减余额，更新余额，钱包记录
-            int count = walletService.updateBalance(userId, virItemOrder.getTotalPrice(), Constants.WALLET_RECORD.CON_BUY_VIRITEM,virItemOrder.getId());
+            int count = walletService.updateBalance(userId, virItemOrder.getTotalPrice(), Constants.WALLET_RECORD.CON_BUY_VIRITEM, virItemOrder.getId());
             if (count < 1) {
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "支付失败,请选择其他支付方式");
             }
@@ -134,7 +134,7 @@ public class VirtualIteamOrderServiceImpl implements VirtualIteamOrderService {
             virtualItem.setUpdated(new Date());
             i = virtualItemMapper.updateByPrimaryKey(virtualItem);
             if (i < 1) {
-                throw new ServiceException(ErrorCode.ERROR.getCode(),"更新销量失败");
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "更新销量失败");
             }
             //  保存用户虚拟商品
             UserVirtualItem userVirtualItem = new UserVirtualItem();
@@ -150,11 +150,11 @@ public class VirtualIteamOrderServiceImpl implements VirtualIteamOrderService {
             userVirtualItem.setCover(virItemOrder.getCover());
             i = userVirtualItemMapper.insert(userVirtualItem);
             if (i < 1) {
-                throw new ServiceException(ErrorCode.ERROR.getCode(),"余额支付失败");
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "余额支付失败");
             }
             //保存支付信息
             appPaymentInfoService.doYuePaySuccess(orderNo, userId, virItemOrder.getCreated(), Constants.ORDER_TYPE.ITEM,
-                    0,virItemOrder.getTotalPrice());
+                    0, virItemOrder.getTotalPrice());
             return ResponseFactory.sucMsg("支付成功");
         }
         // 创建订单参数
@@ -201,7 +201,7 @@ public class VirtualIteamOrderServiceImpl implements VirtualIteamOrderService {
         virItemOrder.setUserId(userId);
         virItemOrder.setUpdated(new Date());
         virItemOrder.setSummary(virtualItem.getDescription());
-        virItemOrder.setStatus((byte)1);
+        virItemOrder.setStatus((byte) 1);
         virItemOrder.setQuantity(quantity);
         virItemOrder.setOrderNo(orderNo);
         virItemOrder.setName(virtualItem.getName());
@@ -221,10 +221,10 @@ public class VirtualIteamOrderServiceImpl implements VirtualIteamOrderService {
         vo.setSubject(Constants.PAY_SUBJECT_ORDER);
         vo.setOrderNo(order.getOrderNo());
         if (type == Constants.PAY_TYPE.ALI) {
-            vo.setUrl("virItem_order/ali");
+            vo.setUrl("noauth/pay/virItem_order/ali");
         }
         if (type == Constants.PAY_TYPE.WX) {
-            vo.setUrl("virItem_order/wx");;
+            vo.setUrl("noauth/pay/virItem_order/wx");
         }
         vo.setPrice(order.getTotalPrice());
         return vo;
