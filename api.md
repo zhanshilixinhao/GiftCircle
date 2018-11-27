@@ -195,12 +195,12 @@ http 常用错误码
 |   参数名称   | 参数类型 | 是否必传 | 默认值 |         是否必传          |
 | :----------: | :------: | :------: | :----: | :-----------------------: |
 | access_token |  String  |    是    |   无   |         访问令牌          |
-|    avatar    |  String  |    是    |   无   |           头像            |
-|   nickname   |  String  |    是    |   无   |           昵称            |
-|     age      |   int    |    是    |   无   |           年龄            |
-|    gender    |   int    |    是    |   0    | 性别（默认0），1-男，2-女 |
-|  signature   |  String  |    是    |   无   |         个性签名          |
-|   district   |  String  |    是    |   无   |           地区            |
+|    avatar    |  String  |    否    |   无   |           头像            |
+|   nickname   |  String  |    否    |   无   |           昵称            |
+|     age      |   int    |    否    |   无   |           年龄            |
+|    gender    |   int    |    否    |   0    | 性别（默认0），1-男，2-女 |
+|  signature   |  String  |    否    |   无   |         个性签名          |
+|   district   |  String  |    否    |   无   |           地区            |
 
 请求结果示例：
 
@@ -3424,7 +3424,7 @@ JSON：
 {
     "errCode": 0, 
     "result": 0, 
-    "msg": "申请折现成功", 
+    "msg": "折现成功", 
     "time": 1531365179080
 }
 ```
@@ -3969,6 +3969,7 @@ JSON：
             reply: "",
 			isReply: 2, // 1 已答谢 2 未答谢
             created: 1530847416000
+            targetTime: 1543273052000, 
         }
     ]
 }

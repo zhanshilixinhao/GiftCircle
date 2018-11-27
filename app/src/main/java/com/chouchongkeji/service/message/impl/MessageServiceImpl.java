@@ -88,7 +88,7 @@ public class MessageServiceImpl implements MessageService {
         message.setMessageType(type.type());
         message.setSummary(summary);
         message.setContent(JSON.toJSONString(content));
-        message.setTargetId(targetId);
+        message.setTargetId(Long.valueOf(targetId));
         return addMessage(message, userIds);
     }
 

@@ -12,7 +12,7 @@ public class WalletRecord {
 
     private BigDecimal amount;
 
-    private Integer targetId;
+    private Long targetId;
 
     private Byte type;
 
@@ -20,7 +20,7 @@ public class WalletRecord {
 
     private Date created;
 
-    public WalletRecord(Integer id, Integer userId, String explain, BigDecimal amount, Integer targetId, Byte type, Date updated, Date created) {
+    public WalletRecord(Integer id, Integer userId, String explain, BigDecimal amount, Long targetId, Byte type, Date updated, Date created) {
         this.id = id;
         this.userId = userId;
         this.explain = explain;
@@ -67,11 +67,11 @@ public class WalletRecord {
         this.amount = amount;
     }
 
-    public Integer getTargetId() {
+    public Long getTargetId() {
         return targetId;
     }
 
-    public void setTargetId(Integer targetId) {
+    public void setTargetId(Long targetId) {
         this.targetId = targetId;
     }
 

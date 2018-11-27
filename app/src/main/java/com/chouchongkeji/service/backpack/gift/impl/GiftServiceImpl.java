@@ -37,6 +37,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -404,6 +405,7 @@ public class GiftServiceImpl implements GiftService {
             record.setTargetTime(sendVo.getTargetTime());
             status = Constants.GIFT_STATUS.WAIT;
         } else { // 如果是立即赠送
+            record.setTargetTime(new Date());
             status = Constants.GIFT_STATUS.SEND;
         }
         record.setStatus(status);

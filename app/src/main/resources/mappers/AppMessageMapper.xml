@@ -7,7 +7,7 @@
       <arg column="title" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="summary" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="content" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="target_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="target_id" javaType="java.lang.Long" jdbcType="BIGINT" />
       <arg column="target_type" javaType="java.lang.Byte" jdbcType="TINYINT" />
       <arg column="message_type" javaType="java.lang.Byte" jdbcType="TINYINT" />
       <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
@@ -18,7 +18,7 @@
     id, title, summary, content, target_id, target_type, message_type, created, updated
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from app_message
     where id = #{id,jdbcType=INTEGER}
@@ -29,11 +29,11 @@
   </delete>
   <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.gift.virtualItem.AppMessage" useGeneratedKeys="true" keyProperty="id">
     insert into app_message (id, title, summary,
-      content, target_id, target_type, 
+      content, target_id, target_type,
       message_type, created, updated
       )
     values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{summary,jdbcType=VARCHAR},
-      #{content,jdbcType=VARCHAR}, #{targetId,jdbcType=INTEGER}, #{targetType,jdbcType=TINYINT}, 
+      #{content,jdbcType=VARCHAR}, #{targetId,jdbcType=INTEGER}, #{targetType,jdbcType=TINYINT},
       #{messageType,jdbcType=TINYINT}, now(), now()
       )
   </insert>

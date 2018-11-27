@@ -7,7 +7,7 @@
       <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="explain" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="amount" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
-      <arg column="target_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="target_id" javaType="java.lang.Long" jdbcType="BIGINT" />
       <arg column="type" javaType="java.lang.Byte" jdbcType="TINYINT" />
       <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
       <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
@@ -17,7 +17,7 @@
     id, user_id, `explain`, amount, target_id, `type`, updated, created
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from wallet_record
     where id = #{id,jdbcType=INTEGER}
@@ -46,10 +46,10 @@ FROM
   </delete>
   <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.iwant.wallet.WalletRecord">
     insert into wallet_record (id, user_id,  `explain`,
-      amount, target_id, type, 
+      amount, target_id, type,
       updated, created)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{explain,jdbcType=VARCHAR},
-      #{amount,jdbcType=DECIMAL}, #{targetId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, 
+      #{amount,jdbcType=DECIMAL}, #{targetId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT},
       now(), now())
   </insert>
   <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.iwant.wallet.WalletRecord">

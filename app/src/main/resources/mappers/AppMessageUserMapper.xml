@@ -55,6 +55,7 @@ ORDER BY
         <result column="message_id" property="messageId"/>
         <result column="user_id" property="userId"/>
         <result column="send_user_id" property="sendUserId"/>
+        <result column="target_time" property="targetTime"/>
         <result column="greetting" property="greetting"/>
         <result column="is_read" property="isRead"/>
         <result column="created" property="created"/>
@@ -71,6 +72,7 @@ SELECT
 	b.id AS message_id,
 	b.user_id,
 	d.user_id AS send_user_id,
+	d.target_time,
 	d.greetting,
 	b.is_read,
 	b.created,
@@ -126,10 +128,10 @@ ORDER BY
     where id = #{id,jdbcType=INTEGER}
   </delete>
     <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.gift.virtualItem.AppMessageUser">
-    insert into app_message_user (id, user_id, app_message_id, 
+    insert into app_message_user (id, user_id, app_message_id,
       is_read, created, updated
       )
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{appMessageId,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{appMessageId,jdbcType=INTEGER},
       #{isRead,jdbcType=TINYINT}, #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP}
       )
   </insert>

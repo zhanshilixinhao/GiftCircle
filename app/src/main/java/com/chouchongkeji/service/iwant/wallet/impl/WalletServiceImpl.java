@@ -128,7 +128,7 @@ public class WalletServiceImpl implements WalletService {
         record.setUserId(userId);
         record.setExplain(type.explain);
         record.setAmount(amount);
-        record.setTargetId(targetId);
+        record.setTargetId(Long.valueOf(targetId));
         record.setType((byte)type.type);
         walletRecordMapper.insert(record);
         return 1;

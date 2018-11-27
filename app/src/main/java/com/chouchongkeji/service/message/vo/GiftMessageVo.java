@@ -34,6 +34,7 @@ public class GiftMessageVo {
     private Byte isReply;
 
     private Date created;
+    private Date targetTime;
 
     private Integer reNum; // 剩余数量
 
@@ -75,6 +76,14 @@ public class GiftMessageVo {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public Date getTargetTime() {
+        return targetTime;
+    }
+
+    public void setTargetTime(Date targetTime) {
+        this.targetTime = targetTime;
     }
 
     public Byte getIsRead() {

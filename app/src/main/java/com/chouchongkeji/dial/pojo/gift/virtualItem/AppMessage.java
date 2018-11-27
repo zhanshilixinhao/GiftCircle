@@ -13,7 +13,7 @@ public class AppMessage {
 
     private String content;
 
-    private Integer targetId;
+    private Long targetId;
 
     private Byte targetType;
 
@@ -23,7 +23,7 @@ public class AppMessage {
 
     private Date updated;
 
-    public AppMessage(Integer id, String title, String summary, String content, Integer targetId, Byte targetType, Byte messageType, Date created, Date updated) {
+    public AppMessage(Integer id, String title, String summary, String content, Long targetId, Byte targetType, Byte messageType, Date created, Date updated) {
         this.id = id;
         this.title = title;
         this.summary = summary;
@@ -71,11 +71,11 @@ public class AppMessage {
         this.content = content == null ? null : content.trim();
     }
 
-    public Integer getTargetId() {
+    public Long getTargetId() {
         return targetId;
     }
 
-    public void setTargetId(Integer targetId) {
+    public void setTargetId(Long targetId) {
         this.targetId = targetId;
     }
 
