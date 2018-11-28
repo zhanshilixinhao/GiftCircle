@@ -2,10 +2,7 @@ package com.chouchongkeji;
 
 import com.chouchongkeji.goexplore.pay.PayVO;
 import com.chouchongkeji.goexplore.pay.alipay_v2.AliPayServiceV2;
-import com.chouchongkeji.goexplore.utils.ApiSignUtil;
-import com.chouchongkeji.goexplore.utils.OkHttpManager;
-import com.chouchongkeji.goexplore.utils.OkHttpUtil;
-import com.chouchongkeji.goexplore.utils.RequestParams;
+import com.chouchongkeji.goexplore.utils.*;
 import okhttp3.Response;
 import org.apache.commons.lang3.time.DateUtils;
 import org.junit.Test;
@@ -114,5 +111,19 @@ public class AppTest
         params.put("sign",map.get(ApiSignUtil.ANDROID));
         Response post = OkHttpUtil.post("http://localhost:8089/auth/v1/discount/add_record", params);
         System.out.println(post.body().string());
+    }
+
+    @Test
+    public void modify() throws IOException {
+        RequestParams params = new RequestParams();
+        params.put("time","1543377365");
+        params.put("access_token","d43baab4-d457-4c4a-ad86-84e66b0e6275");
+        params.put("nickname","abc");
+        Map map = ApiSignUtil.sign1(params.getParams(),ApiSignUtil.IOS);
+        params.put("sign",map.get(ApiSignUtil.IOS));
+        Response post = OkHttpUtil.post("https://liyuquan.cn/app/auth/user/modify_profile", params);
+        System.out.println(post.body().string());
+
+//        System.out.println(Utils.toMD5("access_token=d43baab4-d457-4c4a-ad86-84e66b0e6275&nickname=abc&time=1543382182&key=%sX4H91PzuB7V%5ET4uefDnsiwzHDxOgrX"));
     }
 }
