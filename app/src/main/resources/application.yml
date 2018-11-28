@@ -85,6 +85,6 @@ yichen:
 
 #    logo: http://43.241.223.169:800/image/logo.jpg
 server:
-  port: 8089
+  port: 8088
 
 

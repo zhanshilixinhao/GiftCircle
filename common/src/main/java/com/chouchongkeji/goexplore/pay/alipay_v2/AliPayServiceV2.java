@@ -72,6 +72,7 @@ public class AliPayServiceV2 {
         }
 //        String test = "app_id=2017102009412940&auth_app_id=2017102009412940&body=珠宝商城&buyer_id=2088702252957362&buyer_logon_id=111***@qq.com&buyer_pay_amount=0.01&charset=utf-8&fund_bill_list=[{\"amount\":\"0.01\",\"fundChannel\":\"ALIPAYACCOUNT\"}]&gmt_create=2017-11-02 14:35:39&gmt_payment=2017-11-02 14:35:40&invoice_amount=0.01&notify_id=cf1aaac5cf9c81aeb6d406b0a391147is2&notify_time=2017-11-02 14:35:40&notify_type=trade_status_sync&out_trade_no=10071&point_amount=0.00&receipt_amount=0.01&seller_email=15877801115@163.com&seller_id=2088821498950563&subject=-商品购买&total_amount=0.01&trade_no=2017110221001004360229369308&trade_status=TRADE_SUCCESS&version=1.0,sign=QLcBjHESfMnfDWRQORjYtkIbLjfg4csTsm5RGLvsvQDZwjlGqbUTDA8CzUb+/+6UJuztNr2iOagHYtOKSztpkVTYPJBkroQMZUyGzhX5K3/sGCiJMiq+LslKMY1KAmritFK8wE+QlJBBKml9XyF7Gl1xpRlsmmI7/VsEUnpmzAU4cpixBTlDEQYt8w0oOvcYkC6y1S2qWVpYqrusW4U+LSHK64XSrVefA3km/9gldHjb+QeOX5Z0VtyGMnJbqPGPWYtC6jkOhu7hws9koFItC3E4rpx7vHasYKXWVUmEjELIR8Hre8D+KUhM5anQAesNXvwL5/GWCl4aSUY+1+xjUw==,charset = utf-8";
 
+        System.out.println(String.format("支付宝回调参数%s", JSON.toJSONString(params)));
         //切记alipaypublickey是支付宝的公钥，请去open.alipay.com对应应用下查看。
         //boolean AlipaySignature.rsaCheckV1(Map<String, String> params, String publicKey, String charset, String sign_type)
         boolean flag = false;
@@ -84,6 +85,7 @@ public class AliPayServiceV2 {
         } catch (AlipayApiException e) {
             e.printStackTrace();
         }
+        System.out.println("支付宝校验结果" + flag);
         return flag;
     }
 

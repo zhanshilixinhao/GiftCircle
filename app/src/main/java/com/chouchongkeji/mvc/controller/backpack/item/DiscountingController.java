@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @author linqin
  * @date 2018/7/11
@@ -38,6 +41,22 @@ public class DiscountingController {
             return ResponseFactory.errMissingParameter();
         }
         return discountingService.addDiscountRecord(userDetails.getUserId(), bpId);
+    }
+
+    /**
+     * 折现信息
+     *
+     * @param userDetails
+     * @return
+     * @author linqin
+     * @date 2018/7/11
+     */
+    @PostMapping("preinfo")
+    public Response preinfo(@AuthenticationPrincipal UserDetails userDetails) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("ratio", 0.15);
+        map.put("desc", "折现说明文字在这里");
+        return ResponseFactory.sucData(map);
     }
 
 
