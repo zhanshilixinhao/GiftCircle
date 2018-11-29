@@ -22,7 +22,10 @@ import com.chouchongkeji.goexplore.utils.DateUtil;
 import com.chouchongkeji.goexplore.utils.HttpClientUtils;
 import com.chouchongkeji.service.backpack.base.BpService;
 import com.chouchongkeji.service.mall.virtualItem.VirPayNotifyService;
+import com.chouchongkeji.service.user.info.impl.AppPaymentInfoServiceImpl;
 import com.chouchongkeji.util.Constants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -44,6 +47,10 @@ import java.util.Map;
 @Service
 @Transactional(rollbackFor = Exception.class, isolation = Isolation.REPEATABLE_READ)
 public class VirPayNotifyServiceImpl implements VirPayNotifyService {
+
+
+    private static final Logger log = LoggerFactory.getLogger(AppPaymentInfoServiceImpl.class);
+
     @Autowired
     private PaymentInfoMapper paymentInfoMapper;
 
@@ -206,7 +213,9 @@ public class VirPayNotifyServiceImpl implements VirPayNotifyService {
         /** -------------支付成功逻辑处理-------------- **/
         // 保存订单支付信息
         int count = paymentInfoMapper.insert(payment);
+        log.info("支付信息插入成功");
         if (count == 0) {
+            log.info("支付信息插入失败");
             throw new ServiceException(200, "pay failed");
         }
         return payment;
@@ -232,20 +241,25 @@ public class VirPayNotifyServiceImpl implements VirPayNotifyService {
         NotifyData notifyData = (NotifyData) Util.getObjectFromXML(xml, NotifyData.class);
         //校验订单号
         Long orderNo = Long.parseLong(notifyData.getOut_trade_no());
-
+        log.info("取出订单号");
         VirItemOrder virItemOrder = virItemOrderMapper.selectByOrderNo(orderNo);
         if (virItemOrder == null) {
+            log.info("订单号校验失败");
             return "ERROR";
         }
+        log.info("订单号校验成功");
         BigDecimal price = virItemOrder.getTotalPrice();
         //校验金额
         int re = checkBaseWxPayInfo(notifyData, xml, orderNo, price);
+        log.info("金额校验成功");
         if (re == 0) {
             //更新订单支付状态
             virItemOrder.setStatus(Constants.CHARGE_ORDER_STATUS.PAY);
             virItemOrder.setUpdated(new Date());
             int count = virItemOrderMapper.updateByPrimaryKeySelective(virItemOrder);
+            log.info("更新订单支付状态成功");
             if (count == 0) {
+                log.info("更新订单支付状失败");
                 return "ERROR";
             }
             //  保存用户虚拟商品
@@ -262,15 +276,20 @@ public class VirPayNotifyServiceImpl implements VirPayNotifyService {
             userVirtualItem.setCreated(new Date());
             userVirtualItem.setCover(virItemOrder.getCover());
             userVirtualItemMapper.insert(userVirtualItem);
+            log.info("保存用户虚拟商品成功");
             // 物品添加到背包
             int b = bpService.addFromVirtualItemOrder(virItemOrder);
             if (b < 1) {
+                log.info("背包物品添加失败");
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "");
             }
+            log.info("背包物品添加成功");
             doWXPaySuccess(notifyData, orderType, virItemOrder.getUserId());
         } else if (re == 2) {
+            log.info("金额校验失败");
             return "ERROR";
         }
+        log.info("支付成功");
         return resXml;
 
     }
@@ -279,26 +298,34 @@ public class VirPayNotifyServiceImpl implements VirPayNotifyService {
         // 检验支付金额
         if (price.compareTo(
                 BigDecimalUtil.div(new BigDecimal(notifyData.getTotal_fee()).doubleValue(), 100)) != 0) {
+            log.info("金额校验失败");
             return 2;
         }
+        log.info("金额校验成功");
         /** 判断该请求订单是否已经处理 **/
         /** 判断这次回调请求的订单是否已处理 **/
         PaymentInfo count = paymentInfoMapper.checkPaymentInfo(orderNo);
         /** count==1 为已处理 直接返回成功 **/
         if (count != null) {
-            return 0;
+            log.info("订单已处理");
+            return 1;
         }
+        log.info("订单未处理");
         /** 验证签名是否合法 **/
         Boolean isSign = Signature.checkIsSignValidFromResponseString(xml);
         /** 如果签名合法 isSign=true **/
         if (isSign) {
+            log.info("签名合法");
             /** 判断是否支付成功 **/
             if ("SUCCESS".equalsIgnoreCase(notifyData.getReturn_code())
                     && "SUCCESS".equalsIgnoreCase(notifyData.getResult_code())) {
 //                logger.error("------------------收到回调 支付成功");
-                return 1;
+                log.info("huid支付成功");
+                return 0;
             }
+            log.info("hksdjfh支付失败");
         }
+        log.info("签名不合法");
         return 2;
 
     }

@@ -80,7 +80,7 @@ public class OrderServiceImpl implements OrderService {
     private BpService bpService;
 
     @Autowired
-    ServiceProperties serviceProperties;
+     private ServiceProperties serviceProperties;
 
     /**
      * 按时取消订单

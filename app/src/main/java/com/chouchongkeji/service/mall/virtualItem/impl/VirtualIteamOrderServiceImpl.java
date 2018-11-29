@@ -18,6 +18,7 @@ import com.chouchongkeji.goexplore.pay.weixin.service.WXPayService;
 import com.chouchongkeji.goexplore.utils.RSAProvider;
 import com.chouchongkeji.dial.pojo.gift.virtualItem.VirItemOrder;
 import com.chouchongkeji.dial.pojo.gift.virtualItem.VirtualItem;
+import com.chouchongkeji.properties.ServiceProperties;
 import com.chouchongkeji.service.backpack.base.BpService;
 import com.chouchongkeji.service.iwant.wallet.WalletService;
 import com.chouchongkeji.service.mall.virtualItem.VirtualIteamOrderService;
@@ -61,6 +62,9 @@ public class VirtualIteamOrderServiceImpl implements VirtualIteamOrderService {
 
     @Autowired
     private BpService bpService;
+
+    @Autowired
+    private ServiceProperties serviceProperties;
 
     /**
      * 创建虚拟商品订单
@@ -230,10 +234,10 @@ public class VirtualIteamOrderServiceImpl implements VirtualIteamOrderService {
         vo.setSubject(Constants.PAY_SUBJECT_ORDER);
         vo.setOrderNo(order.getOrderNo());
         if (type == Constants.PAY_TYPE.ALI) {
-            vo.setUrl("noauth/pay/virItem_order/ali");
+            vo.setUrl(serviceProperties.getHost()+"noauth/pay/virItem_order/ali");
         }
         if (type == Constants.PAY_TYPE.WX) {
-            vo.setUrl("noauth/pay/virItem_order/wx");
+            vo.setUrl(serviceProperties.getHost()+"noauth/pay/virItem_order/wx");
         }
         vo.setPrice(order.getTotalPrice());
         return vo;
