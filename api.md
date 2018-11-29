@@ -1709,7 +1709,56 @@ JSON：
 }
 ```
 
+### 6.15 创建虚拟商品订单
+- 请求地址：auth/v1/virOrder/create
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yy
 
+| 参数名称 | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :------: | :------: | :------: | :----: | :------: |
+|  access_token  |   String    |    是    |   无   |  访问令牌  |
+| id | int | 是 | 无 | 虚拟商品id |
+| quantity | int | 是 | 无 | 商品数量 |
+
+请求结果示例：
+```json
+{
+    "errCode": 0,
+    "result": 0,
+    "time": 1542788619794,
+    "data": {
+        "orderNo": 318112116111,// 订单号
+        "totalPrice": 6 // 总价格
+    }
+}
+```
+
+### 6.16 虚拟商品订单支付
+- 请求地址：auth/v1/virOrder/pay
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yy
+
+| 参数名称 | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :------: | :------: | :------: | :----: | :------: |
+|  access_token  |   String    |    是    |   无   |  访问令牌  |
+| orderNo | Long | 是 | 无 | 订单号 |
+| payWay | int | 是 | 无 | 支付方式，微信 24656 ，支付宝 78990，余额98001 |
+
+请求结果示例：
+```json
+{{
+     "errCode": 0,
+     "result": 0,
+     "time": 1542788894098,
+     "data": {
+         "params": "elDbeJM/bdEJxxZIU0tNsKZTTbs/s337/0TujqrP6fNrFz0Jyoi+503FLW5ZO13AGWh4U1glI85Tjt9HRkygwv9CGQ0FEDpYYi6Ln/p3LZg61yi7YvBLtV24BpQXt51mGPm8xkrA3SCL+j0ZuX6I30M8/L7EJSTaP5ROLgZmAQuKsq5knHNH+Hsnwv/q3TiaI0uuCg6iviqSAdsNN+5ZVdcAapm0tnDPdbE+tpt0FhhAiVXldLdus/AOrWH+pDQEQ1h3r6pjSz26Vua3/rIba9oGYRMiPViNS9sXLe1bvxOUaGtKdFMBjonH+fka6yv7sIWdzlmE+RKgXptd+yAKMg==f0GBsDoc8v036/4uT24pVky5rEQM7x8pkM7hfrw+QrvU8SCdD4QR56lS2krd/ROvbNxllW7iM1c1A1NpbxfNDsOmOwXS0W4tDfyFm1dNWgIefe8KstUsF4SVeLFvDeL7tb6lkbo035e4cuhwNRSPnO/g0lZOC0FICEBLrUaIaKypz10ix8tO7w9aIWrU8VpiOMCdcSmu49w8ylBgWmK1DcqWpx2ukWnTDOiIfwJMsRVUm58OU7hUf0CHpEKlR0xZ2BC2wqWbZ0Aulq97rIWPdaQXmTRhz+G7v0Lw6gzh2u53HLo4b8PFfxKqg6O0xVzmyYiOnhOC+q+KJGKXvvbNsQ==||344,344",
+         "orderNo": 318112116110,
+         "type": 24656
+     }
+ }
+```
 
 
 ## 7. 购物车
