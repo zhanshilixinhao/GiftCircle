@@ -18,6 +18,7 @@ import com.chouchongkeji.goexplore.pay.weixin.service.WXPayService;
 import com.chouchongkeji.goexplore.utils.RSAProvider;
 import com.chouchongkeji.dial.pojo.gift.virtualItem.VirItemOrder;
 import com.chouchongkeji.dial.pojo.gift.virtualItem.VirtualItem;
+import com.chouchongkeji.service.backpack.base.BpService;
 import com.chouchongkeji.service.iwant.wallet.WalletService;
 import com.chouchongkeji.service.mall.virtualItem.VirtualIteamOrderService;
 import com.chouchongkeji.service.user.info.AppPaymentInfoService;
@@ -57,6 +58,9 @@ public class VirtualIteamOrderServiceImpl implements VirtualIteamOrderService {
 
     @Autowired
     private OrderHelper orderHelper;
+
+    @Autowired
+    private BpService bpService;
 
     /**
      * 创建虚拟商品订单
@@ -151,6 +155,11 @@ public class VirtualIteamOrderServiceImpl implements VirtualIteamOrderService {
             i = userVirtualItemMapper.insert(userVirtualItem);
             if (i < 1) {
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "余额支付失败");
+            }
+            // 物品添加到背包
+            int b = bpService.addFromVirtualItemOrder(virItemOrder);
+            if (b < 1) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "");
             }
             //保存支付信息
             appPaymentInfoService.doYuePaySuccess(orderNo, userId, virItemOrder.getCreated(), Constants.ORDER_TYPE.ITEM,

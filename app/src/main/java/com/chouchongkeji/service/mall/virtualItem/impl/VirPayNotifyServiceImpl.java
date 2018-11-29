@@ -9,6 +9,7 @@ import com.chouchongkeji.dial.pojo.gift.virtualItem.VirItemOrder;
 import com.chouchongkeji.dial.pojo.gift.virtualItem.VirtualItem;
 import com.chouchongkeji.dial.pojo.user.PaymentInfo;
 import com.chouchongkeji.exception.ServiceException;
+import com.chouchongkeji.goexplore.common.ErrorCode;
 import com.chouchongkeji.goexplore.pay.alipay.config.AlipayConfig;
 import com.chouchongkeji.goexplore.pay.alipay_v2.ALiPayV2Vo;
 import com.chouchongkeji.goexplore.pay.alipay_v2.AliPayServiceV2;
@@ -19,6 +20,7 @@ import com.chouchongkeji.goexplore.pay.weixin.protocol.NotifyData;
 import com.chouchongkeji.goexplore.utils.BigDecimalUtil;
 import com.chouchongkeji.goexplore.utils.DateUtil;
 import com.chouchongkeji.goexplore.utils.HttpClientUtils;
+import com.chouchongkeji.service.backpack.base.BpService;
 import com.chouchongkeji.service.mall.virtualItem.VirPayNotifyService;
 import com.chouchongkeji.util.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +55,9 @@ public class VirPayNotifyServiceImpl implements VirPayNotifyService {
 
     @Autowired
     private VirtualItemMapper virtualItemMapper;
+
+    @Autowired
+    private BpService bpService;
 
     /**
      * 支付宝提供给商户的服务接入网关URL(新)
@@ -106,6 +111,11 @@ public class VirPayNotifyServiceImpl implements VirPayNotifyService {
             if (virtualItem != null) {
                 virtualItem.setSales(virtualItem.getSales() + virItemOrder.getQuantity());
                 virtualItemMapper.updateByPrimaryKey(virtualItem);
+            }
+            // 物品添加到背包
+            int b = bpService.addFromVirtualItemOrder(virItemOrder);
+            if (b < 1) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "");
             }
             doAliPaySuccess(aLiPayV2Vo, orderType, virItemOrder.getUserId());
         } else if (re == 2) {
@@ -252,6 +262,11 @@ public class VirPayNotifyServiceImpl implements VirPayNotifyService {
             userVirtualItem.setCreated(new Date());
             userVirtualItem.setCover(virItemOrder.getCover());
             userVirtualItemMapper.insert(userVirtualItem);
+            // 物品添加到背包
+            int b = bpService.addFromVirtualItemOrder(virItemOrder);
+            if (b < 1) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "");
+            }
             doWXPaySuccess(notifyData, orderType, virItemOrder.getUserId());
         } else if (re == 2) {
             return "ERROR";
