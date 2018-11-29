@@ -94,4 +94,18 @@ public interface UserService {
      * @return
      */
     Response scanQrcode(Integer userId, String qrcode);
+
+    /**
+     * 找回密码
+     *
+     * @param userId 用户信息
+     * @param phone       电话号码
+     * @param code        短信验证码
+     * @param de          加密后的密码
+     * @param time         随机字符串
+     * @return
+     * @author linqin
+     * @date 2018/6/7
+     */
+    Response findSendPwd(Integer userId, Integer client, String phone, String code, String de, String time);
 }

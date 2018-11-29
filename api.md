@@ -716,7 +716,7 @@ http 常用错误码
             "describe": "申请提现"
         },
         {
-            "amount": 20,
+            "amount": -20,
             "status": 1,
             "created": 1528774229000,
             "describe": ""
@@ -729,7 +729,7 @@ http 常用错误码
 | -------- | :------: | :------: | :----------------------------------------------------: |
 | errCode  |   Int    |    是    |               错误码 0 标识成功获取数据                |
 | data     |  Object  |    否    |                      成功返回数据                      |
-| amount   | decimal  |    是    |                        提现金额                        |
+| amount   | decimal  |    是    |     提现金额（状态为1，2时金额为负数，状态为3时金额为正数）                        |
 | status   |   Int    |    是    |     提现状态，1-申请提现，2-提现成功，3-提现失败         |
 | created  |   long   |    是    |                        提现时间                        |
 | describe |  String  |    是    |                        提现说明                        |
@@ -883,6 +883,42 @@ String de = AESUtils.encrypt(seed, pwd);
 }
 ```
 
+### 3.14 找回赠送密码（需要先请求3.9）
+
+- 请求地址：auth/user/find/pwd
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yichen
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+|phone|string|是|无|电话号码|
+|code|string|是|无|短信验证码|
+| de | string | 是 | 无 | 密码加密之后的字符串 |
+| s2 | string | 是 | 无 | 随机字符串 |
+
+* 加密规则说名
+
+```js
+String apiKey; // 接口签名的apiKey
+String pwd;    // 原密码MD5 32位大写
+String s1;     // 3.9中返回的随机数字
+String s2;   // 客户端生成的随机字符串
+// 拼接密码
+pwd = String.format("%s@%s", pwd, Utils.toMD5(String.format("%spinjie%s", s2, s1)));
+// 拼接加密的密钥
+int len = apiKey.length();
+// 取出随机数字的第一位
+int first = s1.charAt(0) - 48;
+// 去除apiKey中的第first位
+String seed = String.format("%s%s%s%s", s2, apiKey.substring(0, first),
+apiKey.substring(first < len ? first + 1 : first, len), s1);
+// 使用AES256加密
+String de = AESUtils.encrypt(seed, pwd);
+```
+
+
 
 ## 4. 全国行政区查询
 
@@ -947,22 +983,24 @@ JSON：
 
 ```json
 {
-    "errCode": 0,
-    "result": 0,
-    "time": 1528769843718,
+    "errCode": 0, 
+    "result": 0, 
+    "time": 1543476763886, 
     "data": [
         {
-            "id": 3,
-            "consigneeName": "李志国1",
-            "phone": "13906659842",
-            "addressDetail": "云南省昆明市盘龙区129号31栋3单元5031",
+            "id": 16, 
+            "consigneeName": "李", 
+            "phone": "15752400657", 
+            "addressDetail": "南屏街", 
+            "address": "云南省昆明市五华区", 
             "status": 1
-        },
+        }, 
         {
-            "id": 1,
-            "consigneeName": "小明",
-            "phone": "13965869852",
-            "addressDetail": "云南省昆明市五华区一二一大街126号1单元001",
+            "id": 1, 
+            "consigneeName": "小明", 
+            "phone": "13965869852", 
+            "addressDetail": "云南省昆明市五华区一二一大街126号1单元001", 
+            "address": "云南省昆明市五华区", 
             "status": 1
         }
     ]
@@ -977,6 +1015,7 @@ JSON：
 | consigneeName | String | 是 | 收货人 |
 | phone | String | 是 | 联系电话 |
 | addressDetail | String | 是 | 收货人详细地址 |
+| address | String | 是 | 所在地区 |
 | status | Int | 是 | 地址状态 1.不是默认地址 2.是默认地址 |
 
 ### 5.2 删除收货地址
@@ -2249,8 +2288,8 @@ JSON：
 | access_token |  string  |    是    |   无   | 访问令牌 |
 | targetUserId | String | 是 | 无 | 要添加为好友的用户id |
 | validationMsg | string | 否 | 无 | 验证信息 |
-| remark | string | 是 | 无 | 备注名称 |
-| groupId | int | 是 | 无 | 分组id |
+| remark | string | 否 | 无 | 备注名称 |
+| groupId | int | 否 | 无 | 分组id |
 
 * 请求结果示例
 

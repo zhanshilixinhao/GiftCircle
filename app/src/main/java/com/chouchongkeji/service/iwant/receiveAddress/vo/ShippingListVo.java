@@ -15,6 +15,7 @@ public class ShippingListVo {
     private String phone;
     // 收货人地址详情
     private String addressDetail;
+    private String address;
     // 地址状态 1.不是默认地址 2.是默认地址
     private Integer status;
 
@@ -52,6 +53,14 @@ public class ShippingListVo {
 
     public Integer getStatus() {
         return status;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public void setStatus(Integer status) {

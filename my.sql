@@ -524,7 +524,7 @@ create table user_withdraw
   amount           decimal(18, 2) comment '提现金额',
   user_bankcard_id int,
   status           tinyint default 1
-  comment '提现状态，1-申请提现，2-提现中，3-提现成功，4-提现失败',
+  comment '提现状态，1-申请提现，2-提现成功，3-提现失败',
   `describe`       varchar(64) comment '提现说明',
   created          datetime comment '创建时间',
   updated          datetime comment '更新时间',

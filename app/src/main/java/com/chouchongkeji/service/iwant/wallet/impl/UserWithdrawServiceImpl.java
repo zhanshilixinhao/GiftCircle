@@ -9,8 +9,10 @@ import com.chouchongkeji.goexplore.query.PageQuery;
 import com.chouchongkeji.dial.pojo.iwant.wallet.UserBankCard;
 import com.chouchongkeji.dial.pojo.iwant.wallet.UserWithdraw;
 import com.chouchongkeji.dial.pojo.iwant.wallet.Wallet;
+import com.chouchongkeji.goexplore.utils.BigDecimalUtil;
 import com.chouchongkeji.service.iwant.wallet.UserWithdrawService;
 import com.chouchongkeji.service.iwant.wallet.vo.UserWithdrawVo;
+import com.chouchongkeji.util.Constants;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,7 +30,7 @@ import java.util.List;
 
 @Service
 @Transactional(rollbackFor = Exception.class, isolation = Isolation.REPEATABLE_READ)
-public class UserWithdrawServiceImpl implements UserWithdrawService{
+public class UserWithdrawServiceImpl implements UserWithdrawService {
     @Autowired
     private UserWithdrawMapper userWithdrawMapper;
 
@@ -72,7 +74,7 @@ public class UserWithdrawServiceImpl implements UserWithdrawService{
         userWithdraw.setUserId(userId);
         userWithdraw.setUserBankcardId(id);
         userWithdraw.setUpdated(new Date());
-        userWithdraw.setStatus((byte)1);
+        userWithdraw.setStatus((byte) 1);
         userWithdraw.setDescribe("");
         userWithdraw.setCreated(new Date());
 
@@ -97,6 +99,13 @@ public class UserWithdrawServiceImpl implements UserWithdrawService{
     public Response getUserWithdrawList(Integer userId, PageQuery page) {
         PageHelper.startPage(page.getPageNum(), page.getPageSize());
         List<UserWithdrawVo> userWithdraws = userWithdrawMapper.selectByUserId(userId);
+        for (UserWithdrawVo userWithdraw : userWithdraws) {
+            if (userWithdraw.getStatus() == Constants.WIDTH_STATUS.APPLY || userWithdraw.getStatus() == Constants.WIDTH_STATUS.SUCCESS){
+               BigDecimal amount = BigDecimalUtil.multi(userWithdraw.getAmount().doubleValue(),-1);
+                userWithdraw.setAmount(amount);
+            }
+
+        }
         return ResponseFactory.sucData(userWithdraws);
     }
 }

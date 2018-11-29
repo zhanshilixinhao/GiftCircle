@@ -384,4 +384,27 @@ public class UserServiceImpl implements UserService {
         }
         return ResponseFactory.err("密码修改失败!");
     }
+
+    /**
+     * 找回密码
+     *
+     * @param userId 用户信息
+     * @param phone       电话号码
+     * @param code        短信验证码
+     * @param de          加密后的密码
+     * @param time         随机字符串
+     * @return
+     * @author linqin
+     * @date 2018/6/7
+     */
+    @Override
+    public Response findSendPwd(Integer userId, Integer client, String phone, String code, String de, String time) {
+        // 根据userId查询用户信息
+        AppUser appUser = appUserMapper.selectByUserId(userId);
+        if (StringUtils.equals(appUser.getPhone(),phone)){
+            return ResponseFactory.err("改号码与注册号码不符合");
+        }
+        Response response = setSentPwd(userId, de, time, client);
+        return response;
+    }
 }

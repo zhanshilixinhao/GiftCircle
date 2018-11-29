@@ -77,7 +77,7 @@ public class UserController {
      *
      * @param userDetails 用户信息
      * @param de          加密后的密码
-     * @param time        随机字符串
+     * @param s2          随机字符串
      * @return
      * @author linqin
      * @date 2018/6/7
@@ -117,7 +117,7 @@ public class UserController {
      *
      * @param userDetails 用户信息
      * @param de          加密后的密码
-     * @param time        随机字符串
+     * @param s2          随机字符串
      * @return
      * @author linqin
      * @date 2018/6/7
@@ -131,6 +131,29 @@ public class UserController {
         }
         return userService.changePwd(userDetails.getUserId(), de, time, client, key);
     }
+
+    /**
+     * 找回密码
+     *
+     * @param userDetails 用户信息
+     * @param phone       电话号码
+     * @param code        短信验证码
+     * @param de          加密后的密码
+     * @param s2          随机字符串
+     * @return
+     * @author linqin
+     * @date 2018/6/7
+     */
+    @PostMapping("find/pwd")
+    public Response findSendPwd(@AuthenticationPrincipal UserDetails userDetails, @AppClient Integer client, String phone,
+                            String code, String de, String s2) {
+        String time = s2;
+        if (StringUtils.isAnyBlank(phone,code,de,s2,time)){
+            return ResponseFactory.errMissingParameter();
+        }
+        return userService.findSendPwd(userDetails.getUserId(),client,phone,code,de,time);
+    }
+
 
     /**
      * 获取用户的详细信息

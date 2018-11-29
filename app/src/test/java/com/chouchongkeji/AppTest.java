@@ -126,4 +126,23 @@ public class AppTest
 
 //        System.out.println(Utils.toMD5("access_token=d43baab4-d457-4c4a-ad86-84e66b0e6275&nickname=abc&time=1543382182&key=%sX4H91PzuB7V%5ET4uefDnsiwzHDxOgrX"));
     }
+
+
+    @Test
+    public void apply() throws IOException {
+        RequestParams params = new RequestParams();
+        params.put("time",System.currentTimeMillis());
+        params.put("access_token","f3e7f648-845e-4614-a49e-bbd8f43add65");
+        params.put("name","粮食");
+        params.put("address","看见反函数地方");
+        params.put("registrationNo","12374839857342895");
+        params.put("legalPerson","适量");
+        params.put("licensePic","/avatar.jpg");
+        params.put("otherPics","/avatar.jpg");
+        params.put("phone","789798898");
+        Map map = ApiSignUtil.sign1(params.getParams(),ApiSignUtil.IOS);
+        params.put("sign",map.get(ApiSignUtil.IOS));
+        Response post = OkHttpUtil.post("http://localhost:8080/auth/v1/merchant/apply", params);
+        System.out.println(post.body().string());
+    }
 }

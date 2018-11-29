@@ -247,12 +247,11 @@ public class Constants {
         short WITHDRAW_FAILED = 3; // 提现失败
     }
 
-    // 提现状态
+    // 提现状态，1-申请提现，2-提现成功，3-提现失败
     public interface WIDTH_STATUS {
         short APPLY = 1; // 申请
-        short HANDLING = 2; // 处理中
-        short SUCCESS = 3; // 成功
-        short FAILED = 4; // 失败
+        short SUCCESS = 2; // 成功
+        short FAILED = 3; // 失败
         short DEL = 5; // 已删除
 
     }
