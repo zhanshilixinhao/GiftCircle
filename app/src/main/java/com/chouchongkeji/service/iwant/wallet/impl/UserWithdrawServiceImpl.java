@@ -99,13 +99,13 @@ public class UserWithdrawServiceImpl implements UserWithdrawService {
     public Response getUserWithdrawList(Integer userId, PageQuery page) {
         PageHelper.startPage(page.getPageNum(), page.getPageSize());
         List<UserWithdrawVo> userWithdraws = userWithdrawMapper.selectByUserId(userId);
-        for (UserWithdrawVo userWithdraw : userWithdraws) {
-            if (userWithdraw.getStatus() == Constants.WIDTH_STATUS.APPLY || userWithdraw.getStatus() == Constants.WIDTH_STATUS.SUCCESS){
-               BigDecimal amount = BigDecimalUtil.multi(userWithdraw.getAmount().doubleValue(),-1);
-                userWithdraw.setAmount(amount);
-            }
-
-        }
+//        for (UserWithdrawVo userWithdraw : userWithdraws) {
+//            if (userWithdraw.getStatus() == Constants.WIDTH_STATUS.APPLY || userWithdraw.getStatus() == Constants.WIDTH_STATUS.SUCCESS){
+//               BigDecimal amount = BigDecimalUtil.multi(userWithdraw.getAmount().doubleValue(),-1);
+//                userWithdraw.setAmount(amount);
+//            }
+//
+//        }
         return ResponseFactory.sucData(userWithdraws);
     }
 }

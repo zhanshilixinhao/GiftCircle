@@ -17,7 +17,7 @@
     id, user_id, amount, user_bankcard_id, status, describe, created, updated
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from user_withdraw
     where id = #{id,jdbcType=INTEGER}
@@ -27,11 +27,11 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.iwant.wallet.UserWithdraw">
-    insert into user_withdraw (id, user_id, amount, 
+    insert into user_withdraw (id, user_id, amount,
       user_bankcard_id, status, `describe`,
       created, updated)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{amount,jdbcType=DECIMAL}, 
-      #{userBankcardId,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, #{describe,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{amount,jdbcType=DECIMAL},
+      #{userBankcardId,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, #{describe,jdbcType=VARCHAR},
       #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.iwant.wallet.UserWithdraw">
@@ -139,5 +139,6 @@
     user_withdraw
     WHERE
     user_id = #{userId}
+    order by created DESC
   </select>
 </mapper>
