@@ -12,6 +12,8 @@ public class SkuValueVo {
 
     private String value;
 
+    private String featureName;
+
     public Integer getValueId() {
         return valueId;
     }
@@ -34,5 +36,13 @@ public class SkuValueVo {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    public String getFeatureName() {
+        return featureName;
+    }
+
+    public void setFeatureName(String featureName) {
+        this.featureName = featureName;
     }
 }

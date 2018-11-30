@@ -1,6 +1,7 @@
 package com.chouchongkeji.service.mall.item.vo;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Objects;
 
 /**
  * @author linqin
@@ -12,7 +13,7 @@ public class ItemFeatureVo {
 
     private String name;
 
-    private List<ValueVo> values;
+    private HashSet<ValueVo> values;
 
     public Integer getFeatureId() {
         return featureId;
@@ -30,11 +31,24 @@ public class ItemFeatureVo {
         this.name = name;
     }
 
-    public List<ValueVo> getValues() {
+    public HashSet<ValueVo> getValues() {
         return values;
     }
 
-    public void setValues(List<ValueVo> values) {
+    public void setValues(HashSet<ValueVo> values) {
         this.values = values;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ItemFeatureVo that = (ItemFeatureVo) o;
+        return Objects.equals(featureId, that.featureId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(featureId);
     }
 }

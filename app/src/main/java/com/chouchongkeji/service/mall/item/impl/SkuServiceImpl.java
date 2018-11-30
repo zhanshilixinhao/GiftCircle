@@ -7,14 +7,13 @@ import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.dial.pojo.gift.item.Item;
 import com.chouchongkeji.service.mall.item.SkuService;
-import com.chouchongkeji.service.mall.item.vo.FeatureValueVo;
-import com.chouchongkeji.service.mall.item.vo.ItemFeatureVo;
-import com.chouchongkeji.service.mall.item.vo.SkuListVo;
+import com.chouchongkeji.service.mall.item.vo.*;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -46,16 +45,42 @@ public class SkuServiceImpl implements SkuService {
         //根据商品Id查出该商品
         Item itemInfo = itemMapper.selectByItemId(itemId);
         //校验该商品是否存在
-        if (itemInfo == null){
+        if (itemInfo == null) {
             return ResponseFactory.errMissingParameter();
         }
         //商品存在，查询该商品的所有属性
-        List<ItemFeatureVo> itemFeatures = itemFeatureMapper.selectFeatureByItemId(itemId);
-        List<SkuListVo> list = new ArrayList<>();
+//        List<ItemFeatureVo> itemFeatures = itemFeatureMapper.selectFeatureByItemId(itemId);
+        List<SkuListVo> list;
         //如果存在属性
-        if (CollectionUtils.isNotEmpty(itemFeatures)){
-            //查询该商品的sku
-             list = itemSkuMapper.selectByItemId(itemId);
+//        if (CollectionUtils.isNotEmpty(itemFeatures)){
+        //查询该商品的sku
+        list = itemSkuMapper.selectByItemId(itemId);
+//        }
+
+        List<ItemFeatureVo> itemFeatures = new ArrayList<>();
+
+        if (CollectionUtils.isNotEmpty(list)) {
+            for (SkuListVo vo : list) {
+                for (SkuValueVo value : vo.getValues()) {
+
+                    ItemFeatureVo featureVo = null;
+                    for (ItemFeatureVo feature : itemFeatures) {
+                        if (feature.getFeatureId().equals(value.getFeatureId())) {
+                            featureVo = feature;
+                            ValueVo valueVo = new ValueVo();
+                            valueVo.setValue(value.getValue());
+                            valueVo.setValueId(value.getValueId());
+                            featureVo.getValues().add(valueVo);
+                        }
+                    }
+                    if (featureVo == null) {
+                        featureVo = new ItemFeatureVo();
+                        featureVo.setFeatureId(value.getFeatureId());
+                        featureVo.setName(value.getFeatureName());
+                        itemFeatures.add(featureVo);
+                    }
+                }
+            }
         }
         FeatureValueVo vo = new FeatureValueVo();
         vo.setFeatures(itemFeatures);

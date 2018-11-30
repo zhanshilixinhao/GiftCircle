@@ -91,4 +91,5 @@ public class SkuListVo {
     public void setValues(List<SkuValueVo> values) {
         this.values = values;
     }
+
 }

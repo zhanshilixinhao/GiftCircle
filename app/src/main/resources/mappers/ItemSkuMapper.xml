@@ -50,13 +50,15 @@
 	a.sales,
 	c.id as value_id,
 	c.feature_id,
-	c.`value`
+	c.`value`,
+             d.name as feature_name
 FROM
 	item_sku a
 	LEFT JOIN item_sku_value b ON b.sku_id = a.id
 	LEFT JOIN item_value c ON c.id = b.value_id
+      left join item_feature d on d.id = c.feature_id
 WHERE
-	a.item_id = #{itemId}
+	a.item_id = #{itemId} and a.status = 1
     </select>
 
     <select id="selectBySkuId" resultMap="BaseResultMap">
