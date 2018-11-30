@@ -161,6 +161,7 @@
     phone as phone,
     status as status,
     address,
+    adcode,
     consignee_name as consigneeName
     FROM
     shipping

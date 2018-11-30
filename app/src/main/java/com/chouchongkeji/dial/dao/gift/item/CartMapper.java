@@ -25,4 +25,12 @@ public interface CartMapper {
     Cart selectBySkuIAndUserId(@Param("userId") Integer userId,@Param("skuId") Integer skuId);
 
     int deleteByUserIdAndskuId(@Param("userId") Integer userId,@Param("skuId") HashSet skuId);
+
+    /**
+     * 删除数据库里的数据
+     * @param userId
+     * @param skuId
+     * @return
+     */
+    int deleteAllByUserIdAndskuId(@Param("userId")Integer userId,@Param("skuId") Integer skuId);
 }

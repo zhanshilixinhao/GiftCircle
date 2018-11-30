@@ -1,14 +1,8 @@
 package com.chouchongkeji.service.mall.item.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.chouchongkeji.dial.dao.gift.item.ItemMapper;
-import com.chouchongkeji.dial.dao.gift.item.ItemOrderDetailMapper;
-import com.chouchongkeji.dial.dao.gift.item.ItemOrderMapper;
-import com.chouchongkeji.dial.dao.gift.item.ItemSkuMapper;
-import com.chouchongkeji.dial.pojo.gift.item.Item;
-import com.chouchongkeji.dial.pojo.gift.item.ItemOrder;
-import com.chouchongkeji.dial.pojo.gift.item.ItemOrderDetail;
-import com.chouchongkeji.dial.pojo.gift.item.ItemSku;
+import com.chouchongkeji.dial.dao.gift.item.*;
+import com.chouchongkeji.dial.pojo.gift.item.*;
 import com.chouchongkeji.exception.ServiceException;
 import com.chouchongkeji.goexplore.common.ErrorCode;
 import com.chouchongkeji.goexplore.common.Response;
@@ -82,6 +76,9 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
      private ServiceProperties serviceProperties;
 
+    @Autowired
+    private CartMapper cartMapper;
+
     /**
      * 按时取消订单
      */
@@ -125,7 +122,7 @@ public class OrderServiceImpl implements OrderService {
      * @date 2018/6/20
      */
     @Override
-    public Response createOrder(Integer userId, Integer client, HashSet<OrderVo> skus, Integer payWay) {
+    public Response createOrder(Integer userId, Integer client, HashSet<OrderVo> skus, Integer payWay,Byte isShoppingCart) {
         Long orderNo = orderHelper.genOrderNo(client, 2);
         List<ItemOrderDetail> list = new ArrayList<>();
         BigDecimal totalPrice = new BigDecimal("0");
@@ -163,6 +160,18 @@ public class OrderServiceImpl implements OrderService {
             //扣除库存
             itemSku.setStock(count - order.getQuantity());
             itemSkuMapper.updateByPrimaryKeySelective(itemSku);
+            // 如果是购物车购买则减少购物车物品数量
+            if (isShoppingCart == Constants.ISSHOPPINGCART.YES){
+                Cart cart = cartMapper.selectBySkuIAndUserId(userId,order.getSkuId());
+                if (cart == null){
+                    return ResponseFactory.err("购物车中不存在该商品");
+                }
+                cart.setQuantity(cart.getQuantity()-1);
+                cartMapper.updateByPrimaryKeySelective(cart);
+                if (cart.getQuantity()==0){
+                    cartMapper.deleteAllByUserIdAndskuId(userId,order.getSkuId());
+                }
+            }
         }
         //创建订单
         ItemOrder itemOrder = new ItemOrder();

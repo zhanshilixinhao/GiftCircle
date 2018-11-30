@@ -4,6 +4,7 @@ import com.chouchongkeji.dial.pojo.gift.virtualItem.AppMessageUser;
 import com.chouchongkeji.service.message.vo.ConsignmentMessageVo;
 import com.chouchongkeji.service.message.vo.GiftMessageVo;
 import com.chouchongkeji.service.message.vo.MessageHomeVo;
+import com.chouchongkeji.service.message.vo.SystemMessageVo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -32,4 +33,11 @@ public interface AppMessageUserMapper {
     List<GiftMessageVo> selectListByUserIdAndType(@Param("userId") Integer userId);
 
     List<ConsignmentMessageVo> selectConMessageByUserId(@Param("userId") Integer userId);
+
+    /**
+     * 系统消息列表
+     * @param userId
+     * @return
+     */
+    List<SystemMessageVo> selectSystemByUserIdAndType(@Param("userId")Integer userId);
 }
