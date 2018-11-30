@@ -19,11 +19,13 @@ import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.utils.BigDecimalUtil;
 import com.chouchongkeji.service.backpack.item.DiscountingService;
 import com.chouchongkeji.service.iwant.wallet.WalletService;
+import com.chouchongkeji.service.message.MessageService;
 import com.chouchongkeji.util.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 
 
 /**
@@ -50,6 +52,9 @@ public class DiscountingServiceImpl implements DiscountingService {
 
     @Autowired
     private AppMessageMapper appMessageMapper;
+
+    @Autowired
+    private MessageService messageService;
 
     /**
      * 背包物品折现
@@ -124,7 +129,14 @@ public class DiscountingServiceImpl implements DiscountingService {
         message.setTargetId(bpId);
         message.setTargetType((byte) 21);
         message.setMessageType((byte)2);
-        int in = appMessageMapper.insert(message);
+
+        int in = messageService.addMessage(message, new ArrayList<Integer>() {
+            {
+                add(userId);
+            }
+        });
+
+//        int in = appMessageMapper.insert(message);
         if (in<1){
             throw new ServiceException(ErrorCode.ERROR.getCode(),"添加系统消息失败");
         }
