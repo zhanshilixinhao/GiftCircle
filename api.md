@@ -3221,7 +3221,8 @@ JSON：
             "price": 1000, 
             "status": 3, 
             "created": 1530242782000, 
-            "updated": 1530242782000
+            "updated": 1530242782000,
+            "itemId": 54
         }
     ]
 }
