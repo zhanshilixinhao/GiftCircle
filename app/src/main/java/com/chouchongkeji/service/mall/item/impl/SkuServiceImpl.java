@@ -78,6 +78,7 @@ public class SkuServiceImpl implements SkuService {
                         featureVo.setFeatureId(value.getFeatureId());
                         featureVo.setName(value.getFeatureName());
                         itemFeatures.add(featureVo);
+                        featureVo.setValues(new HashSet<>());
                     }
                 }
             }
