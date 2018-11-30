@@ -162,7 +162,7 @@ public class MessageServiceImpl implements MessageService {
      * 获取消息列表
      *
      * @param userId      用户id
-     * @param messageType 消息类型
+     * @param messageType 消息类型 1 礼物 2 系统 3 寄售台 4 礼品交换
      * @param page        分页
      * @return
      * @author yichenshanren
@@ -176,9 +176,15 @@ public class MessageServiceImpl implements MessageService {
             case 1:
                 vos = appMessageUserMapper.selectListByUserIdAndType(userId);
                 break;
+            case 2:
+                vos = appMessageUserMapper.selectSystemByUserIdAndType(userId);
+                break;
             case 3:
                 vos = appMessageUserMapper.selectConMessageByUserId(userId);
                 break;
+//            case 4:
+//                vos = appMessageUserMapper.selectConMessageByUserId(userId);
+//                break;
         }
         return ResponseFactory.sucData(vos);
     }

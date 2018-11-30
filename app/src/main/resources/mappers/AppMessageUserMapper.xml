@@ -123,6 +123,24 @@ WHERE
 ORDER BY
 	a.id DESC
     </select>
+    <select id="selectSystemByUserIdAndType" resultType="com.chouchongkeji.service.message.vo.SystemMessageVo">
+        select
+            a.id,
+            a.summary,
+            a.title,
+            a.content,
+            a.message_type,
+            a.created,
+            b.user_id,
+            b.is_read
+        FROM
+            app_message a
+                LEFT JOIN app_message_user b on a.id = b.app_message_id
+        WHERE
+            b.user_id = #{userId}
+          AND a.message_type = 2
+          order by a.created DESC
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from app_message_user
     where id = #{id,jdbcType=INTEGER}
