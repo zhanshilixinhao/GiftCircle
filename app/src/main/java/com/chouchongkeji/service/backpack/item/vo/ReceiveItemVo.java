@@ -28,6 +28,16 @@ public class ReceiveItemVo {
 
     private Date updated;
 
+    private Integer itemId;
+
+    public Integer getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(Integer itemId) {
+        this.itemId = itemId;
+    }
+
     public String getTitle() {
         return title;
     }

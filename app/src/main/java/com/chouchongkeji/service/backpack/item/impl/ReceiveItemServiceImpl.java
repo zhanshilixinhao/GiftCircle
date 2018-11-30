@@ -140,6 +140,7 @@ public class ReceiveItemServiceImpl implements ReceiveItemService {
             vo.setCover(itemOrder.getCover());
             vo.setDescription(itemOrder.getDescription());
             vo.setPrice(itemOrder.getPrice());
+            vo.setItemId(itemOrder.getItemId());
             vo.setTitle(itemOrder.getTitle());
             vo.setStatus(itemOrder.getStatus());
             vo.setCreated(itemOrder.getCreated());

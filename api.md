@@ -2035,6 +2035,7 @@ JSON：
 |  access_token  |   String    |    是    |   无   |  访问令牌  |
 | skus | String | 是 | 无 | json数组，数组格式，[{"skuId":skuId,"quantity":quantity}] |
 | payWay | int | 是 | 无 | 支付方式，微信 24656 ，支付宝 78990，余额98001 |
+|isShoppingCart|byte|是|无|是否从购物车购买 1 是 ，2 不是
 
 请求结果示例：
 ```json
@@ -3220,7 +3221,8 @@ JSON：
             "price": 1000, 
             "status": 3, 
             "created": 1530242782000, 
-            "updated": 1530242782000
+            "updated": 1530242782000,
+            "itemId": 54
         }
     ]
 }
