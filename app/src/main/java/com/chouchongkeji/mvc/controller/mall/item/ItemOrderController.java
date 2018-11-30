@@ -1,6 +1,6 @@
 package com.chouchongkeji.mvc.controller.mall.item;
 
-import  com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
@@ -35,21 +35,22 @@ public class ItemOrderController {
      *
      * @param userDetails
      * @param client
-     * @param payWay      微信 24656 ，支付宝 78990 ，余额98001
-     * @param skus        json数组，数组格式
-     *                    [
-     *                    {
-     *                    "skuId":skuId,
-     *                    "quantity":quantity
-     *                    }
-     *                    ]
+     * @param payWay         微信 24656 ，支付宝 78990 ，余额98001
+     * @param isShoppingCart 是否从购物车购买 1 是 2不是
+     * @param skus           json数组，数组格式
+     *                       [
+     *                       {
+     *                       "skuId":skuId,
+     *                       "quantity":quantity
+     *                       }
+     *                       ]
      * @return
      * @author linqin
      * @date 2018/6/20
      */
     @PostMapping("/create")
     public Response createOrder(@AuthenticationPrincipal UserDetails userDetails, @AppClient Integer client,
-                                String skus, Integer payWay) {
+                                String skus, Integer payWay, Byte isShoppingCart) {
         //检验支付方式
         if (payWay == null || (payWay != Constants.PAY_TYPE.WX && payWay != Constants.PAY_TYPE.ALI && payWay != Constants.PAY_TYPE.yue)) {
             return ResponseFactory.err("支付方式错误!");
@@ -69,7 +70,10 @@ public class ItemOrderController {
                 return ResponseFactory.err("");
             }
         }
-        return orderService.createOrder(userDetails.getUserId(), client, orderVos, payWay);
+        if (isShoppingCart == null || (isShoppingCart != Constants.ISSHOPPINGCART.YES && isShoppingCart != Constants.ISSHOPPINGCART.NO)) {
+            return ResponseFactory.err("购买方法不正确");
+        }
+        return orderService.createOrder(userDetails.getUserId(), client, orderVos, payWay,isShoppingCart);
     }
 
 

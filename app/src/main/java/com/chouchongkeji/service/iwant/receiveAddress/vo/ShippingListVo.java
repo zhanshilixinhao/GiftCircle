@@ -19,6 +19,8 @@ public class ShippingListVo {
     // 地址状态 1.不是默认地址 2.是默认地址
     private Integer status;
 
+    private Integer adcode; //行政区编码
+
     public Integer getId() {
         return id;
     }
@@ -65,5 +67,13 @@ public class ShippingListVo {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public Integer getAdcode() {
+        return adcode;
+    }
+
+    public void setAdcode(Integer adcode) {
+        this.adcode = adcode;
     }
 }

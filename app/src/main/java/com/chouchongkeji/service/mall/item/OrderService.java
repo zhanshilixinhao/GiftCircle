@@ -20,7 +20,7 @@ public interface OrderService {
      * @author linqin
      * @date 2018/6/20
      */
-    Response createOrder(Integer userId, Integer client, HashSet<OrderVo> skus,Integer payWay);
+    Response createOrder(Integer userId, Integer client, HashSet<OrderVo> skus,Integer payWay,Byte isShoppingCart);
 
     /**
      * 订单支付

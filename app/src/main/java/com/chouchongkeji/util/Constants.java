@@ -61,6 +61,12 @@ public class Constants {
         return name;
     }
 
+    /*是否从购物车购买 1 是 2 不是*/
+    public interface ISSHOPPINGCART{
+        byte YES = 1;
+        byte NO = 2;
+    }
+
     /* 背包物品索要/交换操作 */
     public interface BP_ITEM {
         byte DEFAULT = 0;    // 默认无操作

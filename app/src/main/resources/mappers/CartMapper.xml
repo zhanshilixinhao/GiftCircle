@@ -26,7 +26,7 @@
     id, user_id, item_id, sku_id, price, quantity, created, updated
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from cart
     where id = #{id,jdbcType=INTEGER}
@@ -70,12 +70,17 @@ WHERE
     </foreach>
     and user_id = #{userId}
   </delete>
+  <delete id="deleteAllByUserIdAndskuId">
+    delete from cart
+    where sku_id = #{skuId}
+    and user_id = #{userId}
+  </delete>
   <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.gift.item.Cart">
-    insert into cart (id, user_id, item_id, 
-      sku_id, price, quantity, 
+    insert into cart (id, user_id, item_id,
+      sku_id, price, quantity,
       created, updated)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{itemId,jdbcType=INTEGER}, 
-      #{skuId,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, #{quantity,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{itemId,jdbcType=INTEGER},
+      #{skuId,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, #{quantity,jdbcType=INTEGER},
       now(),now())
   </insert>
   <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.gift.item.Cart">
