@@ -186,6 +186,7 @@ public class MessageServiceImpl implements MessageService {
 //                vos = appMessageUserMapper.selectConMessageByUserId(userId);
 //                break;
         }
+        appMessageUserMapper.updateByUserIdAndType(userId,messageType);
         return ResponseFactory.sucData(vos);
     }
 }

@@ -54,4 +54,7 @@ public class AppMessageController {
         return messageService.getMessageList(userDetails.getUserId(), messageType, page);
     }
 
+
+
+
 }

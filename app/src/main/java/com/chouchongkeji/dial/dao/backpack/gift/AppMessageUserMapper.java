@@ -40,4 +40,7 @@ public interface AppMessageUserMapper {
      * @return
      */
     List<SystemMessageVo> selectSystemByUserIdAndType(@Param("userId")Integer userId);
+
+
+    int updateByUserIdAndType(@Param("userId")Integer userId,@Param("messageType") Byte messageType);
 }
