@@ -483,9 +483,10 @@ public class RSAProvider {
     public static void main(String[] args) {
         String text = "飞洒地方435tfgdsgfsd";
         String en = encrypt(text, KeyUtil.PRIVATE_KEY);
-        System.out.println(en);
+//        System.out.println(en);
         String de = decrypt(en, KeyUtil.PUBLIICK_KEY);
-        System.out.println(de);
+//        System.out.println(de);
+        System.out.println(KeyUtil.PUBLIICK_KEY);
     }
 
 }
