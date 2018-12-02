@@ -38,7 +38,7 @@ public class UserWithdrawController {
         if (id == null || amount == null) {
             return ResponseFactory.errMissingParameter();
         }
-        if (amount.compareTo(new BigDecimal(0)) != 1) {
+        if (amount.compareTo(new BigDecimal(0)) < 0) {
             return ResponseFactory.err("提现金额必须大于0");
         }
         return userWithdrawService.addUserWithdraw(details.getUserId(), id, amount);

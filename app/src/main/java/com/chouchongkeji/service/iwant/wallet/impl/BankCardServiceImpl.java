@@ -8,6 +8,7 @@ import com.chouchongkeji.dial.pojo.iwant.wallet.BankDict;
 import com.chouchongkeji.dial.pojo.iwant.wallet.UserBankCard;
 import com.chouchongkeji.service.iwant.wallet.BankCardService;
 import com.chouchongkeji.service.iwant.wallet.vo.UserBankCardVo;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -103,5 +104,47 @@ public class BankCardServiceImpl implements BankCardService {
             return ResponseFactory.sucMsg("添加成功");
         }
         return ResponseFactory.err("添加失败");
+    }
+
+
+    /**
+     * 修改银行卡
+     *
+     * @param: [details 用户详情, userBankCardVo 银行卡信息]
+     * @return: com.chouchongkeji.goexplore.common.Response
+     * @author: yy
+     * @Date: 2018/6/7
+     */
+    @Override
+    public Response updateBankCard(Integer userId, UserBankCard userBankCard) {
+        //根据银行卡id查询信息
+        UserBankCard card = userBankCardMapper.selectByPrimaryKey(userBankCard.getId());
+        if (card == null){
+            return ResponseFactory.err("该银行卡不存在");
+        }
+        // 查看银行卡是否是自己的
+        if (!card.getUserId().equals(userId)){
+            return ResponseFactory.err("该银行卡不是该用户的");
+        }
+        UserBankCard bankCard = new UserBankCard();
+        bankCard.setUserId(userId);
+        bankCard.setId(userBankCard.getId());
+        if (userBankCard.getBankId()!=null){
+            bankCard.setBankId(userBankCard.getBankId());
+        }
+        if (StringUtils.isNotBlank(userBankCard.getDepositBank())){
+            bankCard.setDepositBank(userBankCard.getDepositBank());
+        }
+        if (StringUtils.isNotBlank(userBankCard.getCardHolder())){
+            bankCard.setCardHolder(userBankCard.getCardHolder());
+        }
+        if (StringUtils.isNotBlank(userBankCard.getCardNo())){
+            bankCard.setCardNo(userBankCard.getCardNo());
+        }
+        int re = userBankCardMapper.updateByPrimaryKeySelective(bankCard);
+        if (re == 1) {
+            return ResponseFactory.sucMsg("修改成功");
+        }
+        return ResponseFactory.err("修改失败");
     }
 }

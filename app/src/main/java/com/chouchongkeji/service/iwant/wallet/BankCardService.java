@@ -1,5 +1,6 @@
 package com.chouchongkeji.service.iwant.wallet;
 
+import com.chouchongkeji.dial.pojo.iwant.wallet.UserBankCard;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.service.iwant.wallet.vo.UserBankCardVo;
 
@@ -44,4 +45,14 @@ public interface BankCardService {
      * @Date: 2018/6/7
      */
     Response addUserBankCard(Integer userId, UserBankCardVo userBankCardVo);
+
+    /**
+     * 修改银行卡
+     *
+     * @param: [details 用户详情, userBankCardVo 银行卡信息]
+     * @return: com.chouchongkeji.goexplore.common.Response
+     * @author: yy
+     * @Date: 2018/6/7
+     */
+    Response updateBankCard(Integer userId, UserBankCard userBankCard);
 }

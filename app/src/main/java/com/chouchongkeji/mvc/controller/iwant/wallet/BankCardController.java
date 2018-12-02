@@ -1,5 +1,6 @@
 package com.chouchongkeji.mvc.controller.iwant.wallet;
 
+import com.chouchongkeji.dial.pojo.iwant.wallet.UserBankCard;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.service.iwant.wallet.BankCardService;
@@ -89,4 +90,18 @@ public class BankCardController {
         }
         return bankCardService.addUserBankCard(details.getUserId(), userBankCardVo);
     }
+
+    /**
+     * 修改银行卡
+     *
+     * @param: [details 用户详情, userBankCardVo 银行卡信息]
+     * @return: com.chouchongkeji.goexplore.common.Response
+     * @author: yy
+     * @Date: 2018/6/7
+     */
+    @PostMapping("update")
+    public Response updateBankCard(@AuthenticationPrincipal UserDetails details, UserBankCard userBankCard) {
+        return bankCardService.updateBankCard(details.getUserId(), userBankCard);
+    }
+
 }

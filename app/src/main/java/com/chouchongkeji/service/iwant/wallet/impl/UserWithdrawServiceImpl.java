@@ -60,6 +60,11 @@ public class UserWithdrawServiceImpl implements UserWithdrawService {
         if (!userId.equals(userBankCard.getUserId())) {
             return ResponseFactory.err("银行卡和用户不匹配!");
         }
+        // 把原来提现的银行卡设为不是默认2
+        userBankCardMapper.updateIsDefault(userId);
+        // 把本次提现的银行卡设为默认
+        userBankCard.setIsDefault((byte)1);
+        userBankCardMapper.updateByPrimaryKeySelective(userBankCard);
         // 查看余额是否足够
         Wallet wallet = walletMapper.selectByUserId(userId);
         if (wallet == null) {

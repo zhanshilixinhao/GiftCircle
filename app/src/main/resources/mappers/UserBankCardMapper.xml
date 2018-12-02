@@ -2,23 +2,21 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.chouchongkeji.dial.dao.iwant.wallet.UserBankCardMapper">
   <resultMap id="BaseResultMap" type="com.chouchongkeji.dial.pojo.iwant.wallet.UserBankCard">
-    <constructor>
-      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="bank_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="deposit_bank" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="card_holder" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="card_no" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT" />
-      <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-      <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-    </constructor>
+      <id column="id" property="id"  />
+      <!--<arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />-->
+      <!--<arg column="bank_id" javaType="java.lang.Integer" jdbcType="INTEGER" />-->
+      <!--<arg column="deposit_bank" javaType="java.lang.String" jdbcType="VARCHAR" />-->
+      <!--<arg column="card_holder" javaType="java.lang.String" jdbcType="VARCHAR" />-->
+      <!--<arg column="card_no" javaType="java.lang.String" jdbcType="VARCHAR" />-->
+      <!--<arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT" />-->
+      <!--<arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />-->
+      <!--<arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />-->
   </resultMap>
   <sql id="Base_Column_List">
-    id, user_id, bank_id, deposit_bank, card_holder, card_no, status, created, updated
+    id, user_id, bank_id, deposit_bank, card_holder, card_no, status, created, updated,is_default
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from user_bankcard
     where id = #{id,jdbcType=INTEGER}
@@ -28,12 +26,12 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.iwant.wallet.UserBankCard">
-    insert into user_bankcard (id, user_id, bank_id, 
-      deposit_bank, card_holder, card_no, 
+    insert into user_bankcard (id, user_id, bank_id,
+      deposit_bank, card_holder, card_no,
       status, created, updated
       )
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{bankId,jdbcType=INTEGER}, 
-      #{depositBank,jdbcType=VARCHAR}, #{cardHolder,jdbcType=VARCHAR}, #{cardNo,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{bankId,jdbcType=INTEGER},
+      #{depositBank,jdbcType=VARCHAR}, #{cardHolder,jdbcType=VARCHAR}, #{cardNo,jdbcType=VARCHAR},
       #{status,jdbcType=TINYINT}, #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP}
       )
   </insert>
@@ -123,7 +121,10 @@
         created = #{created,jdbcType=TIMESTAMP},
       </if>
       <if test="updated != null">
-        updated = #{updated,jdbcType=TIMESTAMP},
+        updated = now(),
+      </if>
+      <if test="isDefault != null">
+        is_default = #{isDefault,jdbcType=TINYINT},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -140,6 +141,12 @@
       updated = #{updated,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <update id="updateIsDefault">
+    update user_bankcard
+    set is_default = 2
+    where user_id = #{userId}
+      and is_default = 1
+  </update>
 
   <!--获取用户银行卡列表-->
   <select id="getUserBankCardList" resultType="com.chouchongkeji.service.iwant.wallet.vo.UserBankCardVo">
@@ -148,6 +155,7 @@
     a.deposit_bank as depositBank,
     a.card_no as cardNo,
     a.card_holder as cardHolder,
+           a.is_default as isDefault,
     a.bank_id as bankId,
     b.logo as logo,
     b.bank_name as bankName

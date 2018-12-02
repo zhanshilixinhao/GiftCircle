@@ -581,23 +581,25 @@ http 常用错误码
     "result": 0,
     "time": 1528772676449,
     "data": [
+         {
+            "id": 23, 
+            "bankId": 3, 
+            "logo": "https://liyuquan.cn/static/bank/bankny.png", 
+            "bankName": "农业银行", 
+            "depositBank": "哈啊", 
+            "cardHolder": "LOL", 
+            "cardNo": "5443476348622", 
+            "isDefault": 1
+        }, 
         {
-            "id": 3,
-            "bankId": 1,
-            "logo": "http://thirdwx.qlogo.cn/mmopen/vi_32/jhXsk4K6SZs58GvXyrPichgxlDv6y4IYrrKN5GCA1UTvHRKbRGtiac2SxmGMYibJSvCZzcLhNmQEykDgXTTzkPOXQ/132",
-            "bankName": "中国银行",
-            "depositBank": "青年路支行",
-            "cardHolder": "王保国",
-            "cardNo": "6217003955026223887"
-        },
-        {
-            "id": 1,
-            "bankId": 4,
-            "logo": "http://thirdwx.qlogo.cn/mmopen/vi_32/jhXsk4K6SZs58GvXyrPichgxlDv6y4IYrrKN5GCA1UTvHRKbRGtiac2SxmGMYibJSvCZzcLhNmQEykDgXTTzkPOXQ/132",
-            "bankName": "建设银行",
-            "depositBank": "建设路支行",
-            "cardHolder": "yy1",
-            "cardNo": "6217003895276001039"
+            "id": 22, 
+            "bankId": 1, 
+            "logo": "https://liyuquan.cn/static/bank/bankzg.png", 
+            "bankName": "中国银行", 
+            "depositBank": "咯旅游", 
+            "cardHolder": "关机了", 
+            "cardNo": "726456483463586871", 
+            "isDefault": 2
         }
     ]
 }
@@ -614,6 +616,7 @@ http 常用错误码
 | depositBank |  String  |    是    |        开户行名称         |
 | cardHolder  |  String  |    是    |        持卡人姓名         |
 | cardNo      |  String  |    是    |         银行卡号          |
+|isDefault|byte|是|是否为默认银行卡 1 默认，2 不是默认|
 
 ### 3.5 提现--添加用户银行卡
 
@@ -917,7 +920,32 @@ apiKey.substring(first < len ? first + 1 : first, len), s1);
 // 使用AES256加密
 String de = AESUtils.encrypt(seed, pwd);
 ```
+### 3.15 提现--修改用户银行卡
 
+- 请求地址：auth/v1/bankCard/update
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yy
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 |  参数说明  |
+| :----------: | :------: | :------: | :----: | :--------: |
+| access_token |  string  |    是    |   无   |  访问令牌  |
+|id|int|是|无|用户银行id|
+| depositBank  |  string  |    否    |   无   | 开户行名称 |
+|  cardHolder  |  string  |    否    |   无   | 持卡人姓名 |
+|    cardNo    |  string  |    否    |   无   |  银行卡号  |
+|    bankId    |   Int    |    否    |   无   |   银行id   |
+
+请求结果示例：
+
+```json
+{
+    "errCode": 0,
+    "result": 0,
+    "msg": "修改成功",
+    "time": 1528773060163
+}
+```
 
 
 ## 4. 全国行政区查询

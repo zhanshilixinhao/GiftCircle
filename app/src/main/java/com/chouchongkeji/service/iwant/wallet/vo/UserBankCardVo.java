@@ -21,6 +21,8 @@ public class UserBankCardVo {
     private String cardHolder;
     // 银行卡号
     private String cardNo;
+    // 默认银行卡
+    private Byte isDefault;
 
     public String getLogo() {
         return logo;
@@ -76,5 +78,13 @@ public class UserBankCardVo {
 
     public void setCardNo(String cardNo) {
         this.cardNo = cardNo;
+    }
+
+    public Byte getIsDefault() {
+        return isDefault;
+    }
+
+    public void setIsDefault(Byte isDefault) {
+        this.isDefault = isDefault;
     }
 }

@@ -28,4 +28,11 @@ public interface UserBankCardMapper {
      * @Date: 2018/6/6
      */
     List<UserBankCardVo> getUserBankCardList(@Param("userId") Integer userId, @Param("status")Integer status);
+
+    /**
+     * 把原来提现的银行卡设为不是默认2
+     * @param userId
+     * @return
+     */
+    int updateIsDefault(Integer userId);
 }

@@ -17,11 +17,13 @@ public class UserBankCard {
 
     private Byte status;
 
+    private Byte isDefault;
+
     private Date created;
 
     private Date updated;
 
-    public UserBankCard(Integer id, Integer userId, Integer bankId, String depositBank, String cardHolder, String cardNo, Byte status, Date created, Date updated) {
+    public UserBankCard(Integer id, Integer userId, Integer bankId, String depositBank, String cardHolder, String cardNo, Byte status, Date created, Date updated,Byte isDefault) {
         this.id = id;
         this.userId = userId;
         this.bankId = bankId;
@@ -31,6 +33,7 @@ public class UserBankCard {
         this.status = status;
         this.created = created;
         this.updated = updated;
+        this.isDefault = isDefault;
     }
 
     public UserBankCard() {
@@ -107,5 +110,13 @@ public class UserBankCard {
 
     public void setUpdated(Date updated) {
         this.updated = updated;
+    }
+
+    public Byte getIsDefault() {
+        return isDefault;
+    }
+
+    public void setIsDefault(Byte isDefault) {
+        this.isDefault = isDefault;
     }
 }
