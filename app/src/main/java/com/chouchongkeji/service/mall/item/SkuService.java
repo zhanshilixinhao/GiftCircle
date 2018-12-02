@@ -17,4 +17,15 @@ public interface SkuService {
      * @date 2018/6/15
      */
     Response getSkuSet(Integer itemId);
+
+
+    /**
+     * 根据sku获取库存
+     *
+     * @param skuId
+     * @return
+     * @author linqin
+     * @date 2018/6/15
+     */
+    Response getSkuStock(Integer skuId);
 }

@@ -6,6 +6,9 @@
 
 ## 更新记录
 
+
+
+
 ### v0.0.1
 
 * 更新人：yichen
@@ -14,6 +17,16 @@
 
 > 简历初稿
 
+
+### v0.0.2
+
+* 更新人：linqin
+* 2018/12/01
+* 更新内容
+
+>  1. 增加修改银行卡接口   3.15接口
+>  2. 修改银行卡列表接口，增加默认银行卡字段  3.4接口
+>  3. 增加获取sku库存接口   6.17接口
 
 ## 目录
 <span id="m"> </span>
@@ -920,6 +933,7 @@ apiKey.substring(first < len ? first + 1 : first, len), s1);
 // 使用AES256加密
 String de = AESUtils.encrypt(seed, pwd);
 ```
+
 ### 3.15 提现--修改用户银行卡
 
 - 请求地址：auth/v1/bankCard/update
@@ -1830,6 +1844,38 @@ JSON：
  }
 ```
 
+### 6.17 获取sku库存
+- 请求地址：noauth/item/sku_stock
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yy
+
+| 参数名称 | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :------: | :------: | :------: | :----: | :------: |
+|  skuId  |   int    |    是    |   无   |  商品最小销售单元id  |
+
+
+请求结果示例：
+```json
+{
+    "errCode": 0, 
+    "result": 0, 
+    "time": 1543754570763, 
+    "data": {
+        "id": 456,   //skuid 
+        "itemId": 4,   //商品id
+        "title": "蜘蛛人",  //sku标题
+        "cover": "https://liyuquan.cn/staticcover.jpg",  //封面图
+        "pictures": "[\"cover.jpg\"]",  //相册图
+        "stock": 0,  //库存
+        "price": 0,  //sku价格
+        "sales": 0,  //sku销售量
+        "status": 2,  //状态 1 正常 2 禁用
+        "created": 1532508987000,  //创建时间
+        "updated": 1532508987000  //更新时间
+    }
+}
+```
 
 ## 7. 购物车
 

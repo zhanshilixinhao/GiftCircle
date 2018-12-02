@@ -30,11 +30,26 @@ public class SkuController {
     @PostMapping("sku_set")
     public Response getSkuSet(Integer itemId) {
         //校验商品是否存在
-        if (itemId ==null){
+        if (itemId == null) {
             return ResponseFactory.errMissingParameter();
         }
         return skuService.getSkuSet(itemId);
     }
 
+    /**
+     * 根据sku获取库存
+     *
+     * @param skuId
+     * @return
+     * @author linqin
+     * @date 2018/6/15
+     */
+    @PostMapping("sku_stock")
+    public Response getSkuStock(Integer skuId) {
+        if (skuId == null) {
+            return ResponseFactory.errMissingParameter();
+        }
+        return skuService.getSkuStock(skuId);
+    }
 
 }

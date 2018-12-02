@@ -3,6 +3,7 @@ package com.chouchongkeji.service.mall.item.impl;
 import com.chouchongkeji.dial.dao.gift.item.ItemFeatureMapper;
 import com.chouchongkeji.dial.dao.gift.item.ItemMapper;
 import com.chouchongkeji.dial.dao.gift.item.ItemSkuMapper;
+import com.chouchongkeji.dial.pojo.gift.item.ItemSku;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.dial.pojo.gift.item.Item;
@@ -11,6 +12,7 @@ import com.chouchongkeji.service.mall.item.vo.*;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import sun.security.x509.RFC822Name;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -88,5 +90,24 @@ public class SkuServiceImpl implements SkuService {
         vo.setSkus(list);
         return ResponseFactory.sucData(vo);
 
+    }
+
+
+
+    /**
+     * 根据sku获取库存
+     *
+     * @param skuId
+     * @return
+     * @author linqin
+     * @date 2018/6/15
+     */
+    @Override
+    public Response getSkuStock(Integer skuId) {
+        ItemSku itemSku = itemSkuMapper.selectBySkuId(skuId);
+        if (itemSku == null){
+            return ResponseFactory.err("该sku不存在");
+        }
+        return ResponseFactory.sucData(itemSku);
     }
 }
