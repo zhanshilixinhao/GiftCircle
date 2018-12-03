@@ -8,6 +8,7 @@ import com.chouchongkeji.dial.dao.backpack.gift.GiftRecordMapper;
 import com.chouchongkeji.dial.dao.user.AppUserMapper;
 import com.chouchongkeji.dial.pojo.backpack.Vbp;
 import com.chouchongkeji.dial.pojo.backpack.gift.GiftRecordDetail;
+import com.chouchongkeji.dial.pojo.gift.virtualItem.AppMessage;
 import com.chouchongkeji.dial.pojo.gift.virtualItem.GiftRecord;
 import com.chouchongkeji.dial.pojo.user.AppUser;
 import com.chouchongkeji.dial.redis.MRedisTemplate;
@@ -636,6 +637,32 @@ public class GiftServiceImpl implements GiftService {
         newDetail.setIsReply((byte) 1);
         newDetail.setReply(reply);
         giftRecordDetailMapper.updateByPrimaryKeySelective(newDetail);
+        // 根据记录详情id查询送礼者id
+        Integer sendGiftId = giftRecordDetailMapper.selectByRecordDetailId(recordDetailId);
+        if (sendGiftId == null) {
+            return ResponseFactory.err("送礼物者用户不存在");
+        }
+        // 获取用户昵称
+        AppUser appUser = appUserMapper.selectByUserId(userId);
+        if (appUser == null) {
+            return ResponseFactory.err("该用户不存在");
+        }
+        //添加答谢系统消息
+        AppMessage appMessage = new AppMessage();
+        appMessage.setTitle("系统通知");
+        appMessage.setSummary("您的好友答谢了您!");
+        appMessage.setContent("您好！您的好友" + appUser.getNickname() + "对您说了一些感谢的话：" + reply);
+        appMessage.setTargetId(recordDetailId.longValue());
+        appMessage.setTargetType((byte) 24);
+        appMessage.setMessageType((byte) 2);
+        int in = messageService.addMessage(appMessage, new ArrayList<Integer>() {
+            {
+                add(sendGiftId);
+            }
+        });
+        if (in < 1) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "添加系统消息失败");
+        }
         return ResponseFactory.suc();
     }
 

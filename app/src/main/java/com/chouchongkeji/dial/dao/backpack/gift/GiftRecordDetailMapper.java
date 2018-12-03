@@ -29,4 +29,11 @@ public interface GiftRecordDetailMapper {
                                         @Param("userId") Integer userId);
 
     List<GiftRecordDetail> selectByRecordId(@Param("recordId") Integer id);
+
+    /**
+     * 根据记录详情id查询送礼者id
+     * @param recordDetailId
+     * @return
+     */
+    Integer selectByRecordDetailId(Integer recordDetailId);
 }
