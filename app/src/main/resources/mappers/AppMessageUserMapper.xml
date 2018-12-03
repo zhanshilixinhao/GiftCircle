@@ -12,8 +12,14 @@
         </constructor>
     </resultMap>
     <sql id="Base_Column_List">
-    id, user_id, app_message_id, is_read, created, updated
-  </sql>
+        id
+        ,
+        user_id,
+        app_message_id,
+        is_read,
+        created,
+        updated
+    </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
@@ -21,31 +27,31 @@
         where id = #{id,jdbcType=INTEGER}
     </select>
     <select id="selectUnredByUserIdAndType" resultType="java.lang.Integer">
-SELECT
-	count( 0 ) AS unread
-FROM
-	`app_message` a
-	LEFT JOIN app_message_user b ON a.id = b.app_message_id
-WHERE
-	b.user_id = #{userId}
-	AND a.message_type = #{type}
-	AND b.is_read = 2
+        SELECT
+            count(0) AS unread
+        FROM
+            `app_message` a
+                LEFT JOIN app_message_user b ON a.id = b.app_message_id
+        WHERE
+            b.user_id = #{userId}
+          AND a.message_type = #{type}
+          AND b.is_read = 2
     </select>
     <select id="selectLastMessageByUserIdAndType"
             resultType="com.chouchongkeji.service.message.vo.MessageHomeVo">
- SELECT
-	c.summary,
-	c.created
-FROM
-	`app_message` c
-	LEFT JOIN app_message_user d ON c.id = d.app_message_id
-WHERE
-	d.user_id = #{userId}
-	AND c.message_type = #{type}
-ORDER BY
-	c.id DESC
-	LIMIT 1
-  </select>
+        SELECT
+            c.summary,
+            c.created
+        FROM
+            `app_message` c
+                LEFT JOIN app_message_user d ON c.id = d.app_message_id
+        WHERE
+            d.user_id = #{userId}
+          AND c.message_type = #{type}
+        ORDER BY
+            c.id DESC
+            LIMIT 1
+    </select>
 
 
     <resultMap id="GiftMessage" type="com.chouchongkeji.service.message.vo.GiftMessageVo">
@@ -65,63 +71,63 @@ ORDER BY
         <result column="friend_id" property="friendId"/>
     </resultMap>
     <select id="selectListByUserIdAndType" resultMap="GiftMessage">
-SELECT
-	a.summary,
-	a.message_type,
-	a.target_id,
-	b.id AS message_id,
-	b.user_id,
-	d.user_id AS send_user_id,
-	d.target_time,
-	d.greetting,
-	b.is_read,
-	b.created,
-	c.content,
-	c.reply,
-	c.is_reply,
-	e.remark,
-	e.id AS friend_id,
-	e.relationship,
-	f.nickname ,
-	f.avatar
-FROM
-	app_message a
-	LEFT JOIN app_message_user b ON b.app_message_id = a.id
-	LEFT JOIN gift_record_detail c ON c.id = a.target_id
-	LEFT JOIN gift_record d ON d.id = c.gift_record_id
-	LEFT JOIN friend e ON e.user_id = #{userId}
-	AND e.friend_user_id = d.user_id
-	LEFT JOIN app_user f ON f.id = d.user_id
-WHERE
-	b.user_id = #{userId}
-	AND a.message_type = 1
-	ORDER BY
-	b.id DESC
-  </select>
+        SELECT
+            a.summary,
+            a.message_type,
+            a.target_id,
+            b.id      AS message_id,
+            b.user_id,
+            d.user_id AS send_user_id,
+            d.target_time,
+            d.greetting,
+            b.is_read,
+            b.created,
+            c.content,
+            c.reply,
+            c.is_reply,
+            e.remark,
+            e.id      AS friend_id,
+            e.relationship,
+            f.nickname,
+            f.avatar
+        FROM
+            app_message a
+                LEFT JOIN app_message_user b ON b.app_message_id = a.id
+                LEFT JOIN gift_record_detail c ON c.id = a.target_id
+                LEFT JOIN gift_record d ON d.id = c.gift_record_id
+                LEFT JOIN friend e ON e.user_id = #{userId}
+                AND e.friend_user_id = d.user_id
+                LEFT JOIN app_user f ON f.id = d.user_id
+        WHERE
+            b.user_id = #{userId}
+          AND a.message_type = 1
+        ORDER BY
+            b.id DESC
+    </select>
     <select id="selectConMessageByUserId"
             resultType="com.chouchongkeji.service.message.vo.ConsignmentMessageVo">
         SELECT
-	b.summary,
-	b.message_type,
-	b.target_id,
-	a.id AS message_id,
-	e.price,
-	e.title,
-	e.description,
-	e.cover,
-	e.description,
-	a.created
-FROM
-	app_message_user a
-	LEFT JOIN app_message b ON a.app_message_id = b.id
-	LEFT JOIN consignment_order c ON c.id = b.target_id
-	LEFT JOIN consignment d ON c.consignment_id = d.id
-	LEFT JOIN v_bp e ON e.id = d.bp_id
-WHERE
-	a.user_id = #{userId}
-	AND b.message_type = 3
-ORDER BY
-	a.id DESC
+            b.summary,
+            b.message_type,
+            b.target_id,
+            a.id AS message_id,
+            e.price,
+            e.title,
+            e.description,
+            e.cover,
+            e.description,
+            a.created
+        FROM
+            app_message_user a
+                LEFT JOIN app_message b ON a.app_message_id = b.id
+                LEFT JOIN consignment_order c ON c.id = b.target_id
+                LEFT JOIN consignment d ON c.consignment_id = d.id
+                LEFT JOIN v_bp e ON e.id = d.bp_id
+        WHERE
+            a.user_id = #{userId}
+          AND b.message_type = 3
+        ORDER BY
+            a.id DESC
     </select>
     <select id="selectSystemByUserIdAndType" resultType="com.chouchongkeji.service.message.vo.SystemMessageVo">
         select
@@ -129,6 +135,8 @@ ORDER BY
             a.summary,
             a.title,
             a.content,
+            a.target_id,
+            a.target_type,
             a.message_type,
             a.created,
             b.user_id,
@@ -139,20 +147,19 @@ ORDER BY
         WHERE
             b.user_id = #{userId}
           AND a.message_type = 2
-          order by a.created DESC
+        order by a.created DESC
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from app_message_user
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
+        delete
+        from app_message_user
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
     <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.gift.virtualItem.AppMessageUser">
-    insert into app_message_user (id, user_id, app_message_id,
-      is_read, created, updated
-      )
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{appMessageId,jdbcType=INTEGER},
-      #{isRead,jdbcType=TINYINT}, #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP}
-      )
-  </insert>
+        insert into app_message_user (id, user_id, app_message_id,
+                                      is_read, created, updated)
+        values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{appMessageId,jdbcType=INTEGER},
+                #{isRead,jdbcType=TINYINT}, #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP})
+    </insert>
     <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.gift.virtualItem.AppMessageUser">
         insert into app_message_user
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -230,18 +237,27 @@ ORDER BY
         where id = #{id,jdbcType=INTEGER}
     </update>
     <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.dial.pojo.gift.virtualItem.AppMessageUser">
-    update app_message_user
-    set user_id = #{userId,jdbcType=INTEGER},
-      app_message_id = #{appMessageId,jdbcType=INTEGER},
-      is_read = #{isRead,jdbcType=TINYINT},
-      created = #{created,jdbcType=TIMESTAMP},
-      updated = #{updated,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+        update app_message_user
+        set user_id        = #{userId,jdbcType=INTEGER},
+            app_message_id = #{appMessageId,jdbcType=INTEGER},
+            is_read        = #{isRead,jdbcType=TINYINT},
+            created        = #{created,jdbcType=TIMESTAMP},
+            updated        = #{updated,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
     <update id="updateByUserIdAndType">
         update app_message_user a
-            left join app_message b on a.app_message_id = b.id
-        set a.is_read = 1
+            left join app_message b
+        on a
+           .
+           app_message_id =
+           b
+           .
+           id
+        set a
+            .
+            is_read =
+            1
         where a.user_id = #{userId} and b.message_type = #{messageType}
     </update>
 

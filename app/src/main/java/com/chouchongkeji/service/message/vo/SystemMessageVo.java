@@ -13,6 +13,8 @@ public class SystemMessageVo {
     private String summary;
     private String title;
     private String content;
+    private Long targetId;
+    private Byte targetType;
     private String messageType;
     private Date created;
     private Integer userId;
@@ -80,5 +82,21 @@ public class SystemMessageVo {
 
     public void setIsRead(Byte isRead) {
         this.isRead = isRead;
+    }
+
+    public Long getTargetId() {
+        return targetId;
+    }
+
+    public void setTargetId(Long targetId) {
+        this.targetId = targetId;
+    }
+
+    public Byte getTargetType() {
+        return targetType;
+    }
+
+    public void setTargetType(Byte targetType) {
+        this.targetType = targetType;
     }
 }
