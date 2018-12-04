@@ -153,4 +153,16 @@ public class ApiTest {
         Response post = OkHttpUtil.post("http://localhost:8088/auth/v1/gift/acknowledge", params);
         System.out.println(post.body().string());
     }
+
+    @Test
+    public void itemSku() throws IOException {
+        RequestParams params = new RequestParams();
+        params.put("time",System.currentTimeMillis());
+//        params.put("access_token","f3e7f648-845e-4614-a49e-bbd8f43add65");
+        params.put("itemId",59);
+        Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
+        params.put("sign",map.get(ApiSignUtil.ANDROID));
+        Response post = OkHttpUtil.post("http://localhost:8088/noauth/item/sku_set", params);
+        System.out.println(post.body().string());
+    }
 }

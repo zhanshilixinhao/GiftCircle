@@ -28,13 +28,14 @@
         <result column="value_id" property="valueId"/>
         <result column="feature_id" property="featureId"/>
         <result column="value" property="value"/>
+        <result column="feature_name" property="featureName"/>
       </collection>
   </resultMap>
   <sql id="Base_Column_List">
     id, item_id, title, cover, pictures, stock, price, sales, status, created, updated
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from item_sku
     where id = #{id,jdbcType=INTEGER}
@@ -73,13 +74,13 @@ WHERE
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.gift.item.ItemSku">
-    insert into item_sku (id, item_id, title, 
-      cover, pictures, stock, 
-      price, sales, status, 
+    insert into item_sku (id, item_id, title,
+      cover, pictures, stock,
+      price, sales, status,
       created, updated)
-    values (#{id,jdbcType=INTEGER}, #{itemId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, 
-      #{cover,jdbcType=VARCHAR}, #{pictures,jdbcType=VARCHAR}, #{stock,jdbcType=INTEGER}, 
-      #{price,jdbcType=DECIMAL}, #{sales,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, 
+    values (#{id,jdbcType=INTEGER}, #{itemId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR},
+      #{cover,jdbcType=VARCHAR}, #{pictures,jdbcType=VARCHAR}, #{stock,jdbcType=INTEGER},
+      #{price,jdbcType=DECIMAL}, #{sales,jdbcType=INTEGER}, #{status,jdbcType=TINYINT},
       #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.gift.item.ItemSku">
