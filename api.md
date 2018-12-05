@@ -746,7 +746,7 @@ http 常用错误码
 | errCode  |   Int    |    是    |               错误码 0 标识成功获取数据                |
 | data     |  Object  |    否    |                      成功返回数据                      |
 | amount   | decimal  |    是    |     提现金额                        |
-| status   |   Int    |    是    |     提现状态，1-申请提现，2-提现成功，3-提现失败         |
+| status   |   Int    |    是    |     提现状态，1-申请提现，2-处理中，3-提现成功，4-提现失败         |
 | created  |   long   |    是    |                        提现时间                        |
 | describe |  String  |    是    |                        提现说明                        |
 

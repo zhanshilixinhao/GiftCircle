@@ -165,4 +165,31 @@ public class ApiTest {
         Response post = OkHttpUtil.post("http://localhost:8088/noauth/item/sku_set", params);
         System.out.println(post.body().string());
     }
+
+    @Test
+    public void sendCode() throws IOException {
+        RequestParams params = new RequestParams();
+        params.put("time",System.currentTimeMillis());
+        params.put("phone","15752400657");
+        params.put("type",2);
+        Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
+        params.put("sign",map.get(ApiSignUtil.ANDROID));
+        Response post = OkHttpUtil.post("http://localhost:8088/ask/code", params);
+        System.out.println(post.body().string());
+    }
+
+    @Test
+    public void findPwd() throws IOException {
+        RequestParams params = new RequestParams();
+        params.put("time",System.currentTimeMillis());
+        params.put("access_token","f3e7f648-845e-4614-a49e-bbd8f43add65");
+        params.put("phone","15752400657");
+        params.put("code","759308");
+        params.put("de","hskjashfiufhb334");
+        params.put("s2","fnsdfhjkshf8893");
+        Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
+        params.put("sign",map.get(ApiSignUtil.ANDROID));
+        Response post = OkHttpUtil.post("http://localhost:8088/auth/user/find/pwd", params);
+        System.out.println(post.body().string());
+    }
 }

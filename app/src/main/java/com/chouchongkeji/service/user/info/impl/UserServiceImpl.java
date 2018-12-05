@@ -401,8 +401,8 @@ public class UserServiceImpl implements UserService {
     public Response findSendPwd(Integer userId, Integer client, String phone, String code, String de, String time) {
         // 根据userId查询用户信息
         AppUser appUser = appUserMapper.selectByUserId(userId);
-        if (StringUtils.equals(appUser.getPhone(),phone)){
-            return ResponseFactory.err("改号码与注册号码不符合");
+        if (!StringUtils.equals(appUser.getPhone(),phone)){
+            return ResponseFactory.err("该号码与注册号码不符合");
         }
         Response response = setSentPwd(userId, de, time, client);
         return response;
