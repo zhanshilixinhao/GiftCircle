@@ -124,7 +124,7 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
         int re = checkAliPayBaseInfo(aLiPayV2Vo, map, orderNo);
         if (re == 0) {
             //更新订单支付状态
-            chargeOrder.setPayWay((byte)Constants.PAY_TYPE.ALI);
+            chargeOrder.setPayWay((byte)2);
             chargeOrder.setStatus(Constants.CHARGE_ORDER_STATUS.PAY);
             int count = chargeOrderMapper.updateByPrimaryKeySelective(chargeOrder);
             if (count == 0) {
@@ -393,7 +393,7 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
         int re = checkBaseWxPayInfo(notifyData, xml, orderNo);
         if (re == 0) {
             //更新订单支付状态
-            chargeOrder.setPayWay((byte)Constants.PAY_TYPE.WX);
+            chargeOrder.setPayWay((byte)1);
             chargeOrder.setStatus(Constants.CHARGE_ORDER_STATUS.PAY);
             int count = chargeOrderMapper.updateByPrimaryKeySelective(chargeOrder);
             if (count == 0) {
