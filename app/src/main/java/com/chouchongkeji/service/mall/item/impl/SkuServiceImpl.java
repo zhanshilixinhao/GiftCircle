@@ -62,6 +62,7 @@ public class SkuServiceImpl implements SkuService {
         List<ItemFeatureVo> itemFeatures = new ArrayList<>();
 
         if (CollectionUtils.isNotEmpty(list)) {
+            list.get(0).setIsDefault(1);
             for (SkuListVo vo : list) {
                 for (SkuValueVo value : vo.getValues()) {
 

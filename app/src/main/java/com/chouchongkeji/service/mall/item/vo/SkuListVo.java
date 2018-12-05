@@ -28,6 +28,8 @@ public class SkuListVo {
 
     private List<SkuValueVo> values;
 
+    private Integer isDefault = 2;// 是否为默认 1-是 2 不是
+
     public Integer getSkuId() {
         return skuId;
     }
@@ -92,4 +94,11 @@ public class SkuListVo {
         this.values = values;
     }
 
+    public Integer getIsDefault() {
+        return isDefault;
+    }
+
+    public void setIsDefault(Integer isDefault) {
+        this.isDefault = isDefault;
+    }
 }

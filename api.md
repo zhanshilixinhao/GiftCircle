@@ -24,9 +24,10 @@
 * 2018/12/01
 * 更新内容
 
->  1. 增加修改银行卡接口   3.15接口
->  2. 修改银行卡列表接口，增加默认银行卡字段  3.4接口
->  3. 增加获取sku库存接口   6.17接口
+>  1. 增加修改银行卡接口   （3.15接口）
+>  2. 修改银行卡列表接口，增加默认银行卡字段 （ 3.4接口）
+>  3. 增加获取sku库存接口   （6.17接口）
+> 4. 增加默认sku     （7.5接口）
 
 ## 目录
 <span id="m"> </span>
@@ -2045,6 +2046,7 @@ JSON：
                 "price": 1000, 
                 "stock": 5, 
                 "sales": 0, 
+                "isDefault": 1，
                 "values": [
                     {
                         "valueId": 1, 
@@ -2066,6 +2068,7 @@ JSON：
                 "price": 1000, 
                 "stock": 5, 
                 "sales": 0, 
+                "isDefault": 2，
                 "values": [
                     {
                         "valueId": 3, 
@@ -2097,6 +2100,7 @@ JSON：
 | price | int | 是 | 商品价格 |
 | stock | int | 是 | 商品库存 |
 | sales | int | 是 | 商品销量 |
+|isDefault|int|是|1 默认sku,2 不是默认sku|
 
 ### 7.6 创建商品订单
 - 请求地址：auth/item/order/create
