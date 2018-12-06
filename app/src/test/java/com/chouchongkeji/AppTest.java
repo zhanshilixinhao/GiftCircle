@@ -47,7 +47,7 @@ public class AppTest
     public void login() throws IOException {
 
         RequestParams params = new RequestParams();
-        params.put("username", "15752400657");
+        params.put("username", "18313747954");
         params.put("password", "123456");
         params.put("exploringId", 24);
         params.put("time", "1526539545791");

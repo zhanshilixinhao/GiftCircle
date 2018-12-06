@@ -16,16 +16,31 @@ import java.util.Map;
 
 public class Test2 {
 
+    //同意拒绝好友索要
     @Test
     public void operation() throws IOException {
         RequestParams params = new RequestParams();
         params.put("time",System.currentTimeMillis());
-        params.put("access_token","f3e7f648-845e-4614-a49e-bbd8f43add65");
-        params.put("forRecordId",18);
-        params.put("operation",2);
+        params.put("access_token","6e4fa086-2bbe-4127-b4da-1ab86c9e07a0");
+        params.put("forRecordId",19);
+        params.put("operation",1);
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
         params.put("sign",map.get(ApiSignUtil.ANDROID));
         Response post = OkHttpUtil.post("http://localhost:8088/auth/friend/bp/operation", params);
+        System.out.println(post.body().string());
+    }
+
+    // 向好友索要物品
+  @Test
+    public void forRecord() throws IOException {
+        RequestParams params = new RequestParams();
+        params.put("time",System.currentTimeMillis());
+        params.put("access_token","f3e7f648-845e-4614-a49e-bbd8f43add65");
+        params.put("friendUserId",4);
+        params.put("bpId","4818120614107");
+        Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
+        params.put("sign",map.get(ApiSignUtil.ANDROID));
+        Response post = OkHttpUtil.post("http://localhost:8088/auth/friend/bp/add_for_record", params);
         System.out.println(post.body().string());
     }
 
