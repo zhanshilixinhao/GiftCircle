@@ -117,11 +117,11 @@ public class AppTest
     public void modify() throws IOException {
         RequestParams params = new RequestParams();
         params.put("time","1543377365");
-        params.put("access_token","d43baab4-d457-4c4a-ad86-84e66b0e6275");
-        params.put("nickname","abc");
+        params.put("access_token","f3e7f648-845e-4614-a49e-bbd8f43add65");
+        params.put("signature","哈哈哈哈");
         Map map = ApiSignUtil.sign1(params.getParams(),ApiSignUtil.IOS);
         params.put("sign",map.get(ApiSignUtil.IOS));
-        Response post = OkHttpUtil.post("https://liyuquan.cn/app/auth/user/modify_profile", params);
+        Response post = OkHttpUtil.post("http://localhost:8088/auth/user/modify_profile", params);
         System.out.println(post.body().string());
 
 //        System.out.println(Utils.toMD5("access_token=d43baab4-d457-4c4a-ad86-84e66b0e6275&nickname=abc&time=1543382182&key=%sX4H91PzuB7V%5ET4uefDnsiwzHDxOgrX"));
