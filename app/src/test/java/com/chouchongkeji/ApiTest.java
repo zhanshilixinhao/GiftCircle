@@ -192,4 +192,18 @@ public class ApiTest {
         Response post = OkHttpUtil.post("http://localhost:8088/auth/user/find/pwd", params);
         System.out.println(post.body().string());
     }
+
+    @Test
+    public void recordList() throws IOException {
+        RequestParams params = new RequestParams();
+        params.put("time",System.currentTimeMillis());
+        params.put("access_token","f3e7f648-845e-4614-a49e-bbd8f43add65");
+        params.put("type",1);
+        params.put("pageNum",1);
+        params.put("pageSize",14);
+        Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
+        params.put("sign",map.get(ApiSignUtil.ANDROID));
+        Response post = OkHttpUtil.post("http://localhost:8088/auth/friend/bp/record_list", params);
+        System.out.println(post.body().string());
+    }
 }

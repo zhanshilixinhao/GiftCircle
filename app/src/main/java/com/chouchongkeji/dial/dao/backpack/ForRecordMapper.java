@@ -19,7 +19,7 @@ public interface ForRecordMapper {
 
     int updateByPrimaryKey(ForRecord record);
 
-    List<ForRecordVo> selectAllByUserId(Integer userId);
+    List<ForRecordVo> selectAllByUserId(@Param("userId")Integer userId,@Param("type") Integer type);
 
     ForRecord selectByUserIdAndForRecordId(@Param("userId") Integer userId,@Param("forRecordId") Integer forRecordId);
 }

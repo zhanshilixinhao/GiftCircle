@@ -111,16 +111,17 @@ public class FriendBpServiceImpl implements FriendBpService {
      * 索要记录列表
      *
      * @param userId
+     * @param type        1-用户向好友索要商品 ，2-好友向用户索要商品
      * @return
      * @author linqin
      * @date 2018/7/12
      */
     @Override
-    public Response getRecordList(Integer userId, PageQuery pageQuery) {
+    public Response getRecordList(Integer userId, PageQuery pageQuery,Integer type) {
         //分页
         PageHelper.startPage(pageQuery.getPageNum(), pageQuery.getPageSize());
         //查询索要记录列表
-        List<ForRecordVo> list = forRecordMapper.selectAllByUserId(userId);
+        List<ForRecordVo> list = forRecordMapper.selectAllByUserId(userId,type);
         return ResponseFactory.sucData(list);
     }
 

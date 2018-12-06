@@ -48,11 +48,12 @@ public interface FriendBpService {
     /**
      * 索要记录列表
      * @param userId
+     * @param type        1-用户向好友索要商品 ，2-好友向用户索要商品
      * @return
      * @author linqin
      * @date 2018/7/12
      */
-    Response getRecordList(Integer userId, PageQuery pageQuery);
+    Response getRecordList(Integer userId, PageQuery pageQuery,Integer type);
 
     /**
      * 同意或者拒绝好友索要背包物品

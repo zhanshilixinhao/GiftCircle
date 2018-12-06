@@ -92,13 +92,17 @@ public class FriendBpController {
      * 索要记录列表
      *
      * @param userDetails
+     * @param type        1-用户向好友索要商品 ，2-好友向用户索要商品
      * @return
      * @author linqin
      * @date 2018/7/12
      */
     @PostMapping("record_list")
-    public Response getRecordList(@AuthenticationPrincipal UserDetails userDetails, PageQuery pageQuery) {
-        return friendBpService.getRecordList(userDetails.getUserId(), pageQuery);
+    public Response getRecordList(@AuthenticationPrincipal UserDetails userDetails, PageQuery pageQuery, Integer type) {
+        if (type == null || (type != 1 && type != 2)){
+            return ResponseFactory.errMissingParameter();
+        }
+            return friendBpService.getRecordList(userDetails.getUserId(), pageQuery, type);
     }
 
 
@@ -107,24 +111,24 @@ public class FriendBpController {
      *
      * @param userDetails
      * @param operation   0-默认无操作，1-同意好友索要，2-拒绝好友索要
-     * @param forRecordId  索要记录Id
+     * @param forRecordId 索要记录Id
      * @return
      * @author linqin
      * @date 2018/7/13
      */
     @PostMapping("operation")
-    public Response operation(@AuthenticationPrincipal UserDetails userDetails, Byte operation,Integer forRecordId) {
+    public Response operation(@AuthenticationPrincipal UserDetails userDetails, Byte operation, Integer forRecordId) {
         //参数校验
         if (operation == null) {
             operation = Constants.BP_ITEM.DEFAULT;
         }
-        if (operation != Constants.BP_ITEM.DEFAULT && operation != Constants.BP_ITEM.AGREE && operation != Constants.BP_ITEM.REFUSE){
+        if (operation != Constants.BP_ITEM.DEFAULT && operation != Constants.BP_ITEM.AGREE && operation != Constants.BP_ITEM.REFUSE) {
             return ResponseFactory.errMissingParameter();
         }
-        if (forRecordId == null){
+        if (forRecordId == null) {
             return ResponseFactory.errMissingParameter();
         }
-        return friendBpService.operation(userDetails.getUserId(),operation,forRecordId);
+        return friendBpService.operation(userDetails.getUserId(), operation, forRecordId);
     }
 
 

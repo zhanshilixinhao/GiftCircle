@@ -17,7 +17,7 @@
     id, user_id, bp_id, friend_user_id, status, operation, created, updated
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from for_record
     where id = #{id,jdbcType=INTEGER}
@@ -27,11 +27,11 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.backpack.ForRecord">
-    insert into for_record (id, user_id, bp_id, 
-      friend_user_id, status, operation, 
+    insert into for_record (id, user_id, bp_id,
+      friend_user_id, status, operation,
       created, updated)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{bpId,jdbcType=BIGINT}, 
-      #{friendUserId,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, #{operation,jdbcType=TINYINT}, 
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{bpId,jdbcType=BIGINT},
+      #{friendUserId,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, #{operation,jdbcType=TINYINT},
       now(), now())
   </insert>
   <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.backpack.ForRecord">
@@ -167,6 +167,7 @@ WHERE
 	) a
 	LEFT JOIN v_bp b on b.id = a.bp_id
 	LEFT JOIN app_user c on a.friend_user_id = c.id
+  where a.type = #{type}
     </select>
   <select id="selectByUserIdAndForRecordId" resultMap="BaseResultMap">
     SELECT
