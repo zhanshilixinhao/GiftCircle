@@ -1,5 +1,6 @@
 package com.chouchongkeji.service.backpack.base.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.chouchongkeji.dial.dao.backpack.BpItemMapper;
 import com.chouchongkeji.dial.dao.backpack.ForRecordMapper;
 import com.chouchongkeji.dial.pojo.backpack.BpItem;
@@ -14,6 +15,7 @@ import com.chouchongkeji.service.backpack.base.BpService;
 import com.chouchongkeji.service.backpack.base.FriendBpService;
 import com.chouchongkeji.service.backpack.base.vo.ForRecordVo;
 import com.chouchongkeji.util.Constants;
+import com.chouchongkeji.util.OrderHelper;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,6 +40,9 @@ public class FriendBpServiceImpl implements FriendBpService {
 
     @Autowired
     private ForRecordMapper forRecordMapper;
+
+    @Autowired
+    private OrderHelper orderHelper;
 
     /**
      * 好友背包列表
@@ -162,21 +167,25 @@ public class FriendBpServiceImpl implements FriendBpService {
                     throw new ServiceException(ErrorCode.ERROR.getCode(),"用户背包更新失败");
                 }
                 //更新好友背包（添加物品到好友背包里）
-                int add = bpService.addFromFriendBp(forRecord, bpItem);
-                if (add<0){
-                    return ResponseFactory.err("物品添加到好友背包失败");
-                }
-//                BpItem friendBp = new BpItem();
-//                friendBp.setUserId(forRecord.getUserId());
-//                friendBp.setTargetId(bpItem.getTargetId());
-//                friendBp.setQuantity(1);
-//                friendBp.setPrice(bpItem.getPrice());
-//                friendBp.setFrom(bpItem.getFrom());
-//                friendBp.setType(bpItem.getType());
-//                int insert = bpItemMapper.insert(friendBp);
-//                if (insert<0){
+//                int add = bpService.addFromFriendBp(forRecord, bpItem);
+//                if (add<0){
 //                    return ResponseFactory.err("物品添加到好友背包失败");
 //                }
+                JSONObject object = new JSONObject();
+                object.put("type", Constants.BP_ITEM_FROM.ASK_FOR);
+                object.put("forRecordId",forRecord.getId() );
+                BpItem friendBp = new BpItem();
+                friendBp.setId(orderHelper.genOrderNo(7, 7));
+                friendBp.setUserId(forRecord.getUserId());
+                friendBp.setTargetId(bpItem.getTargetId());
+                friendBp.setQuantity(1);
+                friendBp.setPrice(bpItem.getPrice());
+                friendBp.setFrom(object.toJSONString());
+                friendBp.setType(bpItem.getType());
+                int insert = bpItemMapper.insert(friendBp);
+                if (insert<0){
+                    return ResponseFactory.err("物品添加到好友背包失败");
+                }
                 return ResponseFactory.sucMsg("已同意好友索要物品");
             }
             //拒绝好友索要物品

@@ -168,6 +168,7 @@ WHERE
 	LEFT JOIN v_bp b on b.id = a.bp_id
 	LEFT JOIN app_user c on a.friend_user_id = c.id
   where a.type = #{type}
+      order by a.created DESC
     </select>
   <select id="selectByUserIdAndForRecordId" resultMap="BaseResultMap">
     SELECT

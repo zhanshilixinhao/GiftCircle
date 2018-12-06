@@ -651,7 +651,7 @@ public class GiftServiceImpl implements GiftService {
         AppMessage appMessage = new AppMessage();
         appMessage.setTitle("系统通知");
         appMessage.setSummary("您的好友答谢了您!");
-        appMessage.setContent("您好！您的好友" + appUser.getNickname() + "对您说了一些感谢的话：" + reply);
+        appMessage.setContent("嘿嘿(" + appUser.getNickname() + ") 发来的感谢语 " + reply);
         appMessage.setTargetId(recordDetailId.longValue());
         appMessage.setTargetType((byte) 24);
         appMessage.setMessageType((byte) 2);
