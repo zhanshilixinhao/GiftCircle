@@ -44,4 +44,11 @@ public class SentPwdUtil {
         return AESUtils.encrypt(apiKey, pwd);
     }
 
+//    public static void main(String[] args) {
+//        String decrypt = decrypt("Qh6OthvMTjZfsolBZ2x0MLysZ4H9Kd3NP9ChK1h7O5es9QEhrNY5vp8kd8PCbIimO3CKQ1DWHru9Len4jeZDZKL5m8ngcH2uGMVAbtvemc4Zkha20kL1GBQ7izAfckVzcewAHJ5rUoLUEdg+0sBJWA==",
+//                "01523988612755868774841374437841", "8CF583040209BC196135DE237DCA5AAF", "1544166350"
+//        );
+//        System.out.println(decrypt);
+//    }
+
 }
