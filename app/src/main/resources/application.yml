@@ -1,9 +1,9 @@
 spring:
   #数据源基本配置
   datasource:
-    username: mpmalluser
+    username: root
     password: 1MhJK1tH9n60g1&L9Lqm
-    url: jdbc:mysql://45.40.206.174:3306/giftcircler?useUnicode=yes&characterEncoding=UTF-8&useSSL=false
+    url: jdbc:mysql://45.40.206.174:3306/mpmalluser?useUnicode=yes&characterEncoding=UTF-8&useSSL=false
     driver-class-name:
     # 指定自定义的数据库连接池替换默认的
     type: com.alibaba.druid.pool.DruidDataSource
