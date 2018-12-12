@@ -8,6 +8,7 @@ import com.chouchongkeji.goexplore.utils.OkHttpUtil;
 import com.chouchongkeji.goexplore.utils.RequestParams;
 import okhttp3.Response;
 import org.junit.Test;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -45,6 +46,12 @@ public class TestPoat {
     }
 
 
+    @Test
+    public void pwd() {
 
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encode = passwordEncoder.encode("123456");
+        System.out.println(encode);
+    }
 
 }

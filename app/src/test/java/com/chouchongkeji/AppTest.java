@@ -47,7 +47,7 @@ public class AppTest
     public void login() throws IOException {
 
         RequestParams params = new RequestParams();
-        params.put("username", "18313747954");
+        params.put("username", "15752400657");
         params.put("password", "123456");
         params.put("exploringId", 24);
         params.put("time", "1526539545791");
@@ -143,6 +143,16 @@ public class AppTest
         Map map = ApiSignUtil.sign1(params.getParams(),ApiSignUtil.IOS);
         params.put("sign",map.get(ApiSignUtil.IOS));
         Response post = OkHttpUtil.post("http://localhost:8080/auth/v1/merchant/apply", params);
+        System.out.println(post.body().string());
+    }
+    @Test
+    public void eventList() throws IOException {
+        RequestParams params = new RequestParams();
+        params.put("time",System.currentTimeMillis());
+        params.put("access_token","f3e7f648-845e-4614-a49e-bbd8f43add65");
+        Map map = ApiSignUtil.sign1(params.getParams(),ApiSignUtil.IOS);
+        params.put("sign",map.get(ApiSignUtil.IOS));
+        Response post = OkHttpUtil.post("http://localhost:8088/auth/event/list", params);
         System.out.println(post.body().string());
     }
 }

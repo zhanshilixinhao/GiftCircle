@@ -4,9 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.chouchongkeji.App;
 import com.chouchongkeji.dial.dao.user.DistrictMapper;
 import com.chouchongkeji.dial.pojo.user.District;
-import com.chouchongkeji.goexplore.utils.ApiSignUtil;
-import com.chouchongkeji.goexplore.utils.OkHttpUtil;
-import com.chouchongkeji.goexplore.utils.RequestParams;
 import com.chouchongkeji.service.amap.AMapApiImpl;
 import com.chouchongkeji.service.amap.DistrictResponse;
 import org.apache.commons.collections.CollectionUtils;
@@ -34,10 +31,7 @@ public class DistrictTest {
     @Test
     public void amapTest() throws IOException {
         DistrictResponse response = AMapApiImpl.createWebApi().getDistricts("100000", 3);
-
         insert(response.getDistricts().get(0));
-
-
     }
 
     private void insert(DistrictResponse.District district) {
