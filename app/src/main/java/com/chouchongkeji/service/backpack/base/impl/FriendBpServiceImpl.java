@@ -129,7 +129,7 @@ public class FriendBpServiceImpl implements FriendBpService {
         appMessage.setTitle("系统通知");
         appMessage.setSummary("您的好友向您索要了礼品!");
         appMessage.setContent(appUser.getNickname() + "  向您索要礼品 ");
-        appMessage.setTargetId(bpId);
+        appMessage.setTargetId(addForRecord.getId().longValue());
         appMessage.setTargetType((byte) 25);
         appMessage.setMessageType((byte) 2);
         int in = messageService.addMessage(appMessage, new ArrayList<Integer>() {
