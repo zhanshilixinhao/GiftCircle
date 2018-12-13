@@ -1,5 +1,7 @@
 package com.chouchongkeji.service.user.friend.vo;
 
+import com.yichen.auth.jackson.ImgUrl;
+
 /**
  * @author yichenshanren
  * @date 2018/6/21
@@ -8,6 +10,7 @@ package com.chouchongkeji.service.user.friend.vo;
 public class FriendBase {
 
     private Integer userId;
+    @ImgUrl
     private String avatar;
     private String nickname;
     private Integer isFriend;

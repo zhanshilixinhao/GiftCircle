@@ -95,7 +95,7 @@ public class FriendController {
     }
 
     /**
-     * 修改好友信息
+     * 搜索好友
      *
      * @param userDetails 用户信息
      * @return
@@ -227,5 +227,5 @@ public class FriendController {
         }
         return friendService.optNotifyMsg(userDetails.getUserId(), opt, msgId, reply);
     }
-    
+
 }

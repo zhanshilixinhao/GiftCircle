@@ -44,7 +44,7 @@ public class Test2 {
         System.out.println(post.body().string());
     }
     // 用户信息
-@Test
+    @Test
     public void profile() throws IOException {
         RequestParams params = new RequestParams();
         params.put("time",System.currentTimeMillis());
@@ -52,6 +52,42 @@ public class Test2 {
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
         params.put("sign",map.get(ApiSignUtil.ANDROID));
         Response post = OkHttpUtil.post("http://localhost:8088/auth/user/profile", params);
+        System.out.println(post.body().string());
+    }
+
+    //银行卡列表
+    @Test
+    public void bankList() throws IOException {
+        RequestParams params = new RequestParams();
+        params.put("time",System.currentTimeMillis());
+        params.put("access_token","ca0aa669-f006-4ba8-bdf9-91a078b3ccf1");
+        Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
+        params.put("sign",map.get(ApiSignUtil.ANDROID));
+        Response post = OkHttpUtil.post("http://localhost:8088/auth/v1/bankCard/bankList", params);
+        System.out.println(post.body().string());
+    }
+
+    //banner
+    @Test
+    public void banner() throws IOException {
+        RequestParams params = new RequestParams();
+        params.put("time",System.currentTimeMillis());
+        params.put("access_token","ca0aa669-f006-4ba8-bdf9-91a078b3ccf1");
+        Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
+        params.put("sign",map.get(ApiSignUtil.ANDROID));
+        Response post = OkHttpUtil.post("http://localhost:8088/noauth/v1/home/Banner", params);
+        System.out.println(post.body().string());
+    }
+    //搜索好友
+    @Test
+    public void search() throws IOException {
+        RequestParams params = new RequestParams();
+        params.put("time",System.currentTimeMillis());
+        params.put("access_token","ca0aa669-f006-4ba8-bdf9-91a078b3ccf1");
+        params.put("key","积极");
+        Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
+        params.put("sign",map.get(ApiSignUtil.ANDROID));
+        Response post = OkHttpUtil.post("http://localhost:8088/auth/friend/search", params);
         System.out.println(post.body().string());
     }
 
