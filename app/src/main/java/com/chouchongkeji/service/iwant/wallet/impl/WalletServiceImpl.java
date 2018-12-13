@@ -118,7 +118,7 @@ public class WalletServiceImpl implements WalletService {
         }
         balance = balance.add(amount);
         if (balance.doubleValue() < 0) {
-            throw new ServiceException(ErrorCode.ERROR.getCode(), "余额不足");
+            throw new ServiceException(ErrorCode.YUE_NOT_EN);
         }
         //更新余额
         detail.setBalance(balance);
