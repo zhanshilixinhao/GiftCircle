@@ -22,6 +22,9 @@ public class ImgUrlJsonSerializer extends JsonSerializer<Object> {
     public void serialize(Object value, JsonGenerator gen, SerializerProvider serializers) throws IOException, JsonProcessingException {
         String host = imageProperties == null ? "" : imageProperties.getHost();
         if (value instanceof String) {
+            if (((String) value).startsWith("http")) {
+                gen.writeString((String) value);
+            } else
             gen.writeString(String.format("%s%s", host, value));
             return;
         }
@@ -32,6 +35,7 @@ public class ImgUrlJsonSerializer extends JsonSerializer<Object> {
                 if (!(str instanceof String)) {
                     break;
                 }
+                if (((String) str).startsWith("http")) continue;
                 list.set(i++, String.format("%s%s", host, str));
             }
         }
