@@ -2,16 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.chouchongkeji.dial.dao.gift.item.CartMapper">
   <resultMap id="BaseResultMap" type="com.chouchongkeji.dial.pojo.gift.item.Cart">
-    <constructor>
-      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="item_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="sku_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="price" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
-      <arg column="quantity" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-      <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-    </constructor>
+      <id column="id" property="id"/>
+      <!--<arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />-->
+      <!--<arg column="item_id" javaType="java.lang.Integer" jdbcType="INTEGER" />-->
+      <!--<arg column="sku_id" javaType="java.lang.Integer" jdbcType="INTEGER" />-->
+      <!--<arg column="price" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />-->
+      <!--<arg column="quantity" javaType="java.lang.Integer" jdbcType="INTEGER" />-->
+      <!--<arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />-->
+      <!--<arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />-->
   </resultMap>
   <resultMap id="ResultMap" type="com.chouchongkeji.service.mall.item.vo.CartListVo">
     <result column="item_id" property="itemId"/>
@@ -23,7 +21,7 @@
     <result column="created" property="created"/>
   </resultMap>
   <sql id="Base_Column_List">
-    id, user_id, item_id, sku_id, price, quantity, created, updated
+    id, user_id, item_id, sku_id, title, price, quantity, created, updated
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select
@@ -36,7 +34,7 @@
 	a.quantity,
 	a.item_id,
 	b.id AS sku_id,
-	b.title,
+	b.title, a.title as sp,
 	b.cover,
 	b.price,
 	a.created
@@ -77,10 +75,10 @@ WHERE
   </delete>
   <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.gift.item.Cart">
     insert into cart (id, user_id, item_id,
-      sku_id, price, quantity,
+      sku_id, title, price, quantity,
       created, updated)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{itemId,jdbcType=INTEGER},
-      #{skuId,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, #{quantity,jdbcType=INTEGER},
+      #{skuId,jdbcType=INTEGER},#{title}, #{price,jdbcType=DECIMAL}, #{quantity,jdbcType=INTEGER},
       now(),now())
   </insert>
   <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.gift.item.Cart">

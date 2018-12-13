@@ -2,25 +2,23 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.chouchongkeji.dial.dao.gift.item.ItemOrderDetailMapper">
   <resultMap id="BaseResultMap" type="com.chouchongkeji.dial.pojo.gift.item.ItemOrderDetail">
-    <constructor>
-      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="item_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="sku_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="order_no" javaType="java.lang.Long" jdbcType="BIGINT" />
-      <arg column="title" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="description" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="cover" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="price" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
-      <arg column="total_price" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
-      <arg column="quantity" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT" />
-      <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-      <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-    </constructor>
+      <result property="id" column="id"/>
+      <!--<arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />-->
+      <!--<arg column="item_id" javaType="java.lang.Integer" jdbcType="INTEGER" />-->
+      <!--<arg column="sku_id" javaType="java.lang.Integer" jdbcType="INTEGER" />-->
+      <!--<arg column="order_no" javaType="java.lang.Long" jdbcType="BIGINT" />-->
+      <!--<arg column="title" javaType="java.lang.String" jdbcType="VARCHAR" />-->
+      <!--<arg column="description" javaType="java.lang.String" jdbcType="VARCHAR" />-->
+      <!--<arg column="cover" javaType="java.lang.String" jdbcType="VARCHAR" />-->
+      <!--<arg column="price" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />-->
+      <!--<arg column="total_price" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />-->
+      <!--<arg column="quantity" javaType="java.lang.Integer" jdbcType="INTEGER" />-->
+      <!--<arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT" />-->
+      <!--<arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />-->
+      <!--<arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />-->
   </resultMap>
   <sql id="Base_Column_List">
-    id, user_id, item_id, sku_id, order_no, title, description, cover, price, total_price, 
+    id, user_id, item_id, sku_id, order_no, title, sp, description, cover, price, total_price,
     quantity, status, created, updated
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -60,12 +58,12 @@ WHERE
   </delete>
   <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.gift.item.ItemOrderDetail">
     insert into item_order_detail (id, user_id, item_id, 
-      sku_id, order_no, title, 
+      sku_id, order_no, title,  sp,
       description, cover, price, 
       total_price, quantity, status, 
       created, updated)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{itemId,jdbcType=INTEGER}, 
-      #{skuId,jdbcType=INTEGER}, #{orderNo,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, 
+      #{skuId,jdbcType=INTEGER}, #{orderNo,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, #{sp},
       #{description,jdbcType=VARCHAR}, #{cover,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, 
       #{totalPrice,jdbcType=DECIMAL}, #{quantity,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, 
       now(),now())
@@ -163,7 +161,7 @@ WHERE
   </insert>
     <insert id="batchInsert">
        insert into item_order_detail (id, user_id, item_id,
-      sku_id, order_no, title,
+      sku_id, order_no, title, sp,
       description, cover, price,
       total_price, quantity, status,
       created, updated)
@@ -171,6 +169,7 @@ WHERE
     <foreach collection="list" item="item" index="i" separator=",">
       (#{item.id,jdbcType=INTEGER}, #{item.userId,jdbcType=INTEGER}, #{item.itemId,jdbcType=INTEGER},
       #{item.skuId,jdbcType=INTEGER}, #{item.orderNo,jdbcType=BIGINT}, #{item.title,jdbcType=VARCHAR},
+      #{item.sp},
       #{item.description,jdbcType=VARCHAR}, #{item.cover,jdbcType=VARCHAR}, #{item.price,jdbcType=DECIMAL},
       #{item.totalPrice,jdbcType=DECIMAL}, #{item.quantity,jdbcType=INTEGER}, #{item.status,jdbcType=TINYINT},
       now(),now())

@@ -15,6 +15,7 @@ public class CartListVo {
     @ImgUrl
     private String cover;
     private String title;
+    private String sp; // 规格
     private Integer quantity;
     private BigDecimal price;
     private Date created;
@@ -74,5 +75,13 @@ public class CartListVo {
 
     public void setCreated(Date created) {
         this.created = created;
+    }
+
+    public String getSp() {
+        return sp;
+    }
+
+    public void setSp(String sp) {
+        this.sp = sp;
     }
 }

@@ -26,28 +26,14 @@ public class ItemOrderDetail {
 
     private Integer quantity;
 
+    private String sp;
+
     private Byte status;
 
     private Date created;
 
     private Date updated;
 
-    public ItemOrderDetail(Integer id, Integer userId, Integer itemId, Integer skuId, Long orderNo, String title, String description, String cover, BigDecimal price, BigDecimal totalPrice, Integer quantity, Byte status, Date created, Date updated) {
-        this.id = id;
-        this.userId = userId;
-        this.itemId = itemId;
-        this.skuId = skuId;
-        this.orderNo = orderNo;
-        this.title = title;
-        this.description = description;
-        this.cover = cover;
-        this.price = price;
-        this.totalPrice = totalPrice;
-        this.quantity = quantity;
-        this.status = status;
-        this.created = created;
-        this.updated = updated;
-    }
 
     public ItemOrderDetail() {
         super();
@@ -163,5 +149,13 @@ public class ItemOrderDetail {
 
     public void setUpdated(Date updated) {
         this.updated = updated;
+    }
+
+    public String getSp() {
+        return sp;
+    }
+
+    public void setSp(String sp) {
+        this.sp = sp;
     }
 }

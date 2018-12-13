@@ -22,6 +22,8 @@ import com.chouchongkeji.service.iwant.wallet.WalletService;
 import com.chouchongkeji.service.mall.item.OrderService;
 import com.chouchongkeji.service.mall.item.vo.OrderListVo;
 import com.chouchongkeji.service.mall.item.vo.OrderVo;
+import com.chouchongkeji.service.mall.item.vo.SkuListVo;
+import com.chouchongkeji.service.mall.item.vo.SkuValueVo;
 import com.chouchongkeji.service.user.info.AppPaymentInfoService;
 import com.chouchongkeji.util.Constants;
 import com.chouchongkeji.util.OrderHelper;
@@ -74,7 +76,7 @@ public class OrderServiceImpl implements OrderService {
     private BpService bpService;
 
     @Autowired
-     private ServiceProperties serviceProperties;
+    private ServiceProperties serviceProperties;
 
     @Autowired
     private CartMapper cartMapper;
@@ -122,7 +124,7 @@ public class OrderServiceImpl implements OrderService {
      * @date 2018/6/20
      */
     @Override
-    public Response createOrder(Integer userId, Integer client, HashSet<OrderVo> skus, Integer payWay,Byte isShoppingCart) {
+    public Response createOrder(Integer userId, Integer client, HashSet<OrderVo> skus, Integer payWay, Byte isShoppingCart) {
         Long orderNo = orderHelper.genOrderNo(client, 2);
         List<ItemOrderDetail> list = new ArrayList<>();
         BigDecimal totalPrice = new BigDecimal("0");
@@ -161,15 +163,15 @@ public class OrderServiceImpl implements OrderService {
             itemSku.setStock(count - order.getQuantity());
             itemSkuMapper.updateByPrimaryKeySelective(itemSku);
             // 如果是购物车购买则减少购物车物品数量
-            if (isShoppingCart == Constants.ISSHOPPINGCART.YES){
-                Cart cart = cartMapper.selectBySkuIAndUserId(userId,order.getSkuId());
-                if (cart == null){
+            if (isShoppingCart == Constants.ISSHOPPINGCART.YES) {
+                Cart cart = cartMapper.selectBySkuIAndUserId(userId, order.getSkuId());
+                if (cart == null) {
                     return ResponseFactory.err("购物车中不存在该商品");
                 }
-                cart.setQuantity(cart.getQuantity()-1);
+                cart.setQuantity(cart.getQuantity() - order.getQuantity());
                 cartMapper.updateByPrimaryKeySelective(cart);
-                if (cart.getQuantity()==0){
-                    cartMapper.deleteAllByUserIdAndskuId(userId,order.getSkuId());
+                if (cart.getQuantity() == 0) {
+                    cartMapper.deleteAllByUserIdAndskuId(userId, order.getSkuId());
                 }
             }
         }
@@ -220,13 +222,32 @@ public class OrderServiceImpl implements OrderService {
         itemOrderDetail.setItemId(sku.getItemId());
         itemOrderDetail.setSkuId(sku.getId());
         itemOrderDetail.setOrderNo(orderNo);
-        itemOrderDetail.setTitle(sku.getTitle());
+        // 保存规格信息
+        SkuListVo skuListVo = itemSkuMapper.selectDetailBySkuId(sku.getId());
+        itemOrderDetail.setTitle(sku.getTitle() + genTitle(skuListVo));
         itemOrderDetail.setCover(sku.getCover());
         itemOrderDetail.setPrice(sku.getPrice());
         itemOrderDetail.setQuantity(quantity);
         itemOrderDetail.setTotalPrice(totalPrice);
         itemOrderDetail.setStatus((byte) Constants.ORDER_STATUS.NO_PAY);
+
+        itemOrderDetail.setSp(JSON.toJSONString(skuListVo.getValues()));
         return itemOrderDetail;
+    }
+
+    /**
+     * 取出规格信息
+     *
+     * @param skuListVo
+     * @return
+     */
+    private String genTitle(SkuListVo skuListVo) {
+        if (skuListVo == null) return "";
+        StringBuilder sb = new StringBuilder();
+        for (SkuValueVo value : skuListVo.getValues()) {
+            sb.append(" ").append(value.getValue());
+        }
+        return sb.toString();
     }
 
     /**

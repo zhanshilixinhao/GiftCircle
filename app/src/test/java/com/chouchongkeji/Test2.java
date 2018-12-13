@@ -1,5 +1,6 @@
 package com.chouchongkeji;
 
+import com.alibaba.fastjson.JSON;
 import com.chouchongkeji.goexplore.utils.ApiSignUtil;
 import com.chouchongkeji.goexplore.utils.OkHttpUtil;
 import com.chouchongkeji.goexplore.utils.RequestParams;
@@ -15,6 +16,90 @@ import java.util.Map;
  */
 
 public class Test2 {
+
+    @Test
+    public void aaa() {
+        String json = "[\n" +
+                "  {\n" +
+                "    path: \"/permission\", redirect: \"/permission/roleList\", name: \"permission\", menu: \"permission\", meta: { title: \"权限管理\", icon: \"example\" },\n" +
+                "    children:\n" +
+                "      [\n" +
+                "        { path: \"roleList\", name: \"角色管理\",aa:\"@/views/permission/roleList\", menu: \"role_list\", meta: { title: \"角色管理\", icon: \"example\" }},\n" +
+                "        { path: \"roleAdd\", name: \"添加角色\", hidden: true,aa:\"@/views/permission/roleAdd\", menu: \"role_add\", meta: { title: \"添加角色\", icon: \"example\" }},\n" +
+                "        { path: \"roleEdit/:id\", name: \"修改角色\", hidden: true,aa:\"@/views/permission/roleEdit\", menu: \"role_edit\", meta: { title: \"修改角色\", icon: \"example\" }},\n" +
+                "        { path: \"list\", name: \"后台用户管理\",aa:\"@/views/webUser/list\", menu: \"web_user_list\", meta: { title: \"后台用户管理\", icon: \"example\" }},\n" +
+                "        { path: \"add\", name: \"后台用户添加\", hidden: true,aa:\"@/views/webUser/add\", menu: \"web_user_add\", meta: { title: \"后台用户添加\", icon: \"example\" }},\n" +
+                "        { path: \"edit/:id\", name: \"后台用户修改\", hidden: true,aa:\"@/views/webUser/edit\", menu: \"web_user_edit\", meta: { title: \"后台用户修改\", icon: \"example\" }}\n" +
+                "      ]\n" +
+                "  },\n" +
+                "  {\n" +
+                "    path: \"/questionnaire\", redirect: \"/questionnaire\", name: \"questionnaire\", menu: \"questionnaire\", meta: { title: \"问卷调查\", icon: \"example\" },\n" +
+                "    children:\n" +
+                "      [\n" +
+                "        { path: \"topicList\", name: \"问卷调查管理\",aa:\"@/views/questionnaire/list\", menu: \"questionnaire_list\", meta: { title: \"问卷调查管理\", icon: \"example\" }},\n" +
+                "        { path: \"topicAdd\", name: \"添加题目\", hidden: true,aa:\"@/views/questionnaire/add\", menu: \"questionnaire_add\", meta: { title: \"添加问卷调查题目\", icon: \"example\" }}\n" +
+                "      ]\n" +
+                "  },\n" +
+                "  {\n" +
+                "    path: \"/order\", redirect: \"/order\", name: \"order\", menu: \"order\", meta: { title: \"订单管理\", icon: \"example\" },\n" +
+                "    children:\n" +
+                "      [\n" +
+                "        { path: \"orderList\", name: \"订单管理\",aa:\"@/views/order/list\", menu: \"order_list\", meta: { title: \"订单管理\", icon: \"example\" }},\n" +
+                "        { path: \"otherOrderList\", name: \"其它订单管理\",aa:\"@/views/order/otherList\", menu: \"other_order_list\", meta: { title: \"其它订单管理\", icon: \"example\" }}\n" +
+                "      ]\n" +
+                "  },\n" +
+                "  {\n" +
+                "    path: \"/demand\", redirect: \"/demand\", name: \"demand\", menu: \"demand\", meta: { title: \"需求管理\", icon: \"example\" },\n" +
+                "    children:\n" +
+                "      [\n" +
+                "        { path: \"demandList\", name: \"需求管理\",aa:\"@/views/demand/list\", menu: \"demand_list\", meta: { title: \"需求管理\", icon: \"example\" }},\n" +
+                "        { path: \"demandAdd\", name: \"添加需求\", hidden: true,aa:\"@/views/demand/add\", menu: \"demand_add\", meta: { title: \"添加需求\", icon: \"example\" }}\n" +
+                "      ]\n" +
+                "  },\n" +
+                "  {\n" +
+                "    path: \"/article\", redirect: \"/article\", name: \"article\", menu: \"article\", meta: { title: \"文章管理\", icon: \"example\" },\n" +
+                "    children:\n" +
+                "      [\n" +
+                "        { path: \"articleList\", name: \"文章管理\",aa:\"@/views/article/list\", menu: \"article_list\", meta: { title: \"文章管理\", icon: \"example\" }}\n" +
+                "      ]\n" +
+                "  },\n" +
+                "  {\n" +
+                "    path: \"/user\", redirect: \"/user\", name: \"user\", menu: \"user\", meta: { title: \"用户管理\", icon: \"example\" },\n" +
+                "    children:\n" +
+                "      [\n" +
+                "        { path: \"userList\", name: \"用户管理\",aa:\"@/views/user/list\", menu: \"user_list\", meta: { title: \"用户管理\", icon: \"example\" }},\n" +
+                "        { path: \"codeList/:id\", name: \"推荐码列表\", hidden: true,aa:\"@/views/user/codeList\", menu: \"code_list\", meta: { title: \"推荐码列表\", icon: \"example\" }}\n" +
+                "      ]\n" +
+                "  },\n" +
+                "  {\n" +
+                "    path: \"/withdraw\", redirect: \"/withdraw\", name: \"withdraw\", menu: \"withdraw\", meta: { title: \"提现管理\", icon: \"example\" },\n" +
+                "    children:\n" +
+                "      [\n" +
+                "        { path: \"withdraw\", name: \"提现管理\",aa:\"@/views/withdraw/list\", menu: \"withdraw_list\", meta: { title: \"提现管理\", icon: \"example\" }}\n" +
+                "      ]\n" +
+                "  },\n" +
+                "  {\n" +
+                "    path: \"/banner\", redirect: \"/banner\", name: \"banner\", menu: \"banner\", meta: { title: \"首页横幅管理\", icon: \"example\" },\n" +
+                "    children:\n" +
+                "      [\n" +
+                "        { path: \"bannerList\", name: \"首页横幅列表\",aa:\"@/views/banner/list\", menu: \"banner_list\", meta: { title: \"首页横幅管理\", icon: \"example\" }},\n" +
+                "        { path: \"bannerAdd\", name: \"添加首页横幅\", hidden: true,aa:\"@/views/banner/add\", menu: \"banner_add\", meta: { title: \"添加首页横幅\", icon: \"example\" }},\n" +
+                "        { path: \"bannerEdit/:id\", name: \"修改首页横幅\", hidden: true,aa:\"@/views/banner/edit\", menu: \"banner_edit\", meta: { title: \"修改首页横幅\", icon: \"example\" }}\n" +
+                "      ]\n" +
+                "  },\n" +
+                "  {\n" +
+                "    path: \"/statistics\", redirect: \"/statistics\", name: \"statistics\", menu: \"statistics\", meta: { title: \"数据统计\", icon: \"example\" },\n" +
+                "    children:\n" +
+                "      [\n" +
+                "        { path: \"orderStatistics\", name: \"订单统计\",aa:\"@/views/statistics/orderStatistics\", menu: \"order_statistics\", meta: { title: \"订单统计\", icon: \"example\" }},\n" +
+                "        { path: \"userStatistics\", name: \"用户统计\",aa:\"@/views/statistics/userStatistics\", menu: \"user_statistics\", meta: { title: \"用户统计\", icon: \"example\" }}\n" +
+                "      ]\n" +
+                "  }\n" +
+                "]";
+
+        Object parse = JSON.parse(json);
+        System.out.println(parse);
+    }
 
     //同意拒绝好友索要
     @Test

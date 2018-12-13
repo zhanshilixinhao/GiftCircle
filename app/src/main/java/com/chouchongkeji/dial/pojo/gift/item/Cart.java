@@ -12,6 +12,8 @@ public class Cart {
 
     private Integer skuId;
 
+    private String title;
+
     private BigDecimal price;
 
     private Integer quantity;
@@ -19,17 +21,6 @@ public class Cart {
     private Date created;
 
     private Date updated;
-
-    public Cart(Integer id, Integer userId, Integer itemId, Integer skuId, BigDecimal price, Integer quantity, Date created, Date updated) {
-        this.id = id;
-        this.userId = userId;
-        this.itemId = itemId;
-        this.skuId = skuId;
-        this.price = price;
-        this.quantity = quantity;
-        this.created = created;
-        this.updated = updated;
-    }
 
     public Cart() {
         super();
@@ -97,5 +88,13 @@ public class Cart {
 
     public void setUpdated(Date updated) {
         this.updated = updated;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

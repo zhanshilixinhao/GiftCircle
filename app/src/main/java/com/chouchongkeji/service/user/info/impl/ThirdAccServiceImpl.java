@@ -2,17 +2,21 @@ package com.chouchongkeji.service.user.info.impl;
 
 import com.chouchongkeji.dial.dao.user.AppUserMapper;
 import com.chouchongkeji.dial.dao.user.ThirdAccountMapper;
+import com.chouchongkeji.dial.redis.MRedisTemplate;
 import com.chouchongkeji.exception.ServiceException;
 import com.chouchongkeji.goexplore.common.ErrorCode;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.dial.pojo.user.AppUser;
 import com.chouchongkeji.dial.pojo.user.ThirdAccount;
+import com.chouchongkeji.service.wxapi.WXCodeApi;
+import com.chouchongkeji.service.wxapi.WXResult;
 import com.chouchongkeji.util.Constants;
 import com.yichen.auth.model.DefaultThirdAccDetail;
 import com.yichen.auth.model.ThirdAccDetail;
 import com.yichen.auth.service.ThirdAccService;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -85,7 +89,8 @@ public class ThirdAccServiceImpl implements ThirdAccService {
         int count = 0;
         if (userBase == null) {
             // 直接注册一个账号
-            AppUser user = assembleMember(phone);
+
+            AppUser user = assembleMember(phone, type, openId);
             count = appUserMapper.insert(user);
             if (count == 0) {
                 return ResponseFactory.err("绑定手机号失败，创建账号失败");
@@ -105,16 +110,28 @@ public class ThirdAccServiceImpl implements ThirdAccService {
         return ResponseFactory.suc();
     }
 
+    @Autowired
+    private MRedisTemplate mRedisTemplate;
 
     /**
      * 创建一个用户账号
      *
      * @param phone
+     * @param type
+     * @param openId
      * @return
      * @author linqin
      * @date 2018/5/21
      */
-    private AppUser assembleMember(String phone) {
+    private AppUser assembleMember(String phone, int type, String openId) {
+        // 如果是app登录获取用户信息
+        WXResult userInfo = new WXResult();
+        if (type == 1) {
+            String access = mRedisTemplate.getString(openId);
+            userInfo = WXCodeApi.getUserInfo(access, openId);
+        }
+
+
         //创建新用户
         AppUser memberInfo = new AppUser();
         //账号
@@ -124,9 +141,9 @@ public class ThirdAccServiceImpl implements ThirdAccService {
         //电话
         memberInfo.setPhone(phone);
         //默认头像
-        memberInfo.setAvatar(Constants.DEFALUT_AVATAR);
+        memberInfo.setAvatar(StringUtils.isBlank(userInfo.getHeadimgurl()) ? Constants.DEFALUT_AVATAR : userInfo.getHeadimgurl());
         //默认昵称
-        memberInfo.setNickname(Constants.getRandomName());
+        memberInfo.setNickname(StringUtils.isBlank(userInfo.getNickname()) ? Constants.getRandomName() : userInfo.getNickname());
         //年龄
         memberInfo.setAge(0);
         //性别

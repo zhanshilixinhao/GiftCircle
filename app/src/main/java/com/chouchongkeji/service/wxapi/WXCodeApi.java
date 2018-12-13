@@ -35,6 +35,9 @@ public class WXCodeApi {
     private static final String APPID =      "wxe54fd2867936a895";
     private static final String APP_SECRET = "01426797b62a5c00d86a0a8928fd9a0c";
 
+    public static final String URL_USER_INFO = "https://api.weixin.qq.com/sns/userinfo";
+
+
     /**
      * 微信code换取openid
      *
@@ -112,6 +115,71 @@ public class WXCodeApi {
             return ResponseFactory.err(e.getMessage());
         }
     }
+
+
+    /**
+     * 获取微信用户的信息
+     *
+     * @param accessToken 微信令牌
+     * @param openId      微信用户唯一标识
+     * @return
+     * @author yichenshanren
+     * @date 2018/2/6
+     */
+    public static WXResult getUserInfo(String accessToken, String openId) {
+        RequestParams params = new RequestParams();
+        params.put("access_token", accessToken);
+        params.put("openid", openId);
+        return wxRequest(URL_USER_INFO, params);
+    }
+
+
+    /**
+     * 微信接口请求
+     *
+     * @param url    请求地址
+     * @param params 请求参数
+     * @return
+     */
+    private static WXResult wxRequest(String url, RequestParams params) {
+        return wxRequest(url, params, 0);
+    }
+
+    private static final OkHttpClient CLIENT = OkHttpManager.create(null, null);
+
+
+    /**
+     * 微信接口请求
+     *
+     * @param url    请求地址
+     * @param params 请求参数
+     * @return
+     */
+    private static WXResult wxRequest(String url, RequestParams params, int method) {
+        WXResult result = new WXResult();
+        try {
+            Response response;
+            if (method == 0) {
+                response = OkHttpUtil.get(CLIENT, url, params);
+            } else {
+                response = OkHttpUtil.postJson(CLIENT, url, params);
+            }
+            if (response.isSuccessful()) {
+                String re = response.body().string();
+//                log.info("微信换取openid:{}", re);
+                result = JSON.parseObject(re, WXResult.class);
+            } else {
+                result.setErrcode(1);
+                result.setErrmsg(response.message());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            result.setErrcode(1);
+            result.setErrmsg(e.getMessage());
+        }
+        return result;
+    }
+
 
 }
 
