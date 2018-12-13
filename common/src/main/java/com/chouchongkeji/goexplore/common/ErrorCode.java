@@ -31,7 +31,6 @@ public enum ErrorCode {
     JOIN_TEAM(1012, "JOIN_TEAM_ERROR"),   // 用户加入战队失败
     YUE_NOT_EN(1013, "余额不足"),   // 用户加入战队失败
 
-
     CACHE_ERROR(2001, "CACHE_ERROR"),   // 缓存时发生的错误
     /* 订单相关 */
     SIT_ORDER_ERROR(3001, "SIT_ORDER_ERROR"),   // 座位订单
