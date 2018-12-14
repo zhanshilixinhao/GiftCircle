@@ -890,7 +890,7 @@ String de = AESUtils.encrypt(seed, pwd);
             "explain": "寄售台物品购买", 
             "amount": -100, 
             "targetId": 2, 
-            "type": 6, 
+            "type": 6, //记录类型 1-充值，2-商品折现，3-虚拟物品折现，4-寄售台出售物品，5-购买商品，6-寄售台物品购买,7虚拟物品购买
             "updated": 1530673527000, 
             "created": 1530673527000
         }, 
@@ -4198,6 +4198,8 @@ JSON：
             "created": 1543544601000,  //创建时间
             "userId": 1,  //用户id
             "isRead": 2 //是否已读 1 已读 2 未读
+            "avatar": "https://io.shanren.group/image/cover.jpg"
+            "friend_user_id": 3
         }
     ]
 }

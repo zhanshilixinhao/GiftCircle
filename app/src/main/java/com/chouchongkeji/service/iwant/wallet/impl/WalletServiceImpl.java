@@ -113,6 +113,7 @@ public class WalletServiceImpl implements WalletService {
                 break;
             case 5:
             case 6:
+            case 7:
                 amount = amount.negate();
                 break;
         }
