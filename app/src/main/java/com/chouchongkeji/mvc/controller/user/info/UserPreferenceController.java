@@ -82,12 +82,15 @@ public class UserPreferenceController {
      */
     @PostMapping("gift/preference/modify")
     public Response addGiftPreference(@AuthenticationPrincipal UserDetails userDetails, String ids) {
-        if (StringUtils.isBlank(ids)) {
-            return ResponseFactory.errMissingParameter();
-        }
-        String[] strings = ids.split(",");
+//        if (StringUtils.isBlank(ids)) {
+//            return ResponseFactory.errMissingParameter();
+//        }
         HashSet<Integer> idSet = new HashSet<>();
-        if (Utils.getIds(strings, idSet)) return ResponseFactory.err("参数错误，请检查!");
+        if (StringUtils.isNotBlank(ids)){
+            String[] strings = ids.split(",");
+            Utils.getIds(strings, idSet);
+        }
+
         return userPreferenceService.addGiftPreference(userDetails.getUserId(), idSet);
     }
 

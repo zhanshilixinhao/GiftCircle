@@ -209,7 +209,11 @@ public class UserPreferenceServiceImpl implements UserPreferenceService {
             update = 0;
             preference = new UserPreference();
         }
-        preference.setGiftPreference(JSON.toJSONString(idSet));
+        if (CollectionUtils.isEmpty(idSet)) {
+            preference.setGiftPreference("[]");
+        } else {
+            preference.setGiftPreference(JSON.toJSONString(idSet));
+        }
         if (update == 0) {
             preference.setUserId(userId);
             userPreferenceMapper.insert(preference);
