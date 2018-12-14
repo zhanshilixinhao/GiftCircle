@@ -14,6 +14,9 @@ public class Constants {
     public static final String DEFALUT_AVATAR = "/avatar.jpg";
     public static final String GROUP_DEFAULT_NAME = "未分组";
 
+    //默认地区
+    public static final String DEFALUT_DISTRICT = "昆明";
+
     public static final String getRandomName() {
         return RandomStringUtils.randomNumeric(7);
     }

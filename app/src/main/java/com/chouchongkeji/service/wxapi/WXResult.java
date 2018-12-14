@@ -38,6 +38,24 @@ public class WXResult {
 
     private String nickname;
     private String headimgurl;
+    private Byte sex;
+    private String city;
+
+    public Byte getSex() {
+        return sex;
+    }
+
+    public void setSex(Byte sex) {
+        this.sex = sex;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
 
     public String getNickname() {
         return nickname;

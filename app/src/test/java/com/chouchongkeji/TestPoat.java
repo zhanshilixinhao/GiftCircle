@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.chouchongkeji.goexplore.pay.PayVO;
 import com.chouchongkeji.goexplore.pay.alipay_v2.AliPayServiceV2;
+import com.chouchongkeji.goexplore.utils.ApiSignUtil;
 import com.chouchongkeji.goexplore.utils.OkHttpUtil;
 import com.chouchongkeji.goexplore.utils.RequestParams;
 import okhttp3.Response;
@@ -45,7 +46,7 @@ public class TestPoat {
         System.out.println(response.body().string());
     }
 
-
+//加密密码
     @Test
     public void pwd() {
 
@@ -54,4 +55,28 @@ public class TestPoat {
         System.out.println(encode);
     }
 
+
+    // 收藏商品列表
+    @Test
+    public void itemList() throws IOException {
+        RequestParams params = new RequestParams();
+        params.put("time",System.currentTimeMillis());
+        params.put("access_token","572f7a09-b3e0-4ec5-b04b-13c82771c1c8");
+        Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
+        params.put("sign",map.get(ApiSignUtil.ANDROID));
+        Response post = OkHttpUtil.post("http://localhost:8088/auth/v1/favorite/itemList", params);
+        System.out.println(post.body().string());
+    }
+
+    // 礼物偏好列表
+    @Test
+    public void preference() throws IOException {
+        RequestParams params = new RequestParams();
+        params.put("time",System.currentTimeMillis());
+        params.put("access_token","572f7a09-b3e0-4ec5-b04b-13c82771c1c8");
+        Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
+        params.put("sign",map.get(ApiSignUtil.ANDROID));
+        Response post = OkHttpUtil.post("http://localhost:8088/auth/user/gift/preference/list", params);
+        System.out.println(post.body().string());
+    }
 }

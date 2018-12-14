@@ -36,6 +36,7 @@
 * 更新内容
 
 > 1.修改索要礼物列表接口，增加type (接口14.7)
+> 2.增加系统消息好友头像和id  （接口16.2）
 
 ## 目录
 <span id="m"> </span>
@@ -4198,8 +4199,8 @@ JSON：
             "created": 1543544601000,  //创建时间
             "userId": 1,  //用户id
             "isRead": 2 //是否已读 1 已读 2 未读
-            "avatar": "https://io.shanren.group/image/cover.jpg"
-            "friend_user_id": 3
+            "avatar": "https://io.shanren.group/image/cover.jpg" //好友头像
+            "friend_user_id": 3  //好友id
         }
     ]
 }
