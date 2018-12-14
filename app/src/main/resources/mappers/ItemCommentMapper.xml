@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.chouchongkeji.dial.pojo.gift.item.ItemComment">
     <constructor>
       <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="sku_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="item_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="order_no" javaType="java.lang.Long" jdbcType="BIGINT" />
       <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
@@ -15,10 +16,10 @@
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    id, item_id, order_no, user_id, star, content, pictures, created, updated
+    id, sku_id, item_id, order_no, user_id, star, content, pictures, created, updated
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from item_comment
     where id = #{id,jdbcType=INTEGER}
@@ -28,20 +29,23 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.gift.item.ItemComment">
-    insert into item_comment (id, item_id, order_no, 
-      user_id, star, content, 
-      pictures, created, updated
-      )
-    values (#{id,jdbcType=INTEGER}, #{itemId,jdbcType=INTEGER}, #{orderNo,jdbcType=BIGINT}, 
-      #{userId,jdbcType=INTEGER}, #{star,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, 
-      #{pictures,jdbcType=VARCHAR}, now(), now()
-      )
+    insert into item_comment (id, sku_id, item_id,
+      order_no, user_id, star,
+      content, pictures, created,
+      updated)
+    values (#{id,jdbcType=INTEGER}, #{skuId,jdbcType=INTEGER}, #{itemId,jdbcType=INTEGER},
+      #{orderNo,jdbcType=BIGINT}, #{userId,jdbcType=INTEGER}, #{star,jdbcType=INTEGER},
+      #{content,jdbcType=VARCHAR}, #{pictures,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP},
+      #{updated,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.gift.item.ItemComment">
     insert into item_comment
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
+      </if>
+      <if test="skuId != null">
+        sku_id,
       </if>
       <if test="itemId != null">
         item_id,
@@ -72,6 +76,9 @@
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
+      <if test="skuId != null">
+        #{skuId,jdbcType=INTEGER},
+      </if>
       <if test="itemId != null">
         #{itemId,jdbcType=INTEGER},
       </if>
@@ -101,6 +108,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.chouchongkeji.dial.pojo.gift.item.ItemComment">
     update item_comment
     <set>
+      <if test="skuId != null">
+        sku_id = #{skuId,jdbcType=INTEGER},
+      </if>
       <if test="itemId != null">
         item_id = #{itemId,jdbcType=INTEGER},
       </if>
@@ -130,7 +140,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.dial.pojo.gift.item.ItemComment">
     update item_comment
-    set item_id = #{itemId,jdbcType=INTEGER},
+    set sku_id = #{skuId,jdbcType=INTEGER},
+      item_id = #{itemId,jdbcType=INTEGER},
       order_no = #{orderNo,jdbcType=BIGINT},
       user_id = #{userId,jdbcType=INTEGER},
       star = #{star,jdbcType=INTEGER},
@@ -140,6 +151,7 @@
       updated = #{updated,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
 
   <!--商品详情字段-->
   <resultMap id="ItemComment" type="com.chouchongkeji.service.mall.item.vo.ItemCommentVo">
@@ -154,15 +166,16 @@
 
   <select id="selectByItemId" resultMap="ItemComment">
     SELECT
-    a.content as content,
-    a.pictures as pictures,
-    a.created as created,
-    a.star as star,
-    b.phone as phone,
-    b.avatar as avatar
+      a.content as content,
+      a.pictures as pictures,
+      a.created as created,
+      a.star as star,
+      b.phone as phone,
+      b.avatar as avatar
     FROM
-    item_comment a LEFT JOIN app_user b ON a.user_id = b.id
+      item_comment a LEFT JOIN app_user b ON a.user_id = b.id
     WHERE
-    a.item_id = #{id}
+      a.item_id = #{id}
   </select>
+
 </mapper>

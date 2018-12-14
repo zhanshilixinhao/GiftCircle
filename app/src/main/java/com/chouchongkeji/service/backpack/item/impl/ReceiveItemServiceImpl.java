@@ -255,6 +255,7 @@ public class ReceiveItemServiceImpl implements ReceiveItemService {
         }
         //添加评论
         ItemComment itemComment = new ItemComment();
+        itemComment.setSkuId(itemOrder.getSkuId());
         itemComment.setItemId(itemOrder.getItemId());
         itemComment.setUserId(userId);
         itemComment.setOrderNo(orderNo);
@@ -280,6 +281,5 @@ public class ReceiveItemServiceImpl implements ReceiveItemService {
 
 
 }
-
 
 

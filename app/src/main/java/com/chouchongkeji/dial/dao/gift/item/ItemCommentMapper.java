@@ -20,4 +20,5 @@ public interface ItemCommentMapper {
     int updateByPrimaryKey(ItemComment record);
 
     List<ItemCommentVo> selectByItemId(@Param("id") Integer id);
+
 }

@@ -5,6 +5,8 @@ import java.util.Date;
 public class ItemComment {
     private Integer id;
 
+    private Integer skuId;
+
     private Integer itemId;
 
     private Long orderNo;
@@ -21,8 +23,9 @@ public class ItemComment {
 
     private Date updated;
 
-    public ItemComment(Integer id, Integer itemId, Long orderNo, Integer userId, Integer star, String content, String pictures, Date created, Date updated) {
+    public ItemComment(Integer id, Integer skuId, Integer itemId, Long orderNo, Integer userId, Integer star, String content, String pictures, Date created, Date updated) {
         this.id = id;
+        this.skuId = skuId;
         this.itemId = itemId;
         this.orderNo = orderNo;
         this.userId = userId;
@@ -43,6 +46,14 @@ public class ItemComment {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getSkuId() {
+        return skuId;
+    }
+
+    public void setSkuId(Integer skuId) {
+        this.skuId = skuId;
     }
 
     public Integer getItemId() {
