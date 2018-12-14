@@ -197,7 +197,7 @@
             b.user_id = #{userId}
           AND a.message_type = 2
           and a.target_type = 25
-        order by a.created DESC
+        order by created DESC
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         delete
