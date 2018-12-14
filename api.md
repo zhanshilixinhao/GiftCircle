@@ -3488,7 +3488,7 @@ JSON：
 | orderNo | int | 是 | 无 | 订单号 |
 | star | int | 是 | 无 | 评价星星 |
 | content | String | 是 | 无 | 评论文字 |
-| pictures | String | 是 | 无 | 评论照片 |
+| pictures | String | 否 | 无 | 评论照片 |
 
 请求结果示例：
 

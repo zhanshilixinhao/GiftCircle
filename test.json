@@ -1,1 +1,31 @@
-{"errCode":0,"result":0,"time":1544609503329,"data":{"id":3,"account":"15752400657","password":"","phone":"15752400657","avatar":"https://liyuquan.cn/staticavatar.jpg","nickname":"积极","age":0,"gender":2,"signature":"签名是后台送的","district":"","status":1,"sentPwd":"","wxid":"","created":1544428279000,"updated":1544600200000,"qrcode":"4ECF08AF83E712B7083DDFA0CD8D4860F5008A1685C262AB35F7F32B4151B1C2D9017FB070610F49A4EE982ACF828A50"}}
+{
+  "errCode": 0,
+  "result": 0,
+  "time": 1544777710230,
+  "data": [
+    {
+      "id": 21,
+      "summary": "您的好友向您索要了礼品!",
+      "title": "系统通知",
+      "content": "路遥  向您索要礼品",
+      "targetId": 4,
+      "targetType": 25,
+      "messageType": "2",
+      "created": 1544777213000,
+      "userId": 6,
+      "isRead": 1
+    },
+    {
+      "id": 20,
+      "summary": "您的折现已成功到达账户，请前往余额查看",
+      "title": "系统通知",
+      "content": "您好，你的香奈儿口红物品折现金额0.02元，原价格0.03元，您的折现已成功到达账户，请前往余额查看",
+      "targetId": 7718121415113,
+      "targetType": 21,
+      "messageType": "2",
+      "created": 1544775170000,
+      "userId": 6,
+      "isRead": 1
+    }
+  ]
+}

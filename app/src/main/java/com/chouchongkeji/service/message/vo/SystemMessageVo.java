@@ -19,6 +19,8 @@ public class SystemMessageVo {
     private Date created;
     private Integer userId;
     private Byte isRead;
+    private String avatar;
+    private Integer friendUserId;
 
     public Integer getId() {
         return id;
@@ -98,5 +100,21 @@ public class SystemMessageVo {
 
     public void setTargetType(Byte targetType) {
         this.targetType = targetType;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public Integer getFriendUserId() {
+        return friendUserId;
+    }
+
+    public void setFriendUserId(Integer friendUserId) {
+        this.friendUserId = friendUserId;
     }
 }

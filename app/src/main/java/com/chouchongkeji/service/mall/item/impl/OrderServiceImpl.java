@@ -170,7 +170,7 @@ public class OrderServiceImpl implements OrderService {
                 }
                 cart.setQuantity(cart.getQuantity() - order.getQuantity());
                 cartMapper.updateByPrimaryKeySelective(cart);
-                if (cart.getQuantity() == 0) {
+                if (cart.getQuantity() <= 0) {
                     cartMapper.deleteAllByUserIdAndskuId(userId, order.getSkuId());
                 }
             }
