@@ -147,7 +147,7 @@ public class ThirdAccServiceImpl implements ThirdAccService {
         //年龄
         memberInfo.setAge(0);
         //性别
-        memberInfo.setGender(userInfo.getSex() == null ? 1 : userInfo.getSex());
+        memberInfo.setGender((byte)1);
         //个性签名
         memberInfo.setSignature("签名是后台送的");
         //地区
