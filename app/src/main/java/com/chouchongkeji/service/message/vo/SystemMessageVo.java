@@ -1,5 +1,7 @@
 package com.chouchongkeji.service.message.vo;
 
+import com.yichen.auth.jackson.ImgUrl;
+
 import java.util.Date;
 
 /**
@@ -19,6 +21,7 @@ public class SystemMessageVo {
     private Date created;
     private Integer userId;
     private Byte isRead;
+    @ImgUrl
     private String avatar;
     private Integer friendUserId;
 
