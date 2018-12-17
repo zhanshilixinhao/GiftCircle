@@ -35,8 +35,8 @@
       updated)
     values (#{id,jdbcType=INTEGER}, #{skuId,jdbcType=INTEGER}, #{itemId,jdbcType=INTEGER},
       #{orderNo,jdbcType=BIGINT}, #{userId,jdbcType=INTEGER}, #{star,jdbcType=INTEGER},
-      #{content,jdbcType=VARCHAR}, #{pictures,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP},
-      #{updated,jdbcType=TIMESTAMP})
+      #{content,jdbcType=VARCHAR}, #{pictures,jdbcType=VARCHAR}, now(),
+      now())
   </insert>
   <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.gift.item.ItemComment">
     insert into item_comment

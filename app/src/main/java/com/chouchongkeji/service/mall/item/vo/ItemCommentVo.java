@@ -15,6 +15,7 @@ public class ItemCommentVo {
     // 用户电话
     private String phone;
     // 用户头像
+    @ImgUrl
     private String avatar;
     // 评论文字
     private String content;
