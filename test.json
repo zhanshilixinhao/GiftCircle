@@ -1,8 +1,22 @@
 {
   "errCode": 0,
   "result": 0,
-  "time": 1544777710230,
+  "time": 1545011376109,
   "data": [
+    {
+      "id": 30,
+      "summary": "您的好友答谢了您!",
+      "title": "系统通知",
+      "content": "嘿嘿(路遥) 发来的感谢语 谢谢",
+      "targetId": 11,
+      "targetType": 24,
+      "messageType": "2",
+      "created": 1545011246000,
+      "userId": 6,
+      "isRead": 1,
+      "avatar": "http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTLrNV6YHkfyvicgKhfVwMibBqdQWvYHFvyXjSYTzuX0cxLjicvRBu5UXDiczRuYUhtULMse3iaQK27zcUg/132",
+      "friendUserId": 1
+    },
     {
       "id": 21,
       "summary": "您的好友向您索要了礼品!",
@@ -13,7 +27,9 @@
       "messageType": "2",
       "created": 1544777213000,
       "userId": 6,
-      "isRead": 1
+      "isRead": 1,
+      "avatar": "http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTLrNV6YHkfyvicgKhfVwMibBqdQWvYHFvyXjSYTzuX0cxLjicvRBu5UXDiczRuYUhtULMse3iaQK27zcUg/132",
+      "friendUserId": 1
     },
     {
       "id": 20,
@@ -25,7 +41,9 @@
       "messageType": "2",
       "created": 1544775170000,
       "userId": 6,
-      "isRead": 1
+      "isRead": 1,
+      "avatar": "",
+      "friendUserId": null
     }
   ]
 }

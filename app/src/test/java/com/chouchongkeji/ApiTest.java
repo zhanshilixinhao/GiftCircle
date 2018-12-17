@@ -54,7 +54,7 @@ public class ApiTest {
         params.put("pageSize",14);
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
         params.put("sign",map.get(ApiSignUtil.ANDROID));
-        Response post = OkHttpUtil.post("http://localhost:8088/auth/v1/message/list", params);
+        Response post = OkHttpUtil.post("https://liyuquan.cn/app/auth/v1/message/list", params);
         System.out.println(post.body().string());
     }
 
