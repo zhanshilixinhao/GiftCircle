@@ -18,4 +18,13 @@ public interface DistrictService {
      * @date 2018/6/11
      */
     Response getList(String level, Integer pAdcode);
+
+
+    /**
+     *获取行政区列表
+     * @return
+     * @author yichenshanren
+     * @date 2018/6/6
+     */
+    Response getDistrictList();
 }

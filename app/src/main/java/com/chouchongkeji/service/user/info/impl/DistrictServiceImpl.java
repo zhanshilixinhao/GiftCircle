@@ -35,4 +35,15 @@ public class DistrictServiceImpl implements DistrictService {
         List<District> district = districtMapper.selectByLevelPAdcode(level,pAdcode);
         return ResponseFactory.sucData(district);
     }
+
+    /**
+     *获取行政区列表
+     * @return
+     * @author yichenshanren
+     * @date 2018/6/6
+     */
+    @Override
+    public Response getDistrictList() {
+        return null;
+    }
 }

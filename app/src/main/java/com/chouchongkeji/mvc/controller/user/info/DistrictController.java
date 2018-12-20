@@ -4,6 +4,7 @@ import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.service.user.info.DistrictService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -39,5 +40,15 @@ public class DistrictController {
         return districtService.getList(level,pAdcode);
     }
 
+    /**
+     *获取行政区列表
+     * @return
+     * @author yichenshanren
+     * @date 2018/6/6
+     */
+    @PostMapping("all_list")
+    public Response getDistrictList(){
+        return  districtService.getDistrictList();
+    }
 
 }
