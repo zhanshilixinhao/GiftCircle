@@ -127,7 +127,7 @@ public class FriendBpServiceImpl implements FriendBpService {
         //添加系统消息
         AppMessage appMessage = new AppMessage();
         appMessage.setTitle("系统通知");
-        appMessage.setSummary("您的好友向您索要了礼品!");
+        appMessage.setSummary("索要礼品通知");
         appMessage.setContent(appUser.getNickname() + "  向您索要礼品 ");
         appMessage.setTargetId(addForRecord.getId().longValue());
         appMessage.setTargetType((byte) 25);
@@ -226,7 +226,7 @@ public class FriendBpServiceImpl implements FriendBpService {
                 //添加系统消息
                 AppMessage appMessage = new AppMessage();
                 appMessage.setTitle("系统通知");
-                appMessage.setSummary("您的好友已同意了您的索要!");
+                appMessage.setSummary("同意索要礼品通知");
                 appMessage.setContent("您的好友"+appUser.getNickname()+ "同意了您的礼品索要");
                 appMessage.setTargetId(forRecord.getBpId());
                 appMessage.setTargetType((byte) 25);
@@ -250,7 +250,7 @@ public class FriendBpServiceImpl implements FriendBpService {
                 //添加系统消息
                 AppMessage appMessage = new AppMessage();
                 appMessage.setTitle("系统通知");
-                appMessage.setSummary("您的好友已拒绝了您的索要!");
+                appMessage.setSummary("拒绝索要礼品通知");
                 appMessage.setContent("您的好友"+appUser.getNickname()+ "拒绝了您的礼品索要");
                 appMessage.setTargetId(forRecord.getBpId());
                 appMessage.setTargetType((byte) 25);

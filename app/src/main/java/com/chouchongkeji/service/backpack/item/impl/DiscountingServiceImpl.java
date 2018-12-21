@@ -125,7 +125,7 @@ public class DiscountingServiceImpl implements DiscountingService {
         //添加系统消息
         AppMessage message = new AppMessage();
         message.setTitle("系统通知");
-        message.setSummary("您的折现已成功到达账户，请前往余额查看");
+        message.setSummary("折现成功通知");
         message.setContent("您好，你的"+vbp.getTitle()+"物品折现金额"+discountPrice+"元，原价格"
                 +vbp.getPrice()+"元，您的折现已成功到达账户，请前往余额查看");
         message.setTargetId(bpId);
