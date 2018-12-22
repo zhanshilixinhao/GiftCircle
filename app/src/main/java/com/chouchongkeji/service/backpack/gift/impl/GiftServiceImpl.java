@@ -581,7 +581,7 @@ public class GiftServiceImpl implements GiftService {
             throw new ServiceException(ErrorCode.ERROR, "扎心了，对方和你不是好友关系!");
         }
         // 添加消息记录
-        String summary = String.format("%s送给您的礼物%s", Constants.genName(friend));
+        String summary = String.format("%s送给您的礼物", Constants.genName(friend));
         messageService.addMessage(Constants.APP_MESSAGE_TYPE.GIFT,
                 summary, null, recordId, friendUserId);
         return 1;
