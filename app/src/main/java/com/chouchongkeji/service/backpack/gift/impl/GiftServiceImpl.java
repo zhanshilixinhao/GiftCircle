@@ -384,7 +384,7 @@ public class GiftServiceImpl implements GiftService {
         if (CollectionUtils.isNotEmpty(sendVo.getSubBpIds())) {
             for (Long id : sendVo.getSubBpIds()) {
                 // 取出
-                vbp = vbpMapper.selectByUserIdBpId(userId, sendVo.getBpId());
+                vbp = vbpMapper.selectByUserIdBpId(userId, id);
                 quantity = map.get(id);
                 quantity = quantity == null ? 1 : quantity + 1;
                 if (vbp == null || vbp.getQuantity() < quantity) {
@@ -446,7 +446,7 @@ public class GiftServiceImpl implements GiftService {
     }
 
     /**
-     * app赠送礼物实现
+     * 微信赠送礼物实现
      *
      * @param userId 赠送者信息
      * @param sendVo 赠送礼物信息 type 1 未领取 2 已领取部分 3 已领取全部 4 超时领取失败

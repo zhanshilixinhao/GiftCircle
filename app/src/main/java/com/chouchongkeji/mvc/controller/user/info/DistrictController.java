@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 
 @RestController
-@RequestMapping("auth/district")
+@RequestMapping("noauth/district")
 public class DistrictController {
 
     @Autowired
