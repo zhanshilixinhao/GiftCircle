@@ -2278,6 +2278,7 @@ JSON：
 | title | string | 是 | 商品标题 |
 | price | int | 是 | 商品单价 |
 | cover | string | 是 | 商品封面图片 |
+|status|int|是|订单状态1-未付款，2-已付款，3-已取消，4-已删除|
 
 ## 8 图片上传
 
@@ -3301,12 +3302,12 @@ JSON：
     "time": 1530253021156, 
     "data": [
         {
-            "title": "魏文侯", 
+            "title": "魏文侯",  
             "description": "", 
             "orderNo": 418062911100, 
             "cover": "https://io.shanren.group/image/cover.jpg", 
             "price": 1000, 
-            "status": 3, 
+            "status": 3,  //订单状态，1-待发货；2-已发货；3-已收货,待评价，4-已评价,5-取消，6-删除
             "created": 1530242782000, 
             "updated": 1530242782000,
             "itemId": 54
@@ -3875,6 +3876,8 @@ JSON：
 | event | string | 是 | 无 | 事件名称 |
 | type | int | 是 | 无 | 1 立即赠送 2 按时间赠送|
 | targetTime | long | 是 | 无 | 赠送时间的时间戳 |
+|de|string|是|无|赠送密码|
+|s2|string|是|无|客户端随机数|
 
 ### 15.2 礼物赠送答谢
 
@@ -3967,6 +3970,8 @@ JSON：
 | event | string | 是 | 无 | 事件名称 |
 | type | int | 是 | 无 | 3 直接赠送 4 随机赠送 |
 | p | float | 否 | 无 | type=4时必传 中奖率 0-1之间的小数 |
+|de|string|是|无|赠送密码|
+|s2|string|是|无|客户端随机数|
 
 * 请求结果示例
 
