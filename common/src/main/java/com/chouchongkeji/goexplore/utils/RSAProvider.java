@@ -355,14 +355,14 @@ public class RSAProvider {
      * @author East271536394
      */
     private static byte[] encryptByPublicKey(byte[] data, String key) throws Exception {
-// 对公钥解密   
-// 取得公钥  
+        // 对公钥解密   
+        // 取得公钥  
         byte[] keyBytes = Base64.decode(key);
         X509EncodedKeySpec x509KeySpec = new X509EncodedKeySpec(keyBytes);
         KeyFactory keyFactory = KeyFactory.getInstance(KEY_ALGORITHM);
         Key publicKey = keyFactory.generatePublic(x509KeySpec);
 
-// 对数据加密   
+        // 对数据加密   
         Cipher cipher = Cipher.getInstance(keyFactory.getAlgorithm());
         cipher.init(Cipher.ENCRYPT_MODE, publicKey);
 

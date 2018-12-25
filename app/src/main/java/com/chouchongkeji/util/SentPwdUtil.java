@@ -60,10 +60,12 @@ public class SentPwdUtil {
 
     public static void main(String[] args) {
         System.out.println(Utils.toMD5("123456"));
-        String rsa = encryptRSA(ApiSignUtil.IOS, "123456", "1234567890", "0123456789");
+//        String rsa = encryptRSA(ApiSignUtil.IOS, "123456", "30436944489648177637848285958404", "VNZABWQQJKUNRIPHVCCUWWRRGPADZVBY");
+        String rsa = "EEIawcrmmC3SlnXrh265yNx8qbE4WQ/2+/f0qbL6wTt0e3JsRm69oXZoiYUOvdqEwTaFnofP63NxSGeN8LStzF97U4P1UQ4XIvLfXXza6qBOgZXdH7i5weG8S1fp4obqmzTyNePK/LP5nOQ4WxkdDwpc0SAVFPWqkn3vr6S+T7iRnDi/H5hXdqaPmXvepX3KiDbbWnXH/peWcYGCk7WmNMzOYdl1T69QxWo7Fp+lDPjVlpa6jJncf7u/6EkyWGx6G97m/o6ab2IUmEuwehay8tckFoXYLlMCitHb2CXtxi/a21CO0Y71y7oWTsXljye8NOYZnoA3l2SXKRYx49gCuQ==";
         System.out.println(rsa);
-        String decrypt = decrypt(rsa, "1234567890", ApiSignUtil.IOS, "0123456789");
+        String decrypt = decrypt(rsa, "30436944489648177637848285958404", ApiSignUtil.IOS, "VNZABWQQJKUNRIPHVCCUWWRRGPADZVBY");
         System.out.println(decrypt);
+        System.out.println(RSAProvider.encrypt("E10ADC3949BA59ABBE56E057F20F883E@1F27A9443F2617A5535E5A904540CC53"));
     }
 
 
