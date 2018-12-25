@@ -93,6 +93,7 @@ public class RSAProvider {
      * @return 加密之后的字符串
      * @throws Exception
      */
+
     public static String encrypt(String text, String key) {
         byte[] bytes = new byte[0];
         if (StringUtils.isAnyBlank(text, key)) {
@@ -161,6 +162,7 @@ public class RSAProvider {
      * @param text 需要解密的字符串
      * @return 解密之后的字符串
      */
+
     public static String decrypt(String text, String key) {
         if (StringUtils.isAnyBlank(text, key)) {
             return "";
@@ -267,6 +269,15 @@ public class RSAProvider {
         return encode;
     }
 
+    public static String decrypt(String text) {
+        try {
+            return new String(decryptByPrivateKey(Base64.decode(text), KeyUtil.PRIVATE_KEY));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     /**
      * 解密 private key
      * 方法说明。
@@ -356,6 +367,15 @@ public class RSAProvider {
         cipher.init(Cipher.ENCRYPT_MODE, publicKey);
 
         return cipher.doFinal(data);
+    }
+
+    public static String encrypt(String text) {
+        try {
+            return Base64.encode(encryptByPublicKey(text.getBytes(), KeyUtil.PUBLIICK_KEY));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**

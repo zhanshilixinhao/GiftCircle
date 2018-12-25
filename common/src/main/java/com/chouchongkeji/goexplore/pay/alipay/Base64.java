@@ -49,9 +49,14 @@ public final class Base64 {
         for (int i = 52, j = 0; i <= 61; i++, j++) {
             lookUpBase64Alphabet[i] = (char) ('0' + j);
         }
-        lookUpBase64Alphabet[62] = (char) '+';
-        lookUpBase64Alphabet[63] = (char) '/';
+        lookUpBase64Alphabet[62] = '+';
+        lookUpBase64Alphabet[63] = '/';
 
+    }
+
+    public static void main(String[] args) {
+        System.out.println(encode("123456".getBytes()));
+        System.out.println(java.util.Base64.getEncoder().encodeToString("123456".getBytes()));
     }
 
     private static boolean isWhiteSpace(char octect) {

@@ -8,7 +8,7 @@ import okhttp3.Response;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author linqin
@@ -16,6 +16,26 @@ import java.util.Map;
  */
 
 public class Test2 {
+
+    @Test
+    public void test() {
+        List<Integer> hong = new ArrayList<>();
+        Random random = new Random();
+        for (int i = 0; i < 7; i++) {
+            int n = random.nextInt();
+            if (n <= 33 && n > 0 && !hong.contains(n)) {
+                hong.add(n);
+            } else i --;
+        }
+        int lan = 0;
+        do {
+            lan = random.nextInt();
+        } while (lan < 1 || lan > 16);
+
+        Collections.sort(hong);
+        System.out.println(JSON.toJSONString(hong));
+        System.out.println(lan);
+    }
 
     @Test
     public void aaa() {

@@ -1,6 +1,9 @@
 package com.chouchongkeji.util;
 
+import com.chouchongkeji.goexplore.pay.weixin.common.Util;
 import com.chouchongkeji.goexplore.utils.AESUtils;
+import com.chouchongkeji.goexplore.utils.ApiSignUtil;
+import com.chouchongkeji.goexplore.utils.RSAProvider;
 import com.chouchongkeji.goexplore.utils.Utils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -12,9 +15,14 @@ import org.apache.commons.lang3.StringUtils;
 public class SentPwdUtil {
 
     public static String decrypt(String de, String s1, String apiKey, String time) {
-        // 构造加密密钥
-        apiKey = genKey(apiKey, time, s1);
-        String decry = AESUtils.decrypt(apiKey, de);
+        String decry = null;
+        if (StringUtils.equals(ApiSignUtil.IOS, apiKey)) {
+            decry = RSAProvider.decrypt(de);
+        } else {
+            // 构造加密密钥
+            apiKey = genKey(apiKey, time, s1);
+            decry = AESUtils.decrypt(apiKey, de);
+        }
         if (StringUtils.isBlank(decry)) return null;
         // 取出用户设置的密码
         String[] split = decry.split("@");
@@ -44,13 +52,19 @@ public class SentPwdUtil {
         return AESUtils.encrypt(apiKey, pwd);
     }
 
-//    public static void main(String[] args) {
-//        String decrypt = decrypt("Qh6OthvMTjZfsolBZ2x0MLysZ4H9Kd3NP9ChK1h7O5es9QEhrNY5vp8kd8PCbIimO3CKQ1DWHru9Len4jeZDZKL5m8ngcH2uGMVAbtvemc4Zkha20kL1GBQ7izAfckVzcewAHJ5rUoLUEdg+0sBJWA==",
-//                "01523988612755868774841374437841", "8CF583040209BC196135DE237DCA5AAF", "1544166350"
-//        );
-//        System.out.println(decrypt);
-//    }
+    public static String encryptRSA(String apiKey, String pwd, String s1, String time) {
+        pwd = Utils.toMD5(pwd);
+        pwd = String.format("%s@%s", pwd, Utils.toMD5(String.format("%spinjie%s", time, s1)));
+        return RSAProvider.encrypt(pwd);
+    }
 
+    public static void main(String[] args) {
+        System.out.println(Utils.toMD5("123456"));
+        String rsa = encryptRSA(ApiSignUtil.IOS, "123456", "1234567890", "0123456789");
+        System.out.println(rsa);
+        String decrypt = decrypt(rsa, "1234567890", ApiSignUtil.IOS, "0123456789");
+        System.out.println(decrypt);
+    }
 
 
 }
