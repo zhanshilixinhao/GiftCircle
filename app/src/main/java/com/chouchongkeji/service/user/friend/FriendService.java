@@ -138,9 +138,9 @@ public interface FriendService {
     /**
      * 搜索好友
      *
-     * @param userId 用户id
-     * @param key    搜索关键字-此处目前支支持手机号
-     * @param type
+     * @param userId 用户信息
+     * @param key 关键字
+     * @param  type 1 搜索好友， 2 搜索陌生人， 不传 ：搜索所有
      * @return
      * @author yichenshanren
      * @date 2018/6/21

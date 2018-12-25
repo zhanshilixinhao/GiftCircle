@@ -43,6 +43,7 @@ public interface FriendMapper {
                                       @Param("friendUserId") Integer friendUserId);
 
     List<FriendBase> selectBySearch(@Param("phone") String phone,
-                                    @Param("userId") Integer userId);
+                                    @Param("userId") Integer userId,
+                                    @Param("type") Integer type);
 
 }

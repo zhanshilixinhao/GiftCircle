@@ -44,7 +44,9 @@
         </if>
     </select>
     <select id="selectBySearch" resultType="com.chouchongkeji.service.user.friend.vo.FriendBase">
-   SELECT
+        select *
+        from  (
+          SELECT
 	a.id AS user_id,
 	a.avatar,
 	a.nickname,
@@ -67,6 +69,14 @@ FROM
 	AND b.friend_user_id = a.id
 WHERE
 	a.nickname LIKE concat('%', #{phone},'%')
+              ) h
+        <where>
+            <trim suffixOverrides="and">
+                <if test="type != null and type != ''">
+                    h.is_friend = #{type}
+                </if>
+            </trim>
+        </where>
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from friend
@@ -82,11 +92,11 @@ WHERE
     </delete>
     <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.friend.Friend">
     insert ignore into friend (id, user_id, friend_user_id,
-      remark, relationship, group_id, 
+      remark, relationship, group_id,
       sort, created, updated
       )
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{friendUserId,jdbcType=INTEGER}, 
-      #{remark,jdbcType=VARCHAR}, #{relationship,jdbcType=VARCHAR}, #{groupId,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{friendUserId,jdbcType=INTEGER},
+      #{remark,jdbcType=VARCHAR}, #{relationship,jdbcType=VARCHAR}, #{groupId,jdbcType=INTEGER},
       #{sort,jdbcType=INTEGER}, now(), now()
       )
   </insert>

@@ -98,6 +98,8 @@ public class FriendController {
      * 搜索好友
      *
      * @param userDetails 用户信息
+     * @param key 关键字
+     * @param  type 1 搜索好友， 2 搜索陌生人， 不传 ：搜索所有
      * @return
      * @author yichenshanren
      * @date 2018/6/21
@@ -107,9 +109,6 @@ public class FriendController {
                                  String key, Integer type) {
         if (StringUtils.isBlank(key)) {
             return ResponseFactory.errMissingParameter();
-        }
-        if (type == null) {
-            type = 1;
         }
         return friendService.searchFriend(userDetails.getUserId(), key, type);
     }
