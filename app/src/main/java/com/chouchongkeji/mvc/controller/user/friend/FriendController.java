@@ -49,7 +49,7 @@ public class FriendController {
     }
 
     /**
-     * 好友泪飙
+     * 好友列表
      *
      * @param userDetails 用户i西南西
      * @return
