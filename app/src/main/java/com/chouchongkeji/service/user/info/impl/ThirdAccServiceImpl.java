@@ -151,7 +151,7 @@ public class ThirdAccServiceImpl implements ThirdAccService {
         //个性签名
         memberInfo.setSignature("签名是后台送的");
         //地区
-        memberInfo.setDistrict(StringUtils.isBlank(userInfo.getCity()) ? Constants.DEFALUT_DISTRICT : userInfo.getCity());
+        memberInfo.setDistrict( Constants.DEFALUT_DISTRICT );
         //状态
         memberInfo.setStatus((byte) 1);
         return memberInfo;
