@@ -151,7 +151,7 @@ public class WalletServiceImpl implements WalletService {
         //分页
         PageHelper.startPage(pageQuery.getPageNum(), pageQuery.getPageSize());
         //查询收益记录
-        List<WalletRecord> list = walletRecordMapper.selectByUserId(userId, starting, ending);
+        List<WalletRecord> list = walletRecordMapper.selectByUserId(userId, starting, ending + 24 * 3600 - 1);
         return ResponseFactory.sucData(list);
     }
 }

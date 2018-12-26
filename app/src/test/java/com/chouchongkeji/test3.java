@@ -40,5 +40,18 @@ public class test3 {
         Response post = OkHttpUtil.post("https://liyuquan.cn/app/noauth/district/all_list", params);
         System.out.println(post.body().string());
     }
+    // 收益记录
+    @Test
+    public void earn() throws IOException {
+        RequestParams params = new RequestParams();
+        params.put("time", System.currentTimeMillis());
+        params.put("access_token", "572f7a09-b3e0-4ec5-b04b-13c82771c1c8");
+        params.put("pageNum", 1);
+        params.put("pageSize", 14);
+        Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
+        params.put("sign", map.get(ApiSignUtil.ANDROID));
+        Response post = OkHttpUtil.post("http://localhost:8088/auth/v1/wallet/earn_record", params);
+        System.out.println(post.body().string());
+    }
 
 }

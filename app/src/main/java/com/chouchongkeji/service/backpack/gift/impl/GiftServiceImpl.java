@@ -159,7 +159,7 @@ public class GiftServiceImpl implements GiftService {
             }
             // 添加礼物通知消息
             log.info("添加礼物通知消息");
-            addGiftNotifyMessage(vo.getSendUserId(), vo.getUserId(), vo.getRecordId(),
+            addGiftNotifyMessage(vo.getSendUserId(), vo.getUserId(), vo.getRecordDetailId(),
                     vo.getGiftItems());
             // 添加物品到背包
             log.info("添加物品到背包");
@@ -322,7 +322,7 @@ public class GiftServiceImpl implements GiftService {
 
         // 添加礼物通知消息
         List<GiftItemVo> list = JSON.parseArray(detail.getContent(), GiftItemVo.class);
-        addGiftNotifyMessage(giftRecord.getUserId(), userId, giftRecord.getId(),
+        addGiftNotifyMessage(giftRecord.getUserId(), userId, detail.getId(),
                 list);
         // 添加物品到背包
         addItemToBp(detail.getId(), userId, list);
@@ -437,7 +437,7 @@ public class GiftServiceImpl implements GiftService {
         }
         // 如果是立即赠送添加礼物赠送消息
         if (sendVo.getType() == Constants.GIFT_SEND_TYPE.NOW) {
-            addGiftNotifyMessage(userId, sendVo.getFriendUserId(), record.getId(), list);
+            addGiftNotifyMessage(userId, sendVo.getFriendUserId(), detail.getId(), list);
             addItemToBp(detail.getId(), detail.getUserId(), list);
             return ResponseFactory.sucMsg("赠送成功");
         } else {
@@ -569,7 +569,7 @@ public class GiftServiceImpl implements GiftService {
      *
      * @param userId       赠送者用户id
      * @param friendUserId 接收者用户id
-     * @param recordId     礼物记录id
+     * @param recordId     礼物记录详情id
      * @param list         礼物列表
      * @return 1
      * @author yichenshanren

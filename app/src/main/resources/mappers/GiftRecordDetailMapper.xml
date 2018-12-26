@@ -49,7 +49,7 @@
     delete from gift_record_detail
     where id = #{id,jdbcType=INTEGER}
   </delete>
-    <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.backpack.gift.GiftRecordDetail">
+    <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.backpack.gift.GiftRecordDetail" useGeneratedKeys="true" keyProperty="id">
     insert into gift_record_detail (id, gift_record_id, user_id,
       amount,content, is_reply, reply,
       status, updated, created
