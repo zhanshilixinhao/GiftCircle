@@ -891,7 +891,7 @@ String de = AESUtils.encrypt(seed, pwd);
             "id": 1, 
             "userId": 1, 
             "explain": "寄售台物品购买", 
-            "amount": -100, 
+            "amount": 100, 
             "targetId": 2, 
             "type": 6, //记录类型 1-充值，2-商品折现，3-虚拟物品折现，4-寄售台出售物品，5-购买商品，6-寄售台物品购买,7虚拟物品购买
             "updated": 1530673527000, 
