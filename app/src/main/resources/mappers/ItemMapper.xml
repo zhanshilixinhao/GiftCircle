@@ -37,7 +37,7 @@
     </resultMap>
     <sql id="Base_Column_List">
     id, title, price, sales, stock, description, re_gender, re_max_age, re_age_min,
-    store_id, category_id, cover, pictures, choiceness, hot, status, is_audit, brand_id, 
+    store_id, category_id, cover, pictures, choiceness, hot, status, is_audit, brand_id,
     created, updated
   </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -104,20 +104,20 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
     <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.gift.item.Item">
-    insert into item (id, title, price, 
-      sales, stock, description, 
-      re_gender, re_max_age, re_age_min, 
-      re_event, store_id, category_id, 
-      cover, pictures, choiceness, 
-      hot, status, is_audit, 
+    insert into item (id, title, price,
+      sales, stock, description,
+      re_gender, re_max_age, re_age_min,
+      re_event, store_id, category_id,
+      cover, pictures, choiceness,
+      hot, status, is_audit,
       brand_id, created, updated
       )
-    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, 
-      #{sales,jdbcType=INTEGER}, #{stock,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR}, 
-      #{reGender,jdbcType=TINYINT}, #{reMaxAge,jdbcType=TINYINT}, #{reAgeMin,jdbcType=TINYINT}, 
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL},
+      #{sales,jdbcType=INTEGER}, #{stock,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR},
+      #{reGender,jdbcType=TINYINT}, #{reMaxAge,jdbcType=TINYINT}, #{reAgeMin,jdbcType=TINYINT},
       #{reEvent,jdbcType=BIGINT}, #{storeId,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER},
-      #{cover,jdbcType=VARCHAR}, #{pictures,jdbcType=VARCHAR}, #{choiceness,jdbcType=TINYINT}, 
-      #{hot,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, #{isAudit,jdbcType=TINYINT}, 
+      #{cover,jdbcType=VARCHAR}, #{pictures,jdbcType=VARCHAR}, #{choiceness,jdbcType=TINYINT},
+      #{hot,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, #{isAudit,jdbcType=TINYINT},
       #{brandId,jdbcType=INTEGER}, #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP}
       )
   </insert>
@@ -418,6 +418,18 @@ FROM
 WHERE
 	title LIKE concat('%',#{keyword},'%')
 	and status = 1
+    </select>
+    <select id="selectBySkuId" resultMap="ItemDetail">
+        SELECT
+            a.id,
+            a.title,
+            a.price,
+            a.sales,
+            a.description,
+            a.pictures
+        from item a
+                 left join item_sku b on a.id = b.item_id
+        where b.id = #{skuId}
     </select>
 
 </mapper>

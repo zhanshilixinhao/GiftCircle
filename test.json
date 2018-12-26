@@ -1,147 +1,21 @@
 {
   "errCode": 0,
   "result": 0,
-  "time": 1545802979510,
-  "data": [
-    {
-      "id": 119,
-      "userId": 6,
-      "explain": "虚拟物品购买",
-      "amount": 765.00,
-      "targetId": 76,
-      "type": 7,
-      "updated": 1545802878000,
-      "created": 1545802878000
-    },
-    {
-      "id": 118,
-      "userId": 6,
-      "explain": "虚拟物品购买",
-      "amount": 560.00,
-      "targetId": 75,
-      "type": 7,
-      "updated": 1545802741000,
-      "created": 1545802741000
-    },
-    {
-      "id": 117,
-      "userId": 6,
-      "explain": "虚拟物品购买",
-      "amount": 765.00,
-      "targetId": 74,
-      "type": 7,
-      "updated": 1545802717000,
-      "created": 1545802717000
-    },
-    {
-      "id": 116,
-      "userId": 6,
-      "explain": "商品折现",
-      "amount": 0.01,
-      "targetId": 7718122613127,
-      "type": 2,
-      "updated": 1545802698000,
-      "created": 1545802698000
-    },
-    {
-      "id": 115,
-      "userId": 6,
-      "explain": "购买商品",
-      "amount": 0.02,
-      "targetId": 66,
-      "type": 5,
-      "updated": 1545802641000,
-      "created": 1545802641000
-    },
-    {
-      "id": 114,
-      "userId": 6,
-      "explain": "商品折现",
-      "amount": 0.00,
-      "targetId": 7718122613125,
-      "type": 2,
-      "updated": 1545801983000,
-      "created": 1545801983000
-    },
-    {
-      "id": 113,
-      "userId": 6,
-      "explain": "购买商品",
-      "amount": 78.00,
-      "targetId": 65,
-      "type": 5,
-      "updated": 1545797201000,
-      "created": 1545797201000
-    },
-    {
-      "id": 112,
-      "userId": 6,
-      "explain": "虚拟物品购买",
-      "amount": 765.00,
-      "targetId": 73,
-      "type": 7,
-      "updated": 1545797190000,
-      "created": 1545797190000
-    },
-    {
-      "id": 106,
-      "userId": 6,
-      "explain": "购买商品",
-      "amount": -0.02,
-      "targetId": 59,
-      "type": 5,
-      "updated": 1545792892000,
-      "created": 1545792892000
-    },
-    {
-      "id": 105,
-      "userId": 6,
-      "explain": "购买商品",
-      "amount": -78.00,
-      "targetId": 58,
-      "type": 5,
-      "updated": 1545791391000,
-      "created": 1545791391000
-    },
-    {
-      "id": 104,
-      "userId": 6,
-      "explain": "购买商品",
-      "amount": -0.02,
-      "targetId": 56,
-      "type": 5,
-      "updated": 1545791374000,
-      "created": 1545791374000
-    },
-    {
-      "id": 103,
-      "userId": 6,
-      "explain": "虚拟物品购买",
-      "amount": -345.00,
-      "targetId": 71,
-      "type": 7,
-      "updated": 1545741652000,
-      "created": 1545741652000
-    },
-    {
-      "id": 102,
-      "userId": 6,
-      "explain": "购买商品",
-      "amount": -0.01,
-      "targetId": 55,
-      "type": 5,
-      "updated": 1545741622000,
-      "created": 1545741622000
-    },
-    {
-      "id": 101,
-      "userId": 6,
-      "explain": "商品折现",
-      "amount": 66.30,
-      "targetId": 7718122520137,
-      "type": 2,
-      "updated": 1545741481000,
-      "created": 1545741481000
-    }
-  ]
+  "time": 1545833343828,
+  "data": {
+    "id": 14,
+    "title": "HELLO KITTY HEART手链1",
+    "price": 688.00,
+    "sales": 0,
+    "description": "HELLO KITTY HEART手链浪漫粉红精致尚",
+    "pictures": [
+      "https://liyuquan.cn/static/item/181219/a37beac0-d763-4e39-a1ad-1744836004fd.jpg",
+      "https://liyuquan.cn/static/item/181219/2f333aa8-fdae-4f33-a344-00e45594a7df.jpg",
+      "https://liyuquan.cn/static/item/181219/fe96d4bd-362e-4a68-abdf-3d2b0bbd66ab.jpg",
+      "https://liyuquan.cn/static/item/181219/4dc1b105-e85c-4564-bcd3-0cbca0daa165.jpg",
+      "https://liyuquan.cn/static/item/181219/33a12e8e-5a69-455a-9ff5-4f6f91e94606.jpg"
+    ],
+    "detailUrl": "https://liyuquan.cn/static/product.html?uid=14",
+    "isCollect": 2
+  }
 }

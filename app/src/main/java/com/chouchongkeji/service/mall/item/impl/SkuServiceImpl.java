@@ -1,14 +1,18 @@
 package com.chouchongkeji.service.mall.item.impl;
 
+import com.chouchongkeji.dial.dao.gift.favorite.UserFavoriteMapper;
 import com.chouchongkeji.dial.dao.gift.item.ItemFeatureMapper;
 import com.chouchongkeji.dial.dao.gift.item.ItemMapper;
 import com.chouchongkeji.dial.dao.gift.item.ItemSkuMapper;
+import com.chouchongkeji.dial.pojo.gift.favorite.UserFavorite;
 import com.chouchongkeji.dial.pojo.gift.item.ItemSku;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.dial.pojo.gift.item.Item;
+import com.chouchongkeji.properties.ServiceProperties;
 import com.chouchongkeji.service.mall.item.SkuService;
 import com.chouchongkeji.service.mall.item.vo.*;
+import com.yichen.auth.service.UserDetails;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,6 +37,12 @@ public class SkuServiceImpl implements SkuService {
 
     @Autowired
     private ItemFeatureMapper itemFeatureMapper;
+
+    @Autowired
+    private UserFavoriteMapper userFavoriteMapper;
+
+    @Autowired
+    private ServiceProperties serviceProperties;
 
     /**
      * 获取商品的sku组合
@@ -114,5 +124,33 @@ public class SkuServiceImpl implements SkuService {
             return ResponseFactory.err("该sku不存在");
         }
         return ResponseFactory.sucData(itemSku);
+    }
+
+    /**
+     * 根据skuId 获取商品详情
+     * @param skuId
+     * @return
+     * @author linqin
+     * @date 2018/6/15
+     */
+    @Override
+    public Response itemDetail(UserDetails userDetails, Integer skuId) {
+        ItemDetail item = itemMapper.selectBySkuId(skuId);
+        if (item != null) {
+            if (userDetails == null) {
+                item.setIsCollect(2);
+            } else {
+                UserFavorite userFavorite = userFavoriteMapper.selectByUserIdAndItemId(userDetails.getUserId(), item.getId());
+                if (userFavorite == null) {
+                    item.setIsCollect(2);
+                } else {
+                    item.setIsCollect(1);
+                }
+            }
+            item.setDetailUrl(serviceProperties.getProductDetail() + item.getId());
+            return ResponseFactory.sucData(item);
+        } else {
+            return ResponseFactory.err("无此商品");
+        }
     }
 }

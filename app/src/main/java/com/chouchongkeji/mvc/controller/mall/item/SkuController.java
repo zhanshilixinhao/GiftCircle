@@ -3,10 +3,13 @@ package com.chouchongkeji.mvc.controller.mall.item;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.service.mall.item.SkuService;
+import com.yichen.auth.service.UserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import retrofit2.http.POST;
 
 /**
  * @author linqin
@@ -52,4 +55,18 @@ public class SkuController {
         return skuService.getSkuStock(skuId);
     }
 
+    /**
+     * 根据skuId 获取商品详情
+     * @param skuId
+     * @return
+     * @author linqin
+     * @date 2018/6/15
+     */
+    @PostMapping("detail")
+    public Response itemDetail(@AuthenticationPrincipal UserDetails userDetails, Integer skuId) {
+        if (skuId == null) {
+            return ResponseFactory.errMissingParameter();
+        }
+        return skuService.itemDetail(userDetails,skuId);
+    }
 }

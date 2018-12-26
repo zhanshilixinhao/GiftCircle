@@ -57,4 +57,11 @@ public interface ItemMapper {
     DetailVo selectItemDtail(Integer skuId);
 
     List<ItemListVo> selectItemList(String keyword);
+
+    /**
+     * 根据skuId 获取商品详情
+     * @param skuId
+     * @return
+     */
+    ItemDetail selectBySkuId(Integer skuId);
 }

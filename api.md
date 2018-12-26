@@ -40,6 +40,15 @@
 > 3. 增加行政区列表接口  （4.2）
 > 4. 修改搜索好友接口 （10.11）
 
+### v0.0.4
+
+* 更新人：yichen
+* 2018/12/6
+* 更新内容
+
+> 1. 增加根据skuId获取商品详情 (接口6.18)
+
+
 ## 目录
 <span id="m"> </span>
 
@@ -1943,6 +1952,61 @@ JSON：
     }
 }
 ```
+
+
+### 6.18 根据sku获取商品详情
+- 请求地址：noauth/item/detail
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yy
+
+| 参数名称 | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :------: | :------: | :------: | :----: | :------: |
+|  skuId  |   int    |    是    |   无   |  商品最小销售单元id  |
+
+
+请求结果示例：
+```json
+{
+  "errCode": 0,
+  "result": 0,
+  "time": 1545833343828,
+  "data": {
+    "id": 14,
+    "title": "HELLO KITTY HEART手链1",
+    "price": 688.00,
+    "sales": 0,
+    "description": "HELLO KITTY HEART手链浪漫粉红精致尚",
+    "pictures": [
+      "https://liyuquan.cn/static/item/181219/a37beac0-d763-4e39-a1ad-1744836004fd.jpg",
+      "https://liyuquan.cn/static/item/181219/2f333aa8-fdae-4f33-a344-00e45594a7df.jpg",
+      "https://liyuquan.cn/static/item/181219/fe96d4bd-362e-4a68-abdf-3d2b0bbd66ab.jpg",
+      "https://liyuquan.cn/static/item/181219/4dc1b105-e85c-4564-bcd3-0cbca0daa165.jpg",
+      "https://liyuquan.cn/static/item/181219/33a12e8e-5a69-455a-9ff5-4f6f91e94606.jpg"
+    ],
+    "detailUrl": "https://liyuquan.cn/static/product.html?uid=14",
+    "isCollect": 2
+  }
+}
+
+```
+
+
+| 参数名称    |   参数类型   | 是否必传 |          参数说明          |
+| ----------- | :----------: | :------: | :------------------------: |
+| errCode     |     Int      |    是    | 错误码 0 标识成功获取数据  |
+| data        |    Object    |    否    |        成功返回数据        |
+| id          |     Int      |    是    |           商品id           |
+| title       |    String    |    是    |          商品标题          |
+| price       |   decimal    |    是    |          商品价格          |
+| sales       |     Int      |    是    |            销量            |
+| description |    String    |    是    |          商品属性          |
+| pictures    | List<String> |    是    |        轮播图片数组        |
+| detailUrl   |    String    |    是    |        商品详情地址        |
+| isCollect   |     Int      |    是    | 是否收藏 1.已收藏 2.未收藏 |
+
+
+
 
 ## 7. 购物车
 
@@ -4213,7 +4277,7 @@ JSON：
             giftItems: [ // 赠送的礼物信息
                 {
                     bpId: 2,  // 背包id
-                    targetId: 2,  
+                    targetId: 2,  //目标物品id，type=1商品skuId，type=2虚拟物品id，type=3优惠券id
                     targetType: 3, // 1 物品 2 虚拟物品 3 优惠券 
                     giftType: 1,  
                     price: 100, // 物品价格
