@@ -741,7 +741,7 @@ http 常用错误码
             "amount": 20,
             "status": 1,
             "created": 1528451950000,
-            "describe": "申请提现"
+            "describe": "提现成功失败原因"
         },
         {
             "amount": 20,

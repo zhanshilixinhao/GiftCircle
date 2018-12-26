@@ -55,7 +55,9 @@ public class UserLoginServiceImpl implements UserLoginService {
         if (!response.isSuccessful()) {
             String key = UUID.randomUUID().toString();
             mRedisTemplate.setString(key, result.getOpenid(), 300);
-            mRedisTemplate.setString(result.getOpenid(), result.getAccess_token(), 600);
+            if (client != 3){
+                mRedisTemplate.setString(result.getOpenid(), result.getAccess_token(), 600);
+            }
             if (client == 1) {
                 Map<String, String> map = new HashMap<>();
                 map.put("key", key);

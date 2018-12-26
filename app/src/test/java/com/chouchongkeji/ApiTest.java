@@ -21,12 +21,12 @@ public class ApiTest {
     public void withdrawRecord() throws IOException {
         RequestParams params = new RequestParams();
         params.put("time",System.currentTimeMillis());
-        params.put("access_token","f3e7f648-845e-4614-a49e-bbd8f43add65");
+        params.put("access_token","572f7a09-b3e0-4ec5-b04b-13c82771c1c8");
         params.put("pageNum",1);
         params.put("pageSize",14);
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
         params.put("sign",map.get(ApiSignUtil.ANDROID));
-        Response post = OkHttpUtil.post("http://localhost:8088/auth/v1/withdraw/list", params);
+        Response post = OkHttpUtil.post("https://liyuquan.cn/app/auth/v1/withdraw/list", params);
         System.out.println(post.body().string());
     }
 

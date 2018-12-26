@@ -62,6 +62,18 @@ public class AppTest
         System.out.println(response.body().string());
     }
 
+
+    //加密密码
+    @Test
+    public void pwd() {
+
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encode = passwordEncoder.encode("123456");
+        System.out.println(encode);
+    }
+
+
+
     @Test
     public void sms() throws IOException {
         RequestParams params = new RequestParams();
@@ -77,7 +89,7 @@ public class AppTest
     @Test
     public void wxLogin() throws IOException {
         RequestParams params = new RequestParams();
-        params.put("code", "ewqrewrewr");
+        params.put("code", "023uAktC0jKnMi23VFuC0LlctC0uAktm");
         params.put("time", "43432432");
 
         params.put("sign",ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID).get(ApiSignUtil.ANDROID));
