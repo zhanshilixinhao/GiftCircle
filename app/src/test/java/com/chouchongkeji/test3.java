@@ -7,6 +7,9 @@ import okhttp3.Response;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -48,11 +51,24 @@ public class test3 {
         params.put("access_token", "572f7a09-b3e0-4ec5-b04b-13c82771c1c8");
         params.put("pageNum", 1);
         params.put("pageSize", 14);
+        params.put("starting", 1545840000000L);
+        params.put("ending", 1545926399000L);
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
         params.put("sign", map.get(ApiSignUtil.ANDROID));
         Response post = OkHttpUtil.post("http://localhost:8088/auth/v1/wallet/earn_record", params);
         System.out.println(post.body().string());
     }
+
+    @Test
+    public void data() throws ParseException {
+        Date now = new Date(1545881548000L);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");//可以方便地修改日期格式
+        String hehe = dateFormat.format(now); //日期
+        Date parse = dateFormat.parse(hehe);  //时间戳
+        System.out.println(parse.getTime());
+        System.out.println(hehe);
+    }
+
 
     // 商品详情
     @Test

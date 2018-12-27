@@ -1,21 +1,37 @@
 {
   "errCode": 0,
   "result": 0,
-  "time": 1545833343828,
-  "data": {
-    "id": 14,
-    "title": "HELLO KITTY HEART手链1",
-    "price": 688.00,
-    "sales": 0,
-    "description": "HELLO KITTY HEART手链浪漫粉红精致尚",
-    "pictures": [
-      "https://liyuquan.cn/static/item/181219/a37beac0-d763-4e39-a1ad-1744836004fd.jpg",
-      "https://liyuquan.cn/static/item/181219/2f333aa8-fdae-4f33-a344-00e45594a7df.jpg",
-      "https://liyuquan.cn/static/item/181219/fe96d4bd-362e-4a68-abdf-3d2b0bbd66ab.jpg",
-      "https://liyuquan.cn/static/item/181219/4dc1b105-e85c-4564-bcd3-0cbca0daa165.jpg",
-      "https://liyuquan.cn/static/item/181219/33a12e8e-5a69-455a-9ff5-4f6f91e94606.jpg"
-    ],
-    "detailUrl": "https://liyuquan.cn/static/product.html?uid=14",
-    "isCollect": 2
-  }
+  "time": 1545881304310,
+  "data": [
+    {
+      "id": 145,
+      "userId": 6,
+      "explain": "虚拟商品折现",
+      "amount": 650.25,
+      "targetId": 7718122612120,
+      "type": 3,
+      "updated": 1545879571000,
+      "created": 1545879571000
+    },
+    {
+      "id": 144,
+      "userId": 6,
+      "explain": "商品折现",
+      "amount": 0.01,
+      "targetId": 7718122621219,
+      "type": 2,
+      "updated": 1545879564000,
+      "created": 1545879564000
+    },
+    {
+      "id": 143,
+      "userId": 6,
+      "explain": "商品折现",
+      "amount": 75.65,
+      "targetId": 7718122621208,
+      "type": 2,
+      "updated": 1545876007000,
+      "created": 1545876007000
+    }
+  ]
 }
