@@ -100,7 +100,22 @@
             <scope>provided</scope>
         </dependency>
 
+        <!--&lt;!&ndash;个推&ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>com.gexin.platform</groupId>-->
+            <!--<artifactId>gexin-rp-sdk-http</artifactId>-->
+            <!--<version>4.1.0.0</version>-->
+        <!--</dependency>-->
+
+
     </dependencies>
+    <!--个推-->
+    <!--<repositories>-->
+        <!--<repository>-->
+            <!--<id>getui-nexus</id>-->
+            <!--<url>http://mvn.gt.igexin.com/nexus/content/repositories/releases/</url>-->
+        <!--</repository>-->
+    <!--</repositories>-->
 
     <build>
         <plugins>

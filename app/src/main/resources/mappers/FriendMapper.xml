@@ -51,7 +51,8 @@
 	a.id AS user_id,
 	a.avatar,
 	a.nickname,
-	(b.id is NULL) + 1 as is_friend
+	(b.id is NULL) + 1 as is_friend,
+        b.heart_num
 FROM
 	app_user a
 	LEFT JOIN friend b ON b.user_id = #{userId}
@@ -63,7 +64,8 @@ WHERE
 	a.id AS user_id,
 	a.avatar,
 	a.nickname,
-	(b.id is NULL) + 1 as is_friend
+	(b.id is NULL) + 1 as is_friend,
+        b.heart_num
 FROM
 	app_user a
 	LEFT JOIN friend b ON b.user_id = #{userId}

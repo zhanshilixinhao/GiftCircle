@@ -1,0 +1,95 @@
+package com.chouchongkeji.push;
+
+import com.gexin.rp.sdk.base.IAliasResult;
+import com.gexin.rp.sdk.base.IPushResult;
+import com.gexin.rp.sdk.base.impl.AppMessage;
+import com.gexin.rp.sdk.base.impl.ListMessage;
+import com.gexin.rp.sdk.base.impl.Target;
+import com.gexin.rp.sdk.http.IGtPush;
+import com.gexin.rp.sdk.template.LinkTemplate;
+import com.gexin.rp.sdk.template.NotificationTemplate;
+import com.gexin.rp.sdk.template.style.Style0;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * @author linqin
+ * @date 2018/12/27 14:09
+ */
+
+public class AppPush {
+
+    //定义常量, appId、appKey、masterSecret 采用本文档 "第二步 获取访问凭证 "中获得的应用配置
+    private static String appId = "4z1k4dSYnG7dZduBAGPt93";
+    private static String appKey = "LkfGB22y4d9oKx9FP3Y4O1";
+    private static String masterSecret = "tCrauplfms7Ir2n2jEv0Y2";
+    private static String url = "http://sdk.open.api.igexin.com/apiex.htm";
+
+    public static void main(String[] args) throws IOException {
+        push("test");
+    }
+
+
+    public static void push(String alias) {
+        // 配置返回每个用户返回用户状态，可选
+        System.setProperty("gexin_pushList_needDetails", "true");
+        // 配置返回每个别名及其对应cid的用户状态，可选
+        // System.setProperty("gexin_pushList_needAliasDetails", "true");
+        IGtPush push = new IGtPush(url, appKey, masterSecret);
+        // 通知透传模板
+        NotificationTemplate template = notificationTemplateDemo();
+        ListMessage message = new ListMessage();
+        message.setData(template);
+        // 设置消息离线，并设置离线时间
+        message.setOffline(true);
+        // 离线有效时间，单位为毫秒，可选
+        message.setOfflineExpireTime(24 * 1000 * 3600);
+        // 配置推送目标
+        List targets = new ArrayList();
+        //
+        IAliasResult test = push.queryClientId(appId, alias);
+        System.out.println(test);
+        List<String> clientIdList = test.getClientIdList();
+        for (String clientId : clientIdList) {
+            Target target = new Target();
+            target.setAppId(appId);
+            target.setClientId(clientId);
+            targets.add(target);
+        }
+
+        // taskId用于在推送时去查找对应的message
+        String taskId = push.getContentId(message);
+        IPushResult ret = push.pushMessageToList(taskId, targets);
+        System.out.println(ret.getResponse().toString());
+    }
+
+
+    public static NotificationTemplate notificationTemplateDemo() {
+        NotificationTemplate template = new NotificationTemplate();
+        // 设置APPID与APPKEY
+        template.setAppId(appId);
+        template.setAppkey(appKey);
+
+        Style0 style = new Style0();
+        // 设置通知栏标题与内容
+        style.setTitle("请输入通知栏标题");
+        style.setText("请输入通知栏内容");
+        // 配置通知栏图标
+        style.setLogo("icon.png");
+        // 配置通知栏网络图标
+        style.setLogoUrl("");
+        // 设置通知是否响铃，震动，或者可清除
+        style.setRing(true);
+        style.setVibrate(true);
+        style.setClearable(true);
+        template.setStyle(style);
+
+        // 透传消息设置，1为强制启动应用，客户端接收到消息后就会立即启动应用；2为等待应用启动
+        template.setTransmissionType(2);
+        template.setTransmissionContent("请输入您要透传的内容");
+        return template;
+    }
+
+}

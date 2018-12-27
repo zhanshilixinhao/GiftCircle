@@ -14,6 +14,7 @@ public class FriendBase {
     private String avatar;
     private String nickname;
     private Integer isFriend;
+    private Integer heartNum; //互动值
 
     public Integer getUserId() {
         return userId;
@@ -45,5 +46,13 @@ public class FriendBase {
 
     public void setIsFriend(Integer isFriend) {
         this.isFriend = isFriend;
+    }
+
+    public Integer getHeartNum() {
+        return heartNum;
+    }
+
+    public void setHeartNum(Integer heartNum) {
+        this.heartNum = heartNum;
     }
 }
