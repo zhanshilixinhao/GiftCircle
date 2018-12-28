@@ -35,9 +35,6 @@ public class EventServiceImpl implements EventService {
     @Override
     public Response getAllList(Integer userId) {
        List<Event>  event = eventMapper.selectAll(userId);
-       if (event == null){
-           return ResponseFactory.err("事件为空，需自己添加");
-       }
        return ResponseFactory.sucData(event);
     }
 
