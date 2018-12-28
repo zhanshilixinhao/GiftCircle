@@ -1,16 +1,16 @@
 package com.chouchongkeji.push;
 
+import com.gexin.fastjson.JSON;
 import com.gexin.rp.sdk.base.IAliasResult;
 import com.gexin.rp.sdk.base.IPushResult;
 import com.gexin.rp.sdk.base.impl.AppMessage;
 import com.gexin.rp.sdk.base.impl.ListMessage;
 import com.gexin.rp.sdk.base.impl.Target;
+import com.gexin.rp.sdk.base.uitls.AppConditions;
 import com.gexin.rp.sdk.http.IGtPush;
-import com.gexin.rp.sdk.template.LinkTemplate;
 import com.gexin.rp.sdk.template.NotificationTemplate;
 import com.gexin.rp.sdk.template.style.Style0;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,19 +27,35 @@ public class AppPush {
     private static String masterSecret = "tCrauplfms7Ir2n2jEv0Y2";
     private static String url = "http://sdk.open.api.igexin.com/apiex.htm";
 
-    public static void main(String[] args) throws IOException {
-        push("test");
+    public static void main(String[] args) {
+        // 链式
+        push(
+                PushMsg.msg()
+                        .title("测试")
+                        .text("text")
+                        .user(0)
+                        .messageType(1)
+                        .messageId(1)
+        );
     }
 
-
-    public static void push(String alias) {
+    public static void push(PushMsg msg) {
         // 配置返回每个用户返回用户状态，可选
         System.setProperty("gexin_pushList_needDetails", "true");
         // 配置返回每个别名及其对应cid的用户状态，可选
         // System.setProperty("gexin_pushList_needAliasDetails", "true");
         IGtPush push = new IGtPush(url, appKey, masterSecret);
         // 通知透传模板
-        NotificationTemplate template = notificationTemplateDemo();
+        NotificationTemplate template = notificationTemplateDemo(
+                msg.title, msg.text, JSON.toJSONString(msg.transmissionContent));
+        if (msg.users == null) {
+            pushAll(push, msg, template);
+        } else {
+            pushToUsers(push, msg, template);
+        }
+    }
+
+    static void pushToUsers(IGtPush push, PushMsg msg, NotificationTemplate template) {
         ListMessage message = new ListMessage();
         message.setData(template);
         // 设置消息离线，并设置离线时间
@@ -49,24 +65,50 @@ public class AppPush {
         // 配置推送目标
         List targets = new ArrayList();
         //
-        IAliasResult test = push.queryClientId(appId, alias);
-        System.out.println(test);
-        List<String> clientIdList = test.getClientIdList();
-        for (String clientId : clientIdList) {
-            Target target = new Target();
-            target.setAppId(appId);
-            target.setClientId(clientId);
-            targets.add(target);
+        for (Integer user : msg.users) {
+            IAliasResult test = push.queryClientId(appId, String.valueOf(user));
+            List<String> clientIdList = test.getClientIdList();
+            for (String clientId : clientIdList) {
+                Target target = new Target();
+                target.setAppId(appId);
+                target.setClientId(clientId);
+                targets.add(target);
+            }
         }
 
         // taskId用于在推送时去查找对应的message
         String taskId = push.getContentId(message);
         IPushResult ret = push.pushMessageToList(taskId, targets);
-        System.out.println(ret.getResponse().toString());
+    }
+
+    static void pushAll(IGtPush push, PushMsg msg, NotificationTemplate template) {
+        AppMessage message = new AppMessage();
+        message.setData(template);
+
+        message.setOffline(true);
+        //离线有效时间，单位为毫秒，可选
+        message.setOfflineExpireTime(24 * 1000 * 3600);
+        //推送给App的目标用户需要满足的条件
+        AppConditions cdt = new AppConditions();
+        List<String> appIdList = new ArrayList<String>();
+        appIdList.add(appId);
+        message.setAppIdList(appIdList);
+        //手机类型
+        List<String> phoneTypeList = new ArrayList<String>();
+        //省份
+        List<String> provinceList = new ArrayList<String>();
+        //自定义tag
+        List<String> tagList = new ArrayList<String>();
+
+        cdt.addCondition(AppConditions.PHONE_TYPE, phoneTypeList);
+        cdt.addCondition(AppConditions.REGION, provinceList);
+        cdt.addCondition(AppConditions.TAG, tagList);
+        message.setConditions(cdt);
+        IPushResult ret = push.pushMessageToApp(message);
     }
 
 
-    public static NotificationTemplate notificationTemplateDemo() {
+    public static NotificationTemplate notificationTemplateDemo(String title, String text, String content) {
         NotificationTemplate template = new NotificationTemplate();
         // 设置APPID与APPKEY
         template.setAppId(appId);
@@ -74,8 +116,8 @@ public class AppPush {
 
         Style0 style = new Style0();
         // 设置通知栏标题与内容
-        style.setTitle("请输入通知栏标题");
-        style.setText("请输入通知栏内容");
+        style.setTitle(title);
+        style.setText(text);
         // 配置通知栏图标
         style.setLogo("icon.png");
         // 配置通知栏网络图标
@@ -88,7 +130,7 @@ public class AppPush {
 
         // 透传消息设置，1为强制启动应用，客户端接收到消息后就会立即启动应用；2为等待应用启动
         template.setTransmissionType(2);
-        template.setTransmissionContent("请输入您要透传的内容");
+        template.setTransmissionContent(content);
         return template;
     }
 

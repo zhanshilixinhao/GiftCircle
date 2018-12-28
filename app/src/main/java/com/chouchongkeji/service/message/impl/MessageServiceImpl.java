@@ -10,6 +10,8 @@ import com.chouchongkeji.goexplore.common.ErrorCode;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.query.PageQuery;
+import com.chouchongkeji.push.AppPush;
+import com.chouchongkeji.push.PushMsg;
 import com.chouchongkeji.service.message.MessageService;
 import com.chouchongkeji.service.message.vo.MessageHomeVo;
 import com.chouchongkeji.util.Constants;
@@ -66,6 +68,14 @@ public class MessageServiceImpl implements MessageService {
         if (count < 1) {
             throw new ServiceException(ErrorCode.ERROR);
         }
+        // 消息推送
+        AppPush.push(PushMsg.msg()
+                .title(message.getTitle())
+                .text(message.getSummary())
+                .users(userIds)
+                .messageType(message.getMessageType().intValue())
+                .messageId(message.getId())
+        );
         return count;
     }
 
@@ -186,7 +196,7 @@ public class MessageServiceImpl implements MessageService {
 //                vos = appMessageUserMapper.selectConMessageByUserId(userId);
 //                break;
         }
-        appMessageUserMapper.updateByUserIdAndType(userId,messageType);
+        appMessageUserMapper.updateByUserIdAndType(userId, messageType);
         return ResponseFactory.sucData(vos);
     }
 }
