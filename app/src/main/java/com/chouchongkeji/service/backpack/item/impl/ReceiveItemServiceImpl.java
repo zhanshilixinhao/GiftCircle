@@ -21,6 +21,8 @@ import com.chouchongkeji.service.backpack.item.vo.ReOrderDetailVo;
 import com.chouchongkeji.service.backpack.item.vo.ReceiveItemVo;
 import com.chouchongkeji.service.kdapi.ExpressApi;
 import com.chouchongkeji.service.kdapi.KdResult;
+import com.chouchongkeji.service.mall.item.OrderService;
+import com.chouchongkeji.service.mall.item.vo.SkuListVo;
 import com.chouchongkeji.util.Constants;
 import com.chouchongkeji.util.OrderHelper;
 import com.github.pagehelper.PageHelper;
@@ -56,6 +58,9 @@ public class ReceiveItemServiceImpl implements ReceiveItemService {
     @Autowired
     private ItemCommentMapper itemCommentMapper;
 
+    @Autowired
+    private OrderService orderService;
+
     /**
      * 创建提货订单
      *
@@ -89,6 +94,8 @@ public class ReceiveItemServiceImpl implements ReceiveItemService {
         if (shippingInfo == null) {
             return ResponseFactory.err("没有收货地址");
         }
+        // 保存规格信息
+        SkuListVo skuListVo = itemSkuMapper.selectDetailBySkuId(skuId);
         //创建订单
         ReceiveItemOrder itemOrder = new ReceiveItemOrder();
         itemOrder.setUserId(userId);
@@ -96,7 +103,7 @@ public class ReceiveItemServiceImpl implements ReceiveItemService {
         itemOrder.setBpId(bpId);
         itemOrder.setSkuId(skuId);
         itemOrder.setOrderNo(orderHelper.genOrderNo(client, 4));
-        itemOrder.setTitle(itemSku.getTitle());
+        itemOrder.setTitle(itemSku.getTitle()+orderService.genTitle(skuListVo));
         itemOrder.setCover(itemSku.getCover());
         itemOrder.setPrice(bpItem.getPrice());
         itemOrder.setQuantity(1);
@@ -141,6 +148,7 @@ public class ReceiveItemServiceImpl implements ReceiveItemService {
             vo.setDescription(itemOrder.getDescription());
             vo.setPrice(itemOrder.getPrice());
             vo.setItemId(itemOrder.getItemId());
+            vo.setSkuId(itemOrder.getSkuId());
             vo.setTitle(itemOrder.getTitle());
             vo.setStatus(itemOrder.getStatus());
             vo.setCreated(itemOrder.getCreated());

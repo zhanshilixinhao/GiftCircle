@@ -30,6 +30,16 @@ public class ReceiveItemVo {
 
     private Integer itemId;
 
+    private Integer skuId;
+
+    public Integer getSkuId() {
+        return skuId;
+    }
+
+    public void setSkuId(Integer skuId) {
+        this.skuId = skuId;
+    }
+
     public Integer getItemId() {
         return itemId;
     }

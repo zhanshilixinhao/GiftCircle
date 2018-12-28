@@ -241,7 +241,7 @@ public class OrderServiceImpl implements OrderService {
      * @param skuListVo
      * @return
      */
-    private String genTitle(SkuListVo skuListVo) {
+    public String genTitle(SkuListVo skuListVo) {
         if (skuListVo == null) return "";
         StringBuilder sb = new StringBuilder();
         for (SkuValueVo value : skuListVo.getValues()) {

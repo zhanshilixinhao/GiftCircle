@@ -3,6 +3,7 @@ package com.chouchongkeji.service.mall.item;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.query.PageQuery;
 import com.chouchongkeji.service.mall.item.vo.OrderVo;
+import com.chouchongkeji.service.mall.item.vo.SkuListVo;
 
 import java.util.HashSet;
 
@@ -60,4 +61,12 @@ public interface OrderService {
      * @date 2018/7/5
      */
     int updateStatusSales(Long orderNo);
+
+    /**
+     * 取出规格信息
+     *
+     * @param skuListVo
+     * @return
+     */
+    String genTitle(SkuListVo skuListVo);
 }
