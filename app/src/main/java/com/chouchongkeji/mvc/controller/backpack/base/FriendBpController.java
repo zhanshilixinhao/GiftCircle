@@ -99,12 +99,28 @@ public class FriendBpController {
      */
     @PostMapping("record_list")
     public Response getRecordList(@AuthenticationPrincipal UserDetails userDetails, PageQuery pageQuery, Integer type) {
-        if (type == null || (type != 1 && type != 2)){
+        if (type == null || (type != 1 && type != 2)) {
             return ResponseFactory.errMissingParameter();
         }
-            return friendBpService.getRecordList(userDetails.getUserId(), pageQuery, type);
+        return friendBpService.getRecordList(userDetails.getUserId(), pageQuery, type);
     }
 
+    /**
+     * 删除索要记录
+     *
+     * @param userDetails
+     * @param recordId    索要记录id
+     * @return
+     * @author linqin
+     * @date 2018/7/12
+     */
+    @PostMapping("delete_record")
+    public Response deleteRecord(@AuthenticationPrincipal UserDetails userDetails, Integer recordId) {
+        if (recordId == null){
+            return ResponseFactory.errMissingParameter();
+        }
+        return friendBpService.deleteRecord(userDetails.getUserId(),recordId);
+    }
 
     /**
      * 同意或者拒绝好友索要背包物品

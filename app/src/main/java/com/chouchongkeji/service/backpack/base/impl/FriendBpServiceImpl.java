@@ -21,6 +21,7 @@ import com.chouchongkeji.service.message.MessageService;
 import com.chouchongkeji.util.Constants;
 import com.chouchongkeji.util.OrderHelper;
 import com.github.pagehelper.PageHelper;
+import com.yichen.auth.service.UserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -270,4 +271,27 @@ public class FriendBpServiceImpl implements FriendBpService {
     }
 
 
+
+    /**
+     * 删除索要记录
+     *
+     * @param userId
+     * @param recordId    索要记录id
+     * @return
+     * @author linqin
+     * @date 2018/7/12
+     */
+    @Override
+    public Response deleteRecord(Integer userId, Integer recordId) {
+        //查询是否有操作权限
+        ForRecord forRecord = forRecordMapper.selectByUserIdAndForRecordId(userId, recordId);
+        if (forRecord == null) {
+            return ResponseFactory.err("没有操作权限");
+        }
+        int i = forRecordMapper.deleteByPrimaryKey(recordId);
+        if (i < 1) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "删除索要记录失败");
+        }
+        return ResponseFactory.err("删除索要记录成功");
+    }
 }

@@ -2,6 +2,7 @@ package com.chouchongkeji.service.backpack.base;
 
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.query.PageQuery;
+import com.yichen.auth.service.UserDetails;
 
 /**
  * @author linqin
@@ -66,4 +67,15 @@ public interface FriendBpService {
      * @date 2018/7/13
      */
     Response operation(Integer userId, Byte operation,Integer forRecordId);
+
+    /**
+     * 删除索要记录
+     *
+     * @param userDetails
+     * @param recordId    索要记录id
+     * @return
+     * @author linqin
+     * @date 2018/7/12
+     */
+    Response deleteRecord(Integer userId, Integer recordId);
 }

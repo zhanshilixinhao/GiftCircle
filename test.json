@@ -1,37 +1,6 @@
 {
-  "errCode": 0,
+  "errCode": 1,
   "result": 0,
-  "time": 1545881304310,
-  "data": [
-    {
-      "id": 145,
-      "userId": 6,
-      "explain": "虚拟商品折现",
-      "amount": 650.25,
-      "targetId": 7718122612120,
-      "type": 3,
-      "updated": 1545879571000,
-      "created": 1545879571000
-    },
-    {
-      "id": 144,
-      "userId": 6,
-      "explain": "商品折现",
-      "amount": 0.01,
-      "targetId": 7718122621219,
-      "type": 2,
-      "updated": 1545879564000,
-      "created": 1545879564000
-    },
-    {
-      "id": 143,
-      "userId": 6,
-      "explain": "商品折现",
-      "amount": 75.65,
-      "targetId": 7718122621208,
-      "type": 2,
-      "updated": 1545876007000,
-      "created": 1545876007000
-    }
-  ]
+  "msg": "删除索要记录成功",
+  "time": 1545988151459
 }
