@@ -2,15 +2,20 @@ package com.chouchongkeji.mvc.controller.backpack.base;
 
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
+import com.chouchongkeji.goexplore.pay.weixin.common.Util;
 import com.chouchongkeji.goexplore.query.PageQuery;
+import com.chouchongkeji.goexplore.utils.Utils;
 import com.chouchongkeji.service.backpack.base.FriendBpService;
 import com.chouchongkeji.util.Constants;
 import com.yichen.auth.service.UserDetails;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.HashSet;
 
 /**
  * @author linqin
@@ -115,11 +120,14 @@ public class FriendBpController {
      * @date 2018/7/12
      */
     @PostMapping("delete_record")
-    public Response deleteRecord(@AuthenticationPrincipal UserDetails userDetails, Integer recordId) {
-        if (recordId == null){
+    public Response deleteRecord(@AuthenticationPrincipal UserDetails userDetails, String recordId) {
+        if (StringUtils.isBlank(recordId)){
             return ResponseFactory.errMissingParameter();
         }
-        return friendBpService.deleteRecord(userDetails.getUserId(),recordId);
+        HashSet<Integer> ids = new HashSet<>();
+        boolean ids1 = Utils.getIds(recordId,ids);
+        if (ids1) return ResponseFactory.err("id错误");
+        return friendBpService.deleteRecord(userDetails.getUserId(),ids);
     }
 
     /**

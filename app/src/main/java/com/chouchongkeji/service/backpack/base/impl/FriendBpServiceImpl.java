@@ -28,6 +28,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -228,7 +229,7 @@ public class FriendBpServiceImpl implements FriendBpService {
                 AppMessage appMessage = new AppMessage();
                 appMessage.setTitle("系统通知");
                 appMessage.setSummary("同意索要礼品通知");
-                appMessage.setContent("您的好友"+appUser.getNickname()+ "同意了您的礼品索要");
+                appMessage.setContent("您的好友" + appUser.getNickname() + "同意了您的礼品索要");
                 appMessage.setTargetId(forRecord.getBpId());
                 appMessage.setTargetType((byte) 25);
                 appMessage.setMessageType((byte) 2);
@@ -252,7 +253,7 @@ public class FriendBpServiceImpl implements FriendBpService {
                 AppMessage appMessage = new AppMessage();
                 appMessage.setTitle("系统通知");
                 appMessage.setSummary("拒绝索要礼品通知");
-                appMessage.setContent("您的好友"+appUser.getNickname()+ "拒绝了您的礼品索要");
+                appMessage.setContent("您的好友" + appUser.getNickname() + "拒绝了您的礼品索要");
                 appMessage.setTargetId(forRecord.getBpId());
                 appMessage.setTargetType((byte) 25);
                 appMessage.setMessageType((byte) 2);
@@ -271,27 +272,34 @@ public class FriendBpServiceImpl implements FriendBpService {
     }
 
 
-
     /**
      * 删除索要记录
      *
      * @param userId
-     * @param recordId    索要记录id
+     * @param recordId 索要记录id
      * @return
      * @author linqin
      * @date 2018/7/12
      */
     @Override
-    public Response deleteRecord(Integer userId, Integer recordId) {
-        //查询是否有操作权限
-        ForRecord forRecord = forRecordMapper.selectByUserIdAndForRecordId(userId, recordId);
-        if (forRecord == null) {
-            return ResponseFactory.err("没有操作权限");
+    public Response deleteRecord(Integer userId, HashSet<Integer> recordId) {
+        for (Integer rId : recordId) {
+            ForRecord forRecord = forRecordMapper.selectByPrimaryKey(rId);
+            if (forRecord == null) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "该索要记录不存在");
+            }
+            if (!forRecord.getUserId().equals(userId) && !forRecord.getFriendUserId().equals(userId)) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "没有操作权限");
+            }
+            
         }
-        int i = forRecordMapper.deleteByPrimaryKey(recordId);
-        if (i < 1) {
-            throw new ServiceException(ErrorCode.ERROR.getCode(), "删除索要记录失败");
-        }
+
+
+//        // 单边删除索要记录
+//        int i = forRecordMapper.deleteByRecordId(recordId);
+//        if (i < 1) {
+//            throw new ServiceException(ErrorCode.ERROR.getCode(), "删除索要记录失败");
+//        }
         return ResponseFactory.err("删除索要记录成功");
     }
 }

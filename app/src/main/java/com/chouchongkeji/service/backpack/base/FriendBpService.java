@@ -4,6 +4,8 @@ import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.query.PageQuery;
 import com.yichen.auth.service.UserDetails;
 
+import java.util.HashSet;
+
 /**
  * @author linqin
  * @date 2018/7/12
@@ -77,5 +79,5 @@ public interface FriendBpService {
      * @author linqin
      * @date 2018/7/12
      */
-    Response deleteRecord(Integer userId, Integer recordId);
+    Response deleteRecord(Integer userId, HashSet<Integer> recordId);
 }
