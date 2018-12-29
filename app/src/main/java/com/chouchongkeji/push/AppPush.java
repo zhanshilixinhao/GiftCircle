@@ -10,6 +10,7 @@ import com.gexin.rp.sdk.base.uitls.AppConditions;
 import com.gexin.rp.sdk.http.IGtPush;
 import com.gexin.rp.sdk.template.NotificationTemplate;
 import com.gexin.rp.sdk.template.style.Style0;
+import org.apache.commons.collections.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,6 +69,9 @@ public class AppPush {
         for (Integer user : msg.users) {
             IAliasResult test = push.queryClientId(appId, String.valueOf(user));
             List<String> clientIdList = test.getClientIdList();
+            if (CollectionUtils.isEmpty(clientIdList)){
+                continue;
+            }
             for (String clientId : clientIdList) {
                 Target target = new Target();
                 target.setAppId(appId);

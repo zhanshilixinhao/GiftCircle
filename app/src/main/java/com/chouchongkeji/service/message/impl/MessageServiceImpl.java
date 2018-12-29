@@ -69,7 +69,7 @@ public class MessageServiceImpl implements MessageService {
             throw new ServiceException(ErrorCode.ERROR);
         }
         // 消息推送
-        AppPush.push(PushMsg.msg()
+         AppPush.push(PushMsg.msg()
                 .title(message.getTitle())
                 .text(message.getSummary())
                 .users(userIds)

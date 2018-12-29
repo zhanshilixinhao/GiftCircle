@@ -149,6 +149,12 @@ public class GiftServiceImpl implements GiftService {
             return;
         }
         for (GiftTaskVo vo : giftTaskVos) {
+            // 添加礼物通知消息
+            log.info("添加礼物通知消息");
+            FriendVo friend = friendService.isFriend(vo.getUserId(), vo.getSendUserId());
+            if (friend == null) continue;
+            addGiftNotifyMessage(vo.getSendUserId(), vo.getUserId(), vo.getRecordDetailId(),
+                    vo.getGiftItems());
             // 更新礼物记录状态为已赠送
             giftRecordMapper.updateStatusById(vo.getRecordId(), Constants.GIFT_STATUS.SEND);
             // 更新礼物记录详情记录
@@ -157,10 +163,7 @@ public class GiftServiceImpl implements GiftService {
                 log.info("礼物似乎已赠送");
                 continue;
             }
-            // 添加礼物通知消息
-            log.info("添加礼物通知消息");
-            addGiftNotifyMessage(vo.getSendUserId(), vo.getUserId(), vo.getRecordDetailId(),
-                    vo.getGiftItems());
+
             // 添加物品到背包
             log.info("添加物品到背包");
             addItemToBp(vo.getRecordDetailId(), vo.getUserId(), vo.getGiftItems());

@@ -49,7 +49,7 @@
         WHERE
         a.type = 2
         AND a.STATUS = 1
-        AND UNIX_TIMESTAMP( a.target_time ) &lt; UNIX_TIMESTAMP( now( ) + 10 )
+        AND UNIX_TIMESTAMP( a.target_time ) &lt; UNIX_TIMESTAMP( now( ))+10
     </select>
     <select id="selectInExByUserId" resultType="com.chouchongkeji.service.backpack.gift.vo.GiftInoutVo">
         SELECT
@@ -153,12 +153,12 @@ ORDER BY
   </delete>
     <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.gift.virtualItem.GiftRecord" keyProperty="id"
             useGeneratedKeys="true">
-    insert into gift_record (id, user_id, greetting, 
-      type, event, target_time, 
+    insert into gift_record (id, user_id, greetting,
+      type, event, target_time,
       status, updated, created,p
       )
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{greetting,jdbcType=VARCHAR}, 
-      #{type,jdbcType=TINYINT}, #{event,jdbcType=VARCHAR}, #{targetTime,jdbcType=TIMESTAMP}, 
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{greetting,jdbcType=VARCHAR},
+      #{type,jdbcType=TINYINT}, #{event,jdbcType=VARCHAR}, #{targetTime,jdbcType=TIMESTAMP},
       #{status,jdbcType=TINYINT}, now(), now(), #{p}
       )
   </insert>
