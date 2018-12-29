@@ -181,7 +181,7 @@ public class FriendServiceImpl implements FriendService {
      */
     @Override
     public Response getFriendList(Integer userId, Integer groupId) {
-        List<FriendItem> list = friendMapper.selectByUserIdAndGroupId(userId, groupId);
+        List<FriendVo> list = friendMapper.selectByUserIdAndGroupId(userId, groupId);
         return ResponseFactory.sucData(list);
     }
 

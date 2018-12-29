@@ -2,20 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.chouchongkeji.dial.dao.friend.FriendMapper">
     <resultMap id="BaseResultMap" type="com.chouchongkeji.dial.pojo.friend.Friend">
-        <constructor>
-            <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
-            <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
-            <arg column="friend_user_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
-            <arg column="remark" javaType="java.lang.String" jdbcType="VARCHAR"/>
-            <arg column="relationship" javaType="java.lang.String" jdbcType="VARCHAR"/>
-            <arg column="group_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
-            <arg column="sort" javaType="java.lang.Integer" jdbcType="INTEGER"/>
-            <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
-            <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
-        </constructor>
+        <!--<constructor>-->
+            <id column="id" property="id"/>
+        <!--</constructor>-->
     </resultMap>
     <sql id="Base_Column_List">
-    id, user_id, friend_user_id, remark, relationship, group_id, sort, created, updated
+    id, user_id, friend_user_id, remark, relationship, group_id, sort, created, updated, heart_num
   </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
@@ -32,7 +24,7 @@
         user_id = #{userId}
         AND friend_user_id = #{friendUserId}
     </select>
-    <select id="selectByUserIdAndGroupId" resultType="com.chouchongkeji.service.user.friend.vo.FriendItem">
+    <select id="selectByUserIdAndGroupId" resultType="com.chouchongkeji.service.user.friend.vo.FriendVo">
         SELECT
         *
         FROM
@@ -96,11 +88,11 @@ WHERE
     <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.friend.Friend">
     insert ignore into friend (id, user_id, friend_user_id,
       remark, relationship, group_id,
-      sort, created, updated
+      sort, created, updated, heart_num
       )
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{friendUserId,jdbcType=INTEGER},
       #{remark,jdbcType=VARCHAR}, #{relationship,jdbcType=VARCHAR}, #{groupId,jdbcType=INTEGER},
-      #{sort,jdbcType=INTEGER}, now(), now()
+      #{sort,jdbcType=INTEGER}, now(), now(),#{heartNum,jdbcType=FLOAT}
       )
   </insert>
     <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.friend.Friend">
@@ -189,7 +181,10 @@ WHERE
                 created = #{created,jdbcType=TIMESTAMP},
             </if>
             <if test="updated != null">
-                updated = #{updated,jdbcType=TIMESTAMP},
+                updated = now()},
+            </if>
+            <if test="heartNum != null">
+                heart_num = #{heartNum,jdbcType=FLOAT},
             </if>
         </set>
         where id = #{id,jdbcType=INTEGER}

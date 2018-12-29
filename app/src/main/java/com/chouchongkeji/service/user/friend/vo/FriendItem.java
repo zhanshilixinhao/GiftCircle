@@ -7,13 +7,13 @@ package com.chouchongkeji.service.user.friend.vo;
 
 public class FriendItem extends FriendVo {
 
-    private Integer heartNum = 0;
-
-    public Integer getHeartNum() {
-        return heartNum;
-    }
-
-    public void setHeartNum(Integer heartNum) {
-        this.heartNum = heartNum;
-    }
+//    private Integer heartNum = 0;
+//
+//    public Integer getHeartNum() {
+//        return heartNum;
+//    }
+//
+//    public void setHeartNum(Integer heartNum) {
+//        this.heartNum = heartNum;
+//    }
 }

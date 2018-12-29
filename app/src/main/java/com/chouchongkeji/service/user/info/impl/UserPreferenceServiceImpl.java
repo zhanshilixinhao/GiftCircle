@@ -6,7 +6,6 @@ import com.chouchongkeji.dial.dao.friend.FriendMapper;
 import com.chouchongkeji.dial.dao.user.GiftPreferenceDictMapper;
 import com.chouchongkeji.dial.dao.user.UserPreferenceMapper;
 import com.chouchongkeji.dial.dao.user.UserTagDictMapper;
-import com.chouchongkeji.dial.pojo.friend.Friend;
 import com.chouchongkeji.dial.pojo.user.GiftPreferenceDict;
 import com.chouchongkeji.dial.pojo.user.UserPreference;
 import com.chouchongkeji.dial.pojo.user.UserTagDict;

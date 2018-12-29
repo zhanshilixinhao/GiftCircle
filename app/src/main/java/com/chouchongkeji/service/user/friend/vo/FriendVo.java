@@ -21,10 +21,20 @@ public class FriendVo {
     private Integer sort;
     private Date created;
     private Date updated;
+    private Float heartNum ;
 
     @ImgUrl
     private String avatar;
     private String nickname;
+
+
+    public Float getHeartNum() {
+        return heartNum;
+    }
+
+    public void setHeartNum(Float heartNum) {
+        this.heartNum = heartNum;
+    }
 
     public Integer getId() {
         return id;

@@ -4,3 +4,32 @@
   "msg": "删除索要记录成功",
   "time": 1545988151459
 }
+//create or replace view mpmalluser.v_friend as select `a`.`id`             AS `id`,
+//`a`.`user_id`        AS `user_id`,
+//`a`.`friend_user_id` AS `friend_user_id`,
+//`a`.`remark`         AS `remark`,
+//`a`.`relationship`   AS `relationship`,
+//`a`.`group_id`       AS `group_id`,
+//`c`.`name`           AS `group_name`,
+//`a`.`sort`           AS `sort`,
+//`a`.`created`        AS `created`,
+//`a`.`updated`        AS `updated`,
+//`b`.`avatar`         AS `avatar`,
+//`b`.`nickname`       AS `nickname`
+//from ((`mpmalluser`.`friend` `a` left join `mpmalluser`.`app_user` `b` on ((`b`.`id` = `a`.`friend_user_id`)))
+//left join `mpmalluser`.`friend_group` `c` on ((`c`.`id` = `a`.`group_id`)))
+//union
+//select `mpmalluser`.`app_user`.`id`       AS `id`,
+//`mpmalluser`.`app_user`.`id`       AS `user_id`,
+//`mpmalluser`.`app_user`.`id`       AS `friend_user_id`,
+//NULL                               AS `remark`,
+//NULL                               AS `relationship`,
+//0                                  AS `group_id`,
+//NULL                               AS `group_name`,
+//0                                  AS `sort`,
+//`mpmalluser`.`app_user`.`created`  AS `created`,
+//`mpmalluser`.`app_user`.`updated`  AS `updated`,
+//`mpmalluser`.`app_user`.`avatar`   AS `avatar`,
+//`mpmalluser`.`app_user`.`nickname` AS `nickname`
+//from `mpmalluser`.`app_user`;
+

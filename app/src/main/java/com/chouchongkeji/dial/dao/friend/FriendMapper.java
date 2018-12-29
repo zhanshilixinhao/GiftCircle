@@ -2,7 +2,6 @@ package com.chouchongkeji.dial.dao.friend;
 
 import com.chouchongkeji.dial.pojo.friend.Friend;
 import com.chouchongkeji.service.user.friend.vo.FriendBase;
-import com.chouchongkeji.service.user.friend.vo.FriendItem;
 import com.chouchongkeji.service.user.friend.vo.FriendVo;
 import org.apache.ibatis.annotations.Param;
 
@@ -36,8 +35,8 @@ public interface FriendMapper {
     int updateMoveToGroup(@Param("userId") Integer userId, @Param("groupId") Integer groupId,
                           @Param("newGroupId") Integer newGroupId);
 
-    List<FriendItem> selectByUserIdAndGroupId(@Param("userId") Integer userId,
-                                              @Param("groupId") Integer groupId);
+    List<FriendVo> selectByUserIdAndGroupId(@Param("userId") Integer userId,
+                                            @Param("groupId") Integer groupId);
 
     int deleteByUserIdAndFriendUserId(@Param("userId") Integer userId,
                                       @Param("friendUserId") Integer friendUserId);

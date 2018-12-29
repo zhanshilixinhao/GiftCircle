@@ -3,7 +3,6 @@ package com.chouchongkeji.service.user.memo.impl;
 import com.chouchongkeji.dial.dao.friend.FriendMapper;
 import com.chouchongkeji.dial.dao.user.memo.MemoActivityMapper;
 import com.chouchongkeji.dial.dao.user.memo.MemonEventMapper;
-import com.chouchongkeji.dial.pojo.friend.Friend;
 import com.chouchongkeji.dial.pojo.user.memo.MemoActivity;
 import com.chouchongkeji.dial.pojo.user.memo.MemonEvent;
 import com.chouchongkeji.goexplore.common.Response;
