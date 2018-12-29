@@ -1,5 +1,7 @@
 package com.chouchongkeji.dial.pojo.friend;
 
+import com.sun.org.apache.bcel.internal.generic.FLOAD;
+
 import java.util.Date;
 
 public class Friend {
@@ -21,7 +23,9 @@ public class Friend {
 
     private Date updated;
 
-    public Friend(Integer id, Integer userId, Integer friendUserId, String remark, String relationship, Integer groupId, Integer sort, Date created, Date updated) {
+    private Float heartNum;
+
+    public Friend(Integer id, Integer userId, Integer friendUserId, String remark, String relationship, Integer groupId, Integer sort, Date created, Date updated,Float heartNum) {
         this.id = id;
         this.userId = userId;
         this.friendUserId = friendUserId;
@@ -31,6 +35,7 @@ public class Friend {
         this.sort = sort;
         this.created = created;
         this.updated = updated;
+        this.heartNum = heartNum;
     }
 
     public Friend() {
@@ -107,5 +112,13 @@ public class Friend {
 
     public void setUpdated(Date updated) {
         this.updated = updated;
+    }
+
+    public Float getHeartNum() {
+        return heartNum;
+    }
+
+    public void setHeartNum(Float heartNum) {
+        this.heartNum = heartNum;
     }
 }

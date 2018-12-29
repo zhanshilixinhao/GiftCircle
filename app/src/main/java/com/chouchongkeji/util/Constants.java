@@ -12,7 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 public class Constants {
     //默认头像
     public static final String DEFALUT_AVATAR = "/avatar.jpg";
-    public static final String GROUP_DEFAULT_NAME = "未分组";
+    public static final String GROUP_DEFAULT_NAME = "完全";
 
     //默认地区
     public static final String DEFALUT_DISTRICT = "昆明";
