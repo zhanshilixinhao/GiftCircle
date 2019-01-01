@@ -291,15 +291,25 @@ public class FriendBpServiceImpl implements FriendBpService {
             if (!forRecord.getUserId().equals(userId) && !forRecord.getFriendUserId().equals(userId)) {
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "没有操作权限");
             }
-            
+            // 索要者删除记录
+            if (forRecord.getUserId().equals(userId)){
+                int i = forRecordMapper.updateStatusByRId(rId);
+                if (i < 1) {
+                    throw new ServiceException(ErrorCode.ERROR.getCode(), "删除索要记录失败");
+                }
+                return ResponseFactory.err("删除索要记录成功");
+            }
+            // 被索要者删除记录
+            if (forRecord.getFriendUserId().equals(userId)){
+                int i = forRecordMapper.updateDelByRId(rId);
+                if (i < 1) {
+                    throw new ServiceException(ErrorCode.ERROR.getCode(), "删除索要记录失败");
+                }
+                return ResponseFactory.err("删除索要记录成功");
+            }
+
         }
 
-
-//        // 单边删除索要记录
-//        int i = forRecordMapper.deleteByRecordId(recordId);
-//        if (i < 1) {
-//            throw new ServiceException(ErrorCode.ERROR.getCode(), "删除索要记录失败");
-//        }
-        return ResponseFactory.err("删除索要记录成功");
+        return ResponseFactory.suc();
     }
 }

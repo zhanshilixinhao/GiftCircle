@@ -9,8 +9,10 @@ import com.yichen.auth.service.UserDetails;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import retrofit2.http.POST;
 
 /**
  * @author yichenshanren
@@ -110,4 +112,19 @@ public class GiftController {
         }
         return giftService.wxGetGift(userDetails.getUserId(), giftRecordId);
     }
+
+
+    /**
+     * 赠送礼物列表
+     *
+     * @param userDetails
+     * @return
+     * @author yichenshanren
+     * * @date 2018/7/2
+     */
+    @PostMapping("send_list")
+    public Response sendList(@AuthenticationPrincipal UserDetails userDetails) {
+        return giftService.sendList(userDetails.getUserId());
+    }
 }
+

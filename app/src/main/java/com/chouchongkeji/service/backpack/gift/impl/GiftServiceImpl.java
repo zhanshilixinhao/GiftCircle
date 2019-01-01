@@ -670,4 +670,17 @@ public class GiftServiceImpl implements GiftService {
     }
 
     /*----------------------------------------礼物赠送答谢结束------------------------------------------------------*/
+
+    /**
+     * 赠送礼物列表
+     *
+     * @param userDetails
+     * @return
+     * @author yichenshanren
+     * * @date 2018/7/2
+     */
+    @Override
+    public Response sendList(Integer userId) {
+        return null;
+    }
 }

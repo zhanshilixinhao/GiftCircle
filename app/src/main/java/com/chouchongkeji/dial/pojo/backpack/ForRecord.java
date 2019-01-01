@@ -19,7 +19,11 @@ public class ForRecord {
 
     private Date updated;
 
-    public ForRecord(Integer id, Integer userId, Long bpId, Integer friendUserId, Byte status, Byte operation, Date created, Date updated) {
+    private Byte isDel;
+
+    private Byte isFriendDel;
+
+    public ForRecord(Integer id, Integer userId, Long bpId, Integer friendUserId, Byte status, Byte operation, Date created, Date updated, Byte isDel, Byte isFriendDel) {
         this.id = id;
         this.userId = userId;
         this.bpId = bpId;
@@ -28,6 +32,8 @@ public class ForRecord {
         this.operation = operation;
         this.created = created;
         this.updated = updated;
+        this.isDel = isDel;
+        this.isFriendDel = isFriendDel;
     }
 
     public ForRecord() {
@@ -96,5 +102,21 @@ public class ForRecord {
 
     public void setUpdated(Date updated) {
         this.updated = updated;
+    }
+
+    public Byte getIsDel() {
+        return isDel;
+    }
+
+    public void setIsDel(Byte isDel) {
+        this.isDel = isDel;
+    }
+
+    public Byte getIsFriendDel() {
+        return isFriendDel;
+    }
+
+    public void setIsFriendDel(Byte isFriendDel) {
+        this.isFriendDel = isFriendDel;
     }
 }

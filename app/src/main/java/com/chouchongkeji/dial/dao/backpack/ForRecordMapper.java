@@ -25,10 +25,14 @@ public interface ForRecordMapper {
     ForRecord selectByUserIdAndForRecordId(@Param("userId") Integer userId,@Param("forRecordId") Integer forRecordId);
 
 
+
+
     /**
      * 单边删除索要记录
-     * @param recordId
+     * @param rId
      * @return
      */
-    int deleteByRecordId(HashSet recordId);
+    int updateStatusByRId(Integer rId);
+
+    int updateDelByRId(Integer rId);
 }
