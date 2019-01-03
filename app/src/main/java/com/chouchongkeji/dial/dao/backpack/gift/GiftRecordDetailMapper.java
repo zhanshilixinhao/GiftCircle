@@ -36,4 +36,18 @@ public interface GiftRecordDetailMapper {
      * @return
      */
     Integer selectByRecordDetailId(Integer recordDetailId);
+
+    /**
+     * 根据用户id和好友id查询赠送次数
+     * @param userId
+     * @param friendUserId
+     * @return
+     */
+    int selectCount(@Param("userId") Integer userId,@Param("friendUserId") Integer friendUserId);
+
+    /**
+     * 查询用户最新赠送记录
+     * @return
+     */
+    List<GiftRecordDetail> selectOne();
 }

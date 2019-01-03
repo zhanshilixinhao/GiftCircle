@@ -23,8 +23,8 @@
         operation,
         created,
         updated,
-        isDel,
-        isFriendDel
+        is_del,
+        is_friend_del
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select

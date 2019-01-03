@@ -45,4 +45,5 @@ public interface FriendMapper {
                                     @Param("userId") Integer userId,
                                     @Param("type") Integer type);
 
+    void updateHeartNum(@Param("userId") Integer userId,@Param("friendUserId") Integer friendUserId,@Param("num") int num);
 }

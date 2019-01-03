@@ -45,6 +45,30 @@
                  left join gift_record b on a.gift_record_id = b.id
         where a.id = #{recordDetailId}
     </select>
+    <select id="selectCount" resultType="java.lang.Integer">
+        select sum(aa.count)
+        from (
+                 select count(a.id) as count
+                 from gift_record_detail a
+                      left join gift_record b on b.id = a.gift_record_id
+                 where a.user_id = #{friendUserId}
+                     and b.user_id = #{userId}
+                     and a.status = 3
+                 union
+                 select count(a.id) as count
+                 from gift_record_detail a
+                      left join gift_record b on b.id = a.gift_record_id
+                 where a.user_id = #{userId}
+                     and b.user_id = #{friendUserId}
+                     and a.status = 3
+             ) aa
+    </select>
+    <select id="selectOne" resultType="com.chouchongkeji.dial.pojo.backpack.gift.GiftRecordDetail">
+        select user_id,gift_record_id,MAX(updated), status
+        from gift_record_detail
+        where status = 3
+        group by user_id
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from gift_record_detail
     where id = #{id,jdbcType=INTEGER}

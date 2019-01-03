@@ -133,12 +133,29 @@ public class test3 {
         RequestParams params = new RequestParams();
         params.put("time", System.currentTimeMillis());
         params.put("access_token", "572f7a09-b3e0-4ec5-b04b-13c82771c1c8");
-        params.put("friendUserId", 1);
-        params.put("bpId", 7718122416126L);
+        params.put("type", 2);
+        params.put("pageSize", 14);
+        params.put("pageNum", 1);
+        Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
+        params.put("sign", map.get(ApiSignUtil.ANDROID));
+        Response post = OkHttpUtil.post("http://localhost:8088/auth/friend/bp/record_list", params);
+        System.out.println(post.body().string());
+    }
+
+
+
+    // 删除索要记录
+    @Test
+    public void deleteF() throws IOException {
+        RequestParams params = new RequestParams();
+        params.put("time", System.currentTimeMillis());
+        params.put("access_token", "572f7a09-b3e0-4ec5-b04b-13c82771c1c8");
+        params.put("recordId", 34);
+//        params.put("bpId", 35);
 //        params.put("recordId", 1);
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
         params.put("sign", map.get(ApiSignUtil.ANDROID));
-        Response post = OkHttpUtil.post("http://localhost:8088/auth/friend/bp/add_for_record", params);
+        Response post = OkHttpUtil.post("http://localhost:8088/auth/friend/bp/delete_record", params);
         System.out.println(post.body().string());
     }
 

@@ -5,6 +5,7 @@ import com.alibaba.fastjson.TypeReference;
 import com.chouchongkeji.dial.dao.backpack.VbpMapper;
 import com.chouchongkeji.dial.dao.backpack.gift.GiftRecordDetailMapper;
 import com.chouchongkeji.dial.dao.backpack.gift.GiftRecordMapper;
+import com.chouchongkeji.dial.dao.friend.FriendMapper;
 import com.chouchongkeji.dial.dao.user.AppUserMapper;
 import com.chouchongkeji.dial.pojo.backpack.Vbp;
 import com.chouchongkeji.dial.pojo.backpack.gift.GiftRecordDetail;
@@ -27,6 +28,7 @@ import com.chouchongkeji.service.user.friend.FriendService;
 import com.chouchongkeji.service.user.friend.vo.FriendVo;
 import com.chouchongkeji.service.user.info.UserService;
 import com.chouchongkeji.util.Constants;
+import com.sun.org.apache.bcel.internal.generic.GOTO;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -63,6 +65,9 @@ public class GiftServiceImpl implements GiftService {
     private FriendService friendService;
 
     @Autowired
+    private FriendMapper friendMapper;
+
+    @Autowired
     private VbpMapper vbpMapper;
 
     @Autowired
@@ -79,6 +84,22 @@ public class GiftServiceImpl implements GiftService {
 
     @Autowired
     private AppUserMapper appUserMapper;
+
+    /*----------------------------------------自动减少互动值------------------------------------------------------*/
+    @Scheduled(fixedRate = 86400000)
+    public void timeHeartNum(){
+        // 查询用户最新赠送记录
+        List<GiftRecordDetail> giftRecordDetail = giftRecordDetailMapper.selectOne();
+        if (!CollectionUtils.isEmpty(giftRecordDetail)){
+            for (GiftRecordDetail recordDetail : giftRecordDetail) {
+                Date date = new Date();
+                if (date.getTime()- recordDetail.getUpdated().getTime() > 2592000000L){
+
+                }
+
+            }
+        }
+    }
 
 
     /*----------------------------------------礼物赠送------------------------------------------------------*/
@@ -583,6 +604,22 @@ public class GiftServiceImpl implements GiftService {
         if (friend == null) {
             throw new ServiceException(ErrorCode.ERROR, "扎心了，对方和你不是好友关系!");
         }
+        // 根据用户id和好友id查询赠送次数
+        int count = giftRecordDetailMapper.selectCount(userId, friendUserId);
+        // 增加互动值
+        if (count >= 1 && count < 3) {
+            int num = 1;
+            friendMapper.updateHeartNum(userId, friendUserId, num);
+        } else if (count >= 3 && count < 7) {
+            int num = 2;
+            friendMapper.updateHeartNum(userId, friendUserId, num);
+        } else if (count >= 7 && count < 15) {
+            int num = 3;
+            friendMapper.updateHeartNum(userId, friendUserId, num);
+        } else if (count >= 15) {
+            int num = 4;
+            friendMapper.updateHeartNum(userId, friendUserId, num);
+        }
         // 添加消息记录
         String summary = String.format("%s送给您的礼物", Constants.genName(friend));
         messageService.addMessage(Constants.APP_MESSAGE_TYPE.GIFT,
@@ -674,10 +711,10 @@ public class GiftServiceImpl implements GiftService {
     /**
      * 赠送礼物列表
      *
-     * @param userDetails
+     * @param userId
      * @return
      * @author yichenshanren
-     * * @date 2018/7/2
+     * @date 2018/7/2
      */
     @Override
     public Response sendList(Integer userId) {

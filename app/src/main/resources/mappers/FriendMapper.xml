@@ -207,4 +207,10 @@ WHERE
         where user_id = #{userId}
         and group_id = #{groupId}
     </update>
+    <update id="updateHeartNum">
+        update
+            friend set heart_num = #{num}
+        where user_id = #{userId} and friend_user_id = #{friendUserId}
+           or user_id = #{friendUserId} and friend_user_id = #{userId}
+    </update>
 </mapper>
