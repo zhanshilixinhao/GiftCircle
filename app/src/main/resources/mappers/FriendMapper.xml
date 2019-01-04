@@ -73,6 +73,16 @@ WHERE
             </trim>
         </where>
     </select>
+    <!--<select id="selectByUserIdAndFriendUserIdAll" resultType="com.chouchongkeji.dial.pojo.friend.Friend">-->
+        <!--SELECT-->
+            <!--<include refid="Base_Column_List"/>-->
+        <!--FROM-->
+            <!--friend-->
+        <!--WHERE-->
+                <!--user_id = #{userId}-->
+                <!--AND friend_user_id = #{friendUserId}-->
+           <!--or user_id = #{friendUserId} and friend_user_id = #{userId}-->
+    <!--</select>-->
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from friend
     where id = #{id,jdbcType=INTEGER}
@@ -212,5 +222,11 @@ WHERE
             friend set heart_num = #{num}
         where user_id = #{userId} and friend_user_id = #{friendUserId}
            or user_id = #{friendUserId} and friend_user_id = #{userId}
+    </update>
+    <update id="updateHeartNumByUserId">
+        update
+            friend set heart_num = heart_num - 1
+        where  heart_num >= 1 and (user_id = #{userId} and friend_user_id = #{friendUserId}
+            or user_id = #{friendUserId} and friend_user_id = #{userId})
     </update>
 </mapper>

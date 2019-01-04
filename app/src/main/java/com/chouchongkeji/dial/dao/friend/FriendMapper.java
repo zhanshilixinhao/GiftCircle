@@ -46,4 +46,14 @@ public interface FriendMapper {
                                     @Param("type") Integer type);
 
     void updateHeartNum(@Param("userId") Integer userId,@Param("friendUserId") Integer friendUserId,@Param("num") int num);
+
+    /**
+     * 自动减少互动值
+     * @param userId
+     * @param friendUserId
+     * @param i
+     */
+    void updateHeartNumByUserId(@Param("userId") Integer userId,@Param("friendUserId") Integer friendUserId);
+
+//    Friend selectByUserIdAndFriendUserIdAll(@Param("userId") Integer userId,@Param("friendUserId")Integer friendUserId );
 }

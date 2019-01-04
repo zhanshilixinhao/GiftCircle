@@ -150,7 +150,7 @@ public class test3 {
         RequestParams params = new RequestParams();
         params.put("time", System.currentTimeMillis());
         params.put("access_token", "572f7a09-b3e0-4ec5-b04b-13c82771c1c8");
-        params.put("recordId", 34);
+        params.put("recordId", "35,34");
 //        params.put("bpId", 35);
 //        params.put("recordId", 1);
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);

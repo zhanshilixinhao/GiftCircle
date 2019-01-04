@@ -9,6 +9,7 @@ import com.chouchongkeji.dial.dao.friend.FriendMapper;
 import com.chouchongkeji.dial.dao.user.AppUserMapper;
 import com.chouchongkeji.dial.pojo.backpack.Vbp;
 import com.chouchongkeji.dial.pojo.backpack.gift.GiftRecordDetail;
+import com.chouchongkeji.dial.pojo.friend.Friend;
 import com.chouchongkeji.dial.pojo.gift.virtualItem.AppMessage;
 import com.chouchongkeji.dial.pojo.gift.virtualItem.GiftRecord;
 import com.chouchongkeji.dial.pojo.user.AppUser;
@@ -89,14 +90,15 @@ public class GiftServiceImpl implements GiftService {
     @Scheduled(fixedRate = 86400000)
     public void timeHeartNum(){
         // 查询用户最新赠送记录
-        List<GiftRecordDetail> giftRecordDetail = giftRecordDetailMapper.selectOne();
+        List<RecordDetailVo> giftRecordDetail = giftRecordDetailMapper.selectOne();
         if (!CollectionUtils.isEmpty(giftRecordDetail)){
-            for (GiftRecordDetail recordDetail : giftRecordDetail) {
+            for (RecordDetailVo recordDetailVo : giftRecordDetail) {
                 Date date = new Date();
-                if (date.getTime()- recordDetail.getUpdated().getTime() > 2592000000L){
-
+                // 赠送时间大于30天自动减少互动值
+                if (date.getTime()- recordDetailVo.getMaxUpdated().getTime() > 2592000000L){
+                    // 自动减少互动值
+                    friendMapper.updateHeartNumByUserId(recordDetailVo.getUserId(),recordDetailVo.getFriendUserId());
                 }
-
             }
         }
     }

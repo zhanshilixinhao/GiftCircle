@@ -297,7 +297,7 @@ public class FriendBpServiceImpl implements FriendBpService {
                 if (i < 1) {
                     throw new ServiceException(ErrorCode.ERROR.getCode(), "删除索要记录失败");
                 }
-                return ResponseFactory.err("删除索要记录成功");
+//                return ResponseFactory.err("删除索要记录成功");
             }
             // 被索要者删除记录
             if (forRecord.getFriendUserId().equals(userId)){
@@ -305,11 +305,10 @@ public class FriendBpServiceImpl implements FriendBpService {
                 if (i < 1) {
                     throw new ServiceException(ErrorCode.ERROR.getCode(), "删除索要记录失败");
                 }
-                return ResponseFactory.err("删除索要记录成功");
+//                return ResponseFactory.err("删除索要记录成功");
             }
-
         }
 
-        return ResponseFactory.suc();
+        return ResponseFactory.sucMsg("删除索要记录成功");
     }
 }

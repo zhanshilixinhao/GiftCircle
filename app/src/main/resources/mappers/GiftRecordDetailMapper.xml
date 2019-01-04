@@ -63,12 +63,14 @@
                      and a.status = 3
              ) aa
     </select>
-    <select id="selectOne" resultType="com.chouchongkeji.dial.pojo.backpack.gift.GiftRecordDetail">
-        select user_id,gift_record_id,MAX(updated), status
-        from gift_record_detail
-        where status = 3
-        group by user_id
+    <select id="selectOne" resultType="com.chouchongkeji.service.backpack.gift.vo.RecordDetailVo">
+        select b.user_id,a.gift_record_id,MAX(a.updated) as max_updated, a.status, a.user_id as friend_user_id
+        from gift_record_detail a
+                 left join gift_record b on a.gift_record_id = b.id
+        where a.status = 3
+        group by a.user_id ,b.user_id
     </select>
+
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from gift_record_detail
     where id = #{id,jdbcType=INTEGER}

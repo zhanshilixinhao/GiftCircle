@@ -1,6 +1,7 @@
 package com.chouchongkeji.dial.dao.backpack.gift;
 
 import com.chouchongkeji.dial.pojo.backpack.gift.GiftRecordDetail;
+import com.chouchongkeji.service.backpack.gift.vo.RecordDetailVo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
@@ -49,5 +50,5 @@ public interface GiftRecordDetailMapper {
      * 查询用户最新赠送记录
      * @return
      */
-    List<GiftRecordDetail> selectOne();
+    List<RecordDetailVo> selectOne();
 }
