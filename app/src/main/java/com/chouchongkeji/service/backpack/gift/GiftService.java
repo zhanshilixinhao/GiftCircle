@@ -70,13 +70,4 @@ public interface GiftService {
      */
     Response wxGetGift(Integer userId, Integer giftRecordId);
 
-    /**
-     * 赠送礼物列表
-     *
-     * @param userDetails
-     * @return
-     * @author yichenshanren
-     * * @date 2018/7/2
-     */
-    Response sendList(Integer userId);
 }

@@ -114,17 +114,5 @@ public class GiftController {
     }
 
 
-    /**
-     * 赠送礼物列表
-     *
-     * @param userDetails
-     * @return
-     * @author yichenshanren
-     * * @date 2018/7/2
-     */
-    @PostMapping("send_list")
-    public Response sendList(@AuthenticationPrincipal UserDetails userDetails) {
-        return giftService.sendList(userDetails.getUserId());
-    }
 }
 

@@ -44,4 +44,12 @@ public interface GiftRecordMapper {
 
     List<GiftFriendVo> selectByFriendUserId(@Param("userId") Integer userId,
                                             @Param("friendUserId") Integer friendUserId);
+
+    /**
+     * 查询赠送记录和收礼记录
+     * @param userId
+     * @param flag
+     * @return
+     */
+    List<GiftSendListVo> selectListByFlagUserId(@Param("userId") Integer userId,@Param("flag") Byte flag);
 }

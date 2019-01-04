@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
+ * 赠送礼物列表
  * @author linqin
  * @date 2019/1/2 9:31
  */
@@ -22,11 +23,29 @@ public class GiftSendListVo {
 
     private String event; // 事件名称
 
-    private Date target_time; //目标赠送时间
+    private Date targetTime; //目标赠送时间
 
     private Byte status;
 
     private List<GiftItemVo> content;
+
+    private Byte isReply;
+
+    private String reply;
+
+    private Date updated;
+
+    private String nickname;
+
+    private String avatar;
+
+    private String friendNickname;
+
+    private String friendAvatar;
+
+    private Byte flag; //1赠送记录  2 收礼记录
+
+//    private Integer quantity; //附属品数量
 
     public Integer getId() {
         return id;
@@ -76,14 +95,6 @@ public class GiftSendListVo {
         this.event = event;
     }
 
-    public Date getTarget_time() {
-        return target_time;
-    }
-
-    public void setTarget_time(Date target_time) {
-        this.target_time = target_time;
-    }
-
     public Byte getStatus() {
         return status;
     }
@@ -99,4 +110,84 @@ public class GiftSendListVo {
     public void setContent(List<GiftItemVo> content) {
         this.content = content;
     }
+
+    public Date getTargetTime() {
+        return targetTime;
+    }
+
+    public void setTargetTime(Date targetTime) {
+        this.targetTime = targetTime;
+    }
+
+    public Byte getIsReply() {
+        return isReply;
+    }
+
+    public void setIsReply(Byte isReply) {
+        this.isReply = isReply;
+    }
+
+    public String getReply() {
+        return reply;
+    }
+
+    public void setReply(String reply) {
+        this.reply = reply;
+    }
+
+    public Date getUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(Date updated) {
+        this.updated = updated;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public String getFriendNickname() {
+        return friendNickname;
+    }
+
+    public void setFriendNickname(String friendNickname) {
+        this.friendNickname = friendNickname;
+    }
+
+    public String getFriendAvatar() {
+        return friendAvatar;
+    }
+
+    public void setFriendAvatar(String friendAvatar) {
+        this.friendAvatar = friendAvatar;
+    }
+
+    public Byte getFlag() {
+        return flag;
+    }
+
+    public void setFlag(Byte flag) {
+        this.flag = flag;
+    }
+
+//    public Integer getQuantity() {
+//        return quantity;
+//    }
+//
+//    public void setQuantity(Integer quantity) {
+//        this.quantity = quantity;
+//    }
 }

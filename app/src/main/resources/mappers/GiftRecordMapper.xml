@@ -147,6 +147,79 @@ WHERE
 ORDER BY
 	a.created
     </select>
+
+
+    <resultMap id="GiftSendListVo" type="com.chouchongkeji.service.backpack.gift.vo.GiftSendListVo">
+        <result column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="greetting" property="greetting"/>
+        <result column="type" property="type"/>
+        <result column="event" property="event"/>
+        <result column="target_time" property="targetTime"/>
+        <result column="status" property="status"/>
+        <result column="friend_user_id" property="friendUserId"/>
+        <result column="content" property="content" typeHandler="com.chouchongkeji.dial.handler.GiftItemVoTypeHandler"/>
+        <result column="is_reply" property="isReply" />
+        <result column="reply" property="reply" />
+        <result column="updated" property="updated" />
+        <result column="nickname" property="nickname" />
+        <result column="avatar" property="avatar" />
+        <result column="friend_nickname" property="friendNickname" />
+        <result column="friend_avatar" property="friendAvatar" />
+        <result column="flag" property="flag" />
+    </resultMap>
+    <select id="selectListByFlagUserId" resultMap="GiftSendListVo">
+        select *
+        from (
+                 select
+                     a.id,
+                     a.user_id,
+                     a.greetting,
+                     a.type,
+                     a.event,
+                     a.target_time,
+                     a.status,
+                     b.user_id  as friend_user_id,
+                     b.content,
+                     b.is_reply,
+                     b.reply,
+                     b.updated,
+                     c.nickname,
+                     c.avatar,
+                     d.nickname as friend_nickname,
+                     d.avatar   as friend_avatar,
+                     1 as flag
+                 from gift_record a
+                          left join gift_record_detail b on a.id = b.gift_record_id
+                          left join app_user c on c.id = a.user_id
+                          left join app_user d on d.id = b.user_id
+                 where a.user_id = #{userId}
+                 union
+                 select
+                     a.id,
+                     a.user_id,
+                     a.greetting,
+                     a.type,
+                     a.event,
+                     a.target_time,
+                     a.status,
+                     b.user_id  as friend_user_id,
+                     b.content,
+                     b.is_reply,
+                     b.reply,
+                     b.updated,
+                     c.nickname,
+                     c.avatar,
+                     d.nickname as friend_nickname,
+                     d.avatar   as friend_avatar,
+                     2 as flag
+                 from gift_record a
+                          left join gift_record_detail b on a.id = b.gift_record_id
+                          left join app_user c on c.id = a.user_id
+                          left join app_user d on d.id = b.user_id
+                 where b.user_id = #{userId} ) aa
+        where aa.flag = #{flag}
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from gift_record
     where id = #{id,jdbcType=INTEGER}
