@@ -40,4 +40,22 @@ public class GiftSendController {
         return giftSendService.sendList(userDetails.getUserId(), flag);
     }
 
+    /**
+     * 取消礼物赠送
+     *
+     * @param userDetails
+     * @param recordId 礼物记录id
+     * @return
+     * @author linqin
+     * * @date 2019/1/4 11:46
+     */
+    @PostMapping("cancel_send")
+    public Response cancelSend(@AuthenticationPrincipal UserDetails userDetails, Integer recordId) {
+        if (recordId == null){
+            return ResponseFactory.errMissingParameter();
+        }
+        return giftSendService.cancelSend(userDetails.getUserId(),recordId);
+    }
+
+
 }

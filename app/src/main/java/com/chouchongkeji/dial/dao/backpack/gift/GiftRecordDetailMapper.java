@@ -51,4 +51,11 @@ public interface GiftRecordDetailMapper {
      * @return
      */
     List<RecordDetailVo> selectOne();
+
+    /**
+     * 根据礼物记录id查询记录详情
+     * @param recordId
+     * @return
+     */
+    List<GiftRecordDetail> selectDetailByRecordId(Integer recordId);
 }

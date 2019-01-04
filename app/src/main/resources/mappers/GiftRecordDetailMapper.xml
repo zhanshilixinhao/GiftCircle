@@ -18,6 +18,7 @@
     <sql id="Base_Column_List">
     id, gift_record_id, user_id,amount, content, is_reply, reply, status, updated, created
   </sql>
+
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
@@ -69,6 +70,26 @@
                  left join gift_record b on a.gift_record_id = b.id
         where a.status = 3
         group by a.user_id ,b.user_id
+    </select>
+
+
+    <resultMap id="BaseResult" type="com.chouchongkeji.dial.pojo.backpack.gift.GiftRecordDetail">
+            <result column="id" property="id" />
+            <result column="gift_record_id" property="giftRecordId" />
+            <result column="user_id" property="userId" />
+            <result column="amount" property="amount"/>
+            <result column="content" property="content" typeHandler="com.chouchongkeji.dial.handler.GiftItemVoTypeHandler"/>
+            <result column="is_reply" property="isReply" />
+            <result column="reply" property="reply" />
+            <result column="status" property="status"/>
+            <result column="updated" property="updated"/>
+            <result column="created" property="created"/>
+    </resultMap>
+    <select id="selectDetailByRecordId" resultMap="BaseResult">
+        select
+        *
+       from  gift_record_detail
+        where gift_record_id
     </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">

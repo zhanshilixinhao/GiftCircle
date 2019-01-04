@@ -19,4 +19,15 @@ public interface GiftSendService {
      * @date 2019/1/4 11:46
      */
     Response sendList(Integer userId, Byte flag);
+
+    /**
+     * 取消礼物赠送
+     *
+     * @param userId
+     * @param recordId 礼物记录id
+     * @return
+     * @author linqin
+     * * @date 2019/1/4 11:46
+     */
+    Response cancelSend(Integer userId, Integer recordId);
 }

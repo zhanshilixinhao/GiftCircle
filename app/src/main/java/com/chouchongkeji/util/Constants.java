@@ -374,6 +374,7 @@ public class Constants {
      * 礼物赠送状态
      */
     public interface GIFT_STATUS {
+        byte CANCEL = 0; // 已取消
         byte WAIT = 1; // 未赠送
         byte PART_SEND = 2; // 部分赠送
         byte SEND = 3; // 全部一赠送
