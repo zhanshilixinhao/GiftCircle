@@ -1,6 +1,7 @@
 package com.chouchongkeji.dial.dao.backpack.gift;
 
 import com.chouchongkeji.dial.pojo.backpack.gift.GiftRecordDetail;
+import com.chouchongkeji.service.backpack.gift.vo.GiftRecordDetailVo;
 import com.chouchongkeji.service.backpack.gift.vo.RecordDetailVo;
 import org.apache.ibatis.annotations.Param;
 
@@ -57,5 +58,5 @@ public interface GiftRecordDetailMapper {
      * @param recordId
      * @return
      */
-    List<GiftRecordDetail> selectDetailByRecordId(Integer recordId);
+    List<GiftRecordDetailVo> selectDetailByRecordId(Integer recordId);
 }

@@ -159,19 +159,22 @@ public class test3 {
         System.out.println(post.body().string());
     }
 
-    // 赠送记录
+    // 撤回赠送
     @Test
     public void sendList() throws IOException {
         RequestParams params = new RequestParams();
         params.put("time", System.currentTimeMillis());
         params.put("access_token", "572f7a09-b3e0-4ec5-b04b-13c82771c1c8");
-        params.put("flag", 1);
+        params.put("recordId", 47);
 //        params.put("bpId", 35);
 //        params.put("recordId", 1);
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
         params.put("sign", map.get(ApiSignUtil.ANDROID));
-        Response post = OkHttpUtil.post("http://localhost:8088/auth/v1/gift_send/send_list", params);
+        Response post = OkHttpUtil.post("http://localhost:8088/auth/v1/gift_send/cancel_send", params);
         System.out.println(post.body().string());
     }
 
 }
+
+
+//7719010411105    7719010411103  7719010411101  7718122915131

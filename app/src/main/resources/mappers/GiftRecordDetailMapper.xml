@@ -73,7 +73,7 @@
     </select>
 
 
-    <resultMap id="BaseResult" type="com.chouchongkeji.dial.pojo.backpack.gift.GiftRecordDetail">
+    <resultMap id="BaseResult" type="com.chouchongkeji.service.backpack.gift.vo.GiftRecordDetailVo">
             <result column="id" property="id" />
             <result column="gift_record_id" property="giftRecordId" />
             <result column="user_id" property="userId" />
@@ -89,7 +89,7 @@
         select
         *
        from  gift_record_detail
-        where gift_record_id
+        where gift_record_id = #{recordId}
     </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
