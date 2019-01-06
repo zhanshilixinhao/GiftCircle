@@ -30,6 +30,10 @@ public class GiftRecordDetailVo {
 
     private Date created;
 
+    private String friendNickname;
+
+    private String friendAvatar;
+
     public Integer getId() {
         return id;
     }
@@ -108,5 +112,21 @@ public class GiftRecordDetailVo {
 
     public void setCreated(Date created) {
         this.created = created;
+    }
+
+    public String getFriendNickname() {
+        return friendNickname;
+    }
+
+    public void setFriendNickname(String friendNickname) {
+        this.friendNickname = friendNickname;
+    }
+
+    public String getFriendAvatar() {
+        return friendAvatar;
+    }
+
+    public void setFriendAvatar(String friendAvatar) {
+        this.friendAvatar = friendAvatar;
     }
 }

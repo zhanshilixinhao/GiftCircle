@@ -51,5 +51,9 @@ public interface GiftRecordMapper {
      * @param flag
      * @return
      */
-    List<GiftSendListVo> selectListByFlagUserId(@Param("userId") Integer userId,@Param("flag") Byte flag);
+    List<GiftSendListVo> selectListByFlagUserId(@Param("userId") Integer userId,
+                                                @Param("flag") Byte flag,
+                                                @Param("pageNum") Integer pageNum,
+                                                @Param("pageSize") Integer pageSize
+                                                );
 }

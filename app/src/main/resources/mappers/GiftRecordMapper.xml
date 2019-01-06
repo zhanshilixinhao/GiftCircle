@@ -16,8 +16,18 @@
         </constructor>
     </resultMap>
     <sql id="Base_Column_List">
-    id, user_id, greetting, type, event, target_time, status, updated, created, p
-  </sql>
+        id
+        ,
+        user_id,
+        greetting,
+        type,
+        event,
+        target_time,
+        status,
+        updated,
+        created,
+        p
+    </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
@@ -37,19 +47,19 @@
 
     <select id="selectAllByTargetTime" resultMap="GiftTaskVo">
         SELECT
-        a.id AS record_id,
-        a.user_id AS send_user_id,
-        b.id AS record_detail_id,
-        b.user_id,
-        b.content,
-        a.target_time
+            a.id      AS record_id,
+            a.user_id AS send_user_id,
+            b.id      AS record_detail_id,
+            b.user_id,
+            b.content,
+            a.target_time
         FROM
-        `gift_record` a
-        LEFT JOIN gift_record_detail b ON b.gift_record_id = b.id
+            `gift_record` a
+                LEFT JOIN gift_record_detail b ON b.gift_record_id = b.id
         WHERE
-        a.type = 2
-        AND a.STATUS = 1
-        AND UNIX_TIMESTAMP( a.target_time ) &lt; UNIX_TIMESTAMP( now( ))+10
+            a.type = 2
+          AND a.STATUS = 1
+          AND UNIX_TIMESTAMP(a.target_time) &lt; UNIX_TIMESTAMP(now()) + 10
     </select>
     <select id="selectInExByUserId" resultType="com.chouchongkeji.service.backpack.gift.vo.GiftInoutVo">
         SELECT
@@ -107,45 +117,46 @@
     </resultMap>
 
     <select id="selectByFriendUserId" resultMap="GiftFriendVo">
-SELECT
-	a.*
-FROM
-	(
-SELECT
-	a.id AS record_id,
-	a.greetting,
-	a.type AS gift_type,
-	a.`event`,
-	a.created,
-	b.id AS record_detail_id,
-	b.amount,
-	b.content,
-	1 AS inout_type
-FROM
-	gift_record a
-	LEFT JOIN gift_record_detail b ON a.id = b.gift_record_id
-WHERE
-	a.user_id = #{userId}
-	AND b.user_id = #{friendUserId} UNION
-SELECT
-	a.id AS record_id,
-	a.greetting,
-	a.type AS gift_type,
-	a.`event`,
-	a.created,
-	b.id AS record_detail_id,
-	b.amount,
-	b.content,
-	2 AS inout_type
-FROM
-	gift_record a
-	LEFT JOIN gift_record_detail b ON a.id = b.gift_record_id
-WHERE
-	a.user_id = #{friendUserId}
-	AND b.user_id = #{userId}
-	) AS a
-ORDER BY
-	a.created
+        SELECT
+            a.*
+        FROM
+            (
+                SELECT
+                    a.id   AS record_id,
+                    a.greetting,
+                    a.type AS gift_type,
+                    a.`event`,
+                    a.created,
+                    b.id   AS record_detail_id,
+                    b.amount,
+                    b.content,
+                    1      AS inout_type
+                FROM
+                    gift_record a
+                        LEFT JOIN gift_record_detail b ON a.id = b.gift_record_id
+                WHERE
+                    a.user_id = #{userId}
+                  AND b.user_id = #{friendUserId}
+                UNION
+                SELECT
+                    a.id   AS record_id,
+                    a.greetting,
+                    a.type AS gift_type,
+                    a.`event`,
+                    a.created,
+                    b.id   AS record_detail_id,
+                    b.amount,
+                    b.content,
+                    2      AS inout_type
+                FROM
+                    gift_record a
+                        LEFT JOIN gift_record_detail b ON a.id = b.gift_record_id
+                WHERE
+                    a.user_id = #{friendUserId}
+                  AND b.user_id = #{userId}
+            ) AS a
+        ORDER BY
+            a.created
     </select>
 
 
@@ -157,84 +168,107 @@ ORDER BY
         <result column="event" property="event"/>
         <result column="target_time" property="targetTime"/>
         <result column="status" property="status"/>
-        <result column="friend_user_id" property="friendUserId"/>
-        <result column="content" property="content" typeHandler="com.chouchongkeji.dial.handler.GiftItemVoTypeHandler"/>
-        <result column="is_reply" property="isReply" />
-        <result column="reply" property="reply" />
-        <result column="updated" property="updated" />
-        <result column="nickname" property="nickname" />
-        <result column="avatar" property="avatar" />
-        <result column="friend_nickname" property="friendNickname" />
-        <result column="friend_avatar" property="friendAvatar" />
-        <result column="flag" property="flag" />
+        <result column="updated" property="updated"/>
+        <result column="nickname" property="nickname"/>
+        <result column="avatar" property="avatar"/>
+        <result column="flag" property="flag"/>
+        <collection property="detail" javaType="ArrayList"
+                    ofType="com.chouchongkeji.service.backpack.gift.vo.GiftRecordDetailVo">
+            <result column="id" property="id"/>
+            <result column="gift_record_id" property="giftRecordId"/>
+            <result column="user_id" property="userId"/>
+            <result column="amount" property="amount"/>
+            <result column="content" property="content"
+                    typeHandler="com.chouchongkeji.dial.handler.GiftItemVoTypeHandler"/>
+            <result column="is_reply" property="isReply"/>
+            <result column="reply" property="reply"/>
+            <result column="status" property="status"/>
+            <result column="updated" property="updated"/>
+            <result column="created" property="created"/>
+        </collection>
     </resultMap>
     <select id="selectListByFlagUserId" resultMap="GiftSendListVo">
-        select *
-        from (
-                 select
-                     a.id,
-                     a.user_id,
-                     a.greetting,
-                     a.type,
-                     a.event,
-                     a.target_time,
-                     b.status,
-                     b.user_id  as friend_user_id,
-                     b.content,
-                     b.is_reply,
-                     b.reply,
-                     b.updated,
-                     c.nickname,
-                     c.avatar,
-                     d.nickname as friend_nickname,
-                     d.avatar   as friend_avatar,
-                     1 as flag
-                 from gift_record a
-                          left join gift_record_detail b on a.id = b.gift_record_id
-                          left join app_user c on c.id = a.user_id
-                          left join app_user d on d.id = b.user_id
-                 where a.user_id = #{userId}
-                 union
-                 select
-                     a.id,
-                     a.user_id,
-                     a.greetting,
-                     a.type,
-                     a.event,
-                     a.target_time,
-                     a.status,
-                     b.user_id  as friend_user_id,
-                     b.content,
-                     b.is_reply,
-                     b.reply,
-                     b.updated,
-                     c.nickname,
-                     c.avatar,
-                     d.nickname as friend_nickname,
-                     d.avatar   as friend_avatar,
-                     2 as flag
-                 from gift_record a
-                          left join gift_record_detail b on a.id = b.gift_record_id
-                          left join app_user c on c.id = a.user_id
-                          left join app_user d on d.id = b.user_id
-                 where b.user_id = #{userId} ) aa
-        where aa.flag = #{flag}
+        <choose>
+            <when test="flag == 1">
+                select
+                a.id,
+                a.user_id,
+                a.greetting,
+                a.type,
+                a.event,
+                a.target_time,
+                a.status,
+                b.user_id as friend_user_id,
+                b.content,
+                b.is_reply,
+                b.reply,
+                b.updated,
+                c.nickname,
+                c.avatar,
+                d.nickname as friend_nickname,
+                d.avatar as friend_avatar,
+                1 as flag
+                from
+                (select
+                a.id,
+                a.user_id,
+                a.greetting,
+                a.type,
+                a.event,
+                a.target_time,
+                a.status
+                from gift_record a
+                where a.user_id = #{userId}
+                order by a.created DESC
+                limit #{pageNum}, #{pageSize}) a
+                left join gift_record_detail b on a.id = b.gift_record_id
+                left join app_user c on c.id = a.user_id
+                left join app_user d on d.id = b.user_id
+            </when>
+            <otherwise>
+                select
+                a.id,
+                a.user_id,
+                a.greetting,
+                a.type,
+                a.event,
+                a.target_time,
+                a.status,
+                b.user_id  as friend_user_id,
+                b.content,
+                b.is_reply,
+                b.reply,
+                b.updated,
+                c.nickname,
+                c.avatar,
+                d.nickname as friend_nickname,
+                d.avatar   as friend_avatar,
+                2          as flag
+                from gift_record a
+                left join gift_record_detail b on a.id = b.gift_record_id
+                left join app_user c on c.id = a.user_id
+                left join app_user d on d.id = b.user_id
+                where b.user_id = #{userId}
+                order by a.created DESC
+                limit  #{pageNum}, #{pageSize}
+            </otherwise>
+        </choose>
+
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from gift_record
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
+        delete
+        from gift_record
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
     <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.gift.virtualItem.GiftRecord" keyProperty="id"
             useGeneratedKeys="true">
-    insert into gift_record (id, user_id, greetting,
-      type, event, target_time,
-      status, updated, created,p
-      )
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{greetting,jdbcType=VARCHAR},
-      #{type,jdbcType=TINYINT}, #{event,jdbcType=VARCHAR}, #{targetTime,jdbcType=TIMESTAMP},
-      #{status,jdbcType=TINYINT}, now(), now(), #{p}
-      )
-  </insert>
+        insert into gift_record (id, user_id, greetting,
+                                 type, event, target_time,
+                                 status, updated, created, p)
+        values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{greetting,jdbcType=VARCHAR},
+                #{type,jdbcType=TINYINT}, #{event,jdbcType=VARCHAR}, #{targetTime,jdbcType=TIMESTAMP},
+                #{status,jdbcType=TINYINT}, now(), now(), #{p})
+    </insert>
     <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.gift.virtualItem.GiftRecord">
         insert into gift_record
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -327,19 +361,21 @@ ORDER BY
         where id = #{id,jdbcType=INTEGER}
     </update>
     <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.dial.pojo.gift.virtualItem.GiftRecord">
-    update gift_record
-    set user_id = #{userId,jdbcType=INTEGER},
-      greetting = #{greetting,jdbcType=VARCHAR},
-      type = #{type,jdbcType=TINYINT},
-      event = #{event,jdbcType=VARCHAR},
-      target_time = #{targetTime,jdbcType=TIMESTAMP},
-      status = #{status,jdbcType=TINYINT},
-      updated = #{updated,jdbcType=TIMESTAMP},
-      created = #{created,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+        update gift_record
+        set user_id     = #{userId,jdbcType=INTEGER},
+            greetting   = #{greetting,jdbcType=VARCHAR},
+            type        = #{type,jdbcType=TINYINT},
+            event       = #{event,jdbcType=VARCHAR},
+            target_time = #{targetTime,jdbcType=TIMESTAMP},
+            status      = #{status,jdbcType=TINYINT},
+            updated     = #{updated,jdbcType=TIMESTAMP},
+            created     = #{created,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
     <update id="updateStatusById">
-        update gift_record set status = #{status}
-        where id = #{recordId} and status = 1
+        update gift_record
+        set status = #{status}
+        where id = #{recordId}
+          and status = 1
     </update>
 </mapper>

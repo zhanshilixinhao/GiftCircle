@@ -4,15 +4,15 @@ import com.chouchongkeji.dial.dao.backpack.BpItemMapper;
 import com.chouchongkeji.dial.dao.backpack.gift.GiftRecordDetailMapper;
 import com.chouchongkeji.dial.dao.backpack.gift.GiftRecordMapper;
 import com.chouchongkeji.dial.pojo.backpack.BpItem;
-import com.chouchongkeji.dial.pojo.backpack.gift.GiftRecordDetail;
-import com.chouchongkeji.exception.ServiceException;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
+import com.chouchongkeji.goexplore.query.PageQuery;
 import com.chouchongkeji.service.backpack.gift.GiftSendService;
 import com.chouchongkeji.service.backpack.gift.vo.GiftItemVo;
 import com.chouchongkeji.service.backpack.gift.vo.GiftRecordDetailVo;
 import com.chouchongkeji.service.backpack.gift.vo.GiftSendListVo;
 import com.chouchongkeji.util.Constants;
+import com.github.pagehelper.PageHelper;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,9 +48,12 @@ public class GiftSendServiceImpl implements GiftSendService {
      * @date 2019/1/4 11:46
      */
     @Override
-    public Response sendList(Integer userId, Byte flag) {
+    public Response sendList(Integer userId, Byte flag, PageQuery pageQuery) {
+        //分页
+//        PageHelper.startPage(pageQuery.getPageNum(),pageQuery.getPageSize());
         // 查询赠送记录和收礼记录
-        List<GiftSendListVo> giftSendListVos = giftRecordMapper.selectListByFlagUserId(userId, flag);
+        List<GiftSendListVo> giftSendListVos = giftRecordMapper.selectListByFlagUserId(userId, flag,
+                (pageQuery.getPageNum() - 1) * pageQuery.getPageSize(), pageQuery.getPageSize());
         return ResponseFactory.sucData(giftSendListVos);
     }
 

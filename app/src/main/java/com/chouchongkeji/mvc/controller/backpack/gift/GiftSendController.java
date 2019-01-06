@@ -2,6 +2,7 @@ package com.chouchongkeji.mvc.controller.backpack.gift;
 
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
+import com.chouchongkeji.goexplore.query.PageQuery;
 import com.chouchongkeji.service.backpack.gift.GiftSendService;
 import com.yichen.auth.service.UserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ public class GiftSendController {
     private GiftSendService giftSendService;
 
     /**
-     * 赠送礼物列表
+     * 赠送礼物列表/收礼记录列表
      *
      * @param userDetails
      * @param flag        1 赠送记录 2 收礼记录
@@ -33,11 +34,11 @@ public class GiftSendController {
      * @date 2019/1/4 11:46
      */
     @PostMapping("send_list")
-    public Response sendList(@AuthenticationPrincipal UserDetails userDetails, Byte flag) {
+    public Response sendList(@AuthenticationPrincipal UserDetails userDetails, Byte flag, PageQuery pageQuery) {
         if (flag == null || (flag != 1 && flag != 2)) {
             return ResponseFactory.errMissingParameter();
         }
-        return giftSendService.sendList(userDetails.getUserId(), flag);
+        return giftSendService.sendList(userDetails.getUserId(), flag,pageQuery);
     }
 
     /**

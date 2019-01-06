@@ -15,8 +15,6 @@ public class GiftSendListVo {
 
     private Integer userId; //送礼者id
 
-    private Integer friendUserId; //接收礼物者id
-
     private String greetting; // 祝福语
 
     private Byte type; //
@@ -27,23 +25,15 @@ public class GiftSendListVo {
 
     private Byte status;
 
-    private List<GiftItemVo> content;
-
-    private Byte isReply;
-
-    private String reply;
-
     private Date updated;
 
     private String nickname;
 
     private String avatar;
 
-    private String friendNickname;
-
-    private String friendAvatar;
-
     private Byte flag; //1赠送记录  2 收礼记录
+
+    private List<GiftRecordDetailVo> detail;
 
 //    private Integer quantity; //附属品数量
 
@@ -63,13 +53,6 @@ public class GiftSendListVo {
         this.userId = userId;
     }
 
-    public Integer getFriendUserId() {
-        return friendUserId;
-    }
-
-    public void setFriendUserId(Integer friendUserId) {
-        this.friendUserId = friendUserId;
-    }
 
     public String getGreetting() {
         return greetting;
@@ -103,13 +86,6 @@ public class GiftSendListVo {
         this.status = status;
     }
 
-    public List<GiftItemVo> getContent() {
-        return content;
-    }
-
-    public void setContent(List<GiftItemVo> content) {
-        this.content = content;
-    }
 
     public Date getTargetTime() {
         return targetTime;
@@ -119,21 +95,6 @@ public class GiftSendListVo {
         this.targetTime = targetTime;
     }
 
-    public Byte getIsReply() {
-        return isReply;
-    }
-
-    public void setIsReply(Byte isReply) {
-        this.isReply = isReply;
-    }
-
-    public String getReply() {
-        return reply;
-    }
-
-    public void setReply(String reply) {
-        this.reply = reply;
-    }
 
     public Date getUpdated() {
         return updated;
@@ -159,21 +120,6 @@ public class GiftSendListVo {
         this.avatar = avatar;
     }
 
-    public String getFriendNickname() {
-        return friendNickname;
-    }
-
-    public void setFriendNickname(String friendNickname) {
-        this.friendNickname = friendNickname;
-    }
-
-    public String getFriendAvatar() {
-        return friendAvatar;
-    }
-
-    public void setFriendAvatar(String friendAvatar) {
-        this.friendAvatar = friendAvatar;
-    }
 
     public Byte getFlag() {
         return flag;
@@ -183,11 +129,11 @@ public class GiftSendListVo {
         this.flag = flag;
     }
 
-//    public Integer getQuantity() {
-//        return quantity;
-//    }
-//
-//    public void setQuantity(Integer quantity) {
-//        this.quantity = quantity;
-//    }
+    public List<GiftRecordDetailVo> getDetail() {
+        return detail;
+    }
+
+    public void setDetail(List<GiftRecordDetailVo> detail) {
+        this.detail = detail;
+    }
 }
