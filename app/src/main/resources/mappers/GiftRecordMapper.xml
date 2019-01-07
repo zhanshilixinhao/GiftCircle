@@ -182,7 +182,7 @@
                     typeHandler="com.chouchongkeji.dial.handler.GiftItemVoTypeHandler"/>
             <result column="is_reply" property="isReply"/>
             <result column="reply" property="reply"/>
-            <result column="status" property="status"/>
+            <result column="b_status" property="status"/>
             <result column="updated" property="updated"/>
             <result column="created" property="created"/>
             <result column="friend_nickname" property="friendNickname"/>
@@ -206,6 +206,7 @@
                 b.content,
                 b.is_reply,
                 b.reply,
+                       b.status as b_status,
                 b.updated,
                 b.created,
                 c.nickname,
@@ -224,6 +225,7 @@
                 a.status
                 from gift_record a
                 where a.user_id = #{userId}
+                and a.status != -1
                 order by a.created DESC
                 limit #{pageNum}, #{pageSize}) a
                 left join gift_record_detail b on a.id = b.gift_record_id
@@ -243,6 +245,7 @@
                 b.user_id  as friend_user_id,
                 b.gift_record_id,
                 b.content,
+                b.status as b_status,
                 b.is_reply,
                 b.reply,
                 b.updated,
@@ -256,6 +259,7 @@
                 left join app_user c on c.id = a.user_id
                 left join app_user d on d.id = b.user_id
                 where b.user_id = #{userId}
+                and b.status != 1
                 order by a.created DESC
                 limit  #{pageNum}, #{pageSize}
             </otherwise>
@@ -384,5 +388,10 @@
         set status = #{status}
         where id = #{recordId}
           and status = 1
+    </update>
+    <update id="updateStatusByRecordId">
+        update gift_record
+        set status = -1
+        where id = #{id}
     </update>
 </mapper>

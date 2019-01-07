@@ -180,12 +180,42 @@ public class test3 {
         RequestParams params = new RequestParams();
         params.put("time", System.currentTimeMillis());
         params.put("access_token", "572f7a09-b3e0-4ec5-b04b-13c82771c1c8");
-        params.put("recordId", 47);
+        params.put("recordId", 41);
 //        params.put("bpId", 35);
 //        params.put("recordId", 1);
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
         params.put("sign", map.get(ApiSignUtil.ANDROID));
         Response post = OkHttpUtil.post("http://localhost:8088/auth/v1/gift_send/cancel_send", params);
+        System.out.println(post.body().string());
+    }
+
+    // 删除赠送
+    @Test
+    public void deleteSend() throws IOException {
+        RequestParams params = new RequestParams();
+        params.put("time", System.currentTimeMillis());
+        params.put("access_token", "572f7a09-b3e0-4ec5-b04b-13c82771c1c8");
+        params.put("recordId", "46,47");
+//        params.put("bpId", 35);
+//        params.put("recordId", 1);
+        Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
+        params.put("sign", map.get(ApiSignUtil.ANDROID));
+        Response post = OkHttpUtil.post("http://localhost:8088/auth/v1/gift_send/delete_send", params);
+        System.out.println(post.body().string());
+    }
+
+    // 删除收礼
+    @Test
+    public void deletere() throws IOException {
+        RequestParams params = new RequestParams();
+        params.put("time", System.currentTimeMillis());
+        params.put("access_token", "572f7a09-b3e0-4ec5-b04b-13c82771c1c8");
+        params.put("recordDetailId", "34,45");
+//        params.put("bpId", 35);
+//        params.put("recordId", 1);
+        Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
+        params.put("sign", map.get(ApiSignUtil.ANDROID));
+        Response post = OkHttpUtil.post("http://localhost:8088/auth/v1/gift_send/delete_receive", params);
         System.out.println(post.body().string());
     }
 

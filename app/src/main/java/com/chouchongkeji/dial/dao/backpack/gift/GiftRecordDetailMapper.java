@@ -59,4 +59,11 @@ public interface GiftRecordDetailMapper {
      * @return
      */
     List<GiftRecordDetailVo> selectDetailByRecordId(Integer recordId);
+
+    /**
+     * 删除记录详情
+     * @param id
+     * @return
+     */
+    int updateStatusByRecordId(Integer id);
 }

@@ -1,7 +1,7 @@
 {
   "errCode": 0,
   "result": 0,
-  "time": 1546827253090,
+  "time": 1546832803847,
   "data": [
     {
       "id": 50,
@@ -136,7 +136,7 @@
       "type": 3,
       "event": "时间",
       "targetTime": null,
-      "status": 0,
+      "status": -1,
       "updated": 1546573223000,
       "nickname": "林琴",
       "avatar": "order/comment/20181227/1545881538521936-600-600.jpg",
@@ -195,7 +195,7 @@
           ],
           "isReply": 2,
           "reply": "",
-          "status": 0,
+          "status": -1,
           "updated": 1546573223000,
           "created": 1546573223000,
           "friendNickname": "",
@@ -254,7 +254,7 @@
           ],
           "isReply": 2,
           "reply": "",
-          "status": 0,
+          "status": -1,
           "updated": 1546573223000,
           "created": 1546573223000,
           "friendNickname": "年锐",
@@ -269,7 +269,7 @@
       "type": 3,
       "event": "时间",
       "targetTime": null,
-      "status": 1,
+      "status": -1,
       "updated": 1546573137000,
       "nickname": "林琴",
       "avatar": "order/comment/20181227/1545881538521936-600-600.jpg",
@@ -306,7 +306,7 @@
           ],
           "isReply": 2,
           "reply": "",
-          "status": 1,
+          "status": -1,
           "updated": 1546573137000,
           "created": 1546573137000,
           "friendNickname": "",
@@ -781,3 +781,6 @@
     }
   ]
 }
+
+
+

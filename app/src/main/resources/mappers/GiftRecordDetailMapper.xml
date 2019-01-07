@@ -220,4 +220,8 @@
                 user_id = #{userId}
         where gift_record_id = #{giftRecordId} and status &lt; 3
     </update>
+    <update id="updateStatusByRecordId">
+        update gift_record_detail set status = -1
+        where id = #{id}
+    </update>
 </mapper>

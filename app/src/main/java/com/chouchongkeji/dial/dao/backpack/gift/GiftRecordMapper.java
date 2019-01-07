@@ -56,4 +56,11 @@ public interface GiftRecordMapper {
                                                 @Param("pageNum") Integer pageNum,
                                                 @Param("pageSize") Integer pageSize
                                                 );
+
+    /**
+     * 删除赠送记录
+     * @param id
+     * @return
+     */
+    int updateStatusByRecordId(Integer id);
 }

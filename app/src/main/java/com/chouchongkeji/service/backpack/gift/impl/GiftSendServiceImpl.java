@@ -4,6 +4,10 @@ import com.chouchongkeji.dial.dao.backpack.BpItemMapper;
 import com.chouchongkeji.dial.dao.backpack.gift.GiftRecordDetailMapper;
 import com.chouchongkeji.dial.dao.backpack.gift.GiftRecordMapper;
 import com.chouchongkeji.dial.pojo.backpack.BpItem;
+import com.chouchongkeji.dial.pojo.backpack.gift.GiftRecordDetail;
+import com.chouchongkeji.dial.pojo.gift.virtualItem.GiftRecord;
+import com.chouchongkeji.exception.ServiceException;
+import com.chouchongkeji.goexplore.common.ErrorCode;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.query.PageQuery;
@@ -19,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -105,5 +110,64 @@ public class GiftSendServiceImpl implements GiftSendService {
         return ResponseFactory.sucMsg("撤回礼物赠送成功");
     }
 
+
+    /**
+     * 删除礼物赠送记录
+     * @param userId
+     * @param ids
+     * @return
+     * @author linqin
+     * @date 2019/1/4 11:46
+     */
+    @Override
+    public Response deleteSendRecord(Integer userId, HashSet<Integer> ids) {
+        for (Integer id : ids) {
+            //查询礼物赠送记录是否存在
+            GiftRecord giftRecord = giftRecordMapper.selectByPrimaryKey(id);
+            if (giftRecord == null){
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "礼物赠送记录不存在");
+            }
+            if (!giftRecord.getUserId().equals(userId)){
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "没有操作权限");
+            }
+            // 删除赠送记录
+            int i = giftRecordMapper.updateStatusByRecordId(id);
+            if (i < 1) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "删除赠送记录失败");
+            }
+        }
+        return ResponseFactory.err("删除赠送记录成功");
+    }
+
+
+    /**
+     * 删除收礼记录
+     * @param userId
+     * @param ids 礼物记录详情id 多个id时用逗号隔开
+     * @return
+     * @author linqin
+     * @date 2019/1/4 11:46
+     */
+    @Override
+    public Response deleteReceiveRecord(Integer userId, HashSet<Integer> ids) {
+        for (Integer id : ids) {
+            //查询礼物记录详情是否存在
+            GiftRecordDetail giftRecordDetail = giftRecordDetailMapper.selectByPrimaryKey(id);
+            if (giftRecordDetail == null){
+                throw new ServiceException(ErrorCode.ERROR.getCode(),"礼物记录详情不存在");
+            }
+            if (giftRecordDetail.getUserId()!= null && !giftRecordDetail.getUserId().equals(userId)){
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "没有操作权限");
+            }else if (giftRecordDetail.getUserId()== null){
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "没有操作权限");
+            }
+            // 删除记录详情
+            int i = giftRecordDetailMapper.updateStatusByRecordId(id);
+            if (i < 1) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "删除记录详情失败");
+            }
+        }
+        return ResponseFactory.err("删除记录详情成功");
+    }
 
 }
