@@ -719,6 +719,25 @@ create table if not exists memo_event
 create index user_id
 on memo_event (user_id);
 
+
+create table if not exists memo_affair
+(
+  id int(11) unsigned auto_increment comment '用户虚拟商品id'
+  primary key,
+  user_id int null comment '创建用户id',
+  target_time datetime null comment '标记的备忘时间',
+  title varchar(128) null comment '标题',
+  detail varchar(255) null comment '活动详情',
+  users varchar(500) null comment '被邀请的用户id集合',
+  created datetime null comment '创建时间',
+  updated datetime null comment '更新时间'
+  )
+  comment '备忘录事件(新加)' charset=utf8mb4;
+create index user_id
+on memo_event (user_id);
+
+
+
 create table if not exists merchant
 (
   id int auto_increment
