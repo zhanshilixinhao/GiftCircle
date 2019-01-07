@@ -4239,41 +4239,63 @@ JSON：
 
 请求结果示例：
 ```json
+
 {
   "errCode": 0,
   "result": 0,
-  "time": 1546587649195,
+  "time": 1546825810262,
   "data": [
     {
-      "id": 1,  //记录id
-      "userId": 1, //赠送者id
-      "friendUserId": 6,  //收礼者id
-      "greetting": "其实",  //祝福语
-      "type": 1, //1 立即赠送 2 按时间赠送 3 小程序选择好友赠送需要领取 4 小程序随机赠送需要领取
-      "event": "第一次平台赠送", //赠送事件
-      "targetTime": 1545829498000, //按时间赠送的赠送时间
-      "status": 3, //0-已取消，1 未领取 2 已领取部分 3 已领取全部 
-      "content": [   
+      "id": 50,   //赠送记录id
+      "userId": 6,  //赠送者id
+      "greetting": "快来",  //祝福语
+      "type": 1,  //1 立即赠送 2 按时间赠送 3 小程序选择好友赠送需要领取 4 小程序随机赠送需要领取
+      "event": "时间",  //赠送事件
+      "targetTime": 1546596929000,  //按时赠送的赠送事件
+      "status": 3,  //0-已取消，1 未领取 2 已领取部分 3 已领取全部 
+      "updated": 1546596929000,  //更新时间
+      "nickname": "林琴",  //赠送者用户昵称
+      "avatar": "order/comment/20181227/1545881538521936-600-600.jpg",  //赠送者用户头像
+      "flag": 1,  //1 赠送记录  2 收礼记录
+      "detail": [   //收礼详情
         {
-          "bpId": 7718122520139,   //背包id
-          "targetId": 5,    //目标物品id，type=1商品skuId，type=2虚拟物品id，type=3优惠券id
-          "targetType": 1,  // 1 物品 2 虚拟物品 3 优惠券 
-          "giftType": 1, //
-          "price": 0.02, //物品价格 
-          "title": "DUO 恶魔之眼耳环 女生个性神秘耳钉耳饰", //物品标题
-          "cover":   "https://liyuquan.cn/static/item/181219/d46de363-8ad8-4453-ba9b-6165311e682e.jpg",  //物品图标
-          "description": "DUO 恶魔之眼耳环 女生个性神秘耳钉耳饰个性神秘，迷人",//物品描述
-          "brand": "施华洛世奇"  //物品品牌
+          "id": 50,   //记录详情id
+          "giftRecordId": 50, //赠送记录id
+          "userId": 14,  //接收者用户id
+          "amount": null,
+          "content": [  //礼物详情
+            { 
+              "bpId": 7719010417127,  //背包id
+              "targetId": 17,  //目标物品id，type=1商品skuId，type=2虚拟物品id，type=3优惠券id
+              "targetType": 1,  // 1 物品 2 虚拟物品 3 优惠券 
+              "giftType": 1,
+              "price": 0.02,  //礼物价格
+              "title": "LOVELY浪漫爱心项链锁骨链女首饰",  //物品标题
+              "cover": "https://liyuquan.cn/static/item/181219/5e6b190c-8add-4f1d-987f-79c432fc14e1.jpg",  //物品封面图
+              "description": "LOVELY浪漫爱心项链锁骨链女首饰浪漫清新表达爱意",  //物品描述
+              "brand": "施华洛世奇" //物品品牌
+            },
+            {
+              "bpId": 7719010411111,
+              "targetId": 1,
+              "targetType": 2,
+              "giftType": 2,
+              "price": 111.00,
+              "title": "草莓",
+              "cover": "https://liyuquan.cn/static/item/181219/871493ad-2826-4443-a060-e29e61dfc1ba.png",
+              "description": "小草莓和蝴蝶",
+              "brand": "圣罗兰"
+            }
+          ],
+          "isReply": 2,  //1答谢 2未答谢
+          "reply": "",  //答谢内容
+          "status": 3,   // //0-已取消，1 未领取 2 已领取部分 3 已领取全部 
+          "updated": 1546596929000, //更新时间
+          "created": 1546596929000, //创建时间
+          "friendNickname": "年锐", //收礼者昵称
+          "friendAvatar":  "order/comment/20190104/1546595662441386-366-366.jpg" //收礼者头像
         }
-      ],
-      "isReply": 2,   //1答谢 2未答谢 
-      "reply": "",  //答谢回复
-      "updated": 1545829498000,  //更新时间
-      "nickname": "路遥",  // 赠送者昵称
-      "avatar": "order/comment/20181231/1546231284130051-600-600.jpg", //赠送者头像
-      "friendNickname": "林琴", //收礼者昵称
-      "friendAvatar": "order/comment/20181227/1545881538521936-600-600.jpg",//收礼者头像
-      "flag": 2   //1 赠送记录  2 收礼记录
+      ]
     }
   ]
 }

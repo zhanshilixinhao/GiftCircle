@@ -174,9 +174,9 @@
         <result column="flag" property="flag"/>
         <collection property="detail" javaType="ArrayList"
                     ofType="com.chouchongkeji.service.backpack.gift.vo.GiftRecordDetailVo">
-            <result column="id" property="id"/>
+            <result column="gift_record_detail_id" property="id"/>
             <result column="gift_record_id" property="giftRecordId"/>
-            <result column="user_id" property="userId"/>
+            <result column="friend_user_id" property="userId"/>
             <result column="amount" property="amount"/>
             <result column="content" property="content"
                     typeHandler="com.chouchongkeji.dial.handler.GiftItemVoTypeHandler"/>
@@ -185,6 +185,8 @@
             <result column="status" property="status"/>
             <result column="updated" property="updated"/>
             <result column="created" property="created"/>
+            <result column="friend_nickname" property="friendNickname"/>
+            <result column="friend_avatar" property="friendAvatar"/>
         </collection>
     </resultMap>
     <select id="selectListByFlagUserId" resultMap="GiftSendListVo">
@@ -198,11 +200,14 @@
                 a.event,
                 a.target_time,
                 a.status,
+                       b.id as gift_record_detail_id,
                 b.user_id as friend_user_id,
+                b.gift_record_id,
                 b.content,
                 b.is_reply,
                 b.reply,
                 b.updated,
+                b.created,
                 c.nickname,
                 c.avatar,
                 d.nickname as friend_nickname,
@@ -234,7 +239,9 @@
                 a.event,
                 a.target_time,
                 a.status,
+                b.id as gift_record_detail_id,
                 b.user_id  as friend_user_id,
+                b.gift_record_id,
                 b.content,
                 b.is_reply,
                 b.reply,
