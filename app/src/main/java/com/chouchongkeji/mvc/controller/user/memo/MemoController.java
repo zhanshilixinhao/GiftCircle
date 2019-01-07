@@ -92,7 +92,7 @@ public class MemoController {
 
 
     /**
-     * 添加活动
+     * 添加事件
      *
      * @param userDetails 用户信息
      * @param event       事件数据
@@ -138,7 +138,7 @@ public class MemoController {
 
 
     /**
-     * 添加活动
+     * 活动列表
      *
      * @param userDetails 用户信息
      * @param start       开始时间
