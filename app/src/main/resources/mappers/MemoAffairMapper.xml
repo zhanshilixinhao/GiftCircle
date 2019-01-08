@@ -95,7 +95,7 @@
     ORDER BY
     created DESC
   </select>
-  <select id="selectLastByUserId" resultType="java.lang.Object">
+  <select id="selectLastByUserId" resultType="com.chouchongkeji.service.user.memo.vo.HomeMemoItemVo">
     SELECT
       a.*,
       ( UNIX_TIMESTAMP( a.target_time ) - UNIX_TIMESTAMP( now( ) ) ) / ( 86400 ) AS days,
@@ -112,17 +112,7 @@
         FROM
           memo_affair
         WHERE
-          user_id = #{userId} UNION
-        SELECT
-          id,
-          user_id,
-          target_time,
-          detail,
-          created
-        FROM
-          memo_affair
-        WHERE
-          FIND_IN_SET(  #{userId}, users )
+          user_id = #{userId}
       ) a
         LEFT JOIN app_user b ON b.id = a.user_id
     WHERE
@@ -130,6 +120,7 @@
     ORDER BY
       a.target_time
       LIMIT 3
+
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from memo_affair

@@ -7,6 +7,7 @@ import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.service.user.friend.vo.FriendVo;
 import com.chouchongkeji.service.user.memo.MemoAffairService;
+import com.chouchongkeji.service.user.memo.vo.HomeMemoItemVo;
 import com.chouchongkeji.service.user.memo.vo.MemoItemVo;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -170,6 +171,7 @@ public class MemoAffairServiceImpl implements MemoAffairService {
      */
     @Override
     public Response getHomeList(Integer userId) {
-        return ResponseFactory.sucData(memoAffairMapper.selectLastByUserId(userId));
+        List<HomeMemoItemVo> list = memoAffairMapper.selectLastByUserId(userId);
+        return ResponseFactory.sucData(list);
     }
 }

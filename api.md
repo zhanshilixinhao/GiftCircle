@@ -4729,7 +4729,7 @@ JSON：
 
 ### 17.1 首页备忘录（需要登录）
 
-- 请求地址：auth/memo/home
+- 请求地址：auth/memo/affair/home
 - 服务协议：HTTP/POST
 - 是否需要身份认证：是
 - 作者：yichen
