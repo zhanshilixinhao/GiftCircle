@@ -1,5 +1,7 @@
 package com.chouchongkeji.service.backpack.gift.vo;
 
+import com.yichen.auth.jackson.ImgUrl;
+
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -32,6 +34,7 @@ public class GiftRecordDetailVo {
 
     private String friendNickname;
 
+    @ImgUrl
     private String friendAvatar;
 
     public Integer getId() {

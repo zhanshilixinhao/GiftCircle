@@ -18,23 +18,135 @@
     id, user_id, target_time, title, detail, users, created, updated, count
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from memo_affair
     where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="selectByUserIdAndDate" resultType="com.chouchongkeji.service.user.memo.vo.MemoItemVo">
+      SELECT
+      a.*,
+      b.avatar,
+      b.nickname
+      FROM
+      (
+      SELECT
+      id,
+      user_id,
+      target_time,
+      detail,
+      created
+      FROM
+      memo_affair
+      WHERE
+      user_id = #{userId}
+      UNION
+      SELECT
+      id,
+      user_id,
+      target_time,
+      detail,
+      created
+      FROM
+      memo_affair
+      WHERE
+      FIND_IN_SET( #{userId}, users )
+      ) a
+      LEFT JOIN app_user b ON b.id = a.user_id
+      <where>
+        <trim suffixOverrides="and">
+          <if test="start>0">
+            UNIX_TIMESTAMP( a.target_time ) > #{start} and
+          </if>
+          <if test="end>0">
+            UNIX_TIMESTAMP( a.target_time )
+            &lt; #{end} and
+          </if>
+        </trim>
+      </where>
+      ORDER BY
+      a.created DESC
+    </select>
+  <select id="selectFriendByUserIdAndDate" resultType="com.chouchongkeji.service.user.memo.vo.MemoItemVo">
+    SELECT
+    a.id,
+    a.user_id,
+    a.target_time,
+    a.detail,
+    a.created,
+    b.avatar,
+    b.nickname
+    FROM
+    `memo_affair` a
+    LEFT JOIN app_user b ON b.id = a.user_id
+    WHERE
+    user_id = #{userId}
+    <where>
+      <trim suffixOverrides="and">
+        <if test="start>0">
+          UNIX_TIMESTAMP( a.target_time ) > #{start} and
+        </if>
+        <if test="end>0">
+          UNIX_TIMESTAMP( a.target_time )
+          &lt; #{end} and
+        </if>
+      </trim>
+    </where>
+    ORDER BY
+    created DESC
+  </select>
+  <select id="selectLastByUserId" resultType="java.lang.Object">
+    SELECT
+      a.*,
+      ( UNIX_TIMESTAMP( a.target_time ) - UNIX_TIMESTAMP( now( ) ) ) / ( 86400 ) AS days,
+      b.avatar,
+      b.nickname
+    FROM
+      (
+        SELECT
+          id,
+          user_id,
+          target_time,
+          detail,
+          created
+        FROM
+          memo_affair
+        WHERE
+          user_id = #{userId} UNION
+        SELECT
+          id,
+          user_id,
+          target_time,
+          detail,
+          created
+        FROM
+          memo_affair
+        WHERE
+          FIND_IN_SET(  #{userId}, users )
+      ) a
+        LEFT JOIN app_user b ON b.id = a.user_id
+    WHERE
+      UNIX_TIMESTAMP( a.target_time ) > UNIX_TIMESTAMP( now( ) )
+    ORDER BY
+      a.target_time
+      LIMIT 3
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from memo_affair
     where id = #{id,jdbcType=INTEGER}
   </delete>
+  <!--<delete id="deleteByPrimaryKeyAndUserId">-->
+    <!--delete from memo_activity-->
+    <!--where id = #{id} and user_id = #{userId}-->
+  <!--</delete>-->
   <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.user.memo.MemoAffair">
-    insert into memo_affair (id, user_id, target_time, 
-      title, detail, users, 
+    insert into memo_affair (id, user_id, target_time,
+      title, detail, users,
       created, updated, count
       )
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{targetTime,jdbcType=TIMESTAMP}, 
-      #{title,jdbcType=VARCHAR}, #{detail,jdbcType=VARCHAR}, #{users,jdbcType=VARCHAR}, 
-      #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP}, #{count,jdbcType=INTEGER}
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{targetTime,jdbcType=TIMESTAMP},
+      #{title,jdbcType=VARCHAR}, #{detail,jdbcType=VARCHAR}, #{users,jdbcType=VARCHAR},
+      now(), now(), #{count,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.user.memo.MemoAffair">

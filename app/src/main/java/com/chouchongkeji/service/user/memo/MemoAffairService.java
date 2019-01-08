@@ -34,4 +34,49 @@ public interface MemoAffairService {
      * @date 2019/1/7 16:38
      */
     Response modifyAffair(Integer userId, MemoAffair affair, HashSet<Integer> idSet);
+
+    /**
+     * 获取活动列表
+     *
+     * @param userId
+     * @param start
+     * @param end
+     * @return
+     * @author linqin
+     * @date 2019/1/7 16:38
+     */
+    Response getAffairList(Integer userId, Long start, Long end);
+
+    /**
+     * 获得好友的备忘录
+     *
+     * @param userId 用户信息
+     * @param start       开始时间
+     * @param end         结束时间
+     * @return
+     * @author linqin
+     * @date 2018/6/22
+     */
+    Response getListForFriend(Integer userId, Long start, Long end, Integer friendUserId);
+
+
+    /**
+     * 删除一个备忘录信息
+     *
+     * @param userId 用户信息
+     * @param id          备忘录 id
+     * @return
+     * @author linqin
+     * @date 2018/6/22
+     */
+    Response delMemo(Integer userId, Integer id);
+    /**
+     * 首页的三个备忘录
+     *
+     * @param userId 用户信息
+     * @return
+     * @author linqin
+     * @date 2018/6/22
+     */
+    Response getHomeList(Integer userId);
 }

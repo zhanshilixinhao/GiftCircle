@@ -1,5 +1,7 @@
 package com.chouchongkeji.service.backpack.gift.vo;
 
+import com.yichen.auth.jackson.ImgUrl;
+
 import java.util.Date;
 import java.util.List;
 
@@ -29,6 +31,7 @@ public class GiftSendListVo {
 
     private String nickname;
 
+    @ImgUrl
     private String avatar;
 
     private Byte flag; //1赠送记录  2 收礼记录

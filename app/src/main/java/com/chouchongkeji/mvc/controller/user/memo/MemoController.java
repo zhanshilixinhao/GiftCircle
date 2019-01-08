@@ -160,7 +160,7 @@ public class MemoController {
     }
 
     /**
-     * 活动好友的备忘录
+     * 获得好友的备忘录
      *
      * @param userDetails 用户信息
      * @param start       开始时间

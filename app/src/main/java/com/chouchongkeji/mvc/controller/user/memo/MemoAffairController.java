@@ -51,9 +51,6 @@ public class MemoAffairController {
             if (Utils.getIds(affair.getUsers(), idSet)) {
                 return ResponseFactory.err("用户id错误!");
             }
-            if (affair.getCount() != idSet.size()) {
-                return ResponseFactory.err("人数和邀请的用户数不一致!");
-            }
         }
         return memoAffairService.addAffair(userDetails.getUserId(), affair, idSet);
     }
@@ -83,11 +80,89 @@ public class MemoAffairController {
             if (Utils.getIds(affair.getUsers(), idSet)) {
                 return ResponseFactory.err("用户id错误!");
             }
-            if (affair.getCount() != idSet.size()) {
-                return ResponseFactory.err("人数和邀请的用户数不一致!");
-            }
         }
         return memoAffairService.modifyAffair(userDetails.getUserId(), affair, idSet);
     }
+
+
+    /**
+     * 获取活动列表
+     *
+     * @param userDetails
+     * @param start
+     * @param end
+     * @return
+     * @author linqin
+     * @date 2019/1/7 16:38
+     */
+    @PostMapping("list")
+    public Response getAffairList(@AuthenticationPrincipal UserDetails userDetails, Long start, Long end) {
+        if (start == null) {
+            start = 0L;
+        }
+        if (end == null) {
+            end = 0L;
+        }
+        return memoAffairService.getAffairList(userDetails.getUserId(), start, end);
+    }
+
+
+
+    /**
+     * 获得好友的备忘录
+     *
+     * @param userDetails 用户信息
+     * @param start       开始时间
+     * @param end         结束时间
+     * @return
+     * @author linqin
+     * @date 2018/6/22
+     */
+    @PostMapping("list/friend")
+    public Response getListForFriend(@AuthenticationPrincipal UserDetails userDetails,
+                                     Integer friendUserId,
+                                     Long start, Long end) {
+        if (friendUserId == null) return ResponseFactory.errMissingParameter();
+        if (start == null) {
+            start = 0L;
+        }
+        if (end == null) {
+            end = 0L;
+        }
+        return memoAffairService.getListForFriend(userDetails.getUserId(), start, end, friendUserId);
+    }
+
+
+    /**
+     * 删除一个备忘录信息
+     *
+     * @param userDetails 用户信息
+     * @param id          备忘录 id
+     * @return
+     * @author linqin
+     * @date 2018/6/22
+     */
+    @PostMapping("del")
+    public Response delMemo(@AuthenticationPrincipal UserDetails userDetails,
+                            Integer id) {
+        if (id == null ) {
+            return ResponseFactory.errMissingParameter();
+        }
+        return memoAffairService.delMemo(userDetails.getUserId(), id);
+    }
+
+    /**
+     * 首页的三个备忘录
+     *
+     * @param userDetails 用户信息
+     * @return
+     * @author linqin
+     * @date 2018/6/22
+     */
+    @PostMapping("home")
+    public Response getHomeList(@AuthenticationPrincipal UserDetails userDetails) {
+        return memoAffairService.getHomeList(userDetails.getUserId());
+    }
+
 
 }
