@@ -141,7 +141,7 @@ public class MomentServiceImpl implements MomentService {
         ncomment.settCommentId(comment.getId());
         ncomment.setContent(content);
         ncomment.setMomentId(comment.getMomentId());
-        ncomment.setType(Constants.MOMENT_COMMENT_TYPE.COMMENT);
+        ncomment.setType(Constants.MOMENT_COMMENT_TYPE.REPLY);
         ncomment.setUserId(userId);
         momentCommentMapper.insert(ncomment);
         return ResponseFactory.suc();

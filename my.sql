@@ -63,7 +63,8 @@ create table if not exists article
   detail text null comment '文章详情富文本',
   admin_id int null comment '创建人',
   status tinyint null comment '1 正常 2 不可用 3 已删除',
-  sort int null,
+  type  tinyint null comment '文章类型1-banner,2-星座 ，3-普通文章',
+  sort int null comment '排序值',
   created datetime null,
   updated datetime null
   )
@@ -71,6 +72,22 @@ create table if not exists article
 
 create index admin_id
 on article (admin_id);
+
+
+create table if not exists article_item
+(
+  id int(11) auto_increment
+  primary key,
+  article_id int (11) null comment'文章id',
+  item_id int (11) null comment'商品id',
+  created datetime null,
+  updated datetime null
+  )
+  comment '文章商品关联表' charset=utf8mb4;
+
+
+
+
 
 create table if not exists bank_dict
 (
