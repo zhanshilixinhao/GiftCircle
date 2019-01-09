@@ -10,10 +10,11 @@
             <arg column="show_gift" javaType="java.lang.Byte" jdbcType="TINYINT"/>
             <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
             <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="open" javaType="java.lang.Byte" jdbcType="TINYINT"/>
         </constructor>
     </resultMap>
     <sql id="Base_Column_List">
-    id, user_id, content, medias, show_gift, created, updated
+    id, user_id, content, medias, show_gift, created, updated ,`open`
   </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
@@ -28,11 +29,11 @@
     <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.user.memo.Moment">
     insert into moment (id, user_id, content,
       medias, show_gift, media_count, created,
-      updated)
+      updated,`open`)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR},
       #{medias,jdbcType=VARCHAR}, #{showGift,jdbcType=TINYINT},#{mediaCount,jdbcType=TINYINT},
       now(),
-      now())
+      now(), #{open,jdbcType=TINYINT})
   </insert>
     <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.user.memo.Moment">
         insert into moment
@@ -103,6 +104,9 @@
             </if>
             <if test="updated != null">
                 updated = now(),
+            </if>
+            <if test="open != null">
+                `open` = #{open,jdbcType=TINYINT},
             </if>
         </set>
         where id = #{id,jdbcType=INTEGER}
@@ -194,6 +198,7 @@ FROM
 	LEFT JOIN app_user b ON b.id = a.user_id
 	LEFT JOIN friend c ON c.user_id = #{userId}
 	AND c.friend_user_id = a.user_id
+where a.open = 1 or c.id IS not NULL
 ORDER BY
 	a.id DESC
 	limit ${( page.pageNum -1 ) * page.pageSize},${page.pageNum * page.pageSize}

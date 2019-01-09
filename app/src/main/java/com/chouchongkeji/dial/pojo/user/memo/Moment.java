@@ -19,7 +19,9 @@ public class Moment {
 
     private Date updated;
 
-    public Moment(Integer id, Integer userId, String content, String medias, Byte showGift, Date created, Date updated) {
+    private Byte open;
+
+    public Moment(Integer id, Integer userId, String content, String medias, Byte showGift, Date created, Date updated,Byte open) {
         this.id = id;
         this.userId = userId;
         this.content = content;
@@ -27,6 +29,7 @@ public class Moment {
         this.showGift = showGift;
         this.created = created;
         this.updated = updated;
+        this.open = open;
     }
 
     public Moment() {
@@ -95,5 +98,13 @@ public class Moment {
 
     public void setMediaCount(Integer mediaCount) {
         this.mediaCount = mediaCount;
+    }
+
+    public Byte getOpen() {
+        return open;
+    }
+
+    public void setOpen(Byte open) {
+        this.open = open;
     }
 }

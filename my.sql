@@ -800,7 +800,8 @@ create table if not exists moment
   content varchar(512) null comment '秀秀文字内容',
   medias varchar(2000) null comment '秀秀图片或视频内容json数组[{type://1图片2视频,url:图片或视频地址}]',
   show_gift tinyint default 2 null comment '是否显示最近收到的礼物 1 显示 2 不显示',
-  media_count int(6) null,
+  open tinyint  null comment '是否公开 1 公开 2 不公开',
+  media_count int(6) null comment'图片数量',
   created datetime null,
   updated datetime null
   )

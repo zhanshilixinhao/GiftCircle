@@ -17,7 +17,7 @@ import java.util.Map;
 public class momentTest {
 
 
-    // 首页备忘录
+    // 秀秀列表
     @Test
     public void list() throws IOException {
         RequestParams params = new RequestParams();
@@ -32,5 +32,19 @@ public class momentTest {
         System.out.println(post.body().string());
     }
 
+    // 发布秀秀
+    @Test
+    public void push() throws IOException {
+        RequestParams params = new RequestParams();
+        params.put("time", System.currentTimeMillis());
+        params.put("access_token", "572f7a09-b3e0-4ec5-b04b-13c82771c1c8");
+        params.put("content", "呵呵hhhertettew");
+        params.put("open", 1);
+//        params.put("pageSize", 14);
+        Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
+        params.put("sign", map.get(ApiSignUtil.ANDROID));
+        Response post = OkHttpUtil.post("http://localhost:8088/auth/moment/publish", params);
+        System.out.println(post.body().string());
+    }
 
 }
