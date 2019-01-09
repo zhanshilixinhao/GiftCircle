@@ -1,4 +1,4 @@
-package com.chouchongkeji;
+package com.chouchongkeji.moment;
 
 import com.chouchongkeji.goexplore.utils.ApiSignUtil;
 import com.chouchongkeji.goexplore.utils.OkHttpUtil;

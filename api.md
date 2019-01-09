@@ -59,6 +59,7 @@
 > 3. 增加删除赠送记录接口（15.9）
 > 4. 增加删除收礼记录接口（15.10）
 > 5. 修改备忘录相关接口 （11）
+> 6. 修改秀秀相关接口 （15）
 
 ## 目录
 <span id="m"> </span>
@@ -3291,7 +3292,7 @@ JSON：
 
 
 
-### 12.2 赞|取消赞（好友才能操作）
+### 12.2 赞|取消赞
 
 - 请求地址：auth/moment/praise
 - 服务协议：HTTP/POST
@@ -3316,7 +3317,7 @@ JSON：
 
 
 
-### 12.3 评论（好友才能操作）
+### 12.3 评论
 
 - 请求地址：auth/moment/comment
 - 服务协议：HTTP/POST
@@ -3343,9 +3344,9 @@ JSON：
 
 
 
-### 12.4 回复）
+### 12.4 回复
 
-- 请求地址：auth/moment/comment
+- 请求地址：auth/moment/reply
 - 服务协议：HTTP/POST
 - 是否需要身份认证：是
 - 作者：yichen
@@ -3354,7 +3355,7 @@ JSON：
 | :----------: | :------: | :------: | :----: | :------: |
 | access_token |  string  |    是    |   无   | 访问令牌 |
 | commentId | int | 是 | 无 | 评论id |
-| content | string | 是 | 无 | 评论内容 |
+| content | string | 是 | 无 | 回复内容 |
 
 * 请求结果示例
 
@@ -3362,7 +3363,7 @@ JSON：
 {
     errCode: 0, 
     result: 0, 
-    msg: "评论成功!", 
+    msg: "回复成功!", 
     time: 1529983667667
 }
 ```
@@ -3404,6 +3405,7 @@ JSON：
             selfUserId: 4, // 用户自己的id
             createUserId: 4, // 创建者用户id
             nickname: "大秦帝国", // 创建者昵称
+            "type": 2,  //1 全部 2 只获取好友的 
             avatar: "https://io.shanren.group/image/avatar.jpg", 
             remark: "", // 我对创建者的备注名称
             relationship: "", // 我和创建者的关系
@@ -3453,13 +3455,22 @@ JSON：
                 }
             ]
             gifts:[ // 最近30天收到的礼物
-                    {
-                        "title": "1元优惠券",
-                        "targetId": 2,
-                        "targetType": 3, // 礼物类型 1 物品 2 虚拟物品 3 
-                        "cover": "https://io.shanren.group/image/cover.jpg",
-                        "created": 1530847416000
-                    }
+                   {
+                    "title": "LIFELONG手镯", //礼物标题
+                    "targetId": 16,
+                    "targetType": 1, // 礼物类型 1 物品 2 虚拟物品 3 优惠券
+                     "cover":  "https://liyuquan.cn/static/item/181219/83bc3d85-0c2a-4 ee5-83b3-7e9c982f3856.jpg", //物品封面
+                     "count": 2，  //礼物数量
+                     "created": 1546574353000  
+                     },
+                  {
+                    "title": "花朵",
+                    "targetId": 3,
+                    "targetType": 2,
+                    "cover": "https://liyuquan.cn/static/item/181219/90716484-9e61-41e5-a9a7-56cfc7dfafc2.png",
+                    "count": 2，
+                     "created": 1546574353000
+                 },
                 ]
         }
     ]
@@ -3482,7 +3493,7 @@ JSON：
 | praiseUsers | 赞过的用户列表 |
 | | pariseUserId | int | 赞的用户id |
 | | avatar | string | 头像 |
-| comments | 评论泪飙 |
+| comments | 评论列表 |
 | | commentId | int | 评论id |
 | | conent | string | 评论内容 |
 | | type | int | 1 评论 2 回复 |

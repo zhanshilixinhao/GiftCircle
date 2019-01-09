@@ -10,6 +10,7 @@ import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.query.PageQuery;
 import com.chouchongkeji.service.backpack.gift.GiftService;
+import com.chouchongkeji.service.backpack.gift.vo.GiftBaseVo;
 import com.chouchongkeji.service.user.friend.FriendService;
 import com.chouchongkeji.service.user.friend.MomentService;
 import com.chouchongkeji.service.user.friend.vo.MomentVo;
@@ -19,6 +20,7 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -74,9 +76,9 @@ public class MomentServiceImpl implements MomentService {
             return ResponseFactory.err("不存在的id");
         }
         // 判断是不是好友关系
-        if (userId.compareTo(moment.getUserId()) != 0 && friendService.isFriend(userId, moment.getUserId()) == null) {
-            return ResponseFactory.err("添加好友才能赞或取消赞");
-        }
+//        if (userId.compareTo(moment.getUserId()) != 0 && friendService.isFriend(userId, moment.getUserId()) == null) {
+//            return ResponseFactory.err("添加好友才能赞或取消赞");
+//        }
         int re = 0;
         // 判断有没有攒过
         MomentPraise praise = momentPraiseMapper.selectByMomentIdAndUserId(momentId, userId);
@@ -109,9 +111,9 @@ public class MomentServiceImpl implements MomentService {
             return ResponseFactory.err("不存在!");
         }
         // 判断是不是好友关系
-        if (userId.compareTo(moment.getUserId()) != 0 && friendService.isFriend(userId, moment.getUserId()) == null) {
-            return ResponseFactory.err("添加好友才能评论");
-        }
+//        if (userId.compareTo(moment.getUserId()) != 0 && friendService.isFriend(userId, moment.getUserId()) == null) {
+//            return ResponseFactory.err("添加好友才能评论");
+//        }
         // 添加评论
         comment.setUserId(userId);
         momentCommentMapper.insert(comment);
@@ -162,7 +164,28 @@ public class MomentServiceImpl implements MomentService {
         } else {
             list = momentMapper.selectAll(userId, page);
         }
-        return ResponseFactory.sucData(appendRecentGifts(list));
+        appendRecentGifts(list);
+        for (MomentVo momentVo : list) {
+            List<GiftBaseVo> base = new ArrayList<>();
+            List<GiftBaseVo> gifts = momentVo.getGifts();
+            if (CollectionUtils.isNotEmpty(gifts)) {
+                for (GiftBaseVo gift : gifts) {
+                    boolean has = false;
+                    for (GiftBaseVo giftBaseVo : base) {
+                        if (gift.getTargetType().equals(giftBaseVo.getTargetType()) && gift.getTargetId().equals(giftBaseVo.getTargetId())) {
+                            giftBaseVo.setCount(giftBaseVo.getCount() + 1);
+                            has = true;
+                        }
+                    }
+                    if (!has) {
+                        gift.setCount(1);
+                        base.add(gift);
+                    }
+                }
+                momentVo.setGifts(base);
+            }
+        }
+        return ResponseFactory.sucData(list);
     }
 
     /**

@@ -19,6 +19,8 @@ public class GiftBaseVo {
     private String cover;
     private Date created;
 
+    private Integer count = 0;
+
     public String getTitle() {
         return title;
     }
@@ -57,5 +59,13 @@ public class GiftBaseVo {
 
     public void setTargetType(Byte targetType) {
         this.targetType = targetType;
+    }
+
+    public Integer getCount() {
+        return count;
+    }
+
+    public void setCount(Integer count) {
+        this.count = count;
     }
 }

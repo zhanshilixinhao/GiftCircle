@@ -26,10 +26,10 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
     <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.user.memo.Moment">
-    insert into moment (id, user_id, content, 
+    insert into moment (id, user_id, content,
       medias, show_gift, media_count, created,
       updated)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR},
       #{medias,jdbcType=VARCHAR}, #{showGift,jdbcType=TINYINT},#{mediaCount,jdbcType=TINYINT},
       now(),
       now())
@@ -129,6 +129,7 @@
         <result column="created" property="created"/>
         <result column="updated" property="updated"/>
         <result column="nickname" property="nickname"/>
+        <result column="type" property="type"/>
         <result column="avatar" property="avatar"/>
         <result column="is_friend" property="isFriend"/>
         <result column="remark" property="remark"/>
@@ -150,7 +151,8 @@ SELECT
 	b.nickname,
 	b.avatar,
 	b.remark,
-	b.relationship
+	b.relationship,
+       2 as type
 FROM
 	moment a
 	LEFT JOIN v_friend b ON b.user_id = #{userId}
@@ -162,7 +164,8 @@ SELECT
 	b.nickname,
 	b.avatar,
 	NULL AS remark,
-	NULL AS relationship
+	NULL AS relationship,
+    2 as type
 FROM
 	moment a
 	LEFT JOIN app_user b ON b.id = a.user_id
@@ -179,16 +182,17 @@ ORDER BY
     <select id="selectAllAny" resultMap="Moment">
 SELECT
 	a.*,
-	4 AS selfUserId,
+	#{userId} AS selfUserId,
 	b.nickname,
 	b.avatar,
 	c.remark,
 	c.relationship,
-	( c.id IS NULL ) + 1 AS is_friend
+	( c.id IS NULL ) + 1 AS is_friend,
+       1 as type
 FROM
 	moment a
 	LEFT JOIN app_user b ON b.id = a.user_id
-	LEFT JOIN friend c ON c.user_id = 4
+	LEFT JOIN friend c ON c.user_id = #{userId}
 	AND c.friend_user_id = a.user_id
 ORDER BY
 	a.id DESC

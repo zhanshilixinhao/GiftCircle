@@ -3,7 +3,6 @@ package com.chouchongkeji.service.user.friend.vo;
 import com.chouchongkeji.service.backpack.gift.vo.GiftBaseVo;
 import com.yichen.auth.jackson.ImgUrl;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -27,6 +26,8 @@ public class MomentVo {
     private Byte showGift;
 
     private Integer isFriend;
+
+    private Byte type; //1 全部 2 只获取好友的
 
     @ImgUrl
     private String avatar;
@@ -169,5 +170,13 @@ public class MomentVo {
 
     public void setIsFriend(Integer isFriend) {
         this.isFriend = isFriend;
+    }
+
+    public Byte getType() {
+        return type;
+    }
+
+    public void setType(Byte type) {
+        this.type = type;
     }
 }
