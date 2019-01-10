@@ -60,6 +60,9 @@
 > 4. 增加删除收礼记录接口（15.10）
 > 5. 修改备忘录相关接口 （11）
 > 6. 修改秀秀相关接口 （15）
+> 7. 修改文章列表 （6.1）
+> 8. 修改文章详情 （6.2）
+> 9. 增加文章商品列表接口 （6.19）
 
 ## 目录
 <span id="m"> </span>
@@ -1306,6 +1309,7 @@ JSON：
 
 |   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
 | :----------: | :------: | :------: | :----: | :------: |
+|type|byte|是|无|文章类型 1-banner,2-星座，3-普通文章|
 | pageNum |  Int  |    否    |   1   | 分页 |
 | pageSize |  Int  |    否    |   14   | 分页大小 |
 
@@ -1322,14 +1326,16 @@ JSON：
             "title": "美丽的风景2",
             "summary": "这是关于一篇美丽的风景的报道2",
             "cover": "http://thirdwx.qlogo.cn/mmopen/vi_32/jhXsk4K6SZs58GvXyrPichgxlDv6y4IYrrKN5GCA1UTvHRKbRGtiac2SxmGMYibJSvCZzcLhNmQEykDgXTTzkPOXQ/132",
-            "created": 1528769929000
+            "created": 1528769929000,
+            "type":3
         },
         {
             "id": 3,
             "title": "美丽的风景3",
             "summary": "这是关于一篇美丽的风景的报道3",
             "cover": "http://thirdwx.qlogo.cn/mmopen/vi_32/jhXsk4K6SZs58GvXyrPichgxlDv6y4IYrrKN5GCA1UTvHRKbRGtiac2SxmGMYibJSvCZzcLhNmQEykDgXTTzkPOXQ/132",
-            "created": 1528769929000
+            "created": 1528769929000,
+            "type":3
         }
     ]
 }
@@ -1344,6 +1350,7 @@ JSON：
 | summary | String | 是 | 文章简介 |
 | cover | String | 是 | 文章封面 |
 | created | long | 是 | 创建时间 |
+|type|byte|是|无|文章类型 1-banner,2-星座，3-普通文章|
 
 ### 6.2 文章详情
 
@@ -1360,14 +1367,16 @@ JSON：
 
 ```json
 {
-    "errCode": 0,
-    "result": 0,
-    "time": 1528783642255,
-    "data": {
-        "title": "美丽的风景3",
-        "created": 1528769929000,
-        "detail": ""
-    }
+  "errCode": 0,
+  "result": 0,
+  "time": 1547089258347,
+  "data": {
+    "id": 1,
+    "title": "养不起，马来西亚考虑提前归还大熊猫？",
+    "cover": "https://liyuquan.cn/static/item/181219/69455f6d-5d97-43bb-8d08-a160d5b88f57.png",
+    "created": 1545134864000,
+    "detail": "https://liyuquan.cn/static/article.html?uid=1"
+  }
 }
 ```
 
@@ -1375,7 +1384,9 @@ JSON：
 | ------- |:------:|:------:|:------:|
 | errCode | Int | 是 | 错误码 0 标识成功获取数据 |
 | data | Object | 否 | 成功返回数据 |
+| id |  Int  |    是    |   无   | 文章id |
 | title | String | 是 | 文章标题 |
+|cover|string|否|文章封面|
 | created | long | 是 | 创建时间 |
 | detail | String | 是 | 文章详情(富文本) |
 
@@ -2018,6 +2029,55 @@ JSON：
 | isCollect   |     Int      |    是    | 是否收藏 1.已收藏 2.未收藏 |
 
 
+### 6.19 文章商品列表
+- 请求地址：noauth/v1/article/item_list
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：linqin
+
+| 参数名称 | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :------: | :------: | :------: | :----: | :------: |
+|  id  |   int    |    是    |   无   |  文章id  |
+|pageNum|int|否|1|分页|
+|pageSize|int|否|14|分页大小
+
+请求结果示例：
+```json
+{
+  "errCode": 0,
+  "result": 0,
+  "time": 1547105455053,
+  "data": [
+    {
+      "itemId": 7,
+      "cover": "https://liyuquan.cn/static/item/181218/a651139d-95bc-420f-947b-7de678afaed2.jpg",
+      "title": "CRYSTALDUST手镯女士多层手环",
+      "price": 199.00
+    },
+    {
+      "itemId": 8,
+      "cover": "https://liyuquan.cn/static/item/181219/217544e5-c3f0-4bb6-82ea-251810ab24ae.jpg",
+      "title": "CRYSTALLINE经典款学生用圆珠笔",
+      "price": 100.00
+    },
+    {
+      "itemId": 9,
+      "cover": "https://liyuquan.cn/static/item/181219/d46de363-8ad8-4453-ba9b-6165311e682e.jpg",
+      "title": "DUO 恶魔之眼耳环 女生个性神秘耳钉耳饰",
+      "price": 200.00
+    }
+  ]
+}
+
+```
+| 参数名称 | 参数类型 | 是否必传 | 参数说明 |
+| ------- |:------:|:------:|:------:|
+| errCode | Int | 是 | 错误码 0 标识成功获取数据 |
+| data | Object | 否 | 成功返回数据 |
+| itemId | Int | 是 | 商品id |
+| title | String | 是 | 商品标题 |
+| cover | String | 是 | 商品封面 |
+| price | decimal | 是 | 商品价格 |
 
 
 ## 7. 购物车
@@ -4905,6 +4965,8 @@ JSON：
 | targetId |  int  |    是    |  目标物品id |
 | type |  int  |    是    |  1-商品，2-虚拟商品， 3-优惠券 |
 | status |  int  |    是    |  1 上架 2 已购买未支付 3 交易完成 4 已下架 |
+
+### 17.3 首页文章列表（与6.1接口一样）
 
 
 

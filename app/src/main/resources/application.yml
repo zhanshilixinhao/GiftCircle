@@ -48,6 +48,10 @@ spring:
   output:
     ansi:
       enabled: always
+  http:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
 # mybatis配置
 mybatis:
   config-location: classpath:mybatis-config.xml
@@ -87,6 +91,5 @@ yichen:
 #    logo: http://43.241.223.169:800/image/logo.jpg
 server:
   port: 8088
-
 
 

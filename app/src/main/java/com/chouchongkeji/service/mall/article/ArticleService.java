@@ -12,7 +12,7 @@ public interface ArticleService {
      * @author: yy
      * @Date: 2018/6/11
      */
-    Response getArticleList(PageQuery page);
+    Response getArticleList(PageQuery page,Byte type);
 
     /**
      * 获取文章详情
@@ -33,4 +33,15 @@ public interface ArticleService {
      * @Date: 2018/6/13
      */
     Response getHtmlItemDetail(Integer id);
+
+    /**
+     * 文章商品列表
+     *
+     * @param id        文章id
+     * @param pageQuery
+     * @return
+     * @author: yy
+     * @Date: 2018/6/13
+     */
+    Response getArticleItem(Integer id, PageQuery pageQuery);
 }

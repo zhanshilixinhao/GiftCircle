@@ -35,7 +35,7 @@
     detail
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
-    select 
+    select
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
@@ -47,13 +47,13 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.gift.article.Article">
-    insert into article (id, title, cover, 
-      summary, admin_id, status, 
-      sort, created, updated, 
+    insert into article (id, title, cover,
+      summary, admin_id, status,
+      sort, created, updated,
       detail)
-    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{cover,jdbcType=VARCHAR}, 
-      #{summary,jdbcType=VARCHAR}, #{adminId,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, 
-      #{sort,jdbcType=INTEGER}, #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP}, 
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{cover,jdbcType=VARCHAR},
+      #{summary,jdbcType=VARCHAR}, #{adminId,jdbcType=INTEGER}, #{status,jdbcType=TINYINT},
+      #{sort,jdbcType=INTEGER}, #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP},
       #{detail,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.gift.article.Article">
@@ -189,11 +189,13 @@
     title,
     cover,
     summary,
-    created
+    created,
+    `type`
     FROM
     article
     WHERE
     status = #{status}
+      and `type` = #{type}
     ORDER BY
     sort DESC,created DESC
   </select>

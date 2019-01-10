@@ -22,6 +22,8 @@ public class ArticleVo {
     private String cover;
     // 创建时间
     private Date created;
+    //文章类型 1 banner 2 星座 3 普通文章
+    private Byte type;
 
     public Integer getId() {
         return id;
@@ -61,5 +63,13 @@ public class ArticleVo {
 
     public void setCreated(Date created) {
         this.created = created;
+    }
+
+    public Byte getType() {
+        return type;
+    }
+
+    public void setType(Byte type) {
+        this.type = type;
     }
 }

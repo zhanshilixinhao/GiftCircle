@@ -29,5 +29,5 @@ public interface ArticleMapper {
      * @author: yy
      * @Date: 2018/6/11
      */
-    List<ArticleVo> selectByStatus(@Param("status") Integer status);
+    List<ArticleVo> selectByStatus(@Param("status") Integer status,@Param("type") Byte type );
 }
