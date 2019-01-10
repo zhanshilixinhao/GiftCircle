@@ -53,6 +53,29 @@ public class HomeTest {
         System.out.println(post.body().string());
     }
 
+    // 标签列表
+    @Test
+    public void label() throws IOException {
+        RequestParams params = new RequestParams();
+        params.put("time" ,System.currentTimeMillis());
+//        params.put("id" ,1);
+        Map map = ApiSignUtil.sign1(params.getParams(),ApiSignUtil.ANDROID);
+        params.put("sign",map.get(ApiSignUtil.ANDROID));
+        Response post = OkHttpUtil.post("http://localhost:8088/noauth/v1/label/list", params);
+        System.out.println(post.body().string());
+    }
+    // 标签商品列表
+    @Test
+    public void itemList() throws IOException {
+        RequestParams params = new RequestParams();
+        params.put("time" ,System.currentTimeMillis());
+        params.put("id" ,1);
+        Map map = ApiSignUtil.sign1(params.getParams(),ApiSignUtil.ANDROID);
+        params.put("sign",map.get(ApiSignUtil.ANDROID));
+        Response post = OkHttpUtil.post("http://localhost:8088/noauth/v1/label/item_list", params);
+        System.out.println(post.body().string());
+    }
+
 
 
 

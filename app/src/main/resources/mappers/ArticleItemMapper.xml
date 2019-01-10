@@ -27,7 +27,8 @@
         b.price
       from article_item a
              left join item b on a.item_id = b.id
-      where a.article_id = #{id}
+      where a.article_id = #{id} AND b.status = 1
+      ORDER BY a.created DESC
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from article_item

@@ -63,6 +63,8 @@
 > 7. 修改文章列表 （6.1）
 > 8. 修改文章详情 （6.2）
 > 9. 增加文章商品列表接口 （6.19）
+> 10. 增加商城标签列表接口 （6.20）
+> 11. 增加标签商品列表接口（6.21）
 
 ## 目录
 <span id="m"> </span>
@@ -2078,6 +2080,108 @@ JSON：
 | title | String | 是 | 商品标题 |
 | cover | String | 是 | 商品封面 |
 | price | decimal | 是 | 商品价格 |
+
+
+
+### 6.20 商城标签列表
+
+- 请求地址：noauth/v1/label/list
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yy
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+
+请求结果示例：
+
+```json
+{
+  "errCode": 0,
+  "result": 0,
+  "time": 1547111061028,
+  "data": [
+    {
+      "id": 1,
+      "name": "送朋友",
+      "cover": "/item/181219/6dfffbeb-0fb8-4bce-9528-a898cccb1373.png",
+      "sort": 1,
+      "status": 1,
+      "created": 1547081901000,
+      "updated": 1547081903000
+    },
+    {
+      "id": 2,
+      "name": "送家人",
+      "cover": "/item/181219/6dfffbeb-0fb8-4bce-9528-a898cccb1373.png",
+      "sort": 2,
+      "status": 1,
+      "created": 1547081922000,
+      "updated": 1547081925000
+    }
+  ]
+}
+
+```
+
+| 参数名称 | 参数类型 | 是否必传 | 参数说明 |
+| ------- |:------:|:------:|:------:|
+| errCode | Int | 是 | 错误码 0 标识成功获取数据 |
+| data | Object | 否 | 成功返回数据 |
+| id | Int | 是 | 标签id |
+| name | String | 是 | 标签名称 |
+| cover | String | 是 | 标签封面 |
+|sort|int|否|排序值|
+|status|byte|否|1正常|
+
+### 6.21 标签商品列表
+
+- 请求地址：noauth/v1/label/item_list
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yy
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| id |  Int  |    是    |   无   | 标签id |
+| pageNum |  Int  |    否    |   1   | 分页 |
+| pageSize |  Int  |    否    |   14   | 分页大小 |
+
+请求结果示例：
+
+```json
+{
+  "errCode": 0,
+  "result": 0,
+  "time": 1547111634245,
+  "data": [
+    {
+      "itemId": 11,
+      "cover": "https://liyuquan.cn/static/item/181219/f5888c13-6b00-4e3d-a695-3f5e42683493.jpg",
+      "title": "FRISSON 时尚简约戒指指环女手饰配饰",
+      "price": 900.00
+    },
+    {
+      "itemId": 10,
+      "cover": "https://liyuquan.cn/static/item/181219/fac8ebae-738a-49ae-9fc6-f9127e27f700.jpg",
+      "title": "DUO恶魔之眼浪漫钥匙项链锁骨链",
+      "price": 200.00
+    }
+  ]
+}
+```
+
+| 参数名称 | 参数类型 | 是否必传 | 参数说明 |
+| ------- |:------:|:------:|:------:|
+| errCode | Int | 是 | 错误码 0 标识成功获取数据 |
+| data | Object | 否 | 成功返回数据 |
+| itemId | Int | 是 | 商品id |
+| title | String | 是 | 商品标题 |
+| cover | String | 是 | 商品封面 |
+| price | decimal | 是 | 商品价格 |
+
+
+
 
 
 ## 7. 购物车

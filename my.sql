@@ -1130,6 +1130,36 @@ on theme_item (item_id);
 create index theme_id
 on theme_item (theme_id);
 
+
+
+create table if not exists label
+(
+  id int(11) unsigned auto_increment comment '商城标签id'
+  primary key,
+  `name` varchar(64) null comment '标签名称',
+  cover varchar(255) null comment '标签封面图',
+  sort int null comment '排序值',
+  status tinyint default 2 null comment '主题状态 1 使用 2 禁用 -1已删除',
+  created datetime null comment '创建时间',
+  updated datetime null comment '更新时间'
+  )
+  comment '商城标签' charset=utf8mb4;
+
+create table if not exists label_item
+(
+  id int(11) unsigned auto_increment comment '标签商品id'
+  primary key,
+  item_id int null comment '商品id',
+  label_id int null comment '标签id',
+  sort int null comment '排序值',
+  status tinyint null comment '状态 1 正常 2 禁用',
+  created datetime null comment '创建时间',
+  updated datetime null comment '更新时间'
+  )
+  comment '商城标签商品' charset=utf8mb4;
+
+
+
 create table if not exists third_account
 (
   id int auto_increment comment '表id'
