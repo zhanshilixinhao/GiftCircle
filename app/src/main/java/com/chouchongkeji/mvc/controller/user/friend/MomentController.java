@@ -175,6 +175,20 @@ public class MomentController {
     }
 
     /**
+     * 获取点赞/评论未查看数量
+     *
+     * @param userDetails
+     * @return
+     * @author yichenshanren
+     * @date 2018/6/26
+     */
+    @PostMapping("count")
+    public Response getCommentPraise(@AuthenticationPrincipal UserDetails userDetails) {
+        return momentService.getCommentPraise(userDetails.getUserId());
+    }
+
+
+    /**
      * 秀秀列表-包括好友
      *
      * @param userDetails 用户i西南西

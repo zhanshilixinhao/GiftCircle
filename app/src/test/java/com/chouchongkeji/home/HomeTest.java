@@ -76,7 +76,7 @@ public class HomeTest {
         System.out.println(post.body().string());
     }
 
-    // 按天查询
+    // 按天查询文章
     @Test
     public void day() throws IOException {
         RequestParams params = new RequestParams();
@@ -85,6 +85,18 @@ public class HomeTest {
         Map map = ApiSignUtil.sign1(params.getParams(),ApiSignUtil.ANDROID);
         params.put("sign",map.get(ApiSignUtil.ANDROID));
         Response post = OkHttpUtil.post("http://localhost:8088/noauth/v1/article/article_list", params);
+        System.out.println(post.body().string());
+    }
+
+    // 未查看的评论数量
+    @Test
+    public void count() throws IOException {
+        RequestParams params = new RequestParams();
+        params.put("time" ,System.currentTimeMillis());
+        params.put("access_token", "572f7a09-b3e0-4ec5-b04b-13c82771c1c8");
+        Map map = ApiSignUtil.sign1(params.getParams(),ApiSignUtil.ANDROID);
+        params.put("sign",map.get(ApiSignUtil.ANDROID));
+        Response post = OkHttpUtil.post("http://localhost:8088/auth/moment/count", params);
         System.out.println(post.body().string());
     }
 

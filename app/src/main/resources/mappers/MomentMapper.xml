@@ -311,4 +311,21 @@ limit ${( page.pageNum -1 ) * page.pageSize},${page.pageNum * page.pageSize}
         order by id DESC
         limit 3
     </select>
+    <select id="selectByUserIdAndCreated" resultType="com.chouchongkeji.service.user.friend.vo.CountVo">
+        select
+            (select
+                 count(0)
+             from moment_comment a
+                      left join moment b on b.id = a.moment_id
+             where b.user_id = #{userId} and a.user_id != #{userId}
+               and UNIX_TIMESTAMP(a.created) > #{time} )as comment_count
+        ,
+        (select
+             count(0)
+        from moment_praise a
+             left join moment b on b.id = a.moment_id
+        where b.user_id = #{userId} and a.user_id != #{userId}
+            and UNIX_TIMESTAMP(a.created) > #{time} )as parise_count
+    </select>
+
 </mapper>

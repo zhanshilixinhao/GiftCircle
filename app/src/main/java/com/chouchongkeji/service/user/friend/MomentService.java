@@ -107,4 +107,14 @@ public interface MomentService {
      * @date 2018/6/26
      */
     Response delMoment(Integer userId, Integer momentId);
+
+    /**
+     * 获取点赞/评论未查看数量
+     *
+     * @param
+     * @return
+     * @author yichenshanren
+     * @date 2018/6/26
+     */
+    Response getCommentPraise(Integer userId);
 }

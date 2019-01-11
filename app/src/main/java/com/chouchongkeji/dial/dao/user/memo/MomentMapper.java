@@ -2,6 +2,7 @@ package com.chouchongkeji.dial.dao.user.memo;
 
 import com.chouchongkeji.dial.pojo.user.memo.Moment;
 import com.chouchongkeji.goexplore.query.PageQuery;
+import com.chouchongkeji.service.user.friend.vo.CountVo;
 import com.chouchongkeji.service.user.friend.vo.MomentVo;
 import org.apache.ibatis.annotations.Param;
 
@@ -35,4 +36,12 @@ public interface MomentMapper {
     List<MomentVo> selectAllAny(
             @Param("userId") Integer userId,
             @Param("page") PageQuery page);
+
+    /**\
+     * 获取未查看的点赞数量
+     * @param userId
+     * @param time
+     * @return
+     */
+    CountVo selectByUserIdAndCreated(@Param("userId") Integer userId, @Param("time") Long time);
 }

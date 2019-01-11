@@ -6,16 +6,18 @@ import com.chouchongkeji.dial.dao.user.memo.MomentPraiseMapper;
 import com.chouchongkeji.dial.pojo.user.memo.Moment;
 import com.chouchongkeji.dial.pojo.user.memo.MomentComment;
 import com.chouchongkeji.dial.pojo.user.memo.MomentPraise;
+import com.chouchongkeji.dial.redis.MRedisTemplate;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.query.PageQuery;
 import com.chouchongkeji.service.backpack.gift.GiftService;
 import com.chouchongkeji.service.backpack.gift.vo.GiftBaseVo;
-import com.chouchongkeji.service.user.friend.FriendService;
 import com.chouchongkeji.service.user.friend.MomentService;
+import com.chouchongkeji.service.user.friend.vo.CountVo;
 import com.chouchongkeji.service.user.friend.vo.MomentVo;
 import com.chouchongkeji.util.Constants;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,7 +43,7 @@ public class MomentServiceImpl implements MomentService {
     private MomentPraiseMapper momentPraiseMapper;
 
     @Autowired
-    private FriendService friendService;
+    private MRedisTemplate mRedisTemplate;
 
     @Autowired
     private GiftService giftService;
@@ -185,7 +187,30 @@ public class MomentServiceImpl implements MomentService {
                 momentVo.setGifts(base);
             }
         }
+        //存看秀秀的最后时间
+        mRedisTemplate.setString("mlasttime-" + userId, String.valueOf(System.currentTimeMillis()));
         return ResponseFactory.sucData(list);
+    }
+
+    /**
+     * 获取点赞/评论未查看数量
+     *
+     * @param
+     * @return
+     * @author yichenshanren
+     * @date 2018/6/26
+     */
+    @Override
+    public Response getCommentPraise(Integer userId) {
+        // 取出最后看秀秀的时间
+        String string = mRedisTemplate.getString("mlasttime-" + userId);
+        Long time = null;
+        if (StringUtils.isNotBlank(string)) {
+            time = Long.parseLong(string);
+           CountVo countVo = momentMapper.selectByUserIdAndCreated(userId,time/1000);
+           return ResponseFactory.sucData(countVo);
+        }
+        return ResponseFactory.suc();
     }
 
     /**
