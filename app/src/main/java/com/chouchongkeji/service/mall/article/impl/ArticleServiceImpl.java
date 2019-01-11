@@ -33,6 +33,21 @@ public class ArticleServiceImpl implements ArticleService {
     @Autowired
     private ArticleItemMapper  articleItemMapper;
 
+
+    /**
+     * 按天获取banner文章列表
+     *
+     * @param
+     * @return
+     * @author linqin
+     * * @date 2018/7/6
+     */
+    @Override
+    public Response getArticleByDay(Long start, Long end) {
+        List<ArticleVo> list = articleMapper.selectByDay(start,end);
+        return ResponseFactory.sucData(list);
+    }
+
     /**
      * 获得文章列表
      *

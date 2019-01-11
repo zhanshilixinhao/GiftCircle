@@ -7,6 +7,7 @@ import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.service.backpack.consignment.vo.ConsignmentVo;
 import com.chouchongkeji.service.home.HomeService;
+import com.chouchongkeji.service.mall.article.vo.ArticleVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,8 @@ public class HomeServiceImpl implements HomeService {
 
     @Autowired
     private ConsignmentMapper consignmentMapper;
+
+    @Autowired
 
     /**
      * 首页Banner
@@ -55,6 +58,7 @@ public class HomeServiceImpl implements HomeService {
         }
         return ResponseFactory.sucData(conList);
     }
+
 
 
 }

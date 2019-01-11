@@ -30,4 +30,11 @@ public interface ArticleMapper {
      * @Date: 2018/6/11
      */
     List<ArticleVo> selectByStatus(@Param("status") Integer status,@Param("type") Byte type );
+
+    /**
+     * 按天获取文章列表
+     * @param
+     * @return
+     */
+    List<ArticleVo> selectByDay(@Param("start") Long start,@Param("end") Long end);
 }

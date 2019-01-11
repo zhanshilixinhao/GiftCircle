@@ -4,6 +4,18 @@ import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.query.PageQuery;
 
 public interface ArticleService {
+
+
+    /**
+     * 按天获取文章列表
+     *
+     * @param
+     * @return
+     * @author linqin
+     * * @date 2018/7/6
+     */
+    Response getArticleByDay(Long start, Long end);
+
     /**
      * 获得文章列表
      *
@@ -44,4 +56,6 @@ public interface ArticleService {
      * @Date: 2018/6/13
      */
     Response getArticleItem(Integer id, PageQuery pageQuery);
+
+
 }

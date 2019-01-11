@@ -24,51 +24,27 @@ public class HomeController {
 
     /**
      * 首页Banner
+     *
      * @return
      * @author linqin
      * @date 2018/7/6
      */
     @PostMapping("Banner")
-    public Response homeItem(){
+    public Response homeItem() {
         return homeService.getItemList();
     }
 
     /**
      * 首页寄售台新上架商品
+     *
      * @return
      * @author linqin
      * @date 2018/7/6
      */
     @PostMapping("con_item")
-    public Response honeConItem(){
+    public Response honeConItem() {
         return homeService.getConItem();
     }
 
-    /**
-     * 按天获取文章列表
-     * @param day
-     * @return
-     */
-    @PostMapping("article_list")
-    public Response getArticleByDay(Long day) throws ParseException {
-        // 如果时间为空，默认为当天
-        if (day == null){
-            time(System.currentTimeMillis());
-        }else {
-            time(day);
-        }
-        return null;
-    }
-
-    /**
-     * 时间戳
-     */
-    public void time(Long day) throws ParseException {
-        Date now = new Date(day);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-        String format = dateFormat.format(now);//日期
-        Date parse = dateFormat.parse(format);  //时间戳
-        day = parse.getTime() / 1000;
-    }
 
 }
