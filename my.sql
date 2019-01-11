@@ -63,7 +63,8 @@ create table if not exists article
   detail text null comment '文章详情富文本',
   admin_id int null comment '创建人',
   status tinyint null comment '1 正常 2 不可用 3 已删除',
-  type  tinyint null comment '文章类型1-banner,2-星座 ，3-普通文章',
+  `type`  tinyint null comment '文章类型1-banner,2-星座 ，3-普通文章',
+  show_time datetime null comment'文章展示时间',
   sort int null comment '排序值',
   created datetime null,
   updated datetime null

@@ -29,7 +29,7 @@
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    id, title, cover, summary, admin_id, status, sort, created, updated
+    id, title, cover, summary, admin_id, status, sort, created, updated,`type`,show_time
   </sql>
   <sql id="Blob_Column_List">
     detail
@@ -190,7 +190,8 @@
     cover,
     summary,
     created,
-    `type`
+    `type`,
+           show_time
     FROM
     article
     WHERE

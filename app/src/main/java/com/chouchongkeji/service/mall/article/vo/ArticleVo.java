@@ -22,9 +22,10 @@ public class ArticleVo {
     private String cover;
     // 创建时间
     private Date created;
-    //文章类型 1 banner 2 星座 3 普通文章
+    //文章类型 1 banner 2 星座 3 首页普通文章,3 普通文章
     private Byte type;
 
+    private Date showTime;
     public Integer getId() {
         return id;
     }
@@ -71,5 +72,13 @@ public class ArticleVo {
 
     public void setType(Byte type) {
         this.type = type;
+    }
+
+    public Date getShowTime() {
+        return showTime;
+    }
+
+    public void setShowTime(Date showTime) {
+        this.showTime = showTime;
     }
 }

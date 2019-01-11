@@ -1311,7 +1311,7 @@ JSON：
 
 |   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
 | :----------: | :------: | :------: | :----: | :------: |
-|type|byte|是|无|文章类型 1-banner,2-星座，3-普通文章|
+|type|byte|是|无|文章类型 1-banner,2-星座，3-首页普通文章，4-商城普通文章|
 | pageNum |  Int  |    否    |   1   | 分页 |
 | pageSize |  Int  |    否    |   14   | 分页大小 |
 
@@ -1329,7 +1329,8 @@ JSON：
             "summary": "这是关于一篇美丽的风景的报道2",
             "cover": "http://thirdwx.qlogo.cn/mmopen/vi_32/jhXsk4K6SZs58GvXyrPichgxlDv6y4IYrrKN5GCA1UTvHRKbRGtiac2SxmGMYibJSvCZzcLhNmQEykDgXTTzkPOXQ/132",
             "created": 1528769929000,
-            "type":3
+            "type":1,
+            "showTime":1547143931000
         },
         {
             "id": 3,
@@ -1337,7 +1338,8 @@ JSON：
             "summary": "这是关于一篇美丽的风景的报道3",
             "cover": "http://thirdwx.qlogo.cn/mmopen/vi_32/jhXsk4K6SZs58GvXyrPichgxlDv6y4IYrrKN5GCA1UTvHRKbRGtiac2SxmGMYibJSvCZzcLhNmQEykDgXTTzkPOXQ/132",
             "created": 1528769929000,
-            "type":3
+            "type":3,
+            "showTime":1547143931000
         }
     ]
 }
@@ -1352,7 +1354,8 @@ JSON：
 | summary | String | 是 | 文章简介 |
 | cover | String | 是 | 文章封面 |
 | created | long | 是 | 创建时间 |
-|type|byte|是|无|文章类型 1-banner,2-星座，3-普通文章|
+|type|byte|是|文章类型 1-banner,2-星座，3-首页普通文章，4-商城普通文章|
+|showTime|date|是|展示时间（一般情况banner文章才有展示时间）|
 
 ### 6.2 文章详情
 
@@ -1386,7 +1389,7 @@ JSON：
 | ------- |:------:|:------:|:------:|
 | errCode | Int | 是 | 错误码 0 标识成功获取数据 |
 | data | Object | 否 | 成功返回数据 |
-| id |  Int  |    是    |   无   | 文章id |
+| id |  Int  |    是   | 文章id |
 | title | String | 是 | 文章标题 |
 |cover|string|否|文章封面|
 | created | long | 是 | 创建时间 |

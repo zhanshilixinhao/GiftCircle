@@ -23,6 +23,10 @@ public class Article {
 
     private String detail;
 
+    private Byte type;
+
+    private Date showTime;
+
     public Article(Integer id, String title, String cover, String summary, Integer adminId, Byte status, Integer sort, Date created, Date updated) {
         this.id = id;
         this.title = title;
@@ -130,5 +134,21 @@ public class Article {
 
     public void setDetail(String detail) {
         this.detail = detail == null ? null : detail.trim();
+    }
+
+    public Byte getType() {
+        return type;
+    }
+
+    public void setType(Byte type) {
+        this.type = type;
+    }
+
+    public Date getShowTime() {
+        return showTime;
+    }
+
+    public void setShowTime(Date showTime) {
+        this.showTime = showTime;
     }
 }

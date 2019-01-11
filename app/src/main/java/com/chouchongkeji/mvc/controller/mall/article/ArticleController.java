@@ -25,7 +25,7 @@ public class ArticleController {
     /**
      * 获得文章列表
      *
-     * @param: [userDetails 用户认证信息, page 分页信息,type 1-banner,2-星座，2普通文章]
+     * @param: [userDetails 用户认证信息, page 分页信息,type 1-banner,2-星座，3首页普通文章 ，4商城首页文章]
      * @return: com.chouchongkeji.goexplore.common.Response
      * @author: yy
      * @Date: 2018/6/11
@@ -33,7 +33,7 @@ public class ArticleController {
     @PostMapping("list")
     public Response getArticleList(PageQuery page, Byte type) {
         if (type == null || (type != Constants.ARTICLE_TYPE.BANNER && type != Constants.ARTICLE_TYPE.SIGN
-                && type != Constants.ARTICLE_TYPE.ARTICLE)) {
+                && type != Constants.ARTICLE_TYPE.ARTICLE && type != Constants.ARTICLE_TYPE.MALL)) {
             return ResponseFactory.errMissingParameter();
         }
         return articleService.getArticleList(page, type);

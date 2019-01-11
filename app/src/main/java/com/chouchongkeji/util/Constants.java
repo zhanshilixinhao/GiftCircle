@@ -64,11 +64,12 @@ public class Constants {
         return name;
     }
 
-    /* 文章类型 1 banner，2 星座，3 普通文章 */
+    /* 文章类型 1 banner，2 星座，3 首页普通文章 4 商城首页普通文章*/
     public interface ARTICLE_TYPE {
         byte BANNER = 1;
         byte SIGN = 2;
         byte ARTICLE = 3;
+        byte MALL = 4;
     }
 
     /*是否从购物车购买 1 是 2 不是*/
