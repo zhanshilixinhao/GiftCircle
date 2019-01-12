@@ -16,6 +16,7 @@ public class MemoItemVo {
     private Date targetTime;
     private String detail;
     private Integer type;
+    private String users;
     private Date created;
     private String nickname;
 
@@ -85,5 +86,13 @@ public class MemoItemVo {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public String getUsers() {
+        return users;
+    }
+
+    public void setUsers(String users) {
+        this.users = users;
     }
 }

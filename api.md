@@ -3390,7 +3390,7 @@ JSON：
 
 ### 11.12 删除一条备忘录
 
-- 请求地址：auth/memo/del
+- 请求地址：auth/memo/affair/del
 - 服务协议：HTTP/POST
 - 是否需要身份认证：是
 - 作者：yichen
@@ -3399,7 +3399,7 @@ JSON：
 | :----------: | :------: | :------: | :----: | :------: |
 | access_token |  string  |    是    |   无   | 访问令牌 |
 | id | int | 是 | 无 | 备忘录id |
-| type | int | 是 | 无 | 1 活动 2 事件 |
+
 
 
 * 请求示例
