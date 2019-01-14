@@ -65,7 +65,7 @@ public class ArticleController {
     /**
      * 时间戳（当天12点）
      */
-    public long timeEnd(Long end) throws ParseException {
+    public Long timeEnd(Long end) throws ParseException {
         Date now = new Date(end);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
         String format = dateFormat.format(now);
