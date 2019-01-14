@@ -7,12 +7,16 @@ import com.chouchongkeji.goexplore.utils.Utils;
 import com.chouchongkeji.service.user.memo.MemoAffairService;
 import com.yichen.auth.service.UserDetails;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashSet;
 
 /**
@@ -96,16 +100,43 @@ public class MemoAffairController {
      * @date 2019/1/7 16:38
      */
     @PostMapping("list")
-    public Response getAffairList(@AuthenticationPrincipal UserDetails userDetails, Long start, Long end) {
+    public Response getAffairList(@AuthenticationPrincipal UserDetails userDetails, Long start, Long end) throws ParseException {
         if (start == null) {
             start = 0L;
+        } else {
+            start = time(start);
         }
         if (end == null) {
             end = 0L;
+        } else {
+            end = timeEnd(end);
         }
         return memoAffairService.getAffairList(userDetails.getUserId(), start, end);
     }
 
+    /**
+     * 时间戳(当天0点)
+     */
+    public Long time(Long day) throws ParseException {
+        Date now = new Date(day);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+        String format = dateFormat.format(now);//日期
+        Date parse = dateFormat.parse(format);  //时间戳
+        day = parse.getTime() / 1000;
+        return day;
+    }
+
+    /**
+     * 时间戳（当天12点）
+     */
+    public Long timeEnd(Long end) throws ParseException {
+        Date now = new Date(end);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+        String format = dateFormat.format(now);
+        Date parse = dateFormat.parse(format);
+        end = DateUtils.addDays(parse, 1).getTime() / 1000;
+        return end;
+    }
 
 
     /**
@@ -145,7 +176,7 @@ public class MemoAffairController {
     @PostMapping("del")
     public Response delMemo(@AuthenticationPrincipal UserDetails userDetails,
                             Integer id) {
-        if (id == null ) {
+        if (id == null) {
             return ResponseFactory.errMissingParameter();
         }
         return memoAffairService.delMemo(userDetails.getUserId(), id);

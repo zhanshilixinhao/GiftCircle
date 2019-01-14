@@ -3358,6 +3358,7 @@ JSON：
       "type": null,
       "created": 1546919878000,
       "nickname": "林琴",
+      "users": "1,15",
       "avatar": "https://liyuquan.cn/staticorder/comment/20181227/1545881538521936-600-600.jpg"
     },
      {
@@ -3368,6 +3369,7 @@ JSON：
       "type": null,
       "created": 1546919878000,
       "nickname": "路遥",
+      "users": null,
       "avatar": "https://liyuquan.cn/staticorder/comment/20181231/1546231284130051-600-600.jpg"
     }
     ]
