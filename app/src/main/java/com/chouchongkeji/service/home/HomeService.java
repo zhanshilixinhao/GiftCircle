@@ -23,5 +23,12 @@ public interface HomeService {
      */
     Response getConItem();
 
-
+    /**
+     * 首页节日列表
+     *
+     * @return
+     * @author linqin
+     * @date 2018/7/6
+     */
+    Response getFestivalList();
 }

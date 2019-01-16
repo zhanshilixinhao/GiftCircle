@@ -2,7 +2,9 @@ package com.chouchongkeji.service.home.impl;
 
 import com.chouchongkeji.dial.dao.backpack.consignment.ConsignmentMapper;
 import com.chouchongkeji.dial.dao.home.BannerMapper;
+import com.chouchongkeji.dial.dao.home.FestivalMapper;
 import com.chouchongkeji.dial.pojo.home.Banner;
+import com.chouchongkeji.dial.pojo.home.Festival;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.service.backpack.consignment.vo.ConsignmentVo;
@@ -27,6 +29,7 @@ public class HomeServiceImpl implements HomeService {
     private ConsignmentMapper consignmentMapper;
 
     @Autowired
+    private FestivalMapper festivalMapper;
 
     /**
      * 首页Banner
@@ -59,6 +62,17 @@ public class HomeServiceImpl implements HomeService {
         return ResponseFactory.sucData(conList);
     }
 
-
-
+    /**
+     * 首页节日列表
+     *
+     * @return
+     * @author linqin
+     * @date 2018/7/6
+     */
+    @Override
+    public Response getFestivalList() {
+        // 查询所有节日
+        List<Festival> festivals = festivalMapper.selectByAll();
+        return ResponseFactory.sucData(festivals);
+    }
 }

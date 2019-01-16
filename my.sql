@@ -1382,3 +1382,15 @@ create table if not exists wallet_record
   )
   comment '钱包收益记录' charset=utf8mb4;
 
+
+
+create table if not exists festival
+(
+  id int auto_increment
+  primary key,
+  festival varchar(50) null comment '节日',
+  `target_date` datetime null comment'节日日期',
+  created datetime null
+  )
+  comment '首页节日' charset=utf8mb4;
+

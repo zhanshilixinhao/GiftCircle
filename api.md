@@ -67,6 +67,7 @@
 > 11. 增加标签商品列表接口（6.21）
 > 12. 增加按天获取文章列表 (17.5)
 > 13. 增加用户未查看的评论和点赞(12.10)
+> 14.  增加首页节日列表（17.6）
 
 ## 目录
 <span id="m"> </span>
@@ -5164,6 +5165,66 @@ JSON：
 | created | long | 是 | 创建时间 |
 |type|byte|是|文章类型 1-banner,2-星座，3-首页普通文章，4-商城普通文章|
 |showTime|date|是|展示时间（一般情况banner文章才有展示时间）|
+
+
+### 17.6 首页节日列表
+
+- 请求地址：noauth/v1/home/festival
+- 服务协议：HTTP/POST
+- 是否需要身份认证：否
+- 作者：linqin
+- 无参数
+
+请求结果示例：（返回最近5天）
+
+```js
+{
+  "errCode": 0,
+  "result": 0,
+  "time": 1547643606628,
+  "data": [
+    {
+      "id": 2, 
+      "festival": "元旦节",
+      "targetDate": 1547222400000,
+      "created": 1547613005000
+    },
+    {
+      "id": 3,
+      "festival": "hh节",
+      "targetDate": 1547308800000,
+      "created": 1547613005000
+    },
+    {
+      "id": 4,
+      "festival": "jj节",
+      "targetDate": 1547395200000,
+      "created": 1547613005000
+    },
+    {
+      "id": 5,
+      "festival": "fd节",
+      "targetDate": 1547481600000,
+      "created": 1547613005000
+    },
+    {
+      "id": 6,
+      "festival": "uu节",
+      "targetDate": 1547568000000,
+      "created": 1547613005000
+    }
+  ]
+}
+
+```
+| 参数名称 | 参数类型 | 是否必传 | 参数说明 |
+| ------- |:------:|:------:|:------:|
+| errCode | Int | 是 | 错误码 0 标识成功获取数据 |
+| data | Object | 否 | 成功返回数据 |
+| id | Int | 是 |  节日id |
+| festival | String | 是 | 节日名称 |
+| targetDate | date | 是 | 节日日期（时间戳） |
+| created | long | 是 | 创建时间 |
 
 
 

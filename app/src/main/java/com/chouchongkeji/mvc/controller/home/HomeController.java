@@ -46,5 +46,16 @@ public class HomeController {
         return homeService.getConItem();
     }
 
+    /**
+     * 首页节日列表
+     *
+     * @return
+     * @author linqin
+     * @date 2018/7/6
+     */
+    @PostMapping("festival")
+    public Response getFestivalList() {
+        return homeService.getFestivalList();
+    }
 
 }
