@@ -1,5 +1,7 @@
 package com.chouchongkeji.dial.pojo.gift.item;
 
+import com.yichen.auth.jackson.ImgUrl;
+
 import java.util.Date;
 
 public class Label {
@@ -7,6 +9,7 @@ public class Label {
 
     private String name;
 
+    @ImgUrl
     private String cover;
 
     private Integer sort;
