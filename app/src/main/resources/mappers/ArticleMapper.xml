@@ -214,7 +214,7 @@
     WHERE
       status = 1
       and `type` = 1
-      and UNIX_TIMESTAMP(show_time) &gt; #{start}
+      and UNIX_TIMESTAMP(show_time) &gt;= #{start}
     and UNIX_TIMESTAMP(show_time) &lt; #{end}
     ORDER BY
       sort DESC,created DESC

@@ -81,7 +81,7 @@ public class HomeTest {
     public void day() throws IOException {
         RequestParams params = new RequestParams();
         params.put("time" ,System.currentTimeMillis());
-        params.put("day" ,1547178200256L);
+        params.put("day" ,1547740800000L);
         Map map = ApiSignUtil.sign1(params.getParams(),ApiSignUtil.ANDROID);
         params.put("sign",map.get(ApiSignUtil.ANDROID));
         Response post = OkHttpUtil.post("http://localhost:8088/noauth/v1/article/article_list", params);

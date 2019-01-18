@@ -39,7 +39,7 @@ public class memoTest {
         Date now = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");//可以方便地修改日期格式
         String hehe = dateFormat.format( now ); //日期
-        Date parse = dateFormat.parse("20190301100911");  //时间戳
+        Date parse = dateFormat.parse("20190118000000");  //时间戳
         System.out.println(parse.getTime());
         System.out.println(hehe);
     }
