@@ -226,6 +226,7 @@
                 from gift_record a
                 where a.user_id = #{userId}
                 and a.status != -1
+                and a.status != 0
                 order by a.created DESC
                 limit #{pageNum}, #{pageSize}) a
                 left join gift_record_detail b on a.id = b.gift_record_id
@@ -259,7 +260,8 @@
                 left join app_user c on c.id = a.user_id
                 left join app_user d on d.id = b.user_id
                 where b.user_id = #{userId}
-                and b.status != 1
+                and b.status != -1
+                and b.status != 0
                 order by a.created DESC
                 limit  #{pageNum}, #{pageSize}
             </otherwise>

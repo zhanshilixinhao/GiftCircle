@@ -1,25 +1,182 @@
 {
   "errCode": 0,
   "result": 0,
-  "time": 1547817244074,
+  "time": 1548064893906,
   "data": [
     {
-      "id": 8,
-      "title": "青春励志唯美散文：无悔的青春",
-      "summary": "青春励志唯美散文：无悔的青春初夏的五月，带着几分青涩。多彩的季节迸发出活力与激情。怀着对未来美好的憧憬，我无怨无悔",
-      "cover": "https://liyuquan.cn/static/item/190118/1b3e54cf-1b71-4a53-a415-060f86eb0cda.png",
-      "created": 1547804517000,
+      "id": 55,
+      "userId": 9,
+      "greetting": "富贵花光福桂花好",
       "type": 1,
-      "showTime": 1547740800000
+      "event": "母亲节送礼",
+      "targetTime": 1546851335000,
+      "status": 3,
+      "updated": 1546851335000,
+      "nickname": "不带手机",
+      "avatar": "https://liyuquan.cn/staticorder/comment/20181227/1545883437417697-550-550.jpg",
+      "flag": 2,
+      "detail": [
+        {
+          "id": 56,
+          "giftRecordId": 55,
+          "userId": 6,
+          "amount": null,
+          "content": [
+            {
+              "bpId": 7718122816152,
+              "targetId": 3,
+              "targetType": 1,
+              "giftType": 1,
+              "price": 0.01,
+              "title": "CRYSTALLINE经典款学生用圆珠笔",
+              "cover": "https://liyuquan.cn/static/item/181219/217544e5-c3f0-4bb6-82ea-251810ab24ae.jpg",
+              "description": "高端圆珠笔送朋友送亲戚",
+              "brand": "施华洛世奇"
+            }
+          ],
+          "isReply": 2,
+          "reply": "",
+          "status": 3,
+          "updated": 1546851335000,
+          "created": null,
+          "friendNickname": "林琴",
+          "friendAvatar": "http://thirdwx.qlogo.cn/mmopen/vi_32/oCNlvmD7wYXGcic2JnDiamsFLQfBdt5PhazjsbPeeR0tb1icvpCGCSqIZXRZ3X7aSicPGmmLMrKkpp1gQuldfDXznQ/132"
+        }
+      ]
     },
     {
-      "id": 5,
-      "title": "要活得精彩",
-      "summary": "要活得精彩，就需要有宽广的心胸，百折不挠的意志，和化解痛苦的智能。有了昂扬的精神，人才能活得更加精彩。",
-      "cover": "https://liyuquan.cn/static/item/190118/176f59b9-b752-4511-b86e-abcc408a3cd2.png",
-      "created": 1547804329000,
+      "id": 45,
+      "userId": 1,
+      "greetting": "是",
       "type": 1,
-      "showTime": 1547740800000
+      "event": "母亲节送礼",
+      "targetTime": 1546499456000,
+      "status": 1,
+      "updated": 1546499456000,
+      "nickname": "路遥",
+      "avatar": "https://liyuquan.cn/staticorder/comment/20181231/1546231284130051-600-600.jpg",
+      "flag": 2,
+      "detail": [
+        {
+          "id": 45,
+          "giftRecordId": 45,
+          "userId": 6,
+          "amount": null,
+          "content": [
+            {
+              "bpId": 7718122910104,
+              "targetId": 1,
+              "targetType": 1,
+              "giftType": 1,
+              "price": 0.01,
+              "title": "CRYSTALDUST手镯女士多层手环",
+              "cover": "https://liyuquan.cn/static/item/181218/a651139d-95bc-420f-947b-7de678afaed2.jpg",
+              "description": "CRYSTALDUST手镯女士多层手环，时尚经典，各色挑选",
+              "brand": "施华洛世奇"
+            }
+          ],
+          "isReply": 2,
+          "reply": "",
+          "status": 3,
+          "updated": 1546499456000,
+          "created": null,
+          "friendNickname": "林琴",
+          "friendAvatar": "http://thirdwx.qlogo.cn/mmopen/vi_32/oCNlvmD7wYXGcic2JnDiamsFLQfBdt5PhazjsbPeeR0tb1icvpCGCSqIZXRZ3X7aSicPGmmLMrKkpp1gQuldfDXznQ/132"
+        }
+      ]
+    },
+    {
+      "id": 27,
+      "userId": 2,
+      "greetting": "运动会",
+      "type": 1,
+      "event": "第二次赠送事件",
+      "targetTime": 1545962357000,
+      "status": 3,
+      "updated": 1545962356000,
+      "nickname": "",
+      "avatar": "",
+      "flag": 2,
+      "detail": [
+        {
+          "id": 27,
+          "giftRecordId": 27,
+          "userId": 6,
+          "amount": null,
+          "content": [
+            {
+              "bpId": 7718122809103,
+              "targetId": 12,
+              "targetType": 1,
+              "giftType": 1,
+              "price": 89.00,
+              "title": "GINGER圆形链坠",
+              "cover": "https://liyuquan.cn/static/item/181219/094f39cc-b46c-485b-8fcf-a2324550fa38.jpg",
+              "description": "GINGER圆形链坠优雅百搭精致点缀",
+              "brand": "施华洛世奇"
+            },
+            {
+              "bpId": 7718122809106,
+              "targetId": 3,
+              "targetType": 2,
+              "giftType": 2,
+              "price": 560.00,
+              "title": "花朵",
+              "cover": "https://liyuquan.cn/static/item/181219/90716484-9e61-41e5-a9a7-56cfc7dfafc2.png",
+              "description": "红玫瑰",
+              "brand": "芍药"
+            }
+          ],
+          "isReply": 2,
+          "reply": "",
+          "status": 3,
+          "updated": 1545962356000,
+          "created": null,
+          "friendNickname": "林琴",
+          "friendAvatar": "http://thirdwx.qlogo.cn/mmopen/vi_32/oCNlvmD7wYXGcic2JnDiamsFLQfBdt5PhazjsbPeeR0tb1icvpCGCSqIZXRZ3X7aSicPGmmLMrKkpp1gQuldfDXznQ/132"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "userId": 1,
+      "greetting": "这是我",
+      "type": 1,
+      "event": "第一次平台赠送",
+      "targetTime": 1545829925000,
+      "status": 3,
+      "updated": 1545829925000,
+      "nickname": "路遥",
+      "avatar": "https://liyuquan.cn/staticorder/comment/20181231/1546231284130051-600-600.jpg",
+      "flag": 2,
+      "detail": [
+        {
+          "id": 3,
+          "giftRecordId": 3,
+          "userId": 6,
+          "amount": null,
+          "content": [
+            {
+              "bpId": 7718122621207,
+              "targetId": 12,
+              "targetType": 1,
+              "giftType": 1,
+              "price": 89.00,
+              "title": "GINGER圆形链坠",
+              "cover": "https://liyuquan.cn/static/item/181219/094f39cc-b46c-485b-8fcf-a2324550fa38.jpg",
+              "description": "GINGER圆形链坠优雅百搭精致点缀",
+              "brand": "施华洛世奇"
+            }
+          ],
+          "isReply": 2,
+          "reply": "",
+          "status": 3,
+          "updated": 1545829925000,
+          "created": null,
+          "friendNickname": "林琴",
+          "friendAvatar": "http://thirdwx.qlogo.cn/mmopen/vi_32/oCNlvmD7wYXGcic2JnDiamsFLQfBdt5PhazjsbPeeR0tb1icvpCGCSqIZXRZ3X7aSicPGmmLMrKkpp1gQuldfDXznQ/132"
+        }
+      ]
     }
   ]
 }
