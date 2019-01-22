@@ -32,6 +32,8 @@ public class ForRecordVo {
 
     private BigDecimal price;//商品价格
 
+    private String brand;//商品品牌
+
     @ImgUrl
     private String avatar;//好友头像
 
@@ -141,5 +143,13 @@ public class ForRecordVo {
 
     public void setCreated(Date created) {
         this.created = created;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
     }
 }

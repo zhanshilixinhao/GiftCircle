@@ -24,6 +24,7 @@
             <arg column="brand_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
             <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
             <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="admin_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
         </constructor>
     </resultMap>
     <resultMap id="ResultMap" type="com.chouchongkeji.service.backpack.consignment.vo.DetailVo">
@@ -38,7 +39,7 @@
     <sql id="Base_Column_List">
     id, title, price, sales, stock, description, re_gender, re_max_age, re_age_min,
     store_id, category_id, cover, pictures, choiceness, hot, status, is_audit, brand_id,
-    created, updated
+    created, updated, admin_id
   </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
@@ -110,7 +111,7 @@
       re_event, store_id, category_id,
       cover, pictures, choiceness,
       hot, status, is_audit,
-      brand_id, created, updated
+      brand_id, created, updated,admin_id
       )
     values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL},
       #{sales,jdbcType=INTEGER}, #{stock,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR},
@@ -118,7 +119,7 @@
       #{reEvent,jdbcType=BIGINT}, #{storeId,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER},
       #{cover,jdbcType=VARCHAR}, #{pictures,jdbcType=VARCHAR}, #{choiceness,jdbcType=TINYINT},
       #{hot,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, #{isAudit,jdbcType=TINYINT},
-      #{brandId,jdbcType=INTEGER}, #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP}
+      #{brandId,jdbcType=INTEGER}, #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP},#{adminId,jdbcType=INTEGER}
       )
   </insert>
     <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.gift.item.Item">

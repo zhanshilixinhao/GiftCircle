@@ -69,6 +69,14 @@
 > 13. 增加用户未查看的评论和点赞(12.10)
 > 14.  增加首页节日列表（17.6）
 
+### v0.0.5
+
+* 更新人：yichen
+* 2019/1/22
+* 更新内容
+
+> 1.修改索要记录接口（增加品牌字段） (接口14.7)
+
 ## 目录
 <span id="m"> </span>
 
@@ -4290,6 +4298,7 @@ JSON：
             "cover": "https://io.shanren.group/static/upload/image/cover.jpg", 
             "title": "魏文侯", 
             "price": 100, 
+            "brand":"施华洛世奇"
             "avatar": "https://io.shanren.group/static/upload/image/avatar.jpg", 
             "nickname": "大秦", 
             "created": 1531387784000
@@ -4305,6 +4314,7 @@ JSON：
             "cover": "https://io.shanren.group/static/upload/image/cover.jpg", 
             "title": "秦孝公", 
             "price": 0.01, 
+            "brand":"施华洛世奇"
             "avatar": "https://io.shanren.group/static/upload/image/avatar.jpg", 
             "nickname": "大秦", 
             "created": 1531447827000
@@ -4323,6 +4333,7 @@ JSON：
 | cover | string | 是 | 商品封面 |
 | title | string | 是 | 商品标题 |
 | price | int | 是 | 商品价格 |
+|brand|string|是|商品品牌|
 | avatar | string | 是 | 好友头像 |
 | nickname | string | 是 | 好友昵称 |
 

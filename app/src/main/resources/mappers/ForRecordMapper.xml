@@ -164,6 +164,7 @@
             b.cover,
             b.title,
             b.price,
+            b.brand,
             c.avatar,
             c.nickname
         FROM

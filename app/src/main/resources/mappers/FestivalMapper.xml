@@ -23,6 +23,7 @@
       *
       from festival
       where UNIX_TIMESTAMP(target_date) &lt;= UNIX_TIMESTAMP(now())
+      order by target_date DESC
       limit 5
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">

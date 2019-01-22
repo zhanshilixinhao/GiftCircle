@@ -605,6 +605,21 @@ create table if not exists item_order
   )
   comment '创建商品订单' charset=utf8mb4;
 
+create table if not exists order_collect
+(
+  id int(11) unsigned auto_increment comment 'id'
+  primary key,
+  h_order_no bigint null comment '合并订单号',
+  order_no bigint null comment '订单号',
+  created datetime null comment '创建时间',
+  updated datetime null comment '更新时间',
+  constraint h_order_no
+  unique (h_order_no)
+  )
+  comment '订单号汇总' charset=utf8mb4;
+
+
+
 create index store_id
 on item_order (store_id);
 

@@ -46,10 +46,12 @@ public class Item {
 
     private Date updated;
 
+    private Integer adminId;
+
     public Item(Integer id, String title, BigDecimal price, Integer sales, Integer stock,
                 String description, Byte reGender, Byte reMaxAge, Byte reAgeMin,
                 Integer storeId, Integer categoryId, String cover, String pictures, Byte choiceness,
-                Byte hot, Byte status, Byte isAudit, Integer brandId, Date created, Date updated) {
+                Byte hot, Byte status, Byte isAudit, Integer brandId, Date created, Date updated,Integer adminId) {
         this.id = id;
         this.title = title;
         this.price = price;
@@ -71,6 +73,7 @@ public class Item {
         this.brandId = brandId;
         this.created = created;
         this.updated = updated;
+        this.adminId = adminId;
     }
 
     public Item() {
@@ -243,5 +246,13 @@ public class Item {
 
     public void setUpdated(Date updated) {
         this.updated = updated;
+    }
+
+    public Integer getAdminId() {
+        return adminId;
+    }
+
+    public void setAdminId(Integer adminId) {
+        this.adminId = adminId;
     }
 }

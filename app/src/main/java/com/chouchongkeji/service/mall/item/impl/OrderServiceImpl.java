@@ -39,6 +39,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
@@ -80,6 +81,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private CartMapper cartMapper;
+
+    @Autowired
+    private OrderCollectMapper orderCollectMapper;
 
     /**
      * 按时取消订单
@@ -123,7 +127,68 @@ public class OrderServiceImpl implements OrderService {
      * @author linqin
      * @date 2018/6/20
      */
-    @Override
+//    @Override
+//    public Response createOrder(Integer userId, Integer client, HashSet<OrderVo> skus, Integer payWay, Byte isShoppingCart) {
+//        List<ItemOrderDetail> list = new ArrayList<>();
+//        HashMap<Integer, List<OrderVo>> hashMap = new HashMap<>();
+//        for (OrderVo orderVo : skus) {
+//            ItemSku sku = itemSkuMapper.selectBySkuId(orderVo.getSkuId());
+//            if (sku == null) {
+//                throw new ServiceException(ErrorCode.ERROR.getCode(), "该商品不存在");
+//            }
+//            Item item = itemMapper.selectByPrimaryKey(sku.getItemId());
+//            List<OrderVo> orderVos = hashMap.get(item.getAdminId());
+//            if (orderVos == null) {
+//                orderVos = new ArrayList<>();
+//                hashMap.put(item.getAdminId(), orderVos);
+//            }
+//            orderVos.add(orderVo);
+//        }
+//        List<ItemOrder> itemOrders = new ArrayList<>();
+//        // 遍历店铺
+//        hashMap.forEach((key,value) -> {
+//            ItemOrder itemOrder = create(value, client, userId, isShoppingCart);
+//            itemOrders.add(itemOrder);
+//        });
+//        BigDecimal totalPrice = new BigDecimal("0");
+//        OrderCollect orderCollect = new OrderCollect();
+//        Long orderNo =  + orderHelper.genOrderNo(9, 2);
+//        for (ItemOrder itemOrder : itemOrders) {
+//            totalPrice=BigDecimalUtil.add(totalPrice.doubleValue(),itemOrder.getTotalPrice().doubleValue());
+//            // 添加订单号集合信息
+//            orderCollect.setOrderNo(itemOrder.getOrderNo());
+//            orderCollect.sethOrderNo(orderNo);
+//            orderCollectMapper.insert(orderCollect);
+//        }
+//        //余额支付
+//        if (payWay == Constants.PAY_TYPE.yue) {
+//            //扣减余额，更新余额
+//            int response = yuePay(userId,totalPrice, orderCollect.getId(), orderNo);
+//            if (response < 1) {
+//                throw new ServiceException(ErrorCode.ERROR.getCode(), "更新余额,扣减余额失败");
+//            }
+//            //更新销量和详细订单状
+//            int i = updateStatusSales(orderNo);
+//            if (i < 1) {
+//                throw new ServiceException(ErrorCode.ERROR.getCode(), "更新销量和详细订单状态失败");
+//            }
+//            //物品添加到背包
+//            int add = bpService.addFromItemOrder(list);
+//            if (add < 1) {
+//                throw new ServiceException(ErrorCode.ERROR.getCode(), "");
+//            }
+//            //保存支付信息
+//            appPaymentInfoService.doYuePaySuccess(orderNo, userId, orderCollect.getCreated(), Constants.ORDER_TYPE.ITEM,
+//                    0, totalPrice);
+//            return ResponseFactory.sucMsg("支付成功");
+//        }
+//        // 创建订单参数
+////        return ResponseFactory.sucData(createOrderParameter(totalPrice, payWay));
+//        return null;
+//    }
+
+
+    //创建订单
     public Response createOrder(Integer userId, Integer client, HashSet<OrderVo> skus, Integer payWay, Byte isShoppingCart) {
         Long orderNo = orderHelper.genOrderNo(client, 2);
         List<ItemOrderDetail> list = new ArrayList<>();
@@ -214,6 +279,72 @@ public class OrderServiceImpl implements OrderService {
         return ResponseFactory.sucData(createOrderParameter(itemOrder, payWay));
     }
 
+    private ItemOrder create(List<OrderVo> skus,Integer client,Integer userId,Byte isShoppingCart){
+        Long orderNo = orderHelper.genOrderNo(client, 2);
+        List<ItemOrderDetail> list = new ArrayList<>();
+        BigDecimal totalPrice = new BigDecimal("0");
+        int quantity = 0;
+        for (OrderVo order : skus) {
+            //判断sku是否存在
+            ItemSku itemSku = itemSkuMapper.selectBySkuId(order.getSkuId());
+            if (itemSku == null) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "该商品不存在");
+            }
+            //判断状态是否正常
+            //1.判断商品状态
+            Integer itemId = itemSku.getItemId();
+            Item item = itemMapper.selectByPrimaryKey(itemId);
+            if (item.getStatus() != Constants.ITEM.NORMAL) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "该商品已下架或者删除");
+            }
+            //2.判断sku状态
+            if (itemSku.getStatus() != Constants.ITEM.NORMAL) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "该商品已下架或者删除");
+            }
+            //.判断库存是否充足
+            int count = itemSku.getStock();
+            if (count < order.getQuantity()) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "库存不足");
+            }
+            //计算商品价格
+            BigDecimal price = itemSku.getPrice().multiply(new BigDecimal(order.getQuantity()));
+            //初始化订单
+            list.add(orderDetail(userId, itemSku, orderNo, price, order.getQuantity()));
+            //计算订单总价
+            totalPrice = BigDecimalUtil.add(price.doubleValue(), totalPrice.doubleValue());
+            //计算总数量
+            quantity = quantity + order.getQuantity();
+            //扣除库存
+            itemSku.setStock(count - order.getQuantity());
+            itemSkuMapper.updateByPrimaryKeySelective(itemSku);
+            // 如果是购物车购买则减少购物车物品数量
+            if (isShoppingCart == Constants.ISSHOPPINGCART.YES) {
+                Cart cart = cartMapper.selectBySkuIAndUserId(userId, order.getSkuId());
+                if (cart == null) {
+                    throw new ServiceException(ErrorCode.ERROR.getCode(),"购物车中不存在该商品") ;
+                }
+                cart.setQuantity(cart.getQuantity() - order.getQuantity());
+                cartMapper.updateByPrimaryKeySelective(cart);
+                if (cart.getQuantity() <= 0) {
+                    cartMapper.deleteAllByUserIdAndskuId(userId, order.getSkuId());
+                }
+            }
+        }
+        //创建订单
+        ItemOrder itemOrder = new ItemOrder();
+        itemOrder.setUserId(userId);
+        itemOrder.setOrderNo(orderNo);
+        itemOrder.setQuantity(quantity);
+        itemOrder.setTotalPrice(totalPrice);
+        itemOrder.setStatus((byte) Constants.ORDER_STATUS.NO_PAY);
+        int insert = itemOrderMapper.insert(itemOrder);
+        if (insert < 1) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "创建订单失败");
+        }
+        // 批量加入到详细订单
+        itemOrderDetailMapper.batchInsert(list);
+        return itemOrder;
+    }
 
     private ItemOrderDetail orderDetail(Integer userId, ItemSku sku, Long orderNo,
                                         BigDecimal totalPrice, Integer quantity) {
