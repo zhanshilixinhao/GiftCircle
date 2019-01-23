@@ -99,29 +99,41 @@
   </select>
   <select id="selectLastByUserId" resultType="com.chouchongkeji.service.user.memo.vo.HomeMemoItemVo">
     SELECT
-      a.*,
-      ( UNIX_TIMESTAMP( a.target_time ) - UNIX_TIMESTAMP( now( ) ) ) / ( 86400 ) AS days,
-      b.avatar,
-      b.nickname
+  a.*,
+  ( UNIX_TIMESTAMP( a.target_time ) - UNIX_TIMESTAMP( now( ) ) ) / ( 86400 ) AS days,
+  b.avatar,
+  b.nickname
+FROM
+  (
+    SELECT
+      id,
+      user_id,
+      target_time,
+      detail,
+      created
     FROM
-      (
-        SELECT
-          id,
-          user_id,
-          target_time,
-          detail,
-          created
-        FROM
-          memo_affair
-        WHERE
-          user_id = #{userId}
-      ) a
-        LEFT JOIN app_user b ON b.id = a.user_id
+      memo_affair
     WHERE
-      UNIX_TIMESTAMP( a.target_time ) > UNIX_TIMESTAMP( now( ) )
-    ORDER BY
-      a.target_time
-      LIMIT 3
+        user_id = 6
+    union
+    SELECT
+      id,
+      user_id,
+      target_time,
+      detail,
+      created
+    FROM
+      memo_affair
+    WHERE
+         FIND_IN_SET( 6, users )
+  ) a
+    LEFT JOIN app_user b ON b.id = a.user_id
+WHERE
+    UNIX_TIMESTAMP( a.target_time ) > UNIX_TIMESTAMP( now( ) )
+ORDER BY
+  a.target_time
+LIMIT 3
+
 
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
