@@ -101,6 +101,15 @@
         `status` = 1
         AND UNIX_TIMESTAMP( created + 1200) &lt;= UNIX_TIMESTAMP( now( ) )
     </select>
+    <select id="selectListByOrderNo" resultType="com.chouchongkeji.dial.pojo.gift.item.ItemOrder">
+   SELECT
+    a.*
+    FROM
+  `item_order` a
+   left join order_collect b on a.order_no = b.order_no
+    WHERE
+    b.h_order_no = #{orderNo}
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         delete
         from item_order

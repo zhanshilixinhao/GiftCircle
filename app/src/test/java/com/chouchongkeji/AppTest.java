@@ -2,6 +2,7 @@ package com.chouchongkeji;
 
 import com.chouchongkeji.goexplore.pay.PayVO;
 import com.chouchongkeji.goexplore.pay.alipay_v2.AliPayServiceV2;
+import com.chouchongkeji.goexplore.pay.weixin.common.MD5;
 import com.chouchongkeji.goexplore.utils.*;
 import okhttp3.Response;
 import org.apache.commons.lang3.time.DateUtils;
@@ -25,7 +26,7 @@ public class AppTest
     public void shouldAnswerWithTrue()
     {
         BCryptPasswordEncoder encoder=new BCryptPasswordEncoder();
-        System.out.println(encoder.encode("123456"));
+        System.out.println(encoder.encode(""));
     }
 
     @Test
@@ -47,8 +48,8 @@ public class AppTest
     public void login() throws IOException {
 
         RequestParams params = new RequestParams();
-        params.put("username", "15752400657");
-        params.put("password", "123456");
+        params.put("username", "13908841927");
+        params.put("password", Utils.toMD5("!@#$1234"));
         params.put("exploringId", 24);
         params.put("time", "1526539545791");
         params.put("app_id", "giftcircler-dl");
@@ -68,7 +69,7 @@ public class AppTest
     public void pwd() {
 
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String encode = passwordEncoder.encode("123456");
+        String encode = passwordEncoder.encode(Utils.toMD5("!@#$1234"));
         System.out.println(encode);
     }
 

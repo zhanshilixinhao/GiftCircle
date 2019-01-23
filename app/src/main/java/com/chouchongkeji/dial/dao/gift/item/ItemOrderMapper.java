@@ -31,6 +31,9 @@ public interface ItemOrderMapper {
 
     List<ItemOrder> selectAll();
 
-
-
+    /**
+     * 根据订单号查询订单集合
+     * @return
+     */
+    List<ItemOrder> selectListByOrderNo(Long orderNo);
 }

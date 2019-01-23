@@ -11,6 +11,7 @@ import com.chouchongkeji.dial.pojo.backpack.consignment.Consignment;
 import com.chouchongkeji.dial.pojo.backpack.consignment.ConsignmentOrder;
 import com.chouchongkeji.dial.pojo.gift.item.ItemOrder;
 import com.chouchongkeji.dial.pojo.gift.item.ItemOrderDetail;
+import com.chouchongkeji.dial.pojo.gift.item.OrderCollect;
 import com.chouchongkeji.dial.pojo.iwant.wallet.ChargeOrder;
 import com.chouchongkeji.dial.pojo.user.AppUser;
 import com.chouchongkeji.dial.pojo.user.PaymentInfo;
@@ -32,12 +33,14 @@ import com.chouchongkeji.service.iwant.wallet.WalletService;
 import com.chouchongkeji.service.message.MessageService;
 import com.chouchongkeji.service.user.info.AppPaymentInfoService;
 import com.chouchongkeji.util.Constants;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -124,7 +127,7 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
         int re = checkAliPayBaseInfo(aLiPayV2Vo, map, orderNo);
         if (re == 0) {
             //更新订单支付状态
-            chargeOrder.setPayWay((byte)2);
+            chargeOrder.setPayWay((byte) 2);
             chargeOrder.setStatus(Constants.CHARGE_ORDER_STATUS.PAY);
             int count = chargeOrderMapper.updateByPrimaryKeySelective(chargeOrder);
             if (count == 0) {
@@ -156,6 +159,33 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
         log.info("支付宝商品订单");
         //校验订单号
         Long orderNo = Long.parseLong(aLiPayV2Vo.getOut_trade_no());
+        // 判断订单号是否是9开头（订单号集合）
+        if (StringUtils.startsWith(aLiPayV2Vo.getOut_trade_no(), "9")) {
+            List<ItemOrder> orderList = itemOrderMapper.selectListByOrderNo(orderNo);
+            BigDecimal totalPrice = new BigDecimal("0"); //总价格
+            if (!CollectionUtils.isEmpty(orderList)) {
+                for (ItemOrder itemOrders : orderList) {
+                    totalPrice = BigDecimalUtil.add(totalPrice.doubleValue(),itemOrders.getTotalPrice().doubleValue());
+                }
+                //校验金额
+                if (totalPrice.compareTo(new BigDecimal(aLiPayV2Vo.getTotal_amount())) != 0) {
+                    log.info("支付宝商品订单价格校验失败");
+                    return "ERROR";
+                }
+                //支付宝相关校验
+                int i = checkAliPayBaseInfo(aLiPayV2Vo, parameterMap, orderNo);
+                if (i == 0) {
+                    for (ItemOrder orders : orderList) {
+                        // 改变订单
+                        orderAli(orders,orderNo,aLiPayV2Vo,orderType);
+                    }
+                } else if (i == 2) {
+                    return "ERROR";
+            }
+                return "SUCCESS";
+            }
+            return "ERROR";
+        }
         ItemOrder itemOrder = itemOrderMapper.selectByOrderNo(orderNo);
         if (itemOrder == null) {
             log.info("支付宝商品订单订单不存在{}", orderNo);
@@ -170,27 +200,73 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
         //支付宝相关校验
         int i = checkAliPayBaseInfo(aLiPayV2Vo, parameterMap, orderNo);
         if (i == 0) {
-            //更新订单状态
-            itemOrder.setStatus((byte) Constants.ORDER_BASE_STATUS.PAID);
-            int count = itemOrderMapper.updateByPrimaryKeySelective(itemOrder);
-            if (count == 0) {
-                throw new ServiceException(ErrorCode.ERROR.getCode(), "更新失败");
-            }
-            //更新详细订单状态和销量
-            orderService.updateStatusSales(orderNo);
-            //物品添加到背包
-            List<ItemOrderDetail> list = itemOrderDetailMapper.selectByUserIdAndOrderNo(itemOrder.getUserId(), orderNo);
-            int add = bpService.addFromItemOrder(list);
-            if (add < 1) {
-                throw new ServiceException(ErrorCode.ERROR.getCode(), "");
-            }
-            //支付信息
-            doAliPaySuccess(aLiPayV2Vo, orderType, itemOrder.getUserId());
+            // 改变订单
+          orderAli(itemOrder,orderNo,aLiPayV2Vo,orderType);
         } else if (i == 2) {
             return "ERROR";
         }
         return "SUCCESS";
     }
+
+    private void orderAli(ItemOrder itemOrder,Long orderNo,ALiPayV2Vo aLiPayV2Vo, Byte orderType){
+        //更新订单状态
+        itemOrder.setStatus((byte) Constants.ORDER_BASE_STATUS.PAID);
+        int count = itemOrderMapper.updateByPrimaryKeySelective(itemOrder);
+        if (count == 0) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "更新失败");
+        }
+        //更新详细订单状态和销量
+        orderService.updateStatusSales(orderNo);
+        //物品添加到背包
+        List<ItemOrderDetail> list = itemOrderDetailMapper.selectByUserIdAndOrderNo(itemOrder.getUserId(), orderNo);
+        int add = bpService.addFromItemOrder(list);
+        if (add < 1) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "");
+        }
+        //支付信息
+        doAliPaySuccess(aLiPayV2Vo, orderType, itemOrder.getUserId());
+    }
+
+    //原来商品订单支付宝回调
+//    public String itemOrderAli(ALiPayV2Vo aLiPayV2Vo, Map parameterMap, Byte orderType) {
+//        log.info("支付宝商品订单");
+//        //校验订单号
+//        Long orderNo = Long.parseLong(aLiPayV2Vo.getOut_trade_no());
+//        ItemOrder itemOrder = itemOrderMapper.selectByOrderNo(orderNo);
+//        if (itemOrder == null) {
+//            log.info("支付宝商品订单订单不存在{}", orderNo);
+//            return "ERROR";
+//        }
+//        //校验支付金额
+//        BigDecimal price = itemOrder.getTotalPrice();
+//        if (price.compareTo(new BigDecimal(aLiPayV2Vo.getTotal_amount())) != 0) {
+//            log.info("支付宝商品订单价格校验失败");
+//            return "ERROR";
+//        }
+//        //支付宝相关校验
+//        int i = checkAliPayBaseInfo(aLiPayV2Vo, parameterMap, orderNo);
+//        if (i == 0) {
+//            //更新订单状态
+//            itemOrder.setStatus((byte) Constants.ORDER_BASE_STATUS.PAID);
+//            int count = itemOrderMapper.updateByPrimaryKeySelective(itemOrder);
+//            if (count == 0) {
+//                throw new ServiceException(ErrorCode.ERROR.getCode(), "更新失败");
+//            }
+//            //更新详细订单状态和销量
+//            orderService.updateStatusSales(orderNo);
+//            //物品添加到背包
+//            List<ItemOrderDetail> list = itemOrderDetailMapper.selectByUserIdAndOrderNo(itemOrder.getUserId(), orderNo);
+//            int add = bpService.addFromItemOrder(list);
+//            if (add < 1) {
+//                throw new ServiceException(ErrorCode.ERROR.getCode(), "");
+//            }
+//            //支付信息
+//            doAliPaySuccess(aLiPayV2Vo, orderType, itemOrder.getUserId());
+//        } else if (i == 2) {
+//            return "ERROR";
+//        }
+//        return "SUCCESS";
+//    }
 
 
     /**
@@ -393,7 +469,7 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
         int re = checkBaseWxPayInfo(notifyData, xml, orderNo);
         if (re == 0) {
             //更新订单支付状态
-            chargeOrder.setPayWay((byte)1);
+            chargeOrder.setPayWay((byte) 1);
             chargeOrder.setStatus(Constants.CHARGE_ORDER_STATUS.PAY);
             int count = chargeOrderMapper.updateByPrimaryKeySelective(chargeOrder);
             if (count == 0) {
@@ -431,6 +507,33 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
         NotifyData notifyData = (NotifyData) Util.getObjectFromXML(xml, NotifyData.class);
         //校验订单号
         Long orderNo = Long.parseLong(notifyData.getOut_trade_no());
+        // 判断订单号是否是9开头（订单号集合）
+        if (StringUtils.startsWith(notifyData.getOut_trade_no(), "9")){
+            List<ItemOrder> orderList = itemOrderMapper.selectListByOrderNo(orderNo); //根据总的订单号查出订单列表
+            BigDecimal totalPrice = new BigDecimal("0"); //总价格
+            if (!CollectionUtils.isEmpty(orderList)){
+                for (ItemOrder order : orderList) {
+                    totalPrice = BigDecimalUtil.add(totalPrice.doubleValue(),order.getTotalPrice().doubleValue());
+                }
+                //检验支付金额
+                if (totalPrice.compareTo(
+                        BigDecimalUtil.div(new BigDecimal(notifyData.getTotal_fee()).doubleValue(), 100)) != 0) {
+                    return "ERROR";
+                }
+                // 微信相关校验
+                int re = checkBaseWxPayInfo(notifyData, xml, orderNo);
+                if (re == 0) {
+                    for (ItemOrder itemOrder : orderList) {
+                        changeOrder(itemOrder,orderNo,notifyData,orderType);
+                    }
+                } else if (re == 2) {
+                    return "ERROR";
+                }
+                return resXml;
+            }
+            return "ERROR";
+        }
+        //订单号不是9开头
         ItemOrder itemOrder = itemOrderMapper.selectByOrderNo(orderNo);//根据订单号取出订单信息
         if (itemOrder == null) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "该订单不存在");
@@ -443,28 +546,84 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
         }
         int re = checkBaseWxPayInfo(notifyData, xml, orderNo);
         if (re == 0) {
-            //更新订单状态
-            itemOrder.setStatus((byte) Constants.ORDER_BASE_STATUS.PAID);
-            int count = itemOrderMapper.updateByPrimaryKeySelective(itemOrder);
-            if (count == 0) {
-                throw new ServiceException(ErrorCode.ERROR.getCode(), "更新状态失败");
-            }
-            //更新详细订单状态和销量
-            orderService.updateStatusSales(orderNo);
-            //物品加入背包里
-            List<ItemOrderDetail> list = itemOrderDetailMapper.selectByUserIdAndOrderNo(itemOrder.getUserId(), orderNo);
-            int add = bpService.addFromItemOrder(list);
-            if (add < 1) {
-                throw new ServiceException(ErrorCode.ERROR.getCode(), "");
-            }
-            //支付信息
-            doWXPaySuccess(notifyData, orderType, itemOrder.getUserId());
+            changeOrder(itemOrder,orderNo,notifyData,orderType);
         } else if (re == 2) {
             return "ERROR";
         }
         return resXml;
 
     }
+
+
+    private void changeOrder(ItemOrder itemOrder,Long orderNo,NotifyData notifyData,Byte orderType){
+        //更新订单状态
+        itemOrder.setStatus((byte) Constants.ORDER_BASE_STATUS.PAID);
+        int count = itemOrderMapper.updateByPrimaryKeySelective(itemOrder);
+        if (count == 0) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "更新状态失败");
+        }
+        //更新详细订单状态和销量
+        orderService.updateStatusSales(orderNo);
+        //物品加入背包里
+        List<ItemOrderDetail> list = itemOrderDetailMapper.selectByUserIdAndOrderNo(itemOrder.getUserId(), orderNo);
+        int add = bpService.addFromItemOrder(list);
+        if (add < 1) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "");
+        }
+        //支付信息
+        doWXPaySuccess(notifyData, orderType, itemOrder.getUserId());
+    }
+
+    // 原来的微信支付回调
+//    public String ItemOrderWXPay(String xml, Byte orderType) throws ParserConfigurationException, SAXException, IOException {
+//        /** 支付成功微信服务器通知XML **/
+//        String resXml = "<xml>" + "<return_code><![CDATA[SUCCESS]]></return_code>"
+//                + "<return_msg><![CDATA[OK]]></return_msg>" + "</xml> ";
+//        /** 获取微信服务请求XML参数 **/
+//        //获取微信服务请求xml参数
+//        /** XML转对象 **/
+//        log.info("微信商品读不到{}", xml);
+//        NotifyData notifyData = (NotifyData) Util.getObjectFromXML(xml, NotifyData.class);
+//        //校验订单号
+//        Long orderNo = Long.parseLong(notifyData.getOut_trade_no());
+//        ItemOrder itemOrder = itemOrderMapper.selectByOrderNo(orderNo);//根据订单号取出订单信息
+//        if (itemOrder == null) {
+//            throw new ServiceException(ErrorCode.ERROR.getCode(), "该订单不存在");
+//        }
+//        //检验支付金额
+//        BigDecimal price = itemOrder.getTotalPrice(); //取出金额
+//        if (price.compareTo(
+//                BigDecimalUtil.div(new BigDecimal(notifyData.getTotal_fee()).doubleValue(), 100)) != 0) {
+//            return "ERROR";
+//        }
+//        int re = checkBaseWxPayInfo(notifyData, xml, orderNo);
+//        if (re == 0) {
+//            //更新订单状态
+//            itemOrder.setStatus((byte) Constants.ORDER_BASE_STATUS.PAID);
+//            int count = itemOrderMapper.updateByPrimaryKeySelective(itemOrder);
+//            if (count == 0) {
+//                throw new ServiceException(ErrorCode.ERROR.getCode(), "更新状态失败");
+//            }
+//            //更新详细订单状态和销量
+//            orderService.updateStatusSales(orderNo);
+//            //物品加入背包里
+//            List<ItemOrderDetail> list = itemOrderDetailMapper.selectByUserIdAndOrderNo(itemOrder.getUserId(), orderNo);
+//            int add = bpService.addFromItemOrder(list);
+//            if (add < 1) {
+//                throw new ServiceException(ErrorCode.ERROR.getCode(), "");
+//            }
+//            //支付信息
+//            doWXPaySuccess(notifyData, orderType, itemOrder.getUserId());
+//        } else if (re == 2) {
+//            return "ERROR";
+//        }
+//        return resXml;
+//
+//    }
+
+
+
+
 
     /**
      * 寄售台微信支付回调基础方法
