@@ -147,7 +147,7 @@ public class OrderServiceImpl implements OrderService {
         List<ItemOrder> itemOrders = new ArrayList<>();
         // 遍历店铺
         hashMap.forEach((key,value) -> {
-            ItemOrder itemOrder = create(value, client, userId, isShoppingCart);
+            ItemOrder itemOrder = create(value, client, userId, isShoppingCart, key);
             itemOrders.add(itemOrder);
         });
         BigDecimal totalPrice = new BigDecimal("0"); //总的价格
@@ -279,7 +279,7 @@ public class OrderServiceImpl implements OrderService {
 //        return ResponseFactory.sucData(createOrderParameter(itemOrder, payWay));
 //    }
 
-    private ItemOrder create(List<OrderVo> skus,Integer client,Integer userId,Byte isShoppingCart){
+    private ItemOrder create(List<OrderVo> skus,Integer client,Integer userId,Byte isShoppingCart,Integer adminId){
         Long orderNo = orderHelper.genOrderNo(client, 2);
         List<ItemOrderDetail> list = new ArrayList<>();
         BigDecimal totalPrice = new BigDecimal("0");
@@ -337,6 +337,7 @@ public class OrderServiceImpl implements OrderService {
         itemOrder.setQuantity(quantity);
         itemOrder.setTotalPrice(totalPrice);
         itemOrder.setStatus((byte) Constants.ORDER_STATUS.NO_PAY);
+        itemOrder.setAdminId(adminId);
         int insert = itemOrderMapper.insert(itemOrder);
         if (insert < 1) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "创建订单失败");

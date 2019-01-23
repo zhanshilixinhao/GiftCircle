@@ -12,6 +12,7 @@
             <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT"/>
             <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
             <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="admin_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
         </constructor>
     </resultMap>
     <resultMap id="ResultMap" type="com.chouchongkeji.service.mall.item.vo.OrderListVo">
@@ -43,7 +44,8 @@
         quantity,
         status,
         created,
-        updated
+        updated,
+        admin_id
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
@@ -119,10 +121,10 @@
             useGeneratedKeys="true">
         insert into item_order (id, user_id, store_id,
                                 order_no, total_price, quantity,
-                                status, created, updated)
+                                status, created, updated,admin_id)
         values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{storeId,jdbcType=INTEGER},
                 #{orderNo,jdbcType=BIGINT}, #{totalPrice,jdbcType=DECIMAL}, #{quantity,jdbcType=INTEGER},
-                #{status,jdbcType=TINYINT}, now(), now())
+                #{status,jdbcType=TINYINT}, now(), now(),#{adminId,jdbcType=INTEGER})
     </insert>
     <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.gift.item.ItemOrder">
         insert into item_order

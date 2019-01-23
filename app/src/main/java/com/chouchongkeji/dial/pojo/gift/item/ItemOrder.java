@@ -22,7 +22,9 @@ public class ItemOrder {
 
     private Date updated;
 
-    public ItemOrder(Integer id, Integer userId, Integer storeId, Long orderNo, BigDecimal totalPrice, Integer quantity, Byte status, Date created, Date updated) {
+    private Integer adminId;
+
+    public ItemOrder(Integer id, Integer userId, Integer storeId, Long orderNo, BigDecimal totalPrice, Integer quantity, Byte status, Date created, Date updated,Integer adminId) {
         this.id = id;
         this.userId = userId;
         this.storeId = storeId;
@@ -32,6 +34,7 @@ public class ItemOrder {
         this.status = status;
         this.created = created;
         this.updated = updated;
+        this.adminId = adminId;
     }
 
     public ItemOrder() {
@@ -108,5 +111,13 @@ public class ItemOrder {
 
     public void setUpdated(Date updated) {
         this.updated = updated;
+    }
+
+    public Integer getAdminId() {
+        return adminId;
+    }
+
+    public void setAdminId(Integer adminId) {
+        this.adminId = adminId;
     }
 }
