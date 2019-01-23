@@ -30,6 +30,7 @@ FROM
 <where>
 	<trim prefixOverrides="and">
       and user_id = #{userId}
+      and (`type` = 2 or `type` = 3)
       <if test="starting!=null">
         and  UNIX_TIMESTAMP(created) >= #{starting}
       </if>
