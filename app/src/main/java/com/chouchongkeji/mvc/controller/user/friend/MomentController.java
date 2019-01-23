@@ -45,7 +45,7 @@ public class MomentController {
     @PostMapping("publish")
     public Response addMoment(@AuthenticationPrincipal UserDetails userDetails,
                               Moment moment) {
-        if (StringUtils.isBlank(moment.getContent()) || moment.getOpen() == null) {
+        if (moment.getOpen() == null) {
             return ResponseFactory.errMissingParameter();
         }
         // 如果带着图片或是视频判断格式是否正确
