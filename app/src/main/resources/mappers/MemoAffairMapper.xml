@@ -99,40 +99,41 @@
   </select>
   <select id="selectLastByUserId" resultType="com.chouchongkeji.service.user.memo.vo.HomeMemoItemVo">
     SELECT
-  a.*,
-  ( UNIX_TIMESTAMP( a.target_time ) - UNIX_TIMESTAMP( now( ) ) ) / ( 86400 ) AS days,
-  b.avatar,
-  b.nickname
-FROM
-  (
-    SELECT
-      id,
-      user_id,
-      target_time,
-      detail,
-      created
+    a.*,
+    ( UNIX_TIMESTAMP( a.target_time ) - UNIX_TIMESTAMP( now( ) ) ) / ( 86400 ) AS days,
+    b.avatar,
+    b.nickname
     FROM
-      memo_affair
+    (
+    SELECT
+    id,
+    user_id,
+    target_time,
+    detail,
+    created
+    FROM
+    memo_affair
     WHERE
-        user_id = 6
+    user_id = #{userId}
     union
     SELECT
-      id,
-      user_id,
-      target_time,
-      detail,
-      created
+    id,
+    user_id,
+    target_time,
+    detail,
+    created
     FROM
-      memo_affair
+    memo_affair
     WHERE
-         FIND_IN_SET( 6, users )
-  ) a
+    FIND_IN_SET( #{userId}, users )
+    ) a
     LEFT JOIN app_user b ON b.id = a.user_id
-WHERE
-    UNIX_TIMESTAMP( a.target_time ) > UNIX_TIMESTAMP( now( ) )
-ORDER BY
-  a.target_time
-LIMIT 3
+    WHERE
+    UNIX_TIMESTAMP( a.target_time ) >= UNIX_TIMESTAMP( now( ) )
+    and unix_timestamp(a.target_time) &lt; UNIX_TIMESTAMP( now( ) )+ 604800
+    ORDER BY
+    a.target_time
+    LIMIT 3
 
 
   </select>
