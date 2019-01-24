@@ -336,10 +336,12 @@ public class GiftServiceImpl implements GiftService {
         // 判断是不是好友关系
         friendService.addWXFriend(giftRecord.getUserId(), userId);
 
-
+        //如果礼物剩余数量为0则更新状态
+        if (reNum == 0){
+            giftRecord.setStatus(Constants.GIFT_STATUS.SEND);
+            giftRecordMapper.updateByPrimaryKeySelective(giftRecord);
+        }
         // 更新记录状态为已赠送
-        giftRecord.setStatus(Constants.GIFT_STATUS.SEND);
-        giftRecordMapper.updateByPrimaryKeySelective(giftRecord);
         GiftRecordDetail detail = details.get(0);
         // 更新记录详情状态为已赠送
         detail.setStatus(Constants.GIFT_STATUS.SEND);
