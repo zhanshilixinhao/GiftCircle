@@ -165,7 +165,7 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
             BigDecimal totalPrice = new BigDecimal("0"); //总价格
             if (!CollectionUtils.isEmpty(orderList)) {
                 for (ItemOrder itemOrders : orderList) {
-                    totalPrice = BigDecimalUtil.add(totalPrice.doubleValue(),itemOrders.getTotalPrice().doubleValue());
+                    totalPrice = BigDecimalUtil.add(totalPrice.doubleValue(), itemOrders.getTotalPrice().doubleValue());
                 }
                 //校验金额
                 if (totalPrice.compareTo(new BigDecimal(aLiPayV2Vo.getTotal_amount())) != 0) {
@@ -177,11 +177,12 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
                 if (i == 0) {
                     for (ItemOrder orders : orderList) {
                         // 改变订单
-                        orderAli(orders,orderNo,aLiPayV2Vo,orderType);
+                        aLiPayV2Vo.setOut_trade_no(String.valueOf(orders.getOrderNo()));
+                        orderAli(orders, orders.getOrderNo(), aLiPayV2Vo, orderType);
                     }
                 } else if (i == 2) {
                     return "ERROR";
-            }
+                }
                 return "SUCCESS";
             }
             return "ERROR";
@@ -201,14 +202,14 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
         int i = checkAliPayBaseInfo(aLiPayV2Vo, parameterMap, orderNo);
         if (i == 0) {
             // 改变订单
-          orderAli(itemOrder,orderNo,aLiPayV2Vo,orderType);
+            orderAli(itemOrder, orderNo, aLiPayV2Vo, orderType);
         } else if (i == 2) {
             return "ERROR";
         }
         return "SUCCESS";
     }
 
-    private void orderAli(ItemOrder itemOrder,Long orderNo,ALiPayV2Vo aLiPayV2Vo, Byte orderType){
+    private void orderAli(ItemOrder itemOrder, Long orderNo, ALiPayV2Vo aLiPayV2Vo, Byte orderType) {
         //更新订单状态
         itemOrder.setStatus((byte) Constants.ORDER_BASE_STATUS.PAID);
         int count = itemOrderMapper.updateByPrimaryKeySelective(itemOrder);
@@ -508,12 +509,12 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
         //校验订单号
         Long orderNo = Long.parseLong(notifyData.getOut_trade_no());
         // 判断订单号是否是9开头（订单号集合）
-        if (StringUtils.startsWith(notifyData.getOut_trade_no(), "9")){
+        if (StringUtils.startsWith(notifyData.getOut_trade_no(), "9")) {
             List<ItemOrder> orderList = itemOrderMapper.selectListByOrderNo(orderNo); //根据总的订单号查出订单列表
             BigDecimal totalPrice = new BigDecimal("0"); //总价格
-            if (!CollectionUtils.isEmpty(orderList)){
+            if (!CollectionUtils.isEmpty(orderList)) {
                 for (ItemOrder order : orderList) {
-                    totalPrice = BigDecimalUtil.add(totalPrice.doubleValue(),order.getTotalPrice().doubleValue());
+                    totalPrice = BigDecimalUtil.add(totalPrice.doubleValue(), order.getTotalPrice().doubleValue());
                 }
                 //检验支付金额
                 if (totalPrice.compareTo(
@@ -524,7 +525,8 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
                 int re = checkBaseWxPayInfo(notifyData, xml, orderNo);
                 if (re == 0) {
                     for (ItemOrder itemOrder : orderList) {
-                        changeOrder(itemOrder,orderNo,notifyData,orderType);
+                        notifyData.setOut_trade_no(String.valueOf(itemOrder.getOrderNo()));
+                        changeOrder(itemOrder, itemOrder.getOrderNo(), notifyData, orderType);
                     }
                 } else if (re == 2) {
                     return "ERROR";
@@ -546,7 +548,7 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
         }
         int re = checkBaseWxPayInfo(notifyData, xml, orderNo);
         if (re == 0) {
-            changeOrder(itemOrder,orderNo,notifyData,orderType);
+            changeOrder(itemOrder, orderNo, notifyData, orderType);
         } else if (re == 2) {
             return "ERROR";
         }
@@ -555,7 +557,7 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
     }
 
 
-    private void changeOrder(ItemOrder itemOrder,Long orderNo,NotifyData notifyData,Byte orderType){
+    private void changeOrder(ItemOrder itemOrder, Long orderNo, NotifyData notifyData, Byte orderType) {
         //更新订单状态
         itemOrder.setStatus((byte) Constants.ORDER_BASE_STATUS.PAID);
         int count = itemOrderMapper.updateByPrimaryKeySelective(itemOrder);
@@ -620,9 +622,6 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
 //        return resXml;
 //
 //    }
-
-
-
 
 
     /**

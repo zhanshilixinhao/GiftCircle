@@ -30,6 +30,7 @@ public interface WalletService {
     void updateBalance(Integer userId, BigDecimal amount);
 
     int updateBalance(Integer userId, BigDecimal amount, Constants.WALLET_RECORD type, Integer targetId);
+    int updateBalance(Integer userId, BigDecimal amount, Constants.WALLET_RECORD type, Long targetId);
 
     /**
      *钱包收益记录

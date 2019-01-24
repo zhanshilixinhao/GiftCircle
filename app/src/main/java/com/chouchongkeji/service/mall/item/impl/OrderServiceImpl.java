@@ -38,10 +38,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author linqin
@@ -129,7 +126,6 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public Response createOrder(Integer userId, Integer client, HashSet<OrderVo> skus, Integer payWay, Byte isShoppingCart) {
-        List<ItemOrderDetail> list = new ArrayList<>();
         HashMap<Integer, List<OrderVo>> hashMap = new HashMap<>();
         for (OrderVo orderVo : skus) {
             ItemSku sku = itemSkuMapper.selectBySkuId(orderVo.getSkuId());
@@ -145,46 +141,50 @@ public class OrderServiceImpl implements OrderService {
             orderVos.add(orderVo);
         }
         List<ItemOrder> itemOrders = new ArrayList<>();
+        List<List<ItemOrderDetail>> list = new ArrayList<>();
         // 遍历店铺
-        hashMap.forEach((key,value) -> {
-            ItemOrder itemOrder = create(value, client, userId, isShoppingCart, key);
+        hashMap.forEach((key, value) -> {
+            ItemOrder itemOrder = create(value, client, userId, isShoppingCart, key, list);
             itemOrders.add(itemOrder);
         });
         BigDecimal totalPrice = new BigDecimal("0"); //总的价格
-        OrderCollect orderCollect = new OrderCollect();
-        Long orderNo =  orderHelper.genOrderNo(9, 2); //总的订单号
+        Long orderNo = orderHelper.genOrderNo(9, 2); //总的订单号
         for (ItemOrder itemOrder : itemOrders) {
-            totalPrice=BigDecimalUtil.add(totalPrice.doubleValue(),itemOrder.getTotalPrice().doubleValue());
+            totalPrice = BigDecimalUtil.add(totalPrice.doubleValue(), itemOrder.getTotalPrice().doubleValue());
             // 添加订单号集合信息
+            OrderCollect orderCollect = new OrderCollect();
             orderCollect.setOrderNo(itemOrder.getOrderNo());
             orderCollect.sethOrderNo(orderNo);
             orderCollectMapper.insert(orderCollect);
         }
         //余额支付
         if (payWay == Constants.PAY_TYPE.yue) {
-            //扣减余额，更新余额
-            int response = yuePay(userId,totalPrice, orderCollect.getId(), orderNo);
-            if (response < 1) {
-                throw new ServiceException(ErrorCode.ERROR.getCode(), "更新余额,扣减余额失败");
+            int index = 0;
+            for (ItemOrder itemOrder : itemOrders) {
+                //扣减余额，更新余额
+                int response = yuePay(userId, totalPrice, null, itemOrder.getOrderNo());
+                if (response < 1) {
+                    throw new ServiceException(ErrorCode.ERROR.getCode(), "更新余额,扣减余额失败");
+                }
+                //更新销量和详细订单状
+                int i = updateStatusSales(itemOrder.getOrderNo());
+                if (i < 1) {
+                    throw new ServiceException(ErrorCode.ERROR.getCode(), "更新销量和详细订单状态失败");
+                }
+                //物品添加到背包
+                int add = bpService.addFromItemOrder(list.get(index++));
+
+                if (add < 1) {
+                    throw new ServiceException(ErrorCode.ERROR.getCode(), "");
+                }
+                //保存支付信息
+                appPaymentInfoService.doYuePaySuccess(itemOrder.getOrderNo(), userId, new Date(), Constants.ORDER_TYPE.ITEM,
+                        0, totalPrice);
             }
-            //更新销量和详细订单状
-            int i = updateStatusSales(orderNo);
-            if (i < 1) {
-                throw new ServiceException(ErrorCode.ERROR.getCode(), "更新销量和详细订单状态失败");
-            }
-            //物品添加到背包
-            int add = bpService.addFromItemOrder(list);
-            if (add < 1) {
-                throw new ServiceException(ErrorCode.ERROR.getCode(), "");
-            }
-            //保存支付信息
-            appPaymentInfoService.doYuePaySuccess(orderNo, userId, orderCollect.getCreated(), Constants.ORDER_TYPE.ITEM,
-                    0, totalPrice);
             return ResponseFactory.sucMsg("支付成功");
         }
         // 创建订单参数
-        return ResponseFactory.sucData(createOrderParameter(orderNo,totalPrice, payWay));
-//        return null;
+        return ResponseFactory.sucData(createOrderParameter(orderNo, totalPrice, payWay));
     }
 
 
@@ -279,7 +279,8 @@ public class OrderServiceImpl implements OrderService {
 //        return ResponseFactory.sucData(createOrderParameter(itemOrder, payWay));
 //    }
 
-    private ItemOrder create(List<OrderVo> skus,Integer client,Integer userId,Byte isShoppingCart,Integer adminId){
+    private ItemOrder create(List<OrderVo> skus, Integer client, Integer userId, Byte isShoppingCart,
+                             Integer adminId, List<List<ItemOrderDetail>> listItemDetail) {
         Long orderNo = orderHelper.genOrderNo(client, 2);
         List<ItemOrderDetail> list = new ArrayList<>();
         BigDecimal totalPrice = new BigDecimal("0");
@@ -321,7 +322,7 @@ public class OrderServiceImpl implements OrderService {
             if (isShoppingCart == Constants.ISSHOPPINGCART.YES) {
                 Cart cart = cartMapper.selectBySkuIAndUserId(userId, order.getSkuId());
                 if (cart == null) {
-                    throw new ServiceException(ErrorCode.ERROR.getCode(),"购物车中不存在该商品") ;
+                    throw new ServiceException(ErrorCode.ERROR.getCode(), "购物车中不存在该商品");
                 }
                 cart.setQuantity(cart.getQuantity() - order.getQuantity());
                 cartMapper.updateByPrimaryKeySelective(cart);
@@ -342,8 +343,9 @@ public class OrderServiceImpl implements OrderService {
         if (insert < 1) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "创建订单失败");
         }
-        // 批量加入到详细订单
+//        // 批量加入到详细订单
         itemOrderDetailMapper.batchInsert(list);
+        listItemDetail.add(list);
         return itemOrder;
     }
 
@@ -388,7 +390,7 @@ public class OrderServiceImpl implements OrderService {
      * @param order 用户订单
      * @return
      */
-    private PayVO assemblePayOrder(Long orderNo,BigDecimal totalPrice, Integer payWay) {
+    private PayVO assemblePayOrder(Long orderNo, BigDecimal totalPrice, Integer payWay) {
         PayVO vo = new PayVO();
         vo.setBody(Constants.PAY_BODY);
         vo.setSubject(Constants.PAY_ITEM_ORDER);
@@ -416,7 +418,9 @@ public class OrderServiceImpl implements OrderService {
      */
     public int yuePay(Integer userId, BigDecimal totalPrice, Integer itemOrderId, Long orderNo) {
         //扣减余额，更新余额，钱包记录
-        int count = walletService.updateBalance(userId, totalPrice, Constants.WALLET_RECORD.BUY_ITEM, itemOrderId);
+        int count = walletService.updateBalance(userId, totalPrice,
+                Constants.WALLET_RECORD.BUY_ITEM,
+                itemOrderId == null ? orderNo : itemOrderId);
         if (count < 1) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "支付失败,请选择其他支付方式");
         }
@@ -510,7 +514,7 @@ public class OrderServiceImpl implements OrderService {
                     0, itemOrder.getTotalPrice());
             return ResponseFactory.sucMsg("支付成功");
         }
-        return ResponseFactory.sucData(createOrderParameter(orderNo,itemOrder.getTotalPrice(), payWay));
+        return ResponseFactory.sucData(createOrderParameter(orderNo, itemOrder.getTotalPrice(), payWay));
     }
 
     /**
@@ -522,9 +526,9 @@ public class OrderServiceImpl implements OrderService {
      * @author linqin
      * @date 2018/6/21
      */
-    private PayResultVo createOrderParameter(Long orderNo,BigDecimal totalPrice, Integer payWay) {
+    private PayResultVo createOrderParameter(Long orderNo, BigDecimal totalPrice, Integer payWay) {
         //创建订单参数
-        PayVO payVO = assemblePayOrder(orderNo,totalPrice, payWay);
+        PayVO payVO = assemblePayOrder(orderNo, totalPrice, payWay);
         //根据不同的支付方式创建不同的支付参数
         String info = null;
         // 如果是支付宝，构造支付宝参数并签名

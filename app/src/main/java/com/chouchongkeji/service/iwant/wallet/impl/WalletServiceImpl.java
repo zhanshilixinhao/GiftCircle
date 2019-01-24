@@ -100,6 +100,10 @@ public class WalletServiceImpl implements WalletService {
      * @date 2018/7/3
      */
     public int updateBalance(Integer userId, BigDecimal amount, Constants.WALLET_RECORD type, Integer targetId) {
+        return updateBalance(userId, amount, type, targetId.longValue());
+    }
+
+    public int updateBalance(Integer userId, BigDecimal amount, Constants.WALLET_RECORD type, Long targetId) {
         //根据用户id取出钱包信息
         Wallet detail = getWallet(userId);
         //在钱包里查出余额
@@ -129,7 +133,7 @@ public class WalletServiceImpl implements WalletService {
         record.setUserId(userId);
         record.setExplain(type.explain);
         record.setAmount(amount.abs()); //绝对值
-        record.setTargetId(Long.valueOf(targetId));
+        record.setTargetId(targetId);
         record.setType((byte) type.type);
         walletRecordMapper.insert(record);
         return 1;
