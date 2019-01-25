@@ -58,6 +58,9 @@ public class FriendController {
      */
     @PostMapping("list")
     public Response getFriendList(@AuthenticationPrincipal UserDetails userDetails, Integer groupId) {
+        if (groupId != null && groupId == 0){
+            groupId = null;
+        }
         return friendService.getFriendList(userDetails.getUserId(), groupId);
     }
 
@@ -178,7 +181,7 @@ public class FriendController {
     }
 
     /**
-     * 修改好友分组
+     * 分组列表
      *
      * @param userDetails 用户信息
      * @return

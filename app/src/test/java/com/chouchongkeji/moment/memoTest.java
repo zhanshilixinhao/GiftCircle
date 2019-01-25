@@ -50,8 +50,8 @@ public class memoTest {
         RequestParams params = new RequestParams();
         params.put("time", System.currentTimeMillis());
         params.put("access_token", "572f7a09-b3e0-4ec5-b04b-13c82771c1c8");
-        params.put("id", 76);
-        params.put("detail", "过生日没有hhhh ");
+        params.put("id", 28);
+        params.put("detail", "去旅游 ");
 //        params.put("targetTime", 1573265351000L);
 //        params.put("users", "1,15");
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);

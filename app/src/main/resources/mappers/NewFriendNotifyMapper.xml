@@ -18,11 +18,11 @@
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    id, user_id, target_user_id, notify_type, status, user_status, target_user_status, 
+    id, user_id, target_user_id, notify_type, status, user_status, target_user_status,
     content, validation_msg, reply, created, updated
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from new_friend_notify
     where id = #{id,jdbcType=INTEGER}
@@ -66,6 +66,7 @@ WHERE
 	LEFT JOIN app_user b ON b.id = a.target_user_id
 WHERE
 	a.user_id = #{userId}
+	group by a.target_user_id
 ORDER BY
 	a.updated DESC
   </select>
@@ -74,14 +75,14 @@ ORDER BY
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.friend.NewFriendNotify">
-    insert into new_friend_notify (id, user_id, target_user_id, 
-      notify_type, status, user_status, 
-      target_user_status, content, validation_msg, 
+    insert into new_friend_notify (id, user_id, target_user_id,
+      notify_type, status, user_status,
+      target_user_status, content, validation_msg,
       reply, created, updated
       )
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{targetUserId,jdbcType=INTEGER}, 
-      #{notifyType,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, #{userStatus,jdbcType=TINYINT}, 
-      #{targetUserStatus,jdbcType=TINYINT}, #{content,jdbcType=VARCHAR}, #{validationMsg,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{targetUserId,jdbcType=INTEGER},
+      #{notifyType,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, #{userStatus,jdbcType=TINYINT},
+      #{targetUserStatus,jdbcType=TINYINT}, #{content,jdbcType=VARCHAR}, #{validationMsg,jdbcType=VARCHAR},
       #{reply,jdbcType=VARCHAR}, now(), now()
       )
   </insert>
