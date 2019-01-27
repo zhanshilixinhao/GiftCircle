@@ -169,6 +169,8 @@
       a.content as content,
       a.pictures as pictures,
       a.created as created,
+      b.id as userId,
+       b.nickname,
       a.star as star,
       b.phone as phone,
       b.avatar as avatar

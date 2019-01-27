@@ -75,7 +75,8 @@
 * 2019/1/22
 * 更新内容
 
-> 1.修改索要记录接口（增加品牌字段） (接口14.7)
+> 1. 修改索要记录接口（增加品牌字段） (接口14.7)
+> 2. 修改评论列表接口，增加用户id,昵称字段（6.10）
 
 ## 目录
 <span id="m"> </span>
@@ -1731,7 +1732,7 @@ JSON：
 | detailUrl   |    String    |    是    |        商品详情地址        |
 | isCollect   |     Int      |    是    | 是否收藏 1.已收藏 2.未收藏 |
 
-### 6.10 商品评论
+### 6.10 商品评论列表
 
 - 请求地址：noauth/item/comment_list
 - 服务协议：HTTP/POST
@@ -1756,6 +1757,8 @@ JSON：
             "created": 1528882416000,
             "phone": "13908867120",
             "avatar": "avatar.jpg",
+            "nickname":"额",
+            "userId": 4,
             "content": "22342",
             "pictures": [
                 "cover.jpg",
@@ -1773,6 +1776,8 @@ JSON：
 | data     |    Object    |    否    |       成功返回数据        |
 | phone    |    String    |    是    |         用户电话          |
 | avatar   |    String    |    是    |         用户头像          |
+|nickname|String|是|用户昵称|
+|userId|Int|是|用户id|
 | content  |    String    |    是    |         评论文字          |
 | pictures | List<String> |    是    |       评论图片数组        |
 | created  |     Long     |    是    |         评论时间          |

@@ -12,8 +12,12 @@ import java.util.List;
 public class ItemCommentVo {
     // 评论时间
     private Date created;
+    //用户id
+    private Integer userId;
     // 用户电话
     private String phone;
+    // 用户昵称
+    private String nickname;
     // 用户头像
     @ImgUrl
     private String avatar;
@@ -71,5 +75,21 @@ public class ItemCommentVo {
 
     public void setPictures(List<String> pictures) {
         this.pictures = pictures;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 }
