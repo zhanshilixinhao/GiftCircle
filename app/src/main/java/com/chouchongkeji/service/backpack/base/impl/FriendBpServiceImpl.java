@@ -194,7 +194,10 @@ public class FriendBpServiceImpl implements FriendBpService {
                 //更新索要记录状态，操作
                 forRecord.setStatus(Constants.FOR_RECORD_STATUS.ACCESS);//索要成功
                 forRecord.setOperation(operation);//同意索要
-                forRecordMapper.updateByPrimaryKeySelective(forRecord);
+                int i = forRecordMapper.updateByPrimaryKeySelective(forRecord);
+                if(i<1){
+                    throw new ServiceException(ErrorCode.ERROR.getCode(), "更新状态失败");
+                }
                 //更新用户背包（减少该物品）
                 BpItem bpItem = bpItemMapper.selectByUserIdAndBpItemId(userId, forRecord.getBpId());
                 if (bpItem == null) {

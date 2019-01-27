@@ -3,7 +3,7 @@
 <mapper namespace="com.chouchongkeji.dial.dao.backpack.ForRecordMapper">
     <resultMap id="BaseResultMap" type="com.chouchongkeji.dial.pojo.backpack.ForRecord">
         <!--<constructor>-->
-        <id column="id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+        <!--<id column="id" javaType="java.lang.Integer" jdbcType="INTEGER"/>-->
         <!--<arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />-->
         <!--<arg column="bp_id" javaType="java.lang.Long" jdbcType="BIGINT" />-->
         <!--<arg column="friend_user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />-->
