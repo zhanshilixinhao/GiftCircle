@@ -3461,7 +3461,7 @@ JSON：
 |   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
 | :----------: | :------: | :------: | :----: | :------: |
 | access_token |  string  |    是    |   无   | 访问令牌 |
-| content | string | 是 | 无 | 文字内容 |
+| content | string | 否 | 无 | 文字内容 |
 | open |byte|是|无|是否公开 1 公开 2好友可见|
 | medias | string | 否 | 无 | 图片或视频json字符串 |
 | showGift | int | 否 | 2 | 1 显示最近收到的礼物 2 不显示 |

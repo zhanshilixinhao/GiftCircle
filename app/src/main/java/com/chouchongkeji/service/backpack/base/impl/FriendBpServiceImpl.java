@@ -251,7 +251,10 @@ public class FriendBpServiceImpl implements FriendBpService {
                 //更新索要记录状态，操作
                 forRecord.setStatus(Constants.FOR_RECORD_STATUS.FAIL);//索要失败
                 forRecord.setOperation(operation);//拒绝索要
-                forRecordMapper.updateByPrimaryKeySelective(forRecord);
+                int i = forRecordMapper.updateByPrimaryKeySelective(forRecord);
+                if(i<1){
+                    throw new ServiceException(ErrorCode.ERROR.getCode(), "更新状态失败");
+                }
                 //添加系统消息
                 AppMessage appMessage = new AppMessage();
                 appMessage.setTitle("系统通知");
@@ -268,7 +271,7 @@ public class FriendBpServiceImpl implements FriendBpService {
                 if (in < 1) {
                     throw new ServiceException(ErrorCode.ERROR.getCode(), "添加系统消息失败");
                 }
-                return ResponseFactory.err("已拒绝好友索要物品");
+                return ResponseFactory.sucMsg("已拒绝好友索要物品");
             }
         }
         return ResponseFactory.sucMsg("该物品已做操作或拒绝操作");
