@@ -372,11 +372,13 @@ WHERE
         price,
         sales,
         description,
-        pictures
+        pictures,
+        status
         FROM
         item
         WHERE
         id = #{id}
+        and status != 3
     </select>
 
     <!--获得商品html详情-->

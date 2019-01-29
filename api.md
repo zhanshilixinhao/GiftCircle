@@ -78,6 +78,7 @@
 > 1. 修改索要记录接口（增加品牌字段） (接口14.7)
 > 2. 修改评论列表接口，增加用户id,昵称字段（6.10）
 > 3. 增加新的好友消息未查看数量（通讯录红点）接口（10.12）
+> 4. 修改商品详情接口（加状态）（6.9）
 
 ## 目录
 <span id="m"> </span>
@@ -1710,6 +1711,7 @@ JSON：
         "price": 50,
         "sales": 1,
         "description": "秦国质子",
+        "status": 1,
         "pictures": [
             "cover.jpg",
             "http://thirdwx.qlogo.cn/mmopen/vi_32/jhXsk4K6SZs58GvXyrPichgxlDv6y4IYrrKN5GCA1UTvHRKbRGtiac2SxmGMYibJSvCZzcLhNmQEykDgXTTzkPOXQ/132"
@@ -1728,6 +1730,7 @@ JSON：
 | title       |    String    |    是    |          商品标题          |
 | price       |   decimal    |    是    |          商品价格          |
 | sales       |     Int      |    是    |            销量            |
+| status       |     Int      |    是    |            状态1-正常，2-下架   |
 | description |    String    |    是    |          商品属性          |
 | pictures    | List<String> |    是    |        轮播图片数组        |
 | detailUrl   |    String    |    是    |        商品详情地址        |

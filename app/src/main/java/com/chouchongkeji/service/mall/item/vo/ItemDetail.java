@@ -29,6 +29,8 @@ public class ItemDetail {
     private String detailUrl;
     // 是否收藏商品 1.收藏 2.未收藏
     private Integer isCollect;
+    // 商品状态
+    private Byte status;
 
     public Integer getIsCollect() {
         return isCollect;
@@ -92,5 +94,13 @@ public class ItemDetail {
 
     public void setDetailUrl(String detailUrl) {
         this.detailUrl = detailUrl;
+    }
+
+    public Byte getStatus() {
+        return status;
+    }
+
+    public void setStatus(Byte status) {
+        this.status = status;
     }
 }
