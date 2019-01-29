@@ -78,7 +78,7 @@ order by a.created DESC
     <select id="selectByUserIdTime" resultType="com.chouchongkeji.service.user.friend.vo.FriendMessageVo">
         select count(0) as messageCount
    from new_friend_notify
-   where user_id = #{userId}
+   where target_user_id = #{userId}
     and UNIX_TIMESTAMP(created) &gt; #{time}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
