@@ -30,18 +30,18 @@
   <select id="selectByUserId" resultType="com.chouchongkeji.service.user.friend.vo.NotifyMsg">
     SELECT
   a.msgId,
-       a.user_id,
-       a.target_user_id,
-       a.type,
-       a.status,
-       a.validation_msg,
-       a.reply,
-       MAX(a.created) as maxCreated,
-       MAX(a.updated) as maxUpdated,
+  a.user_id,
+  a.target_user_id,
+  a.type,
+  a.status,
+  a.validation_msg,
+  a.reply,
+  a.created,
   b.avatar,
   b.nickname
 FROM
-  (
+  (select max(id) as id from new_friend_notify group by user_id, target_user_id) c
+    left join (
     SELECT
       id as msgId,
       user_id,
@@ -55,7 +55,7 @@ FROM
     FROM
       new_friend_notify
     WHERE
-        user_id = #{userId} UNION
+        user_id = 6 UNION
     SELECT
       id as msgId,
       target_user_id AS user_id,
@@ -69,12 +69,11 @@ FROM
     FROM
       new_friend_notify
     WHERE
-      target_user_id = #{userId}
-  ) a
+        target_user_id = 6
+  ) a on a.msgId = c.id
     LEFT JOIN app_user b ON b.id = a.target_user_id
-WHERE
-    a.user_id = #{userId}
-group by a.target_user_id
+where  a.msgId = c.id
+order by a.created DESC
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from new_friend_notify
