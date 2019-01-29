@@ -150,4 +150,13 @@ public interface FriendService {
     FriendVo isFriend(Integer userId, Integer friendUserId);
 
     void addWXFriend(Integer userId, Integer friendUserId);
+
+    /**
+     *新的朋友消息未查看数量
+     * @param userDetails
+     * @return
+     * @author yichenshanren
+     * @date 2018/6/21
+     */
+    Response getNoReadCount(Integer userId);
 }

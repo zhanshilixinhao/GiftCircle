@@ -5,6 +5,7 @@ import com.chouchongkeji.dial.dao.friend.FriendGroupMapper;
 import com.chouchongkeji.dial.dao.friend.FriendMapper;
 import com.chouchongkeji.dial.dao.friend.NewFriendNotifyMapper;
 import com.chouchongkeji.dial.dao.user.AppUserMapper;
+import com.chouchongkeji.dial.redis.MRedisTemplate;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.query.PageQuery;
@@ -45,6 +46,9 @@ public class FriendServiceImpl implements FriendService {
 
     @Autowired
     private FriendGroupMapper friendGroupMapper;
+
+    @Autowired
+    private MRedisTemplate mRedisTemplate;
 
     /**
      * 添加好友
@@ -123,15 +127,15 @@ public class FriendServiceImpl implements FriendService {
      * 搜索好友
      *
      * @param userId 用户信息
-     * @param key 关键字
-     * @param  type 1 搜索好友， 2 搜索陌生人， 不传 ：搜索所有
+     * @param key    关键字
+     * @param type   1 搜索好友， 2 搜索陌生人， 不传 ：搜索所有
      * @return
      * @author yichenshanren
      * @date 2018/6/21
      */
     @Override
     public Response searchFriend(Integer userId, String key, Integer type) {
-        List<FriendBase> list = friendMapper.selectBySearch(key, userId,type);
+        List<FriendBase> list = friendMapper.selectBySearch(key, userId, type);
         return ResponseFactory.sucData(list);
     }
 
@@ -243,7 +247,29 @@ public class FriendServiceImpl implements FriendService {
     public Response getNotifyMsgs(Integer userId, PageQuery page) {
         PageHelper.startPage(page.getPageNum(), page.getPageSize());
         List<NotifyMsg> list = newFriendNotifyMapper.selectByUserId(userId);
+        //存查看消息列表的最后时间
+        mRedisTemplate.setString("lastTime" + userId,String.valueOf(System.currentTimeMillis()));
         return ResponseFactory.sucData(list);
+    }
+
+    /**
+     *新的朋友消息未查看数量
+     * @param userDetails
+     * @return
+     * @author yichenshanren
+     * @date 2018/6/21
+     */
+    @Override
+    public Response getNoReadCount(Integer userId) {
+        // 取出未查看消息的数量
+        String string = mRedisTemplate.getString("lastTime" + userId);
+        Long time = null;
+        if (StringUtils.isNotBlank(string)){
+            time=Long.parseLong(string);
+            FriendMessageVo friendMessageVo = newFriendNotifyMapper.selectByUserIdTime(userId,time/1000);
+            return ResponseFactory.sucData(friendMessageVo);
+        }
+        return ResponseFactory.suc();
     }
 
     /*-------------------------------------------------好友申请操作----------------------------------------------*/

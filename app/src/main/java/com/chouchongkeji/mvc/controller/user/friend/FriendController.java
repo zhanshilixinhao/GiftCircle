@@ -4,6 +4,7 @@ import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.query.PageQuery;
 import com.chouchongkeji.service.user.friend.FriendService;
+import com.sun.org.apache.regexp.internal.RE;
 import com.yichen.auth.service.UserDetails;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +59,7 @@ public class FriendController {
      */
     @PostMapping("list")
     public Response getFriendList(@AuthenticationPrincipal UserDetails userDetails, Integer groupId) {
-        if (groupId != null && groupId == 0){
+        if (groupId != null && groupId == 0) {
             groupId = null;
         }
         return friendService.getFriendList(userDetails.getUserId(), groupId);
@@ -101,8 +102,8 @@ public class FriendController {
      * 搜索好友
      *
      * @param userDetails 用户信息
-     * @param key 关键字
-     * @param  type 1 搜索好友， 2 搜索陌生人， 不传 ：搜索所有
+     * @param key         关键字
+     * @param type        1 搜索好友， 2 搜索陌生人， 不传 ：搜索所有
      * @return
      * @author yichenshanren
      * @date 2018/6/21
@@ -205,6 +206,18 @@ public class FriendController {
     @PostMapping("notifyMsgs")
     public Response getNotifyMsgs(@AuthenticationPrincipal UserDetails userDetails, PageQuery page) {
         return friendService.getNotifyMsgs(userDetails.getUserId(), page);
+    }
+
+    /**
+     *新的朋友消息未查看数量
+     * @param userDetails
+     * @return
+     * @author yichenshanren
+     * @date 2018/6/21
+     */
+    @PostMapping("count")
+    public Response getNoReadCount(@AuthenticationPrincipal UserDetails userDetails) {
+        return friendService.getNoReadCount(userDetails.getUserId());
     }
 
     /**

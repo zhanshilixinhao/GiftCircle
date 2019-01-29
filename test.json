@@ -1,51 +1,43 @@
 {
   "errCode": 0,
   "result": 0,
-  "time": 1548666296545,
+  "time": 1548727296816,
   "data": [
     {
-      "msgId": 52,
+      "id": 27,
       "userId": 6,
-      "targetUserId": 1,
-      "type": 1,
-      "status": 2,
-      "validationMsg": "我是林琴",
-      "reply": "",
-      "avatar": "https://liyuquan.cn/staticorder/comment/20181231/1546231284130051-600-600.jpg",
-      "nickname": "路遥"
+      "targetTime": 1548747218000,
+      "detail": "去玩哦哦",
+      "type": null,
+      "users": "",
+      "created": 1548401625000,
+      "nickname": "林琴",
+      "avatar": "https://liyuquan.cn/staticorder/comment/20190125/1548384828444720-600-600.jpg",
+      "days": 0.2306
     },
     {
-      "msgId": 22,
+      "id": 28,
       "userId": 6,
-      "targetUserId": 7,
-      "type": 2,
-      "status": 2,
-      "validationMsg": "我是淡水鱼",
-      "reply": "",
-      "avatar": "https://liyuquan.cn/staticorder/comment/20190125/1548387488441549-550-550.jpg",
-      "nickname": "淡水鱼"
+      "targetTime": 1548830294000,
+      "detail": "去旅游",
+      "type": null,
+      "users": "",
+      "created": 1548402029000,
+      "nickname": "林琴",
+      "avatar": "https://liyuquan.cn/staticorder/comment/20190125/1548384828444720-600-600.jpg",
+      "days": 1.1921
     },
     {
-      "msgId": 54,
+      "id": 29,
       "userId": 6,
-      "targetUserId": 8,
-      "type": 2,
-      "status": 2,
-      "validationMsg": "我是你称呼",
-      "reply": "",
-      "avatar": "https://liyuquan.cn/staticorder/comment/20190125/1548397823002273-292-292.jpg",
-      "nickname": "机器人"
-    },
-    {
-      "msgId": 53,
-      "userId": 6,
-      "targetUserId": 22,
-      "type": 1,
-      "status": 1,
-      "validationMsg": "我是林琴",
-      "reply": "",
-      "avatar": "http://thirdwx.qlogo.cn/mmopen/vi_32/lwUjqAFRa6lj9xGQiceRNtSMMSTSM89rGb2Y2MUiaxbAZe6etlvFD49qo7oiaHJpSHh8WjqMrAvll4bpLEf3fzNJA/132",
-      "nickname": "."
+      "targetTime": 1549175894000,
+      "detail": "去旅游看见了",
+      "type": null,
+      "users": "",
+      "created": 1548402250000,
+      "nickname": "林琴",
+      "avatar": "https://liyuquan.cn/staticorder/comment/20190125/1548384828444720-600-600.jpg",
+      "days": 5.1921
     }
   ]
 }

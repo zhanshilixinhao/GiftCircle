@@ -55,7 +55,7 @@ FROM
     FROM
       new_friend_notify
     WHERE
-        user_id = 6 UNION
+        user_id = #{userId} UNION
     SELECT
       id as msgId,
       target_user_id AS user_id,
@@ -69,13 +69,19 @@ FROM
     FROM
       new_friend_notify
     WHERE
-        target_user_id = 6
+        target_user_id = #{userId}
   ) a on a.msgId = c.id
     LEFT JOIN app_user b ON b.id = a.target_user_id
 where  a.msgId = c.id
 order by a.created DESC
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="selectByUserIdTime" resultType="com.chouchongkeji.service.user.friend.vo.FriendMessageVo">
+        select count(0) as messageCount
+   from new_friend_notify
+   where user_id = #{userId}
+    and UNIX_TIMESTAMP(created) &gt; #{time}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from new_friend_notify
     where id = #{id,jdbcType=INTEGER}
   </delete>

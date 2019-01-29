@@ -38,8 +38,8 @@ public class memoTest {
     public void time() throws ParseException {
         Date now = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");//可以方便地修改日期格式
-        String hehe = dateFormat.format( now ); //日期
-        Date parse = dateFormat.parse("20190118000000");  //时间戳
+        String hehe = dateFormat.format( 1548747218000L ); //日期
+        Date parse = dateFormat.parse("20190129104000");  //时间戳
         System.out.println(parse.getTime());
         System.out.println(hehe);
     }
@@ -129,6 +129,17 @@ public class memoTest {
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
         params.put("sign", map.get(ApiSignUtil.ANDROID));
         Response post = OkHttpUtil.post("http://localhost:8088/auth/friend/notifyMsgs", params);
+        System.out.println(post.body().string());
+    }
+
+    @Test
+    public void count() throws IOException {
+        RequestParams params = new RequestParams();
+        params.put("time", System.currentTimeMillis());
+        params.put("access_token", "572f7a09-b3e0-4ec5-b04b-13c82771c1c8");
+        Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
+        params.put("sign", map.get(ApiSignUtil.ANDROID));
+        Response post = OkHttpUtil.post("http://localhost:8088/auth/friend/count", params);
         System.out.println(post.body().string());
     }
 

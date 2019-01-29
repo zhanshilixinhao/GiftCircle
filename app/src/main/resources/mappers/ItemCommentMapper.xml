@@ -178,6 +178,7 @@
       item_comment a LEFT JOIN app_user b ON a.user_id = b.id
     WHERE
       a.item_id = #{id}
+      order By a.created DESC
   </select>
 
 </mapper>
