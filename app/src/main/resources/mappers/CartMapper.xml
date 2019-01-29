@@ -19,6 +19,8 @@
     <result column="quantity" property="quantity"/>
     <result column="price" property="price"/>
     <result column="created" property="created"/>
+    <result column="status" property="status"/>
+    <result column="skuStatus" property="skuStatus"/>
   </resultMap>
   <sql id="Base_Column_List">
     id, user_id, item_id, sku_id, title, price, quantity, created, updated
@@ -37,12 +39,16 @@
 	b.title, a.title as sp,
 	b.cover,
 	b.price,
+	b.status as skuStatus,
+	c.status,
 	a.created
 FROM
 	cart a
 	LEFT JOIN item_sku b ON b.id = a.sku_id
+	LEFT JOIN item c on a.item_id = c.id
 WHERE
 	user_id = #{userId}
+	and c.status != 3
 ORDER BY
 	a.created DESC
     </select>

@@ -19,6 +19,8 @@ public class CartListVo {
     private Integer quantity;
     private BigDecimal price;
     private Date created;
+    private Byte status; //商品状态
+    private Byte skuStatus; //商品sku状态
 
 
     public Integer getItemId() {
@@ -83,5 +85,21 @@ public class CartListVo {
 
     public void setSp(String sp) {
         this.sp = sp;
+    }
+
+    public Byte getStatus() {
+        return status;
+    }
+
+    public void setStatus(Byte status) {
+        this.status = status;
+    }
+
+    public Byte getSkuStatus() {
+        return skuStatus;
+    }
+
+    public void setSkuStatus(Byte skuStatus) {
+        this.skuStatus = skuStatus;
     }
 }

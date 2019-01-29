@@ -39,7 +39,7 @@ public class FavoriteController {
     }
 
     /**
-     * 获得用户收藏的商品的信息
+     * 获得用户收藏的商品列表
      *
      * @param: [userDetails]
      * @return: com.chouchongkeji.goexplore.common.Response

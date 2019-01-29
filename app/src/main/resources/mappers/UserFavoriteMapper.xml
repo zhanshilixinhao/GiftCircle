@@ -15,7 +15,7 @@
     id, user_id, target_id, type, created, updated
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from user_favorite
     where id = #{id,jdbcType=INTEGER}
@@ -25,10 +25,10 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.gift.favorite.UserFavorite">
-    insert into user_favorite (id, user_id, target_id, 
+    insert into user_favorite (id, user_id, target_id,
       type, created, updated
       )
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{targetId,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{targetId,jdbcType=INTEGER},
       #{type,jdbcType=TINYINT}, #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP}
       )
   </insert>
@@ -127,11 +127,13 @@
     b.title as title,
     b.cover as cover,
     b.price as price,
+    b.status as status,
     b.id as itemId,
     a.id as id
     FROM
     user_favorite a LEFT JOIN item b ON target_id = b.id
     WHERE
     a.type = 1 AND a.user_id = #{userId}
+    and b.status != 3
   </select>
 </mapper>

@@ -79,6 +79,8 @@
 > 2. 修改评论列表接口，增加用户id,昵称字段（6.10）
 > 3. 增加新的好友消息未查看数量（通讯录红点）接口（10.12）
 > 4. 修改商品详情接口（加状态）（6.9）
+> 5. 修改收藏列表接口（加状态）（6.12）
+> 6. 修改购物车列表接口（加状态）（7.1）
 
 ## 目录
 <span id="m"> </span>
@@ -1842,6 +1844,7 @@ JSON：
             "id": 5,
             "itemId": 1,
             "title": "异人",
+            "status": 1,
             "cover": "cover.jpg",
             "price": 600
         },
@@ -1849,6 +1852,7 @@ JSON：
             "id": 7,
             "itemId": 2,
             "title": "小黄人",
+            "status": 1,
             "cover": "cover.jpg",
             "price": 50
         }
@@ -1862,6 +1866,7 @@ JSON：
 | data     |  Object  |    否    |       成功返回数据        |
 | id       |   Int    |    是    |        收藏商品id         |
 | itemId   |   Int    |    是    |          商品id           |
+| status       |     Int      |    是    |            状态1-正常，2-下架   |
 | title    |  String  |    是    |         商品标题          |
 | price    | decimal  |    是    |         商品价格          |
 | cover    |  String  |    是    |         商品封面          |
@@ -2236,7 +2241,9 @@ JSON：
             "title": "秦孝公", 
             "quantity": 1, 
             "price": 1000, 
-            "created": 1528884318000
+            "created": 1528884318000,
+            "status":2,  //商品状态1-正常，2-下架
+            "skuStatus":2  //商品sku状态1-正常，2-下架
         }
     ]
 }

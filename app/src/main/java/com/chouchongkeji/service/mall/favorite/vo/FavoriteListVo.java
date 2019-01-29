@@ -21,6 +21,9 @@ public class FavoriteListVo {
     //  商品价格
     private BigDecimal price;
 
+    //商品状态
+    private Byte status;
+
     public Integer getId() {
         return id;
     }
@@ -59,5 +62,13 @@ public class FavoriteListVo {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public Byte getStatus() {
+        return status;
+    }
+
+    public void setStatus(Byte status) {
+        this.status = status;
     }
 }
