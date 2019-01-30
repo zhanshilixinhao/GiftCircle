@@ -225,6 +225,12 @@ public class Constants {
         byte DONE = 3;//完成
     }
 
+    //备忘录事件是否循环
+    public interface MEMO{
+        byte YES = 1;//循环
+        byte NO = 2;//不循环
+    }
+
     /*首页Banner状态*/
     public interface HOME_ITEM_STATUS{
         byte NORMAL = 1;//正常

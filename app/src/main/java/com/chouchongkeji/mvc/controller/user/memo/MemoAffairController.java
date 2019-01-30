@@ -5,6 +5,7 @@ import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.utils.Utils;
 import com.chouchongkeji.service.user.memo.MemoAffairService;
+import com.chouchongkeji.util.Constants;
 import com.yichen.auth.service.UserDetails;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
@@ -34,13 +35,14 @@ public class MemoAffairController {
      * 添加备忘录事件
      *
      * @param userDetails
+     * @param isCirculation 是否循环
      * @param affair
      * @return
      * @author linqin
      * @date 2019/1/7 16:38
      */
     @PostMapping("add")
-    public Response addAffair(@AuthenticationPrincipal UserDetails userDetails, MemoAffair affair) {
+    public Response addAffair(@AuthenticationPrincipal UserDetails userDetails, MemoAffair affair, Byte isCirculation) {
         if (StringUtils.isAnyBlank(affair.getDetail()) || affair.getTargetTime() == null) {
             return ResponseFactory.errMissingParameter();
         }
@@ -48,7 +50,11 @@ public class MemoAffairController {
         if (affair.getTargetTime().getTime() < System.currentTimeMillis()) {
             return ResponseFactory.err("时间不能晚于当前时间!");
         }
-        HashSet<Integer> idSet = null;
+        //是否循环
+        if (isCirculation == null || (isCirculation != Constants.MEMO.NO && isCirculation != Constants.MEMO.YES)){
+            return ResponseFactory.errMissingParameter();
+        }
+            HashSet<Integer> idSet = null;
         if (StringUtils.isNotBlank(affair.getUsers())) {
             // 取出用户id
             idSet = new HashSet<>();
@@ -56,7 +62,7 @@ public class MemoAffairController {
                 return ResponseFactory.err("用户id错误!");
             }
         }
-        return memoAffairService.addAffair(userDetails.getUserId(), affair, idSet);
+        return memoAffairService.addAffair(userDetails.getUserId(), affair, idSet, isCirculation);
     }
 
     /**
@@ -90,7 +96,7 @@ public class MemoAffairController {
 
 
     /**
-     * 获取活动列表
+     * 获取备忘录列表
      *
      * @param userDetails
      * @param start

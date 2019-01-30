@@ -22,7 +22,7 @@ public interface MemoAffairService {
      * @author linqin
      * @date 2019/1/7 16:38
      */
-    Response addAffair(Integer userId, MemoAffair affair, HashSet<Integer> idSet);
+    Response addAffair(Integer userId, MemoAffair affair, HashSet<Integer> idSet,Byte isCirculation);
 
     /**
      * 修改备忘录事件

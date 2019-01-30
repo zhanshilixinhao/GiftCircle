@@ -21,6 +21,10 @@ public class MemoAffair {
 
     private Integer count;
 
+    private Byte isCirculation;
+
+    private String parentId;
+
     public MemoAffair(Integer id, Integer userId, Date targetTime, String title, String detail, String users, Date created, Date updated, Integer count) {
         this.id = id;
         this.userId = userId;
@@ -107,5 +111,22 @@ public class MemoAffair {
 
     public void setCount(Integer count) {
         this.count = count;
+    }
+
+    public Byte getIsCirculation() {
+        return isCirculation;
+    }
+
+    public void setIsCirculation(Byte isCirculation) {
+        this.isCirculation = isCirculation;
+    }
+
+
+    public String getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
     }
 }

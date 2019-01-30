@@ -108,4 +108,14 @@ public interface UserService {
      * @date 2018/6/7
      */
     Response findSendPwd(Integer userId, Integer client, String phone, String code, String de, String time);
+
+    /**
+     * 修改电话号码
+     *
+     * @param userId
+     * @return
+     * @author linqin
+     * @date 2018/6/5
+     */
+    Response modifyPhone(Integer userId,String phone);
 }

@@ -3,9 +3,11 @@ package com.chouchongkeji.service.user.info.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.chouchongkeji.dial.dao.user.AppUserMapper;
+import com.chouchongkeji.dial.dao.user.ThirdAccountMapper;
 import com.chouchongkeji.dial.dao.user.UserPreferenceMapper;
 import com.chouchongkeji.dial.dao.user.memo.MomentMapper;
 import com.chouchongkeji.dial.pojo.user.AppUser;
+import com.chouchongkeji.dial.pojo.user.ThirdAccount;
 import com.chouchongkeji.dial.pojo.user.UserPreference;
 import com.chouchongkeji.dial.pojo.user.memo.Moment;
 import com.chouchongkeji.dial.redis.MRedisTemplate;
@@ -56,6 +58,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private FriendService friendService;
+
+    @Autowired
+    private ThirdAccountMapper thirdAccountMapper;
 
 
     /**
@@ -225,6 +230,49 @@ public class UserServiceImpl implements UserService {
         return ResponseFactory.err("修改失败");
     }
 
+
+    /**
+     * 修改电话号码
+     *
+     * @param userId
+     * @return
+     * @author linqin
+     * @date 2018/6/5
+     */
+    @Override
+    public Response modifyPhone(Integer userId, String phone) {
+        AppUser appUser = appUserMapper.selectByUserId(userId);
+        if (appUser == null) {
+            return ResponseFactory.err("该账号不存在");
+        }
+        if (StringUtils.isNotBlank(appUser.getPhone()) && appUser.getPhone().equals(phone)) {
+            return ResponseFactory.err("该账号已绑定该手机号");
+        }
+        AppUser user = appUserMapper.selectByPhone(phone);
+        if (user != null) {
+            return ResponseFactory.err("该手机号已绑定其他账号");
+        }
+        //修改第三方账号
+        List<ThirdAccount>  thirdAccount = thirdAccountMapper.selectByPhone(appUser.getPhone());
+        if (CollectionUtils.isNotEmpty(thirdAccount)) {
+            for (ThirdAccount account : thirdAccount) {
+                account.setPhone(phone);
+                int i1 = thirdAccountMapper.updateByPrimaryKeySelective(account);
+                if (i1 < 1) {
+                    return ResponseFactory.err("修改失败");
+                }
+            }
+        }
+        //修改用户账号和手机号
+        appUser.setPhone(phone);
+        appUser.setAccount(phone);
+        int i = appUserMapper.updateByPrimaryKeySelective(appUser);
+        if (i < 1) {
+            return ResponseFactory.err("修改失败");
+        }
+        return ResponseFactory.sucMsg("修改成功");
+    }
+
     /**
      * 赠送密码之前 请求获取赠送密码状态
      *
@@ -389,10 +437,10 @@ public class UserServiceImpl implements UserService {
      * 找回密码
      *
      * @param userId 用户信息
-     * @param phone       电话号码
-     * @param code        短信验证码
-     * @param de          加密后的密码
-     * @param time         随机字符串
+     * @param phone  电话号码
+     * @param code   短信验证码
+     * @param de     加密后的密码
+     * @param time   随机字符串
      * @return
      * @author linqin
      * @date 2018/6/7
@@ -401,7 +449,7 @@ public class UserServiceImpl implements UserService {
     public Response findSendPwd(Integer userId, Integer client, String phone, String code, String de, String time) {
         // 根据userId查询用户信息
         AppUser appUser = appUserMapper.selectByUserId(userId);
-        if (!StringUtils.equals(appUser.getPhone(),phone)){
+        if (!StringUtils.equals(appUser.getPhone(), phone)) {
             return ResponseFactory.err("该号码与注册号码不符合");
         }
         Response response = setSentPwd(userId, de, time, client);

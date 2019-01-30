@@ -9,11 +9,12 @@ import java.util.Date;
  * @date 2018/6/22
  */
 
-public class MemoItemVo {
+public class MemoItemVo implements Cloneable {
 
     private Integer id;
     private Integer userId;
     private Date targetTime;
+    private Byte isCirculation;
     private String detail;
     private Integer type;
     private String users;
@@ -94,5 +95,18 @@ public class MemoItemVo {
 
     public void setUsers(String users) {
         this.users = users;
+    }
+
+    public Byte getIsCirculation() {
+        return isCirculation;
+    }
+
+    public void setIsCirculation(Byte isCirculation) {
+        this.isCirculation = isCirculation;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

@@ -5,6 +5,7 @@ import com.chouchongkeji.service.user.memo.vo.HomeMemoItemVo;
 import com.chouchongkeji.service.user.memo.vo.MemoItemVo;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 
 public interface MemoAffairMapper {
@@ -38,4 +39,8 @@ public interface MemoAffairMapper {
      * @return
      */
     List<HomeMemoItemVo> selectLastByUserId(Integer userId);
+
+    int insertBatch(@Param("affair") MemoAffair affair,@Param("list") List<Date> list);
+
+    List<MemoItemVo> selectAllCByUserId(@Param("userId") Integer userId);
 }

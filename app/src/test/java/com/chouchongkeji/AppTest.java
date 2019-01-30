@@ -131,10 +131,23 @@ public class AppTest
         RequestParams params = new RequestParams();
         params.put("time","1543377365");
         params.put("access_token","572f7a09-b3e0-4ec5-b04b-13c82771c1c8");
-        params.put("district","大雨");
+        params.put("phone","15752400677");
         Map map = ApiSignUtil.sign1(params.getParams(),ApiSignUtil.IOS);
         params.put("sign",map.get(ApiSignUtil.IOS));
         Response post = OkHttpUtil.post("http://localhost:8088/auth/user/modify_profile", params);
+        System.out.println(post.body().string());
+
+//        System.out.println(Utils.toMD5("access_token=d43baab4-d457-4c4a-ad86-84e66b0e6275&nickname=abc&time=1543382182&key=%sX4H91PzuB7V%5ET4uefDnsiwzHDxOgrX"));
+    }
+    @Test
+    public void modifyhone() throws IOException {
+        RequestParams params = new RequestParams();
+        params.put("time","1543377365");
+        params.put("access_token","572f7a09-b3e0-4ec5-b04b-13c82771c1c8");
+        params.put("phone","15752400657");
+        Map map = ApiSignUtil.sign1(params.getParams(),ApiSignUtil.IOS);
+        params.put("sign",map.get(ApiSignUtil.IOS));
+        Response post = OkHttpUtil.post("http://localhost:8088/auth/user/modify_phone", params);
         System.out.println(post.body().string());
 
 //        System.out.println(Utils.toMD5("access_token=d43baab4-d457-4c4a-ad86-84e66b0e6275&nickname=abc&time=1543382182&key=%sX4H91PzuB7V%5ET4uefDnsiwzHDxOgrX"));

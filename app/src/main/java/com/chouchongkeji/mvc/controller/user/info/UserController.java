@@ -4,6 +4,7 @@ import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.dial.pojo.user.AppUser;
 import com.chouchongkeji.service.user.info.UserService;
+import com.sun.org.apache.regexp.internal.RE;
 import com.yichen.auth.mvc.AppClient;
 import com.yichen.auth.service.UserDetails;
 import org.apache.commons.lang3.StringUtils;
@@ -57,6 +58,23 @@ public class UserController {
         return userService.updateProfile(userDetails.getUserId(), appUser);
 
     }
+
+    /**
+     * 修改电话号码
+     *
+     * @param userDetails
+     * @return
+     * @author linqin
+     * @date 2018/6/5
+     */
+    @PostMapping("modify_phone")
+    public Response modifyPhone(@AuthenticationPrincipal UserDetails userDetails,String phone) {
+        if (StringUtils.isBlank(phone)){
+            return ResponseFactory.errMissingParameter();
+        }
+        return userService.modifyPhone(userDetails.getUserId(),phone);
+    }
+
 
     /**
      * 赠送密码之前 请求获取赠送密码状态
@@ -146,12 +164,12 @@ public class UserController {
      */
     @PostMapping("find/pwd")
     public Response findSendPwd(@AuthenticationPrincipal UserDetails userDetails, @AppClient Integer client, String phone,
-                            String code, String de, String s2) {
+                                String code, String de, String s2) {
         String time = s2;
-        if (StringUtils.isAnyBlank(phone,code,de,s2,time)){
+        if (StringUtils.isAnyBlank(phone, code, de, s2, time)) {
             return ResponseFactory.errMissingParameter();
         }
-        return userService.findSendPwd(userDetails.getUserId(),client,phone,code,de,time);
+        return userService.findSendPwd(userDetails.getUserId(), client, phone, code, de, time);
     }
 
 

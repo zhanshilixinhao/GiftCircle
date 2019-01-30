@@ -10,11 +10,14 @@ import com.chouchongkeji.service.user.memo.MemoAffairService;
 import com.chouchongkeji.service.user.memo.vo.HomeMemoItemVo;
 import com.chouchongkeji.service.user.memo.vo.MemoItemVo;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
@@ -32,6 +35,9 @@ public class MemoAffairServiceImpl implements MemoAffairService {
     @Autowired
     private MemoAffairMapper memoAffairMapper;
 
+//    @Autowired
+//    private OrderHelper orderHelper;
+
     /**
      * 添加备忘录事件
      *
@@ -42,7 +48,7 @@ public class MemoAffairServiceImpl implements MemoAffairService {
      * @date 2019/1/7 16:38
      */
     @Override
-    public Response addAffair(Integer userId, MemoAffair affair, HashSet<Integer> idSet) {
+    public Response addAffair(Integer userId, MemoAffair affair, HashSet<Integer> idSet, Byte isCirculation) {
         if (CollectionUtils.isNotEmpty(idSet)) {
             //判断被邀请的用户是不是好友关系
             for (Integer id : idSet) {
@@ -54,6 +60,16 @@ public class MemoAffairServiceImpl implements MemoAffairService {
             affair.setCount(idSet.size());
         }
         affair.setUserId(userId);
+        affair.setIsCirculation(isCirculation);
+//        if (isCirculation == Constants.MEMO.YES){
+//            List<Date> list = new ArrayList<>();
+//            Date now = new Date();
+//            for (int i = 0; i < 30; i++) {
+//                list.add(DateUtils.addYears(now, i));
+//            }
+//            affair.setParentId(String.valueOf(orderHelper.genOrderNo(8,8)));
+//            memoAffairMapper.insertBatch(affair, list);
+//        } else
         memoAffairMapper.insert(affair);
         return ResponseFactory.sucMsg("添加成功!");
     }
@@ -72,11 +88,11 @@ public class MemoAffairServiceImpl implements MemoAffairService {
     public Response modifyAffair(Integer userId, MemoAffair affair, HashSet<Integer> idSet) {
         // 判断修改的活动是否存在
         MemoAffair memoAffair = memoAffairMapper.selectByPrimaryKey(affair.getId());
-        if (memoAffair == null){
+        if (memoAffair == null) {
             return ResponseFactory.err("修改的活动不存在");
         }
         //判断是否有权限
-        if (!memoAffair.getUserId().equals(userId)){
+        if (!memoAffair.getUserId().equals(userId)) {
             return ResponseFactory.err("无权修改");
         }
         // 如过修改了被邀请的用户
@@ -86,7 +102,7 @@ public class MemoAffairServiceImpl implements MemoAffairService {
             for (Integer id : idSet) {
                 friend = friendMapper.selectByUserIdAndFriendUserId(userId, id);
                 if (friend == null) {
-                    return ResponseFactory.err(String.format("你和用户id为%s的用户不是好友关系，不能邀请Ta", id));
+                    return ResponseFactory.err(String.format("你和用户id为%s的 用户不是好友关系，不能邀请Ta", id));
                 }
             }
         }
@@ -110,6 +126,21 @@ public class MemoAffairServiceImpl implements MemoAffairService {
     @Override
     public Response getAffairList(Integer userId, Long start, Long end) {
         List<MemoItemVo> list = memoAffairMapper.selectByUserIdAndDate(userId, start, end);
+        List<MemoItemVo> list1 = memoAffairMapper.selectAllCByUserId(userId);
+        if (CollectionUtils.isNotEmpty(list1)) {
+            try {
+                for (MemoItemVo item : list1) {
+                    for (int i = 0; i < 30; i++) {
+                        MemoItemVo itemVo = (MemoItemVo) item.clone();
+                        itemVo.setTargetTime(DateUtils.addYears(item.getTargetTime(), i));
+                        list.add(itemVo);
+                    }
+                }
+            } catch (CloneNotSupportedException e) {
+                e.printStackTrace();
+            }
+
+        }
         return ResponseFactory.sucData(list);
     }
 
@@ -117,8 +148,8 @@ public class MemoAffairServiceImpl implements MemoAffairService {
      * 获得好友的备忘录
      *
      * @param userId 用户信息
-     * @param start       开始时间
-     * @param end         结束时间
+     * @param start  开始时间
+     * @param end    结束时间
      * @return
      * @author linqin
      * @date 2018/6/22
@@ -136,12 +167,11 @@ public class MemoAffairServiceImpl implements MemoAffairService {
     }
 
 
-
     /**
      * 删除一个备忘录信息
      *
      * @param userId 用户信息
-     * @param id          备忘录 id
+     * @param id     备忘录 id
      * @return
      * @author linqin
      * @date 2018/6/22
@@ -150,7 +180,7 @@ public class MemoAffairServiceImpl implements MemoAffairService {
     public Response delMemo(Integer userId, Integer id) {
         // 查询记录
         MemoAffair memoAffair = memoAffairMapper.selectByPrimaryKey(id);
-        if (!memoAffair.getUserId().equals(userId)){
+        if (!memoAffair.getUserId().equals(userId)) {
             return ResponseFactory.err("没有删除权限");
         }
         // 删除活动
@@ -172,6 +202,33 @@ public class MemoAffairServiceImpl implements MemoAffairService {
     @Override
     public Response getHomeList(Integer userId) {
         List<HomeMemoItemVo> list = memoAffairMapper.selectLastByUserId(userId);
+        List<MemoItemVo> list1 = memoAffairMapper.selectAllCByUserId(userId);
+        if (CollectionUtils.isNotEmpty(list1)) {
+            Calendar tarcalendar = Calendar.getInstance();
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(DateUtils.addDays(new Date(), 7));
+            for (MemoItemVo itemVo : list1) {
+                if (itemVo.getTargetTime().getTime() > calendar.getTimeInMillis()) continue;
+                tarcalendar.setTime(itemVo.getTargetTime());
+                Date targetDate = DateUtils.addYears(itemVo.getTargetTime(),
+                        calendar.get(Calendar.YEAR) - tarcalendar.get(Calendar.YEAR));
+                if (targetDate.getTime() > calendar.getTimeInMillis()) {
+                    targetDate = DateUtils.addYears(itemVo.getTargetTime(), -1);
+                }
+                float d = (calendar.getTimeInMillis() - targetDate.getTime() ) / 86400000f;
+                if (d <= 7) {
+                    HomeMemoItemVo homeMemoItemVo  = new HomeMemoItemVo();
+                    homeMemoItemVo.setAvatar(itemVo.getAvatar());
+                    homeMemoItemVo.setNickname(itemVo.getNickname());
+                    homeMemoItemVo.setDays(7 - d);
+                    homeMemoItemVo.setTargetTime(targetDate);
+                    homeMemoItemVo.setCreated(itemVo.getCreated());
+                    homeMemoItemVo.setUserId(itemVo.getUserId());
+                    homeMemoItemVo.setDetail(itemVo.getDetail());
+                    list.add(homeMemoItemVo);
+                }
+            }
+        }
         return ResponseFactory.sucData(list);
     }
 }
