@@ -42,7 +42,7 @@ public class BpController {
     }
 
     /**
-     * 背包列表
+     * 背包搜索
      *
      * @param userDetails 用户信息
      * @param key         关键字
@@ -57,4 +57,8 @@ public class BpController {
         }
         return bpService.search(userDetails.getUserId(), key, page);
     }
+
+
+
+
 }

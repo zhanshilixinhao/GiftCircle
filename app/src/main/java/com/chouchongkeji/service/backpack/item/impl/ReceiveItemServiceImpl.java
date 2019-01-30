@@ -5,10 +5,12 @@ import com.alibaba.fastjson.TypeReference;
 import com.chouchongkeji.dial.dao.backpack.BpItemMapper;
 import com.chouchongkeji.dial.dao.backpack.item.ReceiveItemOrderMapper;
 import com.chouchongkeji.dial.dao.gift.item.ItemCommentMapper;
+import com.chouchongkeji.dial.dao.gift.item.ItemMapper;
 import com.chouchongkeji.dial.dao.gift.item.ItemSkuMapper;
 import com.chouchongkeji.dial.dao.iwant.receiveAddress.ShippingMapper;
 import com.chouchongkeji.dial.pojo.backpack.BpItem;
 import com.chouchongkeji.dial.pojo.backpack.item.ReceiveItemOrder;
+import com.chouchongkeji.dial.pojo.gift.item.Item;
 import com.chouchongkeji.dial.pojo.gift.item.ItemComment;
 import com.chouchongkeji.dial.pojo.gift.item.ItemSku;
 import com.chouchongkeji.dial.pojo.iwant.receiveAddress.Shipping;
@@ -53,6 +55,9 @@ public class ReceiveItemServiceImpl implements ReceiveItemService {
     private ItemSkuMapper itemSkuMapper;
 
     @Autowired
+    private ItemMapper itemMapper;
+
+    @Autowired
     private ShippingMapper shippingMapper;
 
     @Autowired
@@ -60,6 +65,39 @@ public class ReceiveItemServiceImpl implements ReceiveItemService {
 
     @Autowired
     private OrderService orderService;
+
+
+    /**
+     * 商品提货之前检查商品是否下架或删除
+     * @param userId
+     * @param bpId 背包id
+     * @return
+     * @author linqin
+     * @date 2019/1/30
+     */
+    @Override
+    public Response checkItemStatus(Integer userId, Long bpId) {
+        //根据背包商品id和用户id取出信息
+        BpItem bpItem = bpItemMapper.selectByUserIdAndBpItemId(userId, bpId);
+        if (bpItem == null) {
+            return ResponseFactory.err("背包里不存在该商品");
+        }
+        if (bpItem.getType() != Constants.BACKPACK_TYPE.ITEM) {
+            return ResponseFactory.err("物品才能提货!");
+        }
+        // 根据skuId取出商品状态
+        Item item = itemMapper.selectItemBySkuId(bpItem.getTargetId());
+        if (item.getStatus() != Constants.ITEM.NORMAL){
+            return ResponseFactory.err("该商品已经下架或删除，请选择其他处理方法或者联系客服！");
+        }
+        // 取出商品sku状态
+        ItemSku sku = itemSkuMapper.selectByPrimaryKey(bpItem.getTargetId());
+        if (sku.getStatus() != Constants.ITEM.NORMAL){
+            return ResponseFactory.err("该商品规格已经下架，请选择其他处理方法或者联系客服！");
+        }
+        return ResponseFactory.suc();
+    }
+
 
     /**
      * 创建提货订单

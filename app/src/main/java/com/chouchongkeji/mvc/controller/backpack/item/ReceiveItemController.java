@@ -25,6 +25,23 @@ public class ReceiveItemController {
     private ReceiveItemService receiveItemService;
 
     /**
+     * 商品提货之前检查商品是否下架或删除
+     * @param userDetails
+     * @param bpId 背包id
+     * @return
+     * @author linqin
+     * @date 2019/1/30
+     */
+    @PostMapping("check")
+    public Response checkItemStatus(@AuthenticationPrincipal UserDetails userDetails, Long bpId) {
+        if (bpId == null){
+            return ResponseFactory.errMissingParameter();
+        }
+        return receiveItemService.checkItemStatus(userDetails.getUserId(),bpId);
+    }
+
+
+    /**
      * 创建提货订单
      *
      * @param userDetails

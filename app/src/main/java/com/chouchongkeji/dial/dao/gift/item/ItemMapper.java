@@ -64,4 +64,11 @@ public interface ItemMapper {
      * @return
      */
     ItemDetail selectBySkuId(Integer skuId);
+
+    /**
+     * 根据skuId取出商品状态
+     * @param targetId
+     * @return
+     */
+    Item selectItemBySkuId(Integer targetId);
 }

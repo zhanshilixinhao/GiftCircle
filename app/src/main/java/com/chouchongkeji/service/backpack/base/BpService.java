@@ -113,4 +113,5 @@ public interface BpService {
      * @date 2018/7/2
      */
     int addFromGiftExchange(Integer giftExchangeId, Integer userId, List<GiftExItemVo> vos);
+
 }

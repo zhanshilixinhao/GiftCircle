@@ -434,5 +434,12 @@ WHERE
                  left join item_sku b on a.id = b.item_id
         where b.id = #{skuId}
     </select>
+    <select id="selectItemBySkuId" resultType="com.chouchongkeji.dial.pojo.gift.item.Item">
+         select
+      a.*
+     from item a
+     left join item_sku b on a.id = b.item_id
+     where b.id = #{targetId}
+    </select>
 
 </mapper>

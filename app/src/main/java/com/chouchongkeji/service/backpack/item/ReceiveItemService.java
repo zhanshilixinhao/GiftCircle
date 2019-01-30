@@ -67,4 +67,14 @@ public interface ReceiveItemService {
      * @date 2018/6/30
      */
     Response commentOrder(Integer userId, Long orderNo, Integer star, String content, String pictures);
+
+    /**
+     * 商品提货之前检查商品是否下架或删除
+     * @param userDetails
+     * @param bpId 背包id
+     * @return
+     * @author linqin
+     * @date 2019/1/30
+     */
+    Response checkItemStatus(Integer userId, Long bpId);
 }
