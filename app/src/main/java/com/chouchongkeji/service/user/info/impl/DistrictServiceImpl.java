@@ -65,6 +65,7 @@ public class DistrictServiceImpl implements DistrictService {
         List<DistrictVo> province = districtMapper.selectSimple("province", 0);
         for (DistrictVo districtVo : province) {
             List<DistrictVo> list = districtMapper.selectSimple("city", districtVo.id);
+            districtVo.name = districtVo.name.replaceAll("省", "");
             districtVo.children = list;
             for (DistrictVo vo : list) {
                 vo.children = districtMapper.selectSimple("district", vo.id);
