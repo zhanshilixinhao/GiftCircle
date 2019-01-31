@@ -58,7 +58,7 @@ public class AppMessageController {
     }
 
     /**
-     * 消息主页 列表
+     * 标注为已读
      *
      * @param userDetails 用户
      * @return
