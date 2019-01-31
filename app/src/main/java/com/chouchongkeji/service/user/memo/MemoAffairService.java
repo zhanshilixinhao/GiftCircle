@@ -3,6 +3,7 @@ package com.chouchongkeji.service.user.memo;
 import com.chouchongkeji.dial.pojo.user.memo.MemoAffair;
 import com.chouchongkeji.goexplore.common.Response;
 
+import java.text.ParseException;
 import java.util.HashSet;
 
 /**
@@ -78,5 +79,16 @@ public interface MemoAffairService {
      * @author linqin
      * @date 2018/6/22
      */
-    Response getHomeList(Integer userId);
+    Response getHomeList(Integer userId) throws ParseException;
+
+    /**
+     * 时间戳(当天0点)
+     */
+    Long time(Long day) throws ParseException;
+
+
+    /**
+     * 时间戳（当天12点）
+     */
+    Long timeEnd(Long end) throws ParseException;
 }

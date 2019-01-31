@@ -110,39 +110,39 @@ public class MemoAffairController {
         if (start == null) {
             start = 0L;
         } else {
-            start = time(start);
+            start = memoAffairService.time(start);
         }
         if (end == null) {
             end = 0L;
         } else {
-            end = timeEnd(end);
+            end = memoAffairService.timeEnd(end);
         }
         return memoAffairService.getAffairList(userDetails.getUserId(), start, end);
     }
 
-    /**
-     * 时间戳(当天0点)
-     */
-    public Long time(Long day) throws ParseException {
-        Date now = new Date(day);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-        String format = dateFormat.format(now);//日期
-        Date parse = dateFormat.parse(format);  //时间戳
-        day = parse.getTime() / 1000;
-        return day;
-    }
-
-    /**
-     * 时间戳（当天12点）
-     */
-    public Long timeEnd(Long end) throws ParseException {
-        Date now = new Date(end);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-        String format = dateFormat.format(now);
-        Date parse = dateFormat.parse(format);
-        end = DateUtils.addDays(parse, 1).getTime() / 1000;
-        return end;
-    }
+//    /**
+//     * 时间戳(当天0点)
+//     */
+//    public Long time(Long day) throws ParseException {
+//        Date now = new Date(day);
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+//        String format = dateFormat.format(now);//日期
+//        Date parse = dateFormat.parse(format);  //时间戳
+//        day = parse.getTime() / 1000;
+//        return day;
+//    }
+//
+//    /**
+//     * 时间戳（当天12点）
+//     */
+//    public Long timeEnd(Long end) throws ParseException {
+//        Date now = new Date(end);
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+//        String format = dateFormat.format(now);
+//        Date parse = dateFormat.parse(format);
+//        end = DateUtils.addDays(parse, 1).getTime() / 1000;
+//        return end;
+//    }
 
 
     /**
@@ -197,7 +197,7 @@ public class MemoAffairController {
      * @date 2018/6/22
      */
     @PostMapping("home")
-    public Response getHomeList(@AuthenticationPrincipal UserDetails userDetails) {
+    public Response getHomeList(@AuthenticationPrincipal UserDetails userDetails) throws ParseException {
         return memoAffairService.getHomeList(userDetails.getUserId());
     }
 

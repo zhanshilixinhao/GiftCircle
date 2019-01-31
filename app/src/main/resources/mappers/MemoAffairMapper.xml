@@ -132,8 +132,8 @@
     ) a
     LEFT JOIN app_user b ON b.id = a.user_id
     WHERE
-    UNIX_TIMESTAMP( a.target_time ) >= UNIX_TIMESTAMP( now( ) )
-    and unix_timestamp(a.target_time) &lt; UNIX_TIMESTAMP( now( ) )+ 604800
+    UNIX_TIMESTAMP( a.target_time ) >= UNIX_TIMESTAMP( #{start} )
+    and unix_timestamp(a.target_time) &lt; UNIX_TIMESTAMP( #{end} )
     ORDER BY
     a.target_time
     LIMIT 3

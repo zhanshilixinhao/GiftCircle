@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
@@ -200,35 +202,68 @@ public class MemoAffairServiceImpl implements MemoAffairService {
      * @date 2018/6/22
      */
     @Override
-    public Response getHomeList(Integer userId) {
-        List<HomeMemoItemVo> list = memoAffairMapper.selectLastByUserId(userId);
-        List<MemoItemVo> list1 = memoAffairMapper.selectAllCByUserId(userId);
-        if (CollectionUtils.isNotEmpty(list1)) {
-            Calendar tarcalendar = Calendar.getInstance();
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(DateUtils.addDays(new Date(), 7));
-            for (MemoItemVo itemVo : list1) {
-                if (itemVo.getTargetTime().getTime() > calendar.getTimeInMillis()) continue;
-                tarcalendar.setTime(itemVo.getTargetTime());
-                Date targetDate = DateUtils.addYears(itemVo.getTargetTime(),
-                        calendar.get(Calendar.YEAR) - tarcalendar.get(Calendar.YEAR));
-                if (targetDate.getTime() > calendar.getTimeInMillis()) {
-                    targetDate = DateUtils.addYears(itemVo.getTargetTime(), -1);
-                }
-                float d = (calendar.getTimeInMillis() - targetDate.getTime() ) / 86400000f;
-                if (d <= 7) {
-                    HomeMemoItemVo homeMemoItemVo  = new HomeMemoItemVo();
-                    homeMemoItemVo.setAvatar(itemVo.getAvatar());
-                    homeMemoItemVo.setNickname(itemVo.getNickname());
-                    homeMemoItemVo.setDays(7 - d);
-                    homeMemoItemVo.setTargetTime(targetDate);
-                    homeMemoItemVo.setCreated(itemVo.getCreated());
-                    homeMemoItemVo.setUserId(itemVo.getUserId());
-                    homeMemoItemVo.setDetail(itemVo.getDetail());
-                    list.add(homeMemoItemVo);
-                }
-            }
-        }
+    public Response getHomeList(Integer userId) throws ParseException {
+        Long start = time(System.currentTimeMillis());
+        Long end = timeEnd(System.currentTimeMillis());
+        List<HomeMemoItemVo> list = memoAffairMapper.selectLastByUserId(userId,start,end);
+        // 所有循环事件
+//        List<MemoItemVo> list1 = memoAffairMapper.selectAllCByUserId(userId);
+//        if (CollectionUtils.isNotEmpty(list1)) {
+//            Calendar tarcalendar = Calendar.getInstance();
+//            Calendar calendar = Calendar.getInstance();
+//            calendar.setTime(DateUtils.addDays(new Date(), 7));
+//            for (MemoItemVo itemVo : list1) {
+//                if (itemVo.getTargetTime().getTime() > calendar.getTimeInMillis()) continue;
+//                tarcalendar.setTime(itemVo.getTargetTime());
+//                Date targetDate = DateUtils.addYears(itemVo.getTargetTime(),
+//                        calendar.get(Calendar.YEAR) - tarcalendar.get(Calendar.YEAR));
+//                if (targetDate.getTime() > calendar.getTimeInMillis()) {
+//                    targetDate = DateUtils.addYears(itemVo.getTargetTime(), -1);
+//                }
+//                float d = (calendar.getTimeInMillis() - targetDate.getTime() ) / 86400000f;
+//                if (d <= 7) {
+//                    HomeMemoItemVo homeMemoItemVo  = new HomeMemoItemVo();
+//                    homeMemoItemVo.setId(itemVo.getId());
+//                    homeMemoItemVo.setAvatar(itemVo.getAvatar());
+//                    homeMemoItemVo.setNickname(itemVo.getNickname());
+//                    homeMemoItemVo.setDays(7 - d);
+//                    homeMemoItemVo.setTargetTime(targetDate);
+//                    homeMemoItemVo.setCreated(itemVo.getCreated());
+//                    homeMemoItemVo.setUserId(itemVo.getUserId());
+//                    homeMemoItemVo.setDetail(itemVo.getDetail());
+//                    homeMemoItemVo.setIsCirculation(itemVo.getIsCirculation());
+//                    list.add(homeMemoItemVo);
+//                }
+//            }
+//        }
         return ResponseFactory.sucData(list);
     }
+
+
+    /**
+     * 时间戳(当天0点)
+     */
+    public Long time(Long day) throws ParseException {
+        Date now = new Date(day);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+        String format = dateFormat.format(now);//日期
+        Date parse = dateFormat.parse(format);  //时间戳
+        day = parse.getTime() / 1000;
+        return day;
+    }
+
+    /**
+     * 时间戳（当天12点）
+     */
+    public Long timeEnd(Long end) throws ParseException {
+        Date now = new Date(end);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+        String format = dateFormat.format(now);
+        Date parse = dateFormat.parse(format);
+        end = DateUtils.addDays(parse, 1).getTime() / 1000;
+        return end;
+    }
+
+
+
 }

@@ -38,7 +38,7 @@ public interface MemoAffairMapper {
      * @param userId
      * @return
      */
-    List<HomeMemoItemVo> selectLastByUserId(Integer userId);
+    List<HomeMemoItemVo> selectLastByUserId(@Param("userId") Integer userId,@Param("start") Long start,@Param("end") Long end);
 
     int insertBatch(@Param("affair") MemoAffair affair,@Param("list") List<Date> list);
 
