@@ -5,6 +5,7 @@ import com.chouchongkeji.dial.dao.friend.FriendGroupMapper;
 import com.chouchongkeji.dial.dao.friend.FriendMapper;
 import com.chouchongkeji.dial.dao.friend.NewFriendNotifyMapper;
 import com.chouchongkeji.dial.dao.user.AppUserMapper;
+import com.chouchongkeji.dial.pojo.gift.virtualItem.AppMessage;
 import com.chouchongkeji.dial.redis.MRedisTemplate;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
@@ -13,6 +14,7 @@ import com.chouchongkeji.dial.pojo.friend.Friend;
 import com.chouchongkeji.dial.pojo.friend.FriendGroup;
 import com.chouchongkeji.dial.pojo.friend.NewFriendNotify;
 import com.chouchongkeji.dial.pojo.user.AppUser;
+import com.chouchongkeji.service.message.MessageService;
 import com.chouchongkeji.service.user.friend.FriendService;
 import com.chouchongkeji.service.user.friend.vo.*;
 import com.chouchongkeji.util.Constants;
@@ -25,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author yichenshanren
@@ -46,6 +49,9 @@ public class FriendServiceImpl implements FriendService {
 
     @Autowired
     private FriendGroupMapper friendGroupMapper;
+
+    @Autowired
+    private MessageService messageService;
 
     @Autowired
     private MRedisTemplate mRedisTemplate;
@@ -248,12 +254,13 @@ public class FriendServiceImpl implements FriendService {
         PageHelper.startPage(page.getPageNum(), page.getPageSize());
         List<NotifyMsg> list = newFriendNotifyMapper.selectByUserId(userId);
         //存查看消息列表的最后时间
-        mRedisTemplate.setString("lastTime" + userId,String.valueOf(System.currentTimeMillis()));
+        mRedisTemplate.setString("lastTime" + userId, String.valueOf(System.currentTimeMillis()));
         return ResponseFactory.sucData(list);
     }
 
     /**
-     *新的朋友消息未查看数量
+     * 新的朋友消息未查看数量
+     *
      * @param userDetails
      * @return
      * @author yichenshanren
@@ -264,9 +271,9 @@ public class FriendServiceImpl implements FriendService {
         // 取出未查看消息的数量
         String string = mRedisTemplate.getString("lastTime" + userId);
         Long time = null;
-        if (StringUtils.isNotBlank(string)){
-            time=Long.parseLong(string);
-            FriendMessageVo friendMessageVo = newFriendNotifyMapper.selectByUserIdTime(userId,time/1000);
+        if (StringUtils.isNotBlank(string)) {
+            time = Long.parseLong(string);
+            FriendMessageVo friendMessageVo = newFriendNotifyMapper.selectByUserIdTime(userId, time / 1000);
             return ResponseFactory.sucData(friendMessageVo);
         }
         return ResponseFactory.suc();
@@ -316,6 +323,25 @@ public class FriendServiceImpl implements FriendService {
         if (opt == 4) {
             nNotify.setReply(reply);
         }
+        // 添加消息
+        AppUser user = appUserMapper.selectByUserId(userId);
+//        AppUser tar = appUserMapper.selectByUserId(nNotify.getUserId());
+        AppMessage message = new AppMessage();
+        message.setTitle("系统通知");
+        message.setMessageType(Constants.APP_MESSAGE_TYPE.SYS.type());
+        String content = "";
+        if (opt == 2) {
+            content = user.getNickname() + " 通过了您的好友请求!";
+        } else if (opt == 3) {
+            content = user.getNickname() + " 拒绝了您的好友请求!";
+        }
+        message.setSummary(content);
+        message.setContent(content);
+        message.setTargetType((byte) 26);
+        message.setTargetId(Long.valueOf(notify.getId()));
+        List<Integer> list = new ArrayList<>();
+        list.add(notify.getUserId());
+        messageService.addMessage(message, list);
         // 更新状态
         newFriendNotifyMapper.updateByPrimaryKeySelective(nNotify);
         return ResponseFactory.sucMsg("操作成功!");
