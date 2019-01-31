@@ -51,7 +51,7 @@ public class UserWithdrawServiceImpl implements UserWithdrawService {
     @Override
     public Response addUserWithdraw(Integer userId, Integer id, BigDecimal amount) {
         // 取出用户银行卡信息
-        UserBankCard userBankCard = userBankCardMapper.selectByPrimaryKey(id);
+        UserBankCard userBankCard = userBankCardMapper.selectByBankId(id);
         // 是否存在
         if (userBankCard == null) {
             return ResponseFactory.err("提现的银行卡不存在，请先添加银行卡!");
@@ -60,7 +60,7 @@ public class UserWithdrawServiceImpl implements UserWithdrawService {
         if (!userId.equals(userBankCard.getUserId())) {
             return ResponseFactory.err("银行卡和用户不匹配!");
         }
-        // 把原来提现的银行卡设为不是默认2
+        // 把原来提现的银行卡设为不是默认
         userBankCardMapper.updateIsDefault(userId);
         // 把本次提现的银行卡设为默认
         userBankCard.setIsDefault((byte)1);

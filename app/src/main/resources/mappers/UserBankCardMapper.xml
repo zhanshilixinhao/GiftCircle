@@ -166,4 +166,11 @@
     ORDER BY
     a.created DESC
   </select>
+  <select id="selectByBankId" resultType="com.chouchongkeji.dial.pojo.iwant.wallet.UserBankCard">
+    select
+    <include refid="Base_Column_List" />
+    from user_bankcard
+    where id = #{id}
+    and status = 1
+  </select>
 </mapper>

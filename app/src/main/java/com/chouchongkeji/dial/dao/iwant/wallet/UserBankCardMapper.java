@@ -35,4 +35,11 @@ public interface UserBankCardMapper {
      * @return
      */
     int updateIsDefault(Integer userId);
+
+    /**
+     * 取出用户银行卡信息
+     * @param id
+     * @return
+     */
+    UserBankCard selectByBankId(Integer id);
 }
