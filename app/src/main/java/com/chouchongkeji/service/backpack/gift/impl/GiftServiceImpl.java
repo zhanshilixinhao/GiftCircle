@@ -88,16 +88,16 @@ public class GiftServiceImpl implements GiftService {
 
     /*----------------------------------------自动减少互动值------------------------------------------------------*/
     @Scheduled(fixedRate = 86400000)
-    public void timeHeartNum(){
+    public void timeHeartNum() {
         // 查询用户最新赠送记录
         List<RecordDetailVo> giftRecordDetail = giftRecordDetailMapper.selectOne();
-        if (!CollectionUtils.isEmpty(giftRecordDetail)){
+        if (!CollectionUtils.isEmpty(giftRecordDetail)) {
             for (RecordDetailVo recordDetailVo : giftRecordDetail) {
                 Date date = new Date();
                 // 赠送时间大于30天自动减少互动值
-                if (date.getTime()- recordDetailVo.getMaxUpdated().getTime() > 2592000000L){
+                if (date.getTime() - recordDetailVo.getMaxUpdated().getTime() > 2592000000L) {
                     // 自动减少互动值
-                    friendMapper.updateHeartNumByUserId(recordDetailVo.getUserId(),recordDetailVo.getFriendUserId());
+                    friendMapper.updateHeartNumByUserId(recordDetailVo.getUserId(), recordDetailVo.getFriendUserId());
                 }
             }
         }
@@ -174,8 +174,8 @@ public class GiftServiceImpl implements GiftService {
         for (GiftTaskVo vo : giftTaskVos) {
             // 添加礼物通知消息
             log.info("添加礼物通知消息");
-            FriendVo friend = friendService.isFriend(vo.getUserId(), vo.getSendUserId());
-            if (friend == null) continue;
+            // 判断是不是好友关系,如果不是好友关系添加好友关系
+            friendService.addWXFriend(vo.getUserId(), vo.getSendUserId());
             addGiftNotifyMessage(vo.getSendUserId(), vo.getUserId(), vo.getRecordDetailId(),
                     vo.getGiftItems());
             // 更新礼物记录状态为已赠送
@@ -337,7 +337,7 @@ public class GiftServiceImpl implements GiftService {
         friendService.addWXFriend(giftRecord.getUserId(), userId);
 
         //如果礼物剩余数量为0则更新状态
-        if (reNum == 0){
+        if (reNum == 0) {
             giftRecord.setStatus(Constants.GIFT_STATUS.SEND);
             giftRecordMapper.updateByPrimaryKeySelective(giftRecord);
         }
@@ -352,6 +352,14 @@ public class GiftServiceImpl implements GiftService {
         List<GiftItemVo> list = JSON.parseArray(detail.getContent(), GiftItemVo.class);
         addGiftNotifyMessage(giftRecord.getUserId(), userId, detail.getId(),
                 list);
+
+        // 更新赠送者背包中的物品数量
+        for (GiftItemVo itemVo : list) {
+            int count = vbpMapper.updateQuantityById(itemVo.getBpId(), 1, itemVo.getGiftType());
+            if (count < 1) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "用户背包中没有该物品!");
+            }
+        }
         // 添加物品到背包
         addItemToBp(detail.getId(), userId, list);
         WXGetGiftResVo<GiftMessageVo> vo = new WXGetGiftResVo<>();
@@ -530,11 +538,11 @@ public class GiftServiceImpl implements GiftService {
         // 先保存详情
         List<GiftItemVo> list = new ArrayList<>();
         for (Vbp item : vbps) {
-            // 更新背包物品的数量
-            count = vbpMapper.updateQuantityById(item.getId(), 1, item.getType());
-            if (count < 1) {
-                throw new ServiceException(ErrorCode.ERROR.getCode(), "更新数量失败!");
-            }
+//            // 更新背包物品的数量 移到领取礼物的时候
+//            count = vbpMapper.updateQuantityById(item.getId(), 1, item.getType());
+//            if (count < 1) {
+//                throw new ServiceException(ErrorCode.ERROR.getCode(), "更新数量失败!");
+//            }
             // 如果是随机赠送，需要分别添加每个物品到礼物详情记录
             if (sendVo.getType() == Constants.GIFT_SEND_TYPE.WX_FRIEND_RANDOM) {
                 list = new ArrayList<>();
@@ -695,7 +703,7 @@ public class GiftServiceImpl implements GiftService {
         AppMessage appMessage = new AppMessage();
         appMessage.setTitle("系统通知");
         appMessage.setSummary("答谢通知");
-        appMessage.setContent( appUser.getNickname() + " 发来的感谢语 {" + reply + "}");
+        appMessage.setContent(appUser.getNickname() + " 发来的感谢语 {" + reply + "}");
         appMessage.setTargetId(recordDetailId.longValue());
         appMessage.setTargetType((byte) 24);
         appMessage.setMessageType((byte) 2);
