@@ -304,11 +304,16 @@
            b
            .
            id
-        set a
-            .
-            is_read =
+        set a.is_read =
             1
         where a.user_id = #{userId} and b.message_type = #{messageType}
+    </update>
+    <update id="updateReadByIdsAndUserId">
+        update app_message_user set is_read = 1
+        where user_id = #{userId} and app_message_id in
+        <foreach collection="list" item="item" index="i" separator="," open="(" close=")">
+            #{item}
+        </foreach>
     </update>
 
 </mapper>

@@ -7,6 +7,7 @@ import com.chouchongkeji.service.message.vo.MessageHomeVo;
 import com.chouchongkeji.service.message.vo.SystemMessageVo;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.HashSet;
 import java.util.List;
 
 public interface AppMessageUserMapper {
@@ -43,4 +44,7 @@ public interface AppMessageUserMapper {
 
 
     int updateByUserIdAndType(@Param("userId")Integer userId,@Param("messageType") Byte messageType);
+
+    int updateReadByIdsAndUserId(@Param("userId") Integer userId,
+                                 @Param("list") HashSet<Integer> list);
 }

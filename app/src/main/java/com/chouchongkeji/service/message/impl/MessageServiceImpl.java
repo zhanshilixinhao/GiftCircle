@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -198,5 +199,18 @@ public class MessageServiceImpl implements MessageService {
         }
         appMessageUserMapper.updateByUserIdAndType(userId, messageType);
         return ResponseFactory.sucData(vos);
+    }
+
+    /**
+     * 将消息标记为已读
+     *
+     * @param userId    用户id
+     * @param messageId 消息
+     * @return
+     */
+    @Override
+    public Response readMessage(Integer userId, HashSet<Integer> messageId) {
+        appMessageUserMapper.updateReadByIdsAndUserId(userId, messageId);
+        return ResponseFactory.suc();
     }
 }

@@ -5,11 +5,14 @@ import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.query.PageQuery;
 import com.chouchongkeji.service.message.MessageService;
 import com.yichen.auth.service.UserDetails;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.HashSet;
 
 /**
  * @author yichenshanren
@@ -54,7 +57,33 @@ public class AppMessageController {
         return messageService.getMessageList(userDetails.getUserId(), messageType, page);
     }
 
-
-
+    /**
+     * 消息主页 列表
+     *
+     * @param userDetails 用户
+     * @return
+     * @author yichenshanren
+     * @date 2018/7/6
+     */
+    @PostMapping("read")
+    public Response readMessage(@AuthenticationPrincipal UserDetails userDetails,
+                                String ids) {
+        if (StringUtils.isBlank(ids)) {
+            return ResponseFactory.errMissingParameter();
+        }
+        String[] split = ids.split(",");
+        HashSet<Integer> idset = new HashSet<>();
+        try {
+            for (String s : split) {
+                idset.add(Integer.parseInt(s));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (idset.size() == 0) {
+            return ResponseFactory.errMissingParameter();
+        }
+        return messageService.readMessage(userDetails.getUserId(), idset);
+    }
 
 }

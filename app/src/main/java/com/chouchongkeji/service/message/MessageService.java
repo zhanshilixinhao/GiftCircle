@@ -5,6 +5,7 @@ import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.query.PageQuery;
 import com.chouchongkeji.util.Constants;
 
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -69,4 +70,13 @@ public interface MessageService {
      * @date 2018/7/6
      */
     Response getMessageList(Integer userId, Byte messageType, PageQuery page);
+
+    /**
+     * 将消息标记为已读
+     *
+     * @param userId    用户id
+     * @param messageId 消息
+     * @return
+     */
+    Response readMessage(Integer userId, HashSet<Integer> messageId);
 }
