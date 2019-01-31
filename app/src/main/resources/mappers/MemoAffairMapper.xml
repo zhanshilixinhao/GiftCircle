@@ -103,7 +103,7 @@
     <select id="selectLastByUserId" resultType="com.chouchongkeji.service.user.memo.vo.HomeMemoItemVo">
     SELECT
     a.*,
-    ( UNIX_TIMESTAMP( a.target_time ) - UNIX_TIMESTAMP( now( ) ) ) / ( 86400 ) AS days,
+    ( UNIX_TIMESTAMP( a.target_time ) - #{start} ) / ( 86400 ) AS days,
     b.avatar,
     b.nickname
     FROM
@@ -113,6 +113,7 @@
     user_id,
     target_time,
     detail,
+    is_circulation,
     created
     FROM
     memo_affair
@@ -124,6 +125,7 @@
     user_id,
     target_time,
     detail,
+    is_circulation,
     created
     FROM
     memo_affair
@@ -132,8 +134,9 @@
     ) a
     LEFT JOIN app_user b ON b.id = a.user_id
     WHERE
-    UNIX_TIMESTAMP( a.target_time ) >= UNIX_TIMESTAMP( #{start} )
-    and unix_timestamp(a.target_time) &lt; UNIX_TIMESTAMP( #{end} )
+    UNIX_TIMESTAMP( a.target_time ) >= #{start}
+    and unix_timestamp(a.target_time) &lt; #{end} + 604800
+    and is_circulation = 2
     ORDER BY
     a.target_time
     LIMIT 3

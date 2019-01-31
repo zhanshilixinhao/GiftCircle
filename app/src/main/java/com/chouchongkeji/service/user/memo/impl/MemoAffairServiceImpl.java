@@ -205,37 +205,37 @@ public class MemoAffairServiceImpl implements MemoAffairService {
     public Response getHomeList(Integer userId) throws ParseException {
         Long start = time(System.currentTimeMillis());
         Long end = timeEnd(System.currentTimeMillis());
-        List<HomeMemoItemVo> list = memoAffairMapper.selectLastByUserId(userId,start,end);
-        // 所有循环事件
-//        List<MemoItemVo> list1 = memoAffairMapper.selectAllCByUserId(userId);
-//        if (CollectionUtils.isNotEmpty(list1)) {
-//            Calendar tarcalendar = Calendar.getInstance();
-//            Calendar calendar = Calendar.getInstance();
-//            calendar.setTime(DateUtils.addDays(new Date(), 7));
-//            for (MemoItemVo itemVo : list1) {
-//                if (itemVo.getTargetTime().getTime() > calendar.getTimeInMillis()) continue;
-//                tarcalendar.setTime(itemVo.getTargetTime());
-//                Date targetDate = DateUtils.addYears(itemVo.getTargetTime(),
-//                        calendar.get(Calendar.YEAR) - tarcalendar.get(Calendar.YEAR));
-//                if (targetDate.getTime() > calendar.getTimeInMillis()) {
-//                    targetDate = DateUtils.addYears(itemVo.getTargetTime(), -1);
-//                }
-//                float d = (calendar.getTimeInMillis() - targetDate.getTime() ) / 86400000f;
-//                if (d <= 7) {
-//                    HomeMemoItemVo homeMemoItemVo  = new HomeMemoItemVo();
-//                    homeMemoItemVo.setId(itemVo.getId());
-//                    homeMemoItemVo.setAvatar(itemVo.getAvatar());
-//                    homeMemoItemVo.setNickname(itemVo.getNickname());
-//                    homeMemoItemVo.setDays(7 - d);
-//                    homeMemoItemVo.setTargetTime(targetDate);
-//                    homeMemoItemVo.setCreated(itemVo.getCreated());
-//                    homeMemoItemVo.setUserId(itemVo.getUserId());
-//                    homeMemoItemVo.setDetail(itemVo.getDetail());
-//                    homeMemoItemVo.setIsCirculation(itemVo.getIsCirculation());
-//                    list.add(homeMemoItemVo);
-//                }
-//            }
-//        }
+        List<HomeMemoItemVo> list = memoAffairMapper.selectLastByUserId(userId, start, end);
+//         所有循环事件
+        List<MemoItemVo> list1 = memoAffairMapper.selectAllCByUserId(userId);
+        if (CollectionUtils.isNotEmpty(list1)) {
+            Calendar tarcalendar = Calendar.getInstance();
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(DateUtils.addDays(new Date(start * 1000), 7));
+            for (MemoItemVo itemVo : list1) {
+                if (itemVo.getTargetTime().getTime() > calendar.getTimeInMillis()) continue;
+                tarcalendar.setTime(itemVo.getTargetTime());
+                Date targetDate = DateUtils.addYears(itemVo.getTargetTime(),
+                        calendar.get(Calendar.YEAR) - tarcalendar.get(Calendar.YEAR));
+                if (targetDate.getTime() > calendar.getTimeInMillis()) {
+                    targetDate = DateUtils.addYears(itemVo.getTargetTime(), -1);
+                }
+                float d = (calendar.getTimeInMillis() - targetDate.getTime()) / 86400000f;
+                if (d <= 7) {
+                    HomeMemoItemVo homeMemoItemVo = new HomeMemoItemVo();
+                    homeMemoItemVo.setId(itemVo.getId());
+                    homeMemoItemVo.setAvatar(itemVo.getAvatar());
+                    homeMemoItemVo.setNickname(itemVo.getNickname());
+                    homeMemoItemVo.setDays(7 - d);
+                    homeMemoItemVo.setTargetTime(targetDate);
+                    homeMemoItemVo.setCreated(itemVo.getCreated());
+                    homeMemoItemVo.setUserId(itemVo.getUserId());
+                    homeMemoItemVo.setDetail(itemVo.getDetail());
+                    homeMemoItemVo.setIsCirculation(itemVo.getIsCirculation());
+                    list.add(homeMemoItemVo);
+                }
+            }
+        }
         return ResponseFactory.sucData(list);
     }
 
@@ -263,7 +263,6 @@ public class MemoAffairServiceImpl implements MemoAffairService {
         end = DateUtils.addDays(parse, 1).getTime() / 1000;
         return end;
     }
-
 
 
 }

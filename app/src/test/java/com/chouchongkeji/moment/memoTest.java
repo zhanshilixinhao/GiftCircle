@@ -40,7 +40,7 @@ public class memoTest {
         Date now = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");//可以方便地修改日期格式
         String hehe = dateFormat.format(now); //日期
-        Date parse = dateFormat.parse("20190131000000");  //时间戳
+        Date parse = dateFormat.parse("20190203000000");  //时间戳
         System.out.println(parse.getTime());
         System.out.println(hehe);
     }
@@ -51,9 +51,9 @@ public class memoTest {
         RequestParams params = new RequestParams();
         params.put("time", System.currentTimeMillis());
         params.put("access_token", "572f7a09-b3e0-4ec5-b04b-13c82771c1c8");
-        params.put("id", 28);
-        params.put("detail", "去旅游 ");
-//        params.put("targetTime", 1573265351000L);
+        params.put("id", 3);
+//        params.put("detail", "时良去旅游 ");
+        params.put("targetTime", 1549123200000L);
 //        params.put("users", "1,15");
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
         params.put("sign", map.get(ApiSignUtil.ANDROID));
