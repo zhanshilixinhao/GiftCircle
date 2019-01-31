@@ -335,7 +335,7 @@ public class FriendServiceImpl implements FriendService {
         } else if (opt == 3) {
             content = user.getNickname() + " 拒绝了您的好友请求!";
         }
-        message.setSummary("添加好友通知");
+        message.setSummary("好友通知");
         message.setContent(content);
         message.setTargetType((byte) 26);
         message.setTargetId(Long.valueOf(notify.getId()));
