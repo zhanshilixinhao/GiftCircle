@@ -38,6 +38,10 @@ public class UserInfoVo {
 
     private String relationship;
 
+    private Integer groupId;
+
+    private String groupName;
+
     private HashSet<UserTagVo> tags;
 
     @ImgUrl
@@ -155,4 +159,19 @@ public class UserInfoVo {
         this.recentMoments = recentMoments;
     }
 
+    public Integer getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(Integer groupId) {
+        this.groupId = groupId;
+    }
+
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
+    }
 }

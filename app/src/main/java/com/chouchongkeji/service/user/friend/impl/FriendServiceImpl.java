@@ -75,7 +75,7 @@ public class FriendServiceImpl implements FriendService {
             return ResponseFactory.err("已经是好友了");
         }
         // 如果设置了分组，判断分组是否存在
-        if (groupId != null) {
+        if (groupId != null && groupId != 0) {
             FriendGroup friendGroup = friendGroupMapper.selectByPrimaryKey(groupId);
             if (friendGroup == null) {
                 return ResponseFactory.err("分组不存在，请先创建分组!");

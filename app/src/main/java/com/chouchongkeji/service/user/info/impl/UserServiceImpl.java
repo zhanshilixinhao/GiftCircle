@@ -101,6 +101,8 @@ public class UserServiceImpl implements UserService {
                 isFriend = 1;
                 vo.setRemark(friend.getRemark());
                 vo.setRelationship(friend.getRelationship());
+                vo.setGroupId(friend.getGroupId());
+                vo.setGroupName(friend.getGroupName());
             }
         }
         vo.setIsFriend(isFriend);

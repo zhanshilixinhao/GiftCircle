@@ -74,6 +74,10 @@ public class GiftSendServiceImpl implements GiftSendService {
      */
     @Override
     public Response cancelSend(Integer userId, Integer recordId) {
+        GiftRecord record = giftRecordMapper.selectByPrimaryKey(recordId);
+        if (record == null) {
+            return ResponseFactory.err("礼物记录不存在!");
+        }
         // 根据礼物赠送记录id查询赠送详情
         List<GiftRecordDetailVo> giftRecordDetails = giftRecordDetailMapper.selectDetailByRecordId(recordId);
         if (CollectionUtils.isEmpty(giftRecordDetails)) {
@@ -83,19 +87,23 @@ public class GiftSendServiceImpl implements GiftSendService {
             if (giftRecord.getStatus() != Constants.GIFT_STATUS.WAIT) {
                 return ResponseFactory.err("该礼物赠已被好友领取，无法撤回");
             }
-            // 物品返回背包
-            for (GiftItemVo giftItemVo : giftRecord.getContent()) {
-                // 根据背包id查询背包物品
-                BpItem bpItem = bpItemMapper.selectByPrimaryKey(giftItemVo.getBpId());
-                if (bpItem == null) {
-                    return ResponseFactory.err("背包中不存在该物品");
-                }
-                bpItem.setQuantity(bpItem.getQuantity() + 1);
-                int i = bpItemMapper.updateByPrimaryKeySelective(bpItem);
-                if (i < 1) {
-                    return ResponseFactory.err("物品返回背包失败");
+            // 如果是app赠送的，返还物品
+            if (record.getType() < 3) {
+                // 物品返回背包
+                for (GiftItemVo giftItemVo : giftRecord.getContent()) {
+                    // 根据背包id查询背包物品
+                    BpItem bpItem = bpItemMapper.selectByPrimaryKey(giftItemVo.getBpId());
+                    if (bpItem == null) {
+                        return ResponseFactory.err("背包中不存在该物品");
+                    }
+                    bpItem.setQuantity(bpItem.getQuantity() + 1);
+                    int i = bpItemMapper.updateByPrimaryKeySelective(bpItem);
+                    if (i < 1) {
+                        return ResponseFactory.err("物品返回背包失败");
+                    }
                 }
             }
+
             // 改变礼物赠送记录详情状态
             int i = giftRecordDetailMapper.updateStatusById(giftRecord.getId(), Constants.GIFT_STATUS.CANCEL);
             if (i < 1) {
@@ -113,6 +121,7 @@ public class GiftSendServiceImpl implements GiftSendService {
 
     /**
      * 删除礼物赠送记录
+     *
      * @param userId
      * @param ids
      * @return
@@ -124,10 +133,10 @@ public class GiftSendServiceImpl implements GiftSendService {
         for (Integer id : ids) {
             //查询礼物赠送记录是否存在
             GiftRecord giftRecord = giftRecordMapper.selectByPrimaryKey(id);
-            if (giftRecord == null){
+            if (giftRecord == null) {
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "礼物赠送记录不存在");
             }
-            if (!giftRecord.getUserId().equals(userId)){
+            if (!giftRecord.getUserId().equals(userId)) {
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "没有操作权限");
             }
             // 删除赠送记录
@@ -142,8 +151,9 @@ public class GiftSendServiceImpl implements GiftSendService {
 
     /**
      * 删除收礼记录
+     *
      * @param userId
-     * @param ids 礼物记录详情id 多个id时用逗号隔开
+     * @param ids    礼物记录详情id 多个id时用逗号隔开
      * @return
      * @author linqin
      * @date 2019/1/4 11:46
@@ -153,12 +163,12 @@ public class GiftSendServiceImpl implements GiftSendService {
         for (Integer id : ids) {
             //查询礼物记录详情是否存在
             GiftRecordDetail giftRecordDetail = giftRecordDetailMapper.selectByPrimaryKey(id);
-            if (giftRecordDetail == null){
-                throw new ServiceException(ErrorCode.ERROR.getCode(),"礼物记录详情不存在");
+            if (giftRecordDetail == null) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "礼物记录详情不存在");
             }
-            if (giftRecordDetail.getUserId()!= null && !giftRecordDetail.getUserId().equals(userId)){
+            if (giftRecordDetail.getUserId() != null && !giftRecordDetail.getUserId().equals(userId)) {
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "没有操作权限");
-            }else if (giftRecordDetail.getUserId()== null){
+            } else if (giftRecordDetail.getUserId() == null) {
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "没有操作权限");
             }
             // 删除记录详情
