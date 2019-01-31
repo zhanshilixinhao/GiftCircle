@@ -396,10 +396,10 @@ public class GiftServiceImpl implements GiftService {
     @Override
     public Response sendForApp(Integer userId, GiftSendVo sendVo, String de, String s2, Integer client) {
         // 校验支付密码
-        Response response = userService.changePwdVerify(userId, de, s2, client);
-        if (!response.isSuccessful()) {
-            return response;
-        }
+//        Response response = userService.changePwdVerify(userId, de, s2, client);
+//        if (!response.isSuccessful()) {
+//            return response;
+//        }
         // 判断和被赠送的用户是不是好友关系
         FriendVo friend = friendService.isFriend(userId, sendVo.getFriendUserId());
         if (friend == null) {

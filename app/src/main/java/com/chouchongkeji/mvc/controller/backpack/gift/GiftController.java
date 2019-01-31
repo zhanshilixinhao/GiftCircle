@@ -42,13 +42,29 @@ public class GiftController {
         if (sendVo.getBpId() == null || // 主物品id
                 sendVo.getFriendUserId() == null || // 赠送好友id
                 sendVo.getType() == null || // 赠送类型
-                StringUtils.isAnyBlank(sendVo.getGreeting(), sendVo.getEvent(), s2, de) ||
+                StringUtils.isAnyBlank(sendVo.getGreeting(), sendVo.getEvent()) ||
                 (sendVo.getType() == 2 && (sendVo.getTargetTime() == null ||
                         sendVo.getTargetTime().getTime() < System.currentTimeMillis() + 60000))) {
             return ResponseFactory.errMissingParameter();
         }
         return giftService.sendForApp(userDetails.getUserId(), sendVo, de, s2, client);
     }
+
+    // 有密码校验
+//    public Response sendForApp(@AuthenticationPrincipal UserDetails userDetails,
+//                               @AppClient Integer client,
+//                               GiftSendVo sendVo, String s2, String de) {
+//        if (sendVo.getBpId() == null || // 主物品id
+//                sendVo.getFriendUserId() == null || // 赠送好友id
+//                sendVo.getType() == null || // 赠送类型
+//                StringUtils.isAnyBlank(sendVo.getGreeting(), sendVo.getEvent()
+//                        , s2, de) ||
+//                (sendVo.getType() == 2 && (sendVo.getTargetTime() == null ||
+//                        sendVo.getTargetTime().getTime() < System.currentTimeMillis() + 60000))) {
+//            return ResponseFactory.errMissingParameter();
+//        }
+//        return giftService.sendForApp(userDetails.getUserId(), sendVo, de, s2, client);
+//    }
 
     /**
      * app赠送礼物实现

@@ -47,9 +47,9 @@ public class MemoAffairController {
             return ResponseFactory.errMissingParameter();
         }
         // 判断时间，不能小于现在
-        if (affair.getTargetTime().getTime() < System.currentTimeMillis()) {
-            return ResponseFactory.err("时间不能晚于当前时间!");
-        }
+//        if (affair.getTargetTime().getTime() < System.currentTimeMillis()) {
+//            return ResponseFactory.err("时间不能晚于当前时间!");
+//        }
         //是否循环
         if (isCirculation == null || (isCirculation != Constants.MEMO.NO && isCirculation != Constants.MEMO.YES)){
             return ResponseFactory.errMissingParameter();

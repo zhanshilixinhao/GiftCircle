@@ -93,3 +93,10 @@ server:
   port: 8088
 
 
+logging:
+  level:
+    com:
+      chouchongkeji:
+        dial:
+          dao: debug
+

@@ -42,13 +42,13 @@
         memo_affair
         WHERE
         user_id = #{userId}
-        UNION
+        UNION all
         SELECT
         id,
         user_id,
+        is_circulation,
         target_time,
         detail,
-        is_circulation,
         users,
         created
         FROM
@@ -166,9 +166,9 @@
         SELECT
         id,
         user_id,
+        is_circulation,
         target_time,
         detail,
-        is_circulation,
         users,
         created
         FROM
