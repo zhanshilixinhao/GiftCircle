@@ -46,20 +46,18 @@
     </resultMap>
 
     <select id="selectAllByTargetTime" resultMap="GiftTaskVo">
-        SELECT
-            a.id      AS record_id,
-            a.user_id AS send_user_id,
-            b.id      AS record_detail_id,
-            b.user_id,
-            b.content,
-            a.target_time
-        FROM
-            `gift_record` a
-                LEFT JOIN gift_record_detail b ON b.gift_record_id = b.id
-        WHERE
-            a.type = 2
-          AND a.STATUS = 1
-          AND UNIX_TIMESTAMP(a.target_time) &lt; UNIX_TIMESTAMP(now()) + 10
+        SELECT a.id      AS record_id,
+        a.user_id AS send_user_id,
+        b.id      AS record_detail_id,
+        b.user_id,
+        b.content,
+        a.target_time
+        FROM `gift_record` a
+        , gift_record_detail b
+        WHERE a.id = b.gift_record_id
+        and a.type = 2
+        AND a.STATUS = 1
+        AND UNIX_TIMESTAMP(a.target_time) &lt; UNIX_TIMESTAMP(now()) + 10
     </select>
     <select id="selectInExByUserId" resultType="com.chouchongkeji.service.backpack.gift.vo.GiftInoutVo">
         SELECT
