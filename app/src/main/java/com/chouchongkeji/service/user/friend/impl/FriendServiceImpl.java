@@ -7,6 +7,8 @@ import com.chouchongkeji.dial.dao.friend.NewFriendNotifyMapper;
 import com.chouchongkeji.dial.dao.user.AppUserMapper;
 import com.chouchongkeji.dial.pojo.gift.virtualItem.AppMessage;
 import com.chouchongkeji.dial.redis.MRedisTemplate;
+import com.chouchongkeji.exception.ServiceException;
+import com.chouchongkeji.goexplore.common.ErrorCode;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.query.PageQuery;
@@ -70,6 +72,8 @@ public class FriendServiceImpl implements FriendService {
      */
     @Override
     public Response addFriend(Integer userId, Integer targetUserId, String validationMsg, String remark, Integer groupId) {
+        // 查询用户信息
+        AppUser user = appUserMapper.selectByPrimaryKey(userId);
         // 判断targetUserId是否存在
         AppUser target = appUserMapper.selectByPrimaryKey(targetUserId);
         if (target == null) {
@@ -107,8 +111,26 @@ public class FriendServiceImpl implements FriendService {
         notify.setTargetUserStatus(Constants.FRIEND_NOTIFY_STATUS.NONE);
         // 添加
         newFriendNotifyMapper.insert(notify);
+        // 添加系统消息
+        //添加系统消息
+        AppMessage appMessage = new AppMessage();
+        appMessage.setTitle("系统通知");
+        appMessage.setSummary("好友通知");
+        appMessage.setContent(user.getNickname() + " 请求添加您为好友！");
+        appMessage.setTargetId(notify.getId().longValue());
+        appMessage.setTargetType((byte) 26);
+        appMessage.setMessageType((byte) 2);
+        int in = messageService.addMessage(appMessage, new ArrayList<Integer>() {
+            {
+                add(targetUserId);
+            }
+        });
+        if (in < 1) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "添加系统消息失败");
+        }
         return ResponseFactory.sucMsg("已发送好友申请通知");
     }
+
 
     /**
      * 删除好友
