@@ -252,14 +252,18 @@ public class FriendServiceImpl implements FriendService {
             friend1.setGroupId(groupId);
         }
         // 修改备注
-        if (StringUtils.isNotBlank(remark) && !StringUtils.equals(friend.getRemark(), remark)) {
+        if (StringUtils.isNotBlank(remark) ) {
+//            && !StringUtils.equals(friend.getRemark(), remark)
             friend1.setRemark(remark);
         }
         // 修改关系
         if (StringUtils.isNotBlank(relationship) && !StringUtils.equals(friend.getRelationship(), relationship)) {
             friend1.setRelationship(relationship);
         }
-        friendMapper.updateByPrimaryKeySelective(friend1);
+        int i = friendMapper.updateByPrimaryKeySelective(friend1);
+        if (i< 1){
+            return ResponseFactory.err("修改失败");
+        }
         return ResponseFactory.sucMsg("修改成功!");
     }
 
