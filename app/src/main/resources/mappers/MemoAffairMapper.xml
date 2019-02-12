@@ -139,8 +139,6 @@
     and is_circulation = 2
     ORDER BY
     a.target_time
---     LIMIT 3
-
 
   </select>
     <select id="selectAllCByUserId" resultType="com.chouchongkeji.service.user.memo.vo.MemoItemVo">
