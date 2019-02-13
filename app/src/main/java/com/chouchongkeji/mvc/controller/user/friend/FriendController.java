@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -185,13 +186,15 @@ public class FriendController {
      * 分组列表
      *
      * @param userDetails 用户信息
+     * @param isAll 是否显示全部 1 不显示（默认），2 显示全部
      * @return
      * @author yichenshanren
      * @date 2018/6/21
      */
     @PostMapping("group/list")
-    public Response getGroupList(@AuthenticationPrincipal UserDetails userDetails) {
-        return friendService.getGroupList(userDetails.getUserId());
+    public Response getGroupList(@AuthenticationPrincipal UserDetails userDetails,
+                                 @RequestParam(name = "isAll", defaultValue = "1") Integer isAll) {
+        return friendService.getGroupList(userDetails.getUserId(),isAll);
     }
 
 

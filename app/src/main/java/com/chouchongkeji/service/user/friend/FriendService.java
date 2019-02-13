@@ -99,7 +99,7 @@ public interface FriendService {
      * @author yichenshanren
      * @date 2018/6/21
      */
-    Response getGroupList(Integer userId);
+    Response getGroupList(Integer userId,Integer isAll);
 
     /**
      * 获取好友列表

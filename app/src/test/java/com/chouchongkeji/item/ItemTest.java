@@ -58,7 +58,7 @@ public class ItemTest {
         RequestParams params = new RequestParams();
         params.put("time",System.currentTimeMillis());
         params.put("access_token", "572f7a09-b3e0-4ec5-b04b-13c82771c1c8");
-//        params.put("bpId",7719013011107L);
+//        params.put("isAll",2);
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
         params.put("sign", map.get(ApiSignUtil.ANDROID));
         Response post = OkHttpUtil.post("http://localhost:8088/auth/friend/group/list", params);

@@ -524,7 +524,7 @@ public class FriendServiceImpl implements FriendService {
      * @date 2018/6/21
      */
     @Override
-    public Response getGroupList(Integer userId) {
+    public Response getGroupList(Integer userId,Integer isAll) {
         List<FriendGroup> friendGroups = friendGroupMapper.selectByUserId(userId);
         if (friendGroups == null) {
             friendGroups = new ArrayList<>();
@@ -535,6 +535,13 @@ public class FriendServiceImpl implements FriendService {
         group.setSort(0);
         group.setUserId(userId);
         friendGroups.add(0, group);
+        if (isAll == 2){
+            group = new FriendGroup();
+            group.setName("全部");
+            group.setSort(0);
+            group.setUserId(userId);
+            friendGroups.add(0, group);
+        }
         return ResponseFactory.sucData(friendGroups);
     }
     /*-------------------------------------------------好友分组操作结束----------------------------------------------*/
