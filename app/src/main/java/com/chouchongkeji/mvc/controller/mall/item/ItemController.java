@@ -131,4 +131,21 @@ public class ItemController {
     }
 
 
+    /**
+     * 商品文章搜索
+     *
+     * @param keyword 关键字
+     * @return
+     * @author: linqin
+     * @Date: 2018/7/6
+     */
+    @PostMapping("search_all")
+    public Response searchItemArticle(String keyword) {
+        //校验参数
+        if (StringUtils.isBlank(keyword)) {
+            return ResponseFactory.errMissingParameter();
+        }
+        return itemService.searchItemArticle(keyword);
+    }
+
 }

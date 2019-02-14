@@ -37,4 +37,11 @@ public interface ArticleMapper {
      * @return
      */
     List<ArticleVo> selectByDay(@Param("start") Long start,@Param("end") Long end);
+
+    /**
+     * 根据关键字查询文章
+     * @param keyword
+     * @return
+     */
+    List<Article> selectArticleList(String keyword);
 }

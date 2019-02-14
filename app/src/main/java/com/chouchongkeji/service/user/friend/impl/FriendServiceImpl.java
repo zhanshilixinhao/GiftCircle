@@ -246,7 +246,7 @@ public class FriendServiceImpl implements FriendService {
             }
             // 判断新的分组是否存在
             FriendGroup group = friendGroupMapper.selectByPrimaryKey(groupId);
-            if (group == null || groupId != 0) {
+            if (group == null ) {
                 return ResponseFactory.err("分组不存在!");
             }
             friend1.setGroupId(groupId);

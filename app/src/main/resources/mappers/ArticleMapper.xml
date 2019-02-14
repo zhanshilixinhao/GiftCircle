@@ -219,4 +219,16 @@
     ORDER BY
       sort DESC,created DESC
   </select>
+    <select id="selectArticleList" resultType="com.chouchongkeji.dial.pojo.gift.article.Article">
+        SELECT
+  id ,
+  cover,
+  title,
+  summary
+ FROM
+  article
+WHERE
+    title LIKE concat('%',#{keyword},'%')
+                      and status = 1
+    </select>
 </mapper>

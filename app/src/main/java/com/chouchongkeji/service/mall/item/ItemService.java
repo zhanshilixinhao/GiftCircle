@@ -75,4 +75,13 @@ public interface ItemService {
      * @Date: 2018/7/6
      */
     Response searchItem(String keyword);
+    /**
+     * 商品文章搜索
+     *
+     * @param keyword 关键字
+     * @return
+     * @author: linqin
+     * @Date: 2018/7/6
+     */
+    Response searchItemArticle(String keyword);
 }
