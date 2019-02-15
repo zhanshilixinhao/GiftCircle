@@ -28,12 +28,12 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
     <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.backpack.BpItem">
-    insert into bp_item (id, user_id, target_id, 
+    insert into bp_item (id, user_id, target_id,
       quantity, price, `from`,
       type, created, updated
       )
-    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=INTEGER}, #{targetId,jdbcType=INTEGER}, 
-      #{quantity,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, #{from,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=INTEGER}, #{targetId,jdbcType=INTEGER},
+      #{quantity,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, #{from,jdbcType=VARCHAR},
       #{type,jdbcType=TINYINT},  now(), now()
       )
   </insert>
@@ -171,6 +171,14 @@ WHERE
         select *
 from v_bp
 where  user_id = #{userId} and `id` = #{bpId} and quantity > 0
+    </select>
+    <select id="selectByTypeTarget" resultType="com.chouchongkeji.dial.pojo.backpack.BpItem">
+      SELECT
+ <include refid="Base_Column_List"/>
+from bp_item
+where `type` = #{type}
+and target_id = #{targetId}
+and user_id = #{userId}
     </select>
 
 </mapper>

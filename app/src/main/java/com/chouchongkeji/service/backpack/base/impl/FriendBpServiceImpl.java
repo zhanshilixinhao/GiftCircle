@@ -57,6 +57,9 @@ public class FriendBpServiceImpl implements FriendBpService {
     @Autowired
     private MessageService messageService;
 
+    @Autowired
+    private BpService bpService;
+
     /**
      * 好友背包列表
      *
@@ -224,8 +227,9 @@ public class FriendBpServiceImpl implements FriendBpService {
                 friendBp.setPrice(bpItem.getPrice());
                 friendBp.setFrom(object.toJSONString());
                 friendBp.setType(bpItem.getType());
-                int insert = bpItemMapper.insert(friendBp);
-                if (insert < 0) {
+                int add = bpService.add(friendBp);
+//                int insert = bpItemMapper.insert(friendBp);
+                if (add < 0) {
                     return ResponseFactory.err("物品添加到好友背包失败");
                 }
                 //添加系统消息

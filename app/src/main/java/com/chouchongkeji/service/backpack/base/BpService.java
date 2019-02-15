@@ -114,4 +114,13 @@ public interface BpService {
      */
     int addFromGiftExchange(Integer giftExchangeId, Integer userId, List<GiftExItemVo> vos);
 
+    /**
+     * 添加一条记录
+     *
+     * @param item 背包信息
+     * @return
+     * @author yichenshanren
+     * @date 2018/7/2
+     */
+    int add(BpItem item);
 }

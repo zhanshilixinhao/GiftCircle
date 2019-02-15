@@ -1,22 +1,46 @@
 {
   "errCode": 0,
   "result": 0,
-  "time": 1550219231512,
+  "time": 1550221888887,
   "data": [
     {
-      "id": 98,
+      "id": 7719012509101,
       "userId": 6,
-      "friendUserId": 1,
-      "remark": "路了",
-      "relationship": "",
-      "groupId": 51,
-      "groupName": "噜啦啦",
-      "sort": 0,
-      "created": 1548993448000,
-      "updated": 1548993448000,
-      "heartNum": null,
-      "avatar": "https://liyuquan.cn/staticorder/comment/20181231/1546231284130051-600-600.jpg",
-      "nickname": "路遥"
+      "targetId": 5,
+      "price": 765.00,
+      "title": "花蓝",
+      "cover": "https://liyuquan.cn/static/item/181219/e4715294-7bd9-4236-b044-138fa82d2f85.png",
+      "description": "玫瑰花篮",
+      "brand": "纪梵希",
+      "type": 2,
+      "quantity": 1,
+      "created": 1548379769000
+    },
+    {
+      "id": 7719013011109,
+      "userId": 6,
+      "targetId": 47,
+      "price": 99.00,
+      "title": "笔记本电脑",
+      "cover": "https://liyuquan.cn/static/item/190128/bff710b9-e978-4ffd-9642-2bd53a8b9c9e.png",
+      "description": "送朋友",
+      "brand": "礼遇圈",
+      "type": 2,
+      "quantity": 1,
+      "created": 1548820518000
+    },
+    {
+      "id": 7719021517106,
+      "userId": 6,
+      "targetId": 47,
+      "price": 99.00,
+      "title": "笔记本电脑",
+      "cover": "https://liyuquan.cn/static/item/190128/bff710b9-e978-4ffd-9642-2bd53a8b9c9e.png",
+      "description": "送朋友",
+      "brand": "礼遇圈",
+      "type": 2,
+      "quantity": 1,
+      "created": 1550221876000
     }
   ]
 }

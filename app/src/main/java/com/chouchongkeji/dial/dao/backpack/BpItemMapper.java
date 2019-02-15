@@ -30,4 +30,12 @@ public interface BpItemMapper {
                              @Param("key") String key);
 
     Vbp selectByUserIdBpId(@Param("userId") Integer userId,@Param("bpId") Long bpId);
+
+    /**
+     * 判断背包里是否存在相同商品
+     * @param targetId
+     * @param type
+     * @return
+     */
+    BpItem selectByTypeTarget(@Param("targetId") Integer targetId,@Param("type") Byte type,@Param("userId") Integer userId);
 }

@@ -73,11 +73,14 @@ public class BpServiceImpl implements BpService {
      */
     @Override
     public int addBatch(List<BpItem> items) {
-        int count = bpItemMapper.insertBatch(items);
-        if (count < 1) {
-            throw new ServiceException(ErrorCode.ERROR);
+//        int count = bpItemMapper.insertBatch(items);
+//        if (count < 1) {
+//            throw new ServiceException(ErrorCode.ERROR);
+//        }
+        for (BpItem item : items) {
+            add(item);
         }
-        return count;
+        return 1;
     }
 
     /**
@@ -88,12 +91,22 @@ public class BpServiceImpl implements BpService {
      * @author yichenshanren
      * @date 2018/7/2
      */
-    private int add(BpItem item) {
-        int count = bpItemMapper.insert(item);
-        if (count < 1) {
-            throw new ServiceException(ErrorCode.ERROR);
+    public int add(BpItem item) {
+        //判断背包里是否存在相同商品
+        BpItem bpItem = bpItemMapper.selectByTypeTarget(item.getTargetId(), item.getType(),item.getUserId());
+        if (bpItem == null) {
+            int count = bpItemMapper.insert(item);
+            if (count < 1) {
+                throw new ServiceException(ErrorCode.ERROR);
+            }
+        } else {
+            bpItem.setQuantity(bpItem.getQuantity() + item.getQuantity());
+            int i = bpItemMapper.updateByPrimaryKeySelective(bpItem);
+            if (i < 1) {
+                throw new ServiceException(ErrorCode.ERROR);
+            }
         }
-        return count;
+        return 1;
     }
 
     /**
@@ -209,6 +222,7 @@ public class BpServiceImpl implements BpService {
 
     /**
      * 礼物互换添加到背包
+     *
      * @param giftExchangeId
      * @param userId
      * @param vos
@@ -231,16 +245,17 @@ public class BpServiceImpl implements BpService {
 
     /**
      * 向好友索要物品成功添加到背包
+     *
      * @param forRecord
      * @param bpItem
      * @return
      * @author yichenshanren
      * @date 2018/7/2
      */
-    public int addFromFriendBp(ForRecord forRecord,BpItem bpItem){
+    public int addFromFriendBp(ForRecord forRecord, BpItem bpItem) {
         JSONObject object = new JSONObject();
         object.put("type", Constants.BP_ITEM_FROM.ASK_FOR);
-        object.put("forRecordId",forRecord.getId() );
+        object.put("forRecordId", forRecord.getId());
         return add(assembleBpItem(forRecord.getUserId(),
                 bpItem.getQuantity(), bpItem.getPrice(),
                 bpItem.getTargetId(), bpItem.getType(), object.toJSONString()));
