@@ -60,9 +60,9 @@ public class FriendController {
      */
     @PostMapping("list")
     public Response getFriendList(@AuthenticationPrincipal UserDetails userDetails, Integer groupId) {
-        if (groupId != null && groupId == 0) {
-            groupId = null;
-        }
+//        if (groupId != null && groupId == 0) {
+//            groupId = null;
+//        }
         return friendService.getFriendList(userDetails.getUserId(), groupId);
     }
 

@@ -121,7 +121,7 @@ public class test3 {
         params.put("access_token", "572f7a09-b3e0-4ec5-b04b-13c82771c1c8");
 //        params.put("pageNum", 1);
 //        params.put("pageSize", 14);
-//        params.put("recordId", 1);
+//        params.put("groupId", );
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
         params.put("sign", map.get(ApiSignUtil.ANDROID));
         Response post = OkHttpUtil.post("http://localhost:8088/auth/friend/list", params);

@@ -91,6 +91,9 @@ public class FriendServiceImpl implements FriendService {
                 return ResponseFactory.err("分组不存在，请先创建分组!");
             }
         }
+        if (groupId == null){
+            groupId = 0;
+        }
 
         // 如果不是好友关系添加
         // 添加一条好友通知消息
@@ -530,12 +533,12 @@ public class FriendServiceImpl implements FriendService {
             friendGroups = new ArrayList<>();
         }
         FriendGroup group = new FriendGroup();
-        group.setId(0);
-        group.setName(Constants.GROUP_DEFAULT_NAME);
-        group.setSort(0);
-        group.setUserId(userId);
-        friendGroups.add(0, group);
         if (isAll == 2){
+            group.setId(0);
+            group.setName(Constants.GROUP_DEFAULT_NAME);
+            group.setSort(0);
+            group.setUserId(userId);
+            friendGroups.add(0, group);
             group = new FriendGroup();
             group.setName("全部");
             group.setSort(0);
