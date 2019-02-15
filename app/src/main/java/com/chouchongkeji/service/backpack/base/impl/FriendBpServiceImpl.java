@@ -57,8 +57,6 @@ public class FriendBpServiceImpl implements FriendBpService {
     @Autowired
     private MessageService messageService;
 
-    @Autowired
-     BpService bpService;
 
     /**
      * 好友背包列表
