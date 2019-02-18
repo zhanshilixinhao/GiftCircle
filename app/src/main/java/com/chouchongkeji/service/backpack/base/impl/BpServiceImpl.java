@@ -21,11 +21,14 @@ import com.chouchongkeji.service.backpack.gift.vo.GiftItemVo;
 import com.chouchongkeji.util.Constants;
 import com.chouchongkeji.util.OrderHelper;
 import com.github.pagehelper.PageHelper;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -35,6 +38,9 @@ import java.util.List;
 
 @Service
 public class BpServiceImpl implements BpService {
+
+
+    private static final int EXPIRE = 30; // 30天
 
     @Autowired
     private BpItemMapper bpItemMapper;
@@ -60,6 +66,13 @@ public class BpServiceImpl implements BpService {
         List<Vbp> list;
         PageHelper.startPage(page.getPageNum(), page.getPageSize());
         list = bpItemMapper.selectAllByUserId(userId, type);
+        if (CollectionUtils.isNotEmpty(list)) {
+            for (Vbp vbp : list) {
+                if (vbp.getBuyTime() != null) {
+                    vbp.setPickRemainTime(DateUtils.addDays(vbp.getBuyTime(), EXPIRE).getTime() - System.currentTimeMillis());
+                }
+            }
+        }
         return ResponseFactory.sucData(list);
     }
 
@@ -73,13 +86,13 @@ public class BpServiceImpl implements BpService {
      */
     @Override
     public int addBatch(List<BpItem> items) {
-//        int count = bpItemMapper.insertBatch(items);
-//        if (count < 1) {
-//            throw new ServiceException(ErrorCode.ERROR);
-//        }
-        for (BpItem item : items) {
-            add(item);
+        int count = bpItemMapper.insertBatch(items);
+        if (count < 1) {
+            throw new ServiceException(ErrorCode.ERROR);
         }
+//        for (BpItem item : items) {
+//            add(item);
+//        }
         return 1;
     }
 
@@ -93,19 +106,19 @@ public class BpServiceImpl implements BpService {
      */
     public int add(BpItem item) {
         //判断背包里是否存在相同商品
-        BpItem bpItem = bpItemMapper.selectByTypeTarget(item.getTargetId(), item.getType(),item.getUserId());
-        if (bpItem == null) {
-            int count = bpItemMapper.insert(item);
-            if (count < 1) {
-                throw new ServiceException(ErrorCode.ERROR);
-            }
-        } else {
-            bpItem.setQuantity(bpItem.getQuantity() + item.getQuantity());
-            int i = bpItemMapper.updateByPrimaryKeySelective(bpItem);
-            if (i < 1) {
-                throw new ServiceException(ErrorCode.ERROR);
-            }
+//        BpItem bpItem = bpItemMapper.selectByTypeTarget(item.getTargetId(), item.getType(),item.getUserId());
+//        if (bpItem == null) {
+        int count = bpItemMapper.insert(item);
+        if (count < 1) {
+            throw new ServiceException(ErrorCode.ERROR);
         }
+//        } else {
+//            bpItem.setQuantity(bpItem.getQuantity() + item.getQuantity());
+//            int i = bpItemMapper.updateByPrimaryKeySelective(bpItem);
+//            if (i < 1) {
+//                throw new ServiceException(ErrorCode.ERROR);
+//            }
+//        }
         return 1;
     }
 
@@ -122,10 +135,12 @@ public class BpServiceImpl implements BpService {
         object.put("type", Constants.BP_ITEM_FROM.ITEM_ORDER);
         object.put("orderNo", details.get(0).getOrderNo());
         // 遍历商品列表取出信息
+        Date date = new Date();
         List<BpItem> bpItems = new ArrayList<>();
         for (ItemOrderDetail detail : details) {
-            bpItems.add(assembleBpItem(detail.getUserId(), detail.getQuantity(), detail.getPrice(),
-                    detail.getSkuId(), Constants.BACKPACK_TYPE.ITEM, object.toJSONString()));
+            BpItem bpItem = assembleBpItem(detail.getUserId(), detail.getQuantity(), detail.getPrice(),
+                    detail.getSkuId(), Constants.BACKPACK_TYPE.ITEM, object.toJSONString(), date);
+            bpItems.add(bpItem);
         }
         return addBatch(bpItems);
     }
@@ -144,12 +159,14 @@ public class BpServiceImpl implements BpService {
      */
     private BpItem assembleBpItem(Integer userId, Integer quantity,
                                   BigDecimal price, Integer targetId,
-                                  Byte type, String from) {
+                                  Byte type, String from, Date buyTime) {
         BpItem item = new BpItem();
         item.setId(orderHelper.genOrderNo(7, 7));
         item.setUserId(userId);
         // 数量
         item.setQuantity(quantity);
+        // 购买时间
+        item.setBuyTime(buyTime);
         // 价格
         item.setPrice(price);
         // 目标id
@@ -175,7 +192,7 @@ public class BpServiceImpl implements BpService {
         return add(assembleBpItem(virItemOrder.getUserId(),
                 virItemOrder.getQuantity(), virItemOrder.getPrice(),
                 virItemOrder.getVirtualItemId(),
-                Constants.BACKPACK_TYPE.VIRTUAL_ITEM, object.toJSONString()));
+                Constants.BACKPACK_TYPE.VIRTUAL_ITEM, object.toJSONString(), new Date()));
     }
 
     /**
@@ -196,7 +213,7 @@ public class BpServiceImpl implements BpService {
         }
         return add(assembleBpItem(consignment.getUserId(),
                 consignment.getQuantity(), consignment.getPrice(),
-                consignment.getTargetId(), consignment.getType(), object.toJSONString()));
+                consignment.getTargetId(), consignment.getType(), object.toJSONString(), new Date()));
     }
 
     /**
@@ -215,7 +232,7 @@ public class BpServiceImpl implements BpService {
         List<BpItem> items = new ArrayList<>();
         for (GiftItemVo vo : vos) {
             items.add(assembleBpItem(userId, 1, vo.getPrice(),
-                    vo.getTargetId(), vo.getTargetType(), object.toJSONString()));
+                    vo.getTargetId(), vo.getTargetType(), object.toJSONString(), vo.getBuyTime()));
         }
         return addBatch(items);
     }
@@ -238,7 +255,7 @@ public class BpServiceImpl implements BpService {
         List<BpItem> items = new ArrayList<>();
         for (GiftExItemVo vo : vos) {
             items.add(assembleBpItem(userId, vo.getQuantity(), vo.getPrice(),
-                    vo.getTargetId(), vo.getType(), object.toJSONString()));
+                    vo.getTargetId(), vo.getType(), object.toJSONString(), vo.getBuyTime()));
         }
         return addBatch(items);
     }
@@ -258,7 +275,7 @@ public class BpServiceImpl implements BpService {
         object.put("forRecordId", forRecord.getId());
         return add(assembleBpItem(forRecord.getUserId(),
                 bpItem.getQuantity(), bpItem.getPrice(),
-                bpItem.getTargetId(), bpItem.getType(), object.toJSONString()));
+                bpItem.getTargetId(), bpItem.getType(), object.toJSONString(), bpItem.getBuyTime()));
     }
 
 

@@ -3,6 +3,7 @@ package com.chouchongkeji.service.backpack.gift.vo;
 import com.yichen.auth.jackson.ImgUrl;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * @author linqin
@@ -27,6 +28,8 @@ public class GiftExItemVo {
     private Byte type;
 
     private Integer quantity;
+
+    private Date buyTime;
 
     public Long getBpId() {
         return bpId;
@@ -98,5 +101,13 @@ public class GiftExItemVo {
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
+    }
+
+    public Date getBuyTime() {
+        return buyTime;
+    }
+
+    public void setBuyTime(Date buyTime) {
+        this.buyTime = buyTime;
     }
 }

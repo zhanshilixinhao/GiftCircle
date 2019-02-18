@@ -31,7 +31,10 @@ public class Vbp {
 
     private Integer quantity;
 
+    private Long pickRemainTime;
+
     private Date created;
+    private Date buyTime;
 
     public Long getId() {
         return id;
@@ -119,5 +122,21 @@ public class Vbp {
 
     public void setCreated(Date created) {
         this.created = created;
+    }
+
+    public Date getBuyTime() {
+        return buyTime;
+    }
+
+    public void setBuyTime(Date buyTime) {
+        this.buyTime = buyTime;
+    }
+
+    public Long getPickRemainTime() {
+        return pickRemainTime;
+    }
+
+    public void setPickRemainTime(Long pickRemainTime) {
+        this.pickRemainTime = pickRemainTime;
     }
 }

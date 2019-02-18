@@ -3,6 +3,7 @@ package com.chouchongkeji.service.backpack.gift.vo;
 import com.yichen.auth.jackson.ImgUrl;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * @author yichenshanren
@@ -18,6 +19,8 @@ public class GiftItemVo {
     private BigDecimal price;
 
     private String title;
+
+    private Date buyTime;
 
     @ImgUrl
     private String cover;
@@ -96,5 +99,13 @@ public class GiftItemVo {
 
     public void setBrand(String brand) {
         this.brand = brand;
+    }
+
+    public Date getBuyTime() {
+        return buyTime;
+    }
+
+    public void setBuyTime(Date buyTime) {
+        this.buyTime = buyTime;
     }
 }

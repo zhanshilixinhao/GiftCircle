@@ -9,7 +9,6 @@ import com.chouchongkeji.dial.dao.friend.FriendMapper;
 import com.chouchongkeji.dial.dao.user.AppUserMapper;
 import com.chouchongkeji.dial.pojo.backpack.Vbp;
 import com.chouchongkeji.dial.pojo.backpack.gift.GiftRecordDetail;
-import com.chouchongkeji.dial.pojo.friend.Friend;
 import com.chouchongkeji.dial.pojo.gift.virtualItem.AppMessage;
 import com.chouchongkeji.dial.pojo.gift.virtualItem.GiftRecord;
 import com.chouchongkeji.dial.pojo.user.AppUser;
@@ -29,19 +28,16 @@ import com.chouchongkeji.service.user.friend.FriendService;
 import com.chouchongkeji.service.user.friend.vo.FriendVo;
 import com.chouchongkeji.service.user.info.UserService;
 import com.chouchongkeji.util.Constants;
-import com.sun.org.apache.bcel.internal.generic.GOTO;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.security.core.userdetails.UserCache;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -652,6 +648,7 @@ public class GiftServiceImpl implements GiftService {
         detail.setPrice(vbp.getPrice());
         detail.setTitle(vbp.getTitle());
         detail.setCover(vbp.getCover());
+        detail.setBuyTime(vbp.getBuyTime());
         detail.setDescription(vbp.getDescription());
         detail.setTargetType(vbp.getType());
         detail.setTargetId(vbp.getTargetId());

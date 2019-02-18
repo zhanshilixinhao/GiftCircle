@@ -222,6 +222,7 @@ public class FriendBpServiceImpl implements FriendBpService {
                 friendBp.setUserId(forRecord.getUserId());
                 friendBp.setTargetId(bpItem.getTargetId());
                 friendBp.setQuantity(1);
+                friendBp.setBuyTime(bpItem.getBuyTime());
                 friendBp.setPrice(bpItem.getPrice());
                 friendBp.setFrom(object.toJSONString());
                 friendBp.setType(bpItem.getType());

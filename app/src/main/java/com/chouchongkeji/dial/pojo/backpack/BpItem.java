@@ -21,18 +21,7 @@ public class BpItem {
     private Date created;
 
     private Date updated;
-
-    public BpItem(Long id, Integer userId, Integer targetId, Integer quantity, BigDecimal price, String from, Byte type, Date created, Date updated) {
-        this.id = id;
-        this.userId = userId;
-        this.targetId = targetId;
-        this.quantity = quantity;
-        this.price = price;
-        this.from = from;
-        this.type = type;
-        this.created = created;
-        this.updated = updated;
-    }
+    private Date buyTime;
 
     public BpItem() {
         super();
@@ -108,5 +97,13 @@ public class BpItem {
 
     public void setUpdated(Date updated) {
         this.updated = updated;
+    }
+
+    public Date getBuyTime() {
+        return buyTime;
+    }
+
+    public void setBuyTime(Date buyTime) {
+        this.buyTime = buyTime;
     }
 }
