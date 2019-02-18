@@ -1,46 +1,39 @@
 {
   "errCode": 0,
   "result": 0,
-  "time": 1550221888887,
+  "time": 1550224708991,
   "data": [
     {
-      "id": 7719012509101,
+      "id": null,
       "userId": 6,
-      "targetId": 5,
-      "price": 765.00,
-      "title": "花蓝",
-      "cover": "https://liyuquan.cn/static/item/181219/e4715294-7bd9-4236-b044-138fa82d2f85.png",
-      "description": "玫瑰花篮",
-      "brand": "纪梵希",
-      "type": 2,
-      "quantity": 1,
-      "created": 1548379769000
+      "name": "全部",
+      "sort": 0,
+      "created": null,
+      "updated": null
     },
     {
-      "id": 7719013011109,
+      "id": 0,
       "userId": 6,
-      "targetId": 47,
-      "price": 99.00,
-      "title": "笔记本电脑",
-      "cover": "https://liyuquan.cn/static/item/190128/bff710b9-e978-4ffd-9642-2bd53a8b9c9e.png",
-      "description": "送朋友",
-      "brand": "礼遇圈",
-      "type": 2,
-      "quantity": 1,
-      "created": 1548820518000
+      "name": "未分组",
+      "sort": 0,
+      "created": null,
+      "updated": null
     },
     {
-      "id": 7719021517106,
+      "id": 51,
       "userId": 6,
-      "targetId": 47,
-      "price": 99.00,
-      "title": "笔记本电脑",
-      "cover": "https://liyuquan.cn/static/item/190128/bff710b9-e978-4ffd-9642-2bd53a8b9c9e.png",
-      "description": "送朋友",
-      "brand": "礼遇圈",
-      "type": 2,
-      "quantity": 1,
-      "created": 1550221876000
+      "name": "噜啦啦",
+      "sort": 0,
+      "created": 1550116629000,
+      "updated": 1550116629000
+    },
+    {
+      "id": 55,
+      "userId": 6,
+      "name": "同事",
+      "sort": 0,
+      "created": 1550219337000,
+      "updated": 1550219337000
     }
   ]
 }
