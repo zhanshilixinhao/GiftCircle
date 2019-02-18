@@ -61,7 +61,7 @@ public class ItemTest {
         params.put("isAll",2);
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
         params.put("sign", map.get(ApiSignUtil.ANDROID));
-        Response post = OkHttpUtil.post("https://liyuquan.cn/app/auth/friend/group/list", params);
+        Response post = OkHttpUtil.post("http://localhost:8088/auth/friend/group/list", params);
         System.out.println(post.body().string());
     }
     @Test
