@@ -97,7 +97,7 @@
 > 1. 修改分组列表（增加参数） (接口10.8)
 > 2. 增加商品文章搜索 （6.22 ）
 > 3. 背包列表（返回参数增加两个字段）（14.1）
-
+> 4. 修改用户手机号（增加参数）(2.13)
 
 ## 目录
 <span id="m"> </span>
@@ -553,7 +553,8 @@ http 常用错误码
 |   参数名称   | 参数类型 | 是否必传 | 默认值 |         是否必传          |
 | :----------: | :------: | :------: | :----: | :-----------------------: |
 | access_token |  String  |    是    |   无   |         访问令牌          |
-|    phone    |  String  |    否    |   无   |           电话号码            |
+|    phone    |  String  |    是    |   无   |           电话号码         |
+|code|int|是|  无|短信验证码|
 
 
 请求结果示例：
@@ -2083,7 +2084,8 @@ JSON：
       "https://liyuquan.cn/static/item/181219/33a12e8e-5a69-455a-9ff5-4f6f91e94606.jpg"
     ],
     "detailUrl": "https://liyuquan.cn/static/product.html?uid=14",
-    "isCollect": 2
+    "isCollect": 2 ,
+    "status": 1 
   }
 }
 
@@ -2102,7 +2104,7 @@ JSON：
 | pictures    | List<String> |    是    |        轮播图片数组        |
 | detailUrl   |    String    |    是    |        商品详情地址        |
 | isCollect   |     Int      |    是    | 是否收藏 1.已收藏 2.未收藏 |
-
+|status|int|是|1 正常 2 下架|
 
 ### 6.19 文章商品列表
 - 请求地址：noauth/v1/article/item_list
