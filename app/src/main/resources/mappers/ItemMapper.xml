@@ -429,7 +429,8 @@ WHERE
             a.price,
             a.sales,
             a.description,
-            a.pictures
+            a.pictures,
+            a.status
         from item a
                  left join item_sku b on a.id = b.item_id
         where b.id = #{skuId}
