@@ -15,7 +15,7 @@
         </constructor>
     </resultMap>
     <sql id="Base_Column_List">
-    id, user_id, target_id, quantity, price, `from`, `type`, created, updated
+    id, user_id, target_id, quantity, price, `from`, `type`, created, updated,
   </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
         select
@@ -30,7 +30,7 @@
     <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.backpack.BpItem">
     insert into bp_item (id, user_id, target_id,
       quantity, price, `from`,
-      type, created, updated, buyTime
+      type, created, updated, buy_time
       )
     values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=INTEGER}, #{targetId,jdbcType=INTEGER},
       #{quantity,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, #{from,jdbcType=VARCHAR},
@@ -101,13 +101,13 @@
     <insert id="insertBatch">
         insert into bp_item (id, user_id, target_id,
         quantity, price, `from`,
-        type, created, updated, buyTime
+        type, created, updated, buy_time
         )
         values
         <foreach collection="list" item="item" index="index" separator=",">
             (#{item.id,jdbcType=BIGINT}, #{item.userId,jdbcType=INTEGER}, #{item.targetId,jdbcType=INTEGER},
             #{item.quantity,jdbcType=INTEGER}, #{item.price,jdbcType=DECIMAL}, #{item.from,jdbcType=VARCHAR},
-            #{item.type,jdbcType=TINYINT}, now(), now(), #{buyTime}
+            #{item.type,jdbcType=TINYINT}, now(), now(), #{item.buyTime}
             )
         </foreach>
     </insert>
