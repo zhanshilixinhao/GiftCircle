@@ -246,6 +246,9 @@ public class GiftServiceImpl implements GiftService {
         List<GiftRecordDetail> list = new ArrayList<>();
         List<GiftItemVo> itemVos = new ArrayList<>();
         for (GiftRecordDetail detail : details) {
+            if (detail.getUserId() != null && detail.getUserId() == userId) {
+                return ResponseFactory.errMsg(20005, "你已领取过了!");
+            }
             if (detail.getStatus() == Constants.GIFT_STATUS.WAIT) {
                 list.add(detail);
                 itemVos.addAll(JSON.parseArray(detail.getContent(), GiftItemVo.class));
