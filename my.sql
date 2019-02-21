@@ -1409,3 +1409,32 @@ create table if not exists festival
   )
   comment '首页节日' charset=utf8mb4;
 
+
+create table if not exists welfare
+(
+  id int auto_increment primary key,
+  title varchar(50) null comment '福利标题',
+  cover varchar (300) null comment'福利图片',
+  `type` tinyint(4) null comment'1 商品，2 虚拟商品 3 优惠券',
+  `target_id` int(10) null comment'商品skuId,虚拟商品id，优惠券id',
+  quantity int  null comment '数量',
+  `count` int null comment'剩余数量',
+    `admin_id` int(11) null comment '创建者id',
+  `target_date` datetime null comment'福利日期',
+  `start_time` datetime null comment'福利显示开始日期',
+  `end_time` datetime null comment'福利显示截至日期',
+  created datetime null,
+  updated datetime null
+  )
+  comment '整点福利' charset=utf8mb4;
+
+create table if not exists welfare_record
+(
+  id int auto_increment primary key,
+  welfare_id int(11) null comment'整点福利id',
+  user_id int(11) null comment'领取用户id',
+  created datetime null,
+  updated datetime null
+  )
+  comment '整点福利领取记录' charset=utf8mb4;
+

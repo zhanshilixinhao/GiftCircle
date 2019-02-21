@@ -468,5 +468,6 @@ public class Constants {
         byte GIFT_CHANGE = 5; // 礼物互换
         byte CONSIGNMENG_ORDER = 6; // 寄售台商品购买
         byte ASK_FOR = 7; //向好友索要物品
+        byte WELFARE = 8; //福利领取
      }
 }

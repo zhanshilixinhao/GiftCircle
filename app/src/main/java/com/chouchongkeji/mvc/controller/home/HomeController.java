@@ -58,4 +58,16 @@ public class HomeController {
         return homeService.getFestivalList();
     }
 
+    /**
+     * 获取整点福利
+     *
+     * @return
+     * @author linqin
+     * @date 2018/7/6
+     */
+    @PostMapping("welfare")
+    public Response getWelfare() {
+        return homeService.getWelfare();
+    }
+
 }
