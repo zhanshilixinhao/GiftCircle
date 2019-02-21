@@ -11,6 +11,7 @@ import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.service.backpack.consignment.vo.ConsignmentVo;
 import com.chouchongkeji.service.home.HomeService;
+import com.chouchongkeji.service.home.vo.WelfareVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -89,7 +90,7 @@ public class HomeServiceImpl implements HomeService {
      */
     @Override
     public Response getWelfare(){
-        Welfare welfare = welfareMapper.selectByTime();
+        WelfareVo welfare = welfareMapper.selectByTime();
         return ResponseFactory.sucData(welfare);
     }
 

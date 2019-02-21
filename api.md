@@ -6112,24 +6112,22 @@ JSON：
 {
   "errCode": 0,
   "result": 0,
-  "time": 1550716929701,
+  "time": 1550731078370,
   "data": {
     "id": 1,  //福利id
-    "title": "送物品",  //福利标题
-    "cover": "", //福利图片
-    "type": 1, //1 商品，2 虚拟物品，3 优惠券
-    "targetId": 78, //商品skuId,虚拟物品id，优惠券id
-    "quantity": 10,  //福利总数
-    "adminId": null,
-    "targetDate": 1550673648000, //发送福利时间
-    "created": 1550619678000,
-    "updated": 1550619682000,
-    "startTime": 1550533296000, //福利展示开始时间
-    "endTime": 1550878920000,  // 福利展示结束时间
-    "count": 7,  //福利物品剩余数量
-    "price": null
+    "type": 3, //1商品 2.虚拟商品，3优惠券
+    "targetId": 1, //type= 1时商品skuId,type= 2时虚拟商品id，type= 3时优惠券id
+    "quantity": 10, //总数
+    "targetDate": 1550673648000, //福利发放时间
+    "startTime": 1550533296000, //福利显示开始时间
+    "endTime": 1550878920000, //福利显示结束时间
+    "count": 6, //礼物剩余数量
+    "cover": "/item/190219/1eb62a35-c09f-4053-a184-b752320f6bfc.gif", //图片
+    "title": "50", //标题
+    "brand": "50" //品牌
   }
 }
+
 
 ```
 

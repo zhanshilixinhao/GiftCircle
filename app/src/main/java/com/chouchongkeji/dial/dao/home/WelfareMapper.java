@@ -1,6 +1,7 @@
 package com.chouchongkeji.dial.dao.home;
 
 import com.chouchongkeji.dial.pojo.home.Welfare;
+import com.chouchongkeji.service.home.vo.WelfareVo;
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ public interface WelfareMapper {
 
     int updateByPrimaryKey(Welfare record);
 
-    Welfare selectByTime();
+    WelfareVo selectByTime();
 
     /**
      * 获取福利商品详情
