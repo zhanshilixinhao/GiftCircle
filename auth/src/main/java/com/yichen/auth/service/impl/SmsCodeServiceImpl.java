@@ -42,7 +42,7 @@ public class SmsCodeServiceImpl implements SmsCodeService {
             return ResponseFactory.errMsg(result.getCode(), result.getMsg());
         }
         verifyCodeRepository.save(code, phone);
-        return ResponseFactory.suc("发送成功!", code.getCode());
+        return ResponseFactory.sucMsg("发送成功!");
     }
 
     /**

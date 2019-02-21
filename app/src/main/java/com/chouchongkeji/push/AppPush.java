@@ -23,9 +23,9 @@ import java.util.List;
 public class AppPush {
 
     //定义常量, appId、appKey、masterSecret 采用本文档 "第二步 获取访问凭证 "中获得的应用配置
-    private static String appId = "4z1k4dSYnG7dZduBAGPt93";
-    private static String appKey = "LkfGB22y4d9oKx9FP3Y4O1";
-    private static String masterSecret = "tCrauplfms7Ir2n2jEv0Y2";
+    private static String appId = "ePAZsicK6m98ugoygozFwA";
+    private static String appKey = "EvHd5Dou1AAeIDRFFz5BU";
+    private static String masterSecret = "DcGlsvIQgeAAG5I6IUQNpA";
     private static String url = "http://sdk.open.api.igexin.com/apiex.htm";
 
     public static void main(String[] args) {

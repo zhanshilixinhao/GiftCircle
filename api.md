@@ -96,8 +96,9 @@
 
 > 1. 修改分组列表（增加参数） (接口10.8)
 > 2. 增加商品文章搜索 （6.22 ）
-
-
+> 3. 背包列表（返回参数增加两个字段）（14.1）
+> 4. 修改用户手机号（增加参数）(2.13)
+> 5. 增加福利接口（21.1，  21.2）
 
 ## 目录
 <span id="m"> </span>
@@ -332,7 +333,7 @@ http 常用错误码
 |   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
 | :----------: | :------: | :------: | :----: | :------: |
 | phone |  string  |    是    |   无   | 电话号码 |
-| type |  int  |    是    |   无   | 验证码类型 1 绑定手机号 2 重置赠送密码 |
+| type |  int  |    是    |   无   | 验证码类型 1 绑定手机号 2 重置赠送密码 3 修改用户号码 |
 
 请求结果示例：
 
@@ -553,7 +554,8 @@ http 常用错误码
 |   参数名称   | 参数类型 | 是否必传 | 默认值 |         是否必传          |
 | :----------: | :------: | :------: | :----: | :-----------------------: |
 | access_token |  String  |    是    |   无   |         访问令牌          |
-|    phone    |  String  |    否    |   无   |           电话号码            |
+|    phone    |  String  |    是    |   无   |           电话号码         |
+|code|int|是|  无|短信验证码|
 
 
 请求结果示例：
@@ -2083,7 +2085,8 @@ JSON：
       "https://liyuquan.cn/static/item/181219/33a12e8e-5a69-455a-9ff5-4f6f91e94606.jpg"
     ],
     "detailUrl": "https://liyuquan.cn/static/product.html?uid=14",
-    "isCollect": 2
+    "isCollect": 2 ,
+    "status": 1 
   }
 }
 
@@ -2102,7 +2105,7 @@ JSON：
 | pictures    | List<String> |    是    |        轮播图片数组        |
 | detailUrl   |    String    |    是    |        商品详情地址        |
 | isCollect   |     Int      |    是    | 是否收藏 1.已收藏 2.未收藏 |
-
+|status|int|是|1 正常 2 下架|
 
 ### 6.19 文章商品列表
 - 请求地址：noauth/v1/article/item_list
@@ -4211,44 +4214,50 @@ JSON：
     time: 1530691273381, 
     data: [
         {
-            id: 2, 
-            userId: 1, 
-            targetId: 2, 
-            price: 1000, 
-            title: "魏文侯", 
-            cover: "https://io.shanren.group/image/cover.jpg", 
-            description: "东周末年", 
-            brand: "公牛", 
-            type: 1, 
+            id:7719021911112,        // 背包id  （优惠券时券码）        
+            userId: 1, //用户id
+            targetId: 2,  //目标物品id，type=1商品skuId，type=2虚拟物品id，type=3优惠券id
+            price: 1000,   //价格
+            title: "魏文侯",   //标题
+            cover: "https://io.shanren.group/image/cover.jpg",  
+            description: "东周末年", //描述
+            brand: "公牛", //品牌
+            type: 1, //1商品 ，2-虚拟物品 3，优惠券
             quantity: 0, 
-            created: 1530168954000
+             "pickRemainTime": 2591891873, //提货剩余时间
+            "created": 1550547983000,
+            "buyTime": 1550547983000  //购买时间
         }, 
         {
-            id: 3, 
-            userId: 1, 
-            targetId: 1, 
-            price: 1000, 
-            title: "秦孝公", 
-            cover: "https://io.shanren.group/image/cover.jpg", 
-            description: "东周末年", 
-            brand: "公牛", 
-            type: 1, 
-            quantity: 0, 
-            created: 1530242736000
-        }, 
-        {
-            id: 4, 
-            userId: 1, 
-            targetId: 2, 
-            price: 1000, 
-            title: "魏文侯", 
-            cover: "https://io.shanren.group/image/cover.jpg", 
-            description: "东周末年", 
-            brand: "公牛", 
-            type: 1, 
-            quantity: 1, 
-            created: 1530512589000
-        }
+            "id": 7719021911113,
+            "userId": 6,
+             "targetId": 199,
+            "price": 300.00,
+            "title": "NARS遮瑕膏 遮盖痘印 甜蜜Honey 甜奶油白Chantilly  标准款",
+             "cover": "https://liyuquan.cn/static/item/190212/21b8753f-049a-43fb-bcfa-a1bea105d7ae.jpg",
+             "description": "产品参数：\n产品名称：Nars/娜斯 柔哑净瑕遮瑕膏\n品牌: Nars/娜斯遮瑕笔/遮瑕膏\n单品: 柔哑净瑕遮瑕膏\n产地: 美国\n颜色分类: Honey Chantilly Cannelle Custard Vanilla Crème Brulee\n保质期: 36个月\n功效: 遮瑕\n规格类型: 正常规格\n是否为特殊用途化妆品: 否\n限期使用日期范围: 2021-06-01至2021-06-01\n化妆品保质期: 36个月",
+            "brand": "Nars官方旗舰店",
+             "type": 1,
+             "quantity": 1,
+            "pickRemainTime": 2591891873,
+            "created": 1550547983000,
+            "buyTime": 1550547983000
+       },
+      {
+             "id": 7719021911116,
+             "userId": 6,
+             "targetId": 200,
+             "price": 380.00,
+             "title": "NARS阴影修容粉 立体修颜 古铜珠光拉古纳Laguna  标准款",
+            "cover": "https://liyuquan.cn/static/item/190212/5070d53d-e0dc-47b3-a16d-7e0d171b759a.jpg",
+            "description": "产品参数：\n产品名称：Nars/娜斯 阴影修容粉\n是否为特殊用途化妆品: 否\n功效: 立体\n保质期: 3年\n规格类型: 正常规格\n产地: 美国\n品牌: Nars/娜斯修颜/高光/阴影粉\n单品: 阴影修容粉\n净含量: 8g\n颜色分类: Laguna",
+            "brand": "Nars官方旗舰店",
+            "type": 1,
+            "quantity": 1,
+            "pickRemainTime": 2591989873,
+             "created": 1550548080000,
+             "buyTime": 1550548081000
+       }
     ]
 }
 ```
@@ -6083,4 +6092,69 @@ JSON：
         ]
     }
 }
+```
+
+
+## 21 整点福利
+### 21.1 获取整点福利
+
+- 请求地址：noauth/v1/home/welfare
+- 服务协议：HTTP/POST
+- 是否需要身份认证：否
+- 作者：linqin
+
+无参数
+
+
+* 请求结果示例
+
+```js
+{
+  "errCode": 0,
+  "result": 0,
+  "time": 1550716929701,
+  "data": {
+    "id": 1,  //福利id
+    "title": "送物品",  //福利标题
+    "cover": "", //福利图片
+    "type": 1, //1 商品，2 虚拟物品，3 优惠券
+    "targetId": 78, //商品skuId,虚拟物品id，优惠券id
+    "quantity": 10,  //福利总数
+    "adminId": null,
+    "targetDate": 1550673648000, //发送福利时间
+    "created": 1550619678000,
+    "updated": 1550619682000,
+    "startTime": 1550533296000, //福利展示开始时间
+    "endTime": 1550878920000,  // 福利展示结束时间
+    "count": 7,  //福利物品剩余数量
+    "price": null
+  }
+}
+
+```
+
+
+### 21.2 领取整点福利礼物
+
+- 请求地址：auth/welfare/confirm
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：linqin
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+
+
+
+* 请求结果示例
+
+```js
+{
+  "errCode": 0,
+  "result": 0,
+  "msg": "领取成功",
+  "time": 1550716732581
+}
+
 ```

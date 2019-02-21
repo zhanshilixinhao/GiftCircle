@@ -260,7 +260,28 @@ public class MomentServiceImpl implements MomentService {
     @Override
     public Response getListForSelf(Integer userId, Integer targetUserId, PageQuery page) {
         List<MomentVo> list = momentMapper.selectAllByTargetUser(userId, targetUserId, page);
-        return ResponseFactory.sucData(appendRecentGifts(list));
+        appendRecentGifts(list);
+        for (MomentVo momentVo : list) {
+            List<GiftBaseVo> base = new ArrayList<>();
+            List<GiftBaseVo> gifts = momentVo.getGifts();
+            if (CollectionUtils.isNotEmpty(gifts)) {
+                for (GiftBaseVo gift : gifts) {
+                    boolean has = false;
+                    for (GiftBaseVo giftBaseVo : base) {
+                        if (gift.getTargetType().equals(giftBaseVo.getTargetType()) && gift.getTargetId().equals(giftBaseVo.getTargetId())) {
+                            giftBaseVo.setCount(giftBaseVo.getCount() + 1);
+                            has = true;
+                        }
+                    }
+                    if (!has) {
+                        gift.setCount(1);
+                        base.add(gift);
+                    }
+                }
+                momentVo.setGifts(base);
+            }
+        }
+        return ResponseFactory.sucData(list);
     }
 
     /**

@@ -66,6 +66,7 @@ yichen:
       urls:
         - {url: /noauth/user/bindPhone, type: 1}
         - {url: /auth/user/find/pwd, type: 2}
+        - {url: /auth/user/modify_phone, type: 3}
     ##配置客户端信息
     oauth2:
       client:

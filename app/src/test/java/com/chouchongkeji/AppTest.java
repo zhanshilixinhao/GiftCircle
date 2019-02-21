@@ -145,6 +145,7 @@ public class AppTest
         params.put("time","1543377365");
         params.put("access_token","572f7a09-b3e0-4ec5-b04b-13c82771c1c8");
         params.put("phone","15752400657");
+        params.put("code","123456");
         Map map = ApiSignUtil.sign1(params.getParams(),ApiSignUtil.IOS);
         params.put("sign",map.get(ApiSignUtil.IOS));
         Response post = OkHttpUtil.post("http://localhost:8088/auth/user/modify_phone", params);

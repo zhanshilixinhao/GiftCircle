@@ -3,13 +3,14 @@ package com.chouchongkeji.service.home.impl;
 import com.chouchongkeji.dial.dao.backpack.consignment.ConsignmentMapper;
 import com.chouchongkeji.dial.dao.home.BannerMapper;
 import com.chouchongkeji.dial.dao.home.FestivalMapper;
+import com.chouchongkeji.dial.dao.home.WelfareMapper;
 import com.chouchongkeji.dial.pojo.home.Banner;
 import com.chouchongkeji.dial.pojo.home.Festival;
+import com.chouchongkeji.dial.pojo.home.Welfare;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.service.backpack.consignment.vo.ConsignmentVo;
 import com.chouchongkeji.service.home.HomeService;
-import com.chouchongkeji.service.mall.article.vo.ArticleVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +31,9 @@ public class HomeServiceImpl implements HomeService {
 
     @Autowired
     private FestivalMapper festivalMapper;
+
+    @Autowired
+    private WelfareMapper welfareMapper;
 
     /**
      * 首页Banner
@@ -75,4 +79,18 @@ public class HomeServiceImpl implements HomeService {
         List<Festival> festivals = festivalMapper.selectByAll();
         return ResponseFactory.sucData(festivals);
     }
+
+    /**
+     * 获取整点福利
+     *
+     * @return
+     * @author linqin
+     * @date 2018/7/6
+     */
+    @Override
+    public Response getWelfare(){
+        Welfare welfare = welfareMapper.selectByTime();
+        return ResponseFactory.sucData(welfare);
+    }
+
 }

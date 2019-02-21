@@ -426,6 +426,11 @@ public class FriendServiceImpl implements FriendService {
         if (group != null) {
             return ResponseFactory.err("分组名称重复!");
         }
+        // 查询用户分组数量
+       int count = friendGroupMapper.selectCountByUserId(userId);
+        if (count >= 7){
+            return ResponseFactory.err("最多能添加7个分组");
+        }
         // 创建分组
         group = new FriendGroup();
         group.setName(groupName);
@@ -533,12 +538,12 @@ public class FriendServiceImpl implements FriendService {
             friendGroups = new ArrayList<>();
         }
         FriendGroup group = new FriendGroup();
+        group.setId(0);
+        group.setName(Constants.GROUP_DEFAULT_NAME);
+        group.setSort(0);
+        group.setUserId(userId);
+        friendGroups.add(0, group);
         if (isAll == 2){
-            group.setId(0);
-            group.setName(Constants.GROUP_DEFAULT_NAME);
-            group.setSort(0);
-            group.setUserId(userId);
-            friendGroups.add(0, group);
             group = new FriendGroup();
             group.setName("全部");
             group.setSort(0);

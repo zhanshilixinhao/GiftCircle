@@ -1,39 +1,21 @@
 {
   "errCode": 0,
   "result": 0,
-  "time": 1550224708991,
-  "data": [
-    {
-      "id": null,
-      "userId": 6,
-      "name": "全部",
-      "sort": 0,
-      "created": null,
-      "updated": null
-    },
-    {
-      "id": 0,
-      "userId": 6,
-      "name": "未分组",
-      "sort": 0,
-      "created": null,
-      "updated": null
-    },
-    {
-      "id": 51,
-      "userId": 6,
-      "name": "噜啦啦",
-      "sort": 0,
-      "created": 1550116629000,
-      "updated": 1550116629000
-    },
-    {
-      "id": 55,
-      "userId": 6,
-      "name": "同事",
-      "sort": 0,
-      "created": 1550219337000,
-      "updated": 1550219337000
-    }
-  ]
+  "time": 1550716929701,
+  "data": {
+    "id": 1,
+    "title": "送物品",
+    "cover": "",
+    "type": 1,
+    "targetId": 78,
+    "quantity": 10,
+    "adminId": null,
+    "targetDate": 1550673648000,
+    "created": 1550619678000,
+    "updated": 1550619682000,
+    "startTime": 1550533296000,
+    "endTime": 1550878920000,
+    "count": 7,
+    "price": null
+  }
 }

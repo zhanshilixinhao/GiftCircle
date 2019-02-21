@@ -2,6 +2,8 @@ package com.chouchongkeji.service.home;
 
 import com.chouchongkeji.goexplore.common.Response;
 
+import java.text.ParseException;
+
 /**
  * @author linqin
  * @date 2018/7/6
@@ -31,4 +33,12 @@ public interface HomeService {
      * @date 2018/7/6
      */
     Response getFestivalList();
+    /**
+     * 获取整点福利
+     *
+     * @return
+     * @author linqin
+     * @date 2018/7/6
+     */
+    Response getWelfare() ;
 }

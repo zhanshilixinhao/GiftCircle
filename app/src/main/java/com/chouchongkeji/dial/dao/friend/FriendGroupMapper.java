@@ -26,4 +26,11 @@ public interface FriendGroupMapper {
                                     @Param("userId") Integer userId);
 
     List<FriendGroup> selectByUserId(@Param("userId") Integer userId);
+
+    /**
+     * 查询用户分组数量
+     * @param userId
+     * @return
+     */
+    int selectCountByUserId(Integer userId);
 }
