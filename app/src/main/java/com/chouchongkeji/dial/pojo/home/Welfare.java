@@ -1,5 +1,7 @@
 package com.chouchongkeji.dial.pojo.home;
 
+import com.yichen.auth.jackson.ImgUrl;
+
 import javax.swing.plaf.basic.BasicIconFactory;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -9,6 +11,7 @@ public class Welfare {
 
     private String title;
 
+    @ImgUrl
     private String cover;
 
     private Byte type;

@@ -1,5 +1,7 @@
 package com.chouchongkeji.service.home.vo;
 
+import com.yichen.auth.jackson.ImgUrl;
+
 import java.util.Date;
 
 /**
@@ -25,6 +27,7 @@ public class WelfareVo {
 
     private Integer count;
 
+    @ImgUrl
     private String cover; //商品图片
 
     private String title; //商品标题
