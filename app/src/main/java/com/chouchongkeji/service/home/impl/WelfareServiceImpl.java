@@ -66,6 +66,10 @@ public class WelfareServiceImpl implements WelfareService {
         if (welfare.getCount() <=0){
             throw new ServiceException(ErrorCode.ERROR.getCode(),"礼物已被抢完，请关注下次的福利");
         }
+        // 到福利生效时间才能领取
+        if (welfare.getTargetDate().getTime() > new Date().getTime()){
+            throw new ServiceException(ErrorCode.ERROR.getCode(),"还没到福利领取时间");
+        }
         // 领取礼物加入背包
         BpItem bpItem = new BpItem();
         bpItem.setId(orderHelper.genOrderNo(7, 7));
