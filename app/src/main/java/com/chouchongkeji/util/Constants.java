@@ -16,6 +16,7 @@ public class Constants {
 
     //默认地区
     public static final String DEFALUT_DISTRICT = "昆明";
+    public static final int BP_EXPIRE_TIME = 30; // 背包物品提货有效期
 
     public static final String getRandomName() {
         return RandomStringUtils.randomNumeric(7);
@@ -73,7 +74,7 @@ public class Constants {
     }
 
     /*是否从购物车购买 1 是 2 不是*/
-    public interface ISSHOPPINGCART{
+    public interface ISSHOPPINGCART {
         byte YES = 1;
         byte NO = 2;
     }
@@ -213,26 +214,26 @@ public class Constants {
     }
 
     /*寄售台卖家/买家类型*/  //1-卖家  2-买家
-    public interface SELLER_BUYER{
+    public interface SELLER_BUYER {
         byte SELLER = 1;//卖家
         byte BUYER = 2;//买家
     }
 
     /*寄售台商家订单状态*/ //1-全部 ，2-交易中，3-已完成
-    public interface BUSINESS_ORDER_STATUS{
+    public interface BUSINESS_ORDER_STATUS {
         byte ALL = 1;//
         byte TRADING = 2;//
         byte DONE = 3;//完成
     }
 
     //备忘录事件是否循环
-    public interface MEMO{
+    public interface MEMO {
         byte YES = 1;//循环
         byte NO = 2;//不循环
     }
 
     /*首页Banner状态*/
-    public interface HOME_ITEM_STATUS{
+    public interface HOME_ITEM_STATUS {
         byte NORMAL = 1;//正常
         byte FORBID = 2;//禁用
     }
@@ -278,7 +279,6 @@ public class Constants {
         short DEL = 5; // 已删除
 
     }
-
 
 
     // 短信验证码类型
@@ -469,5 +469,5 @@ public class Constants {
         byte CONSIGNMENG_ORDER = 6; // 寄售台商品购买
         byte ASK_FOR = 7; //向好友索要物品
         byte WELFARE = 8; //福利领取
-     }
+    }
 }

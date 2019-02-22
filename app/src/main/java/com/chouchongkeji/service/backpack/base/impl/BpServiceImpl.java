@@ -40,8 +40,6 @@ import java.util.List;
 public class BpServiceImpl implements BpService {
 
 
-    private static final int EXPIRE = 30; // 30天
-
     @Autowired
     private BpItemMapper bpItemMapper;
 
@@ -69,7 +67,7 @@ public class BpServiceImpl implements BpService {
         if (CollectionUtils.isNotEmpty(list)) {
             for (Vbp vbp : list) {
                 if (vbp.getBuyTime() != null) {
-                    vbp.setPickRemainTime(DateUtils.addDays(vbp.getBuyTime(), EXPIRE).getTime() - System.currentTimeMillis());
+                    vbp.setPickRemainTime(DateUtils.addDays(vbp.getBuyTime(), Constants.BP_EXPIRE_TIME).getTime() - System.currentTimeMillis());
                 }
             }
         }

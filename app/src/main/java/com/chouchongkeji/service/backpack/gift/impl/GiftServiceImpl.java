@@ -30,6 +30,7 @@ import com.chouchongkeji.service.user.info.UserService;
 import com.chouchongkeji.util.Constants;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -213,7 +214,7 @@ public class GiftServiceImpl implements GiftService {
         // 取出礼物记录详情
         List<GiftRecordDetail> details = giftRecordDetailMapper.selectByRecordId(giftRecord.getId());
         if (CollectionUtils.isEmpty(details)) {
-            return ResponseFactory.errMsg(20005, "礼物不存在!");
+            return ResponseFactory.errMsg(20005, "礼物不存在!" + giftRecordId);
         }
         // 如果开可以领取，
         if (giftRecord.getType() == Constants.GIFT_SEND_TYPE.WX_FRIEND) {
@@ -425,6 +426,9 @@ public class GiftServiceImpl implements GiftService {
                 if (vbp == null || vbp.getQuantity() < quantity) {
                     return ResponseFactory.err("赠送的礼物不存在背包中或赠送的数量大于背包中的数量!");
                 }
+                if (vbp.getBuyTime() == null || DateUtils.addDays(vbp.getBuyTime(), Constants.BP_EXPIRE_TIME).getTime() < System.currentTimeMillis()) {
+                    return ResponseFactory.err("赠送的礼物超过赠送有效期!");
+                }
                 vbps.add(vbp);
             }
         }
@@ -515,6 +519,9 @@ public class GiftServiceImpl implements GiftService {
                 quantity = quantity == null ? 1 : quantity + 1;
                 if (vbp == null || vbp.getQuantity() < quantity) {
                     return ResponseFactory.err("赠送的礼物不存在背包中或赠送的数量大于背包中的数量!");
+                }
+                if (vbp.getBuyTime() == null || DateUtils.addDays(vbp.getBuyTime(), Constants.BP_EXPIRE_TIME).getTime() < System.currentTimeMillis()) {
+                    return ResponseFactory.err("赠送的礼物超过赠送有效期!");
                 }
                 vbps.add(vbp);
             }
@@ -719,5 +726,4 @@ public class GiftServiceImpl implements GiftService {
     }
 
     /*----------------------------------------礼物赠送答谢结束------------------------------------------------------*/
-
 }
