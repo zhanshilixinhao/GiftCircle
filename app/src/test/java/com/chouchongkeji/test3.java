@@ -61,7 +61,7 @@ public class test3 {
 
     @Test
     public void data() throws ParseException {
-        Date now = new Date(1545881548000L);
+        Date now = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");//可以方便地修改日期格式
         String hehe = dateFormat.format(now); //日期
         Date parse = dateFormat.parse(hehe);  //时间戳
@@ -69,6 +69,17 @@ public class test3 {
         System.out.println(hehe);
     }
 
+
+    // 商品详情
+    @Test
+    public void cal() throws IOException {
+        RequestParams params = new RequestParams();
+        params.put("time", System.currentTimeMillis());
+        Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
+        params.put("sign", map.get(ApiSignUtil.ANDROID));
+        Response post = OkHttpUtil.post("http://localhost:8088/noauth/v1/home/calendar", params);
+        System.out.println(post.body().string());
+    }
 
     // 商品详情
     @Test

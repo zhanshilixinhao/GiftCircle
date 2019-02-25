@@ -29,6 +29,7 @@ public class OkHttpUtil {
         // 如果有请求参数，拼接
         if (param != null) {
             url = url + param.getUrlParams();
+            System.out.println(url);
         }
         Request request = new Request.Builder()
                 .url(url)

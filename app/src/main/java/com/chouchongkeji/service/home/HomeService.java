@@ -41,4 +41,13 @@ public interface HomeService {
      * @date 2018/7/6
      */
     Response getWelfare() ;
+
+    /**
+     * 首页黄历
+     *
+     * @return
+     * @author linqin
+     * @date 2018/7/6
+     */
+    Response getCalendar();
 }

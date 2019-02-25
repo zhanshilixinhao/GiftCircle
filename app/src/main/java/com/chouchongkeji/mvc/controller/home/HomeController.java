@@ -59,6 +59,18 @@ public class HomeController {
     }
 
     /**
+     * 首页黄历
+     *
+     * @return
+     * @author linqin
+     * @date 2018/7/6
+     */
+    @PostMapping("calendar")
+    public Response getCalendar() {
+        return homeService.getCalendar();
+    }
+
+    /**
      * 获取整点福利
      *
      * @return
