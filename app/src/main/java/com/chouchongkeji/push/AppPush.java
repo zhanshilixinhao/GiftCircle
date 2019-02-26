@@ -7,6 +7,7 @@ import com.gexin.rp.sdk.base.impl.AppMessage;
 import com.gexin.rp.sdk.base.impl.ListMessage;
 import com.gexin.rp.sdk.base.impl.Target;
 import com.gexin.rp.sdk.base.uitls.AppConditions;
+import com.gexin.rp.sdk.base.uitls.StringUtils;
 import com.gexin.rp.sdk.http.IGtPush;
 import com.gexin.rp.sdk.template.NotificationTemplate;
 import com.gexin.rp.sdk.template.style.Style0;
@@ -28,17 +29,17 @@ public class AppPush {
     private static String masterSecret = "DcGlsvIQgeAAG5I6IUQNpA";
     private static String url = "http://sdk.open.api.igexin.com/apiex.htm";
 
-    public static void main(String[] args) {
-        // 链式
-        push(
-                PushMsg.msg()
-                        .title("测试")
-                        .text("textsdad")
-                        .user(1)
-                        .messageType(1)
-                        .messageId(1)
-        );
-    }
+//    public static void main(String[] args) {
+//        // 链式
+//        push(
+//                PushMsg.msg()
+//                        .title("测试")
+//                        .text("textsdad")
+//                        .user(1)
+//                        .messageType(1)
+//                        .messageId(1)
+//        );
+//    }
 
     public static void push(PushMsg msg) {
         // 配置返回每个用户返回用户状态，可选
@@ -137,5 +138,15 @@ public class AppPush {
         template.setTransmissionContent(content);
         return template;
     }
+
+
+    public static void band(Integer userId,String clientid) throws Exception {
+        IGtPush push = new IGtPush(url, appKey, masterSecret);
+
+        IAliasResult bindSCid = push.bindAlias(appId, String.valueOf(userId),clientid );
+//        System.out.println("绑定结果：" + bindSCid.getResult() +  "错误码:" + bindSCid.getErrorMsg());
+
+    }
+//"cb4133150e74ff5043358da0ef39dd28"
 
 }

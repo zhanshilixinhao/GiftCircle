@@ -3,6 +3,7 @@ package com.chouchongkeji.mvc.controller.user.info;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.dial.pojo.user.AppUser;
+import com.chouchongkeji.push.AppPush;
 import com.chouchongkeji.service.user.info.UserService;
 import com.sun.org.apache.regexp.internal.RE;
 import com.yichen.auth.mvc.AppClient;
@@ -190,4 +191,15 @@ public class UserController {
         }
         return userService.getInfo(userDetails.getUserId(), targetUserId);
     }
+
+
+    @PostMapping("band")
+    public Response bandClientid(@AuthenticationPrincipal UserDetails userDetails,String clientid) throws Exception {
+        if (StringUtils.isBlank(clientid)){
+            return ResponseFactory.errMissingParameter();
+        }
+        AppPush.band(userDetails.getUserId(),clientid);
+        return ResponseFactory.suc();
+    }
+
 }
