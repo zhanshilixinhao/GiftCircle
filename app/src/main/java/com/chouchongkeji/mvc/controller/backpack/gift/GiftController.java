@@ -80,8 +80,9 @@ public class GiftController {
                               @AppClient Integer client,
                               GiftSendVo sendVo) {
         if (sendVo.getBpId() == null ||
-                sendVo.getType() == null || sendVo.getType() < 3 || sendVo.getType() > 4 ||
-                StringUtils.isAnyBlank(sendVo.getGreeting())) {
+                sendVo.getType() == null || sendVo.getType() < 3 || sendVo.getType() > 4
+//                StringUtils.isAnyBlank(sendVo.getGreeting())
+        ) {
             return ResponseFactory.errMissingParameter();
         }
         // 判断随机赠送的概率

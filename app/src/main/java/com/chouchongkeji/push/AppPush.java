@@ -33,8 +33,8 @@ public class AppPush {
         push(
                 PushMsg.msg()
                         .title("测试")
-                        .text("text")
-                        .user(0)
+                        .text("textsdad")
+                        .user(1)
                         .messageType(1)
                         .messageId(1)
         );
