@@ -18,7 +18,7 @@ public class LongDateConverter implements Converter<String, Date> {
             return null;
         }
         Long time = Long.parseLong(str);
-        if (time < 1529815765455L) return null;
+//        if (time < 1529815765455L) return null;
         return new Date(time);
     }
 }

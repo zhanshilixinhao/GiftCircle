@@ -26,7 +26,7 @@ public class memoTest {
         params.put("time", System.currentTimeMillis());
         params.put("access_token", "572f7a09-b3e0-4ec5-b04b-13c82771c1c8");
         params.put("detail", "我生日 ");
-        params.put("targetTime", 1546444800000L);
+        params.put("targetTime", 1514908800000L);
         params.put("isCirculation", 2);
 //        params.put("users", "1");
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
@@ -37,10 +37,10 @@ public class memoTest {
 
     @Test
     public void time() throws ParseException {
-        Date now = new Date();
+        Date now = new Date(1529815765455L);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");//可以方便地修改日期格式
         String hehe = dateFormat.format(now); //日期
-        Date parse = dateFormat.parse("20190103000000");  //时间戳
+        Date parse = dateFormat.parse("20180103000000");  //时间戳
         System.out.println(parse.getTime());
         System.out.println(hehe);
     }
