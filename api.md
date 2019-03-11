@@ -2980,7 +2980,7 @@ JSON：
 
 ### 10.5 删除分组
 
-- 请求地址：auth/friend/group/add
+- 请求地址：auth/friend/group/del
 - 服务协议：HTTP/POST
 - 是否需要身份认证：是
 - 作者：yichen
