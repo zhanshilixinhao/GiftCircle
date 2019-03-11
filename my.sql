@@ -771,6 +771,36 @@ on memo_event (user_id);
 
 
 
+create table if not exists memo_festival
+(
+  id int(11) unsigned auto_increment comment 'id'
+    primary key,
+  target_time datetime null comment '节日时间',
+  name varchar(50) null comment '节日名称',
+  summary varchar(500) null comment '简介',
+  cover varchar(200) null comment '事件封面',
+  picture varchar(500) null comment '节日事件详情图片',
+  title varchar(200) null comment '节日事件详情图片标题',
+  detail varchar(2000) null comment '节日事件详情',
+  created datetime null comment '创建时间',
+  updated datetime null comment '更新时间'
+)
+  comment '备忘录节日事件' charset=utf8mb4;
+
+
+
+create table if not exists memo_festival_item
+(
+  id int(11) unsigned auto_increment comment 'id'
+    primary key,
+  memo_festival_id int(11) null comment '备忘录节日事件id',
+  item_id int(11) comment '商品id',
+  created datetime null comment '创建时间',
+  updated datetime null comment '更新时间'
+)
+  comment '备忘录节日事件商品关联表' charset=utf8mb4;
+
+
 create table if not exists merchant
 (
   id int auto_increment

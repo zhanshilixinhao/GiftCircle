@@ -12,17 +12,17 @@ import java.util.Date;
 public class MemoItemVo implements Cloneable {
 
     private Integer id;
-    private Integer userId;
+    private Integer userId; //创建者id
     private Date targetTime;
-    private Byte isCirculation;
-    private String detail;
-    private Integer type;
-    private String users;
+    private Byte isCirculation; //是否循环 1 循环 2 不循环
+    private String detail;  //活动详情
+    private Integer type; //1 自己创建 2被邀请 3 节日
+    private String users; //被邀请的人
     private Date created;
-    private String nickname;
+    private String nickname; //创建者昵称
 
     @ImgUrl
-    private String avatar;
+    private String avatar;  //创建者头像
 
 
     public Integer getId() {
