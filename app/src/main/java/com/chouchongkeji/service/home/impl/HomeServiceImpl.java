@@ -14,11 +14,15 @@ import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.utils.DateUtil;
 import com.chouchongkeji.service.backpack.consignment.vo.ConsignmentVo;
 import com.chouchongkeji.service.home.HomeService;
+import com.chouchongkeji.service.home.almanac.AlmanacApi;
+import com.chouchongkeji.service.home.almanac.HLResult;
 import com.chouchongkeji.service.home.calendar.CalendarApi;
 import com.chouchongkeji.service.home.calendar.RLResult;
 import com.chouchongkeji.service.home.vo.CalendarVo;
 import com.chouchongkeji.service.home.vo.WelfareVo;
 import com.chouchongkeji.service.user.info.vo.DistrictVo;
+import com.show.api.ShowApiRequest;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -112,22 +116,27 @@ public class HomeServiceImpl implements HomeService {
         List<CalendarVo> list = new ArrayList<>();
         for (int i = 0; i > -5; i--) {
             Date date1 = DateUtils.addDays(date, i);
-            SimpleDateFormat dateFormat = new  SimpleDateFormat("yyyyMM");
-            String oneMonth = dateFormat.format(date1);// 现在月份
-            SimpleDateFormat format = new  SimpleDateFormat("yyyy-M-d");
+//            SimpleDateFormat dateFormat = new  SimpleDateFormat("yyyyMM");
+//            String oneMonth = dateFormat.format(date1);// 现在月份
+            SimpleDateFormat format = new  SimpleDateFormat("yyyyMMdd");
             String oneDay = format.format(date1);// 现在日期
             CalendarVo calendarVo = new CalendarVo();
-            RLResult calendarInfo = CalendarApi.getCalendarInfo(oneMonth); //月份查询
-            for (RLResult.DataBean datum : calendarInfo.getData()) {
-                for (RLResult.DataBean.AlmanacBean  almanacBean : datum.getAlmanac()) {
-                    if (oneDay.equals(almanacBean.getDate())){
-                        calendarVo.setDate(oneDay);
-                        calendarVo.setAvoid(almanacBean.getAvoid());
-                        calendarVo.setSuit(almanacBean.getSuit());
-                        list.add(calendarVo);
-                    }
-                }
-            }
+            HLResult almanacInfo = AlmanacApi.getAlmanacInfo(oneDay);
+            String gongli = almanacInfo.getShowapi_res_body().getGongli(); //公历
+            String s2 = gongli.replaceAll("公元","");
+            calendarVo.setGongli(s2);
+            // 农历
+            String nongli = almanacInfo.getShowapi_res_body().getNongli();
+            nongli = nongli.substring(6);
+            calendarVo.setNongli(nongli);
+            calendarVo.setSuit(almanacInfo.getShowapi_res_body().getYi());
+            calendarVo.setAvoid(almanacInfo.getShowapi_res_body().getJi());
+            String s = almanacInfo.getShowapi_res_body().getJieri();//节日
+            String[] s1 = s.replaceAll("公历节日:  ", "")
+                    .replaceAll("农历节日:  ", "").split(" ");
+            calendarVo.setJieri(StringUtils.join(s1,","));
+            calendarVo.setJieqi24(almanacInfo.getShowapi_res_body().getJieqi24());
+            list.add(calendarVo);
         }
         return ResponseFactory.sucData(list);
     }

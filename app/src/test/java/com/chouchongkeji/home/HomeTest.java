@@ -8,6 +8,9 @@ import okhttp3.Response;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,6 +19,16 @@ import java.util.Map;
  */
 
 public class HomeTest {
+
+    @Test
+    public void t(){
+        String s = "公历节日:  国际妇女节 农历节日:  龙头节 太昊伏羲氏祭";
+        List<String> list = new ArrayList<>();
+        String[] s1 = s.replaceAll("公历节日:  ", "")
+                .replaceAll("农历节日:  ", "").split(" ");
+
+        System.out.println(s1);
+    }
 
     // 文章列表
     @Test
