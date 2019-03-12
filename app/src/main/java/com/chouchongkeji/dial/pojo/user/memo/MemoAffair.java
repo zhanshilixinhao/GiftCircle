@@ -23,7 +23,7 @@ public class MemoAffair {
 
     private Byte isCirculation;
 
-    private String parentId;
+    private Integer eventTypeId;
 
     public MemoAffair(Integer id, Integer userId, Date targetTime, String title, String detail, String users, Date created, Date updated, Integer count) {
         this.id = id;
@@ -121,12 +121,11 @@ public class MemoAffair {
         this.isCirculation = isCirculation;
     }
 
-
-    public String getParentId() {
-        return parentId;
+    public Integer getEventTypeId() {
+        return eventTypeId;
     }
 
-    public void setParentId(String parentId) {
-        this.parentId = parentId;
+    public void setEventTypeId(Integer eventTypeId) {
+        this.eventTypeId = eventTypeId;
     }
 }

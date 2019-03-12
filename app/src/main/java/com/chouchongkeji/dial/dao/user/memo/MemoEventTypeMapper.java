@@ -3,6 +3,8 @@ package com.chouchongkeji.dial.dao.user.memo;
 import com.chouchongkeji.dial.pojo.user.memo.MemoEventType;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 public interface MemoEventTypeMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -23,4 +25,11 @@ public interface MemoEventTypeMapper {
      * @return
      */
     MemoEventType selectByUserIdAndName(@Param("userId") Integer userId,@Param("name") String name);
+
+    /**
+     * 根据用户id查询列表
+     * @param userId
+     * @return
+     */
+    List<MemoEventType> selectByUserId(Integer userId);
 }

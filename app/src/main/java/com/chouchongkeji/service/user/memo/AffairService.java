@@ -55,5 +55,35 @@ public interface AffairService {
      * @author linqin
      * @date 2019/3/11
      */
-    Response addAffair(Integer userId, MemoAffair memoAffair, HashSet<Integer> idSet);
+    Response addAffair(Integer userId, MemoAffair memoAffair, HashSet<Integer> idSet, Byte isCirculation);
+
+    /**
+     * 备忘录事件类型列表
+     *
+     * @param userId
+     * @author linqin
+     * @date 2019/3/11
+     */
+    Response getEventTypeList(Integer userId);
+    /**
+     * 修改备忘录事件
+     *
+     * @param userDetails
+     * @param affair
+     * @return
+     * @author linqin
+     * @date 2019/3/12
+     */
+    Response modifyAffair(Integer userId, MemoAffair affair, HashSet<Integer> idSet);
+
+    /**
+     * 删除一个备忘录信息
+     *
+     * @param userDetails 用户信息
+     * @param id          备忘录 id
+     * @return
+     * @author linqin
+     * @date 2018/6/22
+     */
+    Response delMemo(Integer userId, Integer id);
 }

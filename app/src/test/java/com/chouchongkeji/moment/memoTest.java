@@ -50,10 +50,10 @@ public class memoTest {
     public void modify() throws IOException {
         RequestParams params = new RequestParams();
         params.put("time", System.currentTimeMillis());
-        params.put("access_token", "572f7a09-b3e0-4ec5-b04b-13c82771c1c8");
+        params.put("access_token", "faaeaefc-5bf9-471d-bd5d-85344c8f7fcd");
         params.put("id", 3);
 //        params.put("detail", "时良去旅游 ");
-        params.put("targetTime", 1549123200000L);
+//        params.put("targetTime", 1549123200000L);
 //        params.put("users", "1,15");
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
         params.put("sign", map.get(ApiSignUtil.ANDROID));

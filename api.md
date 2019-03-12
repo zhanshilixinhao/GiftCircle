@@ -3199,7 +3199,7 @@ JSON：
 
 
 
-## 11 备忘录
+## 11 备忘录（没在用）
 
 ### 11.1 添加活动（目前没有用到）
 
@@ -6277,3 +6277,282 @@ JSON：
 }
 
 ```
+
+
+## 22 备忘录2.0
+
+### 22.1 添加备忘录事件类型
+
+- 请求地址：auth/memo/affair2/event/add
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yichen
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+|name|string|是|无|事件类型|
+
+* 请求示例
+
+```js
+{
+	"errCode": 0,
+	"result": 0,
+	"msg": "添加成功!",
+	"time": 1529643310344
+}
+```
+
+
+### 22.2 修改备忘录事件类型
+
+- 请求地址：auth/memo/affair2/event/update
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yichen
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+|name|string|是|无|事件类型|
+|eventId|int|是|无|事件类型id|
+
+* 请求示例
+
+```js
+{
+	"errCode": 0,
+	"result": 0,
+	"msg": "修改成功!",
+	"time": 1529643310344
+}
+```
+
+
+### 22.3 删除备忘录事件类型
+
+- 请求地址：auth/memo/affair2/event/del
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yichen
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+|eventId|int|是|无|事件类型id|
+
+* 请求示例
+
+```js
+{
+	"errCode": 0,
+	"result": 0,
+	"msg": "删除成功!",
+	"time": 1529643310344
+}
+```
+
+
+
+### 22.4 备忘录事件类型列表
+
+- 请求地址：auth/memo/affair2/event/list
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yichen
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+
+
+* 请求示例
+
+```js
+{
+  "errCode": 0,
+  "result": 0,
+  "time": 1552357341531,
+  "data": [
+    {
+      "id": 1,  //事件类型id
+      "userId": 0,   //用户id（0为系统默认的事件）
+      "name": "生日",  //事件类型名称
+      "created": 1552266313000, //创建时间
+      "updated": 1552266314000 //更新时间
+    },
+    {
+      "id": 2,
+      "userId": 6,
+      "name": "结婚",
+      "created": 1552266325000,
+      "updated": 1552266327000
+    }
+  ]
+}
+
+```
+
+
+
+### 22.5 添加备忘录事件2.0
+
+- 请求地址：auth/memo/affair2/add
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yichen
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| targetTime | long | 是 | 无 | 备忘时间（13位时间戳） |
+| detail | string | 是 | 无 | 活动详情 |
+| eventTypeId | int | 是 | 无 | 事件类型id |
+| users | string | 否 | 无 | 邀请的好友的user id集合，多个用,隔开 |
+|isCirculation|byte|否|0|添加的事件是否循环 0-不循环 1-按日循环，2-按周循环，3-按月循环，4-按年循环|
+
+* 请求示例
+
+```js
+{
+	"errCode": 0,
+	"result": 0,
+	"msg": "添加成功!",
+	"time": 1529643310344
+}
+```
+
+
+### 22.6 修改备忘录事件
+
+- 请求地址：auth/memo/affair2/modify_affair
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yichen
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| id | int | 是 | 无 | 备忘录id |
+| targetTime | long | 是 | 无 | 备忘时间（13位时间戳） |
+| detail | string | 是 | 无 | 活动详情 |
+| eventTypeId | int | 是 | 无 | 事件类型id |
+| users | string | 否 | 无 | 邀请的好友的user id集合，多个用,隔开 |
+|isCirculation|byte|否|0|添加的事件是否循环 0-不循环 1-按日循环，2-按周循环，3-按月循环，4-按年循环|
+
+
+* 请求示例
+
+```js
+{
+	"errCode": 0,
+	"result": 0,
+	"msg": "修改成功!",
+	"time": 1529643310344
+}
+```
+
+
+### 11.11 获取用户的备忘录列表
+
+- 请求地址：auth/memo/affair/list
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yichen
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| start | long | 否 | 无 | 开始时间戳 |
+| end | long | 否 | 无 | 结束时间戳 |
+
+* 请求结果示例
+
+```js
+{
+    errCode: 0, 
+    result: 0, 
+    time: 1529766575902, 
+    data: [
+        {
+      "id": 6,
+      "userId": 6,
+      "targetTime": 1573178951000,
+      "detail": "过生日d",
+      "type": null,
+      "created": 1546919878000,
+      "nickname": "林琴",
+      "users": "1,15",
+      "avatar": "https://liyuquan.cn/staticorder/comment/20181227/1545881538521936-600-600.jpg"
+    },
+     {
+      "id": 7,
+      "userId": 1,
+      "targetTime": 1573178951000,
+      "detail": "h很健康",
+      "type": null,
+      "created": 1546919878000,
+      "nickname": "路遥",
+      "users": null,
+      "avatar": "https://liyuquan.cn/staticorder/comment/20181231/1546231284130051-600-600.jpg"
+    }
+    ]
+}
+```
+
+
+| 参数名称 | 参数类型 | 是否必传 | 参数说明 |
+| :---: | :---: | :---: | :---: | :---: |
+| id | int | 是 | 备忘录id |
+| userId | int | 是 | 此条备忘录的创建者id |
+| targetTime | long | 是 | 备忘时间 |
+| detail | string | 是 | 备忘信息 |
+| type | int | 否 | 目前没用到 |
+| nickname | string | 是 | 创建者昵称 |
+| avatar | string | 是 | 创建者头像 |
+
+
+
+
+### 11.12 删除一条备忘录
+
+- 请求地址：auth/memo/affair/del
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yichen
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| id | int | 是 | 无 | 备忘录id |
+
+
+
+* 请求示例
+
+```js
+{
+	"errCode": 0,
+	"result": 0,
+	"msg": "删除成功!",
+	"time": 1529643310344
+}
+```
+
+
+### 11.13 查看好友备忘录
+
+- 请求地址：/auth/memo/affair/list/friend
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yichen
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| friendUserId | int | 是 | 无 | 好友用户id |
+| start | long | 否 | 无 | 开始时间戳 |
+| end | long | 否 | 无 | 结束时间戳 |
+
+* 请求示例（和11.13一致）

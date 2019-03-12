@@ -1,6 +1,5 @@
 package com.chouchongkeji.mvc.controller.user.memo;
 
-import com.alibaba.druid.mock.MockArray;
 import com.chouchongkeji.dial.pojo.user.memo.MemoAffair;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
@@ -68,6 +67,22 @@ public class AffairController {
 
 
     /**
+     * 备忘录事件类型列表
+     *
+     * @param userDetails
+     * @return
+     * @author linqin
+     * @date 2019/3/11
+     */
+    @PostMapping("event/list")
+    public Response getEventTypeList(@AuthenticationPrincipal UserDetails userDetails) {
+        return affairService.getEventTypeList(userDetails.getUserId());
+    }
+
+
+
+
+    /**
      * 删除备忘录事件类型
      *
      * @param userDetails
@@ -95,12 +110,14 @@ public class AffairController {
      * @date 2019/3/11
      */
     @PostMapping("add")
-    public Response addAffair(@AuthenticationPrincipal UserDetails userDetails, MemoAffair memoAffair) {
-        if (StringUtils.isAnyBlank(memoAffair.getDetail()) || memoAffair.getTargetTime() == null) {
+    public Response addAffair(@AuthenticationPrincipal UserDetails userDetails, MemoAffair memoAffair, Byte isCirculation) {
+        if (StringUtils.isAnyBlank(memoAffair.getDetail()) || memoAffair.getTargetTime() == null || memoAffair.getEventTypeId() == null) {
             return ResponseFactory.errMissingParameter();
         }
-        if (memoAffair.getIsCirculation() == null){
-            memoAffair.setIsCirculation((byte)0);
+        if (isCirculation == null) {
+            isCirculation = 0;
+        }else if(isCirculation <0 || isCirculation>4){
+            return ResponseFactory.err("参数错误");
         }
         HashSet<Integer> idSet = null;
         if (StringUtils.isNotBlank(memoAffair.getUsers())) {
@@ -110,8 +127,52 @@ public class AffairController {
                 return ResponseFactory.err("用户id错误!");
             }
         }
-        return affairService.addAffair(userDetails.getUserId(),memoAffair,idSet);
+        return affairService.addAffair(userDetails.getUserId(), memoAffair, idSet, isCirculation);
     }
 
+
+    /**
+     * 修改备忘录事件
+     *
+     * @param userDetails
+     * @param affair
+     * @return
+     * @author linqin
+     * @date 2019/3/12
+     */
+    @PostMapping("modify_affair")
+    public Response modifyAffair(@AuthenticationPrincipal UserDetails userDetails, MemoAffair affair) {
+        if (affair.getId() == null ||affair.getTargetTime() == null|| StringUtils.isBlank(affair.getDetail())||affair.getEventTypeId()==null) {
+            return ResponseFactory.errMissingParameter();
+        }
+        HashSet<Integer> idSet = null;
+        if (StringUtils.isNotBlank(affair.getUsers())) {
+            // 取出用户id
+            idSet = new HashSet<>();
+            if (Utils.getIds(affair.getUsers(), idSet)) {
+                return ResponseFactory.err("用户id错误!");
+            }
+        }
+        return affairService.modifyAffair(userDetails.getUserId(), affair, idSet);
+    }
+
+
+    /**
+     * 删除一个备忘录信息
+     *
+     * @param userDetails 用户信息
+     * @param id          备忘录 id
+     * @return
+     * @author linqin
+     * @date 2018/6/22
+     */
+    @PostMapping("del")
+    public Response delMemo(@AuthenticationPrincipal UserDetails userDetails,
+                            Integer id) {
+        if (id == null) {
+            return ResponseFactory.errMissingParameter();
+        }
+        return affairService.delMemo(userDetails.getUserId(), id);
+    }
 
 }

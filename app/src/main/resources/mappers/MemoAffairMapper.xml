@@ -15,7 +15,7 @@
         </constructor>
     </resultMap>
     <sql id="Base_Column_List">
-    id, user_id, target_time, title, detail, users, created, updated, `count`, is_circulation ,parent_id
+    id, user_id, target_time, title, detail, users, created, updated, `count`, is_circulation ,event_type_id
   </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
@@ -190,11 +190,11 @@
     <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.user.memo.MemoAffair">
     insert into memo_affair (id, user_id, target_time,
       title, detail, users,
-      created, updated, `count`, is_circulation, parent_id
+      created, updated, `count`, is_circulation, event_type_id
       )
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{targetTime,jdbcType=TIMESTAMP},
       #{title,jdbcType=VARCHAR}, #{detail,jdbcType=VARCHAR}, #{users,jdbcType=VARCHAR},
-      now(), now(), #{count,jdbcType=INTEGER},#{isCirculation,jdbcType=TINYINT},#{parentId,jdbcType=VARCHAR}
+      now(), now(), #{count,jdbcType=INTEGER},#{isCirculation,jdbcType=TINYINT},#{eventTypeId,jdbcType=INTEGER}
       )
   </insert>
     <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.user.memo.MemoAffair">
@@ -261,7 +261,7 @@
     <insert id="insertBatch">
         insert into memo_affair (id, user_id, target_time,
         title, detail, users,
-        created, updated, `count`, is_circulation, parent_id
+        created, updated, `count`, is_circulation, event_type_id
         )
         values
         <foreach collection="list" item="item" index="i" separator=",">
@@ -269,7 +269,7 @@
             #{item},
             #{affair.title,jdbcType=VARCHAR}, #{affair.detail,jdbcType=VARCHAR}, #{affair.users,jdbcType=VARCHAR},
             now(), now(),
-            #{affair.count,jdbcType=INTEGER},#{affair.isCirculation,jdbcType=TINYINT},#{affair.parentId,jdbcType=VARCHAR}
+            #{affair.count,jdbcType=INTEGER},#{affair.isCirculation,jdbcType=TINYINT},#{affair.eventTypeId,jdbcType=INTEGER}
             )
         </foreach>
     </insert>
@@ -302,6 +302,9 @@
             </if>
             <if test="isCirculation != null">
                 is_circulation = #{isCirculation,jdbcType=TINYINT},
+            </if>
+            <if test="eventTypeId != null">
+                event_type_id = #{eventTypeId,jdbcType=INTEGER},
             </if>
         </set>
         where id = #{id,jdbcType=INTEGER}
