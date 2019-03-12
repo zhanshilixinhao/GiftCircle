@@ -3,6 +3,7 @@ package com.chouchongkeji.service.user.memo.impl;
 import com.chouchongkeji.dial.dao.friend.FriendMapper;
 import com.chouchongkeji.dial.dao.user.memo.MemoAffairMapper;
 import com.chouchongkeji.dial.dao.user.memo.MemoEventTypeMapper;
+import com.chouchongkeji.dial.dao.user.memo.MemoFestivalItemMapper;
 import com.chouchongkeji.dial.dao.user.memo.MemoFestivalMapper;
 import com.chouchongkeji.dial.pojo.friend.Friend;
 import com.chouchongkeji.dial.pojo.friend.FriendGroup;
@@ -11,8 +12,13 @@ import com.chouchongkeji.dial.pojo.user.memo.MemoEventType;
 import com.chouchongkeji.dial.pojo.user.memo.MemoFestival;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
+import com.chouchongkeji.service.home.almanac.AlmanacApi;
+import com.chouchongkeji.service.home.almanac.HLResult;
+import com.chouchongkeji.service.mall.item.vo.ItemListVo;
 import com.chouchongkeji.service.user.friend.vo.FriendVo;
 import com.chouchongkeji.service.user.memo.AffairService;
+import com.chouchongkeji.service.user.memo.vo.FriendHumVo;
+import com.chouchongkeji.service.user.memo.vo.MemoFestivalVo;
 import com.chouchongkeji.service.user.memo.vo.MemoItemVo;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.time.DateUtils;
@@ -21,6 +27,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
 import java.util.HashSet;
 import java.util.List;
 
@@ -44,6 +51,8 @@ public class AffairServiceImpl implements AffairService {
     @Autowired
     private MemoFestivalMapper memoFestivalMapper;
 
+    @Autowired
+    private MemoFestivalItemMapper memoFestivalItemMapper;
 
     /**
      * 添加备忘录事件类型
@@ -338,7 +347,7 @@ public class AffairServiceImpl implements AffairService {
     /**
      * 获得好友的备忘录
      *
-     * @param userDetails 用户信息
+     * @param userId 用户信息
      * @param start       开始时间
      * @param end         结束时间
      * @return
@@ -356,4 +365,70 @@ public class AffairServiceImpl implements AffairService {
                 .selectFriendByUserIdAndDate(friendUserId, start, end);
         return ResponseFactory.sucData(list);
     }
+
+
+    /**
+     * 节日事件详情
+     *
+     * @param id          节日事件id
+     * @return
+     * @author linqin
+     *  @date 2018/6/22
+     */
+    @Override
+    public Response memoFestivalDetail(Integer userId, Integer id) {
+        MemoFestivalVo vo = new MemoFestivalVo();
+        //节日详情
+        MemoFestival festival = memoFestivalMapper.selectById(id);
+        if (festival == null){
+            return ResponseFactory.err("节日事件不存在");
+        }
+        // 黄历宜忌
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+        String time = dateFormat.format(festival.getTargetTime()); //日期
+        HLResult almanacInfo = AlmanacApi.getAlmanacInfo(time); //黄历接口
+        String yi = almanacInfo.getShowapi_res_body().getYi();
+        String ji = almanacInfo.getShowapi_res_body().getJi();
+        vo.setId(id);
+        vo.setPicture(festival.getPicture());
+        vo.setTitle(festival.getTitle());
+        vo.setTargetTime(festival.getTargetTime());
+        vo.setDetail(festival.getDetail());
+        vo.setCreated(festival.getCreated());
+        vo.setYi(yi);
+        vo.setJi(ji);
+        return ResponseFactory.sucData(vo);
+    }
+
+
+    /**
+     * 节日事件详情页商品列表
+     *
+     * @param id          节日事件id
+     * @return
+     * @author linqin
+     *  @date 2018/6/22
+     */
+    @Override
+    public Response memoFestivalDetailItems(Integer userId,Integer id) {
+        List<ItemListVo> list = memoFestivalItemMapper.selectByFestival(id);
+        return ResponseFactory.sucData(list);
+    }
+
+
+    /**
+     * 节日详情页好友列表
+     *
+     * @param userId
+     * @return
+     * @author linqin
+     * @date 2018/6/22
+     */
+    @Override
+    public Response getFriendList(Integer userId) {
+        List<FriendHumVo> list = friendMapper.selectByUserId(userId);
+        return ResponseFactory.sucData(list);
+    }
+
+
 }

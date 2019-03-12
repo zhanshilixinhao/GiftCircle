@@ -36,6 +36,12 @@
         FROM
             memo_festival
   </select>
+  <select id="selectById" resultType="com.chouchongkeji.dial.pojo.user.memo.MemoFestival">
+select
+<include refid="Base_Column_List"/>
+from memo_festival
+where id = #{id}
+  </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from memo_festival

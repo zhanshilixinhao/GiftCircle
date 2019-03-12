@@ -3,6 +3,7 @@ package com.chouchongkeji.dial.dao.friend;
 import com.chouchongkeji.dial.pojo.friend.Friend;
 import com.chouchongkeji.service.user.friend.vo.FriendBase;
 import com.chouchongkeji.service.user.friend.vo.FriendVo;
+import com.chouchongkeji.service.user.memo.vo.FriendHumVo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -54,6 +55,13 @@ public interface FriendMapper {
      * @param i
      */
     void updateHeartNumByUserId(@Param("userId") Integer userId,@Param("friendUserId") Integer friendUserId);
+
+    /**
+     * 根据互动值排序
+     * @param userId
+     * @return
+     */
+    List<FriendHumVo> selectByUserId(Integer userId);
 
 //    Friend selectByUserIdAndFriendUserIdAll(@Param("userId") Integer userId,@Param("friendUserId")Integer friendUserId );
 }

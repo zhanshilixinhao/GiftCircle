@@ -23,4 +23,11 @@ public interface MemoFestivalMapper {
      * @return
      */
     List<MemoItemVo> selectAll();
+
+    /**
+     * 查询节日详情
+     * @param id
+     * @return
+     */
+    MemoFestival selectById(Integer id);
 }

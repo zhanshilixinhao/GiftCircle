@@ -14,19 +14,30 @@
     id, memo_festival_id, item_id, created, updated
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from memo_festival_item
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="selectByFestival" resultType="com.chouchongkeji.service.mall.item.vo.ItemListVo">
+      select
+       b.id as item_id,
+       b.cover,
+       b.title,
+       b.price
+from memo_festival_item a
+            left join item b on a.item_id = b.id
+where a.memo_festival_id = #{id} AND b.status = 1
+ORDER BY a.created DESC
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from memo_festival_item
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.user.memo.MemoFestivalItem">
-    insert into memo_festival_item (id, memo_festival_id, item_id, 
+    insert into memo_festival_item (id, memo_festival_id, item_id,
       created, updated)
-    values (#{id,jdbcType=INTEGER}, #{memoFestivalId,jdbcType=INTEGER}, #{itemId,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=INTEGER}, #{memoFestivalId,jdbcType=INTEGER}, #{itemId,jdbcType=INTEGER},
       #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.user.memo.MemoFestivalItem">

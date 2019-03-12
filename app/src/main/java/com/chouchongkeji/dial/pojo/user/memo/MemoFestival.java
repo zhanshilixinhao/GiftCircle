@@ -1,5 +1,7 @@
 package com.chouchongkeji.dial.pojo.user.memo;
 
+import com.yichen.auth.jackson.ImgUrl;
+
 import java.util.Date;
 
 public class MemoFestival {
@@ -11,8 +13,10 @@ public class MemoFestival {
 
     private String summary;
 
+    @ImgUrl
     private String cover;
 
+    @ImgUrl
     private String picture;
 
     private String title;

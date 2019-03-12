@@ -73,6 +73,19 @@ WHERE
             </trim>
         </where>
     </select>
+    <select id="selectByUserId" resultType="com.chouchongkeji.service.user.memo.vo.FriendHumVo">
+        select
+       a.user_id,
+       a.friend_user_id,
+ a.heart_num,
+       b.nickname,
+       b.avatar
+from friend a
+left join app_user b on a.friend_user_id = b.id
+where a.user_id = #{userId} and a.friend_user_id != #{userId}
+order by a.heart_num DESC,a.created DESC
+limit 5
+    </select>
     <!--<select id="selectByUserIdAndFriendUserIdAll" resultType="com.chouchongkeji.dial.pojo.friend.Friend">-->
         <!--SELECT-->
             <!--<include refid="Base_Column_List"/>-->

@@ -117,7 +117,7 @@
 * 更新内容
 
 > 1. 修改首页黄历宜忌接口（17.7）
-
+> 2. 备忘录接口22
 
 
 
@@ -6582,3 +6582,135 @@ JSON：
 | end | long | 否 | 无 | 结束时间戳 |
 
 * 请求示例（和22.8一致）
+
+
+
+### 22.10 节日事件详情
+
+- 请求地址：auth/memo/affair2/festival_detail
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yichen
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| id | int | 是 | 无 | 节日事件id |
+
+
+* 请求示例
+
+```js
+{
+  "errCode": 0,
+  "result": 0,
+  "time": 1552380833476,
+  "data": {
+    "id": 1,  //节日事件id
+    "picture": "ava.jpg", //详情封面
+    "title": "女王大人", //详情标题
+    "targetTime": 1552002895000, //节日时间
+    "detail": "哈哈哈哈哈",  //详情
+    "created": 1552262181000, //创建时间
+    "yi": "祭祀 裁衣 冠笄 安床 交易 立券 开池 补垣 塞穴 入殓 破土 启钻 安葬 谢土 除服 成服",  //宜
+    "ji": "结婚 掘井 探病 开工 开光 栽种" //忌
+  }
+}
+```
+
+
+
+### 22.11 节日事件详情页商品列表
+
+- 请求地址：auth/memo/affair2/festival_item
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yichen
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| id | int | 是 | 无 | 节日事件id |
+
+
+* 请求示例
+
+```js
+{
+  "errCode": 0,
+  "result": 0,
+  "time": 1552383887303,
+  "data": [
+    {
+      "itemId": 78, //商品id
+      "cover": "https://liyuquan.cn/static/item/190130/ 60c775fc-ecb6-4f4e-9219-eb2a4ad1812d.jpg", //商品封面
+      "title": "【官方正品】纪梵希恒颜清透粉底液 持久遮瑕自然修饰", //商品标题
+      "price": 480.00 //商品价格
+    }
+  ]
+}
+
+```
+
+
+### 22.12 节日事件详情页好友列表
+
+- 请求地址：auth/memo/affair2/friend_list
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yichen
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+
+
+
+* 请求示例(返回5个好友)
+
+```js
+{
+  "errCode": 0,
+  "result": 0,
+  "time": 1552384278846,
+  "data": [
+    {
+      "userId": 6, //用户id（自己）
+      "friendUserId": 1,//好友id
+      "heartNum": 4, //互动值
+      "nickname": "路遥", //好友昵称
+      "avatar": "https://liyuquan.cn/staticorder/comment/20181231/1546231284130051-600-600.jpg" //好友头像
+    },
+    {
+      "userId": 6,
+      "friendUserId": 8,
+      "heartNum": 2,
+      "nickname": "陈红兵",
+      "avatar": "https://wx.qlogo.cn/mmopen/vi_32/OwZuBRbVUkx404NMZSBD01pJPKxB1r1aGx7aKHje5IJN2b8RWOOeLZziantR36BsHY4d5QacWibvzllOMRSEvUvA/132"
+    },
+    {
+      "userId": 6,
+      "friendUserId": 31,
+      "heartNum": 1,
+      "nickname": "淡水鱼",
+      "avatar": "http://thirdwx.qlogo.cn/mmopen/vi_32/7mydP7r5lbHTuUuMtv36ta67UPGSicjQRwwXx94Yf2ugHuI0tPmJZXlGt27yKkwF0CJ60aBiaTCIlyLvqK4ibibEnA/132"
+    },
+    {
+      "userId": 6,
+      "friendUserId": 42,
+      "heartNum": 1,
+      "nickname": "0830311",
+      "avatar": "https://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqBK56mMxh3z4GyMrSgCpzjAH6QiaD2AG0h4FpgMu5QQ8ZqZmsCKCYwsrrZyecELhicaBppLsxALPtg/132"
+    },
+    {
+      "userId": 6,
+      "friendUserId": 25,
+      "heartNum": 0,
+      "nickname": "柒橼",
+      "avatar": "https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTL6UhyQbwfpUzaovb4ltJf2FImjsjEyibA8VicNrbZSmjzhXskgB2jH0Jmx6gURvYebAv1DYBErtaRA/132"
+    }
+  ]
+}
+
+
+```

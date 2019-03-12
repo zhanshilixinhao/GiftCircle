@@ -2,6 +2,8 @@ package com.chouchongkeji.service.user.memo;
 
 import com.chouchongkeji.dial.pojo.user.memo.MemoAffair;
 import com.chouchongkeji.goexplore.common.Response;
+import com.yichen.auth.service.UserDetails;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 import java.util.HashSet;
 
@@ -110,4 +112,34 @@ public interface AffairService {
      * @date 2018/6/22
      */
     Response getListForFriend(Integer userId, Long start, Long end, Integer friendUserId);
+
+    /**
+     * 节日事件详情
+     *
+     * @param id          节日事件id
+     * @return
+     * @author linqin
+     *  @date 2018/6/22
+     */
+    Response memoFestivalDetail(Integer userId, Integer id);
+
+    /**
+     * 节日事件详情页商品列表
+     *
+     * @param id          节日事件id
+     * @return
+     * @author linqin
+     *  @date 2018/6/22
+     */
+    Response memoFestivalDetailItems(Integer userId,Integer id);
+
+    /**
+     * 节日详情页好友列表
+     *
+     * @param userDetails
+     * @return
+     * @author linqin
+     * @date 2018/6/22
+     */
+    Response getFriendList(Integer userId);
 }

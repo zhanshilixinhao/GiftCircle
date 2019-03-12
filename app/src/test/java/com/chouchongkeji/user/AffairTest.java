@@ -123,5 +123,40 @@ public class AffairTest {
         Response post = OkHttpUtil.post("http://localhost:8088/auth/memo/affair2/list", params);
         System.out.println(post.body().string());
     }
+    @Test
+    public void de() throws IOException {
+        RequestParams params = new RequestParams();
+        params.put("time", System.currentTimeMillis());
+        params.put("access_token", "faaeaefc-5bf9-471d-bd5d-85344c8f7fcd");
+        params.put("id", "1");
+        Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
+        params.put("sign", map.get(ApiSignUtil.ANDROID));
+
+        Response post = OkHttpUtil.post("http://localhost:8088/auth/memo/affair2/festival_detail", params);
+        System.out.println(post.body().string());
+    }
+    @Test
+    public void f() throws IOException {
+        RequestParams params = new RequestParams();
+        params.put("time", System.currentTimeMillis());
+        params.put("access_token", "faaeaefc-5bf9-471d-bd5d-85344c8f7fcd");
+        params.put("id", "1");
+        Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
+        params.put("sign", map.get(ApiSignUtil.ANDROID));
+
+        Response post = OkHttpUtil.post("http://localhost:8088/auth/memo/affair2/festival_item", params);
+        System.out.println(post.body().string());
+    }
+    @Test
+    public void g() throws IOException {
+        RequestParams params = new RequestParams();
+        params.put("time", System.currentTimeMillis());
+        params.put("access_token", "faaeaefc-5bf9-471d-bd5d-85344c8f7fcd");
+        Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
+        params.put("sign", map.get(ApiSignUtil.ANDROID));
+
+        Response post = OkHttpUtil.post("http://localhost:8088/auth/memo/affair2/friend_list", params);
+        System.out.println(post.body().string());
+    }
 
 }

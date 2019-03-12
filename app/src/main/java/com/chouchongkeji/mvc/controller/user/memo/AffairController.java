@@ -85,8 +85,6 @@ public class AffairController {
     }
 
 
-
-
     /**
      * 删除备忘录事件类型
      *
@@ -121,7 +119,7 @@ public class AffairController {
         }
         if (isCirculation == null) {
             isCirculation = 0;
-        }else if(isCirculation <0 || isCirculation>3){
+        } else if (isCirculation < 0 || isCirculation > 3) {
             return ResponseFactory.err("参数错误");
         }
         HashSet<Integer> idSet = null;
@@ -147,7 +145,7 @@ public class AffairController {
      */
     @PostMapping("modify_affair")
     public Response modifyAffair(@AuthenticationPrincipal UserDetails userDetails, MemoAffair affair) {
-        if (affair.getId() == null ||affair.getTargetTime() == null|| StringUtils.isBlank(affair.getDetail())||affair.getEventTypeId()==null) {
+        if (affair.getId() == null || affair.getTargetTime() == null || StringUtils.isBlank(affair.getDetail()) || affair.getEventTypeId() == null) {
             return ResponseFactory.errMissingParameter();
         }
         HashSet<Integer> idSet = null;
@@ -179,7 +177,6 @@ public class AffairController {
         }
         return affairService.delMemo(userDetails.getUserId(), id);
     }
-
 
 
     /**
@@ -230,6 +227,53 @@ public class AffairController {
             end = 0L;
         }
         return affairService.getListForFriend(userDetails.getUserId(), start, end, friendUserId);
+    }
+
+    /**
+     * 节日事件详情
+     *
+     * @param id 节日事件id
+     * @return
+     * @author linqin
+     * @date 2018/6/22
+     */
+    @PostMapping("festival_detail")
+    public Response memoFestivalDetail(@AuthenticationPrincipal UserDetails userDetails,Integer id) {
+        if (id == null) {
+            return ResponseFactory.errMissingParameter();
+        }
+        return affairService.memoFestivalDetail(userDetails.getUserId(),id);
+    }
+
+
+    /**
+     * 节日事件详情页商品列表
+     *
+     * @param id 节日事件id
+     * @return
+     * @author linqin
+     * @date 2018/6/22
+     */
+    @PostMapping("festival_item")
+    public Response memoFestivalDetailItems(@AuthenticationPrincipal UserDetails userDetails, Integer id) {
+        if (id == null) {
+            return ResponseFactory.errMissingParameter();
+        }
+        return affairService.memoFestivalDetailItems(userDetails.getUserId(),id);
+    }
+
+
+    /**
+     * 节日详情页好友列表
+     *
+     * @param userDetails
+     * @return
+     * @author linqin
+     * @date 2018/6/22
+     */
+    @PostMapping("friend_list")
+    public Response getFriendList(@AuthenticationPrincipal UserDetails userDetails) {
+        return affairService.getFriendList(userDetails.getUserId());
     }
 
 
