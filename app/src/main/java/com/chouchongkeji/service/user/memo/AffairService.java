@@ -98,4 +98,16 @@ public interface AffairService {
      * @date 2019/1/7 16:38
      */
     Response getAffairList(Integer userId, Long start, Long end);
+
+    /**
+     * 获得好友的备忘录
+     *
+     * @param userId
+     * @param start       开始时间
+     * @param end         结束时间
+     * @return
+     * @author linqin
+     * @date 2018/6/22
+     */
+    Response getListForFriend(Integer userId, Long start, Long end, Integer friendUserId);
 }

@@ -6567,9 +6567,9 @@ JSON：
 
 
 
-### 11.13 查看好友备忘录
+### 22.9 查看好友备忘录
 
-- 请求地址：/auth/memo/affair/list/friend
+- 请求地址：auth/memo/affair2/list/friend
 - 服务协议：HTTP/POST
 - 是否需要身份认证：是
 - 作者：yichen
@@ -6581,4 +6581,4 @@ JSON：
 | start | long | 否 | 无 | 开始时间戳 |
 | end | long | 否 | 无 | 结束时间戳 |
 
-* 请求示例（和11.13一致）
+* 请求示例（和22.8一致）

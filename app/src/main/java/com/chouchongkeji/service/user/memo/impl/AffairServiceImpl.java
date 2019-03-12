@@ -335,4 +335,25 @@ public class AffairServiceImpl implements AffairService {
     }
 
 
+    /**
+     * 获得好友的备忘录
+     *
+     * @param userDetails 用户信息
+     * @param start       开始时间
+     * @param end         结束时间
+     * @return
+     * @author linqin
+     * @date 2018/6/22
+     */
+    @Override
+    public Response getListForFriend(Integer userId, Long start, Long end, Integer friendUserId) {
+        // 判断是不是好友关系
+        FriendVo friend = friendMapper.selectByUserIdAndFriendUserId(userId, friendUserId);
+        if (friend == null) {
+            return ResponseFactory.err("需要添加好友才能查看!");
+        }
+        List<MemoItemVo> list = memoAffairMapper
+                .selectFriendByUserIdAndDate(friendUserId, start, end);
+        return ResponseFactory.sucData(list);
+    }
 }

@@ -208,4 +208,29 @@ public class AffairController {
     }
 
 
+    /**
+     * 获得好友的备忘录
+     *
+     * @param userDetails 用户信息
+     * @param start       开始时间
+     * @param end         结束时间
+     * @return
+     * @author linqin
+     * @date 2018/6/22
+     */
+    @PostMapping("list/friend")
+    public Response getListForFriend(@AuthenticationPrincipal UserDetails userDetails,
+                                     Integer friendUserId,
+                                     Long start, Long end) {
+        if (friendUserId == null) return ResponseFactory.errMissingParameter();
+        if (start == null) {
+            start = 0L;
+        }
+        if (end == null) {
+            end = 0L;
+        }
+        return affairService.getListForFriend(userDetails.getUserId(), start, end, friendUserId);
+    }
+
+
 }

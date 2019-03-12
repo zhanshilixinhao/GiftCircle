@@ -80,13 +80,15 @@
     </select>
     <select id="selectFriendByUserIdAndDate" resultType="com.chouchongkeji.service.user.memo.vo.MemoItemVo">
         SELECT
-        a.id,
-        a.user_id,
-        a.target_time,
-        a.detail,
-        a.created,
-        b.avatar,
-        b.nickname
+        id,
+        user_id,
+        is_circulation,
+        target_time,
+        detail,
+        users,
+        created,
+        event_type_id,
+        `count`,
         FROM
         `memo_affair` a
         LEFT JOIN app_user b ON b.id = a.user_id
