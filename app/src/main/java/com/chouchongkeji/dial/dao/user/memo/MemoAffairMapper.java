@@ -43,4 +43,18 @@ public interface MemoAffairMapper {
     int insertBatch(@Param("affair") MemoAffair affair,@Param("list") List<Date> list);
 
     List<MemoItemVo> selectAllCByUserId(@Param("userId") Integer userId);
+
+    /**
+     * 按周循环
+     * @param userId
+     * @return
+     */
+    List<MemoItemVo> selectAllByUserIdWeek(Integer userId);
+
+    /**
+     * 按周循环
+     * @param userId
+     * @return
+     */
+    List<MemoItemVo> selectAllByUserIdMonth(Integer userId);
 }

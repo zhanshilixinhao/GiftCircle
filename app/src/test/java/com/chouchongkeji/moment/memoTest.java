@@ -67,7 +67,7 @@ public class memoTest {
     public void getList() throws IOException {
         RequestParams params = new RequestParams();
         params.put("time", System.currentTimeMillis());
-        params.put("access_token", "3cd3255a-ccd6-4dce-843c-9a1ad77bd5a0");
+        params.put("access_token", "faaeaefc-5bf9-471d-bd5d-85344c8f7fcd");
 //        params.put("start", 1546308551000L);
 //        params.put("end", 1551406151000L);
 //        params.put("targetTime", 1573265351000L);

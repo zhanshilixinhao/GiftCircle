@@ -71,11 +71,11 @@ public class AffairTest {
         RequestParams params = new RequestParams();
         params.put("time", System.currentTimeMillis());
         params.put("access_token", "faaeaefc-5bf9-471d-bd5d-85344c8f7fcd");
-        params.put("targetTime", 1552320000000L);
+        params.put("targetTime", 1552374073000L);
         params.put("eventTypeId", "1");
         params.put("users", "1,31");
-        params.put("detail", "晚会");
-        params.put("isCirculation", "4");
+        params.put("detail", "晚会hh哈哈哈哈h");
+        params.put("isCirculation", "3");
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
         params.put("sign", map.get(ApiSignUtil.ANDROID));
 
@@ -97,6 +97,30 @@ public class AffairTest {
         params.put("sign", map.get(ApiSignUtil.ANDROID));
 
         Response post = OkHttpUtil.post("http://localhost:8088/auth/memo/affair2/modify_affair", params);
+        System.out.println(post.body().string());
+    }
+    @Test
+    public void deld() throws IOException {
+        RequestParams params = new RequestParams();
+        params.put("time", System.currentTimeMillis());
+        params.put("access_token", "faaeaefc-5bf9-471d-bd5d-85344c8f7fcd");
+        params.put("id", "94");
+        Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
+        params.put("sign", map.get(ApiSignUtil.ANDROID));
+
+        Response post = OkHttpUtil.post("http://localhost:8088/auth/memo/affair2/del", params);
+        System.out.println(post.body().string());
+    }
+    @Test
+    public void l() throws IOException {
+        RequestParams params = new RequestParams();
+        params.put("time", System.currentTimeMillis());
+        params.put("access_token", "faaeaefc-5bf9-471d-bd5d-85344c8f7fcd");
+//        params.put("id", "94");
+        Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
+        params.put("sign", map.get(ApiSignUtil.ANDROID));
+
+        Response post = OkHttpUtil.post("http://localhost:8088/auth/memo/affair2/list", params);
         System.out.println(post.body().string());
     }
 

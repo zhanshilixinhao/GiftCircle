@@ -3,7 +3,9 @@ package com.chouchongkeji;
 import com.chouchongkeji.goexplore.utils.ApiSignUtil;
 import com.chouchongkeji.goexplore.utils.OkHttpUtil;
 import com.chouchongkeji.goexplore.utils.RequestParams;
+import com.chouchongkeji.goexplore.utils.Utils;
 import okhttp3.Response;
+import org.apache.commons.lang3.time.DateUtils;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -62,7 +64,8 @@ public class test3 {
     @Test
     public void data() throws ParseException {
         Date now = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");//可以方便地修改日期格式
+        DateUtils.addDays(now,3);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");//可以方便地修改日期格式
         String hehe = dateFormat.format(now); //日期
         Date parse = dateFormat.parse(hehe);  //时间戳
         System.out.println(parse.getTime());

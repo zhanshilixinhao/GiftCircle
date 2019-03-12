@@ -5,6 +5,7 @@ import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.utils.Utils;
 import com.chouchongkeji.service.user.memo.AffairService;
+import com.chouchongkeji.service.user.memo.MemoAffairService;
 import com.yichen.auth.service.UserDetails;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.ParseException;
 import java.util.HashSet;
 
 /**
@@ -25,6 +27,9 @@ public class AffairController {
 
     @Autowired
     private AffairService affairService;
+
+    @Autowired
+    private MemoAffairService memoAffairService;
 
     /**
      * 添加备忘录事件类型
@@ -116,7 +121,7 @@ public class AffairController {
         }
         if (isCirculation == null) {
             isCirculation = 0;
-        }else if(isCirculation <0 || isCirculation>4){
+        }else if(isCirculation <0 || isCirculation>3){
             return ResponseFactory.err("参数错误");
         }
         HashSet<Integer> idSet = null;
@@ -174,5 +179,33 @@ public class AffairController {
         }
         return affairService.delMemo(userDetails.getUserId(), id);
     }
+
+
+
+    /**
+     * 获取备忘录列表
+     *
+     * @param userDetails
+     * @param start
+     * @param end
+     * @return
+     * @author linqin
+     * @date 2019/1/7 16:38
+     */
+    @PostMapping("list")
+    public Response getAffairList(@AuthenticationPrincipal UserDetails userDetails, Long start, Long end) throws ParseException {
+        if (start == null) {
+            start = 0L;
+        } else {
+            start = memoAffairService.time(start);
+        }
+        if (end == null) {
+            end = 0L;
+        } else {
+            end = memoAffairService.timeEnd(end);
+        }
+        return affairService.getAffairList(userDetails.getUserId(), start, end);
+    }
+
 
 }

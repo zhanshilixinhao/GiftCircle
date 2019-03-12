@@ -20,9 +20,11 @@ public class MemoItemVo implements Cloneable {
     private String users; //被邀请的人
     private Date created;
     private String nickname; //创建者昵称
-
+    private String name; //节日事件名称
+    private Integer count; // 邀请人数
     @ImgUrl
     private String avatar;  //创建者头像
+    private Integer eventTypeId;  //事件类型id
 
 
     public Integer getId() {
@@ -103,6 +105,30 @@ public class MemoItemVo implements Cloneable {
 
     public void setIsCirculation(Byte isCirculation) {
         this.isCirculation = isCirculation;
+    }
+
+    public Integer getEventTypeId() {
+        return eventTypeId;
+    }
+
+    public void setEventTypeId(Integer eventTypeId) {
+        this.eventTypeId = eventTypeId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getCount() {
+        return count;
+    }
+
+    public void setCount(Integer count) {
+        this.count = count;
     }
 
     @Override

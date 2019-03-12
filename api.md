@@ -6410,7 +6410,7 @@ JSON：
 | detail | string | 是 | 无 | 活动详情 |
 | eventTypeId | int | 是 | 无 | 事件类型id |
 | users | string | 否 | 无 | 邀请的好友的user id集合，多个用,隔开 |
-|isCirculation|byte|否|0|添加的事件是否循环 0-不循环 1-按日循环，2-按周循环，3-按月循环，4-按年循环|
+|isCirculation|byte|否|0|添加的事件是否循环 0-不循环 1-按周循环，2-按月循环，3-按年循环|
 
 * 请求示例
 
@@ -6439,7 +6439,7 @@ JSON：
 | detail | string | 是 | 无 | 活动详情 |
 | eventTypeId | int | 是 | 无 | 事件类型id |
 | users | string | 否 | 无 | 邀请的好友的user id集合，多个用,隔开 |
-|isCirculation|byte|否|0|添加的事件是否循环 0-不循环 1-按日循环，2-按周循环，3-按月循环，4-按年循环|
+|isCirculation|byte|否|0|添加的事件是否循环 0-不循环 1-按周循环，2-按月循环，3-按年循环|
 
 
 * 请求示例
@@ -6454,9 +6454,35 @@ JSON：
 ```
 
 
-### 11.11 获取用户的备忘录列表
 
-- 请求地址：auth/memo/affair/list
+### 22.7 删除一条备忘录
+
+- 请求地址：auth/memo/affair2/del
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yichen
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| id | int | 是 | 无 | 备忘录id |
+
+
+* 请求示例
+
+```js
+{
+	"errCode": 0,
+	"result": 0,
+	"msg": "删除成功!",
+	"time": 1529643310344
+}
+```
+
+
+### 22.8 获取用户的备忘录列表
+
+- 请求地址：auth/memo/affair2/list
 - 服务协议：HTTP/POST
 - 是否需要身份认证：是
 - 作者：yichen
@@ -6471,31 +6497,56 @@ JSON：
 
 ```js
 {
-    errCode: 0, 
-    result: 0, 
-    time: 1529766575902, 
-    data: [
-        {
-      "id": 6,
-      "userId": 6,
-      "targetTime": 1573178951000,
-      "detail": "过生日d",
-      "type": null,
-      "created": 1546919878000,
-      "nickname": "林琴",
-      "users": "1,15",
-      "avatar": "https://liyuquan.cn/staticorder/comment/20181227/1545881538521936-600-600.jpg"
+  "errCode": 0,
+  "result": 0,
+  "time": 1552374188046,
+  "data": [
+    {
+      "id": 1,   //备忘录id
+      "userId": 6, //创建者id
+      "targetTime": 1552374073000, //备忘时间
+      "isCirculation": 0, //0-不循环
+      "detail": "晚会", //事件详情
+      "type": 1,  // 1自己创建，2-被邀请，3-节日事件
+      "users": "1,31", //被邀请者用户id 
+      "created": 1552374107000, //创建时间
+      "nickname": "林琴", //创建者用户昵称
+      "name": "", //type等于1，2时没用到
+      "count": 2, //邀请人数
+      "avatar": "https://wx.qlogo.cn/mmopen/vi_32/cLhvDgpVNMm24pZLQn9NJLvTbribW3ymS4dXSctqaaKWhF7NJcI1Nicqp0QGw2jjVPJBLBjGStsYkaefM5fiaq5SA/132" //创建着头像
+     "eventTypeId": 1  //事件类型id
+
     },
-     {
-      "id": 7,
-      "userId": 1,
-      "targetTime": 1573178951000,
-      "detail": "h很健康",
-      "type": null,
-      "created": 1546919878000,
-      "nickname": "路遥",
-      "users": null,
-      "avatar": "https://liyuquan.cn/staticorder/comment/20181231/1546231284130051-600-600.jpg"
+    {
+      "id": 1,   //type等于3时，节日事件id 
+      "userId": null,
+      "targetTime": 1552002895000, //备忘时间
+      "isCirculation": null,  //节日事件不循环
+      "detail": "女神节i，女王节，，，",  //节日事件简介
+      "type": 3, //1自己创建，2-被邀请，3-节日事件
+      "users": "", 
+      "created": 1552262181000,
+      "nickname": "",
+      "name": "妇女节", //节日事件名称
+      "count": null, 
+      "avatar": "https://liyuquan.cn/staticcover.jpg" //节日事件标题
+     "eventTypeId": null  //事件类型id
+
+    },
+    {
+      "id": 2,
+      "userId": 6,
+      "targetTime": 1552374073000,
+      "isCirculation": 1,
+      "detail": "晚会hhh",
+      "type": 1,
+      "users": "1,31",
+      "created": 1552374123000,
+      "nickname": "林琴",
+      "name": "",
+      "count": 2,
+      "avatar": "https://wx.qlogo.cn/mmopen/vi_32/cLhvDgpVNMm24pZLQn9NJLvTbribW3ymS4dXSctqaaKWhF7NJcI1Nicqp0QGw2jjVPJBLBjGStsYkaefM5fiaq5SA/132"
+     "eventTypeId": 1  //事件类型id
     }
     ]
 }
@@ -6504,41 +6555,16 @@ JSON：
 
 | 参数名称 | 参数类型 | 是否必传 | 参数说明 |
 | :---: | :---: | :---: | :---: | :---: |
-| id | int | 是 | 备忘录id |
+| id | int | 是 | 备忘录id(type = 3时 id是节日事件id)  |
 | userId | int | 是 | 此条备忘录的创建者id |
 | targetTime | long | 是 | 备忘时间 |
 | detail | string | 是 | 备忘信息 |
-| type | int | 否 | 目前没用到 |
+| type | int | 否 | 1自己创建，2-被邀请，3-节日事件 |
 | nickname | string | 是 | 创建者昵称 |
 | avatar | string | 是 | 创建者头像 |
 
 
 
-
-### 11.12 删除一条备忘录
-
-- 请求地址：auth/memo/affair/del
-- 服务协议：HTTP/POST
-- 是否需要身份认证：是
-- 作者：yichen
-
-|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
-| :----------: | :------: | :------: | :----: | :------: |
-| access_token |  string  |    是    |   无   | 访问令牌 |
-| id | int | 是 | 无 | 备忘录id |
-
-
-
-* 请求示例
-
-```js
-{
-	"errCode": 0,
-	"result": 0,
-	"msg": "删除成功!",
-	"time": 1529643310344
-}
-```
 
 
 ### 11.13 查看好友备忘录

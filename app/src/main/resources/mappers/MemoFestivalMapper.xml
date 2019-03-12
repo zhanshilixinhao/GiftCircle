@@ -19,23 +19,36 @@
     id, target_time, name, summary, cover, picture, title, detail, created, updated
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from memo_festival
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectAll" resultType="com.chouchongkeji.service.user.memo.vo.MemoItemVo">
+ SELECT
+            id,
+            target_time,
+            `name`,
+               summary as detail,
+            created,
+            cover as avatar,
+            3 as type
+        FROM
+            memo_festival
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from memo_festival
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.user.memo.MemoFestival">
-    insert into memo_festival (id, target_time, name, 
-      summary, cover, picture, 
-      title, detail, created, 
+    insert into memo_festival (id, target_time, name,
+      summary, cover, picture,
+      title, detail, created,
       updated)
-    values (#{id,jdbcType=INTEGER}, #{targetTime,jdbcType=TIMESTAMP}, #{name,jdbcType=VARCHAR}, 
-      #{summary,jdbcType=VARCHAR}, #{cover,jdbcType=VARCHAR}, #{picture,jdbcType=VARCHAR}, 
-      #{title,jdbcType=VARCHAR}, #{detail,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP}, 
+    values (#{id,jdbcType=INTEGER}, #{targetTime,jdbcType=TIMESTAMP}, #{name,jdbcType=VARCHAR},
+      #{summary,jdbcType=VARCHAR}, #{cover,jdbcType=VARCHAR}, #{picture,jdbcType=VARCHAR},
+      #{title,jdbcType=VARCHAR}, #{detail,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP},
       #{updated,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.user.memo.MemoFestival">

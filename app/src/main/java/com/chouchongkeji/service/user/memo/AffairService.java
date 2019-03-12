@@ -86,4 +86,16 @@ public interface AffairService {
      * @date 2018/6/22
      */
     Response delMemo(Integer userId, Integer id);
+
+    /**
+     * 获取备忘录列表
+     *
+     * @param userDetails
+     * @param start
+     * @param end
+     * @return
+     * @author linqin
+     * @date 2019/1/7 16:38
+     */
+    Response getAffairList(Integer userId, Long start, Long end);
 }
