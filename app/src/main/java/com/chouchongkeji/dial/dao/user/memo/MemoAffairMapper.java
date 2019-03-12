@@ -57,4 +57,11 @@ public interface MemoAffairMapper {
      * @return
      */
     List<MemoItemVo> selectAllByUserIdMonth(Integer userId);
+
+    /**
+     * 所有循环
+     * @param userId
+     * @return
+     */
+    List<MemoItemVo> selectAllByUserId(Integer userId);
 }

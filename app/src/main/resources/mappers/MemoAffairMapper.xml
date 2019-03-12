@@ -122,7 +122,10 @@
     target_time,
     detail,
     is_circulation,
-    created
+    created,
+    event_type_id,
+    `count`,
+    1 as type
     FROM
     memo_affair
     WHERE
@@ -134,7 +137,10 @@
     target_time,
     detail,
     is_circulation,
-    created
+    created,
+    event_type_id,
+   `count`,
+    1 as type
     FROM
     memo_affair
     WHERE
@@ -279,6 +285,49 @@
         LEFT JOIN app_user b ON b.id = a.user_id
      where
                 is_circulation = 2
+    </select>
+    <select id="selectAllByUserId" resultType="com.chouchongkeji.service.user.memo.vo.MemoItemVo">
+        SELECT
+        a.*,
+        b.avatar,
+        b.nickname
+        FROM
+        (
+        SELECT
+        id,
+        user_id,
+        is_circulation,
+        target_time,
+        detail,
+        users,
+        created,
+                event_type_id,
+         `count`,
+        1 as type
+        FROM
+        memo_affair
+        WHERE
+        user_id = #{userId}
+        UNION
+        SELECT
+        id,
+        user_id,
+        is_circulation,
+        target_time,
+        detail,
+        users,
+        created,
+                event_type_id,
+         `count`,
+        2 as type
+        FROM
+        memo_affair
+        WHERE
+        FIND_IN_SET( #{userId}, users )
+        ) a
+        LEFT JOIN app_user b ON b.id = a.user_id
+     where
+                is_circulation != 0
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from memo_affair

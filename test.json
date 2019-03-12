@@ -1,7 +1,7 @@
 {
   "errCode": 0,
   "result": 0,
-  "time": 1552384857271,
+  "time": 1552399387143,
   "data": [
     {
       "id": 3,
@@ -9,15 +9,47 @@
       "targetTime": 1552374073000,
       "isCirculation": 2,
       "detail": "晚会hhh",
-      "type": null,
+      "type": 1,
       "users": "",
       "created": 1552374135000,
       "nickname": "林琴",
       "name": "",
-      "count": null,
+      "count": 2,
       "avatar": "https://wx.qlogo.cn/mmopen/vi_32/cLhvDgpVNMm24pZLQn9NJLvTbribW3ymS4dXSctqaaKWhF7NJcI1Nicqp0QGw2jjVPJBLBjGStsYkaefM5fiaq5SA/132",
-      "eventTypeId": null,
+      "eventTypeId": 1,
       "days": 0.6258
+    },
+    {
+      "id": 2,
+      "userId": 6,
+      "targetTime": 1552924800000,
+      "isCirculation": 1,
+      "detail": "晚会hhh",
+      "type": 1,
+      "users": "",
+      "created": 1552374123000,
+      "nickname": "林琴",
+      "name": "",
+      "count": 2,
+      "avatar": "https://wx.qlogo.cn/mmopen/vi_32/cLhvDgpVNMm24pZLQn9NJLvTbribW3ymS4dXSctqaaKWhF7NJcI1Nicqp0QGw2jjVPJBLBjGStsYkaefM5fiaq5SA/132",
+      "eventTypeId": 1,
+      "days": 6.081167
+    },
+    {
+      "id": 3,
+      "userId": 6,
+      "targetTime": 1552374073000,
+      "isCirculation": 2,
+      "detail": "晚会hhh",
+      "type": 1,
+      "users": "",
+      "created": 1552374135000,
+      "nickname": "林琴",
+      "name": "",
+      "count": 2,
+      "avatar": "https://wx.qlogo.cn/mmopen/vi_32/cLhvDgpVNMm24pZLQn9NJLvTbribW3ymS4dXSctqaaKWhF7NJcI1Nicqp0QGw2jjVPJBLBjGStsYkaefM5fiaq5SA/132",
+      "eventTypeId": 1,
+      "days": 0.62584496
     },
     {
       "id": 4,
@@ -25,14 +57,14 @@
       "targetTime": 1552374073000,
       "isCirculation": 3,
       "detail": "晚会hh哈哈哈哈h",
-      "type": null,
+      "type": 1,
       "users": "",
       "created": 1552374150000,
       "nickname": "林琴",
       "name": "",
-      "count": null,
+      "count": 2,
       "avatar": "https://wx.qlogo.cn/mmopen/vi_32/cLhvDgpVNMm24pZLQn9NJLvTbribW3ymS4dXSctqaaKWhF7NJcI1Nicqp0QGw2jjVPJBLBjGStsYkaefM5fiaq5SA/132",
-      "eventTypeId": null,
+      "eventTypeId": 1,
       "days": 0.62584496
     }
   ]

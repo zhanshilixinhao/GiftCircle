@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.xml.crypto.Data;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -207,32 +208,23 @@ public class MemoAffairServiceImpl implements MemoAffairService {
         Long end = timeEnd(System.currentTimeMillis());
         List<HomeMemoItemVo> list = memoAffairMapper.selectLastByUserId(userId, start, end);
 //         所有循环事件
-        List<MemoItemVo> list1 = memoAffairMapper.selectAllCByUserId(userId);
+        List<MemoItemVo> list1 = memoAffairMapper.selectAllByUserId(userId);
         if (CollectionUtils.isNotEmpty(list1)) {
+            // 目标日期
             Calendar tarcalendar = Calendar.getInstance();
+            // 七天后的时间
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(DateUtils.addDays(new Date(start * 1000), 7));
             for (MemoItemVo itemVo : list1) {
-                if (itemVo.getTargetTime().getTime() > calendar.getTimeInMillis()) continue;
-                tarcalendar.setTime(itemVo.getTargetTime());
-                Date targetDate = DateUtils.addYears(itemVo.getTargetTime(),
-                        calendar.get(Calendar.YEAR) - tarcalendar.get(Calendar.YEAR));
-                if (targetDate.getTime() > calendar.getTimeInMillis()) {
-                    targetDate = DateUtils.addYears(itemVo.getTargetTime(), -1);
-                }
-                float d = (calendar.getTimeInMillis() - targetDate.getTime()) / 86400000f;
-                if (d <= 7) {
-                    HomeMemoItemVo homeMemoItemVo = new HomeMemoItemVo();
-                    homeMemoItemVo.setId(itemVo.getId());
-                    homeMemoItemVo.setAvatar(itemVo.getAvatar());
-                    homeMemoItemVo.setNickname(itemVo.getNickname());
-                    homeMemoItemVo.setDays(7 - d);
-                    homeMemoItemVo.setTargetTime(targetDate);
-                    homeMemoItemVo.setCreated(itemVo.getCreated());
-                    homeMemoItemVo.setUserId(itemVo.getUserId());
-                    homeMemoItemVo.setDetail(itemVo.getDetail());
-                    homeMemoItemVo.setIsCirculation(itemVo.getIsCirculation());
-                    list.add(homeMemoItemVo);
+                if (itemVo.getIsCirculation() == 3) {
+                    // 年循环
+                    yearLoop(tarcalendar, calendar, itemVo, list);
+                } else if (itemVo.getIsCirculation() == 1) {
+                    // 周循环
+                    weeks(tarcalendar, calendar, itemVo, list);
+                } else {
+                    // 月循环
+                    monthLoop(tarcalendar, calendar, itemVo, list);
                 }
             }
         }
@@ -276,6 +268,128 @@ public class MemoAffairServiceImpl implements MemoAffairService {
 //        return ResponseFactory.sucData(list);
 //    }
 
+    public static void main(String[] args) {
+        Calendar cal = Calendar.getInstance();
+        Date date = DateUtils.addDays(new Date(), 5);
+        cal.setTime(date);
+        int i = cal.get(Calendar.DAY_OF_WEEK);
+        System.out.println(i);
+    }
+
+    /**
+     * 年循环
+     */
+    private void yearLoop(Calendar tarcalendar, Calendar calendar, MemoItemVo itemVo, List<HomeMemoItemVo> list) {
+        // 如果目标时间大于7天后的时间，则继续循环
+//                if (itemVo.getTargetTime().getTime() > calendar.getTimeInMillis()) continue;
+        tarcalendar.setTime(itemVo.getTargetTime());
+        // 目标时间年份调整到7天后的年份
+        Date targetDate = DateUtils.addYears(itemVo.getTargetTime(),
+                calendar.get(Calendar.YEAR) - tarcalendar.get(Calendar.YEAR));
+        if (targetDate.getTime() > calendar.getTimeInMillis()) {
+            targetDate = DateUtils.addYears(itemVo.getTargetTime(), -1);
+        }
+        tarcalendar.setTime(targetDate);
+        int d1 = tarcalendar.get(Calendar.DAY_OF_MONTH);
+
+        tarcalendar.setTime(itemVo.getTargetTime());
+        int d2 = tarcalendar.get(Calendar.DAY_OF_MONTH);
+        float d = (calendar.getTimeInMillis() - targetDate.getTime()) / 86400000f;
+        if (d <= 7) {
+            HomeMemoItemVo homeMemoItemVo = new HomeMemoItemVo();
+            homeMemoItemVo.setId(itemVo.getId());
+            homeMemoItemVo.setAvatar(itemVo.getAvatar());
+            homeMemoItemVo.setNickname(itemVo.getNickname());
+            homeMemoItemVo.setDays(7 - d);
+            homeMemoItemVo.setTargetTime(targetDate);
+            homeMemoItemVo.setCreated(itemVo.getCreated());
+            homeMemoItemVo.setUserId(itemVo.getUserId());
+            homeMemoItemVo.setDetail(itemVo.getDetail());
+            homeMemoItemVo.setIsCirculation(itemVo.getIsCirculation());
+            homeMemoItemVo.setCount(itemVo.getCount());
+            homeMemoItemVo.setType(itemVo.getType());
+            homeMemoItemVo.setEventTypeId(itemVo.getEventTypeId());
+            list.add(homeMemoItemVo);
+        }
+    }
+
+    /**
+     * 月循环
+     */
+    private void monthLoop(Calendar tarcalendar, Calendar calendar, MemoItemVo itemVo, List<HomeMemoItemVo> list) {
+        // 目标
+        tarcalendar.setTime(itemVo.getTargetTime());
+        // 目标时间年份月份调整到7天后的年份
+        tarcalendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR));
+        tarcalendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH));
+        Date targetDate = tarcalendar.getTime();
+        if (targetDate.getTime() > calendar.getTimeInMillis()) {
+            targetDate = DateUtils.addMonths(itemVo.getTargetTime(), -1);
+        }
+        tarcalendar.setTime(targetDate);
+        int d1 = tarcalendar.get(Calendar.DAY_OF_MONTH);
+
+        tarcalendar.setTime(itemVo.getTargetTime());
+        int d2 = tarcalendar.get(Calendar.DAY_OF_MONTH);
+        float d = (calendar.getTimeInMillis() - targetDate.getTime()) / 86400000f;
+        if (d <= 7 && d1 == d2) {
+            HomeMemoItemVo homeMemoItemVo = new HomeMemoItemVo();
+            homeMemoItemVo.setId(itemVo.getId());
+            homeMemoItemVo.setAvatar(itemVo.getAvatar());
+            homeMemoItemVo.setNickname(itemVo.getNickname());
+            homeMemoItemVo.setDays(7 - d);
+            homeMemoItemVo.setTargetTime(targetDate);
+            homeMemoItemVo.setCreated(itemVo.getCreated());
+            homeMemoItemVo.setUserId(itemVo.getUserId());
+            homeMemoItemVo.setDetail(itemVo.getDetail());
+            homeMemoItemVo.setIsCirculation(itemVo.getIsCirculation());
+            homeMemoItemVo.setCount(itemVo.getCount());
+            homeMemoItemVo.setType(itemVo.getType());
+            homeMemoItemVo.setEventTypeId(itemVo.getEventTypeId());
+            list.add(homeMemoItemVo);
+        }
+    }
+
+    /**
+     * 周循环
+     *
+     * @param tarcalendar
+     * @param calendar
+     * @param itemVo
+     * @param list
+     */
+    private void weeks(Calendar tarcalendar, Calendar calendar, MemoItemVo itemVo, List<HomeMemoItemVo> list) {
+        // 目标
+        tarcalendar.setTime(itemVo.getTargetTime());
+        // 目标星期
+        int targetWeek = tarcalendar.get(Calendar.DAY_OF_WEEK);
+        // 7天后的星期
+        int week = calendar.get(Calendar.DAY_OF_WEEK);
+        int days = week - targetWeek;
+        Date targetTime = null;
+        if (days == 0) {
+            targetTime = calendar.getTime();
+        } else if (days > 0) {
+            targetTime = DateUtils.addDays(calendar.getTime(), -days);
+        } else {
+            targetTime = DateUtils.addDays(calendar.getTime(), 7 + days);
+        }
+        float day = (targetTime.getTime() - System.currentTimeMillis()) / 86400000f;
+        HomeMemoItemVo homeMemoItemVo = new HomeMemoItemVo();
+        homeMemoItemVo.setId(itemVo.getId());
+        homeMemoItemVo.setAvatar(itemVo.getAvatar());
+        homeMemoItemVo.setNickname(itemVo.getNickname());
+        homeMemoItemVo.setDays(day);
+        homeMemoItemVo.setTargetTime(targetTime);
+        homeMemoItemVo.setCreated(itemVo.getCreated());
+        homeMemoItemVo.setUserId(itemVo.getUserId());
+        homeMemoItemVo.setDetail(itemVo.getDetail());
+        homeMemoItemVo.setIsCirculation(itemVo.getIsCirculation());
+        homeMemoItemVo.setCount(itemVo.getCount());
+        homeMemoItemVo.setType(itemVo.getType());
+        homeMemoItemVo.setEventTypeId(itemVo.getEventTypeId());
+        list.add(homeMemoItemVo);
+    }
 
     /**
      * 时间戳(当天0点)
