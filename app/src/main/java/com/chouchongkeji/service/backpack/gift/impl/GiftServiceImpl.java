@@ -22,6 +22,7 @@ import com.chouchongkeji.goexplore.utils.K;
 import com.chouchongkeji.service.backpack.base.BpService;
 import com.chouchongkeji.service.backpack.gift.GiftService;
 import com.chouchongkeji.service.backpack.gift.vo.*;
+import com.chouchongkeji.service.backpack.gift.vo2.GiftSendVo2;
 import com.chouchongkeji.service.message.MessageService;
 import com.chouchongkeji.service.message.vo.GiftMessageVo;
 import com.chouchongkeji.service.user.friend.FriendService;
@@ -383,6 +384,87 @@ public class GiftServiceImpl implements GiftService {
         return ResponseFactory.sucData(vo);
     }
 
+    /*----------------------------------------礼物赠送v2开始---------------------------------------------------*/
+
+
+    /**
+     * app赠送礼物实现V2
+     *
+     * @param userId 赠送者信息
+     * @param sendVo 赠送礼物信息 type 1 未领取 2 已领取部分 3 已领取全部 4 超时领取失败
+     * @return
+     * @author yichenshanren
+     * @date 2018/7/2
+     */
+    @Override
+    public Response sendForAppV2(Integer userId, GiftSendVo2 sendVo, Integer client) {
+        // 判断赠送的物品是否在背包里面
+        // 保存礼物信息
+        Vbp vbp = vbpMapper.selectByUserIdBpId(userId, sendVo.getBpId());
+        if (vbp == null || vbp.getQuantity() < sendVo.getFriendUserIds().size()) {
+            return ResponseFactory.err("赠送的礼物不存在背包中或赠送的数量大于背包中的数量!");
+        }
+        // 判断和被赠送的用户是不是好友关系
+        for (Integer friendUserId : sendVo.getFriendUserIds()) {
+            FriendVo friend = friendService.isFriend(userId, friendUserId);
+            if (friend == null) {
+                return ResponseFactory.err("添加好友才能赠送!");
+            }
+        }
+        // 增加送礼记录
+        GiftRecord record = new GiftRecord();
+        record.setUserId(userId);
+        record.setGreetting(sendVo.getGreeting());
+        record.setEvent(sendVo.getEvent());
+        record.setType(sendVo.getType());
+
+        byte status;
+        // 如果需要按时间赠送
+        if (sendVo.getType() == Constants.GIFT_SEND_TYPE.TARGET_TIME) {
+            record.setTargetTime(sendVo.getTargetTime());
+            status = Constants.GIFT_STATUS.WAIT;
+        } else { // 如果是立即赠送
+            record.setTargetTime(new Date());
+            status = Constants.GIFT_STATUS.SEND;
+        }
+        record.setStatus(status);
+        // 保存礼物记录
+        int count = giftRecordMapper.insert(record);
+        if (count == 0) {
+            return ResponseFactory.err("赠送失败!");
+        }
+        for (Integer friendUserId1 : sendVo.getFriendUserIds()) {
+            // 先保存详情
+            List<GiftItemVo> list = new ArrayList<>();
+            list.add(assembleDetail(sendVo.getBpId(), vbp));
+            // 更新背包物品的数量
+            count = vbpMapper.updateQuantityById(vbp.getId(), 1, vbp.getType());
+            if (count < 1) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "更新数量失败!");
+            }
+            // 保存礼物详情记录
+            GiftRecordDetail detail = new GiftRecordDetail();
+            detail.setUserId(friendUserId1);
+            detail.setGiftRecordId(record.getId());
+            detail.setStatus(status);
+            detail.setContent(JSON.toJSONString(list));
+            count = giftRecordDetailMapper.insert(detail);
+            if (count == 0) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "赠送失败!");
+            }
+            // 如果是立即赠送添加礼物赠送消息
+            if (sendVo.getType() == Constants.GIFT_SEND_TYPE.NOW) {
+                addGiftNotifyMessage(userId, friendUserId1, detail.getId(), list);
+                addItemToBp(detail.getId(), detail.getUserId(), list);
+            }
+        }
+        return ResponseFactory.sucMsg("赠送成功");
+    }
+
+
+
+    /*----------------------------------------礼物赠送v2结束---------------------------------------------------*/
+
 
     /**
      * app赠送礼物实现
@@ -457,7 +539,7 @@ public class GiftServiceImpl implements GiftService {
         // 先保存详情
         List<GiftItemVo> list = new ArrayList<>();
         for (Vbp item : vbps) {
-            list.add(assembleDetail(sendVo, item));
+            list.add(assembleDetail(sendVo.getBpId(), item));
             // 更新背包物品的数量
             count = vbpMapper.updateQuantityById(item.getId(), 1, item.getType());
             if (count < 1) {
@@ -552,10 +634,10 @@ public class GiftServiceImpl implements GiftService {
             // 如果是随机赠送，需要分别添加每个物品到礼物详情记录
             if (sendVo.getType() == Constants.GIFT_SEND_TYPE.WX_FRIEND_RANDOM) {
                 list = new ArrayList<>();
-                list.add(assembleDetail(sendVo, item));
+                list.add(assembleDetail(sendVo.getBpId(), item));
                 saveGiftSendDetail(sendVo, record, list, status);
             } else {
-                list.add(assembleDetail(sendVo, item));
+                list.add(assembleDetail(sendVo.getBpId(), item));
             }
         }
 
@@ -652,7 +734,7 @@ public class GiftServiceImpl implements GiftService {
      * @param vbp    背包物品信息
      * @return
      */
-    private GiftItemVo assembleDetail(GiftSendVo sendVo, Vbp vbp) {
+    private GiftItemVo assembleDetail(Long bpId, Vbp vbp) {
         GiftItemVo detail = new GiftItemVo();
         detail.setBpId(vbp.getId());
         detail.setPrice(vbp.getPrice());
@@ -663,7 +745,7 @@ public class GiftServiceImpl implements GiftService {
         detail.setTargetType(vbp.getType());
         detail.setTargetId(vbp.getTargetId());
         detail.setBrand(vbp.getBrand());
-        detail.setGiftType(sendVo.getBpId().equals(vbp.getId()) ? Constants.GIFT_M_TYPE.MAIN : Constants.GIFT_M_TYPE.SUB);
+        detail.setGiftType(bpId.equals(vbp.getId()) ? Constants.GIFT_M_TYPE.MAIN : Constants.GIFT_M_TYPE.SUB);
         return detail;
     }
 

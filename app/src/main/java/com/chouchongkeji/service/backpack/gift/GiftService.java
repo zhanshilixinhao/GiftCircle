@@ -3,6 +3,7 @@ package com.chouchongkeji.service.backpack.gift;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.service.backpack.gift.vo.GiftBaseVo;
 import com.chouchongkeji.service.backpack.gift.vo.GiftSendVo;
+import com.chouchongkeji.service.backpack.gift.vo2.GiftSendVo2;
 
 import java.util.Date;
 import java.util.List;
@@ -49,7 +50,7 @@ public interface GiftService {
     List<GiftBaseVo> getWithDays(Integer userId, Date started);
 
     /**
-     * app赠送礼物实现
+     * 微信赠送礼物实现
      *
      * @param userId 赠送者信息
      * @param sendVo 赠送礼物信息 type 1 未领取 2 已领取部分 3 已领取全部 4 超时领取失败
@@ -69,5 +70,20 @@ public interface GiftService {
      * @date 2018/7/2
      */
     Response wxGetGift(Integer userId, Integer giftRecordId);
+
+    /*----------------------------------------礼物赠送v2开始---------------------------------------------------*/
+
+    /**
+     * app赠送礼物实现V2
+     *
+     * @param userId 赠送者信息
+     * @param sendVo      赠送礼物信息 type 1 未领取 2 已领取部分 3 已领取全部 4 超时领取失败
+     * @return
+     * @author yichenshanren
+     * @date 2018/7/2
+     */
+    Response sendForAppV2(Integer userId, GiftSendVo2 sendVo, Integer client);
+
+    /*----------------------------------------礼物赠送v2结束---------------------------------------------------*/
 
 }

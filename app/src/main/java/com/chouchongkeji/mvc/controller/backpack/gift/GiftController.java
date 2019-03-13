@@ -4,6 +4,7 @@ import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.service.backpack.gift.vo.GiftSendVo;
 import com.chouchongkeji.service.backpack.gift.GiftService;
+import com.chouchongkeji.service.backpack.gift.vo2.GiftSendVo2;
 import com.yichen.auth.mvc.AppClient;
 import com.yichen.auth.service.UserDetails;
 import org.apache.commons.lang3.StringUtils;
@@ -25,6 +26,37 @@ public class GiftController {
 
     @Autowired
     private GiftService giftService;
+
+    /*----------------------------------------礼物赠送v2开始---------------------------------------------------*/
+
+    /**
+     * app赠送礼物实现V2
+     *
+     * @param userDetails 赠送者信息
+     * @param sendVo      赠送礼物信息 type 1 未领取 2 已领取部分 3 已领取全部 4 超时领取失败
+     * @return
+     * @author yichenshanren
+     * @date 2018/7/2
+     */
+    @RequestMapping("sendForAppV2")
+    public Response sendForAppV2(@AuthenticationPrincipal UserDetails userDetails,
+                               @AppClient Integer client,
+                               GiftSendVo2 sendVo) {
+        if (sendVo.getBpId() == null || // 主物品背包id
+                sendVo.getFriendUserIds() == null || // 赠送好友id
+                sendVo.getType() == null || // 赠送类型
+                StringUtils.isAnyBlank(sendVo.getGreeting(), sendVo.getEvent()) ||
+                (sendVo.getType() == 2 && (sendVo.getTargetTime() == null ||
+                        sendVo.getTargetTime().getTime() < System.currentTimeMillis() + 60000))) {
+            return ResponseFactory.errMissingParameter();
+        }
+        return giftService.sendForAppV2(userDetails.getUserId(), sendVo, client);
+    }
+
+
+
+    /*----------------------------------------礼物赠送v2结束---------------------------------------------------*/
+
 
     /**
      * app赠送礼物实现
@@ -67,7 +99,7 @@ public class GiftController {
 //    }
 
     /**
-     * app赠送礼物实现
+     * 微信赠送礼物实现
      *
      * @param userDetails 赠送者信息
      * @param sendVo      赠送礼物信息 type 1 未领取 2 已领取部分 3 已领取全部 4 超时领取失败
