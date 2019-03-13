@@ -295,12 +295,12 @@ public class AffairServiceImpl implements AffairService {
         if (CollectionUtils.isNotEmpty(memos)) {
             list.addAll(memos);
         }
-        // 按周循环（300周）
+        // 按周循环（157周）
         List<MemoItemVo> weeks = memoAffairMapper.selectAllByUserIdWeek(userId);
         if (CollectionUtils.isNotEmpty(weeks)) {
             try {
                 for (MemoItemVo week : weeks) {
-                    for (int i = 0; i < 300; i++) {
+                    for (int i = 0; i < 157; i++) {
                         MemoItemVo itemVo = (MemoItemVo) week.clone();
                         itemVo.setTargetTime(DateUtils.addWeeks(week.getTargetTime(),i ));
                         list.add(itemVo);
@@ -310,12 +310,12 @@ public class AffairServiceImpl implements AffairService {
                 e.printStackTrace();
             }
         }
-        // 按月循环(120个月)
+        // 按月循环(36个月)
         List<MemoItemVo> months = memoAffairMapper.selectAllByUserIdMonth(userId);
         if (CollectionUtils.isNotEmpty(months)) {
             try {
                 for (MemoItemVo item : months) {
-                    for (int i = 0; i < 1200; i++) {
+                    for (int i = 0; i < 36; i++) {
                         MemoItemVo itemVo = (MemoItemVo) item.clone();
                         itemVo.setTargetTime(DateUtils.addMonths(item.getTargetTime(), i));
                         list.add(itemVo);
@@ -325,12 +325,12 @@ public class AffairServiceImpl implements AffairService {
                 e.printStackTrace();
             }
         }
-        // 按年循环(30年)
+        // 按年循环(10年)
         List<MemoItemVo> years = memoAffairMapper.selectAllCByUserId(userId);
         if (CollectionUtils.isNotEmpty(years)) {
             try {
                 for (MemoItemVo item : years) {
-                    for (int i = 0; i < 30; i++) {
+                    for (int i = -5; i < 5; i++) {
                         MemoItemVo itemVo = (MemoItemVo) item.clone();
                         itemVo.setTargetTime(DateUtils.addYears(item.getTargetTime(), i));
                         list.add(itemVo);

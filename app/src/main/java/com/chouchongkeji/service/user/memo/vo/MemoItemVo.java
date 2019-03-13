@@ -1,6 +1,7 @@
 package com.chouchongkeji.service.user.memo.vo;
 
 import com.yichen.auth.jackson.ImgUrl;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Date;
 
@@ -25,6 +26,7 @@ public class MemoItemVo implements Cloneable {
     @ImgUrl
     private String avatar;  //创建者头像
     private Integer eventTypeId;  //事件类型id
+    private String eventTypeName;  //事件类型名称
 
 
     public Integer getId() {
@@ -134,5 +136,13 @@ public class MemoItemVo implements Cloneable {
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
+    }
+
+    public String getEventTypeName() {
+        return eventTypeName;
+    }
+
+    public void setEventTypeName(String eventTypeName) {
+        this.eventTypeName = eventTypeName;
     }
 }

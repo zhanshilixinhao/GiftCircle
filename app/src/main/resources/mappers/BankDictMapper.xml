@@ -15,7 +15,7 @@
     id, bank_name, logo, status, created, updated
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from bank_dict
     where id = #{id,jdbcType=INTEGER}
@@ -25,10 +25,10 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.iwant.wallet.BankDict">
-    insert into bank_dict (id, bank_name, logo, 
+    insert into bank_dict (id, bank_name, logo,
       status, created, updated
       )
-    values (#{id,jdbcType=INTEGER}, #{bankName,jdbcType=VARCHAR}, #{logo,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{bankName,jdbcType=VARCHAR}, #{logo,jdbcType=VARCHAR},
       #{status,jdbcType=TINYINT}, #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP}
       )
   </insert>
@@ -115,6 +115,7 @@
     FROM
     bank_dict
     WHERE
-    status = #{status}
+    id != 17
+    and status = #{status}
   </select>
 </mapper>

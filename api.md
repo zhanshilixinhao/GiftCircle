@@ -4274,7 +4274,7 @@ JSON：
 | :----------: | :------: | :------: | :----: | :------: |
 | access_token |  string  |    是    |   无   | 访问令牌 |
 | bpId | long | 是 | 无 | 背包商品id |
-|type|int|是|1 支付宝，2 银行卡|
+|type|int|是|无|1 支付宝，2 银行卡|
 | depositBank  |  string  |    是    |   无   | 开户行名称（type=2时必填 |
 |  cardHolder  |  string  |    是    |   无   | 持卡人姓名（type=1时收款人姓名） |
 |    cardNo    |  string  |    是    |   无   |  银行卡号（type=1时支付宝账号）  |
@@ -4290,6 +4290,7 @@ JSON：
     "msg": "成功", 
     "time": 1530242784287
 }
+```
 
 
 ## 14 背包
@@ -6591,7 +6592,7 @@ JSON：
       "count": 2, //邀请人数
       "avatar": "https://wx.qlogo.cn/mmopen/vi_32/cLhvDgpVNMm24pZLQn9NJLvTbribW3ymS4dXSctqaaKWhF7NJcI1Nicqp0QGw2jjVPJBLBjGStsYkaefM5fiaq5SA/132" //创建着头像
      "eventTypeId": 1  //事件类型id
-
+      "eventTypeName": "生日" //事件类型名称
     },
     {
       "id": 1,   //type等于3时，节日事件id 
@@ -6607,7 +6608,6 @@ JSON：
       "count": null, 
       "avatar": "https://liyuquan.cn/staticcover.jpg" //节日事件标题
      "eventTypeId": null  //事件类型id
-
     },
     {
       "id": 2,
@@ -6623,6 +6623,7 @@ JSON：
       "count": 2,
       "avatar": "https://wx.qlogo.cn/mmopen/vi_32/cLhvDgpVNMm24pZLQn9NJLvTbribW3ymS4dXSctqaaKWhF7NJcI1Nicqp0QGw2jjVPJBLBjGStsYkaefM5fiaq5SA/132"
      "eventTypeId": 1  //事件类型id
+     "eventTypeName": "生日" 
     }
     ]
 }

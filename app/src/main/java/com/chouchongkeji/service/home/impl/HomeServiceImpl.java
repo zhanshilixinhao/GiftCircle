@@ -122,6 +122,9 @@ public class HomeServiceImpl implements HomeService {
             String oneDay = format.format(date1);// 现在日期
             CalendarVo calendarVo = new CalendarVo();
             HLResult almanacInfo = AlmanacApi.getAlmanacInfo(oneDay);
+            if ( almanacInfo.getShowapi_res_code()!=0){
+                return ResponseFactory.err(almanacInfo.getShowapi_res_error());
+            }
             String gongli = almanacInfo.getShowapi_res_body().getGongli(); //公历
             String s2 = gongli.replaceAll("公元","");
             calendarVo.setGongli(s2);
