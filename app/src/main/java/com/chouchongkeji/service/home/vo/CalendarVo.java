@@ -13,6 +13,16 @@ public class CalendarVo {
     private String suit;  //适宜
     private String jieri; //公历节日
     private String jieqi24;
+    private String date; //日期
+
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
 
     public String getAvoid() {
         return avoid;
