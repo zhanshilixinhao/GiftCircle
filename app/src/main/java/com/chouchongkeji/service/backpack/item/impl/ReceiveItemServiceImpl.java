@@ -158,6 +158,65 @@ public class ReceiveItemServiceImpl implements ReceiveItemService {
         return ResponseFactory.sucMsg("订单创建成功");
     }
 
+
+    /**
+     * 小程序创建提货订单
+     *
+     * @param userId
+     * @param bpId        背包商品id
+     * @param shipping  收货信息
+     * @return
+     * @author linqin
+     * @date 2019/3/13
+     */
+    @Override
+    public Response createWXReceiveOrder(Integer userId, Integer client, Long bpId, Shipping shipping) {
+        //根据背包商品id和用户id取出信息
+        BpItem bpItem = bpItemMapper.selectByUserIdAndBpItemId(userId, bpId);
+        if (bpItem == null) {
+            return ResponseFactory.err("背包里不存在该商品");
+        }
+        if (bpItem.getType() != Constants.BACKPACK_TYPE.ITEM) {
+            return ResponseFactory.err("物品才能提货!");
+        }
+
+        //判断数量是否大于0
+        if (bpItem.getQuantity() < 1) {
+            return ResponseFactory.err("商品数量不足");
+        }
+        //查询itemSku的值
+        Integer skuId = bpItem.getTargetId();
+        ItemSku itemSku = itemSkuMapper.selectBySkuId(skuId);
+
+        // 保存规格信息
+        SkuListVo skuListVo = itemSkuMapper.selectDetailBySkuId(skuId);
+        //创建订单
+        ReceiveItemOrder itemOrder = new ReceiveItemOrder();
+        itemOrder.setUserId(userId);
+        itemOrder.setItemId(itemSku.getItemId());
+        itemOrder.setBpId(bpId);
+        itemOrder.setSkuId(skuId);
+        itemOrder.setOrderNo(orderHelper.genOrderNo(client, 4));
+        itemOrder.setTitle(itemSku.getTitle()+orderService.genTitle(skuListVo));
+        itemOrder.setCover(itemSku.getCover());
+        itemOrder.setPrice(bpItem.getPrice());
+        itemOrder.setQuantity(1);
+        itemOrder.setReceiveInfo(JSON.toJSONString(shipping)); //json序列化 对象变成字符串
+        itemOrder.setStatus(Constants.ORDER_DELIVER.NO_DELIVER); //1未发货
+        int i = receiveItemOrderMapper.insert(itemOrder);
+        if (i < 1) {
+            return ResponseFactory.err("创建提货订单失败");
+        }
+        //减少背包里已经提货的物品
+        bpItem.setQuantity(bpItem.getQuantity() - 1);
+        //更新背包
+        bpItemMapper.updateByPrimaryKeySelective(bpItem);
+        return ResponseFactory.sucMsg("订单创建成功");
+    }
+
+
+
+
     /**
      * 提货订单列表
      *

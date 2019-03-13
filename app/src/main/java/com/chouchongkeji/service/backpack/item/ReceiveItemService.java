@@ -1,7 +1,9 @@
 package com.chouchongkeji.service.backpack.item;
 
+import com.chouchongkeji.dial.pojo.iwant.receiveAddress.Shipping;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.query.PageQuery;
+import org.springframework.web.bind.annotation.PostMapping;
 
 /**
  * @author linqin
@@ -77,4 +79,17 @@ public interface ReceiveItemService {
      * @date 2019/1/30
      */
     Response checkItemStatus(Integer userId, Long bpId);
+
+    /**
+     * 小程序创建提货订单
+     *
+     * @param userId
+     * @param bpId        背包商品id
+     * @param shipping  收货信息
+     * @return
+     * @author linqin
+     * @date 2019/3/13
+     */
+    @PostMapping("order_wx")
+    Response createWXReceiveOrder(Integer userId, Integer client, Long bpId, Shipping shipping);
 }

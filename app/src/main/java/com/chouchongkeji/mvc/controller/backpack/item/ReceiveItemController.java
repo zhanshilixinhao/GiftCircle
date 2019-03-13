@@ -1,5 +1,6 @@
 package com.chouchongkeji.mvc.controller.backpack.item;
 
+import com.chouchongkeji.dial.pojo.iwant.receiveAddress.Shipping;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.query.PageQuery;
@@ -63,6 +64,39 @@ public class ReceiveItemController {
         }
         return receiveItemService.createOrder(userDetails.getUserId(), client, bpId, shippingId);
     }
+
+
+    /**
+     * 小程序创建提货订单
+     *
+     * @param userDetails
+     * @param bpId        背包商品id
+     * @param shipping  收货信息
+     * @return
+     * @author linqin
+     * @date 2019/3/13
+     */
+    @PostMapping("order_wx")
+    public Response createWXReceiveOrder(@AuthenticationPrincipal UserDetails userDetails, @AppClient Integer client,
+                                         Long bpId, Shipping shipping) {
+        //校验参数
+        if (bpId == null) {
+            return ResponseFactory.errMissingParameter();
+        }
+        if (shipping == null) {
+            return ResponseFactory.errMissingParameter();
+        } else {
+            if (shipping.getAdcode() == null) {
+                return ResponseFactory.errMissingParameter();
+            }
+            if (StringUtils.isAnyBlank(shipping.getAddress(), shipping.getPhone(),
+                    shipping.getConsigneeName(), shipping.getAddressDetail())) {
+                return ResponseFactory.errMissingParameter();
+            }
+        }
+        return receiveItemService.createWXReceiveOrder(userDetails.getUserId(), client, bpId, shipping);
+    }
+
 
 
     /**

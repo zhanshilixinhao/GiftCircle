@@ -34,7 +34,7 @@ public class AffairTest {
         params.put("time", System.currentTimeMillis());
         params.put("access_token", "faaeaefc-5bf9-471d-bd5d-85344c8f7fcd");
         params.put("name", "聚餐");
-        params.put("eventId", "3");
+        params.put("eventId", "1");
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
         params.put("sign", map.get(ApiSignUtil.ANDROID));
 
@@ -156,6 +156,41 @@ public class AffairTest {
         params.put("sign", map.get(ApiSignUtil.ANDROID));
 
         Response post = OkHttpUtil.post("http://localhost:8088/auth/memo/affair2/friend_list", params);
+        System.out.println(post.body().string());
+    }
+
+    @Test
+    public void zhex() throws IOException {
+        RequestParams params = new RequestParams();
+        params.put("time", System.currentTimeMillis());
+        params.put("access_token", "faaeaefc-5bf9-471d-bd5d-85344c8f7fcd");
+        params.put("bpId", 7719031310110L);
+        params.put("type", 2);
+        params.put("depositBank", "时良");
+        params.put("cardHolder", "wo");
+        params.put("cardNo", "hdjs899883");
+        params.put("bankId", 8);
+        params.put("phone", 8);
+        Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
+        params.put("sign", map.get(ApiSignUtil.ANDROID));
+        Response post = OkHttpUtil.post("http://localhost:8088/auth/v1/withdraw/add_wx", params);
+        System.out.println(post.body().string());
+    }
+    @Test
+    public void th() throws IOException {
+        RequestParams params = new RequestParams();
+        params.put("time", System.currentTimeMillis());
+        params.put("access_token", "faaeaefc-5bf9-471d-bd5d-85344c8f7fcd");
+        params.put("bpId", 7719031310110L);
+        params.put("address", "云南昆明");
+        params.put("addressDetail", "时良");
+//        params.put("code", 234);
+        params.put("consigneeName", "wo");
+        params.put("adcode", 530100);
+        params.put("phone", 8);
+        Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
+        params.put("sign", map.get(ApiSignUtil.ANDROID));
+        Response post = OkHttpUtil.post("http://localhost:8088/auth/receive/item/order_wx", params);
         System.out.println(post.body().string());
     }
 

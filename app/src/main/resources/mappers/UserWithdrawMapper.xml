@@ -32,7 +32,7 @@
       created, updated)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{amount,jdbcType=DECIMAL},
       #{userBankcardId,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, #{describe,jdbcType=VARCHAR},
-      #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP})
+      now(), now())
   </insert>
   <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.iwant.wallet.UserWithdraw">
     insert into user_withdraw
