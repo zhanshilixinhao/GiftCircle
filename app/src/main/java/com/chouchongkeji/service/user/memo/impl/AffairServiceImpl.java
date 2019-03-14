@@ -316,7 +316,7 @@ public class AffairServiceImpl implements AffairService {
                 tarcalendar.set(Calendar.MINUTE,i3);
                 tarcalendar.set(Calendar.SECOND,i4);
                 Date time = tarcalendar.getTime();
-                for (int i = -5; i < 5; i++) {
+                for (int i = -104; i < 104; i++) {
                     MemoItemVo itemVo = (MemoItemVo) week.clone();
                     itemVo.setTargetTime(DateUtils.addWeeks(time, i));
                     list.add(itemVo);
