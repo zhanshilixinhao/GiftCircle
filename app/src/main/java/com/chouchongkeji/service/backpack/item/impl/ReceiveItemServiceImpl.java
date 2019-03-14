@@ -29,10 +29,12 @@ import com.chouchongkeji.util.Constants;
 import com.chouchongkeji.util.OrderHelper;
 import com.github.pagehelper.PageHelper;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -69,8 +71,9 @@ public class ReceiveItemServiceImpl implements ReceiveItemService {
 
     /**
      * 商品提货之前检查商品是否下架或删除
+     *
      * @param userId
-     * @param bpId 背包id
+     * @param bpId   背包id
      * @return
      * @author linqin
      * @date 2019/1/30
@@ -87,12 +90,12 @@ public class ReceiveItemServiceImpl implements ReceiveItemService {
         }
         // 根据skuId取出商品状态
         Item item = itemMapper.selectItemBySkuId(bpItem.getTargetId());
-        if (item.getStatus() != Constants.ITEM.NORMAL){
+        if (item.getStatus() != Constants.ITEM.NORMAL) {
             return ResponseFactory.err("该商品已经下架或删除，请选择其他处理方法或者联系客服！");
         }
         // 取出商品sku状态
         ItemSku sku = itemSkuMapper.selectByPrimaryKey(bpItem.getTargetId());
-        if (sku.getStatus() != Constants.ITEM.NORMAL){
+        if (sku.getStatus() != Constants.ITEM.NORMAL) {
             return ResponseFactory.err("该商品规格已经下架，请选择其他处理方法或者联系客服！");
         }
         return ResponseFactory.suc();
@@ -119,7 +122,10 @@ public class ReceiveItemServiceImpl implements ReceiveItemService {
         if (bpItem.getType() != Constants.BACKPACK_TYPE.ITEM) {
             return ResponseFactory.err("物品才能提货!");
         }
-
+        Date buyTime = bpItem.getBuyTime();
+        if (buyTime == null || DateUtils.addDays(buyTime, Constants.BP_EXPIRE_TIME).getTime() - System.currentTimeMillis() <= 0) {
+            return ResponseFactory.err("超过提货时限!");
+        }
         //判断数量是否大于0
         if (bpItem.getQuantity() < 1) {
             return ResponseFactory.err("商品数量不足");
@@ -141,7 +147,7 @@ public class ReceiveItemServiceImpl implements ReceiveItemService {
         itemOrder.setBpId(bpId);
         itemOrder.setSkuId(skuId);
         itemOrder.setOrderNo(orderHelper.genOrderNo(client, 4));
-        itemOrder.setTitle(itemSku.getTitle()+orderService.genTitle(skuListVo));
+        itemOrder.setTitle(itemSku.getTitle() + orderService.genTitle(skuListVo));
         itemOrder.setCover(itemSku.getCover());
         itemOrder.setPrice(bpItem.getPrice());
         itemOrder.setQuantity(1);
@@ -163,8 +169,8 @@ public class ReceiveItemServiceImpl implements ReceiveItemService {
      * 小程序创建提货订单
      *
      * @param userId
-     * @param bpId        背包商品id
-     * @param shipping  收货信息
+     * @param bpId     背包商品id
+     * @param shipping 收货信息
      * @return
      * @author linqin
      * @date 2019/3/13
@@ -179,7 +185,10 @@ public class ReceiveItemServiceImpl implements ReceiveItemService {
         if (bpItem.getType() != Constants.BACKPACK_TYPE.ITEM) {
             return ResponseFactory.err("物品才能提货!");
         }
-
+        Date buyTime = bpItem.getBuyTime();
+        if (buyTime == null || DateUtils.addDays(buyTime, Constants.BP_EXPIRE_TIME).getTime() - System.currentTimeMillis() <= 0) {
+            return ResponseFactory.err("超过提货时限!");
+        }
         //判断数量是否大于0
         if (bpItem.getQuantity() < 1) {
             return ResponseFactory.err("商品数量不足");
@@ -197,7 +206,7 @@ public class ReceiveItemServiceImpl implements ReceiveItemService {
         itemOrder.setBpId(bpId);
         itemOrder.setSkuId(skuId);
         itemOrder.setOrderNo(orderHelper.genOrderNo(client, 4));
-        itemOrder.setTitle(itemSku.getTitle()+orderService.genTitle(skuListVo));
+        itemOrder.setTitle(itemSku.getTitle() + orderService.genTitle(skuListVo));
         itemOrder.setCover(itemSku.getCover());
         itemOrder.setPrice(bpItem.getPrice());
         itemOrder.setQuantity(1);
@@ -213,8 +222,6 @@ public class ReceiveItemServiceImpl implements ReceiveItemService {
         bpItemMapper.updateByPrimaryKeySelective(bpItem);
         return ResponseFactory.sucMsg("订单创建成功");
     }
-
-
 
 
     /**

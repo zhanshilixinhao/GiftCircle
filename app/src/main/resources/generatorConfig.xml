@@ -236,5 +236,8 @@
         <!--<table tableName="order_collect" domainObjectName="OrderCollect" enableCountByExample="false"-->
                <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
                <!--selectByExampleQueryId="false"></table>-->
+        <!--<table tableName="wx_discount" domainObjectName="WXDiscount" enableCountByExample="false"-->
+               <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+               <!--selectByExampleQueryId="false"></table>-->
     </context>
 </generatorConfiguration>

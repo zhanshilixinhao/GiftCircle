@@ -166,9 +166,9 @@ public class AffairTest {
         params.put("access_token", "faaeaefc-5bf9-471d-bd5d-85344c8f7fcd");
         params.put("bpId", 7719031310110L);
         params.put("type", 2);
-        params.put("depositBank", "时良");
+        params.put("depositBank", "高新支行");
         params.put("cardHolder", "wo");
-        params.put("cardNo", "hdjs899883");
+        params.put("cardNo", "62480033440006666");
         params.put("bankId", 8);
         params.put("phone", 8);
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
@@ -176,6 +176,20 @@ public class AffairTest {
         Response post = OkHttpUtil.post("http://localhost:8088/auth/v1/withdraw/add_wx", params);
         System.out.println(post.body().string());
     }
+
+
+    @Test
+    public void wxDiscountRecords() throws IOException {
+        RequestParams params = new RequestParams();
+        params.put("time", System.currentTimeMillis());
+        params.put("access_token", "faaeaefc-5bf9-471d-bd5d-85344c8f7fcd");
+        Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
+        params.put("sign", map.get(ApiSignUtil.ANDROID));
+        Response post = OkHttpUtil.post("http://localhost:8088/auth/v1/withdraw/wxRecords", params);
+        System.out.println(post.body().string());
+    }
+
+
     @Test
     public void th() throws IOException {
         RequestParams params = new RequestParams();

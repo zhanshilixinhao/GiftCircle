@@ -17,8 +17,8 @@ import java.io.IOException;
 public class AlmanacApi {
 
     private static final String URL = "http://route.showapi.com/856-1";
-    private static final String appId = "87830";
-    private static final String appSecret = "f3be077c6f134cf0a7bfa05dceef067f";
+    private static final String appId = "89410";
+    private static final String appSecret = "4e0a66c488474fd9b779b610b4830082";
 
     public static HLResult getAlmanacInfo(String data) {
 //        RequestParams params = new RequestParams();

@@ -18,6 +18,7 @@ public class GiftSendVo2 {
     private Byte type; // 1 未领取 2 已领取部分 3 已领取全部 4 超时领取失败
     private String event; //事件
     private Date targetTime; //赠送时间
+    private Integer recordDetailId;
 
     public Long getBpId() {
         return bpId;
@@ -65,5 +66,13 @@ public class GiftSendVo2 {
 
     public void setTargetTime(Date targetTime) {
         this.targetTime = targetTime;
+    }
+
+    public Integer getRecordDetailId() {
+        return recordDetailId;
+    }
+
+    public void setRecordDetailId(Integer recordDetailId) {
+        this.recordDetailId = recordDetailId;
     }
 }

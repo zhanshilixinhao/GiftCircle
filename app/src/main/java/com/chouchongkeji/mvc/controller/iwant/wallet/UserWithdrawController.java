@@ -71,6 +71,16 @@ public class UserWithdrawController {
         return userWithdrawService.addWXBpWithdraw(details.getUserId(), bpId, type, bankCard);
     }
 
+    /**
+     * 微信折现 记录
+     * @param details
+     * @return
+     */
+    @PostMapping("wxRecords")
+    public Response addWXBpWithdraw(@AuthenticationPrincipal UserDetails details) {
+        return userWithdrawService.getWxRecords(details.getUserId());
+    }
+
 
     /**
      * 提现记录

@@ -1482,3 +1482,20 @@ create table if not exists welfare_record
   )
   comment '整点福利领取记录' charset=utf8mb4;
 
+
+create table if not exists wx_discount
+(
+  id int auto_increment primary key,
+  bank_id int(11) null comment '银行id',
+  user_id int(11) null comment '领取用户id',
+  bp_id bigint(21) null comment '背包id',
+  card_no varchar(255) comment '卡号',
+  type tinyint(4) comment '1 支付宝，2 银行卡',
+  deposit_bank varchar(255) comment '支行',
+  card_holder varchar(64) comment '持卡人',
+  phone varchar(15) comment '联系方式',
+  created datetime null,
+  updated datetime null
+)
+  comment '微信折现' charset=utf8mb4;
+

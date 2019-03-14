@@ -404,6 +404,10 @@ public class GiftServiceImpl implements GiftService {
         if (vbp == null || vbp.getQuantity() < sendVo.getFriendUserIds().size()) {
             return ResponseFactory.err("赠送的礼物不存在背包中或赠送的数量大于背包中的数量!");
         }
+        Date buyTime = vbp.getBuyTime();
+        if (buyTime == null || DateUtils.addDays(buyTime, Constants.BP_EXPIRE_TIME).getTime() - System.currentTimeMillis() <= 0) {
+            return ResponseFactory.err("超过赠送时限!");
+        }
         // 判断和被赠送的用户是不是好友关系
         for (Integer friendUserId : sendVo.getFriendUserIds()) {
             FriendVo friend = friendService.isFriend(userId, friendUserId);
@@ -458,7 +462,21 @@ public class GiftServiceImpl implements GiftService {
                 addItemToBp(detail.getId(), detail.getUserId(), list);
             }
         }
+        if (sendVo.getRecordDetailId() != null) {
+            updateRecordDetail(sendVo);
+        }
         return ResponseFactory.sucMsg("赠送成功");
+    }
+
+    /**
+     * 更新回礼状态
+     *
+     * @param sendVo
+     */
+    private void updateRecordDetail(GiftSendVo2 sendVo) {
+        GiftRecordDetail giftRecordDetail = giftRecordDetailMapper.selectByPrimaryKey(sendVo.getRecordDetailId());
+        giftRecordDetail.setIsReply((byte) (giftRecordDetail.getIsReply() | 4));
+        giftRecordDetailMapper.updateByPrimaryKeySelective(giftRecordDetail);
     }
 
 
@@ -775,7 +793,7 @@ public class GiftServiceImpl implements GiftService {
         }
         GiftRecordDetail newDetail = new GiftRecordDetail();
         newDetail.setId(detail.getId());
-        newDetail.setIsReply((byte) 1);
+        newDetail.setIsReply((byte) (detail.getIsReply() | 2));
         newDetail.setReply(reply);
         giftRecordDetailMapper.updateByPrimaryKeySelective(newDetail);
         // 根据记录详情id查询送礼者id

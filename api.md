@@ -120,7 +120,9 @@
 > 2. 备忘录2.0接口（22）
 > 3. 新加app礼物赠送接口（15.11）
 > 4. 小程序折现/提货（13.7/13.8）
-
+> 5. app礼物赠送接口（15.11）增加参数
+> 6. 礼物赠送消息返回字段isReplay值修改
+> 7. 小程序折现记录（13.9）
 
 ## 目录
 <span id="m"> </span>
@@ -4292,6 +4294,46 @@ JSON：
 }
 ```
 
+### 13.9 小程序商品折现记录
+- 请求地址：auth/v1/withdraw/wxRecords
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：linqin
+
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+
+```js
+{
+  "errCode": 0,
+  "result": 0,
+  "time": 1552571451761,
+  "data": [
+    {
+      "id": 1,
+      "bankId": 8,
+      "userId": 6,
+      "bpId": 7719031310110,
+      "cardNo": "62480033440006666",
+      "type": 2,
+      "depositBank": "高新支行", // 支行
+      "cardHolder": "wo", // 持卡人
+      "phone": "",
+      "created": null, // 创建事件
+      "updated": null,
+      "status": 1, // 1 折现中 2 成功 3 失败
+      "amount": 420.75, // 商品折现后的金额
+      "price": 495.00, // 商品价格
+      "cover": "/item/190130/2062e68e-bdf8-4294-9299-b1bffcab7b36.jpg",
+      "title": "【官方正品】纪梵希绒雾哑光粉饼 遮瑕控油 持久轻薄 定妆粉  标准款"
+    }
+  ]
+}
+
+```
+
 
 ## 14 背包
 
@@ -4704,6 +4746,7 @@ JSON：
 | event | string | 是 | 无 | 事件名称 |
 | type | int | 是 | 无 | 1 立即赠送 2 按时间赠送|
 | targetTime | long | 是 | 无 | 赠送时间的时间戳 |
+| recordDetailId | int | 否 | 无 | 赠送记录详情id |
 |de|string|是|无|赠送密码|
 |s2|string|是|无|客户端随机数|
 
@@ -5068,6 +5111,7 @@ JSON：
 | event | string | 是 | 无 | 事件名称 |
 | type | int | 是 | 无 | 1 立即赠送 2 按时间赠送|
 | targetTime | long | 是 | 无 | 赠送时间的时间戳 |
+| recordDetailId | int | 否 | 无 | 赠送记录详情id--回礼 |
 
 
 
@@ -5182,7 +5226,7 @@ JSON：
             friendId: 1, // 好友id 为null代表不是好友
             relationShip: "", 
             reply: "",
-			isReply: 2, // 1 已答谢 2 未答谢
+			isReply: 0, // isReplay & 2 = 2 以答谢 isReplay & 4 = 4 已回礼
             created: 1530847416000
             targetTime: 1543273052000, 
         }

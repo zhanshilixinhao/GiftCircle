@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chouchongkeji.dial.dao.user.memo.WXDiscountMapper">
+  <resultMap id="BaseResultMap" type="com.chouchongkeji.dial.pojo.user.memo.WXDiscount">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="bank_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="bp_id" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="card_no" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="type" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="deposit_bank" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="card_holder" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="phone" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="amount" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="price" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, bank_id, user_id, bp_id, card_no, type, deposit_bank, card_holder, phone, created,
+    updated, status, amount, price
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from wx_discount
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="selectByUserId" resultType="com.chouchongkeji.service.iwant.wallet.vo.WXDiscountVo">
+     select a.id,
+       a.bank_id,
+       a.user_id,
+       a.bp_id,
+       a.card_no,
+       a.type,
+       a.deposit_bank,
+       a.card_holder,
+       a.phone,
+       a.created,
+       a.updated,
+       a.status,
+       a.amount,
+       a.price,
+       b.title,
+       b.cover
+from wx_discount a
+       left join v_bp b on b.id = a.bp_id
+where a.user_id = #{userId}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from wx_discount
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.user.memo.WXDiscount">
+    insert into wx_discount (id, bank_id, user_id,
+      bp_id, card_no, type,
+      deposit_bank, card_holder, phone,
+      created, updated, status,
+      amount, price)
+    values (#{id,jdbcType=INTEGER}, #{bankId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER},
+      #{bpId,jdbcType=BIGINT}, #{cardNo,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT},
+      #{depositBank,jdbcType=VARCHAR}, #{cardHolder,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},
+      now(), now(), #{status,jdbcType=TINYINT},
+      #{amount,jdbcType=DECIMAL}, #{price,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.user.memo.WXDiscount">
+    insert into wx_discount
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="bankId != null">
+        bank_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="bpId != null">
+        bp_id,
+      </if>
+      <if test="cardNo != null">
+        card_no,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="depositBank != null">
+        deposit_bank,
+      </if>
+      <if test="cardHolder != null">
+        card_holder,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="created != null">
+        created,
+      </if>
+      <if test="updated != null">
+        updated,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="amount != null">
+        amount,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="bankId != null">
+        #{bankId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="bpId != null">
+        #{bpId,jdbcType=BIGINT},
+      </if>
+      <if test="cardNo != null">
+        #{cardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="depositBank != null">
+        #{depositBank,jdbcType=VARCHAR},
+      </if>
+      <if test="cardHolder != null">
+        #{cardHolder,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chouchongkeji.dial.pojo.user.memo.WXDiscount">
+    update wx_discount
+    <set>
+      <if test="bankId != null">
+        bank_id = #{bankId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="bpId != null">
+        bp_id = #{bpId,jdbcType=BIGINT},
+      </if>
+      <if test="cardNo != null">
+        card_no = #{cardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="depositBank != null">
+        deposit_bank = #{depositBank,jdbcType=VARCHAR},
+      </if>
+      <if test="cardHolder != null">
+        card_holder = #{cardHolder,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        updated = #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="amount != null">
+        amount = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.dial.pojo.user.memo.WXDiscount">
+    update wx_discount
+    set bank_id = #{bankId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      bp_id = #{bpId,jdbcType=BIGINT},
+      card_no = #{cardNo,jdbcType=VARCHAR},
+      type = #{type,jdbcType=TINYINT},
+      deposit_bank = #{depositBank,jdbcType=VARCHAR},
+      card_holder = #{cardHolder,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      created = #{created,jdbcType=TIMESTAMP},
+      updated = #{updated,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=TINYINT},
+      amount = #{amount,jdbcType=DECIMAL},
+      price = #{price,jdbcType=DECIMAL}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

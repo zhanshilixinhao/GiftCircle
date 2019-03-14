@@ -35,5 +35,13 @@ public interface UserWithdrawService {
      * @author: yy
      * @Date: 2018/6/8
      */
-    Response addWXBpWithdraw(Integer userId, Long bpId,Byte type, UserBankCardVo bankCard);
+    Response addWXBpWithdraw(Integer userId, Long bpId, Byte type, UserBankCardVo bankCard);
+
+    /**
+     * 微信折现 记录
+     *
+     * @param userId
+     * @return
+     */
+    Response getWxRecords(Integer userId);
 }
