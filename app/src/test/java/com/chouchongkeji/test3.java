@@ -63,12 +63,12 @@ public class test3 {
 
     @Test
     public void data() throws ParseException {
-        Date now = new Date();
+        Date now = new Date(1550215064797L);
 //        DateUtils.addDays(now,3);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");//可以方便地修改日期格式
         String hehe = dateFormat.format(now); //日期
         Date parse = dateFormat.parse(hehe);  //时间戳
-//        System.out.println(parse.getTime());
+        System.out.println(parse.getTime());
         System.out.println(hehe);
     }
 

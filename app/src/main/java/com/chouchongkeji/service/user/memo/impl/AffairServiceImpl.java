@@ -306,12 +306,19 @@ public class AffairServiceImpl implements AffairService {
                 tarcalendar.setTime(week.getTargetTime());
                 // 目标星期
                 int i1 = tarcalendar.get(Calendar.DAY_OF_WEEK);
+                int i2 = tarcalendar.get(Calendar.HOUR_OF_DAY);
+                int i3 = tarcalendar.get(Calendar.MINUTE);
+                int i4 = tarcalendar.get(Calendar.SECOND);
                 //现在时间
                 tarcalendar.setTime(new Date());
                 tarcalendar.set(Calendar.DAY_OF_WEEK, i1);
-                for (int i = -100; i < 100; i++) {
+                tarcalendar.set(Calendar.HOUR_OF_DAY,i2);
+                tarcalendar.set(Calendar.MINUTE,i3);
+                tarcalendar.set(Calendar.SECOND,i4);
+                Date time = tarcalendar.getTime();
+                for (int i = -5; i < 5; i++) {
                     MemoItemVo itemVo = (MemoItemVo) week.clone();
-                    itemVo.setTargetTime(DateUtils.addWeeks(tarcalendar.getTime(), i));
+                    itemVo.setTargetTime(DateUtils.addWeeks(time, i));
                     list.add(itemVo);
                 }
             }
@@ -364,8 +371,6 @@ public class AffairServiceImpl implements AffairService {
                     //目标日期
                     tarcalendar.setTime(item.getTargetTime());
                     int day = tarcalendar.get(Calendar.DAY_OF_MONTH);
-                    // 调整到当前年份
-                    tarcalendar.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR));
                     Date time = tarcalendar.getTime();
                     for (int i = -5; i < 5; i++) {
                         MemoItemVo itemVo = (MemoItemVo) item.clone();
