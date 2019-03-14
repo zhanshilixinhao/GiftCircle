@@ -28,6 +28,8 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
@@ -295,30 +297,58 @@ public class AffairServiceImpl implements AffairService {
         if (CollectionUtils.isNotEmpty(memos)) {
             list.addAll(memos);
         }
-        // 按周循环（157周）
+        // 按周循环（200周）
         List<MemoItemVo> weeks = memoAffairMapper.selectAllByUserIdWeek(userId);
-        if (CollectionUtils.isNotEmpty(weeks)) {
-            try {
-                for (MemoItemVo week : weeks) {
-                    for (int i = 0; i < 157; i++) {
-                        MemoItemVo itemVo = (MemoItemVo) week.clone();
-                        itemVo.setTargetTime(DateUtils.addWeeks(week.getTargetTime(),i ));
-                        list.add(itemVo);
-                    }
+        if (CollectionUtils.isNotEmpty(weeks)) try {
+            for (MemoItemVo week : weeks) {
+                // 目标日期
+                Calendar tarcalendar = Calendar.getInstance();
+                tarcalendar.setTime(week.getTargetTime());
+                // 目标星期
+                int i1 = tarcalendar.get(Calendar.DAY_OF_WEEK);
+                //现在时间
+                tarcalendar.setTime(new Date());
+                tarcalendar.set(Calendar.DAY_OF_WEEK, i1);
+                for (int i = -100; i < 100; i++) {
+                    MemoItemVo itemVo = (MemoItemVo) week.clone();
+                    itemVo.setTargetTime(DateUtils.addWeeks(tarcalendar.getTime(), i));
+                    list.add(itemVo);
                 }
-            } catch (CloneNotSupportedException e) {
-                e.printStackTrace();
             }
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
         }
         // 按月循环(36个月)
         List<MemoItemVo> months = memoAffairMapper.selectAllByUserIdMonth(userId);
         if (CollectionUtils.isNotEmpty(months)) {
             try {
                 for (MemoItemVo item : months) {
-                    for (int i = 0; i < 36; i++) {
+                    // 当前日期
+                    Calendar tarcalendar = Calendar.getInstance();
+                    // 目标日期
+                    tarcalendar.setTime(item.getTargetTime());
+                    int day = tarcalendar.get(Calendar.DAY_OF_MONTH);//天
+                    int month = tarcalendar.get(Calendar.MONTH);//月
+                    int year = tarcalendar.get(Calendar.YEAR);// 年
+                    // 判断是是闰年
+                    if ((year % 4 == 0 && year % 100 != 0) || (year % 100 == 0 && year % 400 == 0)) {
+                        //2月29
+                        if (month == 1 && day == 29) {
+                            tarcalendar.set(Calendar.MONTH, 2);
+                        }
+                    }
+                    // 调整到当前年份
+                    tarcalendar.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR));
+                    Date time = tarcalendar.getTime();
+                    for (int i = -18; i < 18; i++) {
                         MemoItemVo itemVo = (MemoItemVo) item.clone();
-                        itemVo.setTargetTime(DateUtils.addMonths(item.getTargetTime(), i));
-                        list.add(itemVo);
+                        //取出加了月份的日期
+                        tarcalendar.setTime(DateUtils.addMonths(time, i));
+                        int day2 = tarcalendar.get(Calendar.DAY_OF_MONTH);
+                        if (day == day2) {
+                            itemVo.setTargetTime(DateUtils.addMonths(time, i));
+                            list.add(itemVo);
+                        }
                     }
                 }
             } catch (CloneNotSupportedException e) {
@@ -330,10 +360,22 @@ public class AffairServiceImpl implements AffairService {
         if (CollectionUtils.isNotEmpty(years)) {
             try {
                 for (MemoItemVo item : years) {
+                    Calendar tarcalendar = Calendar.getInstance();
+                    //目标日期
+                    tarcalendar.setTime(item.getTargetTime());
+                    int day = tarcalendar.get(Calendar.DAY_OF_MONTH);
+                    // 调整到当前年份
+                    tarcalendar.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR));
+                    Date time = tarcalendar.getTime();
                     for (int i = -5; i < 5; i++) {
                         MemoItemVo itemVo = (MemoItemVo) item.clone();
-                        itemVo.setTargetTime(DateUtils.addYears(item.getTargetTime(), i));
-                        list.add(itemVo);
+                        // 取出调整后日期
+                        tarcalendar.setTime(DateUtils.addYears(time, i));
+                        int day2 = tarcalendar.get(Calendar.DAY_OF_MONTH);
+                        if (day == day2){
+                            itemVo.setTargetTime(DateUtils.addYears(time, i));
+                            list.add(itemVo);
+                        }
                     }
                 }
             } catch (CloneNotSupportedException e) {
@@ -348,8 +390,8 @@ public class AffairServiceImpl implements AffairService {
      * 获得好友的备忘录
      *
      * @param userId 用户信息
-     * @param start       开始时间
-     * @param end         结束时间
+     * @param start  开始时间
+     * @param end    结束时间
      * @return
      * @author linqin
      * @date 2018/6/22
@@ -370,17 +412,17 @@ public class AffairServiceImpl implements AffairService {
     /**
      * 节日事件详情
      *
-     * @param id          节日事件id
+     * @param id 节日事件id
      * @return
      * @author linqin
-     *  @date 2018/6/22
+     * @date 2018/6/22
      */
     @Override
     public Response memoFestivalDetail(Integer userId, Integer id) {
         MemoFestivalVo vo = new MemoFestivalVo();
         //节日详情
         MemoFestival festival = memoFestivalMapper.selectById(id);
-        if (festival == null){
+        if (festival == null) {
             return ResponseFactory.err("节日事件不存在");
         }
         // 黄历宜忌
@@ -404,13 +446,13 @@ public class AffairServiceImpl implements AffairService {
     /**
      * 节日事件详情页商品列表
      *
-     * @param id          节日事件id
+     * @param id 节日事件id
      * @return
      * @author linqin
-     *  @date 2018/6/22
+     * @date 2018/6/22
      */
     @Override
-    public Response memoFestivalDetailItems(Integer userId,Integer id) {
+    public Response memoFestivalDetailItems(Integer userId, Integer id) {
         List<ItemListVo> list = memoFestivalItemMapper.selectByFestival(id);
         return ResponseFactory.sucData(list);
     }
