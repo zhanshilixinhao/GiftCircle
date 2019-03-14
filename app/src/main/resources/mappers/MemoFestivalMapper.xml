@@ -29,7 +29,7 @@
             id,
             target_time,
             `name`,
-               summary as detail,
+             summary as detail,
             created,
             cover as avatar,
             3 as type
@@ -42,6 +42,24 @@ select
 from memo_festival
 where id = #{id}
   </select>
+  <select id="selectHomeFestival" resultType="com.chouchongkeji.service.user.memo.vo.MemoItemVo">
+    SELECT
+            id,
+            target_time,
+            `name`,
+             summary as detail,
+            created,
+            cover as avatar,
+            3 as type
+        FROM
+            memo_festival
+            WHERE
+    UNIX_TIMESTAMP( target_time ) >= #{start}
+    and unix_timestamp(target_time) &lt; #{end} + 604800
+    ORDER BY
+    target_time
+  </select>
+
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from memo_festival

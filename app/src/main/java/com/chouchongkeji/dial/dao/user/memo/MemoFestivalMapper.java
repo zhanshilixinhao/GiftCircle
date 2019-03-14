@@ -2,6 +2,7 @@ package com.chouchongkeji.dial.dao.user.memo;
 
 import com.chouchongkeji.dial.pojo.user.memo.MemoFestival;
 import com.chouchongkeji.service.user.memo.vo.MemoItemVo;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -30,4 +31,10 @@ public interface MemoFestivalMapper {
      * @return
      */
     MemoFestival selectById(Integer id);
+
+    /**
+     * 7天内的节日
+     * @return
+     */
+    List<MemoItemVo> selectHomeFestival(@Param("start") Long start, @Param("end") Long end);
 }

@@ -154,7 +154,7 @@
     WHERE
     UNIX_TIMESTAMP( a.target_time ) >= #{start}
     and unix_timestamp(a.target_time) &lt; #{end} + 604800
-    and is_circulation = 2
+    and is_circulation = 0
     ORDER BY
     a.target_time
 

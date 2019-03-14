@@ -2,6 +2,8 @@ package com.chouchongkeji.service.user.memo.impl;
 
 import com.chouchongkeji.dial.dao.friend.FriendMapper;
 import com.chouchongkeji.dial.dao.user.memo.MemoAffairMapper;
+import com.chouchongkeji.dial.dao.user.memo.MemoFestivalItemMapper;
+import com.chouchongkeji.dial.dao.user.memo.MemoFestivalMapper;
 import com.chouchongkeji.dial.pojo.user.memo.MemoAffair;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
@@ -9,6 +11,7 @@ import com.chouchongkeji.service.user.friend.vo.FriendVo;
 import com.chouchongkeji.service.user.memo.MemoAffairService;
 import com.chouchongkeji.service.user.memo.vo.HomeMemoItemVo;
 import com.chouchongkeji.service.user.memo.vo.MemoItemVo;
+import com.chouchongkeji.util.OrderHelper;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,8 +41,8 @@ public class MemoAffairServiceImpl implements MemoAffairService {
     @Autowired
     private MemoAffairMapper memoAffairMapper;
 
-//    @Autowired
-//    private OrderHelper orderHelper;
+    @Autowired
+    private MemoFestivalMapper memoFestivalMapper;
 
     /**
      * 添加备忘录事件
@@ -207,6 +210,23 @@ public class MemoAffairServiceImpl implements MemoAffairService {
         Long start = time(System.currentTimeMillis());
         Long end = timeEnd(System.currentTimeMillis());
         List<HomeMemoItemVo> list = memoAffairMapper.selectLastByUserId(userId, start, end);
+        // 节日事件
+        List<MemoItemVo> memos = memoFestivalMapper.selectHomeFestival( start, end);
+        if (CollectionUtils.isNotEmpty(memos)) {
+            for (MemoItemVo memo : memos) {
+                float d = (memo.getTargetTime().getTime()) / 86400000f;
+                HomeMemoItemVo homeMemoItemVo = new HomeMemoItemVo();
+                homeMemoItemVo.setId(memo.getId());
+                homeMemoItemVo.setAvatar(memo.getAvatar());
+                homeMemoItemVo.setNickname("");
+                homeMemoItemVo.setDays(7 - d);
+                homeMemoItemVo.setTargetTime(memo.getTargetTime());
+                homeMemoItemVo.setCreated(memo.getCreated());
+                homeMemoItemVo.setDetail(memo.getDetail());
+                homeMemoItemVo.setType(memo.getType());
+                list.add(homeMemoItemVo);
+            }
+        }
 //         所有循环事件
         List<MemoItemVo> list1 = memoAffairMapper.selectAllByUserId(userId);
         if (CollectionUtils.isNotEmpty(list1)) {
