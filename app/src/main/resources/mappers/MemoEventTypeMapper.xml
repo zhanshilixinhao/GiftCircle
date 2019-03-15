@@ -42,7 +42,7 @@ where name = #{name}
     from memo_event_type
     where
     user_id = #{userId}
-    or userId = 0
+    or user_id = 0
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from memo_event_type
