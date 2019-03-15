@@ -63,7 +63,7 @@ public class test3 {
 
     @Test
     public void data() throws ParseException {
-        Date now = new Date(1555039635686L);
+        Date now = new Date(1552619808480L);
 //        DateUtils.addDays(now,3);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");//可以方便地修改日期格式
         String hehe = dateFormat.format(now); //日期

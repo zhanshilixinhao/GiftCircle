@@ -13,14 +13,14 @@ public class CalendarVo {
     private String suit;  //适宜
     private String jieri; //公历节日
     private String jieqi24;
-    private String date; //日期
+    private Long date; //日期
 
 
-    public String getDate() {
+    public Long getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Long date) {
         this.date = date;
     }
 

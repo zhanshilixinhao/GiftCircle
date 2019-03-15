@@ -31,5 +31,7 @@ public interface MemoEventTypeMapper {
      * @param userId
      * @return
      */
-    List<MemoEventType> selectByUserId(Integer userId);
+    MemoEventType selectByUserId(@Param("userId") Integer userId,@Param("eventTypeId") Integer eventTypeId);
+
+    List<MemoEventType> selectAllByUserId(Integer userId);
 }

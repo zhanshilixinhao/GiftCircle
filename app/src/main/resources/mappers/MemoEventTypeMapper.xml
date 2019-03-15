@@ -34,9 +34,17 @@ where name = #{name}
       from memo_event_type
       where
        user_id = #{userId}
-      or user_id = 0
+      and id = #{eventTypeId}
     </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <select id="selectAllByUserId" resultType="com.chouchongkeji.dial.pojo.user.memo.MemoEventType">
+    select
+    <include refid="Base_Column_List"/>
+    from memo_event_type
+    where
+    user_id = #{userId}
+    or userId = 0
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from memo_event_type
     where id = #{id,jdbcType=INTEGER}
   </delete>

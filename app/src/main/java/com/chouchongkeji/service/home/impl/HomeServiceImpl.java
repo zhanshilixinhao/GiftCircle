@@ -118,11 +118,13 @@ public class HomeServiceImpl implements HomeService {
         List<CalendarVo> list = new ArrayList<>();
         for (int i = 0; i > -5; i--) {
             Date date1 = DateUtils.addDays(date, i);
+
 //            SimpleDateFormat dateFormat = new  SimpleDateFormat("yyyyMM");
 //            String oneMonth = dateFormat.format(date1);// 现在月份
             SimpleDateFormat format = new  SimpleDateFormat("yyyyMMdd");
             String oneDay = format.format(date1);// 现在日期
             CalendarVo calendarVo = new CalendarVo();
+            calendarVo.setDate(date1.getTime());
             HLResult almanacInfo = AlmanacApi.getAlmanacInfo(oneDay);
             if ( almanacInfo.getShowapi_res_code()!=0){
                 return ResponseFactory.err(almanacInfo.getShowapi_res_error());

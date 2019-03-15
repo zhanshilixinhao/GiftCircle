@@ -155,7 +155,7 @@ public class AffairServiceImpl implements AffairService {
      */
     @Override
     public Response getEventTypeList(Integer userId) {
-        List<MemoEventType> list = memoEventTypeMapper.selectByUserId(userId);
+        List<MemoEventType> list = memoEventTypeMapper.selectAllByUserId(userId);
         return ResponseFactory.sucData(list);
     }
 
@@ -183,13 +183,9 @@ public class AffairServiceImpl implements AffairService {
         // 事件类型
         Integer eventTypeId = memoAffair.getEventTypeId();
         if (eventTypeId != null) {
-            List<MemoEventType> list = memoEventTypeMapper.selectByUserId(userId);
-            if (!CollectionUtils.isEmpty(list)) {
-                for (MemoEventType memoEventType : list) {
-                    if (!memoEventType.getId().equals(eventTypeId)) {
-                        return ResponseFactory.err("事件类型id不正确");
-                    }
-                }
+            MemoEventType list = memoEventTypeMapper.selectByUserId(userId,eventTypeId);
+            if (list == null){
+                return ResponseFactory.err("事件类型不存在");
             }
         }
         memoAffair.setUserId(userId);
@@ -238,13 +234,9 @@ public class AffairServiceImpl implements AffairService {
         // 事件类型
         Integer eventTypeId = affair.getEventTypeId();
         if (eventTypeId != null) {
-            List<MemoEventType> list = memoEventTypeMapper.selectByUserId(userId);
-            if (!CollectionUtils.isEmpty(list)) {
-                for (MemoEventType memoEventType : list) {
-                    if (!memoEventType.getId().equals(eventTypeId)) {
-                        return ResponseFactory.err("事件类型id不正确");
-                    }
-                }
+            MemoEventType list = memoEventTypeMapper.selectByUserId(userId,eventTypeId);
+            if (list == null){
+                return ResponseFactory.err("事件类型不存在");
             }
         }
         // 修改活动信息
