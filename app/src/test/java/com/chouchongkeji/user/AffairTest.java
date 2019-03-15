@@ -128,7 +128,7 @@ public class AffairTest {
         RequestParams params = new RequestParams();
         params.put("time", System.currentTimeMillis());
         params.put("access_token", "faaeaefc-5bf9-471d-bd5d-85344c8f7fcd");
-        params.put("id", "1");
+        params.put("id", "2");
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
         params.put("sign", map.get(ApiSignUtil.ANDROID));
 
