@@ -90,6 +90,5 @@ public interface ReceiveItemService {
      * @author linqin
      * @date 2019/3/13
      */
-    @PostMapping("order_wx")
     Response createWXReceiveOrder(Integer userId, Integer client, Long bpId, Shipping shipping);
 }
