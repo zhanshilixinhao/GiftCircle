@@ -66,7 +66,7 @@ public class HomeController {
      * @date 2018/7/6
      */
     @PostMapping("calendar")
-    public Response getCalendar() {
+    public Response getCalendar() throws ParseException {
         return homeService.getCalendar();
     }
 

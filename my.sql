@@ -1499,3 +1499,18 @@ create table if not exists wx_discount
 )
   comment '微信折现' charset=utf8mb4;
 
+
+create table if not exists almanac
+(
+  id int auto_increment primary key,
+  gongli varchar(50) comment '公历',
+  nongli varchar(50) comment '农历',
+  avoid varchar(100) comment '忌讳',
+  suit varchar(100) comment '适宜',
+  jieri varchar(50) comment '节日',
+  jieqi24 varchar(50) comment '24节气',
+  created datetime null,
+  updated datetime null
+)
+  comment '老黄历' charset=utf8mb4;
+

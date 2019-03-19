@@ -51,5 +51,5 @@ public interface HomeService {
      * @author linqin
      * @date 2018/7/6
      */
-    Response getCalendar();
+    Response getCalendar() throws ParseException;
 }
