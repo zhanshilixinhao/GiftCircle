@@ -3,6 +3,7 @@ package com.chouchongkeji.service.iwant.wallet;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.query.PageQuery;
 import com.chouchongkeji.service.iwant.wallet.vo.UserBankCardVo;
+import com.chouchongkeji.service.iwant.wallet.vo.UserBankVo2;
 
 import java.math.BigDecimal;
 
@@ -35,7 +36,7 @@ public interface UserWithdrawService {
      * @author: yy
      * @Date: 2018/6/8
      */
-    Response addWXBpWithdraw(Integer userId, Long bpId, Byte type, UserBankCardVo bankCard);
+    Response addWXBpWithdraw(Integer userId, Long bpId, Byte type, UserBankVo2 bankCard);
 
     /**
      * 微信折现 记录

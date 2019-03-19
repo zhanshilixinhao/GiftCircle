@@ -17,6 +17,7 @@ import com.chouchongkeji.goexplore.utils.BigDecimalUtil;
 import com.chouchongkeji.service.iwant.wallet.BankCardService;
 import com.chouchongkeji.service.iwant.wallet.UserWithdrawService;
 import com.chouchongkeji.service.iwant.wallet.vo.UserBankCardVo;
+import com.chouchongkeji.service.iwant.wallet.vo.UserBankVo2;
 import com.chouchongkeji.service.iwant.wallet.vo.UserWithdrawVo;
 import com.chouchongkeji.service.iwant.wallet.vo.WXDiscountVo;
 import com.chouchongkeji.util.Constants;
@@ -117,7 +118,7 @@ public class UserWithdrawServiceImpl implements UserWithdrawService {
      * @Date: 2018/6/8
      */
     @Override
-    public Response addWXBpWithdraw(Integer userId, Long bpId, Byte type, UserBankCardVo bankCard) {
+    public Response addWXBpWithdraw(Integer userId, Long bpId, Byte type, UserBankVo2 bankCard) {
         //根据背包商品id和用户id取出信息
         BpItem bpItem = bpItemMapper.selectByUserIdAndBpItemId(userId, bpId);
         if (bpItem == null) {
@@ -144,6 +145,7 @@ public class UserWithdrawServiceImpl implements UserWithdrawService {
         discount.setAmount(discountPrice);
         discount.setUserId(userId);
         discount.setStatus((byte) 1);
+        discount.setPhone(bankCard.getPhone());
         int count = wxDiscountMapper.insert(discount);
         if (count < 1) {
             return ResponseFactory.err("提现申请失败!");

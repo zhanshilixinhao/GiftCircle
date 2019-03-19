@@ -5,6 +5,7 @@ import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.query.PageQuery;
 import com.chouchongkeji.service.iwant.wallet.UserWithdrawService;
 import com.chouchongkeji.service.iwant.wallet.vo.UserBankCardVo;
+import com.chouchongkeji.service.iwant.wallet.vo.UserBankVo2;
 import com.yichen.auth.service.UserDetails;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +57,7 @@ public class UserWithdrawController {
      * @Date: 2018/6/8
      */
     @PostMapping("add_wx")
-    public Response addWXBpWithdraw(@AuthenticationPrincipal UserDetails details, Long bpId, Byte type, UserBankCardVo bankCard) {
+    public Response addWXBpWithdraw(@AuthenticationPrincipal UserDetails details, Long bpId, Byte type, UserBankVo2 bankCard) {
         if (bpId == null || bankCard == null || type == null) {
             return ResponseFactory.errMissingParameter();
         }

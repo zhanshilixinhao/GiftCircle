@@ -164,7 +164,7 @@ public class AffairTest {
         RequestParams params = new RequestParams();
         params.put("time", System.currentTimeMillis());
         params.put("access_token", "faaeaefc-5bf9-471d-bd5d-85344c8f7fcd");
-        params.put("bpId", 7719031310110L);
+        params.put("bpId", 7719031310119L);
         params.put("type", 2);
         params.put("depositBank", "高新支行");
         params.put("cardHolder", "wo");
