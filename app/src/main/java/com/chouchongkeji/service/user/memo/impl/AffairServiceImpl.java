@@ -1,5 +1,6 @@
 package com.chouchongkeji.service.user.memo.impl;
 
+import com.alibaba.fastjson.TypeReference;
 import com.chouchongkeji.dial.dao.friend.FriendMapper;
 import com.chouchongkeji.dial.dao.user.memo.MemoAffairMapper;
 import com.chouchongkeji.dial.dao.user.memo.MemoEventTypeMapper;
@@ -10,10 +11,14 @@ import com.chouchongkeji.dial.pojo.friend.FriendGroup;
 import com.chouchongkeji.dial.pojo.user.memo.MemoAffair;
 import com.chouchongkeji.dial.pojo.user.memo.MemoEventType;
 import com.chouchongkeji.dial.pojo.user.memo.MemoFestival;
+import com.chouchongkeji.dial.redis.CacheCallback;
+import com.chouchongkeji.dial.redis.MRedisTemplate;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
+import com.chouchongkeji.service.home.HomeService;
 import com.chouchongkeji.service.home.almanac.AlmanacApi;
 import com.chouchongkeji.service.home.almanac.HLResult;
+import com.chouchongkeji.service.home.vo.CalendarVo;
 import com.chouchongkeji.service.mall.item.vo.ItemListVo;
 import com.chouchongkeji.service.user.friend.vo.FriendVo;
 import com.chouchongkeji.service.user.memo.AffairService;
@@ -23,6 +28,7 @@ import com.chouchongkeji.service.user.memo.vo.MemoItemVo;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +38,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author linqin
@@ -55,6 +62,12 @@ public class AffairServiceImpl implements AffairService {
 
     @Autowired
     private MemoFestivalItemMapper memoFestivalItemMapper;
+
+    @Autowired
+    private MRedisTemplate mRedisTemplate;
+
+    @Autowired
+    private HomeService homeService;
 
     /**
      * 添加备忘录事件类型
@@ -425,17 +438,21 @@ public class AffairServiceImpl implements AffairService {
         // 黄历宜忌
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
         String time = dateFormat.format(festival.getTargetTime()); //日期
-        HLResult almanacInfo = AlmanacApi.getAlmanacInfo(time); //黄历接口
-        String yi = almanacInfo.getShowapi_res_body().getYi();
-        String ji = almanacInfo.getShowapi_res_body().getJi();
+        CalendarVo calendarVo = mRedisTemplate.get(time, 30, TimeUnit.DAYS, new TypeReference<CalendarVo>() {
+        }, new CacheCallback<CalendarVo>() {
+            @Override
+            public CalendarVo load() {
+                return homeService.getAlmanacDay(time);
+            }
+        });
         vo.setId(id);
         vo.setPicture(festival.getPicture());
         vo.setTitle(festival.getTitle());
         vo.setTargetTime(festival.getTargetTime());
         vo.setDetail(festival.getDetail());
         vo.setCreated(festival.getCreated());
-        vo.setYi(yi);
-        vo.setJi(ji);
+        vo.setYi(calendarVo.getSuit());
+        vo.setJi(calendarVo.getAvoid());
         return ResponseFactory.sucData(vo);
     }
 

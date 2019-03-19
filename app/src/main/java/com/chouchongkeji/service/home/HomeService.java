@@ -1,6 +1,7 @@
 package com.chouchongkeji.service.home;
 
 import com.chouchongkeji.goexplore.common.Response;
+import com.chouchongkeji.service.home.vo.CalendarVo;
 
 import java.text.ParseException;
 
@@ -52,4 +53,11 @@ public interface HomeService {
      * @date 2018/7/6
      */
     Response getCalendar() throws ParseException;
+
+    /**
+     * 老黄历
+     * @param oneDay
+     * @return
+     */
+    CalendarVo getAlmanacDay(String oneDay);
 }

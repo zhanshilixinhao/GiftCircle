@@ -142,7 +142,7 @@ public class HomeServiceImpl implements HomeService {
      * @param oneDay
      * @return
      */
-    private CalendarVo getAlmanacDay(String oneDay){
+    public CalendarVo getAlmanacDay(String oneDay){
         CalendarVo vo = new CalendarVo();
         Almanac almanac = almanacMapper.selectByPrimaryKey(oneDay);
         if (almanac == null){
