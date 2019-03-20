@@ -170,7 +170,7 @@ public class HomeServiceImpl implements HomeService {
         }
         //公历
         String gongli = almanacInfo.getShowapi_res_body().getGongli();
-        String s2 = gongli.replaceAll("公元","");
+        String s2 = gongli.replaceAll("公元","").trim();
         SimpleDateFormat mat = new SimpleDateFormat("yyyy年MM月dd日 E");
         Date parse = null;//反格式化
         try {

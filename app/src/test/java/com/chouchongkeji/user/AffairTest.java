@@ -87,12 +87,12 @@ public class AffairTest {
         RequestParams params = new RequestParams();
         params.put("time", System.currentTimeMillis());
         params.put("access_token", "faaeaefc-5bf9-471d-bd5d-85344c8f7fcd");
-//        params.put("targetTime", 1552320000000L);
-        params.put("eventTypeId", "4");
-//        params.put("users", "1,31");
-//        params.put("detail", "晚会删");
-        params.put("id", "94");
-        params.put("isCirculation", "5");
+        params.put("targetTime", 1552320000000L);
+        params.put("eventTypeId", "2");
+        params.put("users", "1,31");
+        params.put("detail", "晚会删");
+        params.put("id", "19");
+        params.put("isCirculation", "0");
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
         params.put("sign", map.get(ApiSignUtil.ANDROID));
 
@@ -104,7 +104,7 @@ public class AffairTest {
         RequestParams params = new RequestParams();
         params.put("time", System.currentTimeMillis());
         params.put("access_token", "faaeaefc-5bf9-471d-bd5d-85344c8f7fcd");
-        params.put("id", "94");
+        params.put("id", "28");
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
         params.put("sign", map.get(ApiSignUtil.ANDROID));
 
