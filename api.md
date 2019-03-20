@@ -124,6 +124,17 @@
 > 6. 礼物赠送消息返回字段isReplay值修改
 > 7. 小程序折现记录（13.9）
 
+
+### v0.0.9
+
+* 更新人：yichen
+* 2019/3/20
+* 更新内容
+
+> 1. 增加商品文章事件搜索接口（6.23）
+
+
+
 ## 目录
 <span id="m"> </span>
 
@@ -2307,7 +2318,7 @@ JSON：
 | price | decimal | 是 | 商品价格 |
 
 
-### 6.22 商品文章搜索
+### 6.22 商品文章搜索（没用到）
 
 - 请求地址：noauth/item/search_all
 - 服务协议：HTTP/POST
@@ -2341,6 +2352,81 @@ JSON：
       "price": null,
       "summary": "原标题：中国高铁不是“一夜花开”，而是“香自苦寒”║原铁道部长、复兴号研制技术顾问傅志寰",
       "type": 2
+    }
+    ]
+}
+```
+
+### 6.23 商品文章事件搜索
+
+- 请求地址：auth/search/all_list
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：linqin
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 |          参数说明           |
+| :----------: | :------: | :------: | :----: | :-------------------------: 
+| keyword |  string  |    是    |   无   |           关键字          |
+|type|int|是|1|1商品，2 文章，3 事件|
+
+type 等于1，2请求结果示例：
+
+```json
+{
+    "errCode": 0, 
+    "result": 0, 
+    "time": 1531117210397, 
+    "data": [
+      {
+      "id": 159,
+      "cover": "https://liyuquan.cn/static/item/190212/d310d9b8-69a3-4c9b-b828-4b0e26e2a1d1.jpg",
+      "title": "dior迪奥香水小样女士真我三五件套装花漾甜心旗舰店官方正品", //标题
+      "price": 165.00,  //商品价格
+      "summary": "",  //文章简介
+      "type": 1   //1 商品，2文章
+    }
+    ]
+}
+```
+
+type = 3 请求结果示例：
+
+```json
+{
+  "errCode": 0,
+  "result": 0,
+  "time": 1552374188046,
+  "data": [
+    {
+      "id": 1,   //备忘录id
+      "userId": 6, //创建者id
+      "targetTime": 1552374073000, //备忘时间
+      "isCirculation": 0, //0-不循环
+      "detail": "晚会", //事件详情
+      "type": 1,  // 1自己创建，2-被邀请，3-节日事件
+      "users": "1,31", //被邀请者用户id 
+      "created": 1552374107000, //创建时间
+      "nickname": "林琴", //创建者用户昵称
+      "name": "", //type等于1，2时没用到
+      "count": 2, //邀请人数
+      "avatar": "https://wx.qlogo.cn/mmopen/vi_32/cLhvDgpVNMm24pZLQn9NJLvTbribW3ymS4dXSctqaaKWhF7NJcI1Nicqp0QGw2jjVPJBLBjGStsYkaefM5fiaq5SA/132" //创建着头像
+     "eventTypeId": 1  //事件类型id
+      "eventTypeName": "生日" //事件类型名称
+    },
+    {
+      "id": 1,   //type等于3时，节日事件id 
+      "userId": null,
+      "targetTime": 1552002895000, //备忘时间
+      "isCirculation": null,  //节日事件不循环
+      "detail": "女神节i，女王节，，，",  //节日事件简介
+      "type": 3, //1自己创建，2-被邀请，3-节日事件
+      "users": "", 
+      "created": 1552262181000,
+      "nickname": "",
+      "name": "妇女节", //节日事件名称
+      "count": null, 
+      "avatar": "https://liyuquan.cn/staticcover.jpg" //节日事件标题
+     "eventTypeId": null  //事件类型id
     }
     ]
 }

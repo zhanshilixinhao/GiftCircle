@@ -1,5 +1,6 @@
 package com.chouchongkeji.service.mall.item.vo;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.yichen.auth.jackson.ImgUrl;
 
 import java.math.BigDecimal;
@@ -8,10 +9,10 @@ import java.math.BigDecimal;
  * @author linqin
  * @date 2019/2/14 15:22
  */
-
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class ItemArticleListVo {
 
-    private Integer id; //商品/文章id
+    private Integer id; //商品/文章id/事件id
 
     @ImgUrl
     private String cover;  //图片
@@ -22,7 +23,7 @@ public class ItemArticleListVo {
 
     private String summary; //文章简介
 
-    private Integer type; // 1 商品，2 文章
+    private Integer type; // 1 商品，2 文章，3备忘录事件
 
     public Integer getId() {
         return id;

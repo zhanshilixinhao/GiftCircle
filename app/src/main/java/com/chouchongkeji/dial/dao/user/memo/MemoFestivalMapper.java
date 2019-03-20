@@ -37,4 +37,6 @@ public interface MemoFestivalMapper {
      * @return
      */
     List<MemoItemVo> selectHomeFestival(@Param("start") Long start, @Param("end") Long end);
+
+    List<MemoItemVo> selectAllByKeyword(String keyword);
 }

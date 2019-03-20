@@ -52,7 +52,7 @@ public interface MemoAffairMapper {
     List<MemoItemVo> selectAllByUserIdWeek(Integer userId);
 
     /**
-     * 按周循环
+     * 按月循环
      * @param userId
      * @return
      */
@@ -64,4 +64,11 @@ public interface MemoAffairMapper {
      * @return
      */
     List<MemoItemVo> selectAllByUserId(Integer userId);
+
+    /**
+     * 关键字查询所有事件
+     * @param userId
+     * @return
+     */
+    List<MemoItemVo> selectAllByUserIdKeyword(@Param("userId") Integer userId,@Param("keyword") String keyword);
 }

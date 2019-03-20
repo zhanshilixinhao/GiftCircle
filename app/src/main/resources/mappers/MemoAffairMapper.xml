@@ -183,7 +183,7 @@ FROM
       memo_affair a
     left join memo_event_type b  on a.event_type_id = b.id
     WHERE
-        a.user_id = 6
+        a.user_id = #{userId}
     UNION all
     SELECT
       a.id,
@@ -201,7 +201,7 @@ FROM
      memo_affair a
       left join memo_event_type b  on a.event_type_id = b.id
     WHERE
-      FIND_IN_SET(6, a.users )
+      FIND_IN_SET(#{userId}, a.users )
         ) a
       LEFT JOIN app_user b ON b.id = a.user_id
      where
@@ -280,7 +280,7 @@ FROM
       memo_affair a
     left join memo_event_type b  on a.event_type_id = b.id
     WHERE
-        a.user_id = 6
+        a.user_id = #{userId}
     UNION all
     SELECT
       a.id,
@@ -298,7 +298,7 @@ FROM
      memo_affair a
       left join memo_event_type b  on a.event_type_id = b.id
     WHERE
-      FIND_IN_SET(6, a.users )
+      FIND_IN_SET(#{userId}, a.users )
         ) a
       LEFT JOIN app_user b ON b.id = a.user_id
      where
@@ -347,6 +347,55 @@ FROM
      where
                 is_circulation != 0
     </select>
+    <select id="selectAllByUserIdKeyword" resultType="com.chouchongkeji.service.user.memo.vo.MemoItemVo">
+
+        SELECT
+  a.*,
+  b.avatar,
+  b.nickname
+FROM
+  (
+    SELECT
+      a.id,
+      a.user_id,
+      a.is_circulation,
+      a.target_time,
+      a.detail,
+      a.users,
+      a.created,
+      a.event_type_id,
+      a.`count`,
+      b.name as eventTypeName,
+      1 as type
+    FROM
+      memo_affair a
+    left join memo_event_type b  on a.event_type_id = b.id
+    WHERE
+        a.user_id = #{userId}
+    UNION all
+    SELECT
+      a.id,
+      a.user_id,
+      a.is_circulation,
+      a.target_time,
+      a.detail,
+      a.users,
+      a.created,
+      a.event_type_id,
+      a.`count`,
+      b.name as eventTypeName,
+      2 as type
+    FROM
+     memo_affair a
+      left join memo_event_type b  on a.event_type_id = b.id
+    WHERE
+      FIND_IN_SET(#{userId}, a.users )
+        ) a
+      LEFT JOIN app_user b ON b.id = a.user_id
+     where
+        detail LIKE concat('%',#{keyword},'%')
+    </select>
+
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from memo_affair
     where id = #{id,jdbcType=INTEGER}

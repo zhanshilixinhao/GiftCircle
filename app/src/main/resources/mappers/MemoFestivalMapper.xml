@@ -59,9 +59,22 @@ where id = #{id}
     ORDER BY
     target_time
   </select>
+    <select id="selectAllByKeyword" resultType="com.chouchongkeji.service.user.memo.vo.MemoItemVo">
+      SELECT
+            id,
+            target_time,
+            `name`,
+             summary as detail,
+            created,
+            cover as avatar,
+            3 as type
+        FROM  memo_festival
+        where
+         name LIKE concat('%',#{keyword},'%')
+    </select>
 
 
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from memo_festival
     where id = #{id,jdbcType=INTEGER}
   </delete>
