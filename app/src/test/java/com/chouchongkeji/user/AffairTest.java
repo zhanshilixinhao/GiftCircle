@@ -188,6 +188,18 @@ public class AffairTest {
         Response post = OkHttpUtil.post("http://localhost:8088/auth/v1/withdraw/wxRecords", params);
         System.out.println(post.body().string());
     }
+    @Test
+    public void m() throws IOException {
+        RequestParams params = new RequestParams();
+        params.put("time", System.currentTimeMillis());
+        params.put("access_token", "faaeaefc-5bf9-471d-bd5d-85344c8f7fcd");
+        params.put("detail","时良哈哈哈");
+        params.put("friendUserId",1);
+        Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
+        params.put("sign", map.get(ApiSignUtil.ANDROID));
+        Response post = OkHttpUtil.post("http://localhost:8088/auth/leaveMessage/add", params);
+        System.out.println(post.body().string());
+    }
 
 
     @Test

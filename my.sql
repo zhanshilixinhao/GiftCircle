@@ -1514,3 +1514,14 @@ create table if not exists almanac
 )
   comment '老黄历' charset=utf8mb4;
 
+create table if not exists leave_message
+(
+  id int auto_increment primary key,
+  user_id int(11) comment '用户id（留言者）',
+  friend_user_id int(11) comment '好友id（收到留言）',
+  detail varchar(100) comment '留言内容',
+  created datetime null,
+  updated datetime null
+)
+  comment '留言' charset=utf8mb4;
+

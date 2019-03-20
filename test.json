@@ -1,37 +1,6 @@
 {
   "errCode": 0,
   "result": 0,
-  "time": 1553053903721,
-  "data": [
-    {
-      "id": 7719031814104,
-      "userId": 6,
-      "targetId": 48,
-      "price": 0.10,
-      "title": "测试专用",
-      "cover": "https://liyuquan.cn/static/item/190131/4954b224-5b7d-4c01-9cc8-505b7bcc7725.jpg",
-      "description": "平台内测阶段使用的测试虚拟商品",
-      "brand": "礼遇圈",
-      "type": 2,
-      "quantity": 1,
-      "pickRemainTime": null,
-      "created": 1552891585000,
-      "buyTime": null
-    },
-    {
-      "id": 7719032011101,
-      "userId": 6,
-      "targetId": 44,
-      "price": 88.00,
-      "title": "招财猫",
-      "cover": "https://liyuquan.cn/static/item/190128/a43d1eaa-8797-4f9c-baa9-a26693bdf5c4.png",
-      "description": "财源广进",
-      "brand": "礼遇圈",
-      "type": 2,
-      "quantity": 1,
-      "pickRemainTime": null,
-      "created": 1553053884000,
-      "buyTime": null
-    }
-  ]
+  "msg": "留言成功",
+  "time": 1553067029023
 }

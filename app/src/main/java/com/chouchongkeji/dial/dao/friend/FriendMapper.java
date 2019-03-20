@@ -63,5 +63,5 @@ public interface FriendMapper {
      */
     List<FriendHumVo> selectByUserId(Integer userId);
 
-//    Friend selectByUserIdAndFriendUserIdAll(@Param("userId") Integer userId,@Param("friendUserId")Integer friendUserId );
+//    List<Friend> selectByUserIdAndFriendUserIdAll(@Param("userId") Integer userId,@Param("friendUserId")Integer friendUserId );
 }

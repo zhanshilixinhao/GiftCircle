@@ -88,14 +88,21 @@ limit 5
     </select>
     <!--<select id="selectByUserIdAndFriendUserIdAll" resultType="com.chouchongkeji.dial.pojo.friend.Friend">-->
         <!--SELECT-->
-            <!--<include refid="Base_Column_List"/>-->
-        <!--FROM-->
-            <!--friend-->
-        <!--WHERE-->
-                <!--user_id = #{userId}-->
-                <!--AND friend_user_id = #{friendUserId}-->
-           <!--or user_id = #{friendUserId} and friend_user_id = #{userId}-->
+  <!--*-->
+<!--FROM-->
+  <!--friend-->
+<!--WHERE-->
+    <!--user_id = #{userId}-->
+  <!--AND friend_user_id = #{friendUserId}-->
+<!--union all SELECT-->
+  <!--*-->
+<!--FROM-->
+  <!--friend-->
+<!--WHERE-->
+    <!--user_id = {friendUserId}-->
+  <!--AND friend_user_id = #{userId}-->
     <!--</select>-->
+
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from friend
     where id = #{id,jdbcType=INTEGER}
