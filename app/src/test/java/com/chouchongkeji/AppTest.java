@@ -182,4 +182,20 @@ public class AppTest
         Response post = OkHttpUtil.post("http://localhost:8088/auth/event/list", params);
         System.out.println(post.body().string());
     }
+
+    @Test
+    public void g() throws IOException {
+        RequestParams params = new RequestParams();
+        params.put("time",System.currentTimeMillis());
+        params.put("access_token","7a867108-2521-4d95-b482-8603ddcd4c5f");
+        params.put("bpId",7719031717106L);
+        params.put("friendUserIds",1);
+        params.put("greeting","hsdjakfhkjs");
+        params.put("event","时间");
+        params.put("type",1);
+        Map map = ApiSignUtil.sign1(params.getParams(),ApiSignUtil.IOS);
+        params.put("sign",map.get(ApiSignUtil.IOS));
+        Response post = OkHttpUtil.post("http://localhost:8088/auth/v1/gift/sendForAppV2", params);
+        System.out.println(post.body().string());
+    }
 }

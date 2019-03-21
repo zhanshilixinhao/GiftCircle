@@ -5221,7 +5221,7 @@ type = 3 请求结果示例：
 | friendUserIds | String | 是 | 无 | 赠送的好友id,多个好友时用逗号隔开|
 | bpId | int | 是 | 无 | 赠送的物品在背包里的id |
 | greeting | string | 是 | 无 | 祝福语 |
-| event | string | 是 | 无 | 事件名称 |
+| event | string | 否 | 日常关怀 | 事件名称 |
 | type | int | 是 | 无 | 1 立即赠送 2 按时间赠送|
 | targetTime | long | 是 | 无 | 赠送时间的时间戳 |
 | recordDetailId | int | 否 | 无 | 赠送记录详情id--回礼 |
@@ -6678,7 +6678,7 @@ type = 3 请求结果示例：
 | id | int | 是 | 无 | 备忘录id |
 | targetTime | long | 是 | 无 | 备忘时间（13位时间戳） |
 | detail | string | 是 | 无 | 活动详情 |
-| eventTypeId | int | 是 | 无 | 事件类型id |
+| eventTypeId | int | 否 | 1 | 事件类型id |
 | users | string | 否 | 无 | 邀请的好友的user id集合，多个用,隔开 |
 |isCirculation|byte|否|0|添加的事件是否循环 0-不循环 1-按周循环，2-按月循环，3-按年循环|
 
