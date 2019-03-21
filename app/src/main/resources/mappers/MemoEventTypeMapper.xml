@@ -29,12 +29,12 @@ where name = #{name}
 
     </select>
     <select id="selectByUserId" resultType="com.chouchongkeji.dial.pojo.user.memo.MemoEventType">
-      select
-      <include refid="Base_Column_List"/>
-      from memo_event_type
-      where
-       user_id = #{userId}
-      and id = #{eventTypeId}
+     select
+    *
+from memo_event_type
+where
+  id = #{eventTypeId}
+and (user_id = #{userId} or user_id = 0)
     </select>
   <select id="selectAllByUserId" resultType="com.chouchongkeji.dial.pojo.user.memo.MemoEventType">
     select

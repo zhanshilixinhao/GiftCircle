@@ -72,9 +72,9 @@ public class AffairTest {
         params.put("time", System.currentTimeMillis());
         params.put("access_token", "faaeaefc-5bf9-471d-bd5d-85344c8f7fcd");
         params.put("targetTime", 1552374073000L);
-        params.put("eventTypeId", "2");
+//        params.put("eventTypeId", "2");
         params.put("users", "1,31");
-        params.put("detail", "晚会hh哈哈哈哈h");
+        params.put("detail", "xiago");
 //        params.put("isCirculation", "3");
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
         params.put("sign", map.get(ApiSignUtil.ANDROID));

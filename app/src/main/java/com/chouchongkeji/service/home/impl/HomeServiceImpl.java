@@ -33,6 +33,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -137,6 +138,9 @@ public class HomeServiceImpl implements HomeService {
         return ResponseFactory.sucData(list);
     }
 
+
+
+
     /**
      * 老黄历
      * @param oneDay
@@ -157,6 +161,20 @@ public class HomeServiceImpl implements HomeService {
         return vo;
     }
 
+//    public static void main(String[] args) {
+//        Locale localeCN = Locale.SIMPLIFIED_CHINESE;
+//        SimpleDateFormat format = new SimpleDateFormat("yyyy年MM月dd日  E",localeCN);
+//        SimpleDateFormat mat = new SimpleDateFormat("yyyy年MM月dd日 E");
+//        Date parse = null;//反格式化
+//        try {
+//            parse = mat.parse("2019年3月21日 星期四");
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//        System.out.println(parse);
+//    }
+
+
     /**
      * 第三方老黄历接口
      * @param oneDay
@@ -171,7 +189,8 @@ public class HomeServiceImpl implements HomeService {
         //公历
         String gongli = almanacInfo.getShowapi_res_body().getGongli();
         String s2 = gongli.replaceAll("公元","").trim();
-        SimpleDateFormat mat = new SimpleDateFormat("yyyy年MM月dd日 E");
+        Locale localeCN = Locale.SIMPLIFIED_CHINESE;
+        SimpleDateFormat mat = new SimpleDateFormat("yyyy年MM月dd日 E",localeCN);
         Date parse = null;//反格式化
         try {
             parse = mat.parse(s2);

@@ -114,8 +114,11 @@ public class AffairController {
      */
     @PostMapping("add")
     public Response addAffair(@AuthenticationPrincipal UserDetails userDetails, MemoAffair memoAffair, Byte isCirculation) {
-        if (StringUtils.isAnyBlank(memoAffair.getDetail()) || memoAffair.getTargetTime() == null || memoAffair.getEventTypeId() == null) {
+        if (StringUtils.isAnyBlank(memoAffair.getDetail()) || memoAffair.getTargetTime() == null ) {
             return ResponseFactory.errMissingParameter();
+        }
+        if (memoAffair.getEventTypeId() == null){
+            memoAffair.setEventTypeId(1);
         }
         if (isCirculation == null) {
             isCirculation = 0;
