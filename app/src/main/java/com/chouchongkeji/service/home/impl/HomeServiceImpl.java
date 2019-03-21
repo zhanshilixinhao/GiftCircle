@@ -197,7 +197,7 @@ public class HomeServiceImpl implements HomeService {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        mat = new SimpleDateFormat("yyyy.MM E");
+        mat = new SimpleDateFormat("yyyy.MM E",localeCN);
         s2 = mat.format(parse);
         vo.setGongli(s2);
         // 农历
