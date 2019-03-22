@@ -41,7 +41,7 @@ import java.util.concurrent.TimeUnit;
  * @date 2018/7/6
  */
 @Service
-@Transactional(rollbackFor = Exception.class,isolation = Isolation.REPEATABLE_READ)
+@Transactional(rollbackFor = Exception.class, isolation = Isolation.REPEATABLE_READ)
 public class HomeServiceImpl implements HomeService {
 
     @Autowired
@@ -64,6 +64,7 @@ public class HomeServiceImpl implements HomeService {
 
     /**
      * 首页Banner
+     *
      * @return
      * @author linqin
      * @date 2018/7/6
@@ -71,15 +72,16 @@ public class HomeServiceImpl implements HomeService {
     @Override
     public Response getItemList() {
         List<Banner> banner = bannerMapper.selectAll();
-       if (banner == null){
-           return ResponseFactory.err("");
-       }
+        if (banner == null) {
+            return ResponseFactory.err("");
+        }
         return ResponseFactory.sucData(banner);
     }
 
 
     /**
      * 首页寄售台新上架商品
+     *
      * @return
      * @author linqin
      * @date 2018/7/6
@@ -87,7 +89,7 @@ public class HomeServiceImpl implements HomeService {
     @Override
     public Response getConItem() {
         List<ConsignmentVo> conList = consignmentMapper.selectAll();
-        if (conList == null){
+        if (conList == null) {
             return ResponseFactory.err("");
         }
         return ResponseFactory.sucData(conList);
@@ -108,8 +110,6 @@ public class HomeServiceImpl implements HomeService {
     }
 
 
-
-
     /**
      * 首页黄历
      *
@@ -118,12 +118,12 @@ public class HomeServiceImpl implements HomeService {
      * @date 2018/7/6
      */
     @Override
-    public Response getCalendar(){
+    public Response getCalendar() {
         Date date = new Date();
         List<CalendarVo> list = new ArrayList<>();
         for (int i = 0; i > -5; i--) {
             Date date1 = DateUtils.addDays(date, i);
-            SimpleDateFormat format = new  SimpleDateFormat("yyyyMMdd");
+            SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
             String oneDay = format.format(date1);// 现在日期
             CalendarVo calendarVo1 = mRedisTemplate.get(oneDay, 30, TimeUnit.DAYS, new TypeReference<CalendarVo>() {
             }, new CacheCallback<CalendarVo>() {
@@ -132,24 +132,46 @@ public class HomeServiceImpl implements HomeService {
                     return getAlmanacDay(oneDay);
                 }
             });
+            String avoid = getAvoidsSuit(calendarVo1.getAvoid());
+            String suit = getAvoidsSuit(calendarVo1.getSuit());
+            calendarVo1.setAvoid(avoid);
+            calendarVo1.setSuit(suit);
             calendarVo1.setDate(date1.getTime());
             list.add(calendarVo1);
         }
         return ResponseFactory.sucData(list);
     }
 
-
+    /**
+     * 宜忌保留八个字
+     * @param avoidsSuit
+     * @return
+     */
+    private String  getAvoidsSuit(String avoidsSuit) {
+        String[] avoids = avoidsSuit.split(" ");
+        StringBuilder s = new StringBuilder();
+        int a = 0;
+        for (String avoid : avoids) {
+            a = avoid.length() + a;
+            if (a > 8) {
+                break;
+            }
+            s.append(avoid).append(" ");
+        }
+        return s.toString();
+    }
 
 
     /**
      * 老黄历
+     *
      * @param oneDay
      * @return
      */
-    public CalendarVo getAlmanacDay(String oneDay){
+    public CalendarVo getAlmanacDay(String oneDay) {
         CalendarVo vo = new CalendarVo();
         Almanac almanac = almanacMapper.selectByPrimaryKey(oneDay);
-        if (almanac == null){
+        if (almanac == null) {
             return getAlmanacApi(oneDay);
         }
         vo.setGongli(almanac.getGongli());
@@ -177,27 +199,28 @@ public class HomeServiceImpl implements HomeService {
 
     /**
      * 第三方老黄历接口
+     *
      * @param oneDay
      * @return
      */
     private CalendarVo getAlmanacApi(String oneDay) {
         CalendarVo vo = new CalendarVo();
         HLResult almanacInfo = AlmanacApi.getAlmanacInfo(oneDay);
-        if ( almanacInfo.getShowapi_res_code()!=0){
-            throw new ServiceException(ErrorCode.ERROR.getCode(),almanacInfo.getShowapi_res_error());
+        if (almanacInfo.getShowapi_res_code() != 0) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), almanacInfo.getShowapi_res_error());
         }
         //公历
         String gongli = almanacInfo.getShowapi_res_body().getGongli();
-        String s2 = gongli.replaceAll("公元","").trim();
+        String s2 = gongli.replaceAll("公元", "").trim();
         Locale localeCN = Locale.SIMPLIFIED_CHINESE;
-        SimpleDateFormat mat = new SimpleDateFormat("yyyy年MM月dd日 E",localeCN);
+        SimpleDateFormat mat = new SimpleDateFormat("yyyy年MM月dd日 E", localeCN);
         Date parse = null;//反格式化
         try {
             parse = mat.parse(s2);
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        mat = new SimpleDateFormat("yyyy.MM E",localeCN);
+        mat = new SimpleDateFormat("yyyy.MM E", localeCN);
         s2 = mat.format(parse);
         vo.setGongli(s2);
         // 农历
@@ -211,7 +234,7 @@ public class HomeServiceImpl implements HomeService {
         String s = almanacInfo.getShowapi_res_body().getJieri();
         String[] s1 = s.replaceAll("公历节日:  ", "")
                 .replaceAll("农历节日:  ", "").split(" ");
-        vo.setJieri(StringUtils.join(s1,","));
+        vo.setJieri(StringUtils.join(s1, ","));
         // 24节气
         vo.setJieqi24(almanacInfo.getShowapi_res_body().getJieqi24());
         // 加入数据库
@@ -236,7 +259,7 @@ public class HomeServiceImpl implements HomeService {
      * @date 2018/7/6
      */
     @Override
-    public Response getWelfare(){
+    public Response getWelfare() {
         WelfareVo welfare = welfareMapper.selectByTime();
         return ResponseFactory.sucData(welfare);
     }
