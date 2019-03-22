@@ -4951,11 +4951,10 @@ type = 3 请求结果示例：
 | bpId | int | 是 | 无 | 赠送的物品在背包里的id |
 | subBpIds | string | 否 | 无 | 赠送的附属物品的id集合，多个用，隔开 |
 | greeting | string | 是 | 无 | 祝福语 |
-| event | string | 是 | 无 | 事件名称 |
-| type | int | 是 | 无 | 3 直接赠送 4 随机赠送 |
+| event | string | 否 | 小程序赠送 | 事件名称 |
+| type | int | 是 | 无 | 3 直接赠送 4 随机赠送（app 只有直接赠送） |
 | p | float | 否 | 无 | type=4时必传 中奖率 0-1之间的小数 |
-|de|string|是|无|赠送密码（暂时没用到）|
-|s2|string|是|无|客户端随机数（暂时没用到）|
+
 
 * 请求结果示例
 
@@ -5223,8 +5222,8 @@ type = 3 请求结果示例：
 | greeting | string | 是 | 无 | 祝福语 |
 | event | string | 否 | 日常关怀 | 事件名称 |
 | type | int | 是 | 无 | 1 立即赠送 2 按时间赠送|
-| targetTime | long | 是 | 无 | 赠送时间的时间戳 |
-| recordDetailId | int | 否 | 无 | 赠送记录详情id--回礼 |
+| targetTime | long | 否 | 无 | 赠送时间的时间戳（按时间赠送时传） |
+| recordDetailId | int | 否 | 无 | 赠送记录详情id---回礼 |
 
 
 

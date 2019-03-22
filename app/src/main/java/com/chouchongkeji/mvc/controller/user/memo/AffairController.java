@@ -148,8 +148,11 @@ public class AffairController {
      */
     @PostMapping("modify_affair")
     public Response modifyAffair(@AuthenticationPrincipal UserDetails userDetails, MemoAffair affair) {
-        if (affair.getId() == null || affair.getTargetTime() == null || StringUtils.isBlank(affair.getDetail()) || affair.getEventTypeId() == null) {
+        if (affair.getId() == null || affair.getTargetTime() == null || StringUtils.isBlank(affair.getDetail()) ) {
             return ResponseFactory.errMissingParameter();
+        }
+        if (affair.getEventTypeId() == null){
+            affair.setEventTypeId(1);
         }
         HashSet<Integer> idSet = null;
         if (StringUtils.isNotBlank(affair.getUsers())) {
