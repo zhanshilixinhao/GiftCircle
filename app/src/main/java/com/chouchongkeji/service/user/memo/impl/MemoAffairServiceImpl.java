@@ -214,7 +214,7 @@ public class MemoAffairServiceImpl implements MemoAffairService {
         List<MemoItemVo> memos = memoFestivalMapper.selectHomeFestival( start, end);
         if (CollectionUtils.isNotEmpty(memos)) {
             for (MemoItemVo memo : memos) {
-                float d = (memo.getTargetTime().getTime()) / 86400000f;
+                float d = (memo.getTargetTime().getTime()-System.currentTimeMillis()) / 86400000f;
                 HomeMemoItemVo homeMemoItemVo = new HomeMemoItemVo();
                 homeMemoItemVo.setId(memo.getId());
                 homeMemoItemVo.setAvatar(memo.getAvatar());
@@ -392,7 +392,7 @@ public class MemoAffairServiceImpl implements MemoAffairService {
         } else if (days > 0) {
             targetTime = DateUtils.addDays(calendar.getTime(), -days);
         } else {
-            targetTime = DateUtils.addDays(calendar.getTime(), 7 + days);
+            targetTime = DateUtils.addDays(calendar.getTime(), -7 - days);
         }
         float day = (targetTime.getTime() - System.currentTimeMillis()) / 86400000f;
         HomeMemoItemVo homeMemoItemVo = new HomeMemoItemVo();
