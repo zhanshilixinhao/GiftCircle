@@ -3940,7 +3940,7 @@ type = 3 请求结果示例：
             gifts:[ // 最近30天收到的礼物
                    {
                     "title": "LIFELONG手镯", //礼物标题
-                    "targetId": 16,
+                    "targetId": 16,//targetType=1时skuId,2时虚拟物品id，3时优惠券id 
                     "targetType": 1, // 礼物类型 1 物品 2 虚拟物品 3 优惠券
                      "cover":  "https://liyuquan.cn/static/item/181219/83bc3d85-0c2a-4 ee5-83b3-7e9c982f3856.jpg", //物品封面
                      "count": 2，  //礼物数量
