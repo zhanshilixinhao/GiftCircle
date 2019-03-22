@@ -6648,7 +6648,7 @@ type = 3 请求结果示例：
 | access_token |  string  |    是    |   无   | 访问令牌 |
 | targetTime | long | 是 | 无 | 备忘时间（13位时间戳） |
 | detail | string | 是 | 无 | 活动详情 |
-| eventTypeId | int | 是 | 无 | 事件类型id |
+| eventTypeId | int | 否 | 1 | 事件类型id |
 | users | string | 否 | 无 | 邀请的好友的user id集合，多个用,隔开 |
 |isCirculation|byte|否|0|添加的事件是否循环 0-不循环 1-按周循环，2-按月循环，3-按年循环|
 
