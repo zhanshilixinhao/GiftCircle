@@ -211,22 +211,22 @@ public class MemoAffairServiceImpl implements MemoAffairService {
         Long end = timeEnd(System.currentTimeMillis());
         List<HomeMemoItemVo> list = memoAffairMapper.selectLastByUserId(userId, start, end);
         // 节日事件
-        List<MemoItemVo> memos = memoFestivalMapper.selectHomeFestival( start, end);
-        if (CollectionUtils.isNotEmpty(memos)) {
-            for (MemoItemVo memo : memos) {
-                float d = (memo.getTargetTime().getTime()-System.currentTimeMillis()) / 86400000f;
-                HomeMemoItemVo homeMemoItemVo = new HomeMemoItemVo();
-                homeMemoItemVo.setId(memo.getId());
-                homeMemoItemVo.setAvatar(memo.getAvatar());
-                homeMemoItemVo.setNickname("");
-                homeMemoItemVo.setDays(7 - d);
-                homeMemoItemVo.setTargetTime(memo.getTargetTime());
-                homeMemoItemVo.setCreated(memo.getCreated());
-                homeMemoItemVo.setDetail(memo.getDetail());
-                homeMemoItemVo.setType(memo.getType());
-                list.add(homeMemoItemVo);
-            }
-        }
+//        List<MemoItemVo> memos = memoFestivalMapper.selectHomeFestival( start, end);
+//        if (CollectionUtils.isNotEmpty(memos)) {
+//            for (MemoItemVo memo : memos) {
+//                float d = (memo.getTargetTime().getTime()-System.currentTimeMillis()) / 86400000f;
+//                HomeMemoItemVo homeMemoItemVo = new HomeMemoItemVo();
+//                homeMemoItemVo.setId(memo.getId());
+//                homeMemoItemVo.setAvatar(memo.getAvatar());
+//                homeMemoItemVo.setNickname("");
+//                homeMemoItemVo.setDays(7 - d);
+//                homeMemoItemVo.setTargetTime(memo.getTargetTime());
+//                homeMemoItemVo.setCreated(memo.getCreated());
+//                homeMemoItemVo.setDetail(memo.getDetail());
+//                homeMemoItemVo.setType(memo.getType());
+//                list.add(homeMemoItemVo);
+//            }
+//        }
 //         所有循环事件
         List<MemoItemVo> list1 = memoAffairMapper.selectAllByUserId(userId);
         if (CollectionUtils.isNotEmpty(list1)) {
