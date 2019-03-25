@@ -151,6 +151,7 @@
           AND a.message_type = 2
           and a.target_type != 24
           and a.target_type != 25
+          and a.target_type != 27
         union
         select
             a.id,
@@ -197,6 +198,29 @@
             b.user_id = #{userId}
           AND a.message_type = 2
           and a.target_type = 25
+          union
+select
+  a.id,
+  a.summary,
+  a.title,
+  a.content,
+  a.target_id,
+  a.target_type,
+  a.message_type,
+  a.created,
+  b.user_id,
+  b.is_read,
+  d.avatar,
+  d.id as friend_user_id
+FROM
+  app_message a
+    LEFT JOIN app_message_user b on a.id = b.app_message_id
+    left join leave_message c on a.target_id = c.id
+    left join app_user d on c.user_id = d.id
+WHERE
+    b.user_id = #{userId}
+  AND a.message_type = 2
+  and a.target_type = 27
         order by created DESC
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">

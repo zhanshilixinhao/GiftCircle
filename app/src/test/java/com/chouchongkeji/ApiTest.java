@@ -48,7 +48,7 @@ public class ApiTest {
     public void systemMessage() throws IOException {
         RequestParams params = new RequestParams();
         params.put("time",System.currentTimeMillis());
-        params.put("access_token","572f7a09-b3e0-4ec5-b04b-13c82771c1c8");
+        params.put("access_token","7a867108-2521-4d95-b482-8603ddcd4c5f");
         params.put("messageType",2);
         params.put("pageNum",1);
         params.put("pageSize",14);
