@@ -51,6 +51,24 @@ public class FriendController {
     }
 
     /**
+     * 微信邀请添加好友
+     *
+     * @param userDetails 被邀请者
+     * @param targetUserId 邀请者用户id
+     * @return
+     * @author yichenshanren
+     * @date 2018/6/21
+     */
+    @PostMapping("wx_add")
+    public Response WXAddFriend(@AuthenticationPrincipal UserDetails userDetails, Integer targetUserId) {
+        if (targetUserId == null){
+            return ResponseFactory.errMissingParameter();
+        }
+        return friendService.WXAddFriend(userDetails.getUserId(),targetUserId);
+    }
+
+
+    /**
      * 好友列表
      *
      * @param userDetails 用户i西南西
@@ -186,7 +204,7 @@ public class FriendController {
      * 分组列表
      *
      * @param userDetails 用户信息
-     * @param isAll 是否显示全部 1 不显示（默认），2 显示全部
+     * @param isAll       是否显示全部 1 不显示（默认），2 显示全部
      * @return
      * @author yichenshanren
      * @date 2018/6/21
@@ -194,7 +212,7 @@ public class FriendController {
     @PostMapping("group/list")
     public Response getGroupList(@AuthenticationPrincipal UserDetails userDetails,
                                  @RequestParam(name = "isAll", defaultValue = "1") Integer isAll) {
-        return friendService.getGroupList(userDetails.getUserId(),isAll);
+        return friendService.getGroupList(userDetails.getUserId(), isAll);
     }
 
 
@@ -212,7 +230,8 @@ public class FriendController {
     }
 
     /**
-     *新的朋友消息未查看数量
+     * 新的朋友消息未查看数量
+     *
      * @param userDetails
      * @return
      * @author yichenshanren

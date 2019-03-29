@@ -136,6 +136,48 @@ public class FriendServiceImpl implements FriendService {
 
 
     /**
+     * 微信邀请添加好友
+     *
+     * @param userId 被邀请者用户id
+     * @param targetUserId 邀请者用户id
+     * @return
+     * @author yichenshanren
+     * @date 2018/6/21
+     */
+    @Override
+    public Response WXAddFriend(Integer userId, Integer targetUserId) {
+        // 查询用户信息
+        AppUser user = appUserMapper.selectByPrimaryKey(userId);
+        if (user == null) {
+            return ResponseFactory.err("添加的用户不存在(未注册)!");
+        }
+        // 判断targetUserId是否存在
+        AppUser target = appUserMapper.selectByPrimaryKey(targetUserId);
+        if (target == null) {
+            return ResponseFactory.err("邀请者用户不存在");
+        }
+        // 判断是不是好友关系
+        FriendVo friend = friendMapper.selectByUserIdAndFriendUserId(userId, targetUserId);
+        if (friend != null) {
+            return ResponseFactory.err("已经是好友了");
+        }
+        // 添加好友信息
+        Friend friend1 = new Friend();
+        friend1.setUserId(targetUserId);
+        friend1.setFriendUserId(userId);
+        friend1.setGroupId(0);
+        friend1.setSort(0);
+        friend1.setHeartNum(0f);
+        int insert = friendMapper.insert(friend1);
+        if (insert<1){
+            return ResponseFactory.err("添加失败");
+        }
+        return ResponseFactory.sucMsg("添加成功");
+    }
+
+
+
+    /**
      * 删除好友
      *
      * @param userId 用户信息

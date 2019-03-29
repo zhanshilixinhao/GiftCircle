@@ -159,4 +159,15 @@ public interface FriendService {
      * @date 2018/6/21
      */
     Response getNoReadCount(Integer userId);
+
+    /**
+     * 微信邀请添加好友
+     *
+     * @param userId 被邀请者用户id
+     * @param targetUserId 邀请者用户id
+     * @return
+     * @author yichenshanren
+     * @date 2018/6/21
+     */
+    Response WXAddFriend(Integer userId, Integer targetUserId);
 }
