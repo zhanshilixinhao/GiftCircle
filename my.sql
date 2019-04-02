@@ -1525,3 +1525,13 @@ create table if not exists leave_message
 )
   comment '留言' charset=utf8mb4;
 
+
+create table if not exists invite_user
+(
+  id int auto_increment primary key,
+  user_id int(11) comment '用户id（被邀请者）',
+  parent_user_id int(11) comment '邀请者用户id',
+  created datetime null,
+  updated datetime null
+)
+  comment '邀请好友记录' charset=utf8mb4;
