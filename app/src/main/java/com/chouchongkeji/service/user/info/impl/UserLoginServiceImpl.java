@@ -1,5 +1,9 @@
 package com.chouchongkeji.service.user.info.impl;
 
+import com.chouchongkeji.dial.dao.user.InviteUserMapper;
+import com.chouchongkeji.dial.pojo.user.InviteUser;
+import com.chouchongkeji.exception.ServiceException;
+import com.chouchongkeji.goexplore.common.ErrorCode;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.dial.redis.MRedisTemplate;
@@ -10,6 +14,8 @@ import com.yichen.auth.properties.SecurityProperties;
 import com.yichen.auth.service.ThirdAccService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,6 +26,7 @@ import java.util.UUID;
  * @date 2018/6/5
  */
 @Service
+@Transactional(rollbackFor = Exception.class, isolation = Isolation.REPEATABLE_READ)
 public class UserLoginServiceImpl implements UserLoginService {
 
     @Autowired
@@ -30,6 +37,9 @@ public class UserLoginServiceImpl implements UserLoginService {
 
     @Autowired
     private ThirdAccService thirdAccService;
+
+    @Autowired
+    private InviteUserMapper inviteUserMapper;
 
     /**
      * 微信授权登录
@@ -77,16 +87,28 @@ public class UserLoginServiceImpl implements UserLoginService {
      * @return
      */
     @Override
-    public Response bindPhone(String phone, String openid, Integer client) {
+    public Response bindPhone(String phone, String openid, Integer client,Integer userId) {
         // 绑定手机号
         Response response = thirdAccService.addOpenAccDetail(openid, client == 3 ? 2 : 1, phone);
         if (!response.isSuccessful()) {
             return response;
         }
+        // 添加邀请好友记录
+        if(userId != null){
+            Integer id = (Integer) response.getData();
+            InviteUser inviteUser = new InviteUser();
+            inviteUser.setUserId(id);
+            inviteUser.setParentUserId(userId);
+            int insert = inviteUserMapper.insert(inviteUser);
+            if(insert < 1){
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "添加邀请好友记录失败");
+            }
+        }
         // 绑定成功后登录
         response = WXCodeApi.login(openid,
                 securityProperties.getOauth2().getClient()[0].getClientId(),
                 securityProperties.getOauth2().getClient()[0].getClientSecret(), client == 3 ? 2 : 1);
+
         return response;
     }
 }

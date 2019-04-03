@@ -50,12 +50,13 @@ public class UserLoginController {
      *
      * @param phone 电话号码
      * @param key   缓存openId的key
+     * @param userId   邀请者用户id
      * @return
      * @author linqin
      * @date 2018/6/5
      */
     @PostMapping("/bindPhone")
-    public Response bindPhone(@AppClient Integer client, String phone, String key) {
+    public Response bindPhone(@AppClient Integer client, String phone, String key,Integer userId) {
         //校验必传参数
         if (StringUtils.isAnyBlank(phone, key)) {
             return ResponseFactory.errMissingParameter();
@@ -66,7 +67,7 @@ public class UserLoginController {
             return ResponseFactory.err("key无效或过期!");
         }
         //绑定手机号
-        return userLoginService.bindPhone(phone, openid, client);
+        return userLoginService.bindPhone(phone, openid, client,userId);
 
     }
 

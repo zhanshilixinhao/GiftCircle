@@ -69,9 +69,9 @@
         </javaClientGenerator>
 
 
-        <!--<table tableName="invite_user" domainObjectName="InviteUser" enableCountByExample="false"-->
-               <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
-               <!--selectByExampleQueryId="false"></table>-->
+<!--        <table tableName="invite_user" domainObjectName="InviteUser" enableCountByExample="false"-->
+<!--               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false"></table>-->
         <!--<table tableName="memo_festival" domainObjectName="MemoFestival" enableCountByExample="false"-->
                <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
                <!--selectByExampleQueryId="false"></table>-->

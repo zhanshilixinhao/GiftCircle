@@ -55,7 +55,7 @@
     delete from app_user
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.user.AppUser">
+  <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.user.AppUser" useGeneratedKeys="true" keyProperty="id">
     insert into app_user (id, account, password, 
       phone, avatar, nickname, 
       age, gender, signature, 

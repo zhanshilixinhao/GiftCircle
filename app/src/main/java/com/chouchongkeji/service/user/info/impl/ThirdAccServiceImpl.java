@@ -87,6 +87,7 @@ public class ThirdAccServiceImpl implements ThirdAccService {
         AppUser userBase = appUserMapper.selectByPhone(phone);
         // 该手机号未被注册
         int count = 0;
+        Integer id = null;
         if (userBase == null) {
             // 直接注册一个账号
 
@@ -95,6 +96,9 @@ public class ThirdAccServiceImpl implements ThirdAccService {
             if (count == 0) {
                 return ResponseFactory.err("绑定手机号失败，创建账号失败");
             }
+            id = user.getId();
+        }else {
+            id = userBase.getId();
         }
         // 添加第三方账号信息
         userThird1 = new ThirdAccount();
@@ -107,8 +111,10 @@ public class ThirdAccServiceImpl implements ThirdAccService {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "绑定失败");
         }
         // 绑定成功
-        return ResponseFactory.suc();
+        return ResponseFactory.sucData(id);
     }
+
+
 
     @Autowired
     private MRedisTemplate mRedisTemplate;
