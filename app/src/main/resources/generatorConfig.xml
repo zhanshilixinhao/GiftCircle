@@ -37,7 +37,7 @@
             targetPackage     指定生成的model生成所在的包名
             targetProject     指定在该项目下所在的路径
         -->
-        <javaModelGenerator targetPackage="com.chouchongkeji.dial.pojo.user"
+        <javaModelGenerator targetPackage="com.chouchongkeji.dial.pojo.iwant.wallet"
                             targetProject="./app/src/main/java">
             <!-- 是否允许子包，即targetPackage.schemaName.tableName -->
             <property name="enableSubPackages" value="false"/>
@@ -62,19 +62,19 @@
         -->
 
         <!-- targetPackage：mapper接口dao生成的位置 -->
-        <javaClientGenerator type="XMLMAPPER" targetPackage="com.chouchongkeji.dial.dao.user"
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.chouchongkeji.dial.dao.iwant.wallet"
                              targetProject="./app/src/main/java">
             <!-- enableSubPackages:是否让schema作为包的后缀 -->
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
 
 
-<!--        <table tableName="invite_user" domainObjectName="InviteUser" enableCountByExample="false"-->
+<!--        <table tableName="fireworks_record" domainObjectName="FireworksRecord" enableCountByExample="false"-->
 <!--               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
 <!--               selectByExampleQueryId="false"></table>-->
-        <!--<table tableName="memo_festival" domainObjectName="MemoFestival" enableCountByExample="false"-->
-               <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
-               <!--selectByExampleQueryId="false"></table>-->
+<!--        <table tableName="fireworks" domainObjectName="Fireworks" enableCountByExample="false"-->
+<!--               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false"></table>-->
 
                 <!--<table tableName="memo_festival_item" domainObjectName="MemoFestivalItem" enableCountByExample="false"-->
                        <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->

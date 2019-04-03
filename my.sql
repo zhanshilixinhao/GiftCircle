@@ -1535,3 +1535,30 @@ create table if not exists invite_user
   updated datetime null
 )
   comment '邀请好友记录' charset=utf8mb4;
+
+
+create table if not exists fireworks
+(
+  id int auto_increment primary key,
+  user_id int(11) comment '用户id',
+  `count` int(11) comment '礼花数',
+  all_count int(11) comment '礼花历史总数',
+  created datetime null,
+  updated datetime null
+)
+  comment '用户礼花' charset=utf8mb4;
+
+
+
+create table if not exists fireworks_record
+(
+  id int auto_increment primary key,
+  user_id int(11) comment '用户id',
+  `describe` varchar (200) comment'记录说明',
+  `count` int(11) comment '礼花数',
+  target_id int(11) comment '目标id',
+  type tinyint(4) comment '1邀请好友，2,好友消费，3购买商品',
+  created datetime null,
+  updated datetime null
+)
+  comment '用户礼花记录' charset=utf8mb4;

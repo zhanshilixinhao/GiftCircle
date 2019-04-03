@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chouchongkeji.dial.dao.iwant.wallet.FireworksRecordMapper">
+  <resultMap id="BaseResultMap" type="com.chouchongkeji.dial.pojo.iwant.wallet.FireworksRecord">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="describe" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="count" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="target_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="type" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, describe, count, target_id, type, created, updated
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from fireworks_record
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from fireworks_record
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.iwant.wallet.FireworksRecord">
+    insert into fireworks_record (id, user_id, describe, 
+      count, target_id, type, 
+      created, updated)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{describe,jdbcType=VARCHAR}, 
+      #{count,jdbcType=INTEGER}, #{targetId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, 
+      #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.iwant.wallet.FireworksRecord">
+    insert into fireworks_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="describe != null">
+        describe,
+      </if>
+      <if test="count != null">
+        count,
+      </if>
+      <if test="targetId != null">
+        target_id,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="created != null">
+        created,
+      </if>
+      <if test="updated != null">
+        updated,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="describe != null">
+        #{describe,jdbcType=VARCHAR},
+      </if>
+      <if test="count != null">
+        #{count,jdbcType=INTEGER},
+      </if>
+      <if test="targetId != null">
+        #{targetId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chouchongkeji.dial.pojo.iwant.wallet.FireworksRecord">
+    update fireworks_record
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="describe != null">
+        describe = #{describe,jdbcType=VARCHAR},
+      </if>
+      <if test="count != null">
+        count = #{count,jdbcType=INTEGER},
+      </if>
+      <if test="targetId != null">
+        target_id = #{targetId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        updated = #{updated,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.dial.pojo.iwant.wallet.FireworksRecord">
+    update fireworks_record
+    set user_id = #{userId,jdbcType=INTEGER},
+      describe = #{describe,jdbcType=VARCHAR},
+      count = #{count,jdbcType=INTEGER},
+      target_id = #{targetId,jdbcType=INTEGER},
+      type = #{type,jdbcType=TINYINT},
+      created = #{created,jdbcType=TIMESTAMP},
+      updated = #{updated,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

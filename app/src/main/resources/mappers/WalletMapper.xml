@@ -32,7 +32,7 @@ WHERE
     delete from wallet
     where user_id = #{userId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.iwant.wallet.Wallet">
+  <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.iwant.wallet.Wallet" useGeneratedKeys="true" keyProperty="id">
     insert into wallet (user_id, balance, total_amount, 
       consume_amount, created, updated
       )
