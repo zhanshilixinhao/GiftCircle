@@ -1,5 +1,7 @@
 package com.chouchongkeji.service.iwant.wallet.vo;
 
+import com.yichen.auth.jackson.ImgUrl;
+
 import java.util.Date;
 
 /**
@@ -18,6 +20,7 @@ public class InviteUserVo {
 
     private Date created;
 
+    @ImgUrl
     private String avatar;
 
     private String nickname;

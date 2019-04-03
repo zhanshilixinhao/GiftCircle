@@ -2,6 +2,7 @@ package com.chouchongkeji.service.iwant.wallet;
 
 
 import com.chouchongkeji.goexplore.common.Response;
+import com.chouchongkeji.goexplore.query.PageQuery;
 
 /**
  * @author linqin
@@ -62,4 +63,16 @@ public interface FireworksService {
      * @date 2019/4/3
      */
     Response getInviteUserList(Integer userId);
+
+    /**
+     * 礼花收益记录
+     *
+     * @param userDetails
+     * @param starting    开始时间
+     * @param ending      截至时间
+     * @return
+     * @author linqin
+     * @date 2019/4/3
+     */
+    Response earnRecordList(Integer userId, PageQuery pageQuery, Long starting, Long ending);
 }

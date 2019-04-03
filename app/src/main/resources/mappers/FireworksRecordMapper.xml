@@ -22,7 +22,26 @@
     from fireworks_record
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="selectByUserIdAndTime" resultType="com.chouchongkeji.dial.pojo.iwant.wallet.FireworksRecord">
+      SELECT
+      <include refid="Base_Column_List"/>
+      FROM
+      fireworks_record
+      <where>
+        <trim prefixOverrides="and">
+          and user_id = #{userId}
+          <if test="starting!=null">
+            and  UNIX_TIMESTAMP(created) >= #{starting}
+          </if>
+          <if test="ending !=null">
+            and UNIX_TIMESTAMP(created) &lt;= #{ending}
+          </if>
+        </trim>
+      </where>
+      order by created DESC
+
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from fireworks_record
     where id = #{id,jdbcType=INTEGER}
   </delete>

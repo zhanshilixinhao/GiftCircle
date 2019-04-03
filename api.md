@@ -7032,3 +7032,46 @@ type = 3 请求结果示例：
 |allCount|int|是|礼花历史总数|
 |created|date|是|创建时间|
 |updated|date|是|更新时间|
+
+
+
+### 23.2 礼花-我的团队
+
+- 请求地址：auth/v1/fireworks/user_list
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：linqin
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+
+* 请求示例
+
+```js
+{
+  "errCode": 0,
+  "result": 0,
+  "time": 1554283653914,
+  "data": [
+    {
+      "id": 1, //邀请记录地
+      "userId": 1,  //用户id（被邀请者）
+      "parentUserId": 6, //用户id(邀请者，用户本人)
+      "created": 1554252870000, //创建时间
+      "avatar": "https://liyuquan.cn/staticorder/comment/20181231/ 1546231284130051-600-600.jpg", //用户头像
+      "nickname": "路遥" //用户昵称
+    },
+    {
+      "id": 2,
+      "userId": 27,
+      "parentUserId": 6,
+      "created": 1554254174000,
+      "avatar": "http://thirdwx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEIt5F3S7XLUTopicPgf2YoWkjM9aFL9RGfLq9qruZOic6lxZxJLrI21KmXSUkYsjznDEGvVDXVAfKSQ/132",
+      "nickname": "年锐"
+    }
+  ]
+}
+
+
+```

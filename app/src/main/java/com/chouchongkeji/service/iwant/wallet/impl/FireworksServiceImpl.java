@@ -11,9 +11,11 @@ import com.chouchongkeji.exception.ServiceException;
 import com.chouchongkeji.goexplore.common.ErrorCode;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
+import com.chouchongkeji.goexplore.query.PageQuery;
 import com.chouchongkeji.service.iwant.wallet.FireworksService;
 import com.chouchongkeji.service.iwant.wallet.vo.InviteUserVo;
 import com.chouchongkeji.service.user.friend.FriendService;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -166,6 +168,23 @@ public class FireworksServiceImpl implements FireworksService {
         return ResponseFactory.sucData(vos);
     }
 
-
+    /**
+     * 礼花收益记录
+     *
+     * @param userId
+     * @param starting    开始时间
+     * @param ending      截至时间
+     * @return
+     * @author linqin
+     * @date 2019/4/3
+     */
+    @Override
+    public Response earnRecordList(Integer userId, PageQuery pageQuery, Long starting, Long ending) {
+       //分页
+        PageHelper.startPage(pageQuery.getPageNum(),pageQuery.getPageSize());
+        // 查询礼花收益记录
+        List<FireworksRecord> records = fireworksRecordMapper.selectByUserIdAndTime(userId,starting,ending);
+        return ResponseFactory.sucData(records);
+    }
 
 }
