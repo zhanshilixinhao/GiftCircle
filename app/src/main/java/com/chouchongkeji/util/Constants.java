@@ -200,6 +200,7 @@ public class Constants {
         int WX = 24656;// 微信
         int ALI = 78990; //支付宝
         int yue = 98001; //钱包余额
+        int LIHUA = 87661; //礼花支付
     }
 
 //    public static void main(String[] args) {

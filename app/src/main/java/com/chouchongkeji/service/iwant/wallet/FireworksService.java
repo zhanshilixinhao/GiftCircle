@@ -67,7 +67,7 @@ public interface FireworksService {
     /**
      * 礼花收益记录
      *
-     * @param userDetails
+     * @param userId
      * @param starting    开始时间
      * @param ending      截至时间
      * @return
@@ -75,4 +75,15 @@ public interface FireworksService {
      * @date 2019/4/3
      */
     Response earnRecordList(Integer userId, PageQuery pageQuery, Long starting, Long ending);
+
+
+    /**
+     * 礼花剩余数量
+     *
+     * @param userId
+     * @return
+     * @author linqin
+     * @date 2019/4/3
+     */
+    Response numberRemaining(Integer userId);
 }

@@ -30,6 +30,7 @@ public class FireworksController {
 
     /**
      * 用户礼花详情
+     *
      * @param details
      * @return
      * @author linqin
@@ -43,16 +44,16 @@ public class FireworksController {
 
     /**
      * 我的团队
+     *
      * @param userDetails
      * @return
      * @author linqin
      * @date 2019/4/3
      */
     @PostMapping("user_list")
-    public Response getInviteUserList(@AuthenticationPrincipal UserDetails userDetails){
+    public Response getInviteUserList(@AuthenticationPrincipal UserDetails userDetails) {
         return fireworksService.getInviteUserList(userDetails.getUserId());
     }
-
 
 
     /**
@@ -68,15 +69,28 @@ public class FireworksController {
     @PostMapping("earn_record")
     public Response earnRecordList(@AuthenticationPrincipal UserDetails userDetails, PageQuery pageQuery,
                                    Long starting, Long ending) throws ParseException {
-        if (starting != null){
+        if (starting != null) {
             starting = memoAffairService.time(starting);
         }
-        if (ending != null){
+        if (ending != null) {
             ending = memoAffairService.timeEnd(ending);
         }
-        return fireworksService.earnRecordList(userDetails.getUserId(),pageQuery,starting,ending);
+        return fireworksService.earnRecordList(userDetails.getUserId(), pageQuery, starting, ending);
     }
 
+
+    /**
+     * 礼花剩余数量
+     *
+     * @param userDetails
+     * @return
+     * @author linqin
+     * @date 2019/4/3
+     */
+    @PostMapping("number")
+    public Response numberRemaining(@AuthenticationPrincipal UserDetails userDetails) {
+        return fireworksService.numberRemaining(userDetails.getUserId());
+    }
 
 
 }

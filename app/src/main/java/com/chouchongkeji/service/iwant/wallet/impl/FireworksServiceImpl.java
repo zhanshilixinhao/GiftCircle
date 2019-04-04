@@ -20,8 +20,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
+import sun.misc.Request;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author linqin
@@ -187,4 +191,29 @@ public class FireworksServiceImpl implements FireworksService {
         return ResponseFactory.sucData(records);
     }
 
+
+
+
+    /**
+     * 礼花剩余数量
+     *
+     * @param userId
+     * @return
+     * @author linqin
+     * @date 2019/4/3
+     */
+    @Override
+    public Response numberRemaining(Integer userId) {
+        Fireworks fire = getFireworks(userId);
+        Map map = new HashMap();
+        int count = 0;
+        int proportion = 10;
+        if (fire != null){
+            count = fire.getCount();
+        }
+        map.put("userId",userId);
+        map.put("count",count);
+        map.put("proportion",proportion);
+        return ResponseFactory.sucData(map);
+    }
 }

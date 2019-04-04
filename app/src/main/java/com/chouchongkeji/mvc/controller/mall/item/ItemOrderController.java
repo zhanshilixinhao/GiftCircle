@@ -35,7 +35,7 @@ public class ItemOrderController {
      *
      * @param userDetails
      * @param client
-     * @param payWay         微信 24656 ，支付宝 78990 ，余额98001
+     * @param payWay         微信 24656 ，支付宝 78990 ，余额98001，87661 礼花
      * @param isShoppingCart 是否从购物车购买 1 是 2不是
      * @param skus           json数组，数组格式
      *                       [
@@ -52,7 +52,7 @@ public class ItemOrderController {
     public Response createOrder(@AuthenticationPrincipal UserDetails userDetails, @AppClient Integer client,
                                 String skus, Integer payWay, Byte isShoppingCart) {
         //检验支付方式
-        if (payWay == null || (payWay != Constants.PAY_TYPE.WX && payWay != Constants.PAY_TYPE.ALI && payWay != Constants.PAY_TYPE.yue)) {
+        if (payWay == null || (payWay != Constants.PAY_TYPE.WX && payWay != Constants.PAY_TYPE.ALI && payWay != Constants.PAY_TYPE.yue && payWay != Constants.PAY_TYPE.LIHUA)) {
             return ResponseFactory.err("支付方式错误!");
         }
         //json数组转换 反序列化，字符串转化为对象
