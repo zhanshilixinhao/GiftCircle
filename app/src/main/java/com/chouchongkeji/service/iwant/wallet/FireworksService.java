@@ -32,7 +32,7 @@ public interface FireworksService {
      * @author linqin
      * @date 2019/4/3
      */
-    Integer addFirework(Integer userId, Integer count);
+    int addFirework(Integer userId, Integer count);
 
     /**
      * 添加礼花收益/使用记录
@@ -43,7 +43,7 @@ public interface FireworksService {
      * @param type 1 邀请好友，2好友购买商品 3购买商品
      * @return
      */
-    Integer addFireworkRecord(Integer userId,Integer count,String des,Integer targetId,Byte type);
+    int addFireworkRecord(Integer userId,Integer count,String des,Integer targetId,Byte type);
 
 
     /**

@@ -64,7 +64,7 @@ public class FireworksServiceImpl implements FireworksService {
         }
         // 添加为好友
         friendService.addWXFriend(userId,parentUserId);
-        return 1;//0错误，1正确
+        return inviteUser.getId();//0错误，1正确
     }
 
 
@@ -77,7 +77,7 @@ public class FireworksServiceImpl implements FireworksService {
      * @author linqin
      * @date 2019/4/3
      */
-    public Integer addFirework(Integer userId, Integer count) {
+    public int addFirework(Integer userId, Integer count) {
         Fireworks fire = fireworksMapper.selectByUserId(userId);
         if (fire == null) {
             fire = new Fireworks();
@@ -109,7 +109,7 @@ public class FireworksServiceImpl implements FireworksService {
      * @param type     1 邀请好友，2好友购买商品 3购买商品
      * @return
      */
-    public Integer addFireworkRecord(Integer userId, Integer count, String des, Integer targetId, Byte type) {
+    public int addFireworkRecord(Integer userId, Integer count, String des, Integer targetId, Byte type) {
         FireworksRecord record = new FireworksRecord();
         record.setUserId(userId);
         record.setDescribe(des);
@@ -120,7 +120,7 @@ public class FireworksServiceImpl implements FireworksService {
         if (insert < 1) {
             return 0; //0错误，1正确
         }
-        return 1;
+        return 1;//添加成功
     }
 
 

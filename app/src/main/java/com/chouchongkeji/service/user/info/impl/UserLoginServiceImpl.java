@@ -106,18 +106,18 @@ public class UserLoginServiceImpl implements UserLoginService {
                 throw new ServiceException(ErrorCode.ERROR.getCode(),"用户id获取失败");
             }
             // 添加邀请好友记录
-            Integer integer = fireworksService.addInviteUser(id, userId);
-            if (integer != 1) {
+            Integer inviteId = fireworksService.addInviteUser(id, userId);
+            if (inviteId == null) {
                 throw new ServiceException(ErrorCode.ERROR.getCode(),"添加邀请记录失败");
             }
             // 邀请者获取礼花
-            Integer integer1 = fireworksService.addFirework(userId, 10);
+            int integer1 = fireworksService.addFirework(userId, 10);
             if (integer1 != 1) {
                 throw new ServiceException(ErrorCode.ERROR.getCode(),"邀请者获得礼花失败");
             }
             //添加礼花收益记录
             AppUser user = appUserMapper.selectByPrimaryKey(id);
-            Integer integer2 = fireworksService.addFireworkRecord(userId, 10, "邀请好友" + user.getNickname() + "奖励", id, (byte) 1);
+            int integer2 = fireworksService.addFireworkRecord(userId, 10, "邀请好友" + user.getNickname() + "奖励", inviteId, (byte) 1);
             if (integer2 != 1) {
                 throw new ServiceException(ErrorCode.ERROR.getCode(),"添加礼花记录失败");
             }

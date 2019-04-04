@@ -34,7 +34,7 @@ where a.parent_user_id = #{userId}
     delete from invite_user
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.user.InviteUser">
+  <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.user.InviteUser" keyProperty="id" useGeneratedKeys="true">
     insert into invite_user (id, user_id, parent_user_id, 
       created, updated)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{parentUserId,jdbcType=INTEGER}, 

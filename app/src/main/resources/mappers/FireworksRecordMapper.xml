@@ -14,7 +14,7 @@
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    id, user_id, describe, count, target_id, type, created, updated
+    id, user_id, `describe`, `count`, target_id, `type`, created, updated
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -46,8 +46,8 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.iwant.wallet.FireworksRecord">
-    insert into fireworks_record (id, user_id, describe, 
-      count, target_id, type, 
+    insert into fireworks_record (id, user_id, `describe`,
+      `count`, target_id, `type`,
       created, updated)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{describe,jdbcType=VARCHAR}, 
       #{count,jdbcType=INTEGER}, #{targetId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, 
