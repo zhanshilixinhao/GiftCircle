@@ -93,6 +93,8 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
 
     @Autowired
     private BpService bpService;
+
+
     /**
      * 支付宝提供给商户的服务接入网关URL(新)
      */
@@ -203,6 +205,10 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
         if (i == 0) {
             // 改变订单
             orderAli(itemOrder, orderNo, aLiPayV2Vo, orderType);
+            // 看是否是被其他用户邀请进来的
+            BigDecimal mu = BigDecimalUtil.multi(price.doubleValue(),0.01);
+            orderService.parentUserFirework(itemOrder.getUserId(),mu.intValue(),itemOrder.getId(),orderNo);
+
         } else if (i == 2) {
             return "ERROR";
         }
@@ -549,6 +555,9 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
         int re = checkBaseWxPayInfo(notifyData, xml, orderNo);
         if (re == 0) {
             changeOrder(itemOrder, orderNo, notifyData, orderType);
+            // 看是否是被其他用户邀请进来的
+            BigDecimal mu = BigDecimalUtil.multi(price.doubleValue(),0.01);
+            orderService.parentUserFirework(itemOrder.getUserId(),mu.intValue(),itemOrder.getId(),orderNo);
         } else if (re == 2) {
             return "ERROR";
         }
