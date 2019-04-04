@@ -56,7 +56,8 @@ public class VirtualItemOrderController {
             return ResponseFactory.errMissingParameter();
         }
         //检验支付方式
-        if (payWay == null || (payWay != Constants.PAY_TYPE.WX && payWay != Constants.PAY_TYPE.ALI && payWay != Constants.PAY_TYPE.yue)) {
+        if (payWay == null || (payWay != Constants.PAY_TYPE.WX && payWay != Constants.PAY_TYPE.ALI && payWay != Constants.PAY_TYPE.yue
+        && payWay != Constants.PAY_TYPE.LIHUA)) {
             return ResponseFactory.err("支付方式错误!");
         }
         return virtualIteamOrderService.payVirOrder(userDetails.getUserId(), payWay, orderNo);
