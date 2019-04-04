@@ -83,7 +83,7 @@ public class ItemOrderController {
      *
      * @param userDetails
      * @param orderNo     订单号
-     * @param payWay      微信 24656 ，支付宝 78990 ，余额98001
+     * @param payWay      微信 24656 ，支付宝 78990 ，余额98001，87661 礼花
      * @return
      * @author linqin
      * @date 2018/6/21
@@ -91,7 +91,7 @@ public class ItemOrderController {
     @PostMapping("pay")
     public Response orderPay(@AuthenticationPrincipal UserDetails userDetails, Long orderNo, Integer payWay) {
         //检验支付方式
-        if (payWay == null || (payWay != Constants.PAY_TYPE.WX && payWay != Constants.PAY_TYPE.ALI && payWay != Constants.PAY_TYPE.yue)) {
+        if (payWay == null || (payWay != Constants.PAY_TYPE.WX && payWay != Constants.PAY_TYPE.ALI && payWay != Constants.PAY_TYPE.yue && payWay != Constants.PAY_TYPE.LIHUA)) {
             return ResponseFactory.err("支付方式错误!");
         }
         if (orderNo == null) {
@@ -99,6 +99,8 @@ public class ItemOrderController {
         }
         return orderService.orderPay(userDetails.getUserId(), orderNo, payWay);
     }
+
+
 
     /**
      * 订单取消

@@ -69,4 +69,14 @@ public interface OrderService {
      * @return
      */
     String genTitle(SkuListVo skuListVo);
+
+    /**
+     * 查看是否是被邀请进来
+     * @param userId
+     * @param count
+     * @param itemOrderId
+     * @param orderNo
+     * @return
+     */
+    int parentUserFirework(Integer userId,Integer count,Integer itemOrderId,Long orderNo);
 }

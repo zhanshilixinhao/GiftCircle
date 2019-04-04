@@ -24,4 +24,6 @@ public interface InviteUserMapper {
      * @return
      */
     List<InviteUserVo> selectAllList(Integer userId);
+
+    InviteUser selectByUserId(Integer userId);
 }

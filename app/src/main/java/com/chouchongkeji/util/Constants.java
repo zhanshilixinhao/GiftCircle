@@ -424,6 +424,25 @@ public class Constants {
         }
     }
 
+
+
+    public enum FIREWORKS_RECORD {
+        ADDFRIEND(1, "邀请好友"),
+        FRIEND_DISCOUNT(2, "好友消费"),
+        our_ITEM_DISCOUNT(3, "本人购买商品");
+
+
+        public int type;
+        public String explain;
+
+        FIREWORKS_RECORD(int type, String explain) {
+            this.type = type;
+            this.explain = explain;
+        }
+    }
+
+
+
     /**
      * 消息类型
      */

@@ -15,6 +15,7 @@ import com.chouchongkeji.goexplore.query.PageQuery;
 import com.chouchongkeji.service.iwant.wallet.FireworksService;
 import com.chouchongkeji.service.iwant.wallet.vo.InviteUserVo;
 import com.chouchongkeji.service.user.friend.FriendService;
+import com.chouchongkeji.util.Constants;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -67,65 +68,54 @@ public class FireworksServiceImpl implements FireworksService {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "添加邀请好友记录失败");
         }
         // 添加为好友
-        friendService.addWXFriend(userId,parentUserId);
+        friendService.addWXFriend(userId, parentUserId);
         return inviteUser.getId();//0错误，1正确
     }
 
 
     /**
-     * 添加用户礼花
-     *
+     * 添加礼花/添加记录
      * @param userId
      * @param count
+     * @param type
+     * @param des
+     * @param targetId
      * @return
-     * @author linqin
-     * @date 2019/4/3
      */
-    public int addFirework(Integer userId, Integer count) {
-        Fireworks fire = fireworksMapper.selectByUserId(userId);
-        if (fire == null) {
-            fire = new Fireworks();
-            fire.setUserId(userId);
-            fire.setCount(count);
-            fire.setAllCount(count);
-            int insert = fireworksMapper.insert(fire);
-            if (insert < 1) {
-                return 0; //0错误，1正确
-            }
+    public int updateFireworks(Integer userId, Integer count, Constants.FIREWORKS_RECORD type,String des, Integer targetId) {
+        //根据用户id取出礼花信息
+        Fireworks detail = getFireworks(userId);
+        //礼花余额
+        Integer fir = detail.getCount();
+        //根据记录类型增加/减少余额
+        switch (type.type) {
+            case 1:
+            case 2:
+                break;
+            case 3:
+                count = -count;
+                break;
         }
-        fire.setCount(fire.getCount() + count);
-        fire.setAllCount(fire.getAllCount() + count);
-        int update = fireworksMapper.updateByPrimaryKeySelective(fire);
-        if (update < 1) {
-            return 0; //0错误，1正确
+
+        fir = fir+count;
+        if (fir < 0) {
+            throw new ServiceException(ErrorCode.YUE_NOT_EN);
         }
+        //更新余额
+        detail.setCount(fir);
+        fireworksMapper.updateByPrimaryKeySelective(detail);
+        //插入一条使用记录
+        FireworksRecord record = new FireworksRecord();
+        record.setUserId(userId);
+        record.setDescribe(des);
+        record.setCount(count); //绝对值
+        record.setTargetId(targetId);
+        record.setType((byte) type.type);
+        fireworksRecordMapper.insert(record);
         return 1;
     }
 
 
-    /**
-     * 添加礼花收益/使用记录
-     *
-     * @param userId   用户id
-     * @param count    礼花数
-     * @param des      描述
-     * @param targetId 目标id
-     * @param type     1 邀请好友，2好友购买商品 3购买商品
-     * @return
-     */
-    public int addFireworkRecord(Integer userId, Integer count, String des, Integer targetId, Byte type) {
-        FireworksRecord record = new FireworksRecord();
-        record.setUserId(userId);
-        record.setDescribe(des);
-        record.setCount(count);
-        record.setTargetId(targetId);
-        record.setType(type);
-        int insert = fireworksRecordMapper.insert(record);
-        if (insert < 1) {
-            return 0; //0错误，1正确
-        }
-        return 1;//添加成功
-    }
 
 
     /**
@@ -143,10 +133,9 @@ public class FireworksServiceImpl implements FireworksService {
     }
 
 
-
     private Fireworks getFireworks(Integer userId) {
         Fireworks fire = fireworksMapper.selectByUserId(userId);
-        if (fire != null){
+        if (fire != null) {
             return fire;
         }
         // 插入一条空数据
@@ -161,6 +150,7 @@ public class FireworksServiceImpl implements FireworksService {
 
     /**
      * 我的团队
+     *
      * @param userId
      * @return
      * @author linqin
@@ -176,22 +166,20 @@ public class FireworksServiceImpl implements FireworksService {
      * 礼花收益记录
      *
      * @param userId
-     * @param starting    开始时间
-     * @param ending      截至时间
+     * @param starting 开始时间
+     * @param ending   截至时间
      * @return
      * @author linqin
      * @date 2019/4/3
      */
     @Override
     public Response earnRecordList(Integer userId, PageQuery pageQuery, Long starting, Long ending) {
-       //分页
-        PageHelper.startPage(pageQuery.getPageNum(),pageQuery.getPageSize());
+        //分页
+        PageHelper.startPage(pageQuery.getPageNum(), pageQuery.getPageSize());
         // 查询礼花收益记录
-        List<FireworksRecord> records = fireworksRecordMapper.selectByUserIdAndTime(userId,starting,ending);
+        List<FireworksRecord> records = fireworksRecordMapper.selectByUserIdAndTime(userId, starting, ending);
         return ResponseFactory.sucData(records);
     }
-
-
 
 
     /**
@@ -208,12 +196,14 @@ public class FireworksServiceImpl implements FireworksService {
         Map map = new HashMap();
         int count = 0;
         int proportion = 10;
-        if (fire != null){
+        if (fire != null) {
             count = fire.getCount();
         }
-        map.put("userId",userId);
-        map.put("count",count);
-        map.put("proportion",proportion);
+        map.put("userId", userId);
+        map.put("count", count);
+        map.put("proportion", proportion);
         return ResponseFactory.sucData(map);
     }
+
+
 }

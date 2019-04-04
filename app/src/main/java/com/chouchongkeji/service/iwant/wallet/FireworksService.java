@@ -3,6 +3,7 @@ package com.chouchongkeji.service.iwant.wallet;
 
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.query.PageQuery;
+import com.chouchongkeji.util.Constants;
 
 /**
  * @author linqin
@@ -22,28 +23,6 @@ public interface FireworksService {
      */
     Integer addInviteUser(Integer userId, Integer parentUserId);
 
-
-    /**
-     * 添加用户礼花
-     *
-     * @param userId
-     * @param count
-     * @return
-     * @author linqin
-     * @date 2019/4/3
-     */
-    int addFirework(Integer userId, Integer count);
-
-    /**
-     * 添加礼花收益/使用记录
-     * @param userId 用户id
-     * @param count 礼花数
-     * @param des 描述
-     * @param targetId 目标id
-     * @param type 1 邀请好友，2好友购买商品 3购买商品
-     * @return
-     */
-    int addFireworkRecord(Integer userId,Integer count,String des,Integer targetId,Byte type);
 
 
     /**
@@ -86,4 +65,15 @@ public interface FireworksService {
      * @date 2019/4/3
      */
     Response numberRemaining(Integer userId);
+
+    /**
+     * 添加礼花/添加记录
+     * @param userId
+     * @param count
+     * @param type
+     * @param des
+     * @param targetId
+     * @return
+     */
+    int updateFireworks(Integer userId, Integer count, Constants.FIREWORKS_RECORD type, String des, Integer targetId);
 }

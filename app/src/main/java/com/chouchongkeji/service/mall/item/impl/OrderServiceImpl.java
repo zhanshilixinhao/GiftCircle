@@ -2,7 +2,13 @@ package com.chouchongkeji.service.mall.item.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.chouchongkeji.dial.dao.gift.item.*;
+import com.chouchongkeji.dial.dao.iwant.wallet.FireworksMapper;
+import com.chouchongkeji.dial.dao.user.AppUserMapper;
+import com.chouchongkeji.dial.dao.user.InviteUserMapper;
 import com.chouchongkeji.dial.pojo.gift.item.*;
+import com.chouchongkeji.dial.pojo.iwant.wallet.Fireworks;
+import com.chouchongkeji.dial.pojo.user.AppUser;
+import com.chouchongkeji.dial.pojo.user.InviteUser;
 import com.chouchongkeji.exception.ServiceException;
 import com.chouchongkeji.goexplore.common.ErrorCode;
 import com.chouchongkeji.goexplore.common.Response;
@@ -18,6 +24,7 @@ import com.chouchongkeji.goexplore.utils.BigDecimalUtil;
 import com.chouchongkeji.goexplore.utils.RSAProvider;
 import com.chouchongkeji.properties.ServiceProperties;
 import com.chouchongkeji.service.backpack.base.BpService;
+import com.chouchongkeji.service.iwant.wallet.FireworksService;
 import com.chouchongkeji.service.iwant.wallet.WalletService;
 import com.chouchongkeji.service.mall.item.OrderService;
 import com.chouchongkeji.service.mall.item.vo.OrderListVo;
@@ -81,6 +88,18 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private OrderCollectMapper orderCollectMapper;
+
+    @Autowired
+    private FireworksMapper fireworksMapper;
+
+    @Autowired
+    private FireworksService fireworksService;
+
+    @Autowired
+    private InviteUserMapper inviteUserMapper;
+
+    @Autowired
+    private AppUserMapper appUserMapper;
 
     /**
      * 按时取消订单
@@ -157,6 +176,7 @@ public class OrderServiceImpl implements OrderService {
             orderCollect.sethOrderNo(orderNo);
             orderCollectMapper.insert(orderCollect);
         }
+        BigDecimal mu = BigDecimalUtil.multi(totalPrice.doubleValue(), 0.01);
         //余额支付
         if (payWay == Constants.PAY_TYPE.yue) {
             int index = 0;
@@ -180,9 +200,44 @@ public class OrderServiceImpl implements OrderService {
                 //保存支付信息
                 appPaymentInfoService.doYuePaySuccess(itemOrder.getOrderNo(), userId, new Date(), Constants.ORDER_TYPE.ITEM,
                         0, totalPrice);
+                // 看是否是被其他用户邀请进来的
+                parentUserFirework(userId, mu.intValue(), itemOrder.getId(), orderNo);
             }
             return ResponseFactory.sucMsg("支付成功");
         }
+        // 礼花支付
+        if (payWay == Constants.PAY_TYPE.LIHUA) {
+            //查看礼花数量是否足够
+            Fireworks fireworks = fireworksMapper.selectByUserId(userId);
+            BigDecimal multi = BigDecimalUtil.multi(totalPrice.doubleValue(), 10);
+            if (multi.floatValue() > fireworks.getCount()) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "礼花不足无法支付");
+            }
+            int index = 0;
+            for (ItemOrder itemOrder : itemOrders) {
+                //扣减礼花，更新礼花
+                LIHUAPay(userId, multi.intValue(), Constants.FIREWORKS_RECORD.our_ITEM_DISCOUNT, "购买商品",
+                        itemOrder.getId(), itemOrder.getOrderNo());
+                //更新销量和详细订单状
+                int i = updateStatusSales(itemOrder.getOrderNo());
+                if (i < 1) {
+                    throw new ServiceException(ErrorCode.ERROR.getCode(), "更新销量和详细订单状态失败");
+                }
+                //物品添加到背包
+                int add = bpService.addFromItemOrder(list.get(index++));
+
+                if (add < 1) {
+                    throw new ServiceException(ErrorCode.ERROR.getCode(), "");
+                }
+                //保存支付信息
+                appPaymentInfoService.doYuePaySuccess(itemOrder.getOrderNo(), userId, new Date(), Constants.ORDER_TYPE.ITEM,
+                        0, totalPrice);
+                // 看是否是被其他用户邀请进来的
+                parentUserFirework(userId, mu.intValue(), itemOrder.getId(), orderNo);
+            }
+            return ResponseFactory.sucMsg("支付成功");
+        }
+
         // 创建订单参数
         return ResponseFactory.sucData(createOrderParameter(orderNo, totalPrice, payWay));
     }
@@ -278,6 +333,32 @@ public class OrderServiceImpl implements OrderService {
 //        // 创建订单参数
 //        return ResponseFactory.sucData(createOrderParameter(itemOrder, payWay));
 //    }
+
+    /**
+     * 查看是否是被邀请进来
+     *
+     * @param userId
+     * @param count
+     * @param itemOrderId
+     * @param orderNo
+     * @return
+     */
+    public int parentUserFirework(Integer userId, Integer count, Integer itemOrderId, Long orderNo) {
+        //查看是否是被邀请进来
+        InviteUser user = inviteUserMapper.selectByUserId(userId);
+        if (user != null) {
+            //父级用户可以得到礼花
+            Integer parentUserId = user.getParentUserId();
+            AppUser appUser = appUserMapper.selectByPrimaryKey(userId);
+            int i = fireworksService.updateFireworks(parentUserId, count, Constants.FIREWORKS_RECORD.FRIEND_DISCOUNT, "好友" + appUser.getNickname() + "消费奖励",
+                    itemOrderId == null ? orderNo.intValue() : itemOrderId);
+            if (i != 1) {
+                return 0;
+            }
+        }
+        return 1;
+    }
+
 
     private ItemOrder create(List<OrderVo> skus, Integer client, Integer userId, Byte isShoppingCart,
                              Integer adminId, List<List<ItemOrderDetail>> listItemDetail) {
@@ -432,6 +513,32 @@ public class OrderServiceImpl implements OrderService {
         return 1;
     }
 
+    /**
+     * 礼花支付
+     *
+     * @param userId
+     * @param totalPrice
+     * @param itemOrderId
+     * @param orderNo
+     * @return
+     * @author linqin
+     * @date 2018/7/5
+     */
+    public int LIHUAPay(Integer userId, Integer counts, Constants.FIREWORKS_RECORD type, String des, Integer itemOrderId, Long orderNo) {
+        //扣减，更新礼花，礼花记录
+        int count = fireworksService.updateFireworks(userId, counts,
+                type, des, itemOrderId == null ? orderNo.intValue() : itemOrderId);
+        if (count < 1) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "支付失败,请选择其他支付方式");
+        }
+        //更新订单状态
+        int i = itemOrderMapper.updateStatusByOrder(orderNo, Constants.ORDER_STATUS.PAID);
+        if (i < 1) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "更新状态失败");
+        }
+        return 1;
+    }
+
 
     /**
      * 更新销量和详细订单状态
@@ -491,6 +598,8 @@ public class OrderServiceImpl implements OrderService {
         if (itemOrder.getStatus() != Constants.ORDER_STATUS.NO_PAY) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "订单已经支付过");
         }
+        BigDecimal totalPrice = itemOrder.getTotalPrice();
+        BigDecimal mu = BigDecimalUtil.multi(totalPrice.doubleValue(), 0.01);
         //余额支付
         if (payWay == Constants.PAY_TYPE.yue) {
             //更新余额，扣减余额
@@ -512,6 +621,39 @@ public class OrderServiceImpl implements OrderService {
             //保存支付信息
             appPaymentInfoService.doYuePaySuccess(orderNo, userId, itemOrder.getCreated(), Constants.ORDER_TYPE.ITEM,
                     0, itemOrder.getTotalPrice());
+            // 看是否是被其他用户邀请进来的
+            parentUserFirework(userId, mu.intValue(), itemOrder.getId(), orderNo);
+
+            return ResponseFactory.sucMsg("支付成功");
+        }
+        // 礼花支付
+        if (payWay == Constants.PAY_TYPE.LIHUA) {
+            //查看礼花数量是否足够
+            Fireworks fireworks = fireworksMapper.selectByUserId(userId);
+            BigDecimal multi = BigDecimalUtil.multi(totalPrice.doubleValue(), 10);
+            if (multi.floatValue() > fireworks.getCount()) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "礼花不足无法支付");
+            }
+            //扣减礼花，更新礼花
+            LIHUAPay(userId, multi.intValue(), Constants.FIREWORKS_RECORD.our_ITEM_DISCOUNT, "购买商品",
+                    itemOrder.getId(), orderNo);
+            //更新销量和详细订单状
+            int i = updateStatusSales(orderNo);
+            if (i < 1) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "更新销量和详细订单状态失败");
+            }
+            //物品添加到背包
+            List<ItemOrderDetail> list = itemOrderDetailMapper.selectByUserIdAndOrderNo(userId, orderNo);
+            int add = bpService.addFromItemOrder(list);
+            if (add < 1) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "");
+            }
+            //保存支付信息
+            appPaymentInfoService.doYuePaySuccess(itemOrder.getOrderNo(), userId, new Date(), Constants.ORDER_TYPE.ITEM,
+                    0, totalPrice);
+            // 看是否是被其他用户邀请进来的
+            parentUserFirework(userId, mu.intValue(), itemOrder.getId(), orderNo);
+
             return ResponseFactory.sucMsg("支付成功");
         }
         return ResponseFactory.sucData(createOrderParameter(orderNo, itemOrder.getTotalPrice(), payWay));

@@ -30,6 +30,7 @@ public enum ErrorCode {
     IDCARD_NEED(1011, "IDCARD_NEED"),   // 短信验证码错误
     JOIN_TEAM(1012, "JOIN_TEAM_ERROR"),   // 用户加入战队失败
     YUE_NOT_EN(1013, "余额不足"),   // 用户加入战队失败
+    lh_NOT_EN(1014, "礼花不足"),   // 用户加入战队失败
 
     CACHE_ERROR(2001, "CACHE_ERROR"),   // 缓存时发生的错误
     /* 订单相关 */

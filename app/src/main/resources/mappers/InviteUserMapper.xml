@@ -30,6 +30,12 @@ from invite_user a
          left join app_user b on a.user_id = b.id
 where a.parent_user_id = #{userId}
     </select>
+    <select id="selectByUserId" resultType="com.chouchongkeji.dial.pojo.user.InviteUser">
+      select
+      <include refid="Base_Column_List" />
+      from invite_user
+      where user_id = #{userId}
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from invite_user
     where id = #{id,jdbcType=INTEGER}
