@@ -4,6 +4,7 @@ import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.query.PageQuery;
 import com.chouchongkeji.service.mall.item.vo.OrderVo;
 import com.chouchongkeji.service.mall.item.vo.SkuListVo;
+import com.chouchongkeji.util.Constants;
 
 import java.util.HashSet;
 
@@ -61,6 +62,20 @@ public interface OrderService {
      * @date 2018/7/5
      */
     int updateStatusSales(Long orderNo);
+
+
+    /**
+     * 礼花支付
+     *
+     * @param userId
+     * @param totalPrice
+     * @param itemOrderId
+     * @param orderNo
+     * @return
+     * @author linqin
+     * @date 2018/7/5
+     */
+    int LIHUAPay(Integer userId, Integer counts, Constants.FIREWORKS_RECORD type, String des, Integer itemOrderId, Long orderNo);
 
     /**
      * 取出规格信息

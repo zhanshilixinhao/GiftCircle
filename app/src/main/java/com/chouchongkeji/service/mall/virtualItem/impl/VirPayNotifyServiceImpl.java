@@ -21,6 +21,7 @@ import com.chouchongkeji.goexplore.utils.BigDecimalUtil;
 import com.chouchongkeji.goexplore.utils.DateUtil;
 import com.chouchongkeji.goexplore.utils.HttpClientUtils;
 import com.chouchongkeji.service.backpack.base.BpService;
+import com.chouchongkeji.service.mall.item.OrderService;
 import com.chouchongkeji.service.mall.virtualItem.VirPayNotifyService;
 import com.chouchongkeji.service.user.info.impl.AppPaymentInfoServiceImpl;
 import com.chouchongkeji.util.Constants;
@@ -66,6 +67,9 @@ public class VirPayNotifyServiceImpl implements VirPayNotifyService {
     @Autowired
     private BpService bpService;
 
+
+    @Autowired
+    private OrderService orderService;
     /**
      * 支付宝提供给商户的服务接入网关URL(新)
      */
@@ -125,6 +129,10 @@ public class VirPayNotifyServiceImpl implements VirPayNotifyService {
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "");
             }
             doAliPaySuccess(aLiPayV2Vo, orderType, virItemOrder.getUserId());
+
+            // 看是否是被其他用户邀请进来的
+            BigDecimal mu = BigDecimalUtil.multi(price.doubleValue(),0.01);
+            orderService.parentUserFirework(userId,mu.intValue(),virItemOrder.getId(),orderNo);
         } else if (re == 2) {
             return "ERROR";
         }
@@ -285,6 +293,10 @@ public class VirPayNotifyServiceImpl implements VirPayNotifyService {
             }
             log.info("背包物品添加成功");
             doWXPaySuccess(notifyData, orderType, virItemOrder.getUserId());
+
+            // 看是否是被其他用户邀请进来的
+            BigDecimal mu = BigDecimalUtil.multi(price.doubleValue(),0.01);
+            orderService.parentUserFirework(userId,mu.intValue(),virItemOrder.getId(),orderNo);
         } else if (re == 2) {
             log.info("金额校验失败");
             return "ERROR";

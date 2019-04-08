@@ -4,7 +4,11 @@ import com.alibaba.fastjson.JSON;
 import com.chouchongkeji.dial.dao.gift.virtualItem.UserVirtualItemMapper;
 import com.chouchongkeji.dial.dao.gift.virtualItem.VirItemOrderMapper;
 import com.chouchongkeji.dial.dao.gift.virtualItem.VirtualItemMapper;
+import com.chouchongkeji.dial.dao.iwant.wallet.FireworksMapper;
+import com.chouchongkeji.dial.pojo.gift.item.ItemOrder;
+import com.chouchongkeji.dial.pojo.gift.item.ItemOrderDetail;
 import com.chouchongkeji.dial.pojo.gift.virtualItem.UserVirtualItem;
+import com.chouchongkeji.dial.pojo.iwant.wallet.Fireworks;
 import com.chouchongkeji.exception.ServiceException;
 import com.chouchongkeji.goexplore.common.ErrorCode;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
@@ -15,12 +19,14 @@ import com.chouchongkeji.goexplore.pay.PayVO;
 import com.chouchongkeji.goexplore.pay.alipay_v2.AliPayServiceV2;
 import com.chouchongkeji.goexplore.pay.weixin.service.WXPayDto;
 import com.chouchongkeji.goexplore.pay.weixin.service.WXPayService;
+import com.chouchongkeji.goexplore.utils.BigDecimalUtil;
 import com.chouchongkeji.goexplore.utils.RSAProvider;
 import com.chouchongkeji.dial.pojo.gift.virtualItem.VirItemOrder;
 import com.chouchongkeji.dial.pojo.gift.virtualItem.VirtualItem;
 import com.chouchongkeji.properties.ServiceProperties;
 import com.chouchongkeji.service.backpack.base.BpService;
 import com.chouchongkeji.service.iwant.wallet.WalletService;
+import com.chouchongkeji.service.mall.item.OrderService;
 import com.chouchongkeji.service.mall.virtualItem.VirtualIteamOrderService;
 import com.chouchongkeji.service.user.info.AppPaymentInfoService;
 import com.chouchongkeji.util.Constants;
@@ -33,6 +39,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author yy
@@ -66,6 +73,12 @@ public class VirtualIteamOrderServiceImpl implements VirtualIteamOrderService {
     @Autowired
     private ServiceProperties serviceProperties;
 
+
+    @Autowired
+    private FireworksMapper fireworksMapper;
+
+    @Autowired
+    private OrderService orderService;
     /**
      * 创建虚拟商品订单
      *
@@ -168,6 +181,62 @@ public class VirtualIteamOrderServiceImpl implements VirtualIteamOrderService {
             //保存支付信息
             appPaymentInfoService.doYuePaySuccess(orderNo, userId, virItemOrder.getCreated(), Constants.ORDER_TYPE.ITEM,
                     0, virItemOrder.getTotalPrice());
+            return ResponseFactory.sucMsg("支付成功");
+        }
+        BigDecimal mu = BigDecimalUtil.multi(virItemOrder.getTotalPrice().doubleValue(), 0.01);
+        // 礼花支付
+        if (payWay == Constants.PAY_TYPE.LIHUA) {
+            //查看礼花数量是否足够
+            Fireworks fireworks = fireworksMapper.selectByUserId(userId);
+            BigDecimal multi = BigDecimalUtil.multi(virItemOrder.getTotalPrice().doubleValue(), 10);
+            if (multi.floatValue() > fireworks.getCount()) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "礼花不足无法支付");
+            }
+            //扣减礼花，更新礼花
+           orderService.LIHUAPay(userId, multi.intValue(), Constants.FIREWORKS_RECORD.our_ITEM_DISCOUNT, "购买商品",
+                    virItemOrder.getId(), orderNo);
+            //更新订单状态
+            virItemOrder.setStatus(Constants.CHARGE_ORDER_STATUS.PAY);
+            virItemOrder.setUpdated(new Date());
+            int i = virItemOrderMapper.updateByPrimaryKey(virItemOrder);
+            if (i < 1) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "更新状态失败");
+            }
+            //更新销量和详细订单状
+            VirtualItem virtualItem = virtualItemMapper.selectByPrimaryKey(virItemOrder.getVirtualItemId());
+            virtualItem.setSales(virtualItem.getSales() + virItemOrder.getQuantity());
+            virtualItem.setUpdated(new Date());
+            i = virtualItemMapper.updateByPrimaryKey(virtualItem);
+            if (i < 1) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "更新销量失败");
+            }
+            //  保存用户虚拟商品
+            UserVirtualItem userVirtualItem = new UserVirtualItem();
+            userVirtualItem.setVirtualItemId(virItemOrder.getVirtualItemId());
+            userVirtualItem.setUserId(userId);
+            userVirtualItem.setUpdated(new Date());
+            userVirtualItem.setTotalPrice(virItemOrder.getTotalPrice());
+            userVirtualItem.setSummary(virItemOrder.getSummary());
+            userVirtualItem.setQuantity(virItemOrder.getQuantity());
+            userVirtualItem.setPrice(virItemOrder.getPrice());
+            userVirtualItem.setName(virItemOrder.getName());
+            userVirtualItem.setCreated(new Date());
+            userVirtualItem.setCover(virItemOrder.getCover());
+            i = userVirtualItemMapper.insert(userVirtualItem);
+            if (i < 1) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "礼花支付失败");
+            }
+            // 物品添加到背包
+            int b = bpService.addFromVirtualItemOrder(virItemOrder);
+            if (b < 1) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "");
+            }
+            //保存支付信息
+            appPaymentInfoService.doYuePaySuccess(orderNo, userId, virItemOrder.getCreated(), Constants.ORDER_TYPE.ITEM,
+                    0, virItemOrder.getTotalPrice());
+            // 看是否是被其他用户邀请进来的
+            orderService.parentUserFirework(userId, mu.intValue(), virItemOrder.getId(), orderNo);
+
             return ResponseFactory.sucMsg("支付成功");
         }
         // 创建订单参数
