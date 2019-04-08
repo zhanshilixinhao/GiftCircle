@@ -1,27 +1,67 @@
 {
   "errCode": 0,
   "result": 0,
-  "time": 1554342462716,
+  "time": 1554692623182,
   "data": [
     {
-      "id": 1,
-      "userId": 6,
-      "describe": "邀请好友时良奖励",
-      "count": 10,
-      "targetId": 1,
-      "type": 1,
-      "created": 1554313207000,
-      "updated": 1554313211000
+      "id": 39,
+      "bankId": 17,
+      "logo": "",
+      "bankName": "支付宝",
+      "depositBank": "15752400650",
+      "cardHolder": "li支付宝",
+      "cardNo": "15752400650000",
+      "isDefault": 2
     },
     {
-      "id": 2,
-      "userId": 6,
-      "describe": "邀请好友年锐奖励",
-      "count": 10,
-      "targetId": 1,
-      "type": 1,
-      "created": 1554313207000,
-      "updated": 1554313211000
+      "id": 34,
+      "bankId": 8,
+      "logo": "https://liyuquan.cn/static/bank/bankny.png",
+      "bankName": "农业银行",
+      "depositBank": "时良",
+      "cardHolder": "wo",
+      "cardNo": "hdjs899883",
+      "isDefault": 2
+    },
+    {
+      "id": 33,
+      "bankId": 8,
+      "logo": "https://liyuquan.cn/static/bank/bankny.png",
+      "bankName": "农业银行",
+      "depositBank": "时良",
+      "cardHolder": "wo",
+      "cardNo": "hdjs899883",
+      "isDefault": 2
+    },
+    {
+      "id": 30,
+      "bankId": 2,
+      "logo": "https://liyuquan.cn/static/bank/bankgd.png",
+      "bankName": "光大银行",
+      "depositBank": "时良",
+      "cardHolder": "wo",
+      "cardNo": "hdjs899883",
+      "isDefault": 2
+    },
+    {
+      "id": 29,
+      "bankId": 2,
+      "logo": "https://liyuquan.cn/static/bank/bankgd.png",
+      "bankName": "光大银行",
+      "depositBank": "时良",
+      "cardHolder": "wo",
+      "cardNo": "8943539539548",
+      "isDefault": 2
+    },
+    {
+      "id": 28,
+      "bankId": 1,
+      "logo": "https://liyuquan.cn/static/bank/bankgs.png",
+      "bankName": "工商银行",
+      "depositBank": "纪录片",
+      "cardHolder": "考虑考虑",
+      "cardNo": "5588625779325",
+      "isDefault": 2
     }
   ]
 }

@@ -81,7 +81,7 @@ public class BankCardController {
             return ResponseFactory.errMissingParameter();
         } else {
             if (userBankCardVo.getBankId() == null) {
-                return ResponseFactory.errMissingParameter();
+                userBankCardVo.setBankId(17);
             }
             if (StringUtils.isAnyBlank(userBankCardVo.getCardHolder(), userBankCardVo.getCardNo(),
                     userBankCardVo.getDepositBank())) {

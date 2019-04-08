@@ -147,6 +147,8 @@
 > 3. 增加订单支付方式（接口7.6,7.7）
 > 4. 增加虚拟订单支付方式（接口6.16）
 > 5. 订单列表修改返回值（增加支付方式，接口7.9）
+> 6. 修改添加银行卡（绑定支付宝）接口（3.5）
+> 7. 修改用户银行卡列表返回值（bankId= 17 是支付宝）接口（3.4）
 
 ## 目录
 <span id="m"> </span>
@@ -782,9 +784,9 @@ http 常用错误码
         }, 
         {
             "id": 22, 
-            "bankId": 1, 
+            "bankId": 17, 
             "logo": "https://liyuquan.cn/static/bank/bankzg.png", 
-            "bankName": "中国银行", 
+            "bankName": "支付宝", 
             "depositBank": "咯旅游", 
             "cardHolder": "关机了", 
             "cardNo": "726456483463586871", 
@@ -799,7 +801,7 @@ http 常用错误码
 | errCode     |   Int    |    是    | 错误码 0 标识成功获取数据 |
 | data        |  Object  |    否    |       成功返回数据        |
 | id          |   Int    |    是    |       用户银行卡id        |
-| bankId      |   Int    |    是    |          银行id           |
+| bankId      |   Int    |    是    |          银行id （bankId等于17时是支付宝）          |
 | bankName    |  String  |    是    |         银行名称          |
 | logo        |  String  |    是    |         银行logo          |
 | depositBank |  String  |    是    |        开户行名称         |
@@ -807,7 +809,7 @@ http 常用错误码
 | cardNo      |  String  |    是    |         银行卡号          |
 |isDefault|byte|是|是否为默认银行卡 1 默认，2 不是默认|
 
-### 3.5 提现--添加用户银行卡
+### 3.5 提现--添加用户银行卡/绑定支付宝
 
 - 请求地址：auth/v1/bankCard/add
 - 服务协议：HTTP/POST
@@ -817,10 +819,10 @@ http 常用错误码
 |   参数名称   | 参数类型 | 是否必传 | 默认值 |  参数说明  |
 | :----------: | :------: | :------: | :----: | :--------: |
 | access_token |  string  |    是    |   无   |  访问令牌  |
-| depositBank  |  string  |    是    |   无   | 开户行名称 |
-|  cardHolder  |  string  |    是    |   无   | 持卡人姓名 |
-|    cardNo    |  string  |    是    |   无   |  银行卡号  |
-|    bankId    |   Int    |    是    |   无   |   银行id   |
+| depositBank  |  string  |    是    |   无   | 开户行名称/电话号码 |
+|  cardHolder  |  string  |    是    |   无   | 持卡人姓名/收款人姓名 |
+|    cardNo    |  string  |    是    |   无   |  银行卡号 /支付宝账号 |
+|    bankId    |   Int    |    否    |   17   |   银行id(添加银行卡时是必传，绑定支付宝不传)  |
 
 请求结果示例：
 
