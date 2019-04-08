@@ -1079,6 +1079,64 @@ create table if not exists sys_admin
   )
   comment '后台用户表' charset=utf8mb4;
 
+
+
+
+
+  create table if not exists sys_admin_wallet
+(
+  id int unsigned auto_increment comment '自增主键'
+  primary key,
+  admin_id int(11) null comment'后台用户id',
+  total_amount decimal(18,2) null comment '钱包金额',
+   created datetime null comment '创建时间',
+  updated datetime null comment '更新时间'
+  )
+  comment '后台用户钱包' charset=utf8mb4;
+
+
+
+create table if not exists sys_admin_wallet_record
+(
+  id int auto_increment
+  primary key,
+    admin_id int(11) null comment'后台用户id',
+  `explain` varchar(200) null comment '使用记录说明',
+  amount decimal(18,2) null comment '变动金额',
+  target_id bigint null comment '目标Id 1背包id',
+  type tinyint null comment '记录类型 1背包物品折现',
+  updated datetime null,
+  created datetime null
+  )
+  comment '后台用户钱包收益记录' charset=utf8mb4;
+
+
+create table if not exists sys_admin_withdraw
+(
+  id int auto_increment comment '表id'
+  primary key,
+  admin_id int null comment '用户id',
+  amount decimal(18,2) null comment '提现金额',
+  bank_name varchar (32) null comment'银行名称',
+  deposit_bank varchar(64) null comment '开户银行',
+  card_holder varchar(64) null comment '持卡人姓名',
+  card_no varchar(20) null comment '银行卡号',
+  status tinyint default 1 null comment '提现状态，1-申请提现，2-处理中 3-提现成功，4-提现失败',
+  `describe` varchar(64) null comment '提现说明',
+  created datetime null comment '创建时间',
+  updated datetime null comment '更新时间'
+  )
+  comment '后台用户提现' charset=utf8mb4;
+
+
+
+
+
+
+
+
+
+
 create table if not exists sys_admin_role
 (
   admin_id int unsigned not null comment '后台用户ID',

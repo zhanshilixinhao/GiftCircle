@@ -87,7 +87,7 @@ public class DiscountingServiceImpl implements DiscountingService {
         discounting.setBpId(bpId);
         discounting.setItemPrice(vbp.getPrice());
         BigDecimal discountPrice = BigDecimalUtil.multi(vbp.getPrice().doubleValue(), Constants.DISCOUNT_RATE.DISCOUNTING);
-        discountPrice = discountPrice.setScale(2, RoundingMode.DOWN);
+        discountPrice = discountPrice.setScale(2, RoundingMode.UP);
         discounting.setDiscountPrice(discountPrice);
         discounting.setExplain("背包物品折现");
         discounting.setStatus(Constants.DISCOUNT_STATUS.DISCOUNTING);

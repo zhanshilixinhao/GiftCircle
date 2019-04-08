@@ -44,7 +44,7 @@ public class DiscountingController {
     }
 
     /**
-     * 折现信息
+     * 折现信息比例
      *
      * @param userDetails
      * @return
@@ -54,7 +54,7 @@ public class DiscountingController {
     @PostMapping("preinfo")
     public Response preinfo(@AuthenticationPrincipal UserDetails userDetails) {
         Map<String, Object> map = new HashMap<>();
-        map.put("ratio", 0.15);
+        map.put("ratio", 0.20);
         map.put("desc", "折现说明文字在这里");
         return ResponseFactory.sucData(map);
     }
