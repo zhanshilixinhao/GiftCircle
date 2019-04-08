@@ -32,6 +32,7 @@
             <result property="price" column="price"/>
             <result property="cover" column="cover"/>
             <result property="quantity" column="bQuantity"/>
+            <result property="payPlatform" column="payPlatform"/>
         </collection>
     </resultMap>
     <sql id="Base_Column_List">
@@ -80,19 +81,22 @@
         order_no = #{orderNo}
     </select>
     <select id="selectDetailByUserId" resultMap="ResultMap">
-        SELECT
-            a.*,
-            b.item_id,
-            b.sku_id,
-            b.title,
-            b.price,
-            b.cover,
-            b.quantity as bQuantity
-        FROM item_order a
-                 LEFT JOIN item_order_detail b on a.order_no = b.order_no
-        WHERE a.user_id = #{userId}
-          and a.status = #{status}
-        order by a.id DESC
+       SELECT
+    a.*,
+    b.item_id,
+    b.sku_id,
+    b.title,
+    b.price,
+    b.cover,
+    b.quantity as bQuantity,
+       c.pay_platform as payPlatform
+
+FROM item_order a
+         LEFT JOIN item_order_detail b on a.order_no = b.order_no
+left join payment_info c on a.order_no = c.order_no
+WHERE a.user_id = #{userId}
+  and a.status = #{status}
+order by a.id DESC
     </select>
     <select id="selectAll" resultMap="BaseResultMap">
         SELECT

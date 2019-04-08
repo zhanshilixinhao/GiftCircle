@@ -23,6 +23,9 @@ public class OrderDetailVo {
 
     private Integer quantity;
 
+    private Integer payPlatform;
+
+
     public Integer getItemId() {
         return itemId;
     }
@@ -69,5 +72,14 @@ public class OrderDetailVo {
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
+    }
+
+
+    public Integer getPayPlatform() {
+        return payPlatform;
+    }
+
+    public void setPayPlatform(Integer payPlatform) {
+        this.payPlatform = payPlatform;
     }
 }

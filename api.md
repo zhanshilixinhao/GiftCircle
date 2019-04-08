@@ -145,7 +145,8 @@
 > 1. 修改绑定手机号接口（2.2）
 > 2. 礼花相关接口（23）
 > 3. 增加订单支付方式（接口7.6,7.7）
-> 3. 增加虚拟订单支付方式（接口6.16）
+> 4. 增加虚拟订单支付方式（接口6.16）
+> 5. 订单列表修改返回值（增加支付方式，接口7.9）
 
 ## 目录
 <span id="m"> </span>
@@ -2785,7 +2786,8 @@ type = 3 请求结果示例：
                     "title": "秦孝公", 
                     "price": 1000, 
                     "cover": "https://io.shanren.group/image/cover.jpg", 
-                    "quantity": 2
+                    "quantity": 2,
+                    "payPlatform": 98001
                 }, 
                 {
                     "itemId": 1, 
@@ -2793,7 +2795,8 @@ type = 3 请求结果示例：
                     "title": "魏文侯", 
                     "price": 1000, 
                     "cover": "https://io.shanren.group/image/cover.jpg", 
-                    "quantity": 2
+                    "quantity": 2,
+                    "payPlatform": 98001
                 }
             ]
         }, 
@@ -2814,7 +2817,8 @@ type = 3 请求结果示例：
                     "title": "秦孝公", 
                     "price": 1000, 
                     "cover": "https://io.shanren.group/image/cover.jpg", 
-                    "quantity": 2
+                    "quantity": 2,
+                    "payPlatform": 98001
                 }, 
                 {
                     "itemId": 1, 
@@ -2822,7 +2826,8 @@ type = 3 请求结果示例：
                     "title": "魏文侯", 
                     "price": 1000, 
                     "cover": "https://io.shanren.group/image/cover.jpg", 
-                    "quantity": 2
+                    "quantity": 2,
+                    "payPlatform": 98001
                 }
             ]
         }
@@ -2842,6 +2847,7 @@ type = 3 请求结果示例：
 | price | int | 是 | 商品单价 |
 | cover | string | 是 | 商品封面图片 |
 |status|int|是|订单状态1-未付款，2-已付款，3-已取消，4-已删除|
+| payPlatform | int | 是 | 支付方式，微信 24656 ，支付宝 78990，余额98001 ，87661 礼花 |
 
 ## 8 图片上传
 
