@@ -69,16 +69,16 @@
         </javaClientGenerator>
 
 
-<!--        <table tableName="fireworks_record" domainObjectName="FireworksRecord" enableCountByExample="false"-->
+<!--        <table tableName="sys_admin_wallet" domainObjectName="SysAdminWallet" enableCountByExample="false"-->
 <!--               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
 <!--               selectByExampleQueryId="false"></table>-->
-<!--        <table tableName="fireworks" domainObjectName="Fireworks" enableCountByExample="false"-->
+<!--        <table tableName="sys_admin_wallet_record" domainObjectName="SysAdminWalletRecord" enableCountByExample="false"-->
 <!--               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
 <!--               selectByExampleQueryId="false"></table>-->
 
-                <!--<table tableName="memo_festival_item" domainObjectName="MemoFestivalItem" enableCountByExample="false"-->
-                       <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
-                       <!--selectByExampleQueryId="false"></table>-->
+<!--                <table tableName="sys_admin_withdraw" domainObjectName="SysAdminWithdraw" enableCountByExample="false"-->
+<!--                       enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--                       selectByExampleQueryId="false"></table>-->
         <!--<table tableName="third_account" domainObjectName="ThirdAccount" enableCountByExample="false"
              enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
              selectByExampleQueryId="false"></table>

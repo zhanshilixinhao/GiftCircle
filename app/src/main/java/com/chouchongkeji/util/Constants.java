@@ -135,6 +135,7 @@ public class Constants {
     /*背包物品折现率*/
     public interface DISCOUNT_RATE {
         double DISCOUNTING = 0.80;
+        double DISCOUNTING_SJ = 0.05;
     }
 
     /*商品订单状态 */
