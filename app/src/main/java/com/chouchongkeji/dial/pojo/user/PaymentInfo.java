@@ -14,7 +14,7 @@ public class PaymentInfo {
 
     private BigDecimal totalFee;
 
-    private Byte payPlatform;
+    private Integer payPlatform;
 
     private String platformNumber;
 
@@ -28,7 +28,7 @@ public class PaymentInfo {
 
     private Date updated;
 
-    public PaymentInfo(Integer id, Integer userId, Byte type, Long orderNo, BigDecimal totalFee, Byte payPlatform, String platformNumber, String platformStatus, String seller, String buyer, Date created, Date updated) {
+    public PaymentInfo(Integer id, Integer userId, Byte type, Long orderNo, BigDecimal totalFee, Integer payPlatform, String platformNumber, String platformStatus, String seller, String buyer, Date created, Date updated) {
         this.id = id;
         this.userId = userId;
         this.type = type;
@@ -87,11 +87,11 @@ public class PaymentInfo {
         this.totalFee = totalFee;
     }
 
-    public Byte getPayPlatform() {
+    public Integer getPayPlatform() {
         return payPlatform;
     }
 
-    public void setPayPlatform(Byte payPlatform) {
+    public void setPayPlatform(Integer payPlatform) {
         this.payPlatform = payPlatform;
     }
 

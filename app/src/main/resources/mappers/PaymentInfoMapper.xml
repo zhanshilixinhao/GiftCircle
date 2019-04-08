@@ -8,7 +8,7 @@
       <arg column="type" javaType="java.lang.Byte" jdbcType="TINYINT" />
       <arg column="order_no" javaType="java.lang.Long" jdbcType="BIGINT" />
       <arg column="total_fee" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
-      <arg column="pay_platform" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="pay_platform" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="platform_number" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="platform_status" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="seller" javaType="java.lang.String" jdbcType="VARCHAR" />
@@ -44,7 +44,7 @@
       buyer, created, updated
       )
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, 
-      #{orderNo,jdbcType=BIGINT}, #{totalFee,jdbcType=DECIMAL}, #{payPlatform,jdbcType=TINYINT}, 
+      #{orderNo,jdbcType=BIGINT}, #{totalFee,jdbcType=DECIMAL}, #{payPlatform,jdbcType=INTEGER},
       #{platformNumber,jdbcType=VARCHAR}, #{platformStatus,jdbcType=VARCHAR}, #{seller,jdbcType=VARCHAR}, 
       #{buyer,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP}, now()
       )
@@ -106,7 +106,7 @@
         #{totalFee,jdbcType=DECIMAL},
       </if>
       <if test="payPlatform != null">
-        #{payPlatform,jdbcType=TINYINT},
+        #{payPlatform,jdbcType=INTEGER},
       </if>
       <if test="platformNumber != null">
         #{platformNumber,jdbcType=VARCHAR},
@@ -144,7 +144,7 @@
         total_fee = #{totalFee,jdbcType=DECIMAL},
       </if>
       <if test="payPlatform != null">
-        pay_platform = #{payPlatform,jdbcType=TINYINT},
+        pay_platform = #{payPlatform,jdbcType=INTEGER},
       </if>
       <if test="platformNumber != null">
         platform_number = #{platformNumber,jdbcType=VARCHAR},
@@ -173,7 +173,7 @@
       type = #{type,jdbcType=TINYINT},
       order_no = #{orderNo,jdbcType=BIGINT},
       total_fee = #{totalFee,jdbcType=DECIMAL},
-      pay_platform = #{payPlatform,jdbcType=TINYINT},
+      pay_platform = #{payPlatform,jdbcType=INTEGER},
       platform_number = #{platformNumber,jdbcType=VARCHAR},
       platform_status = #{platformStatus,jdbcType=VARCHAR},
       seller = #{seller,jdbcType=VARCHAR},

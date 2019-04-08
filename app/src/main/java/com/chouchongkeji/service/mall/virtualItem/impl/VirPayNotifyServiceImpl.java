@@ -208,7 +208,7 @@ public class VirPayNotifyServiceImpl implements VirPayNotifyService {
         /** 订单类型 **/
         payment.setType(orderType);
         /** 支付平台 **/
-        payment.setPayPlatform((byte) Constants.PAY_TYPE.ALI);
+        payment.setPayPlatform(Constants.PAY_TYPE.ALI);
         /** 卖家账号 **/
         payment.setSeller(aLiPayV2Vo.getSeller_email());
         /** 支付总价 **/
@@ -356,7 +356,7 @@ public class VirPayNotifyServiceImpl implements VirPayNotifyService {
         /** 订单类型 **/
         payment.setType(orderType);
         /** 支付平台 **/
-        payment.setPayPlatform((byte) Constants.PAY_TYPE.WX);
+        payment.setPayPlatform(Constants.PAY_TYPE.WX);
         /** 卖家账号 **/
         payment.setSeller(notifyData.getMch_id());
         /** 支付总价--分为单位 **/
