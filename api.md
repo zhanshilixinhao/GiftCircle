@@ -149,6 +149,9 @@
 > 5. 订单列表修改返回值（增加支付方式，接口7.9）
 > 6. 修改添加银行卡（绑定支付宝）接口（3.5）
 > 7. 修改用户银行卡列表返回值（bankId= 17 是支付宝）接口（3.4）
+> 8. 修改支付宝（3.15）删除支付宝（3.6）（与删除修改银行卡公用接口）
+
+
 
 ## 目录
 <span id="m"> </span>
@@ -835,7 +838,7 @@ http 常用错误码
 }
 ```
 
-### 3.6 提现--删除用户银行卡
+### 3.6 提现--删除用户银行卡/删除支付宝
 
 - 请求地址：auth/v1/bankCard/del
 - 服务协议：HTTP/POST
@@ -1112,7 +1115,7 @@ apiKey.substring(first < len ? first + 1 : first, len), s1);
 String de = AESUtils.encrypt(seed, pwd);
 ```
 
-### 3.15 提现--修改用户银行卡
+### 3.15 提现--修改用户银行卡/修改支付宝账号
 
 - 请求地址：auth/v1/bankCard/update
 - 服务协议：HTTP/POST
@@ -1123,10 +1126,10 @@ String de = AESUtils.encrypt(seed, pwd);
 | :----------: | :------: | :------: | :----: | :--------: |
 | access_token |  string  |    是    |   无   |  访问令牌  |
 |id|int|是|无|用户银行id|
-| depositBank  |  string  |    否    |   无   | 开户行名称 |
-|  cardHolder  |  string  |    否    |   无   | 持卡人姓名 |
-|    cardNo    |  string  |    否    |   无   |  银行卡号  |
-|    bankId    |   Int    |    否    |   无   |   银行id   |
+| depositBank  |  string  |    否    |   无   | 开户行名称/电话号码 |
+|  cardHolder  |  string  |    否    |   无   | 持卡人姓名/收款人姓名 |
+|    cardNo    |  string  |    否    |   无   |  银行卡号/支付宝账号 |
+|    bankId    |   Int    |    否    |   无   |   银行id(修改支付宝没有bankId)  |
 
 请求结果示例：
 
