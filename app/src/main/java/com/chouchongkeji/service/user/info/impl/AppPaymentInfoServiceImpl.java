@@ -834,4 +834,44 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
     }
 
 
+    /**
+     * 礼花支付信息
+     *
+     * @param
+     * @return
+     * @author linqin
+     * @date 2018/6/8
+     */
+    public PaymentInfo doLiHuaPaySuccess(Long orderNo, Integer userId, Date created, Byte orderType, Integer sellUserId,
+                                       BigDecimal amount) {
+        /** -------------支付成功逻辑处理-------------- **/
+        PaymentInfo payment = new PaymentInfo();
+        /** 订单号 **/
+        payment.setOrderNo(orderNo);
+        /** 用户Id **/
+        payment.setUserId(userId);
+        /** 买家账号 **/
+        payment.setBuyer(userId.toString());
+        /** 付款时间 **/
+        payment.setCreated(created);
+        /** 订单类型 **/
+        payment.setType(orderType);
+        /** 支付平台 **/
+        payment.setPayPlatform(Constants.PAY_TYPE.LIHUA);
+        /** 卖家账号 **/
+        payment.setSeller(sellUserId.toString());
+        /** 支付总价--分为单位 **/
+        payment.setTotalFee(amount);
+        /** 交易流水号 **/
+        payment.setPlatformNumber(orderNo.toString());
+        /** 交易标识 **/
+        payment.setPlatformStatus("SUCCESS");
+        // 保存订单支付信息
+        int count = paymentInfoMapper.insert(payment);
+        if (count == 0) {
+            throw new ServiceException(200, "pay failed");
+        }
+        return payment;
+    }
+
 }

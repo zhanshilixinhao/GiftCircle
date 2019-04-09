@@ -67,6 +67,16 @@ public interface AppPaymentInfoService {
     PaymentInfo doYuePaySuccess(Long orderNo,Integer userId,Date created,Byte orderType,Integer sellUserId,
                                 BigDecimal amount);
     /**
+     * 礼花支付信息
+     * @param
+     * @return
+     * @author linqin
+     *  @date 2018/6/8
+     */
+    PaymentInfo doLiHuaPaySuccess(Long orderNo, Integer userId, Date created, Byte orderType, Integer sellUserId,
+                                  BigDecimal amount);
+
+    /**
      * 寄售台支付宝回调基本方法
      *
      * @param aLiPayV2Vo

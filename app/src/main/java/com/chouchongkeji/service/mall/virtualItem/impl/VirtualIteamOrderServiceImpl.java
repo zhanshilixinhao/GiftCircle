@@ -232,7 +232,7 @@ public class VirtualIteamOrderServiceImpl implements VirtualIteamOrderService {
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "");
             }
             //保存支付信息
-            appPaymentInfoService.doYuePaySuccess(orderNo, userId, virItemOrder.getCreated(), Constants.ORDER_TYPE.ITEM,
+            appPaymentInfoService.doLiHuaPaySuccess(orderNo, userId, virItemOrder.getCreated(), Constants.ORDER_TYPE.ITEM,
                     0, virItemOrder.getTotalPrice());
             // 看是否是被其他用户邀请进来的
             orderService.parentUserFirework(userId, mu.intValue(), virItemOrder.getId(), orderNo);

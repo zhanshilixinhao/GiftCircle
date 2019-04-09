@@ -230,7 +230,7 @@ public class OrderServiceImpl implements OrderService {
                     throw new ServiceException(ErrorCode.ERROR.getCode(), "");
                 }
                 //保存支付信息
-                appPaymentInfoService.doYuePaySuccess(itemOrder.getOrderNo(), userId, new Date(), Constants.ORDER_TYPE.ITEM,
+                appPaymentInfoService.doLiHuaPaySuccess(itemOrder.getOrderNo(), userId, new Date(), Constants.ORDER_TYPE.ITEM,
                         0, totalPrice);
                 // 看是否是被其他用户邀请进来的
                 parentUserFirework(userId, mu.intValue(), itemOrder.getId(), orderNo);
@@ -649,7 +649,7 @@ public class OrderServiceImpl implements OrderService {
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "");
             }
             //保存支付信息
-            appPaymentInfoService.doYuePaySuccess(itemOrder.getOrderNo(), userId, new Date(), Constants.ORDER_TYPE.ITEM,
+            appPaymentInfoService.doLiHuaPaySuccess(itemOrder.getOrderNo(), userId, new Date(), Constants.ORDER_TYPE.ITEM,
                     0, totalPrice);
             // 看是否是被其他用户邀请进来的
             parentUserFirework(userId, mu.intValue(), itemOrder.getId(), orderNo);
