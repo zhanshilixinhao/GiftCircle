@@ -22,13 +22,23 @@
     from item_category
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <select id="selectAll" resultMap="BaseResultMap">
+  <select id="selectAll" resultType="com.chouchongkeji.service.mall.item.vo.ItemCategoryVo">
     SELECT
 	<include refid="Base_Column_List"/>
 FROM
 	`item_category`
     where
-    status = 1
+    pid = 0
+    and status = 1
+  </select>
+  <select id="selectByParentId" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM
+    `item_category`
+    where
+    pid = #{pid}
+    and status = 1
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from item_category

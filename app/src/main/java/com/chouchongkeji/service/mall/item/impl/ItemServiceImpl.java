@@ -14,10 +14,7 @@ import com.chouchongkeji.dial.pojo.gift.item.Item;
 import com.chouchongkeji.dial.pojo.gift.item.ItemCategory;
 import com.chouchongkeji.properties.ServiceProperties;
 import com.chouchongkeji.service.mall.item.ItemService;
-import com.chouchongkeji.service.mall.item.vo.ItemArticleListVo;
-import com.chouchongkeji.service.mall.item.vo.ItemCommentVo;
-import com.chouchongkeji.service.mall.item.vo.ItemDetail;
-import com.chouchongkeji.service.mall.item.vo.ItemListVo;
+import com.chouchongkeji.service.mall.item.vo.*;
 import com.github.pagehelper.PageHelper;
 import com.yichen.auth.service.UserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,7 +59,12 @@ public class ItemServiceImpl implements ItemService {
      */
     @Override
     public Response getCategoryList() {
-        List<ItemCategory> itemCategory = itemCategoryMapper.selectAll();
+        List<ItemCategoryVo> itemCategory = itemCategoryMapper.selectAll();
+        for (ItemCategoryVo category : itemCategory) {
+            // 根据父级id查询
+            List<ItemCategory> vos  = itemCategoryMapper.selectByParentId(category.getId());
+            category.children = vos;
+        }
         return ResponseFactory.sucData(itemCategory);
     }
 

@@ -1,6 +1,7 @@
 package com.chouchongkeji.dial.dao.gift.item;
 
 import com.chouchongkeji.dial.pojo.gift.item.ItemCategory;
+import com.chouchongkeji.service.mall.item.vo.ItemCategoryVo;
 
 import java.util.List;
 
@@ -17,6 +18,12 @@ public interface ItemCategoryMapper {
 
     int updateByPrimaryKey(ItemCategory record);
 
-    List<ItemCategory> selectAll();
+    List<ItemCategoryVo> selectAll();
 
+    /**
+     * 根据父级id查询
+     * @param pid
+     * @return
+     */
+    List<ItemCategory> selectByParentId(Integer pid);
 }

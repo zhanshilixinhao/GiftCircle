@@ -1,315 +1,159 @@
 {
   "errCode": 0,
   "result": 0,
-  "time": 1554691257117,
+  "time": 1554862357096,
   "data": [
     {
-      "id": 337,
-      "userId": 6,
-      "storeId": null,
-      "orderNo": 1219031814100,
-      "totalPrice": 680.00,
-      "quantity": 1,
-      "status": 2,
-      "created": 1552891536000,
-      "updated": 1552891536000,
-      "detailVos": [
+      "id": 4,
+      "pid": 0,
+      "name": "保健品",
+      "status": 1,
+      "sort": 0,
+      "icon": "",
+      "created": 1548680763000,
+      "updated": 1548680763000,
+      "children": []
+    },
+    {
+      "id": 6,
+      "pid": 0,
+      "name": "玩具玩偶",
+      "status": 1,
+      "sort": 0,
+      "icon": "",
+      "created": 1548866372000,
+      "updated": 1548866372000,
+      "children": []
+    },
+    {
+      "id": 7,
+      "pid": 0,
+      "name": "护肤品",
+      "status": 1,
+      "sort": 0,
+      "icon": "",
+      "created": 1548866381000,
+      "updated": 1548866381000,
+      "children": [
         {
-          "itemId": 79,
-          "skuId": 91,
-          "title": "【奢耀盛典】娇兰帝皇蜂姿修护复原蜜30ml/50ml 面部精华液 补水 标准款",
-          "price": 680.00,
-          "cover": "https://liyuquan.cn/static/item/190130/6a490fe6-5fcd-4b29-aa3b-926eceb6aee5.jpg",
-          "quantity": 1,
-          "payPlatform": 98001
+          "id": 14,
+          "pid": 7,
+          "name": "雅诗兰黛",
+          "status": 1,
+          "sort": 0,
+          "icon": "",
+          "created": 1554830638000,
+          "updated": 1554830641000
+        },
+        {
+          "id": 15,
+          "pid": 7,
+          "name": "兰蔻",
+          "status": 1,
+          "sort": 0,
+          "icon": "",
+          "created": 1554830686000,
+          "updated": 1554830689000
         }
       ]
     },
     {
-      "id": 329,
-      "userId": 6,
-      "storeId": null,
-      "orderNo": 1219031310117,
-      "totalPrice": 801.00,
-      "quantity": 9,
-      "status": 2,
-      "created": 1552442776000,
-      "updated": 1552442776000,
-      "detailVos": [
+      "id": 8,
+      "pid": 0,
+      "name": "鲜花饼",
+      "status": 1,
+      "sort": 0,
+      "icon": "",
+      "created": 1548870601000,
+      "updated": 1548870601000,
+      "children": []
+    },
+    {
+      "id": 9,
+      "pid": 0,
+      "name": "化妆品",
+      "status": 1,
+      "sort": 0,
+      "icon": "",
+      "created": 1554111656000,
+      "updated": 1554111656000,
+      "children": [
         {
-          "itemId": 185,
-          "skuId": 209,
-          "title": "GUND仿真狗狗BOO玩偶可爱娃娃邦尼兔毛绒玩具狗狗公仔生日礼物女 标准款",
-          "price": 89.00,
-          "cover": "https://liyuquan.cn/static/item/190213/51f4c112-f7ef-4d64-8166-afe0dd532f2f.jpg",
-          "quantity": 9,
-          "payPlatform": 98001
+          "id": 16,
+          "pid": 9,
+          "name": "圣罗兰",
+          "status": 1,
+          "sort": 0,
+          "icon": "",
+          "created": 1554830731000,
+          "updated": 1554830737000
         }
       ]
     },
     {
-      "id": 328,
-      "userId": 6,
-      "storeId": null,
-      "orderNo": 1219031310114,
-      "totalPrice": 222.50,
-      "quantity": 1,
-      "status": 2,
-      "created": 1552442750000,
-      "updated": 1552442750000,
-      "detailVos": [
+      "id": 10,
+      "pid": 0,
+      "name": "香水",
+      "status": 1,
+      "sort": 0,
+      "icon": "",
+      "created": 1554282239000,
+      "updated": 1554282239000,
+      "children": [
         {
-          "itemId": 127,
-          "skuId": 145,
-          "title": "JG925银圆环项链镶嵌施华洛世奇女锁骨链吊坠简约大方百搭气质 标准款",
-          "price": 222.50,
-          "cover": "https://liyuquan.cn/static/item/190131/dcb74ecd-d9fe-4a0b-83a9-53e4a666c5a4.jpg",
-          "quantity": 1,
-          "payPlatform": 98001
+          "id": 17,
+          "pid": 10,
+          "name": "迪奥",
+          "status": 1,
+          "sort": 0,
+          "icon": "",
+          "created": 1554830771000,
+          "updated": 1554830777000
+        },
+        {
+          "id": 18,
+          "pid": 10,
+          "name": "古驰",
+          "status": 1,
+          "sort": 0,
+          "icon": "",
+          "created": 1554830800000,
+          "updated": 1554830804000
         }
       ]
     },
     {
-      "id": 327,
-      "userId": 6,
-      "storeId": null,
-      "orderNo": 1219031310111,
-      "totalPrice": 445.00,
-      "quantity": 1,
-      "status": 2,
-      "created": 1552442730000,
-      "updated": 1552442730000,
-      "detailVos": [
-        {
-          "itemId": 73,
-          "skuId": 76,
-          "title": "【官方正品】纪梵希绒雾哑光粉底液持久着妆保湿遮瑕控油 标准款",
-          "price": 445.00,
-          "cover": "https://liyuquan.cn/static/item/190130/f330343a-101b-4b08-b0ed-dcfa01c27868.jpg",
-          "quantity": 1,
-          "payPlatform": 98001
-        }
-      ]
+      "id": 11,
+      "pid": 0,
+      "name": "健康食品",
+      "status": 1,
+      "sort": 0,
+      "icon": "",
+      "created": 1554283686000,
+      "updated": 1554283686000,
+      "children": []
     },
     {
-      "id": 326,
-      "userId": 6,
-      "storeId": null,
-      "orderNo": 1219031310108,
-      "totalPrice": 3960.00,
-      "quantity": 8,
-      "status": 2,
-      "created": 1552442718000,
-      "updated": 1552442718000,
-      "detailVos": [
-        {
-          "itemId": 72,
-          "skuId": 77,
-          "title": "【官方正品】纪梵希绒雾哑光粉饼 遮瑕控油 持久轻薄 定妆粉 标准款",
-          "price": 495.00,
-          "cover": "https://liyuquan.cn/static/item/190130/2062e68e-bdf8-4294-9299-b1bffcab7b36.jpg",
-          "quantity": 8,
-          "payPlatform": 98001
-        }
-      ]
+      "id": 12,
+      "pid": 0,
+      "name": "土特产",
+      "status": 1,
+      "sort": 0,
+      "icon": "",
+      "created": 1554695191000,
+      "updated": 1554695191000,
+      "children": []
     },
     {
-      "id": 325,
-      "userId": 6,
-      "storeId": null,
-      "orderNo": 1219031309103,
-      "totalPrice": 40.00,
-      "quantity": 1,
-      "status": 2,
-      "created": 1552441066000,
-      "updated": 1552441066000,
-      "detailVos": [
-        {
-          "itemId": 136,
-          "skuId": 157,
-          "title": "【正品花蜜】云南特产纯手工经典现烤玫瑰馅饼（一盒十个） 经典现烤",
-          "price": 40.00,
-          "cover": "https://liyuquan.cn/static/item/190131/ac821cbc-4959-4678-9eca-ffd71dcf9066.jpg",
-          "quantity": 1,
-          "payPlatform": 98001
-        }
-      ]
-    },
-    {
-      "id": 324,
-      "userId": 6,
-      "storeId": null,
-      "orderNo": 1219031309100,
-      "totalPrice": 1600.00,
-      "quantity": 5,
-      "status": 2,
-      "created": 1552440202000,
-      "updated": 1552440202000,
-      "detailVos": [
-        {
-          "itemId": 80,
-          "skuId": 90,
-          "title": "【奢耀盛典】娇兰亲亲系列唇膏 杨洋色#344口红 持久滋润 保湿 标准款",
-          "price": 320.00,
-          "cover": "https://liyuquan.cn/static/item/190130/f2171d53-9a01-4082-8f8c-20c3ee63ec38.jpg",
-          "quantity": 5,
-          "payPlatform": 98001
-        }
-      ]
-    },
-    {
-      "id": 322,
-      "userId": 6,
-      "storeId": null,
-      "orderNo": 1219031211100,
-      "totalPrice": 908.00,
-      "quantity": 1,
-      "status": 2,
-      "created": 1552362488000,
-      "updated": 1552362488000,
-      "detailVos": [
-        {
-          "itemId": 47,
-          "skuId": 61,
-          "title": "POLA 热控粉MEGA CUT 90包 营养均衡 控糖控脂 POLA口服瘦身 标准款",
-          "price": 908.00,
-          "cover": "https://liyuquan.cn/static/item/190129/27481ffa-79b0-4d93-b19f-72d1aea1c7d1.jpg",
-          "quantity": 1,
-          "payPlatform": 98001
-        }
-      ]
-    },
-    {
-      "id": 321,
-      "userId": 6,
-      "storeId": null,
-      "orderNo": 1219030815101,
-      "totalPrice": 690.00,
-      "quantity": 10,
-      "status": 2,
-      "created": 1552029319000,
-      "updated": 1552029319000,
-      "detailVos": [
-        {
-          "itemId": 183,
-          "skuId": 211,
-          "title": "GUND胖吉猫毛绒公仔玩具可爱猫咪玩偶抱枕儿童小礼品生日礼物女生 标准款",
-          "price": 69.00,
-          "cover": "https://liyuquan.cn/static/item/190213/6da4adc2-bd34-437c-bc59-8016a5b928fa.jpg",
-          "quantity": 10,
-          "payPlatform": 98001
-        }
-      ]
-    },
-    {
-      "id": 320,
-      "userId": 6,
-      "storeId": null,
-      "orderNo": 1219022711101,
-      "totalPrice": 480.00,
-      "quantity": 1,
-      "status": 2,
-      "created": 1551238703000,
-      "updated": 1551238703000,
-      "detailVos": [
-        {
-          "itemId": 78,
-          "skuId": 92,
-          "title": "【官方正品】纪梵希恒颜清透粉底液 持久遮瑕自然修饰 标准款",
-          "price": 480.00,
-          "cover": "https://liyuquan.cn/static/item/190130/60c775fc-ecb6-4f4e-9219-eb2a4ad1812d.jpg",
-          "quantity": 1,
-          "payPlatform": 98001
-        }
-      ]
-    },
-    {
-      "id": 317,
-      "userId": 6,
-      "storeId": null,
-      "orderNo": 1219022615116,
-      "totalPrice": 230.00,
-      "quantity": 1,
-      "status": 2,
-      "created": 1551167779000,
-      "updated": 1551167779000,
-      "detailVos": [
-        {
-          "itemId": 77,
-          "skuId": 93,
-          "title": "【官方正品】纪梵希高定眉笔 粉雾眉妆 双头双效 防水 标准款",
-          "price": 230.00,
-          "cover": "https://liyuquan.cn/static/item/190130/4d15bbfb-5788-4923-8efe-a76975fde5d8.jpg",
-          "quantity": 1,
-          "payPlatform": 98001
-        }
-      ]
-    },
-    {
-      "id": 313,
-      "userId": 6,
-      "storeId": null,
-      "orderNo": 1219022212117,
-      "totalPrice": 300.00,
-      "quantity": 1,
-      "status": 2,
-      "created": 1550809348000,
-      "updated": 1550809348000,
-      "detailVos": [
-        {
-          "itemId": 175,
-          "skuId": 199,
-          "title": "NARS遮瑕膏 遮盖痘印 甜蜜Honey 甜奶油白Chantilly 标准款",
-          "price": 300.00,
-          "cover": "https://liyuquan.cn/static/item/190212/21b8753f-049a-43fb-bcfa-a1bea105d7ae.jpg",
-          "quantity": 1,
-          "payPlatform": 98001
-        }
-      ]
-    },
-    {
-      "id": 312,
-      "userId": 6,
-      "storeId": null,
-      "orderNo": 1219022211112,
-      "totalPrice": 438.00,
-      "quantity": 1,
-      "status": 2,
-      "created": 1550807568000,
-      "updated": 1550807568000,
-      "detailVos": [
-        {
-          "itemId": 43,
-          "skuId": 57,
-          "title": "POLA 美白液 WHITE SHOT IX 炫白美白口服液 10瓶 速攻口服美白 标准款",
-          "price": 438.00,
-          "cover": "https://liyuquan.cn/static/item/190129/968398db-04b7-40a6-9849-136bf9e8172b.jpg",
-          "quantity": 1,
-          "payPlatform": 98001
-        }
-      ]
-    },
-    {
-      "id": 310,
-      "userId": 6,
-      "storeId": null,
-      "orderNo": 1219022210107,
-      "totalPrice": 320.00,
-      "quantity": 1,
-      "status": 2,
-      "created": 1550802097000,
-      "updated": 1550802097000,
-      "detailVos": [
-        {
-          "itemId": 172,
-          "skuId": 202,
-          "title": "NARS敢耀唇膏 古典玫瑰色Anita 经典珊瑚色Juliette 标准款",
-          "price": 320.00,
-          "cover": "https://liyuquan.cn/static/item/190212/1a25237c-7d84-4f7f-9207-44c61d93a29e.jpg",
-          "quantity": 1,
-          "payPlatform": 98001
-        }
-      ]
+      "id": 13,
+      "pid": 0,
+      "name": "测试",
+      "status": 1,
+      "sort": 0,
+      "icon": "",
+      "created": 1554703090000,
+      "updated": 1554703090000,
+      "children": []
     }
   ]
 }
