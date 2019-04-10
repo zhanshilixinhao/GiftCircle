@@ -11,6 +11,7 @@ import com.chouchongkeji.dial.pojo.user.ThirdAccount;
 import com.chouchongkeji.dial.pojo.user.UserPreference;
 import com.chouchongkeji.dial.pojo.user.memo.Moment;
 import com.chouchongkeji.dial.redis.MRedisTemplate;
+import com.chouchongkeji.goexplore.App;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.utils.AESUtils;
@@ -457,4 +458,30 @@ public class UserServiceImpl implements UserService {
         Response response = setSentPwd(userId, de, time, client);
         return response;
     }
+
+    /**
+     * 用户隐私设置
+     *
+     * @param userId
+     * @param isHide      隐私设置 1 不隐藏，2 隐藏
+     * @return
+     * @author linqin
+     * @date 2018/6/7
+     */
+    @Override
+    public Response setHide(Integer userId, Byte isHide) {
+        AppUser user = appUserMapper.selectByPrimaryKey(userId);
+        if (user == null){
+            return ResponseFactory.err("该账号不存在");
+        }
+        user.setIsHide(isHide);
+        int i = appUserMapper.updateByPrimaryKeySelective(user);
+        if (i<1){
+            return ResponseFactory.err("设置失败");
+        }
+        return ResponseFactory.sucMsg("设置成功");
+    }
+
+
+
 }

@@ -38,7 +38,10 @@ public class AppUser {
 
     private String qrcode;
 
-    public AppUser(Integer id, String account, String password, String phone, String avatar, String nickname, Integer age, Byte gender, String signature, String district, Byte status, String sentPwd, String wxid, Date created, Date updated) {
+    private Byte isHide;
+
+
+    public AppUser(Integer id, String account, String password, String phone, String avatar, String nickname, Integer age, Byte gender, String signature, String district, Byte status, String sentPwd, String wxid, Date created, Date updated,Byte isHide) {
         this.id = id;
         this.account = account;
         this.password = password;
@@ -54,6 +57,8 @@ public class AppUser {
         this.wxid = wxid;
         this.created = created;
         this.updated = updated;
+        this.isHide = isHide;
+
     }
 
     public AppUser() {
@@ -186,5 +191,13 @@ public class AppUser {
 
     public void setQrcode(String qrcode) {
         this.qrcode = qrcode;
+    }
+
+    public Byte getIsHide() {
+        return isHide;
+    }
+
+    public void setIsHide(Byte isHide) {
+        this.isHide = isHide;
     }
 }

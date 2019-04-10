@@ -17,15 +17,13 @@ import java.util.Map;
 /**
  * Unit test for simple App.
  */
-public class AppTest
-{
+public class AppTest {
     /**
      * Rigorous Test :-)
      */
     @Test
-    public void shouldAnswerWithTrue()
-    {
-        BCryptPasswordEncoder encoder=new BCryptPasswordEncoder();
+    public void shouldAnswerWithTrue() {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         System.out.println(encoder.encode(""));
     }
 
@@ -74,16 +72,15 @@ public class AppTest
     }
 
 
-
     @Test
     public void sms() throws IOException {
         RequestParams params = new RequestParams();
-        params.put("phone","15752400657");
-        params.put("type",1);
+        params.put("phone", "15752400657");
+        params.put("type", 1);
         params.put("time", "1526539545791");
-        Map map =ApiSignUtil.sign1(params.getParams(),ApiSignUtil.ANDROID);
-        params.put("sign",map.get(ApiSignUtil.ANDROID));
-        Response response = OkHttpUtil.post("https://liyuquan.cn/app/ask/code",params);
+        Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
+        params.put("sign", map.get(ApiSignUtil.ANDROID));
+        Response response = OkHttpUtil.post("https://liyuquan.cn/app/ask/code", params);
         System.out.println(response.body().string());
     }
 
@@ -93,7 +90,7 @@ public class AppTest
         params.put("code", "023uAktC0jKnMi23VFuC0LlctC0uAktm");
         params.put("time", "43432432");
 
-        params.put("sign",ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID).get(ApiSignUtil.ANDROID));
+        params.put("sign", ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID).get(ApiSignUtil.ANDROID));
 
         Response post = OkHttpUtil.post("https://liyuquan.cn/app/noauth/user/wxLogin", params);
         System.out.println(post.body().string());
@@ -103,13 +100,13 @@ public class AppTest
     @Test
     public void messageList() throws IOException {
         RequestParams params = new RequestParams();
-        params.put("time",System.currentTimeMillis());
-        params.put("access_token","f3e7f648-845e-4614-a49e-bbd8f43add65");
-        params.put("messageType",1);
-        params.put("pageNum",1);
-        params.put("pageSize",14);
-        Map map = ApiSignUtil.sign1(params.getParams(),ApiSignUtil.ANDROID);
-        params.put("sign",map.get(ApiSignUtil.ANDROID));
+        params.put("time", System.currentTimeMillis());
+        params.put("access_token", "f3e7f648-845e-4614-a49e-bbd8f43add65");
+        params.put("messageType", 1);
+        params.put("pageNum", 1);
+        params.put("pageSize", 14);
+        Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
+        params.put("sign", map.get(ApiSignUtil.ANDROID));
         Response post = OkHttpUtil.post("http://localhost:8089/auth/v1/message/list", params);
         System.out.println(post.body().string());
     }
@@ -117,11 +114,11 @@ public class AppTest
     @Test
     public void discountItem() throws IOException {
         RequestParams params = new RequestParams();
-        params.put("time",System.currentTimeMillis());
-        params.put("access_token","7a867108-2521-4d95-b482-8603ddcd4c5f");
-        params.put("bpId","7719040815149");
-        Map map = ApiSignUtil.sign1(params.getParams(),ApiSignUtil.ANDROID);
-        params.put("sign",map.get(ApiSignUtil.ANDROID));
+        params.put("time", System.currentTimeMillis());
+        params.put("access_token", "7a867108-2521-4d95-b482-8603ddcd4c5f");
+        params.put("bpId", "7719040815149");
+        Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
+        params.put("sign", map.get(ApiSignUtil.ANDROID));
         Response post = OkHttpUtil.post("http://localhost:8088/auth/v1/discount/add_record", params);
         System.out.println(post.body().string());
     }
@@ -129,25 +126,26 @@ public class AppTest
     @Test
     public void modify() throws IOException {
         RequestParams params = new RequestParams();
-        params.put("time","1543377365");
-        params.put("access_token","572f7a09-b3e0-4ec5-b04b-13c82771c1c8");
-        params.put("phone","15752400677");
-        Map map = ApiSignUtil.sign1(params.getParams(),ApiSignUtil.IOS);
-        params.put("sign",map.get(ApiSignUtil.IOS));
+        params.put("time", "1543377365");
+        params.put("access_token", "7a867108-2521-4d95-b482-8603ddcd4c5f");
+        params.put("signature", "嗯嗯嗯呃");
+        Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.IOS);
+        params.put("sign", map.get(ApiSignUtil.IOS));
         Response post = OkHttpUtil.post("http://localhost:8088/auth/user/modify_profile", params);
         System.out.println(post.body().string());
 
 //        System.out.println(Utils.toMD5("access_token=d43baab4-d457-4c4a-ad86-84e66b0e6275&nickname=abc&time=1543382182&key=%sX4H91PzuB7V%5ET4uefDnsiwzHDxOgrX"));
     }
+
     @Test
     public void modifyhone() throws IOException {
         RequestParams params = new RequestParams();
-        params.put("time","1543377365");
-        params.put("access_token","572f7a09-b3e0-4ec5-b04b-13c82771c1c8");
-        params.put("phone","15752400657");
-        params.put("code","123456");
-        Map map = ApiSignUtil.sign1(params.getParams(),ApiSignUtil.IOS);
-        params.put("sign",map.get(ApiSignUtil.IOS));
+        params.put("time", "1543377365");
+        params.put("access_token", "572f7a09-b3e0-4ec5-b04b-13c82771c1c8");
+        params.put("phone", "15752400657");
+        params.put("code", "123456");
+        Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.IOS);
+        params.put("sign", map.get(ApiSignUtil.IOS));
         Response post = OkHttpUtil.post("http://localhost:8088/auth/user/modify_phone", params);
         System.out.println(post.body().string());
 
@@ -158,27 +156,28 @@ public class AppTest
     @Test
     public void apply() throws IOException {
         RequestParams params = new RequestParams();
-        params.put("time",System.currentTimeMillis());
-        params.put("access_token","f3e7f648-845e-4614-a49e-bbd8f43add65");
-        params.put("name","粮食");
-        params.put("address","看见反函数地方");
-        params.put("registrationNo","12374839857342895");
-        params.put("legalPerson","适量");
-        params.put("licensePic","/avatar.jpg");
-        params.put("otherPics","/avatar.jpg");
-        params.put("phone","789798898");
-        Map map = ApiSignUtil.sign1(params.getParams(),ApiSignUtil.IOS);
-        params.put("sign",map.get(ApiSignUtil.IOS));
+        params.put("time", System.currentTimeMillis());
+        params.put("access_token", "f3e7f648-845e-4614-a49e-bbd8f43add65");
+        params.put("name", "粮食");
+        params.put("address", "看见反函数地方");
+        params.put("registrationNo", "12374839857342895");
+        params.put("legalPerson", "适量");
+        params.put("licensePic", "/avatar.jpg");
+        params.put("otherPics", "/avatar.jpg");
+        params.put("phone", "789798898");
+        Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.IOS);
+        params.put("sign", map.get(ApiSignUtil.IOS));
         Response post = OkHttpUtil.post("http://localhost:8080/auth/v1/merchant/apply", params);
         System.out.println(post.body().string());
     }
+
     @Test
     public void eventList() throws IOException {
         RequestParams params = new RequestParams();
-        params.put("time",System.currentTimeMillis());
-        params.put("access_token","f3e7f648-845e-4614-a49e-bbd8f43add65");
-        Map map = ApiSignUtil.sign1(params.getParams(),ApiSignUtil.IOS);
-        params.put("sign",map.get(ApiSignUtil.IOS));
+        params.put("time", System.currentTimeMillis());
+        params.put("access_token", "f3e7f648-845e-4614-a49e-bbd8f43add65");
+        Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.IOS);
+        params.put("sign", map.get(ApiSignUtil.IOS));
         Response post = OkHttpUtil.post("http://localhost:8088/auth/event/list", params);
         System.out.println(post.body().string());
     }
@@ -186,15 +185,15 @@ public class AppTest
     @Test
     public void g() throws IOException {
         RequestParams params = new RequestParams();
-        params.put("time",System.currentTimeMillis());
-        params.put("access_token","7a867108-2521-4d95-b482-8603ddcd4c5f");
-        params.put("bpId",7719031717106L);
-        params.put("friendUserIds",1);
-        params.put("greeting","hsdjakfhkjs");
-        params.put("event","时间");
-        params.put("type",1);
-        Map map = ApiSignUtil.sign1(params.getParams(),ApiSignUtil.IOS);
-        params.put("sign",map.get(ApiSignUtil.IOS));
+        params.put("time", System.currentTimeMillis());
+        params.put("access_token", "7a867108-2521-4d95-b482-8603ddcd4c5f");
+        params.put("bpId", 7719031717106L);
+        params.put("friendUserIds", 1);
+        params.put("greeting", "hsdjakfhkjs");
+        params.put("event", "时间");
+        params.put("type", 1);
+        Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.IOS);
+        params.put("sign", map.get(ApiSignUtil.IOS));
         Response post = OkHttpUtil.post("http://localhost:8088/auth/v1/gift/sendForAppV2", params);
         System.out.println(post.body().string());
     }

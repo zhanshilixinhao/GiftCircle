@@ -18,14 +18,16 @@
       <arg column="wxid" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
       <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="is_hide" javaType="java.lang.Byte" jdbcType="TINYINT" />
+
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    id, account, password, phone, avatar, nickname, age, gender, signature, district, 
-    status, sent_pwd, wxid, created, updated
+    id, account, password, phone, avatar, nickname, age, gender, signature, district,
+    status, sent_pwd, wxid, created, updated, is_hide
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from app_user
     where id = #{id,jdbcType=INTEGER}
@@ -56,17 +58,17 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.user.AppUser" useGeneratedKeys="true" keyProperty="id">
-    insert into app_user (id, account, password, 
-      phone, avatar, nickname, 
-      age, gender, signature, 
-      district, status, sent_pwd, 
-      wxid, created, updated
+    insert into app_user (id, account, password,
+      phone, avatar, nickname,
+      age, gender, signature,
+      district, status, sent_pwd,
+      wxid, created, updated, is_hide
       )
-    values (#{id,jdbcType=INTEGER}, #{account,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{phone,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, 
-      #{age,jdbcType=INTEGER}, #{gender,jdbcType=TINYINT}, #{signature,jdbcType=VARCHAR}, 
-      #{district,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{sentPwd,jdbcType=VARCHAR}, 
-      #{wxid,jdbcType=VARCHAR}, now(), now()
+    values (#{id,jdbcType=INTEGER}, #{account,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+      #{phone,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR},
+      #{age,jdbcType=INTEGER}, #{gender,jdbcType=TINYINT}, #{signature,jdbcType=VARCHAR},
+      #{district,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{sentPwd,jdbcType=VARCHAR},
+      #{wxid,jdbcType=VARCHAR}, now(), now(),#{isHide,jdbcType=TINYINT}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.user.AppUser">
@@ -198,6 +200,9 @@
       </if>
       <if test="status != null">
         status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="isHide != null">
+        is_hide = #{isHide,jdbcType=TINYINT},
       </if>
       <if test="sentPwd != null">
         sent_pwd = #{sentPwd,jdbcType=VARCHAR},

@@ -118,4 +118,14 @@ public interface UserService {
      * @date 2018/6/5
      */
     Response modifyPhone(Integer userId,String phone);
+    /**
+     * 用户隐私设置
+     *
+     * @param userDetails
+     * @param isHide      隐私设置 1 不隐藏，2 隐藏
+     * @return
+     * @author linqin
+     * @date 2018/6/7
+     */
+    Response setHide(Integer userId, Byte isHide);
 }

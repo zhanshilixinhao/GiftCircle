@@ -69,11 +69,11 @@ public class UserController {
      * @date 2018/6/5
      */
     @PostMapping("modify_phone")
-    public Response modifyPhone(@AuthenticationPrincipal UserDetails userDetails,String phone) {
-        if (StringUtils.isBlank(phone)){
+    public Response modifyPhone(@AuthenticationPrincipal UserDetails userDetails, String phone) {
+        if (StringUtils.isBlank(phone)) {
             return ResponseFactory.errMissingParameter();
         }
-        return userService.modifyPhone(userDetails.getUserId(),phone);
+        return userService.modifyPhone(userDetails.getUserId(), phone);
     }
 
 
@@ -194,12 +194,30 @@ public class UserController {
 
 
     @PostMapping("band")
-    public Response bandClientid(@AuthenticationPrincipal UserDetails userDetails,String clientid) throws Exception {
-        if (StringUtils.isBlank(clientid)){
+    public Response bandClientid(@AuthenticationPrincipal UserDetails userDetails, String clientid) throws Exception {
+        if (StringUtils.isBlank(clientid)) {
             return ResponseFactory.errMissingParameter();
         }
-        AppPush.band(userDetails.getUserId(),clientid);
+        AppPush.band(userDetails.getUserId(), clientid);
         return ResponseFactory.suc();
+    }
+
+
+    /**
+     * 用户隐私设置
+     *
+     * @param userDetails
+     * @param isHide      隐私设置 1 不隐藏，2 隐藏
+     * @return
+     * @author linqin
+     * @date 2018/6/7
+     */
+    @PostMapping("set_hide")
+    public Response setHide(@AuthenticationPrincipal UserDetails userDetails, Byte isHide) {
+        if (isHide == null ) {
+            isHide = 1;
+        }
+        return userService.setHide(userDetails.getUserId(),isHide);
     }
 
 }

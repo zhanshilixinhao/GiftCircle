@@ -42,6 +42,7 @@ create table if not exists app_user
   signature varchar(255) null comment '签名',
   district varchar(64) null comment '地区',
   status tinyint null comment '状态  1 正常 2 禁用',
+  is_hide tinyint 1 comment '是否隐藏  1 正常（不隐藏） 2 隐藏',
   sent_pwd varchar(255) null comment '赠送密码',
   wxid varchar(32) null comment '微信账号',
   created datetime null comment '创建按时间',
