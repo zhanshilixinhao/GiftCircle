@@ -187,7 +187,7 @@ public class AppTest {
         RequestParams params = new RequestParams();
         params.put("time", System.currentTimeMillis());
         params.put("access_token", "7a867108-2521-4d95-b482-8603ddcd4c5f");
-        params.put("bpId", 7719031717106L);
+        params.put("bpId", 7719041016123L);
         params.put("friendUserIds", 1);
         params.put("greeting", "hsdjakfhkjs");
         params.put("event", "时间");

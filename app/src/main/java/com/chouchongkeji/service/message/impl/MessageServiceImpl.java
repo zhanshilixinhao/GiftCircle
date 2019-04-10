@@ -3,6 +3,8 @@ package com.chouchongkeji.service.message.impl;
 import com.alibaba.fastjson.JSON;
 import com.chouchongkeji.dial.dao.backpack.gift.AppMessageMapper;
 import com.chouchongkeji.dial.dao.backpack.gift.AppMessageUserMapper;
+import com.chouchongkeji.dial.dao.backpack.gift.GiftRecordDetailMapper;
+import com.chouchongkeji.dial.pojo.backpack.gift.GiftRecordDetail;
 import com.chouchongkeji.dial.pojo.gift.virtualItem.AppMessage;
 import com.chouchongkeji.dial.pojo.gift.virtualItem.AppMessageUser;
 import com.chouchongkeji.exception.ServiceException;
@@ -39,6 +41,9 @@ public class MessageServiceImpl implements MessageService {
     @Autowired
     private AppMessageUserMapper appMessageUserMapper;
 
+    @Autowired
+    private GiftRecordDetailMapper giftRecordDetailMapper;
+
     /**
      * 添加一条消息
      *
@@ -59,6 +64,8 @@ public class MessageServiceImpl implements MessageService {
         if (count < 1) {
             throw new ServiceException(ErrorCode.ERROR);
         }
+        // 取出消息
+        Integer id = message.getId();
         // 添加消息关联
         List<AppMessageUser> users = new ArrayList<>();
         for (Integer userId : userIds) {
@@ -68,6 +75,17 @@ public class MessageServiceImpl implements MessageService {
         count = appMessageUserMapper.insertBatch(users);
         if (count < 1) {
             throw new ServiceException(ErrorCode.ERROR);
+        }
+        // 查看消息是否被隐藏
+        if (id != null){
+            AppMessage me = appMessageMapper.selectByPrimaryKey(id);
+            if (me.getMessageType() == 1){
+                GiftRecordDetail giftRecordDetail = giftRecordDetailMapper.selectByPrimaryKey(me.getTargetId().intValue());
+                if (giftRecordDetail !=null && giftRecordDetail.getIsHide() == 2){
+                   return count;
+                }
+            }
+
         }
         // 消息推送
          AppPush.push(PushMsg.msg()
