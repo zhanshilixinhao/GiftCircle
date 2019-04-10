@@ -264,6 +264,7 @@
                 and b.status != -1
                 and b.status != 0
                 and b.is_hide = 1
+                and a.is_hide = 1
                 order by a.created DESC
                 limit  #{pageNum}, #{pageSize}
             </otherwise>

@@ -102,6 +102,7 @@
             b.user_id = #{userId}
           AND a.message_type = 1
               and c.is_hide = 1
+              and d.is_hide = 1
         ORDER BY
             b.id DESC
     </select>
