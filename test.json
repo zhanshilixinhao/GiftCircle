@@ -1,67 +1,595 @@
 {
   "errCode": 0,
   "result": 0,
-  "time": 1554692623182,
+  "time": 1554878294918,
   "data": [
     {
-      "id": 39,
-      "bankId": 17,
-      "logo": "",
-      "bankName": "支付宝",
-      "depositBank": "15752400650",
-      "cardHolder": "li支付宝",
-      "cardNo": "15752400650000",
-      "isDefault": 2
+      "id": 468,
+      "userId": 6,
+      "greetting": "楼",
+      "type": 1,
+      "event": "日常关怀",
+      "targetTime": 1553763286000,
+      "status": 3,
+      "updated": 1553763285000,
+      "nickname": "林琴",
+      "avatar": "https://liyuquan.cn/staticorder/comment/20190313/1552442343077501-600-600.jpg",
+      "flag": 1,
+      "detail": [
+        {
+          "id": 489,
+          "giftRecordId": 468,
+          "userId": 27,
+          "amount": null,
+          "content": [
+            {
+              "bpId": 7719031511120,
+              "targetId": 90,
+              "targetType": 1,
+              "giftType": 1,
+              "price": 320.00,
+              "title": "【奢耀盛典】娇兰亲亲系列唇膏 杨洋色#344口红 持久滋润 保湿  标准款",
+              "buyTime": 1552621690000,
+              "cover": "https://liyuquan.cn/static/item/190130/f2171d53-9a01-4082-8f8c-20c3ee63ec38.jpg",
+              "description": "品牌名称：Guerlain/娇兰\n产品参数：\n产品名称：Guerlain/娇兰 亲亲唇膏\n上市时间: 2014年月份: 8月\n是否为特殊用途化妆品: 否\n功效: 滋润 保湿\n适合肤质: 任何肤质\n保质期: 5年\n规格类型: 正常规格\n产地: 法国\n品牌: Guerlain/娇兰Guerlain/娇兰\n单品: 亲亲唇膏净含量: 3.5g\n限期使用日期范围: 2020-05-01至2021-04-01\n颜色分类: 黑管344号（红运限量版） 黑管3",
+              "brand": "娇兰"
+            }
+          ],
+          "isReply": 0,
+          "reply": "",
+          "status": 3,
+          "updated": 1553763285000,
+          "created": 1553763285000,
+          "friendNickname": "年锐",
+          "friendAvatar": "http://thirdwx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEIt5F3S7XLUTopicPgf2YoWkjM9aFL9RGfLq9qruZOic6lxZxJLrI21KmXSUkYsjznDEGvVDXVAfKSQ/132"
+        }
+      ]
     },
     {
-      "id": 34,
-      "bankId": 8,
-      "logo": "https://liyuquan.cn/static/bank/bankny.png",
-      "bankName": "农业银行",
-      "depositBank": "时良",
-      "cardHolder": "wo",
-      "cardNo": "hdjs899883",
-      "isDefault": 2
+      "id": 450,
+      "userId": 6,
+      "greetting": "星期一",
+      "type": 1,
+      "event": "日常关怀",
+      "targetTime": 1553505535000,
+      "status": 3,
+      "updated": 1553505534000,
+      "nickname": "林琴",
+      "avatar": "https://liyuquan.cn/staticorder/comment/20190313/1552442343077501-600-600.jpg",
+      "flag": 1,
+      "detail": [
+        {
+          "id": 471,
+          "giftRecordId": 450,
+          "userId": 27,
+          "amount": null,
+          "content": [
+            {
+              "bpId": 7719031511114,
+              "targetId": 92,
+              "targetType": 1,
+              "giftType": 1,
+              "price": 480.00,
+              "title": "【官方正品】纪梵希恒颜清透粉底液 持久遮瑕自然修饰  标准款",
+              "buyTime": 1552561596000,
+              "cover": "https://liyuquan.cn/static/item/190130/60c775fc-ecb6-4f4e-9219-eb2a4ad1812d.jpg",
+              "description": "品牌名称：Givenchy/纪梵希\n产品参数：\n产品名称：Givenchy/纪梵希 恒颜清透...\n品牌: Givenchy/纪梵希粉底液\n单品: 恒颜清透粉底液SPF15/PA++\n产地: 法国\n净含量: 30ml\n颜色分类: 1 2 3 4\n批准文号: 国妆特进字J20151937\n功效: 修饰肤色 遮瑕\n规格类型: 正常规格\n是否为特殊用途化妆品: 是\n产品类别: 防晒类、祛斑类（仅具物理遮盖作用）\n限期使用日期范围: 2019-06-01至2020-02-2",
+              "brand": "纪梵希"
+            }
+          ],
+          "isReply": 0,
+          "reply": "",
+          "status": 3,
+          "updated": 1553505534000,
+          "created": 1553505534000,
+          "friendNickname": "年锐",
+          "friendAvatar": "http://thirdwx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEIt5F3S7XLUTopicPgf2YoWkjM9aFL9RGfLq9qruZOic6lxZxJLrI21KmXSUkYsjznDEGvVDXVAfKSQ/132"
+        }
+      ]
     },
     {
-      "id": 33,
-      "bankId": 8,
-      "logo": "https://liyuquan.cn/static/bank/bankny.png",
-      "bankName": "农业银行",
-      "depositBank": "时良",
-      "cardHolder": "wo",
-      "cardNo": "hdjs899883",
-      "isDefault": 2
+      "id": 449,
+      "userId": 6,
+      "greetting": "兔兔",
+      "type": 1,
+      "event": "日常关怀",
+      "targetTime": 1553505177000,
+      "status": 3,
+      "updated": 1553505177000,
+      "nickname": "林琴",
+      "avatar": "https://liyuquan.cn/staticorder/comment/20190313/1552442343077501-600-600.jpg",
+      "flag": 1,
+      "detail": [
+        {
+          "id": 470,
+          "giftRecordId": 449,
+          "userId": 27,
+          "amount": null,
+          "content": [
+            {
+              "bpId": 7719031511107,
+              "targetId": 136,
+              "targetType": 1,
+              "giftType": 1,
+              "price": 112.00,
+              "title": "饰世美韩版钛钢脚链配饰品简约女镀玫瑰金不褪色双层爱心时尚百搭  标准款",
+              "buyTime": 1551174957000,
+              "cover": "https://liyuquan.cn/static/item/190131/1db4c86e-83de-4ed8-8f69-c45a1a3c5da1.jpg",
+              "description": "产品参数：\n货号: 0831354\n品牌: 饰世美\n风格: 欧美\n适用性别: 女\n图案: 爱心/水滴/铃铛\n镶嵌材质: 未镶嵌\n是否现货: 现货\n价格区间: 101-200元\n成色: 全新\n上市时间: 2016年春季\n是否商场同款: 是\n材质: 钛钢\n新奇特: 新鲜出炉\n颜色分类: 彩金 白金",
+              "brand": "饰世美旗舰店"
+            }
+          ],
+          "isReply": 0,
+          "reply": "",
+          "status": 3,
+          "updated": 1553505177000,
+          "created": 1553505177000,
+          "friendNickname": "年锐",
+          "friendAvatar": "http://thirdwx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEIt5F3S7XLUTopicPgf2YoWkjM9aFL9RGfLq9qruZOic6lxZxJLrI21KmXSUkYsjznDEGvVDXVAfKSQ/132"
+        }
+      ]
     },
     {
-      "id": 30,
-      "bankId": 2,
-      "logo": "https://liyuquan.cn/static/bank/bankgd.png",
-      "bankName": "光大银行",
-      "depositBank": "时良",
-      "cardHolder": "wo",
-      "cardNo": "hdjs899883",
-      "isDefault": 2
+      "id": 448,
+      "userId": 6,
+      "greetting": "1哦哦哦",
+      "type": 1,
+      "event": "日常关怀",
+      "targetTime": 1553504557000,
+      "status": 3,
+      "updated": 1553504556000,
+      "nickname": "林琴",
+      "avatar": "https://liyuquan.cn/staticorder/comment/20190313/1552442343077501-600-600.jpg",
+      "flag": 1,
+      "detail": [
+        {
+          "id": 469,
+          "giftRecordId": 448,
+          "userId": 27,
+          "amount": null,
+          "content": [
+            {
+              "bpId": 7719031510102,
+              "targetId": 90,
+              "targetType": 1,
+              "giftType": 1,
+              "price": 320.00,
+              "title": "【奢耀盛典】娇兰亲亲系列唇膏 杨洋色#344口红 持久滋润 保湿  标准款",
+              "buyTime": 1552373386000,
+              "cover": "https://liyuquan.cn/static/item/190130/f2171d53-9a01-4082-8f8c-20c3ee63ec38.jpg",
+              "description": "品牌名称：Guerlain/娇兰\n产品参数：\n产品名称：Guerlain/娇兰 亲亲唇膏\n上市时间: 2014年月份: 8月\n是否为特殊用途化妆品: 否\n功效: 滋润 保湿\n适合肤质: 任何肤质\n保质期: 5年\n规格类型: 正常规格\n产地: 法国\n品牌: Guerlain/娇兰Guerlain/娇兰\n单品: 亲亲唇膏净含量: 3.5g\n限期使用日期范围: 2020-05-01至2021-04-01\n颜色分类: 黑管344号（红运限量版） 黑管3",
+              "brand": "娇兰"
+            }
+          ],
+          "isReply": 0,
+          "reply": "",
+          "status": 3,
+          "updated": 1553504556000,
+          "created": 1553504556000,
+          "friendNickname": "年锐",
+          "friendAvatar": "http://thirdwx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEIt5F3S7XLUTopicPgf2YoWkjM9aFL9RGfLq9qruZOic6lxZxJLrI21KmXSUkYsjznDEGvVDXVAfKSQ/132"
+        }
+      ]
     },
     {
-      "id": 29,
-      "bankId": 2,
-      "logo": "https://liyuquan.cn/static/bank/bankgd.png",
-      "bankName": "光大银行",
-      "depositBank": "时良",
-      "cardHolder": "wo",
-      "cardNo": "8943539539548",
-      "isDefault": 2
+      "id": 447,
+      "userId": 6,
+      "greetting": "回老家",
+      "type": 1,
+      "event": "日常关怀",
+      "targetTime": 1553504018000,
+      "status": 3,
+      "updated": 1553504017000,
+      "nickname": "林琴",
+      "avatar": "https://liyuquan.cn/staticorder/comment/20190313/1552442343077501-600-600.jpg",
+      "flag": 1,
+      "detail": [
+        {
+          "id": 468,
+          "giftRecordId": 447,
+          "userId": 27,
+          "amount": null,
+          "content": [
+            {
+              "bpId": 7719031511105,
+              "targetId": 92,
+              "targetType": 1,
+              "giftType": 1,
+              "price": 480.00,
+              "title": "【官方正品】纪梵希恒颜清透粉底液 持久遮瑕自然修饰  标准款",
+              "buyTime": 1552561596000,
+              "cover": "https://liyuquan.cn/static/item/190130/60c775fc-ecb6-4f4e-9219-eb2a4ad1812d.jpg",
+              "description": "品牌名称：Givenchy/纪梵希\n产品参数：\n产品名称：Givenchy/纪梵希 恒颜清透...\n品牌: Givenchy/纪梵希粉底液\n单品: 恒颜清透粉底液SPF15/PA++\n产地: 法国\n净含量: 30ml\n颜色分类: 1 2 3 4\n批准文号: 国妆特进字J20151937\n功效: 修饰肤色 遮瑕\n规格类型: 正常规格\n是否为特殊用途化妆品: 是\n产品类别: 防晒类、祛斑类（仅具物理遮盖作用）\n限期使用日期范围: 2019-06-01至2020-02-2",
+              "brand": "纪梵希"
+            }
+          ],
+          "isReply": 0,
+          "reply": "",
+          "status": 3,
+          "updated": 1553504017000,
+          "created": 1553504017000,
+          "friendNickname": "年锐",
+          "friendAvatar": "http://thirdwx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEIt5F3S7XLUTopicPgf2YoWkjM9aFL9RGfLq9qruZOic6lxZxJLrI21KmXSUkYsjznDEGvVDXVAfKSQ/132"
+        }
+      ]
     },
     {
-      "id": 28,
-      "bankId": 1,
-      "logo": "https://liyuquan.cn/static/bank/bankgs.png",
-      "bankName": "工商银行",
-      "depositBank": "纪录片",
-      "cardHolder": "考虑考虑",
-      "cardNo": "5588625779325",
-      "isDefault": 2
+      "id": 446,
+      "userId": 6,
+      "greetting": "接口",
+      "type": 1,
+      "event": "日常关怀",
+      "targetTime": 1553503976000,
+      "status": 3,
+      "updated": 1553503976000,
+      "nickname": "林琴",
+      "avatar": "https://liyuquan.cn/staticorder/comment/20190313/1552442343077501-600-600.jpg",
+      "flag": 1,
+      "detail": [
+        {
+          "id": 467,
+          "giftRecordId": 446,
+          "userId": 27,
+          "amount": null,
+          "content": [
+            {
+              "bpId": 7719031310120,
+              "targetId": 145,
+              "targetType": 1,
+              "giftType": 1,
+              "price": 222.50,
+              "title": "JG925银圆环项链镶嵌施华洛世奇女锁骨链吊坠简约大方百搭气质  标准款",
+              "buyTime": 1552442750000,
+              "cover": "https://liyuquan.cn/static/item/190131/dcb74ecd-d9fe-4a0b-83a9-53e4a666c5a4.jpg",
+              "description": "品牌: Johnsongem\n链子材质: 银饰金属\n材质: 925银\n图案: 饼干/蛋糕/小零食\n风格: 日韩\n成色: 全新\n价格区间: 201-300元\n适用性别: 女\n新奇特: 新鲜出炉\n颜色分类: 经典版 经典版+永生花 璀璨版 璀璨版+永生花链子样式: 水波链\n是否多层: 否\n是否带坠: 是\n是否现货: 现货\n延长链: 11cm以上\n坠子材质: 925银\n上市时间: 2018年春季\n货号: SNA3565\n镶嵌材质: 纯银镶嵌宝石\n周长: 21cm(含)-50cm(含)\n是否商场同款: 是\n销售渠道类型: 纯电商(只在线上销售)",
+              "brand": "johnsongem饰品旗舰店"
+            }
+          ],
+          "isReply": 0,
+          "reply": "",
+          "status": 3,
+          "updated": 1553503976000,
+          "created": 1553503976000,
+          "friendNickname": "年锐",
+          "friendAvatar": "http://thirdwx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEIt5F3S7XLUTopicPgf2YoWkjM9aFL9RGfLq9qruZOic6lxZxJLrI21KmXSUkYsjznDEGvVDXVAfKSQ/132"
+        }
+      ]
+    },
+    {
+      "id": 445,
+      "userId": 6,
+      "greetting": "看见了",
+      "type": 1,
+      "event": "日常关怀",
+      "targetTime": 1553503591000,
+      "status": 3,
+      "updated": 1553503591000,
+      "nickname": "林琴",
+      "avatar": "https://liyuquan.cn/staticorder/comment/20190313/1552442343077501-600-600.jpg",
+      "flag": 1,
+      "detail": [
+        {
+          "id": 466,
+          "giftRecordId": 445,
+          "userId": 27,
+          "amount": null,
+          "content": [
+            {
+              "bpId": 7719031310113,
+              "targetId": 76,
+              "targetType": 1,
+              "giftType": 1,
+              "price": 445.00,
+              "title": "【官方正品】纪梵希绒雾哑光粉底液持久着妆保湿遮瑕控油  标准款",
+              "buyTime": 1552442731000,
+              "cover": "https://liyuquan.cn/static/item/190130/f330343a-101b-4b08-b0ed-dcfa01c27868.jpg",
+              "description": "产品参数：\n产品名称：Givenchy/纪梵希 绒雾哑光...\n品牌: Givenchy/纪梵希粉底液\n单品: 绒雾哑光粉底液SPF20/PA+++\n产地: 法国\n净含量: 30ml\n颜色分类: 01 02 03 04\n批准文号: 国妆特进字J20171279\n功效: 修饰肤色 遮瑕 控油\n规格类型: 正常规格\n是否为特殊用途化妆品: 是\n产品类别: 防晒类\n限期使用日期范围: 2019-06-06至2019-07-",
+              "brand": "纪梵希"
+            }
+          ],
+          "isReply": 0,
+          "reply": "",
+          "status": 3,
+          "updated": 1553503591000,
+          "created": 1553503591000,
+          "friendNickname": "年锐",
+          "friendAvatar": "http://thirdwx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEIt5F3S7XLUTopicPgf2YoWkjM9aFL9RGfLq9qruZOic6lxZxJLrI21KmXSUkYsjznDEGvVDXVAfKSQ/132"
+        }
+      ]
+    },
+    {
+      "id": 421,
+      "userId": 6,
+      "greetting": "",
+      "type": 3,
+      "event": "日常关怀",
+      "targetTime": null,
+      "status": 1,
+      "updated": 1553219424000,
+      "nickname": "林琴",
+      "avatar": "https://liyuquan.cn/staticorder/comment/20190313/1552442343077501-600-600.jpg",
+      "flag": 1,
+      "detail": [
+        {
+          "id": 443,
+          "giftRecordId": 421,
+          "userId": null,
+          "amount": null,
+          "content": [
+            {
+              "bpId": 7719031814102,
+              "targetId": 91,
+              "targetType": 1,
+              "giftType": 1,
+              "price": 680.00,
+              "title": "【奢耀盛典】娇兰帝皇蜂姿修护复原蜜30ml/50ml 面部精华液 补水  标准款",
+              "buyTime": 1552891536000,
+              "cover": "https://liyuquan.cn/static/item/190130/6a490fe6-5fcd-4b29-aa3b-926eceb6aee5.jpg",
+              "description": "品牌名称：Guerlain/娇兰\n产品参数：\n产品名称：Guerlain/娇兰 帝皇蜂姿修...\n是否为特殊用途化妆品: 否\n功效: 滋润 修护\n规格类型: 正常规格\n品牌: Guerlain/娇兰娇兰\n单品: 帝皇蜂姿修护复原蜜化妆品\n净含量: 30ml 50ml\n限期使用日期范围: 2019-10-01至2020-03-01",
+              "brand": "娇兰"
+            }
+          ],
+          "isReply": 0,
+          "reply": "",
+          "status": 1,
+          "updated": 1553219424000,
+          "created": 1553219424000,
+          "friendNickname": "",
+          "friendAvatar": ""
+        }
+      ]
+    },
+    {
+      "id": 419,
+      "userId": 6,
+      "greetting": "hsdjakfhkjs",
+      "type": 1,
+      "event": "时间",
+      "targetTime": 1553176315000,
+      "status": 3,
+      "updated": 1553176313000,
+      "nickname": "林琴",
+      "avatar": "https://liyuquan.cn/staticorder/comment/20190313/1552442343077501-600-600.jpg",
+      "flag": 1,
+      "detail": [
+        {
+          "id": 441,
+          "giftRecordId": 419,
+          "userId": 1,
+          "amount": null,
+          "content": [
+            {
+              "bpId": 7719031717106,
+              "targetId": 229,
+              "targetType": 1,
+              "giftType": 1,
+              "price": 0.10,
+              "title": "蝴蝶结耳钉女气质韩国个性简约百搭网红耳坠2018新款耳环精致耳饰  标准款",
+              "buyTime": 1551174908000,
+              "cover": "https://liyuquan.cn/static/item/190222/bb7863d6-c030-4a6e-aabd-64b418152d73.jpg",
+              "description": "",
+              "brand": "zengliu旗舰店"
+            }
+          ],
+          "isReply": 0,
+          "reply": "",
+          "status": 3,
+          "updated": 1553176313000,
+          "created": 1553176313000,
+          "friendNickname": "路遥",
+          "friendAvatar": "https://liyuquan.cn/staticorder/comment/20181231/1546231284130051-600-600.jpg"
+        }
+      ]
+    },
+    {
+      "id": 415,
+      "userId": 6,
+      "greetting": "",
+      "type": 3,
+      "event": "纪念日送礼",
+      "targetTime": null,
+      "status": 1,
+      "updated": 1553053994000,
+      "nickname": "林琴",
+      "avatar": "https://liyuquan.cn/staticorder/comment/20190313/1552442343077501-600-600.jpg",
+      "flag": 1,
+      "detail": [
+        {
+          "id": 437,
+          "giftRecordId": 415,
+          "userId": null,
+          "amount": null,
+          "content": [
+            {
+              "bpId": 7719031511120,
+              "targetId": 90,
+              "targetType": 1,
+              "giftType": 1,
+              "price": 320.00,
+              "title": "【奢耀盛典】娇兰亲亲系列唇膏 杨洋色#344口红 持久滋润 保湿  标准款",
+              "buyTime": 1552621690000,
+              "cover": "https://liyuquan.cn/static/item/190130/f2171d53-9a01-4082-8f8c-20c3ee63ec38.jpg",
+              "description": "品牌名称：Guerlain/娇兰\n产品参数：\n产品名称：Guerlain/娇兰 亲亲唇膏\n上市时间: 2014年月份: 8月\n是否为特殊用途化妆品: 否\n功效: 滋润 保湿\n适合肤质: 任何肤质\n保质期: 5年\n规格类型: 正常规格\n产地: 法国\n品牌: Guerlain/娇兰Guerlain/娇兰\n单品: 亲亲唇膏净含量: 3.5g\n限期使用日期范围: 2020-05-01至2021-04-01\n颜色分类: 黑管344号（红运限量版） 黑管3",
+              "brand": "娇兰"
+            }
+          ],
+          "isReply": 0,
+          "reply": "",
+          "status": 1,
+          "updated": 1553053994000,
+          "created": 1553053994000,
+          "friendNickname": "",
+          "friendAvatar": ""
+        }
+      ]
+    },
+    {
+      "id": 412,
+      "userId": 6,
+      "greetting": "V5图",
+      "type": 1,
+      "event": "纪念日送礼",
+      "targetTime": 1552898086000,
+      "status": 3,
+      "updated": 1552898086000,
+      "nickname": "林琴",
+      "avatar": "https://liyuquan.cn/staticorder/comment/20190313/1552442343077501-600-600.jpg",
+      "flag": 1,
+      "detail": [
+        {
+          "id": 434,
+          "giftRecordId": 412,
+          "userId": 27,
+          "amount": null,
+          "content": [
+            {
+              "bpId": 7719031310119,
+              "targetId": 209,
+              "targetType": 1,
+              "giftType": 1,
+              "price": 89.00,
+              "title": "GUND仿真狗狗BOO玩偶可爱娃娃邦尼兔毛绒玩具狗狗公仔生日礼物女  标准款",
+              "buyTime": 1552442776000,
+              "cover": "https://liyuquan.cn/static/item/190213/51f4c112-f7ef-4d64-8166-afe0dd532f2f.jpg",
+              "description": "品牌: GUND\n型号: 13cmBOO—邦尼兔\n适用年龄: 2岁 3岁 4岁 5岁 6岁 7岁 8岁 9岁 10岁 11岁 12岁 13岁 14岁 14岁以上\n材质: 毛绒适用\n性别: 女\n玩具类型: 公仔\n颜色分类: 邦尼兔（粉） 邦尼兔（蓝） 邦尼兔（灰） 邦尼兔（紫） 邦尼兔（白）\n填充物: PP棉\n高度: 13厘米 22厘米\n是否有导购视频: 无\n货号: 4060013\n版本类型: 原装正版\n玩具狗种类: 博美\n玩偶种类: 狗狗",
+              "brand": "gund旗舰店"
+            }
+          ],
+          "isReply": 6,
+          "reply": "你好好尴尬",
+          "status": 3,
+          "updated": 1552898086000,
+          "created": 1552898086000,
+          "friendNickname": "年锐",
+          "friendAvatar": "http://thirdwx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEIt5F3S7XLUTopicPgf2YoWkjM9aFL9RGfLq9qruZOic6lxZxJLrI21KmXSUkYsjznDEGvVDXVAfKSQ/132"
+        }
+      ]
+    },
+    {
+      "id": 213,
+      "userId": 6,
+      "greetting": "推荐",
+      "type": 3,
+      "event": "纪念日送礼",
+      "targetTime": null,
+      "status": 3,
+      "updated": 1552443817000,
+      "nickname": "林琴",
+      "avatar": "https://liyuquan.cn/staticorder/comment/20190313/1552442343077501-600-600.jpg",
+      "flag": 1,
+      "detail": [
+        {
+          "id": 220,
+          "giftRecordId": 213,
+          "userId": 6,
+          "amount": null,
+          "content": [
+            {
+              "bpId": 7719031310116,
+              "targetId": 145,
+              "targetType": 1,
+              "giftType": 1,
+              "price": 222.50,
+              "title": "JG925银圆环项链镶嵌施华洛世奇女锁骨链吊坠简约大方百搭气质  标准款",
+              "buyTime": 1552442750000,
+              "cover": "https://liyuquan.cn/static/item/190131/dcb74ecd-d9fe-4a0b-83a9-53e4a666c5a4.jpg",
+              "description": "品牌: Johnsongem\n链子材质: 银饰金属\n材质: 925银\n图案: 饼干/蛋糕/小零食\n风格: 日韩\n成色: 全新\n价格区间: 201-300元\n适用性别: 女\n新奇特: 新鲜出炉\n颜色分类: 经典版 经典版+永生花 璀璨版 璀璨版+永生花链子样式: 水波链\n是否多层: 否\n是否带坠: 是\n是否现货: 现货\n延长链: 11cm以上\n坠子材质: 925银\n上市时间: 2018年春季\n货号: SNA3565\n镶嵌材质: 纯银镶嵌宝石\n周长: 21cm(含)-50cm(含)\n是否商场同款: 是\n销售渠道类型: 纯电商(只在线上销售)",
+              "brand": "johnsongem饰品旗舰店"
+            }
+          ],
+          "isReply": 2,
+          "reply": "记录想",
+          "status": 3,
+          "updated": 1552443817000,
+          "created": 1552443817000,
+          "friendNickname": "林琴",
+          "friendAvatar": "https://liyuquan.cn/staticorder/comment/20190313/1552442343077501-600-600.jpg"
+        }
+      ]
+    },
+    {
+      "id": 212,
+      "userId": 6,
+      "greetting": "快来",
+      "type": 1,
+      "event": "纪念日送礼",
+      "targetTime": 1552362550000,
+      "status": 3,
+      "updated": 1552362549000,
+      "nickname": "林琴",
+      "avatar": "https://liyuquan.cn/staticorder/comment/20190313/1552442343077501-600-600.jpg",
+      "flag": 1,
+      "detail": [
+        {
+          "id": 219,
+          "giftRecordId": 212,
+          "userId": 1,
+          "amount": null,
+          "content": [
+            {
+              "bpId": 7719031211102,
+              "targetId": 61,
+              "targetType": 1,
+              "giftType": 1,
+              "price": 908.00,
+              "title": "POLA 热控粉MEGA CUT 90包 营养均衡 控糖控脂 POLA口服瘦身  标准款",
+              "buyTime": 1552362489000,
+              "cover": "https://liyuquan.cn/static/item/190129/27481ffa-79b0-4d93-b19f-72d1aea1c7d1.jpg",
+              "description": "产品参数：\n厂名：株式会社POLA\n厂址：静冈县富士市大渊4527-7\n厂家联系方式：0545-73-0610\n配料表：维生素E、维生素C、印度吉纳树提取物、桃花提取物、杨梅提取物、蜜瓜提取物等\n储藏方法：常温储存\n期：730 天\n营养成分: YAC精华 维生素C 维生素E 植物提取物 其他\n有效期: 24个月\n适用性别: 通用\n功效: 提亮肤色\n产品剂型: 片剂\n产地: 日本\n品牌: POLA/宝丽\n品名: WHITE SHOT IXS 美白丸60粒\n用法: 一天两粒 清水冲服 约30天用量\n食用提示: 过敏体质，可参照营养成分表；孕妇、哺乳期女性请在医师指导下服用。",
+              "brand": "宝丽海外旗舰店"
+            }
+          ],
+          "isReply": 0,
+          "reply": "",
+          "status": 3,
+          "updated": 1552362549000,
+          "created": 1552362549000,
+          "friendNickname": "路遥",
+          "friendAvatar": "https://liyuquan.cn/staticorder/comment/20181231/1546231284130051-600-600.jpg"
+        }
+      ]
+    },
+    {
+      "id": 208,
+      "userId": 6,
+      "greetting": "推荐",
+      "type": 1,
+      "event": "时间",
+      "targetTime": 1551238670000,
+      "status": 3,
+      "updated": 1551238669000,
+      "nickname": "林琴",
+      "avatar": "https://liyuquan.cn/staticorder/comment/20190313/1552442343077501-600-600.jpg",
+      "flag": 1,
+      "detail": [
+        {
+          "id": 215,
+          "giftRecordId": 208,
+          "userId": 8,
+          "amount": null,
+          "content": [
+            {
+              "bpId": 7719022116136,
+              "targetId": 149,
+              "targetType": 1,
+              "giftType": 1,
+              "price": 70.00,
+              "title": "蝴蝶结耳钉女气质韩国个性简约百搭网红耳坠2018新款耳环精致耳饰  标准款",
+              "buyTime": 1550738323000,
+              "cover": "https://liyuquan.cn/static/item/190131/0d5d9d9e-6211-4df5-b856-9a5759c2d02f.jpg",
+              "description": "产品参数：\n品牌: ZENGLIU\n货号: ZL1890\n适用性别: 女\n图案: 蝴蝶/蜻蜒/昆虫\n风格: 欧美\n是否现货: 现货\n成色: 全新\n价格区间: 51-100元\n新奇特: 新鲜出炉镶嵌\n材质: 合金镶嵌人工宝石/半宝石\n上市时间: 2018年春季\n是否商场同款: 是\n销售渠道类型: 商场同款(线上线下都销售)\n材质: 合金/镀银/镀金颜色分类: 银耳针宝蓝色 银耳针香槟色 银耳",
+              "brand": "zengliu旗舰店"
+            }
+          ],
+          "isReply": 0,
+          "reply": "",
+          "status": 3,
+          "updated": 1551238669000,
+          "created": 1551238669000,
+          "friendNickname": "陈红兵",
+          "friendAvatar": "https://wx.qlogo.cn/mmopen/vi_32/OwZuBRbVUkx404NMZSBD01pJPKxB1r1aGx7aKHje5IJN2b8RWOOeLZziantR36BsHY4d5QacWibvzllOMRSEvUvA/132"
+        }
+      ]
     }
   ]
 }

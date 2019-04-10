@@ -24,7 +24,10 @@ public class GiftRecordDetail {
 
     private Date created;
 
-    public GiftRecordDetail(Integer id, Integer giftRecordId, Integer userId, BigDecimal amount, String content, Byte isReply, String reply, Byte status, Date updated, Date created) {
+    private Byte isHide;
+
+
+    public GiftRecordDetail(Integer id, Integer giftRecordId, Integer userId, BigDecimal amount, String content, Byte isReply, String reply, Byte status, Date updated, Date created,Byte isHide) {
         this.id = id;
         this.giftRecordId = giftRecordId;
         this.userId = userId;
@@ -35,6 +38,8 @@ public class GiftRecordDetail {
         this.status = status;
         this.updated = updated;
         this.created = created;
+        this.isHide = isHide;
+
     }
 
     public GiftRecordDetail() {
@@ -119,5 +124,13 @@ public class GiftRecordDetail {
 
     public void setAmount(BigDecimal amount) {
         this.amount = amount;
+    }
+
+    public Byte getIsHide() {
+        return isHide;
+    }
+
+    public void setIsHide(Byte isHide) {
+        this.isHide = isHide;
     }
 }

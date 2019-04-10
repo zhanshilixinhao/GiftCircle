@@ -13,10 +13,11 @@
             <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT"/>
             <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
             <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="is_hide" javaType="java.lang.Byte" jdbcType="TINYINT"/>
         </constructor>
     </resultMap>
     <sql id="Base_Column_List">
-    id, gift_record_id, user_id,amount, content, is_reply, reply, status, updated, created
+    id, gift_record_id, user_id,amount, content, is_reply, reply, status, updated, created,is_hide
   </sql>
 
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -99,12 +100,12 @@
     <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.backpack.gift.GiftRecordDetail" useGeneratedKeys="true" keyProperty="id">
     insert into gift_record_detail (id, gift_record_id, user_id,
       amount,content, is_reply, reply,
-      status, updated, created
+      status, updated, created,is_hide
       )
     values (#{id,jdbcType=INTEGER}, #{giftRecordId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER},
     #{amount},
       #{content,jdbcType=VARCHAR}, 0, #{reply,jdbcType=VARCHAR},
-      #{status,jdbcType=TINYINT}, now(), now()
+      #{status,jdbcType=TINYINT}, now(), now(),#{isHide,jdbcType=TINYINT}
       )
   </insert>
     <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.backpack.gift.GiftRecordDetail">
@@ -194,6 +195,9 @@
             </if>
             <if test="created != null">
                 created = #{created,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isHide != null">
+                is_hide = #{isHide,jdbcType=TINYINT},
             </if>
         </set>
         where id = #{id,jdbcType=INTEGER}

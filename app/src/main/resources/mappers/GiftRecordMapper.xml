@@ -13,6 +13,7 @@
             <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
             <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
             <arg column="p" javaType="java.lang.Float" jdbcType="FLOAT"/>
+            <arg column="is_hide" javaType="java.lang.Byte" jdbcType="TINYINT"/>
         </constructor>
     </resultMap>
     <sql id="Base_Column_List">
@@ -26,7 +27,8 @@
         status,
         updated,
         created,
-        p
+        p,
+        is_hide
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
@@ -225,6 +227,7 @@
                 where a.user_id = #{userId}
                 and a.status != -1
                 and a.status != 0
+                and a.is_hide = 1
                 order by a.created DESC
                 limit #{pageNum}, #{pageSize}) a
                 left join gift_record_detail b on a.id = b.gift_record_id
@@ -260,6 +263,7 @@
                 where b.user_id = #{userId}
                 and b.status != -1
                 and b.status != 0
+                and b.is_hide = 1
                 order by a.created DESC
                 limit  #{pageNum}, #{pageSize}
             </otherwise>
@@ -275,10 +279,10 @@
             useGeneratedKeys="true">
         insert into gift_record (id, user_id, greetting,
                                  type, event, target_time,
-                                 status, updated, created, p)
+                                 status, updated, created, p,is_hide)
         values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{greetting,jdbcType=VARCHAR},
                 #{type,jdbcType=TINYINT}, #{event,jdbcType=VARCHAR}, #{targetTime,jdbcType=TIMESTAMP},
-                #{status,jdbcType=TINYINT}, now(), now(), #{p})
+                #{status,jdbcType=TINYINT}, now(), now(), #{p},#{isHide,jdbcType=TINYINT})
     </insert>
     <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.gift.virtualItem.GiftRecord">
         insert into gift_record
@@ -367,6 +371,9 @@
             </if>
             <if test="created != null">
                 created = #{created,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isHide != null">
+                is_hide = #{isHide,jdbcType=TINYINT},
             </if>
         </set>
         where id = #{id,jdbcType=INTEGER}

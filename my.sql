@@ -431,7 +431,8 @@ create table if not exists gift_record
   status tinyint null comment '1 未领取 2 已领取部分 3 已领取全部 4 超时领取失败',
   updated datetime null,
   created datetime null,
-  p float(4,2) null comment '礼物获得概率'
+  p float(4,2) null comment '礼物获得概率',
+    is_hide tinyint 1 comment '是否隐藏  1 正常（不隐藏） 2 隐藏',
   )
   comment '送礼记录' charset=utf8mb4;
 
@@ -449,6 +450,7 @@ create table if not exists gift_record_detail
   is_reply tinyint null comment '1 答谢 2 未答谢',
   reply varchar(255) null comment '答谢回复',
   status tinyint null comment '1 未领取 2 已领取部分 3 已领取全部 4 超时领取失败',
+      is_hide tinyint 1 comment '是否隐藏  1 正常（不隐藏） 2 隐藏',
   updated datetime null,
   created datetime null
   )

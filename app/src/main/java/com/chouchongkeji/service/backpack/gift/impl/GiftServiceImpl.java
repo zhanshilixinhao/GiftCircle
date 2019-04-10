@@ -347,6 +347,14 @@ public class GiftServiceImpl implements GiftService {
         // 更新记录详情状态为已赠送
         detail.setStatus(Constants.GIFT_STATUS.SEND);
         detail.setUserId(userId);
+        AppUser user = appUserMapper.selectByPrimaryKey(userId);
+        if (user != null){
+            if (user.getIsHide() == null ||user.getIsHide() == 1){
+                detail.setIsHide((byte)1);
+            }else {
+                detail.setIsHide((byte)2);
+            }
+        }
         giftRecordDetailMapper.updateByPrimaryKeySelective(detail);
 
         // 添加礼物通知消息
@@ -432,6 +440,15 @@ public class GiftServiceImpl implements GiftService {
             status = Constants.GIFT_STATUS.SEND;
         }
         record.setStatus(status);
+        // 查看用户是否设置隐藏
+        AppUser appUser = appUserMapper.selectByPrimaryKey(userId);
+        if (appUser != null){
+            if (appUser.getIsHide() == null ||appUser.getIsHide() == 1){
+                record.setIsHide((byte)1);
+            }else {
+                record.setIsHide((byte)2);
+            }
+        }
         // 保存礼物记录
         int count = giftRecordMapper.insert(record);
         if (count == 0) {
@@ -452,6 +469,14 @@ public class GiftServiceImpl implements GiftService {
             detail.setGiftRecordId(record.getId());
             detail.setStatus(status);
             detail.setContent(JSON.toJSONString(list));
+            AppUser user = appUserMapper.selectByPrimaryKey(friendUserId1);
+            if (user != null){
+                if (user.getIsHide() == null ||user.getIsHide() == 1){
+                    detail.setIsHide((byte)1);
+                }else {
+                    detail.setIsHide((byte)2);
+                }
+            }
             count = giftRecordDetailMapper.insert(detail);
             if (count == 0) {
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "赠送失败!");
@@ -636,6 +661,15 @@ public class GiftServiceImpl implements GiftService {
         // 小程序的状态都是待领取
         byte status = Constants.GIFT_STATUS.WAIT;
         record.setStatus(status);
+        // 查看用户是否设置隐藏
+        AppUser appUser = appUserMapper.selectByPrimaryKey(userId);
+        if (appUser != null){
+            if (appUser.getIsHide() == null ||appUser.getIsHide() == 1){
+                record.setIsHide((byte)1);
+            }else {
+                record.setIsHide((byte)2);
+            }
+        }
         // 保存礼物记录
         int count = giftRecordMapper.insert(record);
         if (count == 0) {
