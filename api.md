@@ -151,7 +151,8 @@
 > 7. 修改用户银行卡列表返回值（bankId= 17 是支付宝）接口（3.4）
 > 8. 修改支付宝（3.15）删除支付宝（3.6）（与删除修改银行卡公用接口）
 > 9. 修改商品分类返回值（接口6.7）
-> 10. 增加设置隐私接口（2.15） 
+> 10. 增加设置隐私接口（2.15）
+> 11. 修改礼物记录返回值（15.7） 
 
 
 
@@ -5165,7 +5166,9 @@ type = 3 请求结果示例：
 |pageNum|int|是|无|分页|
 |pageSize|int|是|无|分页大小|
 
-请求结果示例：（）
+请求结果示例：
+
+赠送记录
 ```json
 
 {
@@ -5179,7 +5182,7 @@ type = 3 请求结果示例：
       "greetting": "快来",  //祝福语
       "type": 1,  //1 立即赠送 2 按时间赠送 3 小程序选择好友赠送需要领取 4 小程序随机赠送需要领取
       "event": "时间",  //赠送事件
-      "targetTime": 1546596929000,  //按时赠送的赠送事件
+      "targetTime": 1546596929000,  //按时赠送的赠送时间
       "status": 3,  //1 未领取 2 已领取部分 3 已领取全部 （flag=1时的状态，所有状态都显示已赠送）
       "updated": 1546596929000,  //更新时间
       "nickname": "林琴",  //赠送者用户昵称
@@ -5188,7 +5191,7 @@ type = 3 请求结果示例：
       "detail": [   //收礼详情
         {
           "id": 50,   //记录详情id
-          "giftRecordId": 50, //赠送记录id
+          "giftRecordId": 50, //记录id
           "userId": 14,  //接收者用户id
           "amount": null,
           "content": [  //礼物详情
@@ -5229,6 +5232,65 @@ type = 3 请求结果示例：
 }
 
 ```
+
+收礼记录
+```json
+{
+  "errCode": 0,
+  "result": 0,
+  "time": 1554973616199,
+  "data": [
+    {
+      "id": 457, //记录id
+      "userId": 1,  //好友用户id
+      "greetting": "看看", //祝福语
+      "type": 1,
+      "event": "日常关怀",
+      "targetTime": 1553563165000,
+      "status": 3,
+      "updated": 1553563164000,
+      "nickname": "路遥",   //好友昵称
+      "avatar": "https://liyuquan.cn/staticorder/comment/20181231/1546231284130051-600-600.jpg", //好友头像
+      "flag": 2, 
+      "detail": [
+        {
+          "id": 478,
+          "giftRecordId": 457,
+          "userId": 6,
+          "amount": null,
+          "content": [
+            {
+              "bpId": 7719032121122,
+              "targetId": 229,
+              "targetType": 1,
+              "giftType": 1,
+              "price": 0.10,
+              "title": "蝴蝶结耳钉女气质韩国个性简约百搭网红耳坠2018新款耳环精致耳饰  标准款",
+              "buyTime": 1551174908000,
+              "cover": "https://liyuquan.cn/static/item/190222/bb7863d6-c030-4a6e-aabd-64b418152d73.jpg",
+              "description": "",
+              "brand": "zengliu旗舰店"
+            }
+          ],
+          "isReply": 2,
+          "reply": "哈哈哈",
+          "status": 3,
+          "updated": 1553563164000,
+          "created": null,
+          "friendNickname": "林琴", //自己头像
+          "friendAvatar": "https://liyuquan.cn/staticorder/comment/20190313/1552442343077501-600-600.jpg" //自己昵称
+        }
+      ]
+    }
+  ]
+}
+
+
+```
+
+
+
+
 
 
 ### 15.8 取消礼物赠送

@@ -179,7 +179,7 @@ public class test3 {
         RequestParams params = new RequestParams();
         params.put("time", System.currentTimeMillis());
         params.put("access_token", "7a867108-2521-4d95-b482-8603ddcd4c5f");
-        params.put("flag", 1);
+        params.put("flag", 2);
         params.put("pageNum", 1);
         params.put("pageSize", 14);
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);

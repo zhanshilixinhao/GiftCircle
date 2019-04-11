@@ -10,6 +10,7 @@ import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.dial.redis.MRedisTemplate;
 import com.chouchongkeji.service.iwant.wallet.FireworksService;
+import com.chouchongkeji.service.user.friend.FriendService;
 import com.chouchongkeji.service.user.info.UserLoginService;
 import com.chouchongkeji.service.wxapi.WXCodeApi;
 import com.chouchongkeji.service.wxapi.WXResult;
@@ -48,6 +49,9 @@ public class UserLoginServiceImpl implements UserLoginService {
 
     @Autowired
     private AppUserMapper appUserMapper;
+
+    @Autowired
+    private FriendService friendService;
 
     /**
      * 微信授权登录
@@ -117,6 +121,8 @@ public class UserLoginServiceImpl implements UserLoginService {
             if (integer1 != 1) {
                 throw new ServiceException(ErrorCode.ERROR.getCode(),"邀请者获得礼花失败");
             }
+            // 添加好友
+            friendService.addWXFriend(id,userId);
         }
         // 绑定成功后登录
         response = WXCodeApi.login(openid,
