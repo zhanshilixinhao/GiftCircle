@@ -14,6 +14,10 @@ public class Constants {
     public static final String DEFALUT_AVATAR = "/avatar.jpg";
     public static final String GROUP_DEFAULT_NAME = "未分组";
 
+    // 送礼微信头像昵称
+    public static final String WEIXIINAVATAR = "https://liyuquan.cn/static/bank/weixin.png";
+    public static final String WEIXINNAME = "微信好友";
+
     //默认地区
     public static final String DEFALUT_DISTRICT = "昆明";
     public static final int BP_EXPIRE_TIME = 30; // 背包物品提货有效期

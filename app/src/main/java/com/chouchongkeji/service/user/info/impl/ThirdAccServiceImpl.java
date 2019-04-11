@@ -146,7 +146,7 @@ public class ThirdAccServiceImpl implements ThirdAccService {
         memberInfo.setPassword(RandomStringUtils.randomNumeric(10));
         //电话
         memberInfo.setPhone(phone);
-        //默认头像
+        //默认头像、
         memberInfo.setAvatar(StringUtils.isBlank(userInfo.getHeadimgurl()) ? Constants.DEFALUT_AVATAR : userInfo.getHeadimgurl());
         //默认昵称
         memberInfo.setNickname(StringUtils.isBlank(userInfo.getNickname()) ? Constants.getRandomName() : userInfo.getNickname());
@@ -155,7 +155,7 @@ public class ThirdAccServiceImpl implements ThirdAccService {
         //性别
         memberInfo.setGender(userInfo.getSex() == null ? 1 : userInfo.getSex());
         //个性签名
-        memberInfo.setSignature("签名是后台送的");
+        memberInfo.setSignature("个性签名");
         //地区
         memberInfo.setDistrict( Constants.DEFALUT_DISTRICT );
         //状态

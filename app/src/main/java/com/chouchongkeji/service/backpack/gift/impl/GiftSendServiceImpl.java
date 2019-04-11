@@ -18,6 +18,7 @@ import com.chouchongkeji.service.backpack.gift.vo.GiftSendListVo;
 import com.chouchongkeji.util.Constants;
 import com.github.pagehelper.PageHelper;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -59,6 +60,18 @@ public class GiftSendServiceImpl implements GiftSendService {
         // 查询赠送记录和收礼记录
         List<GiftSendListVo> giftSendListVos = giftRecordMapper.selectListByFlagUserId(userId, flag,
                 (pageQuery.getPageNum() - 1) * pageQuery.getPageSize(), pageQuery.getPageSize());
+        if (CollectionUtils.isNotEmpty(giftSendListVos)){
+            for (GiftSendListVo giftVo : giftSendListVos) {
+                if (giftVo.getFlag() == 1 ){
+                    for (GiftRecordDetailVo detail : giftVo.getDetail()) {
+                        if (StringUtils.isBlank(detail.getFriendAvatar())){
+                            detail.setFriendAvatar(Constants.WEIXIINAVATAR);
+                            detail.setFriendNickname(Constants.WEIXINNAME);
+                        }
+                    }
+                }
+            }
+        }
         return ResponseFactory.sucData(giftSendListVos);
     }
 

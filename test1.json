@@ -1,159 +1,595 @@
 {
   "errCode": 0,
   "result": 0,
-  "time": 1554862357096,
+  "time": 1554969680414,
   "data": [
     {
-      "id": 4,
-      "pid": 0,
-      "name": "保健品",
+      "id": 499,
+      "userId": 6,
+      "greetting": "",
+      "type": 3,
+      "event": "日常关怀",
+      "targetTime": null,
       "status": 1,
-      "sort": 0,
-      "icon": "",
-      "created": 1548680763000,
-      "updated": 1548680763000,
-      "children": []
-    },
-    {
-      "id": 6,
-      "pid": 0,
-      "name": "玩具玩偶",
-      "status": 1,
-      "sort": 0,
-      "icon": "",
-      "created": 1548866372000,
-      "updated": 1548866372000,
-      "children": []
-    },
-    {
-      "id": 7,
-      "pid": 0,
-      "name": "护肤品",
-      "status": 1,
-      "sort": 0,
-      "icon": "",
-      "created": 1548866381000,
-      "updated": 1548866381000,
-      "children": [
+      "updated": 1554969399000,
+      "nickname": "林琴",
+      "avatar": "https://liyuquan.cn/staticorder/comment/20190313/1552442343077501-600-600.jpg",
+      "flag": 1,
+      "detail": [
         {
-          "id": 14,
-          "pid": 7,
-          "name": "雅诗兰黛",
+          "id": 520,
+          "giftRecordId": 499,
+          "userId": null,
+          "amount": null,
+          "content": [
+            {
+              "bpId": 7719041016120,
+              "targetId": 435,
+              "targetType": 1,
+              "giftType": 1,
+              "price": 1150.00,
+              "title": "CHANEL香奈儿嘉柏丽尔香水  标准款",
+              "buyTime": 1554884166000,
+              "cover": "https://liyuquan.cn/static/item/190403/c83f32df-2b1a-47a0-b441-c7057ce5d089.png",
+              "description": "一款光芒四射的香水由此诞生\n正品保证 急速配货",
+              "brand": ""
+            }
+          ],
+          "isReply": 0,
+          "reply": "",
           "status": 1,
-          "sort": 0,
-          "icon": "",
-          "created": 1554830638000,
-          "updated": 1554830641000
-        },
-        {
-          "id": 15,
-          "pid": 7,
-          "name": "兰蔻",
-          "status": 1,
-          "sort": 0,
-          "icon": "",
-          "created": 1554830686000,
-          "updated": 1554830689000
+          "updated": 1554969399000,
+          "created": 1554969399000,
+          "friendNickname": "",
+          "friendAvatar": ""
         }
       ]
     },
     {
-      "id": 8,
-      "pid": 0,
-      "name": "鲜花饼",
-      "status": 1,
-      "sort": 0,
-      "icon": "",
-      "created": 1548870601000,
-      "updated": 1548870601000,
-      "children": []
-    },
-    {
-      "id": 9,
-      "pid": 0,
-      "name": "化妆品",
-      "status": 1,
-      "sort": 0,
-      "icon": "",
-      "created": 1554111656000,
-      "updated": 1554111656000,
-      "children": [
+      "id": 484,
+      "userId": 6,
+      "greetting": "hsdjakfhkjs",
+      "type": 1,
+      "event": "时间",
+      "targetTime": 1554886486000,
+      "status": 3,
+      "updated": 1554886486000,
+      "nickname": "林琴",
+      "avatar": "https://liyuquan.cn/staticorder/comment/20190313/1552442343077501-600-600.jpg",
+      "flag": 1,
+      "detail": [
         {
-          "id": 16,
-          "pid": 9,
-          "name": "圣罗兰",
-          "status": 1,
-          "sort": 0,
-          "icon": "",
-          "created": 1554830731000,
-          "updated": 1554830737000
+          "id": 505,
+          "giftRecordId": 484,
+          "userId": 1,
+          "amount": null,
+          "content": [
+            {
+              "bpId": 7719041016123,
+              "targetId": 254,
+              "targetType": 1,
+              "giftType": 1,
+              "price": 151.00,
+              "title": "LIVHEART卡通抱枕腰枕床头靠枕沙发靠垫办公室腰靠午睡枕汽车坐垫  标准款",
+              "buyTime": 1554884700000,
+              "cover": "https://liyuquan.cn/static/item/190319/216b76b8-46f8-48ee-9f42-294b9d082792.jpg",
+              "description": "品牌: LIV HEART/丽芙之心外套\n材质: 毛绒\n图案: 其他/other\n风格: 日式\n尺寸: 星52*49.5cm 月52*35cm 星月套装适用空间: 卧室颜色分类: 冬夏两用星星-绿 冬夏两用星星-粉 冬夏两用星星-白 冬夏两用月亮-绿 冬夏两用月亮-白 冬夏两用月亮-粉 星星-粉 星星-绿 月亮-白 星星-蓝 星黄+月白 星星-紫+月亮-白 星星-粉+月亮-白 星星-蓝+月亮-白 星星-蓝+月亮-黄 星星-紫+月亮-黄 月亮-黄 星星-黄 星星-紫 星星-粉+月亮-黄 星星-黄+月亮-黄 星星-绿+月亮-白 星星-绿+月亮-黄\n填充物: 其他/other\n货号: 22553\n抱枕枕靠类型: 腰枕",
+              "brand": "livheart"
+            }
+          ],
+          "isReply": 0,
+          "reply": "",
+          "status": 3,
+          "updated": 1554886486000,
+          "created": 1554886486000,
+          "friendNickname": "路遥",
+          "friendAvatar": "https://liyuquan.cn/staticorder/comment/20181231/1546231284130051-600-600.jpg"
         }
       ]
     },
     {
-      "id": 10,
-      "pid": 0,
-      "name": "香水",
-      "status": 1,
-      "sort": 0,
-      "icon": "",
-      "created": 1554282239000,
-      "updated": 1554282239000,
-      "children": [
+      "id": 483,
+      "userId": 6,
+      "greetting": "hsdjakfhkjs",
+      "type": 1,
+      "event": "时间",
+      "targetTime": 1554886302000,
+      "status": 3,
+      "updated": 1554886302000,
+      "nickname": "林琴",
+      "avatar": "https://liyuquan.cn/staticorder/comment/20190313/1552442343077501-600-600.jpg",
+      "flag": 1,
+      "detail": [
         {
-          "id": 17,
-          "pid": 10,
-          "name": "迪奥",
-          "status": 1,
-          "sort": 0,
-          "icon": "",
-          "created": 1554830771000,
-          "updated": 1554830777000
-        },
-        {
-          "id": 18,
-          "pid": 10,
-          "name": "古驰",
-          "status": 1,
-          "sort": 0,
-          "icon": "",
-          "created": 1554830800000,
-          "updated": 1554830804000
+          "id": 504,
+          "giftRecordId": 483,
+          "userId": 1,
+          "amount": null,
+          "content": [
+            {
+              "bpId": 7719041016123,
+              "targetId": 254,
+              "targetType": 1,
+              "giftType": 1,
+              "price": 151.00,
+              "title": "LIVHEART卡通抱枕腰枕床头靠枕沙发靠垫办公室腰靠午睡枕汽车坐垫  标准款",
+              "buyTime": 1554884700000,
+              "cover": "https://liyuquan.cn/static/item/190319/216b76b8-46f8-48ee-9f42-294b9d082792.jpg",
+              "description": "品牌: LIV HEART/丽芙之心外套\n材质: 毛绒\n图案: 其他/other\n风格: 日式\n尺寸: 星52*49.5cm 月52*35cm 星月套装适用空间: 卧室颜色分类: 冬夏两用星星-绿 冬夏两用星星-粉 冬夏两用星星-白 冬夏两用月亮-绿 冬夏两用月亮-白 冬夏两用月亮-粉 星星-粉 星星-绿 月亮-白 星星-蓝 星黄+月白 星星-紫+月亮-白 星星-粉+月亮-白 星星-蓝+月亮-白 星星-蓝+月亮-黄 星星-紫+月亮-黄 月亮-黄 星星-黄 星星-紫 星星-粉+月亮-黄 星星-黄+月亮-黄 星星-绿+月亮-白 星星-绿+月亮-黄\n填充物: 其他/other\n货号: 22553\n抱枕枕靠类型: 腰枕",
+              "brand": "livheart"
+            }
+          ],
+          "isReply": 0,
+          "reply": "",
+          "status": 3,
+          "updated": 1554886302000,
+          "created": 1554886302000,
+          "friendNickname": "路遥",
+          "friendAvatar": "https://liyuquan.cn/staticorder/comment/20181231/1546231284130051-600-600.jpg"
         }
       ]
     },
     {
-      "id": 11,
-      "pid": 0,
-      "name": "健康食品",
-      "status": 1,
-      "sort": 0,
-      "icon": "",
-      "created": 1554283686000,
-      "updated": 1554283686000,
-      "children": []
+      "id": 482,
+      "userId": 6,
+      "greetting": "看看",
+      "type": 1,
+      "event": "日常关怀",
+      "targetTime": 1554884717000,
+      "status": 3,
+      "updated": 1554884717000,
+      "nickname": "林琴",
+      "avatar": "https://liyuquan.cn/staticorder/comment/20190313/1552442343077501-600-600.jpg",
+      "flag": 1,
+      "detail": [
+        {
+          "id": 503,
+          "giftRecordId": 482,
+          "userId": 1,
+          "amount": null,
+          "content": [
+            {
+              "bpId": 7719041016123,
+              "targetId": 254,
+              "targetType": 1,
+              "giftType": 1,
+              "price": 151.00,
+              "title": "LIVHEART卡通抱枕腰枕床头靠枕沙发靠垫办公室腰靠午睡枕汽车坐垫  标准款",
+              "buyTime": 1554884700000,
+              "cover": "https://liyuquan.cn/static/item/190319/216b76b8-46f8-48ee-9f42-294b9d082792.jpg",
+              "description": "品牌: LIV HEART/丽芙之心外套\n材质: 毛绒\n图案: 其他/other\n风格: 日式\n尺寸: 星52*49.5cm 月52*35cm 星月套装适用空间: 卧室颜色分类: 冬夏两用星星-绿 冬夏两用星星-粉 冬夏两用星星-白 冬夏两用月亮-绿 冬夏两用月亮-白 冬夏两用月亮-粉 星星-粉 星星-绿 月亮-白 星星-蓝 星黄+月白 星星-紫+月亮-白 星星-粉+月亮-白 星星-蓝+月亮-白 星星-蓝+月亮-黄 星星-紫+月亮-黄 月亮-黄 星星-黄 星星-紫 星星-粉+月亮-黄 星星-黄+月亮-黄 星星-绿+月亮-白 星星-绿+月亮-黄\n填充物: 其他/other\n货号: 22553\n抱枕枕靠类型: 腰枕",
+              "brand": "livheart"
+            }
+          ],
+          "isReply": 0,
+          "reply": "",
+          "status": 3,
+          "updated": 1554884717000,
+          "created": 1554884717000,
+          "friendNickname": "路遥",
+          "friendAvatar": "https://liyuquan.cn/staticorder/comment/20181231/1546231284130051-600-600.jpg"
+        }
+      ]
     },
     {
-      "id": 12,
-      "pid": 0,
-      "name": "土特产",
-      "status": 1,
-      "sort": 0,
-      "icon": "",
-      "created": 1554695191000,
-      "updated": 1554695191000,
-      "children": []
+      "id": 476,
+      "userId": 6,
+      "greetting": "路",
+      "type": 1,
+      "event": "日常关怀",
+      "targetTime": 1554883183000,
+      "status": 3,
+      "updated": 1554883183000,
+      "nickname": "林琴",
+      "avatar": "https://liyuquan.cn/staticorder/comment/20190313/1552442343077501-600-600.jpg",
+      "flag": 1,
+      "detail": [
+        {
+          "id": 497,
+          "giftRecordId": 476,
+          "userId": 1,
+          "amount": null,
+          "content": [
+            {
+              "bpId": 7719040915108,
+              "targetId": 140,
+              "targetType": 1,
+              "giftType": 1,
+              "price": 199.00,
+              "title": "戒指女纯银925情侣人工锆石钻戒仿真钻日韩简约学生潮人清新个性  标准款",
+              "buyTime": 1554793500000,
+              "cover": "https://liyuquan.cn/static/item/190131/b4179b4d-0dd0-4af4-8008-af9199396eb8.jpg",
+              "description": "产品参数：\n品牌: M－BOX/音乐盒\n材质: 镶嵌施华洛世奇人工锆石、925银\n图案: 爱心/水滴/铃铛\n风格: 日韩\n成色: 全新\n价格区间: 101-200元\n适用性别: 女\n新奇特: 网聚特色颜色分类: 11#1 15# 12# 17# 14# 18# 16# 13#\n是否现货: 现货\n上市时间: 2017年秋冬\n货号: HJ2301\n镶嵌材质: 未镶嵌\n是否商场同款: 是\n销售渠道类型: 商场同款(线上线下都销售)",
+              "brand": "Mbox饰品旗舰店"
+            }
+          ],
+          "isReply": 0,
+          "reply": "",
+          "status": 3,
+          "updated": 1554883183000,
+          "created": 1554883183000,
+          "friendNickname": "路遥",
+          "friendAvatar": "https://liyuquan.cn/staticorder/comment/20181231/1546231284130051-600-600.jpg"
+        }
+      ]
     },
     {
-      "id": 13,
-      "pid": 0,
-      "name": "测试",
+      "id": 474,
+      "userId": 6,
+      "greetting": "",
+      "type": 3,
+      "event": "同学送礼",
+      "targetTime": null,
+      "status": 3,
+      "updated": 1554695950000,
+      "nickname": "林琴",
+      "avatar": "https://liyuquan.cn/staticorder/comment/20190313/1552442343077501-600-600.jpg",
+      "flag": 1,
+      "detail": [
+        {
+          "id": 495,
+          "giftRecordId": 474,
+          "userId": 1,
+          "amount": null,
+          "content": [
+            {
+              "bpId": 7719031814102,
+              "targetId": 91,
+              "targetType": 1,
+              "giftType": 1,
+              "price": 680.00,
+              "title": "【奢耀盛典】娇兰帝皇蜂姿修护复原蜜30ml/50ml 面部精华液 补水  标准款",
+              "buyTime": 1552891536000,
+              "cover": "https://liyuquan.cn/static/item/190130/6a490fe6-5fcd-4b29-aa3b-926eceb6aee5.jpg",
+              "description": "品牌名称：Guerlain/娇兰\n产品参数：\n产品名称：Guerlain/娇兰 帝皇蜂姿修...\n是否为特殊用途化妆品: 否\n功效: 滋润 修护\n规格类型: 正常规格\n品牌: Guerlain/娇兰娇兰\n单品: 帝皇蜂姿修护复原蜜化妆品\n净含量: 30ml 50ml\n限期使用日期范围: 2019-10-01至2020-03-01",
+              "brand": "娇兰"
+            }
+          ],
+          "isReply": 0,
+          "reply": "",
+          "status": 3,
+          "updated": 1554695950000,
+          "created": 1554695950000,
+          "friendNickname": "路遥",
+          "friendAvatar": "https://liyuquan.cn/staticorder/comment/20181231/1546231284130051-600-600.jpg"
+        }
+      ]
+    },
+    {
+      "id": 468,
+      "userId": 6,
+      "greetting": "楼",
+      "type": 1,
+      "event": "日常关怀",
+      "targetTime": 1553763286000,
+      "status": 3,
+      "updated": 1553763285000,
+      "nickname": "林琴",
+      "avatar": "https://liyuquan.cn/staticorder/comment/20190313/1552442343077501-600-600.jpg",
+      "flag": 1,
+      "detail": [
+        {
+          "id": 489,
+          "giftRecordId": 468,
+          "userId": 27,
+          "amount": null,
+          "content": [
+            {
+              "bpId": 7719031511120,
+              "targetId": 90,
+              "targetType": 1,
+              "giftType": 1,
+              "price": 320.00,
+              "title": "【奢耀盛典】娇兰亲亲系列唇膏 杨洋色#344口红 持久滋润 保湿  标准款",
+              "buyTime": 1552621690000,
+              "cover": "https://liyuquan.cn/static/item/190130/f2171d53-9a01-4082-8f8c-20c3ee63ec38.jpg",
+              "description": "品牌名称：Guerlain/娇兰\n产品参数：\n产品名称：Guerlain/娇兰 亲亲唇膏\n上市时间: 2014年月份: 8月\n是否为特殊用途化妆品: 否\n功效: 滋润 保湿\n适合肤质: 任何肤质\n保质期: 5年\n规格类型: 正常规格\n产地: 法国\n品牌: Guerlain/娇兰Guerlain/娇兰\n单品: 亲亲唇膏净含量: 3.5g\n限期使用日期范围: 2020-05-01至2021-04-01\n颜色分类: 黑管344号（红运限量版） 黑管3",
+              "brand": "娇兰"
+            }
+          ],
+          "isReply": 0,
+          "reply": "",
+          "status": 3,
+          "updated": 1553763285000,
+          "created": 1553763285000,
+          "friendNickname": "年锐",
+          "friendAvatar": "http://thirdwx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEIt5F3S7XLUTopicPgf2YoWkjM9aFL9RGfLq9qruZOic6lxZxJLrI21KmXSUkYsjznDEGvVDXVAfKSQ/132"
+        }
+      ]
+    },
+    {
+      "id": 450,
+      "userId": 6,
+      "greetting": "星期一",
+      "type": 1,
+      "event": "日常关怀",
+      "targetTime": 1553505535000,
+      "status": 3,
+      "updated": 1553505534000,
+      "nickname": "林琴",
+      "avatar": "https://liyuquan.cn/staticorder/comment/20190313/1552442343077501-600-600.jpg",
+      "flag": 1,
+      "detail": [
+        {
+          "id": 471,
+          "giftRecordId": 450,
+          "userId": 27,
+          "amount": null,
+          "content": [
+            {
+              "bpId": 7719031511114,
+              "targetId": 92,
+              "targetType": 1,
+              "giftType": 1,
+              "price": 480.00,
+              "title": "【官方正品】纪梵希恒颜清透粉底液 持久遮瑕自然修饰  标准款",
+              "buyTime": 1552561596000,
+              "cover": "https://liyuquan.cn/static/item/190130/60c775fc-ecb6-4f4e-9219-eb2a4ad1812d.jpg",
+              "description": "品牌名称：Givenchy/纪梵希\n产品参数：\n产品名称：Givenchy/纪梵希 恒颜清透...\n品牌: Givenchy/纪梵希粉底液\n单品: 恒颜清透粉底液SPF15/PA++\n产地: 法国\n净含量: 30ml\n颜色分类: 1 2 3 4\n批准文号: 国妆特进字J20151937\n功效: 修饰肤色 遮瑕\n规格类型: 正常规格\n是否为特殊用途化妆品: 是\n产品类别: 防晒类、祛斑类（仅具物理遮盖作用）\n限期使用日期范围: 2019-06-01至2020-02-2",
+              "brand": "纪梵希"
+            }
+          ],
+          "isReply": 0,
+          "reply": "",
+          "status": 3,
+          "updated": 1553505534000,
+          "created": 1553505534000,
+          "friendNickname": "年锐",
+          "friendAvatar": "http://thirdwx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEIt5F3S7XLUTopicPgf2YoWkjM9aFL9RGfLq9qruZOic6lxZxJLrI21KmXSUkYsjznDEGvVDXVAfKSQ/132"
+        }
+      ]
+    },
+    {
+      "id": 449,
+      "userId": 6,
+      "greetting": "兔兔",
+      "type": 1,
+      "event": "日常关怀",
+      "targetTime": 1553505177000,
+      "status": 3,
+      "updated": 1553505177000,
+      "nickname": "林琴",
+      "avatar": "https://liyuquan.cn/staticorder/comment/20190313/1552442343077501-600-600.jpg",
+      "flag": 1,
+      "detail": [
+        {
+          "id": 470,
+          "giftRecordId": 449,
+          "userId": 27,
+          "amount": null,
+          "content": [
+            {
+              "bpId": 7719031511107,
+              "targetId": 136,
+              "targetType": 1,
+              "giftType": 1,
+              "price": 112.00,
+              "title": "饰世美韩版钛钢脚链配饰品简约女镀玫瑰金不褪色双层爱心时尚百搭  标准款",
+              "buyTime": 1551174957000,
+              "cover": "https://liyuquan.cn/static/item/190131/1db4c86e-83de-4ed8-8f69-c45a1a3c5da1.jpg",
+              "description": "产品参数：\n货号: 0831354\n品牌: 饰世美\n风格: 欧美\n适用性别: 女\n图案: 爱心/水滴/铃铛\n镶嵌材质: 未镶嵌\n是否现货: 现货\n价格区间: 101-200元\n成色: 全新\n上市时间: 2016年春季\n是否商场同款: 是\n材质: 钛钢\n新奇特: 新鲜出炉\n颜色分类: 彩金 白金",
+              "brand": "饰世美旗舰店"
+            }
+          ],
+          "isReply": 0,
+          "reply": "",
+          "status": 3,
+          "updated": 1553505177000,
+          "created": 1553505177000,
+          "friendNickname": "年锐",
+          "friendAvatar": "http://thirdwx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEIt5F3S7XLUTopicPgf2YoWkjM9aFL9RGfLq9qruZOic6lxZxJLrI21KmXSUkYsjznDEGvVDXVAfKSQ/132"
+        }
+      ]
+    },
+    {
+      "id": 448,
+      "userId": 6,
+      "greetting": "1哦哦哦",
+      "type": 1,
+      "event": "日常关怀",
+      "targetTime": 1553504557000,
+      "status": 3,
+      "updated": 1553504556000,
+      "nickname": "林琴",
+      "avatar": "https://liyuquan.cn/staticorder/comment/20190313/1552442343077501-600-600.jpg",
+      "flag": 1,
+      "detail": [
+        {
+          "id": 469,
+          "giftRecordId": 448,
+          "userId": 27,
+          "amount": null,
+          "content": [
+            {
+              "bpId": 7719031510102,
+              "targetId": 90,
+              "targetType": 1,
+              "giftType": 1,
+              "price": 320.00,
+              "title": "【奢耀盛典】娇兰亲亲系列唇膏 杨洋色#344口红 持久滋润 保湿  标准款",
+              "buyTime": 1552373386000,
+              "cover": "https://liyuquan.cn/static/item/190130/f2171d53-9a01-4082-8f8c-20c3ee63ec38.jpg",
+              "description": "品牌名称：Guerlain/娇兰\n产品参数：\n产品名称：Guerlain/娇兰 亲亲唇膏\n上市时间: 2014年月份: 8月\n是否为特殊用途化妆品: 否\n功效: 滋润 保湿\n适合肤质: 任何肤质\n保质期: 5年\n规格类型: 正常规格\n产地: 法国\n品牌: Guerlain/娇兰Guerlain/娇兰\n单品: 亲亲唇膏净含量: 3.5g\n限期使用日期范围: 2020-05-01至2021-04-01\n颜色分类: 黑管344号（红运限量版） 黑管3",
+              "brand": "娇兰"
+            }
+          ],
+          "isReply": 0,
+          "reply": "",
+          "status": 3,
+          "updated": 1553504556000,
+          "created": 1553504556000,
+          "friendNickname": "年锐",
+          "friendAvatar": "http://thirdwx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEIt5F3S7XLUTopicPgf2YoWkjM9aFL9RGfLq9qruZOic6lxZxJLrI21KmXSUkYsjznDEGvVDXVAfKSQ/132"
+        }
+      ]
+    },
+    {
+      "id": 447,
+      "userId": 6,
+      "greetting": "回老家",
+      "type": 1,
+      "event": "日常关怀",
+      "targetTime": 1553504018000,
+      "status": 3,
+      "updated": 1553504017000,
+      "nickname": "林琴",
+      "avatar": "https://liyuquan.cn/staticorder/comment/20190313/1552442343077501-600-600.jpg",
+      "flag": 1,
+      "detail": [
+        {
+          "id": 468,
+          "giftRecordId": 447,
+          "userId": 27,
+          "amount": null,
+          "content": [
+            {
+              "bpId": 7719031511105,
+              "targetId": 92,
+              "targetType": 1,
+              "giftType": 1,
+              "price": 480.00,
+              "title": "【官方正品】纪梵希恒颜清透粉底液 持久遮瑕自然修饰  标准款",
+              "buyTime": 1552561596000,
+              "cover": "https://liyuquan.cn/static/item/190130/60c775fc-ecb6-4f4e-9219-eb2a4ad1812d.jpg",
+              "description": "品牌名称：Givenchy/纪梵希\n产品参数：\n产品名称：Givenchy/纪梵希 恒颜清透...\n品牌: Givenchy/纪梵希粉底液\n单品: 恒颜清透粉底液SPF15/PA++\n产地: 法国\n净含量: 30ml\n颜色分类: 1 2 3 4\n批准文号: 国妆特进字J20151937\n功效: 修饰肤色 遮瑕\n规格类型: 正常规格\n是否为特殊用途化妆品: 是\n产品类别: 防晒类、祛斑类（仅具物理遮盖作用）\n限期使用日期范围: 2019-06-01至2020-02-2",
+              "brand": "纪梵希"
+            }
+          ],
+          "isReply": 0,
+          "reply": "",
+          "status": 3,
+          "updated": 1553504017000,
+          "created": 1553504017000,
+          "friendNickname": "年锐",
+          "friendAvatar": "http://thirdwx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEIt5F3S7XLUTopicPgf2YoWkjM9aFL9RGfLq9qruZOic6lxZxJLrI21KmXSUkYsjznDEGvVDXVAfKSQ/132"
+        }
+      ]
+    },
+    {
+      "id": 446,
+      "userId": 6,
+      "greetting": "接口",
+      "type": 1,
+      "event": "日常关怀",
+      "targetTime": 1553503976000,
+      "status": 3,
+      "updated": 1553503976000,
+      "nickname": "林琴",
+      "avatar": "https://liyuquan.cn/staticorder/comment/20190313/1552442343077501-600-600.jpg",
+      "flag": 1,
+      "detail": [
+        {
+          "id": 467,
+          "giftRecordId": 446,
+          "userId": 27,
+          "amount": null,
+          "content": [
+            {
+              "bpId": 7719031310120,
+              "targetId": 145,
+              "targetType": 1,
+              "giftType": 1,
+              "price": 222.50,
+              "title": "JG925银圆环项链镶嵌施华洛世奇女锁骨链吊坠简约大方百搭气质  标准款",
+              "buyTime": 1552442750000,
+              "cover": "https://liyuquan.cn/static/item/190131/dcb74ecd-d9fe-4a0b-83a9-53e4a666c5a4.jpg",
+              "description": "品牌: Johnsongem\n链子材质: 银饰金属\n材质: 925银\n图案: 饼干/蛋糕/小零食\n风格: 日韩\n成色: 全新\n价格区间: 201-300元\n适用性别: 女\n新奇特: 新鲜出炉\n颜色分类: 经典版 经典版+永生花 璀璨版 璀璨版+永生花链子样式: 水波链\n是否多层: 否\n是否带坠: 是\n是否现货: 现货\n延长链: 11cm以上\n坠子材质: 925银\n上市时间: 2018年春季\n货号: SNA3565\n镶嵌材质: 纯银镶嵌宝石\n周长: 21cm(含)-50cm(含)\n是否商场同款: 是\n销售渠道类型: 纯电商(只在线上销售)",
+              "brand": "johnsongem饰品旗舰店"
+            }
+          ],
+          "isReply": 0,
+          "reply": "",
+          "status": 3,
+          "updated": 1553503976000,
+          "created": 1553503976000,
+          "friendNickname": "年锐",
+          "friendAvatar": "http://thirdwx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEIt5F3S7XLUTopicPgf2YoWkjM9aFL9RGfLq9qruZOic6lxZxJLrI21KmXSUkYsjznDEGvVDXVAfKSQ/132"
+        }
+      ]
+    },
+    {
+      "id": 445,
+      "userId": 6,
+      "greetting": "看见了",
+      "type": 1,
+      "event": "日常关怀",
+      "targetTime": 1553503591000,
+      "status": 3,
+      "updated": 1553503591000,
+      "nickname": "林琴",
+      "avatar": "https://liyuquan.cn/staticorder/comment/20190313/1552442343077501-600-600.jpg",
+      "flag": 1,
+      "detail": [
+        {
+          "id": 466,
+          "giftRecordId": 445,
+          "userId": 27,
+          "amount": null,
+          "content": [
+            {
+              "bpId": 7719031310113,
+              "targetId": 76,
+              "targetType": 1,
+              "giftType": 1,
+              "price": 445.00,
+              "title": "【官方正品】纪梵希绒雾哑光粉底液持久着妆保湿遮瑕控油  标准款",
+              "buyTime": 1552442731000,
+              "cover": "https://liyuquan.cn/static/item/190130/f330343a-101b-4b08-b0ed-dcfa01c27868.jpg",
+              "description": "产品参数：\n产品名称：Givenchy/纪梵希 绒雾哑光...\n品牌: Givenchy/纪梵希粉底液\n单品: 绒雾哑光粉底液SPF20/PA+++\n产地: 法国\n净含量: 30ml\n颜色分类: 01 02 03 04\n批准文号: 国妆特进字J20171279\n功效: 修饰肤色 遮瑕 控油\n规格类型: 正常规格\n是否为特殊用途化妆品: 是\n产品类别: 防晒类\n限期使用日期范围: 2019-06-06至2019-07-",
+              "brand": "纪梵希"
+            }
+          ],
+          "isReply": 0,
+          "reply": "",
+          "status": 3,
+          "updated": 1553503591000,
+          "created": 1553503591000,
+          "friendNickname": "年锐",
+          "friendAvatar": "http://thirdwx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEIt5F3S7XLUTopicPgf2YoWkjM9aFL9RGfLq9qruZOic6lxZxJLrI21KmXSUkYsjznDEGvVDXVAfKSQ/132"
+        }
+      ]
+    },
+    {
+      "id": 421,
+      "userId": 6,
+      "greetting": "",
+      "type": 3,
+      "event": "日常关怀",
+      "targetTime": null,
       "status": 1,
-      "sort": 0,
-      "icon": "",
-      "created": 1554703090000,
-      "updated": 1554703090000,
-      "children": []
+      "updated": 1553219424000,
+      "nickname": "林琴",
+      "avatar": "https://liyuquan.cn/staticorder/comment/20190313/1552442343077501-600-600.jpg",
+      "flag": 1,
+      "detail": [
+        {
+          "id": 443,
+          "giftRecordId": 421,
+          "userId": null,
+          "amount": null,
+          "content": [
+            {
+              "bpId": 7719031814102,
+              "targetId": 91,
+              "targetType": 1,
+              "giftType": 1,
+              "price": 680.00,
+              "title": "【奢耀盛典】娇兰帝皇蜂姿修护复原蜜30ml/50ml 面部精华液 补水  标准款",
+              "buyTime": 1552891536000,
+              "cover": "https://liyuquan.cn/static/item/190130/6a490fe6-5fcd-4b29-aa3b-926eceb6aee5.jpg",
+              "description": "品牌名称：Guerlain/娇兰\n产品参数：\n产品名称：Guerlain/娇兰 帝皇蜂姿修...\n是否为特殊用途化妆品: 否\n功效: 滋润 修护\n规格类型: 正常规格\n品牌: Guerlain/娇兰娇兰\n单品: 帝皇蜂姿修护复原蜜化妆品\n净含量: 30ml 50ml\n限期使用日期范围: 2019-10-01至2020-03-01",
+              "brand": "娇兰"
+            }
+          ],
+          "isReply": 0,
+          "reply": "",
+          "status": 1,
+          "updated": 1553219424000,
+          "created": 1553219424000,
+          "friendNickname": "",
+          "friendAvatar": ""
+        }
+      ]
     }
   ]
 }
