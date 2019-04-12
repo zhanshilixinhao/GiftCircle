@@ -47,4 +47,6 @@ public interface AppMessageUserMapper {
 
     int updateReadByIdsAndUserId(@Param("userId") Integer userId,
                                  @Param("list") HashSet<Integer> list);
+
+    int updateByUserIdAndMessageId(@Param("userId") Integer userId, @Param("appMessageId") Integer appMessageId);
 }

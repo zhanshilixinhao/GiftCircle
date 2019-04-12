@@ -60,6 +60,7 @@ public class GiftSendServiceImpl implements GiftSendService {
         // 查询赠送记录和收礼记录
         List<GiftSendListVo> giftSendListVos = giftRecordMapper.selectListByFlagUserId(userId, flag,
                 (pageQuery.getPageNum() - 1) * pageQuery.getPageSize(), pageQuery.getPageSize());
+        // 添加微信头像
         if (CollectionUtils.isNotEmpty(giftSendListVos)){
             for (GiftSendListVo giftVo : giftSendListVos) {
                 if (giftVo.getFlag() == 1 ){

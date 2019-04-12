@@ -341,5 +341,9 @@ WHERE
             #{item}
         </foreach>
     </update>
+    <update id="updateByUserIdAndMessageId">
+        update app_message_user set is_read = 1
+        where user_id = #{userId} and app_message_id = #{appMessageId}
+    </update>
 
 </mapper>

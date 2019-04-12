@@ -4,9 +4,11 @@ import com.alibaba.fastjson.JSON;
 import com.chouchongkeji.dial.dao.backpack.gift.AppMessageMapper;
 import com.chouchongkeji.dial.dao.backpack.gift.AppMessageUserMapper;
 import com.chouchongkeji.dial.dao.backpack.gift.GiftRecordDetailMapper;
+import com.chouchongkeji.dial.dao.backpack.gift.GiftRecordMapper;
 import com.chouchongkeji.dial.pojo.backpack.gift.GiftRecordDetail;
 import com.chouchongkeji.dial.pojo.gift.virtualItem.AppMessage;
 import com.chouchongkeji.dial.pojo.gift.virtualItem.AppMessageUser;
+import com.chouchongkeji.dial.pojo.gift.virtualItem.GiftRecord;
 import com.chouchongkeji.exception.ServiceException;
 import com.chouchongkeji.goexplore.common.ErrorCode;
 import com.chouchongkeji.goexplore.common.Response;
@@ -44,6 +46,9 @@ public class MessageServiceImpl implements MessageService {
     @Autowired
     private GiftRecordDetailMapper giftRecordDetailMapper;
 
+    @Autowired
+    private GiftRecordMapper giftRecordMapper;
+
     /**
      * 添加一条消息
      *
@@ -77,18 +82,25 @@ public class MessageServiceImpl implements MessageService {
             throw new ServiceException(ErrorCode.ERROR);
         }
         // 查看消息是否被隐藏
-        if (id != null){
+        if (id != null) {
             AppMessage me = appMessageMapper.selectByPrimaryKey(id);
-            if (me.getMessageType() == 1){
+            if (me.getMessageType() == 1) {
                 GiftRecordDetail giftRecordDetail = giftRecordDetailMapper.selectByPrimaryKey(me.getTargetId().intValue());
-                if (giftRecordDetail !=null && giftRecordDetail.getIsHide() == 2){
-                   return count;
+                if (giftRecordDetail != null) {
+                    GiftRecord giftRecord = giftRecordMapper.selectByPrimaryKey(giftRecordDetail.getGiftRecordId());
+                    if ((giftRecord != null && giftRecord.getIsHide() == 2) || giftRecordDetail.getIsHide() == 2) {
+                        //只要一方开启都不收个推，并且标记为已读
+                        for (Integer userId : userIds) {
+                            appMessageUserMapper.updateByUserIdAndMessageId(userId,id);
+                        }
+                        return count;
+                    }
                 }
             }
 
         }
         // 消息推送
-         AppPush.push(PushMsg.msg()
+        AppPush.push(PushMsg.msg()
                 .title(message.getTitle())
                 .text(message.getSummary())
                 .users(userIds)

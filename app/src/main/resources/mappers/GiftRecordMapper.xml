@@ -233,6 +233,7 @@
                 left join gift_record_detail b on a.id = b.gift_record_id
                 left join app_user c on c.id = a.user_id
                 left join app_user d on d.id = b.user_id
+                where b.is_hide = 1
             </when>
             <otherwise>
                 select
