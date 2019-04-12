@@ -77,6 +77,9 @@ public class UserServiceImpl implements UserService {
     public Response getInfo(Integer userId, Integer targetUserId) {
         // 取出用户信息
         AppUser user = appUserMapper.selectByUserId(targetUserId);
+        if (user == null){
+            return ResponseFactory.err("该用户不存在");
+        }
         UserInfoVo vo = new UserInfoVo();
         vo.setUserId(user.getId());
         vo.setPhone(Utils.getPhone(user.getPhone()));
