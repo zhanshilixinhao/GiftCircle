@@ -118,4 +118,18 @@ public class FireTest {
     }
 
 
+    @Test
+    public void gift() throws IOException {
+        RequestParams params = new RequestParams();
+        params.put("time", System.currentTimeMillis());
+        params.put("access_token", "7a867108-2521-4d95-b482-8603ddcd4c5f");
+        params.put("giftRecordId",528);
+        Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
+        params.put("sign", map.get(ApiSignUtil.ANDROID));
+
+        Response post = OkHttpUtil.post("http://localhost:8088/auth/v1/gift/getGift", params);
+        System.out.println(post.body().string());
+    }
+
+
 }

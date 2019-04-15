@@ -334,9 +334,12 @@ public class GiftServiceImpl implements GiftService {
      * @return
      */
     private Response updateWXSent(Integer userId, GiftRecord giftRecord, List<GiftRecordDetail> details, Integer reNum) {
+        // 判断是不是本人领取
+        if (userId.equals(giftRecord.getUserId())){
+            return ResponseFactory.err("本人不能领取礼物");
+        }
         // 判断是不是好友关系
         friendService.addWXFriend(giftRecord.getUserId(), userId);
-
         //如果礼物剩余数量为0则更新状态
         if (reNum == 0) {
             giftRecord.setStatus(Constants.GIFT_STATUS.SEND);
