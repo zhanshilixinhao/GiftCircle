@@ -1623,3 +1623,27 @@ create table if not exists fireworks_record
   updated datetime null
 )
   comment '用户礼花记录' charset=utf8mb4;
+
+
+
+/*==============================================================*/
+/* Table:    app_version                                     */
+/*==============================================================*/
+DROP TABLE
+IF
+EXISTS app_version;
+CREATE TABLE app_version (
+  id INT ( 10 ) NOT NULL auto_increment,
+  `app_id`int(11) NOT NULL DEFAULT '0' COMMENT '客户端id',
+  `version_code` int(10) DEFAULT NULL COMMENT '版本号',
+  `version_name` varchar(50) COMMENT '版本名称',
+  `title` varchar(200) COMMENT '标题',
+  `type` tinyint(4)  COMMENT '1升级，2强制升级',
+  `apk_url` varchar(255) COMMENT '下载地址',
+  `upgrade_point` varchar(255) DEFAULT NULL COMMENT '升级提示',
+  `status` tinyint(4) DEFAULT NULL,
+  updated datetime COMMENT '修改时间',
+  created datetime COMMENT '创建时间',
+  PRIMARY KEY ( id )
+) ENGINE = INNODB CHARACTER
+SET = utf8mb4 COMMENT = '版本升级';
