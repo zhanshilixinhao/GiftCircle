@@ -123,15 +123,15 @@ public class ApiTest {
     public void getSkuStock() throws IOException {
         RequestParams params = new RequestParams();
         params.put("time",System.currentTimeMillis());
-        params.put("access_token","f3e7f648-845e-4614-a49e-bbd8f43add65");
-        params.put("skuId",456);
+//        params.put("access_token","f3e7f648-845e-4614-a49e-bbd8f43add65");
+        params.put("categoryId",30);
 //        params.put("depositBank","红山");
 //        params.put("cardHolder","");
 //        params.put("cardNo","8275803664988786366");
 //        params.put("id",17);
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
         params.put("sign",map.get(ApiSignUtil.ANDROID));
-        Response post = OkHttpUtil.post("http://localhost:8088/noauth/item/sku_stock", params);
+        Response post = OkHttpUtil.post("http://localhost:8088/noauth/item/item_list", params);
         System.out.println(post.body().string());
     }
 
