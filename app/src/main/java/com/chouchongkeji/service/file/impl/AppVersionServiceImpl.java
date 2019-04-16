@@ -24,14 +24,13 @@ public class AppVersionServiceImpl implements AppVersionService {
     /**
      * 版本更新
      *
-     * @param versionCode
      * @return
      * @author linqin
      * @date 2019/4/15
      */
     @Override
-    public Response appVersion(Integer versionCode) {
-        AppVersion appVersion = appVersionMapper.selectByVersionCode(versionCode);
+    public Response appVersion() {
+        AppVersion appVersion = appVersionMapper.selectByVersionCode();
         return ResponseFactory.sucData(appVersion);
     }
 

@@ -5,7 +5,7 @@ import java.util.Date;
 public class AppVersion {
     private Integer id;
 
-    private Integer versionCode;
+    private String versionCode;
 
     private String versionName;
 
@@ -23,7 +23,7 @@ public class AppVersion {
 
     private Date created;
 
-    public AppVersion(Integer id, Integer versionCode, String versionName, String title, Byte type, String apkUrl, String upgradePoint, Byte status, Date updated, Date created) {
+    public AppVersion(Integer id, String versionCode, String versionName, String title, Byte type, String apkUrl, String upgradePoint, Byte status, Date updated, Date created) {
         this.id = id;
         this.versionCode = versionCode;
         this.versionName = versionName;
@@ -48,11 +48,11 @@ public class AppVersion {
         this.id = id;
     }
 
-    public Integer getVersionCode() {
+    public String getVersionCode() {
         return versionCode;
     }
 
-    public void setVersionCode(Integer versionCode) {
+    public void setVersionCode(String versionCode) {
         this.versionCode = versionCode;
     }
 

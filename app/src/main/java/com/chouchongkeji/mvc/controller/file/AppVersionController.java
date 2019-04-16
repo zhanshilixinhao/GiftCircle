@@ -21,17 +21,13 @@ public class AppVersionController {
     /**
      * 版本更新
      *
-     * @param versionCode
      * @return
      * @author linqin
      * @date 2019/4/15
      */
     @PostMapping("app")
-    public Response appVersion(Integer versionCode) {
-        if (versionCode == null) {
-            versionCode = 1;
-        }
-        return appVersionService.appVersion(versionCode);
+    public Response appVersion() {
+        return appVersionService.appVersion();
     }
 
 }

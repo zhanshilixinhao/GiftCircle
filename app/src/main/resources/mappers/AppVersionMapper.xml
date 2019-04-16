@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.chouchongkeji.dial.pojo.user.AppVersion">
     <constructor>
       <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="version_code" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="version_code" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="version_name" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="title" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="type" javaType="java.lang.Byte" jdbcType="TINYINT" />
@@ -29,7 +29,7 @@
       select
       <include refid="Base_Column_List" />
       from app_version
-      where version_code = #{versionCode}
+
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from app_version
@@ -40,7 +40,7 @@
       title, type, apk_url,
       upgrade_point, status, updated,
       created)
-    values (#{id,jdbcType=INTEGER}, #{versionCode,jdbcType=INTEGER}, #{versionName,jdbcType=VARCHAR},
+    values (#{id,jdbcType=INTEGER}, #{versionCode,jdbcType=VARCHAR}, #{versionName,jdbcType=VARCHAR},
       #{title,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, #{apkUrl,jdbcType=VARCHAR},
       #{upgradePoint,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{updated,jdbcType=TIMESTAMP},
       #{created,jdbcType=TIMESTAMP})
@@ -116,7 +116,7 @@
     update app_version
     <set>
       <if test="versionCode != null">
-        version_code = #{versionCode,jdbcType=INTEGER},
+        version_code = #{versionCode,jdbcType=VARCHAR},
       </if>
       <if test="versionName != null">
         version_name = #{versionName,jdbcType=VARCHAR},
@@ -147,7 +147,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.dial.pojo.user.AppVersion">
     update app_version
-    set version_code = #{versionCode,jdbcType=INTEGER},
+    set version_code = #{versionCode,jdbcType=VARCHAR},
       version_name = #{versionName,jdbcType=VARCHAR},
       title = #{title,jdbcType=VARCHAR},
       type = #{type,jdbcType=TINYINT},

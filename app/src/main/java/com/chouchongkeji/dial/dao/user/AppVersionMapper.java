@@ -15,5 +15,5 @@ public interface AppVersionMapper {
 
     int updateByPrimaryKey(AppVersion record);
 
-    AppVersion selectByVersionCode(Integer versionCode);
+    AppVersion selectByVersionCode();
 }
