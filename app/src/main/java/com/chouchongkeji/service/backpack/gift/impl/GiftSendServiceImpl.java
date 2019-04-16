@@ -191,7 +191,7 @@ public class GiftSendServiceImpl implements GiftSendService {
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "删除记录详情失败");
             }
         }
-        return ResponseFactory.err("删除记录详情成功");
+        return ResponseFactory.sucMsg("删除记录详情成功");
     }
 
 }
