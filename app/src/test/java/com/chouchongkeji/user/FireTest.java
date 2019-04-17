@@ -117,6 +117,21 @@ public class FireTest {
         System.out.println(post.body().string());
     }
 
+    @Test
+    public void gif() throws IOException {
+        RequestParams params = new RequestParams();
+        params.put("time", System.currentTimeMillis());
+        params.put("access_token", "8126e0e9-a803-4c51-9e93-d09d90cec4bb");
+        params.put("bpId",7719041717103L);
+        params.put("greeting","jhkjsdfsf");
+        params.put("type",3);
+        Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
+        params.put("sign", map.get(ApiSignUtil.ANDROID));
+
+        Response post = OkHttpUtil.post("http://localhost:8088/auth/v1/gift/sendForWx", params);
+        System.out.println(post.body().string());
+    }
+
 
     @Test
     public void gift() throws IOException {

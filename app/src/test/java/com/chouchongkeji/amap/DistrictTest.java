@@ -6,6 +6,7 @@ import com.chouchongkeji.dial.dao.user.DistrictMapper;
 import com.chouchongkeji.dial.pojo.user.District;
 import com.chouchongkeji.service.amap.AMapApiImpl;
 import com.chouchongkeji.service.amap.DistrictResponse;
+import com.chouchongkeji.service.backpack.gift.GiftService;
 import org.apache.commons.collections.CollectionUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,6 +25,9 @@ import java.io.IOException;
 @SpringBootTest(classes = App.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @EnableAutoConfiguration
 public class DistrictTest {
+
+    @Autowired
+    private GiftService giftService;
 
     @Autowired
     private DistrictMapper districtMapper;
@@ -48,5 +52,10 @@ public class DistrictTest {
             }
         }
     }
+
+//    @Test
+//    public void  gift(){
+//        giftService.sendForWx(8,7719041717103L,1);
+//    }
 
 }
