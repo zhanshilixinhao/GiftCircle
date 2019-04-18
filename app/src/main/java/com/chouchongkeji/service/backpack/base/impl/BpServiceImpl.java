@@ -68,6 +68,8 @@ public class BpServiceImpl implements BpService {
             for (Vbp vbp : list) {
                 if (vbp.getBuyTime() != null) {
                     vbp.setPickRemainTime(DateUtils.addDays(vbp.getBuyTime(), Constants.BP_EXPIRE_TIME).getTime() - System.currentTimeMillis());
+                }else {
+                    vbp.setPickRemainTime(738477564149L);
                 }
             }
         }
