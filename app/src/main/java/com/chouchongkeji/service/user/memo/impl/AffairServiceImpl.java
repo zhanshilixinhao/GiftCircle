@@ -26,6 +26,7 @@ import com.chouchongkeji.service.user.memo.vo.FriendHumVo;
 import com.chouchongkeji.service.user.memo.vo.MemoFestivalVo;
 import com.chouchongkeji.service.user.memo.vo.MemoItemVo;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -239,6 +240,9 @@ public class AffairServiceImpl implements AffairService {
                 }
             }
             affair.setCount(idSet.size());
+        }
+        if (StringUtils.isBlank(affair.getUsers())){
+            memoAffairMapper.updateById(affair.getId());
         }
         // 循环
         if (affair.getIsCirculation() != null && (affair.getIsCirculation() < 0 || affair.getIsCirculation() > 3)) {

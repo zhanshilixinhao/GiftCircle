@@ -71,4 +71,6 @@ public interface MemoAffairMapper {
      * @return
      */
     List<MemoItemVo> selectAllByUserIdKeyword(@Param("userId") Integer userId,@Param("keyword") String keyword);
+
+    void updateById(Integer id);
 }

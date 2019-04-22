@@ -538,4 +538,10 @@ FROM
       count = #{count,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+    <update id="updateById">
+        update memo_affair
+    set
+      users = null
+    where id = #{id,jdbcType=INTEGER}
+    </update>
 </mapper>

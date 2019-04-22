@@ -86,13 +86,12 @@ public class AffairTest {
     public void modify_affair() throws IOException {
         RequestParams params = new RequestParams();
         params.put("time", System.currentTimeMillis());
-        params.put("access_token", "faaeaefc-5bf9-471d-bd5d-85344c8f7fcd");
+        params.put("access_token", "7a867108-2521-4d95-b482-8603ddcd4c5f");
         params.put("targetTime", 1552320000000L);
-        params.put("eventTypeId", "2");
-        params.put("users", "1,31");
-        params.put("detail", "晚会删");
-        params.put("id", "19");
-        params.put("isCirculation", "0");
+        //        params.put("eventTypeId", "2");
+        params.put("users", "31");
+        params.put("detail", "啊哈哈哈哈坎坎坷坷扩扩扩哈哈哈哈哈");
+        params.put("id", 112);
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
         params.put("sign", map.get(ApiSignUtil.ANDROID));
 
