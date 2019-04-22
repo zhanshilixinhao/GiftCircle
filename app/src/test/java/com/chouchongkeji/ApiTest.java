@@ -124,7 +124,7 @@ public class ApiTest {
         RequestParams params = new RequestParams();
         params.put("time",System.currentTimeMillis());
 //        params.put("access_token","f3e7f648-845e-4614-a49e-bbd8f43add65");
-        params.put("categoryId",30);
+        params.put("categoryId",67);
 //        params.put("depositBank","红山");
 //        params.put("cardHolder","");
 //        params.put("cardNo","8275803664988786366");

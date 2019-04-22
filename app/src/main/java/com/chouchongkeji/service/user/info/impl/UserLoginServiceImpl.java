@@ -32,7 +32,6 @@ import java.util.UUID;
  * @date 2018/6/5
  */
 @Service
-@Transactional(rollbackFor = Exception.class, isolation = Isolation.REPEATABLE_READ)
 public class UserLoginServiceImpl implements UserLoginService {
 
     @Autowired
@@ -100,10 +99,22 @@ public class UserLoginServiceImpl implements UserLoginService {
      */
     @Override
     public Response bindPhone(String phone, String openid, Integer client,Integer userId) {
+        bindPhone1(phone,openid,client,userId);
+        // 绑定成功后登录
+        Response response = WXCodeApi.login(openid,
+                securityProperties.getOauth2().getClient()[0].getClientId(),
+                securityProperties.getOauth2().getClient()[0].getClientSecret(), client == 3 ? 2 : 1);
+
+        return response;
+    }
+
+
+    @Transactional(rollbackFor = Exception.class, isolation = Isolation.REPEATABLE_READ)
+    public void bindPhone1(String phone, String openid, Integer client,Integer userId){
         // 绑定手机号
         Response response = thirdAccService.addOpenAccDetail(openid, client == 3 ? 2 : 1, phone);
         if (!response.isSuccessful()) {
-            return response;
+            throw new ServiceException(ErrorCode.ERROR.getCode(),response.getMsg());
         }
         if(userId != null){
             Integer id = (Integer) response.getData();//好友用户id
@@ -124,11 +135,5 @@ public class UserLoginServiceImpl implements UserLoginService {
             // 添加好友
             friendService.addWXFriend(id,userId);
         }
-        // 绑定成功后登录
-        response = WXCodeApi.login(openid,
-                securityProperties.getOauth2().getClient()[0].getClientId(),
-                securityProperties.getOauth2().getClient()[0].getClientSecret(), client == 3 ? 2 : 1);
-
-        return response;
     }
 }
