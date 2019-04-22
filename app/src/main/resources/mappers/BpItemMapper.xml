@@ -180,5 +180,12 @@ where `type` = #{type}
 and target_id = #{targetId}
 and user_id = #{userId}
     </select>
+    <select id="selectByUserIdAndCreated" resultType="java.lang.Integer">
+        select count(0)
+from bp_item
+where user_id = #{userId}
+ and UNIX_TIMESTAMP(created) > #{time}
+
+    </select>
 
 </mapper>

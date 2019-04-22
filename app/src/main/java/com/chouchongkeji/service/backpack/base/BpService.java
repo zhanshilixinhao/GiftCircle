@@ -123,4 +123,14 @@ public interface BpService {
      * @date 2018/7/2
      */
     int add(BpItem item);
+
+    /**
+     * 我的背包红点(未查看的新品)
+     *
+     * @param userId
+     * @return
+     * @author yichenshanren
+     * @date 2018/7/2
+     */
+    Response getUnreadBpItem(Integer userId);
 }

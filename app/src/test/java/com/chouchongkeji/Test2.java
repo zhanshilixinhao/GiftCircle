@@ -189,8 +189,8 @@ public class Test2 {
         RequestParams params = new RequestParams();
         params.put("time",System.currentTimeMillis());
         params.put("access_token", "7a867108-2521-4d95-b482-8603ddcd4c5f");
-        params.put("key","18313747954");
-        params.put("type",1);
+        params.put("key","年");
+//        params.put("type",1);
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
         params.put("sign",map.get(ApiSignUtil.ANDROID));
         Response post = OkHttpUtil.post("http://localhost:8088/auth/friend/search", params);

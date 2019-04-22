@@ -105,12 +105,26 @@ public class ItemTest {
         RequestParams params = new RequestParams();
         params.put("time",System.currentTimeMillis());
         params.put("access_token", "7a867108-2521-4d95-b482-8603ddcd4c5f");
-        params.put("type",3);
+        params.put("type",1);
 //        params.put("pageNum",2);
 //        params.put("pageSize",14);
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
         params.put("sign", map.get(ApiSignUtil.ANDROID));
         Response post = OkHttpUtil.post("http://localhost:8088/auth/v1/bp/list", params);
+        System.out.println(post.body().string());
+    }
+
+    @Test
+    public void j() throws IOException {
+        RequestParams params = new RequestParams();
+        params.put("time",System.currentTimeMillis());
+        params.put("access_token", "7a867108-2521-4d95-b482-8603ddcd4c5f");
+//        params.put("type",1);
+//        params.put("pageNum",2);
+//        params.put("pageSize",14);
+        Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
+        params.put("sign", map.get(ApiSignUtil.ANDROID));
+        Response post = OkHttpUtil.post("http://localhost:8088/auth/v1/bp/unread", params);
         System.out.println(post.body().string());
     }
     @Test

@@ -6,6 +6,7 @@ import com.chouchongkeji.goexplore.query.PageQuery;
 import com.chouchongkeji.service.backpack.base.BpService;
 import com.yichen.auth.service.UserDetails;
 import org.apache.commons.lang3.StringUtils;
+import org.omg.PortableInterceptor.INACTIVE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,6 +43,20 @@ public class BpController {
     }
 
     /**
+     * 我的背包红点(未查看的新品)
+     *
+     * @param userDetails
+     * @return
+     * @author yichenshanren
+     * @date 2018/7/2
+     */
+    @PostMapping("unread")
+    public Response getUnreadBpItem(@AuthenticationPrincipal UserDetails userDetails) {
+            return bpService.getUnreadBpItem(userDetails.getUserId());
+    }
+
+
+    /**
      * 背包搜索
      *
      * @param userDetails 用户信息
@@ -57,8 +72,6 @@ public class BpController {
         }
         return bpService.search(userDetails.getUserId(), key, page);
     }
-
-
 
 
 }

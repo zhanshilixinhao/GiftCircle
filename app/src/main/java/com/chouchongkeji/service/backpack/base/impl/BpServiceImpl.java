@@ -10,6 +10,7 @@ import com.chouchongkeji.dial.pojo.backpack.consignment.Consignment;
 import com.chouchongkeji.dial.pojo.backpack.consignment.ConsignmentOrder;
 import com.chouchongkeji.dial.pojo.gift.item.ItemOrderDetail;
 import com.chouchongkeji.dial.pojo.gift.virtualItem.VirItemOrder;
+import com.chouchongkeji.dial.redis.MRedisTemplate;
 import com.chouchongkeji.exception.ServiceException;
 import com.chouchongkeji.goexplore.common.ErrorCode;
 import com.chouchongkeji.goexplore.common.Response;
@@ -18,18 +19,18 @@ import com.chouchongkeji.goexplore.query.PageQuery;
 import com.chouchongkeji.service.backpack.base.BpService;
 import com.chouchongkeji.service.backpack.gift.vo.GiftExItemVo;
 import com.chouchongkeji.service.backpack.gift.vo.GiftItemVo;
+import com.chouchongkeji.service.user.friend.vo.CountVo;
 import com.chouchongkeji.util.Constants;
 import com.chouchongkeji.util.OrderHelper;
 import com.github.pagehelper.PageHelper;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author yichenshanren
@@ -48,6 +49,9 @@ public class BpServiceImpl implements BpService {
 
     @Autowired
     private OrderHelper orderHelper;
+
+    @Autowired
+    private MRedisTemplate mRedisTemplate;
 
     /**
      * 背包列表
@@ -73,8 +77,35 @@ public class BpServiceImpl implements BpService {
                 }
             }
         }
+        // 存查看背包列表的时间
+        mRedisTemplate.setString("lasttimebplist"+userId,String.valueOf(System.currentTimeMillis()));
         return ResponseFactory.sucData(list);
     }
+
+
+    /**
+     * 我的背包红点(未查看的新品)
+     *
+     * @param userId
+     * @return
+     * @author yichenshanren
+     * @date 2018/7/2
+     */
+    @Override
+    public Response getUnreadBpItem(Integer userId) {
+        String string = mRedisTemplate.getString("lasttimebplist" + userId);
+        Long time = null;
+        Map map = new HashMap();
+        if (StringUtils.isNotBlank(string)) {
+            time = Long.parseLong(string);
+            int count = bpItemMapper.selectByUserIdAndCreated(userId,time/1000);
+            map.put("count",count);
+            return ResponseFactory.sucData(map);
+        }
+        return ResponseFactory.suc();
+    }
+
+
 
     /**
      * 添加到背包

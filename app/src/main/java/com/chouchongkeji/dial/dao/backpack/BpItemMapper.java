@@ -38,4 +38,6 @@ public interface BpItemMapper {
      * @return
      */
     BpItem selectByTypeTarget(@Param("targetId") Integer targetId,@Param("type") Byte type,@Param("userId") Integer userId);
+
+    int selectByUserIdAndCreated(@Param("userId") Integer userId,@Param("time") long time);
 }
