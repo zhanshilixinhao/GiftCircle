@@ -541,7 +541,8 @@ FROM
     <update id="updateById">
         update memo_affair
     set
-      users = null
+      users = null,
+      count = null
     where id = #{id,jdbcType=INTEGER}
     </update>
 </mapper>
