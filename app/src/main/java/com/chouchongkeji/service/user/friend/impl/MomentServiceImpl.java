@@ -1,5 +1,6 @@
 package com.chouchongkeji.service.user.friend.impl;
 
+import com.chouchongkeji.dial.dao.backpack.BpItemMapper;
 import com.chouchongkeji.dial.dao.user.memo.MomentCommentMapper;
 import com.chouchongkeji.dial.dao.user.memo.MomentMapper;
 import com.chouchongkeji.dial.dao.user.memo.MomentPraiseMapper;
@@ -47,6 +48,9 @@ public class MomentServiceImpl implements MomentService {
 
     @Autowired
     private GiftService giftService;
+
+    @Autowired
+    private BpItemMapper bpItemMapper;
 
     /**
      * 添加一条秀秀
@@ -202,16 +206,26 @@ public class MomentServiceImpl implements MomentService {
      */
     @Override
     public Response getCommentPraise(Integer userId) {
+        CountVo vo = new CountVo();
         // 取出最后看秀秀的时间
         String string = mRedisTemplate.getString("mlasttime-" + userId);
         Long time = null;
         if (StringUtils.isNotBlank(string)) {
             time = Long.parseLong(string);
            CountVo countVo = momentMapper.selectByUserIdAndCreated(userId,time/1000);
-           return ResponseFactory.sucData(countVo);
+           vo.setCommentCount(countVo.getCommentCount());
+           vo.setPariseCount(countVo.getPariseCount());
         }
-        return ResponseFactory.suc();
+        // 取出最后看背包的时间
+        String itemTime = mRedisTemplate.getString("lasttimebplist" + userId);
+        if (StringUtils.isNoneBlank(itemTime)){
+            time = Long.parseLong(itemTime);
+            int count = bpItemMapper.selectByUserIdAndCreated(userId,time/1000);
+            vo.setBpItemCount(count);
+        }
+        return ResponseFactory.sucData(vo);
     }
+
 
     /**
      * 添加最近30十天收到的礼物

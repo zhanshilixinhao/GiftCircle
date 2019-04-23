@@ -11,6 +11,8 @@ public class CountVo {
 
     private Integer pariseCount;  //未查看的点赞数量
 
+    private Integer bpItemCount; //未查看背包物品数量
+
     public Integer getCommentCount() {
         return commentCount;
     }
@@ -25,5 +27,13 @@ public class CountVo {
 
     public void setPariseCount(Integer pariseCount) {
         this.pariseCount = pariseCount;
+    }
+
+    public Integer getBpItemCount() {
+        return bpItemCount;
+    }
+
+    public void setBpItemCount(Integer bpItemCount) {
+        this.bpItemCount = bpItemCount;
     }
 }
