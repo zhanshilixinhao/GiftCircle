@@ -55,7 +55,7 @@ public class DiscountingController {
     public Response preinfo(@AuthenticationPrincipal UserDetails userDetails) {
         Map<String, Object> map = new HashMap<>();
         map.put("ratio", 0.20);
-        map.put("desc", "商品折现，客户获得80%，平台获得15%，商家获得5%");
+        map.put("desc", "平台收取商品原价的20%作为仓储及物流服务费");
         return ResponseFactory.sucData(map);
     }
 

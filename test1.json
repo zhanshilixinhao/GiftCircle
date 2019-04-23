@@ -1,22 +1,8 @@
 {
   "errCode": 0,
   "result": 0,
-  "time": 1555551017816,
-  "data": [
-    {
-      "id": 4819031315121,
-      "userId": 6,
-      "targetId": 2,
-      "price": 0.00,
-      "title": "600",
-      "cover": "https://liyuquan.cn/static/item/190219/b08c4552-07c4-4a90-a22a-d175814e1475.jpg",
-      "description": "",
-      "brand": "60",
-      "type": 3,
-      "quantity": 5,
-      "pickRemainTime": 738477564149,
-      "created": 1552414408000,
-      "buyTime": null
-    }
-  ]
+  "time": 1555982718162,
+  "data": {
+    "count": 0
+  }
 }
