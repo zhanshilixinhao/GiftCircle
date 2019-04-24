@@ -35,7 +35,7 @@ public class HomeTest {
     public void articleList() throws IOException {
         RequestParams params = new RequestParams();
         params.put("time" ,System.currentTimeMillis());
-        params.put("type" ,4);
+        params.put("type" ,1);
         params.put("pageNum",1);
         params.put("pageSize",14);
         Map map = ApiSignUtil.sign1(params.getParams(),ApiSignUtil.ANDROID);
@@ -48,7 +48,7 @@ public class HomeTest {
     public void articleDetail() throws IOException {
         RequestParams params = new RequestParams();
         params.put("time" ,System.currentTimeMillis());
-        params.put("id" ,34);
+        params.put("id" ,124);
         Map map = ApiSignUtil.sign1(params.getParams(),ApiSignUtil.ANDROID);
         params.put("sign",map.get(ApiSignUtil.ANDROID));
         Response post = OkHttpUtil.post("http://localhost:8088/noauth/v1/article/detail", params);
