@@ -335,7 +335,7 @@ public class GiftServiceImpl implements GiftService {
      */
     private Response updateWXSent(Integer userId, GiftRecord giftRecord, List<GiftRecordDetail> details, Integer reNum) {
         // 判断是不是本人领取
-        if (userId.equals(giftRecord.getUserId())){
+        if (userId.equals(giftRecord.getUserId())) {
             return ResponseFactory.err("本人不能领取礼物");
         }
         // 判断是不是好友关系
@@ -351,11 +351,11 @@ public class GiftServiceImpl implements GiftService {
         detail.setStatus(Constants.GIFT_STATUS.SEND);
         detail.setUserId(userId);
         AppUser user = appUserMapper.selectByPrimaryKey(userId);
-        if (user != null){
-            if (user.getIsHide() == null ||user.getIsHide() == 1){
-                detail.setIsHide((byte)1);
-            }else {
-                detail.setIsHide((byte)2);
+        if (user != null) {
+            if (user.getIsHide() == null || user.getIsHide() == 1) {
+                detail.setIsHide((byte) 1);
+            } else {
+                detail.setIsHide((byte) 2);
             }
         }
         giftRecordDetailMapper.updateByPrimaryKeySelective(detail);
@@ -416,8 +416,10 @@ public class GiftServiceImpl implements GiftService {
             return ResponseFactory.err("赠送的礼物不存在背包中或赠送的数量大于背包中的数量!");
         }
         Date buyTime = vbp.getBuyTime();
-        if (buyTime == null || DateUtils.addDays(buyTime, Constants.BP_EXPIRE_TIME).getTime() - System.currentTimeMillis() <= 0) {
-            return ResponseFactory.err("超过赠送时限!");
+        if (vbp.getType() != null && vbp.getType() == 1) {
+            if (buyTime == null || DateUtils.addDays(buyTime, Constants.BP_EXPIRE_TIME).getTime() - System.currentTimeMillis() <= 0) {
+                return ResponseFactory.err("超过赠送时限!");
+            }
         }
         // 判断和被赠送的用户是不是好友关系
         for (Integer friendUserId : sendVo.getFriendUserIds()) {
@@ -445,11 +447,11 @@ public class GiftServiceImpl implements GiftService {
         record.setStatus(status);
         // 查看用户是否设置隐藏
         AppUser appUser = appUserMapper.selectByPrimaryKey(userId);
-        if (appUser != null){
-            if (appUser.getIsHide() == null ||appUser.getIsHide() == 1){
-                record.setIsHide((byte)1);
-            }else {
-                record.setIsHide((byte)2);
+        if (appUser != null) {
+            if (appUser.getIsHide() == null || appUser.getIsHide() == 1) {
+                record.setIsHide((byte) 1);
+            } else {
+                record.setIsHide((byte) 2);
             }
         }
         // 保存礼物记录
@@ -473,11 +475,11 @@ public class GiftServiceImpl implements GiftService {
             detail.setStatus(status);
             detail.setContent(JSON.toJSONString(list));
             AppUser user = appUserMapper.selectByPrimaryKey(friendUserId1);
-            if (user != null){
-                if (user.getIsHide() == null ||user.getIsHide() == 1){
-                    detail.setIsHide((byte)1);
-                }else {
-                    detail.setIsHide((byte)2);
+            if (user != null) {
+                if (user.getIsHide() == null || user.getIsHide() == 1) {
+                    detail.setIsHide((byte) 1);
+                } else {
+                    detail.setIsHide((byte) 2);
                 }
             }
             count = giftRecordDetailMapper.insert(detail);
@@ -666,11 +668,11 @@ public class GiftServiceImpl implements GiftService {
         record.setStatus(status);
         // 查看用户是否设置隐藏
         AppUser appUser = appUserMapper.selectByPrimaryKey(userId);
-        if (appUser != null){
-            if (appUser.getIsHide() == null ||appUser.getIsHide() == 1){
-                record.setIsHide((byte)1);
-            }else {
-                record.setIsHide((byte)2);
+        if (appUser != null) {
+            if (appUser.getIsHide() == null || appUser.getIsHide() == 1) {
+                record.setIsHide((byte) 1);
+            } else {
+                record.setIsHide((byte) 2);
             }
         }
         // 保存礼物记录
@@ -847,7 +849,7 @@ public class GiftServiceImpl implements GiftService {
         AppMessage appMessage = new AppMessage();
         appMessage.setTitle("系统通知");
         appMessage.setSummary("答谢通知");
-        appMessage.setContent(appUser.getNickname() + " 发来的感谢语:" + reply );
+        appMessage.setContent(appUser.getNickname() + " 发来的感谢语:" + reply);
         appMessage.setTargetId(recordDetailId.longValue());
         appMessage.setTargetType((byte) 24);
         appMessage.setMessageType((byte) 2);
