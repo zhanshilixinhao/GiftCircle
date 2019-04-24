@@ -179,7 +179,7 @@ public class DiscountingServiceImpl implements DiscountingService {
         if (i!=1){
             throw new ServiceException(ErrorCode.ERROR.getCode(), "商家收益添加失败");
         }
-        return ResponseFactory.sucMsg("折现成功");
+        return ResponseFactory.sucMsg("折现成功,请到我的钱包中查看");
     }
 
 
