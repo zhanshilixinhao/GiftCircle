@@ -19,4 +19,14 @@ public interface WelfareService {
      * @date 2019/2/20
      */
     Response confirmWelfare(Integer userId);
+
+
+    /**
+     * 获取整点福利
+     *
+     * @return
+     * @author linqin
+     * @date 2018/7/6
+     */
+    Response getWelfare(Integer userId);
 }

@@ -34,4 +34,19 @@ public class WelfareController {
         return welfareService.confirmWelfare(userDetails.getUserId());
     }
 
+
+
+    /**
+     * 获取整点福利
+     *
+     * @return
+     * @author linqin
+     * @date 2018/7/6
+     */
+    @PostMapping("list")
+    public Response getWelfare(@AuthenticationPrincipal UserDetails userDetails) {
+        return welfareService.getWelfare(userDetails.getUserId());
+    }
+
+
 }

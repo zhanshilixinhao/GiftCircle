@@ -13,6 +13,7 @@ import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.service.backpack.base.BpService;
 import com.chouchongkeji.service.home.WelfareService;
+import com.chouchongkeji.service.home.vo.WelfareVo;
 import com.chouchongkeji.util.Constants;
 import com.chouchongkeji.util.OrderHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ import java.util.Date;
  * @date 2019/2/20 16:25
  */
 @Service
-@Transactional(rollbackFor = Exception.class,isolation = Isolation.REPEATABLE_READ)
+@Transactional(rollbackFor = Exception.class, isolation = Isolation.REPEATABLE_READ)
 public class WelfareServiceImpl implements WelfareService {
 
     @Autowired
@@ -54,21 +55,21 @@ public class WelfareServiceImpl implements WelfareService {
     public Response confirmWelfare(Integer userId) {
         // 获取福利商品详情
         Welfare welfare = welfareMapper.selectAllByTime();
-        if (welfare == null){
-            throw new ServiceException(ErrorCode.ERROR.getCode(),"现在没有福利");
+        if (welfare == null) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "现在没有福利");
         }
         // 领取过就不能再领取
-        WelfareRecord record = welfareRecordMapper.selectByUserIdWelfareId(userId,welfare.getId());
-        if (record != null){
-            throw new ServiceException(ErrorCode.ERROR.getCode(),"您已经领取过礼物");
+        WelfareRecord record = welfareRecordMapper.selectByUserIdWelfareId(userId, welfare.getId());
+        if (record != null) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "您已经领取过礼物");
         }
         // 剩余数量小于等于0则无法领取
-        if (welfare.getCount() <=0){
-            throw new ServiceException(ErrorCode.ERROR.getCode(),"礼物已被抢完，请关注下次的福利");
+        if (welfare.getCount() <= 0) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "礼物已被抢完，请关注下次的福利");
         }
         // 到福利生效时间才能领取
-        if (welfare.getTargetDate().getTime() > new Date().getTime()){
-            throw new ServiceException(ErrorCode.ERROR.getCode(),"还没到福利领取时间");
+        if (welfare.getTargetDate().getTime() > new Date().getTime()) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "还没到福利领取时间");
         }
         // 领取礼物加入背包
         BpItem bpItem = new BpItem();
@@ -96,11 +97,38 @@ public class WelfareServiceImpl implements WelfareService {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "");
         }
         // 减少数量
-        welfare.setCount(welfare.getCount()-1);
+        welfare.setCount(welfare.getCount() - 1);
         int i = welfareMapper.updateByPrimaryKeySelective(welfare);
         if (i < 1) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "");
         }
         return ResponseFactory.sucMsg("领取成功");
     }
+
+
+    /**
+     * 获取整点福利
+     *
+     * @return
+     * @author linqin
+     * @date 2018/7/6
+     */
+    @Override
+    public Response getWelfare(Integer userId) {
+        WelfareVo welfare = welfareMapper.selectByTime();
+        // 查看是否领取过
+        if (welfare != null) {
+            WelfareRecord record = welfareRecordMapper.selectByUserIdWelfareId(userId, welfare.getId());
+            if (record == null) {
+                welfare.setIsReceive(1);//未领取
+            }else {
+                welfare.setIsReceive(2); //已领取
+            }
+        }
+
+        return ResponseFactory.sucData(welfare);
+
+    }
+
+
 }

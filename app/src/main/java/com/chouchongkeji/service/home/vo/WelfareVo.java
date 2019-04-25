@@ -34,6 +34,8 @@ public class WelfareVo {
 
     private String brand; //品牌
 
+    private Integer isReceive; //是否领取 1 未领取 2已领取
+
     public Integer getId() {
         return id;
     }
@@ -121,5 +123,13 @@ public class WelfareVo {
 
     public void setBrand(String brand) {
         this.brand = brand;
+    }
+
+    public Integer getIsReceive() {
+        return isReceive;
+    }
+
+    public void setIsReceive(Integer isReceive) {
+        this.isReceive = isReceive;
     }
 }
