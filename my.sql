@@ -1349,6 +1349,21 @@ create table if not exists user_preference
   )
   comment '用户信息补充' charset=utf8mb4;
 
+
+  create table if not exists user_tag_info
+(
+
+  id int(11) unsigned not null
+  primary key,
+  user_id int(11) comment '用户id(添加印象标签者)',
+  friend_user_id int(11) comment '好友id(被添加印象标签者)',
+  tag_ids varchar(50) comment '印象标签id,用逗号隔开',
+  created datetime null,
+  updated datetime null
+  )
+  comment '好友印象标签关联表' charset=utf8mb4;
+
+
 create table if not exists user_tag_dict
 (
   id int(11) unsigned auto_increment

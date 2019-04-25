@@ -12,7 +12,7 @@ import com.chouchongkeji.dial.pojo.backpack.gift.GiftRecordDetail;
 import com.chouchongkeji.dial.pojo.gift.virtualItem.AppMessage;
 import com.chouchongkeji.dial.pojo.gift.virtualItem.GiftRecord;
 import com.chouchongkeji.dial.pojo.user.AppUser;
-import com.chouchongkeji.dial.redis.MRedisTemplate;
+import com.yichen.auth.redis.MRedisTemplate;
 import com.chouchongkeji.exception.ServiceException;
 import com.chouchongkeji.goexplore.common.ErrorCode;
 import com.chouchongkeji.goexplore.common.Response;

@@ -7,7 +7,7 @@ import com.chouchongkeji.dial.dao.user.memo.MomentPraiseMapper;
 import com.chouchongkeji.dial.pojo.user.memo.Moment;
 import com.chouchongkeji.dial.pojo.user.memo.MomentComment;
 import com.chouchongkeji.dial.pojo.user.memo.MomentPraise;
-import com.chouchongkeji.dial.redis.MRedisTemplate;
+import com.yichen.auth.redis.MRedisTemplate;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.query.PageQuery;

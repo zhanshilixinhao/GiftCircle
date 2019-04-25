@@ -2,7 +2,7 @@ package com.chouchongkeji.service.user.info.impl;
 
 import com.chouchongkeji.dial.dao.user.AppUserMapper;
 import com.chouchongkeji.dial.dao.user.ThirdAccountMapper;
-import com.chouchongkeji.dial.redis.MRedisTemplate;
+import com.yichen.auth.redis.MRedisTemplate;
 import com.chouchongkeji.exception.ServiceException;
 import com.chouchongkeji.goexplore.common.ErrorCode;
 import com.chouchongkeji.goexplore.common.ResponseFactory;

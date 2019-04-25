@@ -6,7 +6,7 @@ import com.chouchongkeji.dial.dao.friend.FriendMapper;
 import com.chouchongkeji.dial.dao.friend.NewFriendNotifyMapper;
 import com.chouchongkeji.dial.dao.user.AppUserMapper;
 import com.chouchongkeji.dial.pojo.gift.virtualItem.AppMessage;
-import com.chouchongkeji.dial.redis.MRedisTemplate;
+import com.yichen.auth.redis.MRedisTemplate;
 import com.chouchongkeji.exception.ServiceException;
 import com.chouchongkeji.goexplore.common.ErrorCode;
 import com.chouchongkeji.goexplore.common.Response;
@@ -29,7 +29,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author yichenshanren

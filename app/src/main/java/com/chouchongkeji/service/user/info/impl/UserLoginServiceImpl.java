@@ -1,14 +1,12 @@
 package com.chouchongkeji.service.user.info.impl;
 
 import com.chouchongkeji.dial.dao.user.AppUserMapper;
-import com.chouchongkeji.dial.dao.user.InviteUserMapper;
 import com.chouchongkeji.dial.pojo.user.AppUser;
-import com.chouchongkeji.dial.pojo.user.InviteUser;
 import com.chouchongkeji.exception.ServiceException;
 import com.chouchongkeji.goexplore.common.ErrorCode;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.common.Response;
-import com.chouchongkeji.dial.redis.MRedisTemplate;
+import com.yichen.auth.redis.MRedisTemplate;
 import com.chouchongkeji.service.iwant.wallet.FireworksService;
 import com.chouchongkeji.service.user.friend.FriendService;
 import com.chouchongkeji.service.user.info.UserLoginService;
@@ -17,7 +15,6 @@ import com.chouchongkeji.service.wxapi.WXResult;
 import com.chouchongkeji.util.Constants;
 import com.yichen.auth.properties.SecurityProperties;
 import com.yichen.auth.service.ThirdAccService;
-import org.apache.tomcat.jni.Error;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;

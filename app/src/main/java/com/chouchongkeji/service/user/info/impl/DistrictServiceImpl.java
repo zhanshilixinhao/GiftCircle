@@ -2,8 +2,7 @@ package com.chouchongkeji.service.user.info.impl;
 
 import com.alibaba.fastjson.TypeReference;
 import com.chouchongkeji.dial.dao.user.DistrictMapper;
-import com.chouchongkeji.dial.redis.CacheCallback;
-import com.chouchongkeji.dial.redis.MRedisTemplate;
+import com.yichen.auth.redis.MRedisTemplate;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.dial.pojo.user.District;

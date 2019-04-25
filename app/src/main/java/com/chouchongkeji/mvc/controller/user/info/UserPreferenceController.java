@@ -57,6 +57,25 @@ public class UserPreferenceController {
         return userPreferenceService.addTag(userDetails.getUserId(), friendUserId, ids);
     }
 
+
+    /**
+     * 用户给好友添加的所有印象标签
+     *
+     * @param details
+     * @param friendUserId 被添加者
+     * @return
+     * @author yichenshanren
+     * @date 2018/6/21
+     */
+    @PostMapping("tag/userList")
+    public Response userTagList(@AuthenticationPrincipal UserDetails details, Integer friendUserId) {
+        if (friendUserId == null) {
+            return ResponseFactory.errMissingParameter();
+        }
+        return userPreferenceService.userTagList(details.getUserId(), friendUserId);
+    }
+
+
     /**
      * 获取用户礼物偏好列表
      *
@@ -86,7 +105,7 @@ public class UserPreferenceController {
 //            return ResponseFactory.errMissingParameter();
 //        }
         HashSet<Integer> idSet = new HashSet<>();
-        if (StringUtils.isNotBlank(ids)){
+        if (StringUtils.isNotBlank(ids)) {
             String[] strings = ids.split(",");
             Utils.getIds(strings, idSet);
         }

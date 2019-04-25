@@ -1,6 +1,6 @@
 package com.chouchongkeji.mvc.controller.user.info;
 
-import com.chouchongkeji.dial.redis.MRedisTemplate;
+import com.yichen.auth.redis.MRedisTemplate;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.service.user.info.UserLoginService;

@@ -1,4 +1,4 @@
-package com.chouchongkeji.dial.redis;
+package com.yichen.auth.redis;
 
 
 /**

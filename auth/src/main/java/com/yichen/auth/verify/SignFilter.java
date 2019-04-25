@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.utils.ApiSignUtil;
 import com.yichen.auth.properties.SecurityProperties;
+import com.yichen.auth.redis.MRedisTemplate;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,9 @@ import java.util.Map;
 @Component
 public class SignFilter extends OncePerRequestFilter {
 
+    @Autowired
+    private MRedisTemplate mRedisTemplate;
+
     private boolean needSign;
 
     private static List<AntPathRequestMatcher> urls = new ArrayList<>();
@@ -47,8 +51,24 @@ public class SignFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
+        // 防止请求重复提交
+        String requestURI = request.getRequestURI();
+        String access_token = request.getParameter("access_token");
+        String key = access_token + requestURI;
+        if (StringUtils.isNotBlank(access_token)) {
+            String string = mRedisTemplate.getString(key);
+            if (StringUtils.isNotBlank(string)) {
+                response.setContentType("application/json;charset=UTF-8");
+                response.getWriter().write(JSON.toJSONString(ResponseFactory.errSign("重复请求")));
+                return;
+            }
+            mRedisTemplate.setString(key,"a");
+        }
+
+
         if (!needSign || isMatch(request)) {
             filterChain.doFilter(request, response);
+            mRedisTemplate.del(key);
             return;
         }
         String msg = "签名错误:";
@@ -68,6 +88,7 @@ public class SignFilter extends OncePerRequestFilter {
                 if (re != 0) {
                     request.setAttribute("client", re);
                     filterChain.doFilter(request, response);
+                    mRedisTemplate.del(key);
                     return;
                 }
             } else {
@@ -79,6 +100,7 @@ public class SignFilter extends OncePerRequestFilter {
         }
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().write(JSON.toJSONString(ResponseFactory.errSign(msg)));
+        mRedisTemplate.del(key);
     }
 
     private boolean isMatch(HttpServletRequest request) {

@@ -1,19 +1,24 @@
 package com.chouchongkeji.service.user.info.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.chouchongkeji.dial.dao.friend.FriendMapper;
 import com.chouchongkeji.dial.dao.user.GiftPreferenceDictMapper;
 import com.chouchongkeji.dial.dao.user.UserPreferenceMapper;
 import com.chouchongkeji.dial.dao.user.UserTagDictMapper;
+import com.chouchongkeji.dial.dao.user.UserTagInfoMapper;
 import com.chouchongkeji.dial.pojo.user.GiftPreferenceDict;
 import com.chouchongkeji.dial.pojo.user.UserPreference;
 import com.chouchongkeji.dial.pojo.user.UserTagDict;
+import com.chouchongkeji.dial.pojo.user.UserTagInfo;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.service.user.friend.vo.FriendVo;
 import com.chouchongkeji.service.user.info.UserPreferenceService;
+import com.chouchongkeji.service.user.info.vo.TagVo;
 import com.chouchongkeji.service.user.info.vo.UserTagVo;
+import com.yichen.auth.service.UserDetails;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +51,9 @@ public class UserPreferenceServiceImpl implements UserPreferenceService {
     @Autowired
     private GiftPreferenceDictMapper giftPreferenceDictMapper;
 
+    @Autowired
+    private UserTagInfoMapper userTagInfoMapper;
+
     /**
      * 获取标签列表
      *
@@ -58,11 +66,32 @@ public class UserPreferenceServiceImpl implements UserPreferenceService {
         return ResponseFactory.sucData(userTagDictMapper.selectAll());
     }
 
+
+    /**
+     * 用户给好友添加的所有印象标签
+     *
+     * @param friendUserId
+     * @return
+     * @author yichenshanren
+     * @date 2018/6/21
+     */
+    @Override
+    public Response userTagList(Integer userId, Integer friendUserId) {
+        UserTagInfo info = userTagInfoMapper.selectByUserIdFriendUserId(userId, friendUserId);
+        if (info != null) {
+            Integer id = JSON.parseObject(info.getTagIds(), new TypeReference<>());
+
+        }
+
+        return ResponseFactory.sucData(tagVos);
+    }
+
+
     /**
      * 给好友添加一个标签
      *
      * @param userId       用户id
-     * @param friendUserId 好友用户id
+     * @param friendUserId 好友用户id(被添加者)
      * @param tagIds       标签id
      * @return
      * @author yichenshanren
@@ -76,11 +105,41 @@ public class UserPreferenceServiceImpl implements UserPreferenceService {
             return ResponseFactory.err("添加好友才能添加好友标签!");
         }
 
+        HashSet<Integer> add = new HashSet<>(); //新增
+        HashSet<Integer> sub = new HashSet<>(); //减少
+        UserTagInfo info = userTagInfoMapper.selectByUserIdFriendUserId(userId, friendUserId);
+        if (info != null) {
+            HashSet<Integer> ids = JSON.parseObject(info.getTagIds(), new TypeReference<>());
+            if (CollectionUtils.isNotEmpty(ids)) {
+                for (Integer tagId : tagIds) {
+                    if (!ids.contains(tagId)) {
+                        add.add(tagId);
+                    }
+                }
+                for (Integer id : ids) {
+                    if (!tagIds.contains(id)) {
+                        sub.add(id);
+                    }
+                }
+            }
+            info.setTagIds(JSON.toJSONString(tagIds));
+            userTagInfoMapper.updateByPrimaryKeySelective(info);
+
+        } else {
+            add.addAll(tagIds);
+            info = new UserTagInfo();
+            info.setUserId(userId);
+            info.setFriendUserId(friendUserId);
+            info.setTagIds(JSON.toJSONString(tagIds));
+            userTagInfoMapper.insert(info);
+        }
+
         // 判断标是否存在
-        List<UserTagDict> dict = userTagDictMapper.selectListByPrimaryKeys(tagIds);
-        if (dict.size() < tagIds.size()) {
+        List<UserTagDict> dict = userTagDictMapper.selectListByPrimaryKeys(add);
+        if (dict.size() < add.size()) {
             return ResponseFactory.err("添加的标签不存在!");
         }
+
 
         // 取出用户的标签列表
         UserPreference preference = userPreferenceMapper.selectByPrimaryKey(friendUserId);
@@ -125,6 +184,18 @@ public class UserPreferenceServiceImpl implements UserPreferenceService {
                 tagVos.add(vo);
             }
         }
+
+        if (CollectionUtils.isNotEmpty(sub)) {
+            for (UserTagVo tagVo : tagVos) {
+                if (sub.contains(tagVo.getTagId())) {
+                    tagVo.setNum(tagVo.getNum() - 1);
+                }
+                if (tagVo.getNum() <= 0) {
+                    // 删除
+                }
+            }
+        }
+
         preference.setTags(JSON.toJSONString(tagVos));
         // 更新
         if (udpate == 1) {
@@ -137,6 +208,76 @@ public class UserPreferenceServiceImpl implements UserPreferenceService {
         }
         return ResponseFactory.sucMsg("添加成功!");
     }
+
+//  原来的
+//    public Response addTag(Integer userId, Integer friendUserId, HashSet<Integer> tagIds) {
+//        // 判断是不是好友关系
+//        FriendVo friend = friendMapper.selectByUserIdAndFriendUserId(userId, friendUserId);
+//        if (friend == null) {
+//            return ResponseFactory.err("添加好友才能添加好友标签!");
+//        }
+//
+//        // 判断标是否存在
+//        List<UserTagDict> dict = userTagDictMapper.selectListByPrimaryKeys(tagIds);
+//        if (dict.size() < tagIds.size()) {
+//            return ResponseFactory.err("添加的标签不存在!");
+//        }
+//
+//        // 取出用户的标签列表
+//        UserPreference preference = userPreferenceMapper.selectByPrimaryKey(friendUserId);
+//        int udpate = 1;
+//        if (preference == null) {
+//            udpate = 0;
+//            preference = new UserPreference();
+//        }
+//        // 取出用户的标签列表
+//        HashSet<UserTagVo> tagVos = null;
+//
+//        if (StringUtils.isNotBlank(preference.getTags())) {
+//            tagVos = JSON.parseObject(preference.getTags(), new TypeReference<HashSet<UserTagVo>>() {
+//            });
+//        }
+//
+//        // 如果标签列表不存在创建
+//        if (tagVos == null) {
+//            tagVos = new HashSet<>();
+//        }
+//        // 判断用户是否有这个标签
+//        UserTagVo vo = null;
+//        for (UserTagDict tag : dict) {
+//            boolean has = false;
+//            for (UserTagVo tagVo : tagVos) {
+//                // 如果有这个标签
+//                if (tagVo.getTagId().compareTo(tag.getId()) == 0) {
+//                    // 数量增加
+//                    tagVo.setNum(tagVo.getNum() + 1);
+//                    has = true;
+//                    break;
+//                }
+//            }
+//            // 如果没有这个标签
+//            if (!has) {
+//                // 添加新的标签
+//                vo = new UserTagVo();
+//                vo.setTagId(tag.getId());
+//                vo.setType(tag.getType());
+//                vo.setNum(1);
+//                vo.setTag(tag.getTag());
+//                tagVos.add(vo);
+//            }
+//        }
+//        preference.setTags(JSON.toJSONString(tagVos));
+//        // 更新
+//        if (udpate == 1) {
+//            preference.setGiftPreference(null);
+//            userPreferenceMapper.updateByPrimaryKeySelective(preference);
+//        } else {
+//            // 新增数据
+//            preference.setUserId(friendUserId);
+//            userPreferenceMapper.insert(preference);
+//        }
+//        return ResponseFactory.sucMsg("添加成功!");
+//    }
 
 
     /**

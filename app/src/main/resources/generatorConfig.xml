@@ -69,7 +69,7 @@
         </javaClientGenerator>
 
 
-<!--        <table tableName="app_version" domainObjectName="AppVersion" enableCountByExample="false"-->
+<!--        <table tableName="user_tag_info" domainObjectName="UserTagInfo" enableCountByExample="false"-->
 <!--               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
 <!--               selectByExampleQueryId="false"></table>-->
 <!--        <table tableName="sys_admin_wallet_record" domainObjectName="SysAdminWalletRecord" enableCountByExample="false"-->
