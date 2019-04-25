@@ -124,6 +124,7 @@ public class WelfareServiceImpl implements WelfareService {
             }else {
                 welfare.setIsReceive(2); //已领取
             }
+            welfare.setRemainTime(welfare.getTargetDate().getTime()-System.currentTimeMillis());
         }
 
         return ResponseFactory.sucData(welfare);
