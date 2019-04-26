@@ -1,20 +1,25 @@
 {
   "errCode": 0,
   "result": 0,
-  "time": 1556173212484,
-  "data": {
-    "id": 12,
-    "type": 2,
-    "targetId": 102,
-    "quantity": 20,
-    "targetDate": 1556154000000,
-    "startTime": 1556121600000,
-    "endTime": 1556294400000,
-    "count": 16,
-    "cover": "https://liyuquan.cn/static/item/190410/1998e45e-ea48-41cf-b938-f3b628dcf3f8.jpg",
-    "title": "么么哒",
-    "brand": "礼遇圈",
-    "isReceive": 2,
-    "remainTime": 140400000
-  }
+  "time": 1556244752207,
+  "data": [
+    {
+      "id": 3,
+      "tag": "外向",
+      "type": 1,
+      "created": 1545152109000,
+      "updated": 1545152109000,
+      "userId": 6,
+      "friendUserId": 1
+    },
+    {
+      "id": 3,
+      "tag": "外向",
+      "type": 1,
+      "created": 1545152109000,
+      "updated": 1545152109000,
+      "userId": 6,
+      "friendUserId": 1
+    }
+  ]
 }

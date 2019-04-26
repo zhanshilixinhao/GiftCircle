@@ -115,6 +115,33 @@ public class ItemTest {
     }
 
     @Test
+    public void ist() throws IOException {
+        RequestParams params = new RequestParams();
+        params.put("time",System.currentTimeMillis());
+        params.put("access_token", "7a867108-2521-4d95-b482-8603ddcd4c5f");
+        params.put("friendUserId",1);
+        params.put("tagIds","2,3");
+        Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
+        params.put("sign", map.get(ApiSignUtil.ANDROID));
+        Response post = OkHttpUtil.post("http://localhost:8088/auth/user/tag/add", params);
+        System.out.println(post.body().string());
+    }
+
+    @Test
+    public void it() throws IOException {
+        RequestParams params = new RequestParams();
+        params.put("time",System.currentTimeMillis());
+        params.put("access_token", "7a867108-2521-4d95-b482-8603ddcd4c5f");
+        params.put("friendUserId",1);
+//        params.put("tagIds","2,3");
+        Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
+        params.put("sign", map.get(ApiSignUtil.ANDROID));
+        Response post = OkHttpUtil.post("http://localhost:8088/auth/user/tag/userList", params);
+        System.out.println(post.body().string());
+    }
+
+
+    @Test
     public void j() throws IOException {
         RequestParams params = new RequestParams();
         params.put("time",System.currentTimeMillis());

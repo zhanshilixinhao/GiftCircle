@@ -22,13 +22,17 @@ import com.yichen.auth.service.UserDetails;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * @author yichenshanren
@@ -77,12 +81,25 @@ public class UserPreferenceServiceImpl implements UserPreferenceService {
      */
     @Override
     public Response userTagList(Integer userId, Integer friendUserId) {
+        List<TagVo> tagVos = new ArrayList<>();
+        TagVo vo = new TagVo();
+        vo.setUserId(userId);
+        vo.setFriendUserId(friendUserId);
         UserTagInfo info = userTagInfoMapper.selectByUserIdFriendUserId(userId, friendUserId);
         if (info != null) {
-            Integer id = JSON.parseObject(info.getTagIds(), new TypeReference<>());
-
+            HashSet<Integer> ids = JSON.parseObject(info.getTagIds(), new TypeReference<HashSet<Integer>>(){});
+            for (Integer id : ids) {
+                UserTagDict userTagDict = userTagDictMapper.selectByPrimaryKey(id);
+                if (userTagDict != null){
+                    vo.setId(userTagDict.getId());
+                    vo.setTag(userTagDict.getTag());
+                    vo.setType(userTagDict.getType());
+                    vo.setCreated(userTagDict.getCreated());
+                    vo.setUpdated(userTagDict.getUpdated());
+                }
+                tagVos.add(vo);
+            }
         }
-
         return ResponseFactory.sucData(tagVos);
     }
 
@@ -109,7 +126,8 @@ public class UserPreferenceServiceImpl implements UserPreferenceService {
         HashSet<Integer> sub = new HashSet<>(); //减少
         UserTagInfo info = userTagInfoMapper.selectByUserIdFriendUserId(userId, friendUserId);
         if (info != null) {
-            HashSet<Integer> ids = JSON.parseObject(info.getTagIds(), new TypeReference<>());
+            HashSet<Integer> ids = JSON.parseObject(info.getTagIds(), new TypeReference<HashSet<Integer>>() {
+            });
             if (CollectionUtils.isNotEmpty(ids)) {
                 for (Integer tagId : tagIds) {
                     if (!ids.contains(tagId)) {
@@ -186,14 +204,22 @@ public class UserPreferenceServiceImpl implements UserPreferenceService {
         }
 
         if (CollectionUtils.isNotEmpty(sub)) {
-            for (UserTagVo tagVo : tagVos) {
-                if (sub.contains(tagVo.getTagId())) {
-                    tagVo.setNum(tagVo.getNum() - 1);
+
+                // 删除
+                Iterator<UserTagVo> iterator = tagVos.iterator();
+                // 迭代
+                while (iterator.hasNext()) {
+                    UserTagVo next = iterator.next();
+
+                    if (sub.contains(next.getTagId())) {
+                        next.setNum(next.getNum() - 1);
+                    }
+                    if (next.getNum() <= 0) {
+                        iterator.remove();
+                    }
+
                 }
-                if (tagVo.getNum() <= 0) {
-                    // 删除
-                }
-            }
+
         }
 
         preference.setTags(JSON.toJSONString(tagVos));
@@ -208,6 +234,7 @@ public class UserPreferenceServiceImpl implements UserPreferenceService {
         }
         return ResponseFactory.sucMsg("添加成功!");
     }
+
 
 //  原来的
 //    public Response addTag(Integer userId, Integer friendUserId, HashSet<Integer> tagIds) {

@@ -36,7 +36,7 @@
       tag_ids, created, updated
       )
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{friendUserId,jdbcType=INTEGER},
-      #{tagIds,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP}
+      #{tagIds,jdbcType=VARCHAR}, now(), now()
       )
   </insert>
   <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.user.UserTagInfo">
