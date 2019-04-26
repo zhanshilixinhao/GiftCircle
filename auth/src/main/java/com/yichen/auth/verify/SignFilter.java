@@ -35,6 +35,8 @@ public class SignFilter extends OncePerRequestFilter {
 
     private boolean needSign;
 
+    private static List<AntPathRequestMatcher> list = new ArrayList<>();
+
     private static List<AntPathRequestMatcher> urls = new ArrayList<>();
 
     @Autowired
@@ -46,27 +48,36 @@ public class SignFilter extends OncePerRequestFilter {
                 urls.add(new AntPathRequestMatcher(url));
             }
         }
+        if (ArrayUtils.isNotEmpty(securityProperties.getRequest().getUrl())) {
+            for (String s : securityProperties.getRequest().getUrl()) {
+                list.add(new AntPathRequestMatcher(s));
+            }
+        }
     }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
+
         // 防止请求重复提交
         String requestURI = request.getRequestURI();
         String access_token = request.getParameter("access_token");
         String key = access_token + requestURI;
-        if (StringUtils.isNotBlank(access_token)) {
+        if (StringUtils.isNotBlank(access_token) && !isMatch(request, list)) {
             String string = mRedisTemplate.getString(key);
             if (StringUtils.isNotBlank(string)) {
                 response.setContentType("application/json;charset=UTF-8");
                 response.getWriter().write(JSON.toJSONString(ResponseFactory.errSign("重复请求")));
                 return;
             }
-            mRedisTemplate.setString(key,"a");
+
+            mRedisTemplate.setString(key, "a");
+
+
         }
 
 
-        if (!needSign || isMatch(request)) {
+        if (!needSign || isMatch(request, urls)) {
             filterChain.doFilter(request, response);
             mRedisTemplate.del(key);
             return;
@@ -103,7 +114,7 @@ public class SignFilter extends OncePerRequestFilter {
         mRedisTemplate.del(key);
     }
 
-    private boolean isMatch(HttpServletRequest request) {
+    private boolean isMatch(HttpServletRequest request, List<AntPathRequestMatcher> urls) {
         for (AntPathRequestMatcher matcher : urls) {
             if (matcher.matches(request)) {
                 return true;
@@ -111,4 +122,5 @@ public class SignFilter extends OncePerRequestFilter {
         }
         return false;
     }
+
 }

@@ -81,6 +81,12 @@ yichen:
         - /noauth/file/**
         - /noauth/item/html_detail
         - /noauth/v1/article/html
+    # 重复请求过滤接口
+    request:
+      url:
+        - /auth/v1/bp/list
+        - /auth/moment/publish
+        - /auth/item/order/list
     # 图片地址拼接
     image:
       needSplice: true

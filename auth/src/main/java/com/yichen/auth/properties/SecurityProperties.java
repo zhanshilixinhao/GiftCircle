@@ -19,6 +19,8 @@ public class SecurityProperties {
 
     private ImageProperties image;
 
+    private requestProperties request;
+
     public VerifyProperties getSmscode() {
         return smscode;
     }
@@ -49,5 +51,13 @@ public class SecurityProperties {
 
     public void setImage(ImageProperties image) {
         this.image = image;
+    }
+
+    public requestProperties getRequest() {
+        return request;
+    }
+
+    public void setRequest(requestProperties request) {
+        this.request = request;
     }
 }
