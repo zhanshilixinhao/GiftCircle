@@ -115,6 +115,20 @@ public class ItemTest {
     }
 
     @Test
+    public void bpLisearcst() throws IOException {
+        RequestParams params = new RequestParams();
+        params.put("time",System.currentTimeMillis());
+        params.put("access_token", "7a867108-2521-4d95-b482-8603ddcd4c5f");
+        params.put("key","s");
+//        params.put("pageNum",2);
+//        params.put("pageSize",14);
+        Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
+        params.put("sign", map.get(ApiSignUtil.ANDROID));
+        Response post = OkHttpUtil.post("http://localhost:8088/auth/v1/bp/search", params);
+        System.out.println(post.body().string());
+    }
+
+    @Test
     public void ist() throws IOException {
         RequestParams params = new RequestParams();
         params.put("time",System.currentTimeMillis());

@@ -10,6 +10,7 @@ import com.chouchongkeji.dial.pojo.backpack.consignment.Consignment;
 import com.chouchongkeji.dial.pojo.backpack.consignment.ConsignmentOrder;
 import com.chouchongkeji.dial.pojo.gift.item.ItemOrderDetail;
 import com.chouchongkeji.dial.pojo.gift.virtualItem.VirItemOrder;
+import com.github.pagehelper.PageInfo;
 import com.yichen.auth.redis.MRedisTemplate;
 import com.chouchongkeji.exception.ServiceException;
 import com.chouchongkeji.goexplore.common.ErrorCode;
@@ -320,7 +321,18 @@ public class BpServiceImpl implements BpService {
      */
     @Override
     public Response search(Integer userId, String key, PageQuery page) {
-        return ResponseFactory.sucData(bpItemMapper.selectBySearch(userId, key));
+        PageHelper.startPage(page.getPageNum(),page.getPageSize());
+        List<Vbp> vbps = bpItemMapper.selectBySearch(userId, key);
+        if (CollectionUtils.isNotEmpty(vbps)) {
+            for (Vbp vbp : vbps) {
+                if (vbp.getBuyTime() != null) {
+                    vbp.setPickRemainTime(DateUtils.addDays(vbp.getBuyTime(), Constants.BP_EXPIRE_TIME).getTime() - System.currentTimeMillis());
+                }else {
+                    vbp.setPickRemainTime(738477564149L);
+                }
+            }
+        }
+        return ResponseFactory.sucData(vbps);
     }
 
 
