@@ -104,6 +104,7 @@ yichen:
         - /auth/friend/notifyMsgs
         - /auth/friend/group/list
         - /auth/friend/list
+        - /auth/friend/count
         - /auth/moment/detail
         - /auth/moment/list/self
         - /auth/receive/item/list
@@ -124,6 +125,7 @@ yichen:
         - /auth/memo/affair2/festival_detail
         - /auth/memo/affair2/festival_item
         - /auth/memo/affair2/friend_list
+        - /auth/moment/count
         - /auth/v1/fireworks/detail
         - /auth/v1/fireworks/user_list
         - /auth/v1/fireworks/earn_record

@@ -5332,19 +5332,19 @@ type = 3 请求结果示例：
       "id": 457, //记录id
       "userId": 1,  //好友用户id
       "greetting": "看看", //祝福语
-      "type": 1,
-      "event": "日常关怀",
-      "targetTime": 1553563165000,
-      "status": 3,
+      "type": 1,//1 立即赠送 2 按时间赠送 3 小程序选择好友赠送需要领取 4 小程序随机赠送需要领取
+      "event": "日常关怀",//赠送事件
+      "targetTime": 1553563165000, //按时赠送的赠送时间
+      "status": 3,//1 未领取 2 已领取部分 3 已领取全部 （flag=1时的状态，所有状态都显示已赠送）
       "updated": 1553563164000,
       "nickname": "路遥",   //好友昵称
       "avatar": "https://liyuquan.cn/staticorder/comment/20181231/1546231284130051-600-600.jpg", //好友头像
       "flag": 2, 
       "detail": [
         {
-          "id": 478,
-          "giftRecordId": 457,
-          "userId": 6,
+          "id": 478,//记录详情id
+          "giftRecordId": 457, //记录id
+          "userId": 6, //接收者用户id
           "amount": null,
           "content": [
             {
