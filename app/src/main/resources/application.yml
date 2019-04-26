@@ -129,6 +129,7 @@ yichen:
         - /auth/v1/fireworks/detail
         - /auth/v1/fireworks/user_list
         - /auth/v1/fireworks/earn_record
+        - /auth/user/pre/pwd
     # 图片地址拼接
     image:
       needSplice: true
