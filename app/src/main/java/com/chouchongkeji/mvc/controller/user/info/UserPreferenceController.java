@@ -48,8 +48,11 @@ public class UserPreferenceController {
      */
     @PostMapping("tag/add")
     public Response addTag(@AuthenticationPrincipal UserDetails userDetails, Integer friendUserId, String tagIds) {
-        if (friendUserId == null || StringUtils.isBlank(tagIds)) {
+        if (friendUserId == null) {
             return ResponseFactory.errMissingParameter();
+        }
+        if (StringUtils.isBlank(tagIds)){
+            return ResponseFactory.err("请至少选择一个标签");
         }
         String[] strings = tagIds.split(",");
         HashSet<Integer> ids = new HashSet<>();
