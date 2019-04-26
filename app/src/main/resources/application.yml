@@ -85,8 +85,48 @@ yichen:
     request:
       url:
         - /auth/v1/bp/list
-        - /auth/moment/publish
+        - /auth/moment/list
         - /auth/item/order/list
+        - /auth/user/profile
+        - /auth/user/gift/preference/list
+        - /auth/user/info
+        - /auth/user/tag/userList
+        - /auth/v1/wallet/detail
+        - /auth/v1/bankCard/bankList
+        - /auth/v1/bankCard/list
+        - /auth/v1/withdraw/list
+        - /auth/v1/wallet/earn_record
+        - /auth/v1/reAddress/list
+        - /auth/v1/reAddress/detail
+        - /auth/v1/favorite/itemList
+        - /auth/search/all_list
+        - /auth/cart/list
+        - /auth/friend/notifyMsgs
+        - /auth/friend/group/list
+        - /auth/friend/list
+        - /auth/moment/detail
+        - /auth/moment/list/self
+        - /auth/receive/item/list
+        - /auth/receive/item/detail
+        - /auth/v1/withdraw/wxRecords
+        - /auth/friend/bp/list
+        - /auth/friend/bp/detail
+        - /auth/friend/bp/record_list
+        - /auth/event/list
+        - /auth/v1/gift_send/send_list
+        - /auth/v1/message/home
+        - /auth/v1/message/list
+        - /auth/memo/affair/home
+        - /auth/welfare/list
+        - /auth/memo/affair2/event/list
+        - /auth/memo/affair2/list
+        - /auth/memo/affair2/list/friend
+        - /auth/memo/affair2/festival_detail
+        - /auth/memo/affair2/festival_item
+        - /auth/memo/affair2/friend_list
+        - /auth/v1/fireworks/detail
+        - /auth/v1/fireworks/user_list
+        - /auth/v1/fireworks/earn_record
     # 图片地址拼接
     image:
       needSplice: true
