@@ -118,7 +118,7 @@ public class AppTest {
         RequestParams params = new RequestParams();
         params.put("time", System.currentTimeMillis());
         params.put("access_token", "7a867108-2521-4d95-b482-8603ddcd4c5f");
-        params.put("bpId", "7719040815149");
+        params.put("bpId", "7719042417152");
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
         params.put("sign", map.get(ApiSignUtil.ANDROID));
         Response post = OkHttpUtil.post("http://localhost:8088/auth/v1/discount/add_record", params);

@@ -82,22 +82,22 @@ public class UserPreferenceServiceImpl implements UserPreferenceService {
     @Override
     public Response userTagList(Integer userId, Integer friendUserId) {
         List<TagVo> tagVos = new ArrayList<>();
-        TagVo vo = new TagVo();
-        vo.setUserId(userId);
-        vo.setFriendUserId(friendUserId);
         UserTagInfo info = userTagInfoMapper.selectByUserIdFriendUserId(userId, friendUserId);
         if (info != null) {
             HashSet<Integer> ids = JSON.parseObject(info.getTagIds(), new TypeReference<HashSet<Integer>>(){});
             for (Integer id : ids) {
                 UserTagDict userTagDict = userTagDictMapper.selectByPrimaryKey(id);
                 if (userTagDict != null){
+                    TagVo vo = new TagVo();
+                    vo.setUserId(userId);
+                    vo.setFriendUserId(friendUserId);
                     vo.setId(userTagDict.getId());
                     vo.setTag(userTagDict.getTag());
                     vo.setType(userTagDict.getType());
                     vo.setCreated(userTagDict.getCreated());
                     vo.setUpdated(userTagDict.getUpdated());
+                    tagVos.add(vo);
                 }
-                tagVos.add(vo);
             }
         }
         return ResponseFactory.sucData(tagVos);
@@ -153,11 +153,13 @@ public class UserPreferenceServiceImpl implements UserPreferenceService {
         }
 
         // 判断标是否存在
-        List<UserTagDict> dict = userTagDictMapper.selectListByPrimaryKeys(add);
-        if (dict.size() < add.size()) {
-            return ResponseFactory.err("添加的标签不存在!");
+        List<UserTagDict> dict = new ArrayList<>();
+        if (CollectionUtils.isNotEmpty(add)){
+            dict = userTagDictMapper.selectListByPrimaryKeys(add);
+            if (dict.size() < add.size()) {
+                return ResponseFactory.err("添加的标签不存在!");
+            }
         }
-
 
         // 取出用户的标签列表
         UserPreference preference = userPreferenceMapper.selectByPrimaryKey(friendUserId);

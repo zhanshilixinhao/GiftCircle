@@ -14,7 +14,7 @@
     id, user_id, parent_user_id, created, updated
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from invite_user
     where id = #{id,jdbcType=INTEGER}
@@ -29,6 +29,7 @@
 from invite_user a
          left join app_user b on a.user_id = b.id
 where a.parent_user_id = #{userId}
+order by a.created DESC
     </select>
     <select id="selectByUserId" resultType="com.chouchongkeji.dial.pojo.user.InviteUser">
       select
@@ -41,9 +42,9 @@ where a.parent_user_id = #{userId}
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.user.InviteUser" keyProperty="id" useGeneratedKeys="true">
-    insert into invite_user (id, user_id, parent_user_id, 
+    insert into invite_user (id, user_id, parent_user_id,
       created, updated)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{parentUserId,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{parentUserId,jdbcType=INTEGER},
       now(), now())
   </insert>
   <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.user.InviteUser">
