@@ -11,6 +11,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
@@ -180,6 +182,16 @@ public class AppTest {
         params.put("sign", map.get(ApiSignUtil.IOS));
         Response post = OkHttpUtil.post("http://localhost:8088/auth/event/list", params);
         System.out.println(post.body().string());
+    }
+
+    @Test
+    public void time() throws ParseException {
+        Date now = new Date(1529815765455L);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");//可以方便地修改日期格式
+        String hehe = dateFormat.format(now); //日期
+        Date parse = dateFormat.parse("20180103000000");  //时间戳
+        System.out.println(parse.getTime());
+        System.out.println(hehe);
     }
 
     @Test

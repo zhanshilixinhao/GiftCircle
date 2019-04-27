@@ -45,10 +45,12 @@ public class GiftController {
         if (sendVo.getBpId() == null || // 主物品背包id
                 sendVo.getFriendUserIds() == null || // 赠送好友id
                 sendVo.getType() == null || // 赠送类型
-                StringUtils.isBlank(sendVo.getGreeting()) ||
-                (sendVo.getType() == 2 && (sendVo.getTargetTime() == null ||
-                        sendVo.getTargetTime().getTime() < System.currentTimeMillis() + 60000))) {
+                StringUtils.isBlank(sendVo.getGreeting()) ) {
             return ResponseFactory.errMissingParameter();
+        }
+        if (sendVo.getType() == 2 && (sendVo.getTargetTime() == null ||
+                sendVo.getTargetTime().getTime() < System.currentTimeMillis() + 60000)){
+            return ResponseFactory.err("送礼时间必填并且大于2分钟");
         }
         if (StringUtils.isBlank(sendVo.getEvent())){
             sendVo.setEvent("日常关怀");
