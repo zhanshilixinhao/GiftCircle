@@ -23,22 +23,25 @@
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultType="com.chouchongkeji.service.mall.item.vo.ItemCategoryVo">
-    SELECT
-	<include refid="Base_Column_List"/>
+   SELECT
+       <include refid="Base_Column_List"/>
 FROM
-	`item_category`
-    where
+    `item_category`
+where
     pid = 0
     and status = 1
+order by sort ASC,created DESC
+
   </select>
   <select id="selectByParentId" resultMap="BaseResultMap">
     SELECT
-    <include refid="Base_Column_List"/>
-    FROM
+        *
+FROM
     `item_category`
-    where
+where
     pid = #{pid}
     and status = 1
+order by sort ASC,created DESC
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from item_category

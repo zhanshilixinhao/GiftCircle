@@ -146,7 +146,7 @@ public class ItemTest {
         RequestParams params = new RequestParams();
         params.put("time",System.currentTimeMillis());
         params.put("access_token", "7a867108-2521-4d95-b482-8603ddcd4c5f");
-        params.put("friendUserId",1);
+        params.put("friendUserId",25);
 //        params.put("tagIds","2,3");
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
         params.put("sign", map.get(ApiSignUtil.ANDROID));
