@@ -145,6 +145,7 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public Response createOrder(Integer userId, Integer client, HashSet<OrderVo> skus, Integer payWay, Byte isShoppingCart) {
+        String title = null;
         HashMap<Integer, List<OrderVo>> hashMap = new HashMap<>();
         for (OrderVo orderVo : skus) {
             ItemSku sku = itemSkuMapper.selectBySkuId(orderVo.getSkuId());
@@ -158,6 +159,7 @@ public class OrderServiceImpl implements OrderService {
                 hashMap.put(item.getAdminId(), orderVos);
             }
             orderVos.add(orderVo);
+            title = item.getTitle();
         }
         List<ItemOrder> itemOrders = new ArrayList<>();
         List<List<ItemOrderDetail>> list = new ArrayList<>();
@@ -216,7 +218,7 @@ public class OrderServiceImpl implements OrderService {
             int index = 0;
             for (ItemOrder itemOrder : itemOrders) {
                 //扣减礼花，更新礼花
-                LIHUAPay(userId, multi.intValue(), Constants.FIREWORKS_RECORD.our_ITEM_DISCOUNT, "购买商品",
+                LIHUAPay(userId, multi.intValue(), Constants.FIREWORKS_RECORD.our_ITEM_DISCOUNT, "购买商品:" + title,
                         itemOrder.getId(), itemOrder.getOrderNo());
                 //更新销量和详细订单状
                 int i = updateStatusSales(itemOrder.getOrderNo());
@@ -350,7 +352,7 @@ public class OrderServiceImpl implements OrderService {
             //父级用户可以得到礼花
             Integer parentUserId = user.getParentUserId();
             AppUser appUser = appUserMapper.selectByPrimaryKey(userId);
-            int i = fireworksService.updateFireworks(parentUserId, count, Constants.FIREWORKS_RECORD.FRIEND_DISCOUNT, "好友" + appUser.getNickname() + "消费奖励",
+            int i = fireworksService.updateFireworks(parentUserId, count, Constants.FIREWORKS_RECORD.FRIEND_DISCOUNT, "好友消费:" + appUser.getNickname(),
                     itemOrderId == null ? orderNo.intValue() : itemOrderId);
             if (i != 1) {
                 return 0;
@@ -628,25 +630,32 @@ public class OrderServiceImpl implements OrderService {
         }
         // 礼花支付
         if (payWay == Constants.PAY_TYPE.LIHUA) {
+            String title = null;
             //查看礼花数量是否足够
             Fireworks fireworks = fireworksMapper.selectByUserId(userId);
             BigDecimal multi = BigDecimalUtil.multi(totalPrice.doubleValue(), 10);
             if (multi.floatValue() > fireworks.getCount()) {
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "礼花不足无法支付");
             }
+            //物品添加到背包
+            List<ItemOrderDetail> list = itemOrderDetailMapper.selectByUserIdAndOrderNo(userId, orderNo);
+            if (CollectionUtils.isNotEmpty(list)) {
+                for (ItemOrderDetail itemOrderDetail : list) {
+                    Item item = itemMapper.selectByItemId(itemOrderDetail.getItemId());
+                    title = item.getTitle();
+                }
+                int add = bpService.addFromItemOrder(list);
+                if (add < 1) {
+                    throw new ServiceException(ErrorCode.ERROR.getCode(), "");
+                }
+            }
             //扣减礼花，更新礼花
-            LIHUAPay(userId, multi.intValue(), Constants.FIREWORKS_RECORD.our_ITEM_DISCOUNT, "购买商品",
+            LIHUAPay(userId, multi.intValue(), Constants.FIREWORKS_RECORD.our_ITEM_DISCOUNT, "购买商品:" + title +"等",
                     itemOrder.getId(), orderNo);
             //更新销量和详细订单状
             int i = updateStatusSales(orderNo);
             if (i < 1) {
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "更新销量和详细订单状态失败");
-            }
-            //物品添加到背包
-            List<ItemOrderDetail> list = itemOrderDetailMapper.selectByUserIdAndOrderNo(userId, orderNo);
-            int add = bpService.addFromItemOrder(list);
-            if (add < 1) {
-                throw new ServiceException(ErrorCode.ERROR.getCode(), "");
             }
             //保存支付信息
             appPaymentInfoService.doLiHuaPaySuccess(itemOrder.getOrderNo(), userId, new Date(), Constants.ORDER_TYPE.ITEM,
@@ -658,6 +667,7 @@ public class OrderServiceImpl implements OrderService {
         }
         return ResponseFactory.sucData(createOrderParameter(orderNo, itemOrder.getTotalPrice(), payWay));
     }
+
 
     /**
      * 创建订单参数

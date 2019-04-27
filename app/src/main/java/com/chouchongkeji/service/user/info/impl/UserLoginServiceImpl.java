@@ -125,7 +125,7 @@ public class UserLoginServiceImpl implements UserLoginService {
             }
             // 邀请者获取礼花、添加使用记录
             AppUser user = appUserMapper.selectByPrimaryKey(id);
-            int integer1 = fireworksService.updateFireworks(userId, 10, Constants.FIREWORKS_RECORD.ADDFRIEND, "邀请好友" + user.getNickname() + "奖励",inviteId);
+            int integer1 = fireworksService.updateFireworks(userId, 10, Constants.FIREWORKS_RECORD.ADDFRIEND, "邀请好友:" + user.getNickname() ,inviteId);
             if (integer1 != 1) {
                 throw new ServiceException(ErrorCode.ERROR.getCode(),"邀请者获得礼花失败");
             }
