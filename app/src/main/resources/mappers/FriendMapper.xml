@@ -249,4 +249,9 @@ WHERE
         where  heart_num >= 1 and (user_id = #{userId} and friend_user_id = #{friendUserId}
             or user_id = #{friendUserId} and friend_user_id = #{userId})
     </update>
+    <update id="updateRemark">
+
+        update friend set remark = null
+where user_id = #{userId} and friend_user_id = #{friendUserId}
+    </update>
 </mapper>

@@ -1,6 +1,7 @@
 package com.chouchongkeji.service.mall.item.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.chouchongkeji.dial.dao.gift.item.*;
 import com.chouchongkeji.dial.dao.iwant.wallet.FireworksMapper;
 import com.chouchongkeji.dial.dao.user.AppUserMapper;
@@ -145,7 +146,6 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public Response createOrder(Integer userId, Integer client, HashSet<OrderVo> skus, Integer payWay, Byte isShoppingCart) {
-        String title = null;
         HashMap<Integer, List<OrderVo>> hashMap = new HashMap<>();
         for (OrderVo orderVo : skus) {
             ItemSku sku = itemSkuMapper.selectBySkuId(orderVo.getSkuId());
@@ -159,7 +159,6 @@ public class OrderServiceImpl implements OrderService {
                 hashMap.put(item.getAdminId(), orderVos);
             }
             orderVos.add(orderVo);
-            title = item.getTitle();
         }
         List<ItemOrder> itemOrders = new ArrayList<>();
         List<List<ItemOrderDetail>> list = new ArrayList<>();
@@ -218,7 +217,15 @@ public class OrderServiceImpl implements OrderService {
             int index = 0;
             for (ItemOrder itemOrder : itemOrders) {
                 //扣减礼花，更新礼花
-                LIHUAPay(userId, multi.intValue(), Constants.FIREWORKS_RECORD.our_ITEM_DISCOUNT, "购买商品:" + title,
+                StringBuilder title = new StringBuilder();
+                List<ItemOrderDetail> details = itemOrderDetailMapper.selectByOrderNo(itemOrder.getOrderNo());
+                if (CollectionUtils.isNotEmpty(details)){
+                    for (ItemOrderDetail detail : details) {
+                        String title1 = detail.getTitle();
+                        title.append(title1);
+                    }
+                }
+                LIHUAPay(userId, multi.intValue(), Constants.FIREWORKS_RECORD.our_ITEM_DISCOUNT, "购买商品:" + title.toString(),
                         itemOrder.getId(), itemOrder.getOrderNo());
                 //更新销量和详细订单状
                 int i = updateStatusSales(itemOrder.getOrderNo());
@@ -630,7 +637,7 @@ public class OrderServiceImpl implements OrderService {
         }
         // 礼花支付
         if (payWay == Constants.PAY_TYPE.LIHUA) {
-            String title = null;
+            StringBuilder title = new StringBuilder();
             //查看礼花数量是否足够
             Fireworks fireworks = fireworksMapper.selectByUserId(userId);
             BigDecimal multi = BigDecimalUtil.multi(totalPrice.doubleValue(), 10);
@@ -642,7 +649,8 @@ public class OrderServiceImpl implements OrderService {
             if (CollectionUtils.isNotEmpty(list)) {
                 for (ItemOrderDetail itemOrderDetail : list) {
                     Item item = itemMapper.selectByItemId(itemOrderDetail.getItemId());
-                    title = item.getTitle();
+                    String title1 = item.getTitle();
+                    title.append(title1);
                 }
                 int add = bpService.addFromItemOrder(list);
                 if (add < 1) {
@@ -650,7 +658,7 @@ public class OrderServiceImpl implements OrderService {
                 }
             }
             //扣减礼花，更新礼花
-            LIHUAPay(userId, multi.intValue(), Constants.FIREWORKS_RECORD.our_ITEM_DISCOUNT, "购买商品:" + title,
+            LIHUAPay(userId, multi.intValue(), Constants.FIREWORKS_RECORD.our_ITEM_DISCOUNT, "购买商品:" + title.toString(),
                     itemOrder.getId(), orderNo);
             //更新销量和详细订单状
             int i = updateStatusSales(orderNo);

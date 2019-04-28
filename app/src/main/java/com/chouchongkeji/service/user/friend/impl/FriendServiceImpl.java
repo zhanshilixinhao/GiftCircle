@@ -284,6 +284,8 @@ public class FriendServiceImpl implements FriendService {
         if (StringUtils.isNotBlank(remark) ) {
 //            && !StringUtils.equals(friend.getRemark(), remark)
             friend1.setRemark(remark);
+        }else {
+            friendMapper.updateRemark(userId,friendUserId);
         }
         // 修改关系
         if (StringUtils.isNotBlank(relationship) && !StringUtils.equals(friend.getRelationship(), relationship)) {
