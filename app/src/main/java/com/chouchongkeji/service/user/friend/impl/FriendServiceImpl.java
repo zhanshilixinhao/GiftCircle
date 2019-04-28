@@ -471,7 +471,7 @@ public class FriendServiceImpl implements FriendService {
             return ResponseFactory.err("分组名称重复!");
         }
         // 查询用户分组数量
-       int count = friendGroupMapper.selectCountByUserId(userId);
+        int count = friendGroupMapper.selectCountByUserId(userId);
         if (count >= 7){
             return ResponseFactory.err("最多能添加7个分组");
         }
