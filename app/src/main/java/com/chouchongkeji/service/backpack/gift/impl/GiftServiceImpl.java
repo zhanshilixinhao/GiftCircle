@@ -385,6 +385,10 @@ public class GiftServiceImpl implements GiftService {
         if (appUser != null) {
             messageVo.setAvatar(appUser.getAvatar());
         }
+        AppUser sendUser = appUserMapper.selectByUserId(giftRecord.getUserId());
+        if (sendUser!=null){
+            messageVo.setSendAvatar(sendUser.getAvatar());
+        }
         messageVo.setGreetting(giftRecord.getGreetting());
         messageVo.setGiftItems(list);
         messageVo.setSendUserId(giftRecord.getUserId());

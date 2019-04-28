@@ -5201,6 +5201,8 @@ type = 3 请求结果示例：
             ], 
             // 赠送者信息
             sendUserId: 1, // 赠送者用户id 
+            sendAvatar: "http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTLrNV6YHkfyvicgKhfVwMibBqdQWvYHFvyXjSYTzuX0cxLjicvRBu5UXDicAPKpPxdiboRpC00JibL0yeOQ/132", // 赠送者头像
+            avatar: "https://wx.qlogo.cn/mmopen/vi_32/cLhvDgpVNMm24pZLQn9NJLvTbribW3ymS4dXSctqaaKWhF7NJcI1Nicqp0QGw2jjVPsCwcrIFOBKv90qbCqTxSicw/132", //收礼者头像
             isReply: 2, // 1 已答谢 2 未答谢
     }
 }
@@ -5233,7 +5235,9 @@ type = 3 请求结果示例：
                 }
             ], 
             // 赠送者信息
-            sendUserId: 1, // 赠送者用户id 
+            sendUserId: 1, // 赠送者用户id
+             sendAvatar: "http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTLrNV6YHkfyvicgKhfVwMibBqdQWvYHFvyXjSYTzuX0cxLjicvRBu5UXDicAPKpPxdiboRpC00JibL0yeOQ/132", // 赠送者头像
+            avatar: "https://wx.qlogo.cn/mmopen/vi_32/cLhvDgpVNMm24pZLQn9NJLvTbribW3ymS4dXSctqaaKWhF7NJcI1Nicqp0QGw2jjVPsCwcrIFOBKv90qbCqTxSicw/132", //收礼者头像 
             isReply: 2, // 1 已答谢 2 未答谢
     }
 }

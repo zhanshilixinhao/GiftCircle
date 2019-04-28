@@ -24,6 +24,9 @@ public class GiftMessageVo {
     private Integer sendUserId;
 
     @ImgUrl
+    private String sendAvatar;
+
+    @ImgUrl
     private String avatar;
     private String nickname;
     private String remark;
@@ -188,5 +191,13 @@ public class GiftMessageVo {
 
     public void setReNum(Integer reNum) {
         this.reNum = reNum;
+    }
+
+    public String getSendAvatar() {
+        return sendAvatar;
+    }
+
+    public void setSendAvatar(String sendAvatar) {
+        this.sendAvatar = sendAvatar;
     }
 }
