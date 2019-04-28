@@ -366,7 +366,7 @@ public class AffairServiceImpl implements AffairService {
                 e.printStackTrace();
             }
         }
-        // 按年循环(10年)
+        // 按年循环(100年)
         List<MemoItemVo> years = memoAffairMapper.selectAllCByUserId(userId);
         if (CollectionUtils.isNotEmpty(years)) {
             try {
@@ -376,7 +376,7 @@ public class AffairServiceImpl implements AffairService {
                     tarcalendar.setTime(item.getTargetTime());
                     int day = tarcalendar.get(Calendar.DAY_OF_MONTH);
                     Date time = tarcalendar.getTime();
-                    for (int i = -5; i < 5; i++) {
+                    for (int i = 0; i < 100; i++) {
                         MemoItemVo itemVo = (MemoItemVo) item.clone();
                         // 取出调整后日期
                         tarcalendar.setTime(DateUtils.addYears(time, i));
