@@ -79,6 +79,7 @@ public class VirtualIteamOrderServiceImpl implements VirtualIteamOrderService {
 
     @Autowired
     private OrderService orderService;
+
     /**
      * 创建虚拟商品订单
      *
@@ -186,6 +187,7 @@ public class VirtualIteamOrderServiceImpl implements VirtualIteamOrderService {
         BigDecimal mu = BigDecimalUtil.multi(virItemOrder.getTotalPrice().doubleValue(), 0.01);
         // 礼花支付
         if (payWay == Constants.PAY_TYPE.LIHUA) {
+            VirtualItem virtualItem = virtualItemMapper.selectByPrimaryKey(virItemOrder.getVirtualItemId());
             //查看礼花数量是否足够
             Fireworks fireworks = fireworksMapper.selectByUserId(userId);
             BigDecimal multi = BigDecimalUtil.multi(virItemOrder.getTotalPrice().doubleValue(), 10);
@@ -193,7 +195,7 @@ public class VirtualIteamOrderServiceImpl implements VirtualIteamOrderService {
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "礼花不足无法支付");
             }
             //扣减礼花，更新礼花
-           orderService.LIHUAPay(userId, multi.intValue(), Constants.FIREWORKS_RECORD.our_ITEM_DISCOUNT, "购买商品",
+            orderService.LIHUAPay(userId, multi.intValue(), Constants.FIREWORKS_RECORD.our_ITEM_DISCOUNT, "购买商品" + virtualItem.getName(),
                     virItemOrder.getId(), orderNo);
             //更新订单状态
             virItemOrder.setStatus(Constants.CHARGE_ORDER_STATUS.PAY);
@@ -203,7 +205,6 @@ public class VirtualIteamOrderServiceImpl implements VirtualIteamOrderService {
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "更新状态失败");
             }
             //更新销量和详细订单状
-            VirtualItem virtualItem = virtualItemMapper.selectByPrimaryKey(virItemOrder.getVirtualItemId());
             virtualItem.setSales(virtualItem.getSales() + virItemOrder.getQuantity());
             virtualItem.setUpdated(new Date());
             i = virtualItemMapper.updateByPrimaryKey(virtualItem);
@@ -269,6 +270,7 @@ public class VirtualIteamOrderServiceImpl implements VirtualIteamOrderService {
         return ResponseFactory.sucData(payResultVo);
     }
 
+
     /**
      * 初始化订单
      *
@@ -303,10 +305,10 @@ public class VirtualIteamOrderServiceImpl implements VirtualIteamOrderService {
         vo.setSubject(Constants.PAY_SUBJECT_ORDER);
         vo.setOrderNo(order.getOrderNo());
         if (type == Constants.PAY_TYPE.ALI) {
-            vo.setUrl(serviceProperties.getHost()+"noauth/pay/virItem_order/ali");
+            vo.setUrl(serviceProperties.getHost() + "noauth/pay/virItem_order/ali");
         }
         if (type == Constants.PAY_TYPE.WX) {
-            vo.setUrl(serviceProperties.getHost()+"noauth/pay/virItem_order/wx");
+            vo.setUrl(serviceProperties.getHost() + "noauth/pay/virItem_order/wx");
         }
         vo.setPrice(order.getTotalPrice());
         return vo;
