@@ -650,7 +650,7 @@ public class OrderServiceImpl implements OrderService {
                 }
             }
             //扣减礼花，更新礼花
-            LIHUAPay(userId, multi.intValue(), Constants.FIREWORKS_RECORD.our_ITEM_DISCOUNT, "购买商品:" + title +"等",
+            LIHUAPay(userId, multi.intValue(), Constants.FIREWORKS_RECORD.our_ITEM_DISCOUNT, "购买商品:" + title,
                     itemOrder.getId(), orderNo);
             //更新销量和详细订单状
             int i = updateStatusSales(orderNo);
