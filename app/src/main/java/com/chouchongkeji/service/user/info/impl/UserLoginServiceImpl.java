@@ -1,11 +1,13 @@
 package com.chouchongkeji.service.user.info.impl;
 
 import com.chouchongkeji.dial.dao.user.AppUserMapper;
+import com.chouchongkeji.dial.pojo.gift.virtualItem.AppMessage;
 import com.chouchongkeji.dial.pojo.user.AppUser;
 import com.chouchongkeji.exception.ServiceException;
 import com.chouchongkeji.goexplore.common.ErrorCode;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.common.Response;
+import com.chouchongkeji.service.message.MessageService;
 import com.yichen.auth.redis.MRedisTemplate;
 import com.chouchongkeji.service.iwant.wallet.FireworksService;
 import com.chouchongkeji.service.user.friend.FriendService;
@@ -20,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -49,6 +52,9 @@ public class UserLoginServiceImpl implements UserLoginService {
     @Autowired
     private FriendService friendService;
 
+    @Autowired
+    private MessageService messageService;
+
     /**
      * 微信授权登录
      *
@@ -73,7 +79,7 @@ public class UserLoginServiceImpl implements UserLoginService {
         if (!response.isSuccessful()) {
             String key = UUID.randomUUID().toString();
             mRedisTemplate.setString(key, result.getOpenid(), 300);
-            if (client != 3){
+            if (client != 3) {
                 mRedisTemplate.setString(result.getOpenid(), result.getAccess_token(), 600);
             }
             if (client == 1) {
@@ -81,7 +87,7 @@ public class UserLoginServiceImpl implements UserLoginService {
                 map.put("key", key);
                 return ResponseFactory.errData(response.getErrCode(), response.getMsg(), map);
             } else
-            return ResponseFactory.errData(response.getErrCode(), response.getMsg(), key);
+                return ResponseFactory.errData(response.getErrCode(), response.getMsg(), key);
         }
         return response;
     }
@@ -95,8 +101,8 @@ public class UserLoginServiceImpl implements UserLoginService {
      * @return
      */
     @Override
-    public Response bindPhone(String phone, String openid, Integer client,Integer userId) {
-        bindPhone1(phone,openid,client,userId);
+    public Response bindPhone(String phone, String openid, Integer client, Integer userId) {
+        bindPhone1(phone, openid, client, userId);
         // 绑定成功后登录
         Response response = WXCodeApi.login(openid,
                 securityProperties.getOauth2().getClient()[0].getClientId(),
@@ -107,30 +113,47 @@ public class UserLoginServiceImpl implements UserLoginService {
 
 
     @Transactional(rollbackFor = Exception.class, isolation = Isolation.REPEATABLE_READ)
-    public void bindPhone1(String phone, String openid, Integer client,Integer userId){
+    public void bindPhone1(String phone, String openid, Integer client, Integer userId) {
         // 绑定手机号
         Response response = thirdAccService.addOpenAccDetail(openid, client == 3 ? 2 : 1, phone);
         if (!response.isSuccessful()) {
-            throw new ServiceException(ErrorCode.ERROR.getCode(),response.getMsg());
+            throw new ServiceException(ErrorCode.ERROR.getCode(), response.getMsg());
         }
-        if(userId != null){
+        if (userId != null) {
             Integer id = (Integer) response.getData();//好友用户id
-            if (id == null){
-                throw new ServiceException(ErrorCode.ERROR.getCode(),"用户id获取失败");
+            if (id == null) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "用户id获取失败");
             }
             // 添加邀请好友记录
             Integer inviteId = fireworksService.addInviteUser(id, userId);
             if (inviteId == null) {
-                throw new ServiceException(ErrorCode.ERROR.getCode(),"添加邀请记录失败");
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "添加邀请记录失败");
             }
             // 邀请者获取礼花、添加使用记录
             AppUser user = appUserMapper.selectByPrimaryKey(id);
-            int integer1 = fireworksService.updateFireworks(userId, 10, Constants.FIREWORKS_RECORD.ADDFRIEND, "邀请好友:" + user.getNickname() ,inviteId);
+            int integer1 = fireworksService.updateFireworks(userId, 10, Constants.FIREWORKS_RECORD.ADDFRIEND, "邀请好友:" + user.getNickname(), inviteId);
             if (integer1 != 1) {
-                throw new ServiceException(ErrorCode.ERROR.getCode(),"邀请者获得礼花失败");
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "邀请者获得礼花失败");
             }
             // 添加好友
-            friendService.addWXFriend(id,userId);
+            friendService.addWXFriend(id, userId);
+            //添加系统消息
+            AppUser user1 = appUserMapper.selectByPrimaryKey(userId);
+            AppMessage appMessage = new AppMessage();
+            appMessage.setTitle("系统通知");
+            appMessage.setSummary("好友通知");
+            appMessage.setContent(user1.getNickname() + " 已成为您的好友！");
+            appMessage.setTargetId(null);//微信邀请好友没有消息id
+            appMessage.setTargetType((byte) 26);
+            appMessage.setMessageType((byte) 2);
+            int in = messageService.addMessage(appMessage, new ArrayList<Integer>() {
+                {
+                    add(userId);
+                }
+            });
+            if (in < 1) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "添加系统消息失败");
+            }
         }
     }
 }

@@ -156,6 +156,22 @@ public class FriendServiceImpl implements FriendService {
             return ResponseFactory.err("邀请者用户不存在");
         }
         addWXFriend(userId,targetUserId);
+        //添加系统消息
+        AppMessage appMessage = new AppMessage();
+        appMessage.setTitle("系统通知");
+        appMessage.setSummary("好友通知");
+        appMessage.setContent(user.getNickname() + " 已成为您的好友！");
+        appMessage.setTargetId(null);//微信邀请好友没有消息id
+        appMessage.setTargetType((byte) 26);
+        appMessage.setMessageType((byte) 2);
+        int in = messageService.addMessage(appMessage, new ArrayList<Integer>() {
+            {
+                add(targetUserId);
+            }
+        });
+        if (in < 1) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "添加系统消息失败");
+        }
         return ResponseFactory.sucMsg("添加成功");
     }
 
