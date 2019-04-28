@@ -295,14 +295,11 @@ public class FriendServiceImpl implements FriendService {
                 return ResponseFactory.err("分组不存在!");
             }
             friend1.setGroupId(groupId);
+        }else {
+            friend1.setGroupId(0);
         }
         // 修改备注
-        if (StringUtils.isNotBlank(remark) ) {
-//            && !StringUtils.equals(friend.getRemark(), remark)
             friend1.setRemark(remark);
-        }else {
-            friendMapper.updateRemark(userId,friendUserId);
-        }
         // 修改关系
         if (StringUtils.isNotBlank(relationship) && !StringUtils.equals(friend.getRelationship(), relationship)) {
             friend1.setRelationship(relationship);
@@ -313,6 +310,47 @@ public class FriendServiceImpl implements FriendService {
         }
         return ResponseFactory.sucMsg("修改成功!");
     }
+
+//    public Response modifyFriend(Integer userId, Integer friendUserId, Integer groupId, String remark, String relationship) {
+//        // 判断我和该用户是不是好友关系
+//        FriendVo friend = friendMapper.selectByUserIdAndFriendUserId(userId, friendUserId);
+//        if (friend == null) {
+//            return ResponseFactory.err("不是好友关系");
+//        }
+//        // 更新信息
+//        Friend friend1 = new Friend();
+//        friend1.setId(friend.getId());
+//        // 如果要修改分组
+//        if (groupId != null) {
+//            // 判断分组是否相同
+//            if (groupId.compareTo(friend.getGroupId()) == 0) {
+//                return ResponseFactory.sucMsg("成功!");
+//            }
+//            // 判断新的分组是否存在
+//            FriendGroup group = friendGroupMapper.selectByPrimaryKey(groupId);
+//            if (group == null && groupId != 0) {
+//                return ResponseFactory.err("分组不存在!");
+//            }
+//            friend1.setGroupId(groupId);
+//        }
+//        // 修改备注
+//        if (StringUtils.isNotBlank(remark) ) {
+////            && !StringUtils.equals(friend.getRemark(), remark)
+//            friend1.setRemark(remark);
+//        }
+////        else {
+////            friendMapper.updateRemark(userId,friendUserId);
+////        }
+//        // 修改关系
+//        if (StringUtils.isNotBlank(relationship) && !StringUtils.equals(friend.getRelationship(), relationship)) {
+//            friend1.setRelationship(relationship);
+//        }
+//        int i = friendMapper.updateByPrimaryKeySelective(friend1);
+//        if (i< 1){
+//            return ResponseFactory.err("修改失败");
+//        }
+//        return ResponseFactory.sucMsg("修改成功!");
+//    }
 
     /**
      * 获取好友验证消息

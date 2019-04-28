@@ -3,7 +3,7 @@
 <mapper namespace="com.chouchongkeji.dial.dao.friend.FriendMapper">
     <resultMap id="BaseResultMap" type="com.chouchongkeji.dial.pojo.friend.Friend">
         <!--<constructor>-->
-            <id column="id" property="id"/>
+        <id column="id" property="id"/>
         <!--</constructor>-->
     </resultMap>
     <sql id="Base_Column_List">
@@ -38,33 +38,33 @@
     </select>
     <select id="selectBySearch" resultType="com.chouchongkeji.service.user.friend.vo.FriendBase">
         select *
-        from  (
-          SELECT
-	a.id AS user_id,
-	a.avatar,
-	a.nickname,
-	(b.id is NULL) + 1 as is_friend,
+        from (
+        SELECT
+        a.id AS user_id,
+        a.avatar,
+        a.nickname,
+        (b.id is NULL) + 1 as is_friend,
         b.heart_num
-FROM
-	app_user a
-	LEFT JOIN friend b ON b.user_id = #{userId}
-	AND b.friend_user_id = a.id
-WHERE
-	a.phone = #{phone}
-	UNION
-	SELECT
-	a.id AS user_id,
-	a.avatar,
-	a.nickname,
-	(b.id is NULL) + 1 as is_friend,
+        FROM
+        app_user a
+        LEFT JOIN friend b ON b.user_id = #{userId}
+        AND b.friend_user_id = a.id
+        WHERE
+        a.phone = #{phone}
+        UNION
+        SELECT
+        a.id AS user_id,
+        a.avatar,
+        a.nickname,
+        (b.id is NULL) + 1 as is_friend,
         b.heart_num
-FROM
-	app_user a
-	LEFT JOIN friend b ON b.user_id = #{userId}
-	AND b.friend_user_id = a.id
-WHERE
-	a.nickname LIKE concat('%', #{phone},'%')
-              ) h
+        FROM
+        app_user a
+        LEFT JOIN friend b ON b.user_id = #{userId}
+        AND b.friend_user_id = a.id
+        WHERE
+        a.nickname LIKE concat('%', #{phone},'%')
+        ) h
         <where>
             <trim suffixOverrides="and">
                 <if test="type != null and type != ''">
@@ -87,20 +87,20 @@ order by a.heart_num DESC,a.created DESC
 limit 5
     </select>
     <!--<select id="selectByUserIdAndFriendUserIdAll" resultType="com.chouchongkeji.dial.pojo.friend.Friend">-->
-        <!--SELECT-->
-  <!--*-->
-<!--FROM-->
-  <!--friend-->
-<!--WHERE-->
+    <!--SELECT-->
+    <!--*-->
+    <!--FROM-->
+    <!--friend-->
+    <!--WHERE-->
     <!--user_id = #{userId}-->
-  <!--AND friend_user_id = #{friendUserId}-->
-<!--union all SELECT-->
-  <!--*-->
-<!--FROM-->
-  <!--friend-->
-<!--WHERE-->
+    <!--AND friend_user_id = #{friendUserId}-->
+    <!--union all SELECT-->
+    <!--*-->
+    <!--FROM-->
+    <!--friend-->
+    <!--WHERE-->
     <!--user_id = {friendUserId}-->
-  <!--AND friend_user_id = #{userId}-->
+    <!--AND friend_user_id = #{userId}-->
     <!--</select>-->
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
@@ -195,9 +195,8 @@ WHERE
             <if test="friendUserId != null">
                 friend_user_id = #{friendUserId,jdbcType=INTEGER},
             </if>
-            <if test="remark != null">
-                remark = #{remark,jdbcType=VARCHAR},
-            </if>
+
+            remark = #{remark,jdbcType=VARCHAR},
             <if test="relationship != null">
                 relationship = #{relationship,jdbcType=VARCHAR},
             </if>
