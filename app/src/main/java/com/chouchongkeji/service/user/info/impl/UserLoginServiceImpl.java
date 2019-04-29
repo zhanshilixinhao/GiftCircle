@@ -106,10 +106,14 @@ public class UserLoginServiceImpl implements UserLoginService {
      */
     @Override
     public Response bindPhone(String phone, String openid, Integer client, Integer userId,AppUser user) {
-        bindPhone1(phone, openid, client, userId);
-        // 修改用户信息
-        if (user != null){
-            userService.updateProfile(userId,user);
+        int id = bindPhone1(phone, openid, client, userId);
+        if (id != 0){
+            // 修改用户信息
+            if (user != null){
+                userService.updateProfile(id,user);
+            }
+            // 添加好友
+            friendService.WXAddFriend(id, userId);
         }
         // 绑定成功后登录
         Response response = WXCodeApi.login(openid,
@@ -121,7 +125,7 @@ public class UserLoginServiceImpl implements UserLoginService {
 
 
     @Transactional(rollbackFor = Exception.class, isolation = Isolation.REPEATABLE_READ)
-    public void bindPhone1(String phone, String openid, Integer client, Integer userId) {
+    public int bindPhone1(String phone, String openid, Integer client, Integer userId) {
         // 绑定手机号
         Response response = thirdAccService.addOpenAccDetail(openid, client == 3 ? 2 : 1, phone);
         if (!response.isSuccessful()) {
@@ -145,6 +149,8 @@ public class UserLoginServiceImpl implements UserLoginService {
             }
 //            // 添加好友
 //            friendService.addWXFriend(id, userId);
+            return id;
         }
+        return 0;
     }
 }
