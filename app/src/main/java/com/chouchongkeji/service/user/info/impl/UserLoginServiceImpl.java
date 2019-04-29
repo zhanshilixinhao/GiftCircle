@@ -8,6 +8,7 @@ import com.chouchongkeji.goexplore.common.ErrorCode;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.service.message.MessageService;
+import com.chouchongkeji.service.user.info.UserService;
 import com.yichen.auth.redis.MRedisTemplate;
 import com.chouchongkeji.service.iwant.wallet.FireworksService;
 import com.chouchongkeji.service.user.friend.FriendService;
@@ -55,6 +56,9 @@ public class UserLoginServiceImpl implements UserLoginService {
     @Autowired
     private MessageService messageService;
 
+    @Autowired
+    private UserService userService;
+
     /**
      * 微信授权登录
      *
@@ -101,8 +105,12 @@ public class UserLoginServiceImpl implements UserLoginService {
      * @return
      */
     @Override
-    public Response bindPhone(String phone, String openid, Integer client, Integer userId) {
+    public Response bindPhone(String phone, String openid, Integer client, Integer userId,AppUser user) {
         bindPhone1(phone, openid, client, userId);
+        // 修改用户信息
+        if (user != null){
+            userService.updateProfile(userId,user);
+        }
         // 绑定成功后登录
         Response response = WXCodeApi.login(openid,
                 securityProperties.getOauth2().getClient()[0].getClientId(),
@@ -135,8 +143,8 @@ public class UserLoginServiceImpl implements UserLoginService {
             if (integer1 != 1) {
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "邀请者获得礼花失败");
             }
-            // 添加好友
-            friendService.addWXFriend(id, userId);
+//            // 添加好友
+//            friendService.addWXFriend(id, userId);
         }
     }
 }

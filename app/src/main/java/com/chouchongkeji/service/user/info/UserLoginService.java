@@ -1,5 +1,6 @@
 package com.chouchongkeji.service.user.info;
 
+import com.chouchongkeji.dial.pojo.user.AppUser;
 import com.chouchongkeji.goexplore.common.Response;
 import com.yichen.auth.mvc.AppClient;
 
@@ -20,5 +21,5 @@ public interface UserLoginService {
      * @author linqin
      * @date 2018/6/5
      */
-    Response bindPhone(String phone, String openid, Integer client,Integer userId);
+    Response bindPhone(String phone, String openid, Integer client, Integer userId, AppUser user);
 }

@@ -5,6 +5,7 @@ import com.chouchongkeji.dial.dao.backpack.VbpMapper;
 import com.chouchongkeji.dial.dao.backpack.gift.AppMessageMapper;
 import com.chouchongkeji.dial.dao.backpack.item.DiscountingMapper;
 import com.chouchongkeji.dial.dao.gift.item.ItemMapper;
+import com.chouchongkeji.dial.dao.gift.item.ItemSkuMapper;
 import com.chouchongkeji.dial.dao.iwant.wallet.SysAdminWalletMapper;
 import com.chouchongkeji.dial.dao.iwant.wallet.SysAdminWalletRecordMapper;
 import com.chouchongkeji.dial.dao.iwant.wallet.WalletMapper;
@@ -13,6 +14,7 @@ import com.chouchongkeji.dial.pojo.backpack.BpItem;
 import com.chouchongkeji.dial.pojo.backpack.Vbp;
 import com.chouchongkeji.dial.pojo.backpack.item.Discounting;
 import com.chouchongkeji.dial.pojo.gift.item.Item;
+import com.chouchongkeji.dial.pojo.gift.item.ItemSku;
 import com.chouchongkeji.dial.pojo.gift.virtualItem.AppMessage;
 import com.chouchongkeji.dial.pojo.iwant.wallet.SysAdminWallet;
 import com.chouchongkeji.dial.pojo.iwant.wallet.SysAdminWalletRecord;
@@ -53,6 +55,9 @@ public class DiscountingServiceImpl implements DiscountingService {
 
     @Autowired
     private ItemMapper itemMapper;
+
+    @Autowired
+    private ItemSkuMapper itemSkuMapper;
 
     @Autowired
     private WalletMapper walletMapper;
@@ -103,9 +108,11 @@ public class DiscountingServiceImpl implements DiscountingService {
             discountPrice = BigDecimalUtil.multi(vbp.getPrice().doubleValue(), Constants.DISCOUNT_RATE.DISCOUNTING);
             discountPrice = discountPrice.setScale(2, RoundingMode.UP);
             // 系统商品标题
-            int i1 = vbp.getTitle().lastIndexOf(" ");
-            substring = vbp.getTitle().substring(0, i1);
-        }else if (vbp.getType() !=1){
+            ItemSku sku = itemSkuMapper.selectByPrimaryKey(vbp.getTargetId());
+            if (sku != null){
+                substring = sku.getTitle();
+            }
+        }else if (vbp.getType() !=1){ //虚拟物品
             discountPrice = vbp.getPrice();
             // 系统商品标题
             substring = vbp.getTitle();

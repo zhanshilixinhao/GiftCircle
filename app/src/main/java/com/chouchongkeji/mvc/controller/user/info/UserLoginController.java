@@ -1,5 +1,6 @@
 package com.chouchongkeji.mvc.controller.user.info;
 
+import com.chouchongkeji.dial.pojo.user.AppUser;
 import com.yichen.auth.redis.MRedisTemplate;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
@@ -56,7 +57,7 @@ public class UserLoginController {
      * @date 2018/6/5
      */
     @PostMapping("/bindPhone")
-    public Response bindPhone(@AppClient Integer client, String phone, String key,Integer userId) {
+    public Response bindPhone(@AppClient Integer client, String phone, String key,Integer userId,AppUser user) {
         //校验必传参数
         if (StringUtils.isAnyBlank(phone, key)) {
             return ResponseFactory.errMissingParameter();
@@ -67,7 +68,7 @@ public class UserLoginController {
             return ResponseFactory.err("key无效或过期!");
         }
         //绑定手机号
-        return userLoginService.bindPhone(phone, openid, client,userId);
+        return userLoginService.bindPhone(phone, openid, client,userId,user);
 
     }
 

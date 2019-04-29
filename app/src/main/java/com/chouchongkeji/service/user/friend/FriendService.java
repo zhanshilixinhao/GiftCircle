@@ -149,7 +149,7 @@ public interface FriendService {
 
     FriendVo isFriend(Integer userId, Integer friendUserId);
 
-    void addWXFriend(Integer userId, Integer friendUserId);
+    int addWXFriend(Integer userId, Integer friendUserId);
 
     /**
      *新的朋友消息未查看数量

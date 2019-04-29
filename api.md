@@ -283,9 +283,10 @@ http 常用错误码
 | :------: | :------: | :------: | :----: | :-------------: |
 |  phone   |  String  |    是    |   无   |      电话       |
 |   key    |  String  |    是    |   无   | 缓存openId的key,2.1中返回的data内容 |
-|   key    |  String  |    是    |   无   | 缓存openId的key,2.1中返回的data内容 |
 |   code    |  String  |    是    |   无   | 短信验证码 |
-| userId|int|否|无|邀请好友凭证（邀请者用户Id）|
+| userId|int|否|无|邀请好友凭证（邀请者用户Id，小程序）|
+| avatar|string|否|无|用户头像（小程序）|
+| nickname|string|否|无|用户昵称（小程序）
 
 - 请求结果示例
 

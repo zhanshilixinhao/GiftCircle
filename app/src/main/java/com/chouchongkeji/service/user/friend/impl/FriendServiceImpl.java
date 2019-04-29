@@ -90,7 +90,7 @@ public class FriendServiceImpl implements FriendService {
                 return ResponseFactory.err("分组不存在，请先创建分组!");
             }
         }
-        if (groupId == null){
+        if (groupId == null) {
             groupId = 0;
         }
 
@@ -137,7 +137,7 @@ public class FriendServiceImpl implements FriendService {
     /**
      * 微信邀请添加好友
      *
-     * @param userId 被邀请者用户id
+     * @param userId       被邀请者用户id
      * @param targetUserId 邀请者用户id
      * @return
      * @author yichenshanren
@@ -155,7 +155,10 @@ public class FriendServiceImpl implements FriendService {
         if (target == null) {
             return ResponseFactory.err("邀请者用户不存在");
         }
-        addWXFriend(userId,targetUserId);
+        int i = addWXFriend(userId, targetUserId);
+        if (i == 0) {
+            return ResponseFactory.sucMsg("添加成功");
+        }
         //添加系统消息
         AppMessage appMessage = new AppMessage();
         appMessage.setTitle("系统通知");
@@ -174,7 +177,6 @@ public class FriendServiceImpl implements FriendService {
         }
         return ResponseFactory.sucMsg("添加成功");
     }
-
 
 
     /**
@@ -225,9 +227,9 @@ public class FriendServiceImpl implements FriendService {
     }
 
     @Override
-    public void addWXFriend(Integer userId, Integer friendUserId) {
+    public int addWXFriend(Integer userId, Integer friendUserId) {
         FriendVo friendVo = friendMapper.selectByUserIdAndFriendUserId(userId, friendUserId);
-        if (friendVo != null) return;
+        if (friendVo != null) return 0;
         // 添加我和对方的好友关系
         Friend friend1 = new Friend();
         friend1.setUserId(friendUserId);
@@ -244,7 +246,7 @@ public class FriendServiceImpl implements FriendService {
         // 取出添加好友时的那啥
         friend1.setGroupId(0);
         friendMapper.insert(friend1);
-
+        return 1;
     }
 
     /**
@@ -295,17 +297,17 @@ public class FriendServiceImpl implements FriendService {
                 return ResponseFactory.err("分组不存在!");
             }
             friend1.setGroupId(groupId);
-        }else {
+        } else {
             friend1.setGroupId(0);
         }
         // 修改备注
-            friend1.setRemark(remark);
+        friend1.setRemark(remark);
         // 修改关系
         if (StringUtils.isNotBlank(relationship) && !StringUtils.equals(friend.getRelationship(), relationship)) {
             friend1.setRelationship(relationship);
         }
         int i = friendMapper.updateByPrimaryKeySelective(friend1);
-        if (i< 1){
+        if (i < 1) {
             return ResponseFactory.err("修改失败");
         }
         return ResponseFactory.sucMsg("修改成功!");
@@ -510,7 +512,7 @@ public class FriendServiceImpl implements FriendService {
         }
         // 查询用户分组数量
         int count = friendGroupMapper.selectCountByUserId(userId);
-        if (count >= 7){
+        if (count >= 7) {
             return ResponseFactory.err("最多能添加7个分组");
         }
         // 创建分组
@@ -614,7 +616,7 @@ public class FriendServiceImpl implements FriendService {
      * @date 2018/6/21
      */
     @Override
-    public Response getGroupList(Integer userId,Integer isAll) {
+    public Response getGroupList(Integer userId, Integer isAll) {
         List<FriendGroup> friendGroups = friendGroupMapper.selectByUserId(userId);
         if (friendGroups == null) {
             friendGroups = new ArrayList<>();
@@ -625,7 +627,7 @@ public class FriendServiceImpl implements FriendService {
         group.setSort(0);
         group.setUserId(userId);
         friendGroups.add(0, group);
-        if (isAll == 2){
+        if (isAll == 2) {
             group = new FriendGroup();
             group.setName("全部");
             group.setSort(0);
