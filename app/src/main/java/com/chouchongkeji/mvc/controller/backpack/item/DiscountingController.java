@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -53,10 +55,18 @@ public class DiscountingController {
      */
     @PostMapping("preinfo")
     public Response preinfo(@AuthenticationPrincipal UserDetails userDetails) {
+        List<HashMap> list = new ArrayList<>();
         Map<String, Object> map = new HashMap<>();
         map.put("ratio", 0.20);
         map.put("desc", "平台收取商品原价的20%作为仓储及物流服务费");
-        return ResponseFactory.sucData(map);
+        map.put("type",1);
+        list.add((HashMap) map);
+        map = new HashMap<>();
+        map.put("ratio", 0);
+        map.put("desc", "不扣除20%手续费");
+        map.put("type",2);
+        list.add((HashMap) map);
+        return ResponseFactory.sucData(list);
     }
 
 

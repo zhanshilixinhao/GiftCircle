@@ -97,12 +97,24 @@ public class DiscountingServiceImpl implements DiscountingService {
             return ResponseFactory.err("数量不足不能提现");
         }
         //添加折现记录
+        BigDecimal discountPrice = null;// 折现金额
+        String substring = null; //商品标题
+        if (vbp.getType() == 1){
+            discountPrice = BigDecimalUtil.multi(vbp.getPrice().doubleValue(), Constants.DISCOUNT_RATE.DISCOUNTING);
+            discountPrice = discountPrice.setScale(2, RoundingMode.UP);
+            // 系统商品标题
+            int i1 = vbp.getTitle().lastIndexOf(" ");
+            substring = vbp.getTitle().substring(0, i1);
+        }else if (vbp.getType() !=1){
+            discountPrice = vbp.getPrice();
+            // 系统商品标题
+            substring = vbp.getTitle();
+        }
         Discounting discounting = new Discounting();
         discounting.setUserId(userId);
         discounting.setBpId(bpId);
         discounting.setItemPrice(vbp.getPrice());
-        BigDecimal discountPrice = BigDecimalUtil.multi(vbp.getPrice().doubleValue(), Constants.DISCOUNT_RATE.DISCOUNTING);
-        discountPrice = discountPrice.setScale(2, RoundingMode.UP);
+
         discounting.setDiscountPrice(discountPrice);
         discounting.setExplain("背包物品折现");
         discounting.setStatus(Constants.DISCOUNT_STATUS.DISCOUNTING);
@@ -141,13 +153,6 @@ public class DiscountingServiceImpl implements DiscountingService {
         AppMessage message = new AppMessage();
         message.setTitle("系统通知");
         message.setSummary("折现成功通知");
-        String substring = null;
-        if (vbp.getType() == 1){
-            int i1 = vbp.getTitle().lastIndexOf("\n");
-             substring = vbp.getTitle().substring(0, i1);
-        }else if (vbp.getType() != 1){
-            substring = vbp.getTitle();
-        }
         message.setContent("您好，你的" + substring + "物品折现金额" + discountPrice + "元，原价格"
                 + vbp.getPrice() + "元，您的折现已成功到达账户，请前往余额查看");
         message.setTargetId(bpId);
