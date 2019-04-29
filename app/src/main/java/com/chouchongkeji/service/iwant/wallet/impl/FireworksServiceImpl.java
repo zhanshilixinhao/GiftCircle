@@ -57,6 +57,7 @@ public class FireworksServiceImpl implements FireworksService {
      * @param parentUserId 邀请者id
      * @return
      * @author linqin
+     *
      * @date 2019/4/3
      */
     public Integer addInviteUser(Integer userId, Integer parentUserId) {
@@ -68,7 +69,7 @@ public class FireworksServiceImpl implements FireworksService {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "添加邀请好友记录失败");
         }
         // 添加为好友
-        friendService.addWXFriend(userId, parentUserId);
+//        friendService.addWXFriend(userId, parentUserId);
         return inviteUser.getId();//0错误，1正确
     }
 
