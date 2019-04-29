@@ -137,23 +137,6 @@ public class UserLoginServiceImpl implements UserLoginService {
             }
             // 添加好友
             friendService.addWXFriend(id, userId);
-            //添加系统消息
-            AppUser user1 = appUserMapper.selectByPrimaryKey(userId);
-            AppMessage appMessage = new AppMessage();
-            appMessage.setTitle("系统通知");
-            appMessage.setSummary("好友通知");
-            appMessage.setContent(user1.getNickname() + " 已成为您的好友！");
-            appMessage.setTargetId(null);//微信邀请好友没有消息id
-            appMessage.setTargetType((byte) 26);
-            appMessage.setMessageType((byte) 2);
-            int in = messageService.addMessage(appMessage, new ArrayList<Integer>() {
-                {
-                    add(userId);
-                }
-            });
-            if (in < 1) {
-                throw new ServiceException(ErrorCode.ERROR.getCode(), "添加系统消息失败");
-            }
         }
     }
 }
