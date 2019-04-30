@@ -145,6 +145,9 @@ public class FriendServiceImpl implements FriendService {
      */
     @Override
     public Response WXAddFriend(Integer userId, Integer targetUserId) {
+        if (userId.equals(targetUserId)){
+            return ResponseFactory.err("不能邀请自己");
+        }
         // 查询用户信息
         AppUser user = appUserMapper.selectByPrimaryKey(userId);
         if (user == null) {

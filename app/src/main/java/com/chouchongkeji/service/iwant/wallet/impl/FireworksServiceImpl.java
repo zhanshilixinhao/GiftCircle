@@ -61,6 +61,9 @@ public class FireworksServiceImpl implements FireworksService {
      * @date 2019/4/3
      */
     public Integer addInviteUser(Integer userId, Integer parentUserId) {
+        if (userId.equals(parentUserId)){
+            return 0;
+        }
         InviteUser inviteUser = new InviteUser();
         inviteUser.setUserId(userId);
         inviteUser.setParentUserId(parentUserId);

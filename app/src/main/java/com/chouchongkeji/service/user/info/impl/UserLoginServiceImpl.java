@@ -138,8 +138,8 @@ public class UserLoginServiceImpl implements UserLoginService {
             }
             // 添加邀请好友记录
             Integer inviteId = fireworksService.addInviteUser(id, userId);
-            if (inviteId == null) {
-                throw new ServiceException(ErrorCode.ERROR.getCode(), "添加邀请记录失败");
+            if (inviteId == 0) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "不能邀请自己或添加邀请记录失败");
             }
             // 邀请者获取礼花、添加使用记录
             AppUser user = appUserMapper.selectByPrimaryKey(id);
