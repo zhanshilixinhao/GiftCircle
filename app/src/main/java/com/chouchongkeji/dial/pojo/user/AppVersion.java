@@ -1,5 +1,7 @@
 package com.chouchongkeji.dial.pojo.user;
 
+import com.yichen.auth.jackson.ImgUrl;
+
 import java.util.Date;
 
 public class AppVersion {
@@ -13,6 +15,7 @@ public class AppVersion {
 
     private Byte type;
 
+    @ImgUrl
     private String apkUrl;
 
     private String upgradePoint;
