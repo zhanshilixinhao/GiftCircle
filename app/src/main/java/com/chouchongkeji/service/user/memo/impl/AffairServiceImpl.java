@@ -329,7 +329,7 @@ public class AffairServiceImpl implements AffairService {
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }
-        // 按月循环(36个月)
+        // 按月循环(60个月)
         List<MemoItemVo> months = memoAffairMapper.selectAllByUserIdMonth(userId);
         if (CollectionUtils.isNotEmpty(months)) {
             try {
@@ -351,7 +351,7 @@ public class AffairServiceImpl implements AffairService {
                     // 调整到当前年份
                     tarcalendar.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR));
                     Date time = tarcalendar.getTime();
-                    for (int i = -18; i < 18; i++) {
+                    for (int i = 0; i < 60; i++) {
                         MemoItemVo itemVo = (MemoItemVo) item.clone();
                         //取出加了月份的日期
                         tarcalendar.setTime(DateUtils.addMonths(time, i));
