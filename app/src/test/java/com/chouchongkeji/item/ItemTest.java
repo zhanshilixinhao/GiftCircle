@@ -237,7 +237,7 @@ public class ItemTest {
         RequestParams params = new RequestParams();
         params.put("time",System.currentTimeMillis());
         params.put("access_token", "0b83209b-c43a-44fe-9a1d-71fd71809f8a");
-        params.put("ids","27,21");
+        params.put("ids","34,35");
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
         params.put("sign", map.get(ApiSignUtil.ANDROID));
         Response post = OkHttpUtil.post("http://localhost:8088/auth/v1/favorite/delItem", params);
