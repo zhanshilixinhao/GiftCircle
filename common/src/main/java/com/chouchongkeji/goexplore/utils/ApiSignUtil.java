@@ -1,6 +1,8 @@
 package com.chouchongkeji.goexplore.utils;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
@@ -22,6 +24,8 @@ public class ApiSignUtil {
     public static final String IOS = "%sX4H91PzuB7V^T4uefDnsiwzHDxOgrX";
     public static final String WXMINI = "mRrBzm9OiRCq&^frt7c#V$b3pQQLemRv";
 
+    private final static Logger log = LoggerFactory.getLogger(ApiSignUtil.class.getName());
+
     /**
      * 获取请求中除了签名之外的参数
      *
@@ -36,7 +40,7 @@ public class ApiSignUtil {
         String name;
         while (enumeration.hasMoreElements()) {
             name = enumeration.nextElement();
-//                System.out.println(name+"="+request.getParameter(name));
+                log.info(name+"="+request.getParameter(name));
             if (!StringUtils.equals(name, SIGN)) {
                 map.put(name, request.getParameter(name));
             }
