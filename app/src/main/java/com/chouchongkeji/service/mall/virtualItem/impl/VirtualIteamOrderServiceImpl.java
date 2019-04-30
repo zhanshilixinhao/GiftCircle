@@ -25,6 +25,7 @@ import com.chouchongkeji.dial.pojo.gift.virtualItem.VirItemOrder;
 import com.chouchongkeji.dial.pojo.gift.virtualItem.VirtualItem;
 import com.chouchongkeji.properties.ServiceProperties;
 import com.chouchongkeji.service.backpack.base.BpService;
+import com.chouchongkeji.service.iwant.wallet.FireworksService;
 import com.chouchongkeji.service.iwant.wallet.WalletService;
 import com.chouchongkeji.service.mall.item.OrderService;
 import com.chouchongkeji.service.mall.virtualItem.VirtualIteamOrderService;
@@ -79,6 +80,8 @@ public class VirtualIteamOrderServiceImpl implements VirtualIteamOrderService {
 
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private FireworksService fireworksService;
 
     /**
      * 创建虚拟商品订单
@@ -195,7 +198,7 @@ public class VirtualIteamOrderServiceImpl implements VirtualIteamOrderService {
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "礼花不足无法支付");
             }
             //扣减礼花，更新礼花
-            orderService.LIHUAPay(userId, multi.intValue(), Constants.FIREWORKS_RECORD.our_ITEM_DISCOUNT, "购买商品" + virtualItem.getName(),
+            LIHUAPay(userId, multi.intValue(), Constants.FIREWORKS_RECORD.our_ITEM_DISCOUNT, "购买商品" + virtualItem.getName(),
                     virItemOrder.getId(), orderNo);
             //更新订单状态
             virItemOrder.setStatus(Constants.CHARGE_ORDER_STATUS.PAY);
@@ -268,6 +271,21 @@ public class VirtualIteamOrderServiceImpl implements VirtualIteamOrderService {
         payResultVo.setOrderNo(orderNo);
 //        payResultVo.setParams1(mingwen);
         return ResponseFactory.sucData(payResultVo);
+    }
+
+    public int LIHUAPay(Integer userId, Integer counts, Constants.FIREWORKS_RECORD type, String des, Integer itemOrderId, Long orderNo) {
+        //扣减，更新礼花，礼花记录
+        int count = fireworksService.updateFireworks(userId, counts,
+                type, des, itemOrderId == null ? orderNo.intValue() : itemOrderId);
+        if (count < 1) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "支付失败,请选择其他支付方式");
+        }
+//        //更新订单状态
+//        int i = itemOrderMapper.updateStatusByOrder(orderNo, Constants.ORDER_STATUS.PAID);
+//        if (i < 1) {
+//            throw new ServiceException(ErrorCode.ERROR.getCode(), "更新状态失败");
+//        }
+        return 1;
     }
 
 
