@@ -15,7 +15,7 @@
     user_id, balance, total_amount, consume_amount, created, updated
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from wallet
     where user_id = #{userId,jdbcType=INTEGER}
@@ -33,10 +33,10 @@ WHERE
     where user_id = #{userId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.iwant.wallet.Wallet" useGeneratedKeys="true" keyProperty="id">
-    insert into wallet (user_id, balance, total_amount, 
+    insert into wallet (user_id, balance, total_amount,
       consume_amount, created, updated
       )
-    values (#{userId,jdbcType=INTEGER}, #{balance,jdbcType=DECIMAL}, #{totalAmount,jdbcType=DECIMAL}, 
+    values (#{userId,jdbcType=INTEGER}, #{balance,jdbcType=DECIMAL}, #{totalAmount,jdbcType=DECIMAL},
       #{consumeAmount,jdbcType=DECIMAL}, #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP}
       )
   </insert>
@@ -112,5 +112,10 @@ WHERE
       created = #{created,jdbcType=TIMESTAMP},
       updated = #{updated,jdbcType=TIMESTAMP}
     where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+  <update id="updateBalance">
+    update wallet
+    set balance = balance- #{balance}
+    where user_id = #{userId} and balance >= #{balance}
   </update>
 </mapper>

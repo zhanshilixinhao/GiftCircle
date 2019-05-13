@@ -7,6 +7,7 @@ import com.chouchongkeji.dial.dao.iwant.wallet.WalletMapper;
 import com.chouchongkeji.dial.dao.user.memo.WXDiscountMapper;
 import com.chouchongkeji.dial.pojo.backpack.BpItem;
 import com.chouchongkeji.dial.pojo.user.memo.WXDiscount;
+import com.chouchongkeji.exception.ServiceException;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.query.PageQuery;
@@ -22,6 +23,8 @@ import com.chouchongkeji.service.iwant.wallet.vo.UserWithdrawVo;
 import com.chouchongkeji.service.iwant.wallet.vo.WXDiscountVo;
 import com.chouchongkeji.util.Constants;
 import com.github.pagehelper.PageHelper;
+import com.yichen.auth.redis.MRedisTemplate;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -56,6 +59,9 @@ public class UserWithdrawServiceImpl implements UserWithdrawService {
     @Autowired
     private WXDiscountMapper wxDiscountMapper;
 
+    @Autowired
+    private MRedisTemplate mRedisTemplate;
+
     /**
      * 添加用户提现记录
      *
@@ -66,6 +72,11 @@ public class UserWithdrawServiceImpl implements UserWithdrawService {
      */
     @Override
     public Response addUserWithdraw(Integer userId, Integer id, BigDecimal amount) {
+        String string = mRedisTemplate.getString("apply" + userId);
+        if (StringUtils.isNotBlank(string)){
+            return ResponseFactory.err("您已提交过申请,请稍后再试!");
+        }
+        mRedisTemplate.setString("apply" + userId,"s",60);
         // 取出用户银行卡信息
         UserBankCard userBankCard = userBankCardMapper.selectByBankId(id);
         // 是否存在
@@ -101,11 +112,14 @@ public class UserWithdrawServiceImpl implements UserWithdrawService {
 
         int count = userWithdrawMapper.insert(userWithdraw);
         if (count == 1) {
-            wallet.setBalance(wallet.getBalance().subtract(amount));
-            walletMapper.updateByPrimaryKey(wallet);
+            wallet.setBalance(amount);
+            int i = walletMapper.updateBalance(wallet);
+            if (i < 1) {
+                throw new ServiceException("申请提现失败");
+            }
             return ResponseFactory.sucMsg("提现申请成功!");
         }
-        return ResponseFactory.err("提现申请失败!");
+        throw new ServiceException("提现申请失败!");
     }
 
 

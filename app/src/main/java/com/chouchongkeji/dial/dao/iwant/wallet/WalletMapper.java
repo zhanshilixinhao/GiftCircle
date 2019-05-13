@@ -17,4 +17,5 @@ public interface WalletMapper {
 
     Wallet selectByUserId(Integer userId);
 
+    int updateBalance(Wallet wallet);
 }
