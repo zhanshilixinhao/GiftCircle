@@ -1,12 +1,16 @@
 package com.chouchongkeji.mvc.controller.backpack.gift;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.service.backpack.gift.vo.GiftSendVo;
 import com.chouchongkeji.service.backpack.gift.GiftService;
+import com.chouchongkeji.service.backpack.gift.vo.SendWXVo;
 import com.chouchongkeji.service.backpack.gift.vo2.GiftSendVo2;
 import com.yichen.auth.mvc.AppClient;
 import com.yichen.auth.service.UserDetails;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -14,6 +18,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import retrofit2.http.POST;
+
+import java.util.HashSet;
 
 /**
  * @author yichenshanren
@@ -115,9 +121,8 @@ public class GiftController {
     @RequestMapping("sendForWx")
     public Response sendForWx(@AuthenticationPrincipal UserDetails userDetails,
                               @AppClient Integer client,
-                              GiftSendVo sendVo) {
-        if (sendVo.getBpId() == null ||
-                sendVo.getType() == null || sendVo.getType() < 3 || sendVo.getType() > 4
+                              GiftSendVo sendVo,String bpId) {
+        if (sendVo.getType() == null || sendVo.getType() < 3 || sendVo.getType() > 4
 //                StringUtils.isAnyBlank(sendVo.getGreeting())
         ) {
             return ResponseFactory.errMissingParameter();
@@ -126,8 +131,39 @@ public class GiftController {
         if (sendVo.getType() == 4 && (sendVo.getP() == null || sendVo.getP() <= 0 || sendVo.getP() >= 1)) {
             return ResponseFactory.err("请输入中奖率");
         }
-        return giftService.sendForWx(userDetails.getUserId(), sendVo, client);
+        // json数组反序列化
+        HashSet<SendWXVo> sendWXVos = JSON.parseObject(bpId, new TypeReference<HashSet<SendWXVo>>() {
+        });
+        if (CollectionUtils.isEmpty(sendWXVos)){
+            return ResponseFactory.errMissingParameter();
+        }
+        for (SendWXVo sendWXVo : sendWXVos) {
+            if (sendWXVo.getQuantity() < 1) {
+                return ResponseFactory.err("商品数量不能小于1");
+            }
+            if (sendWXVo.getBpId() == null) {
+                return ResponseFactory.err("");
+            }
+        }
+        return giftService.sendForWx(userDetails.getUserId(), sendVo, client,sendWXVos);
     }
+//    public Response sendForWx(@AuthenticationPrincipal UserDetails userDetails,
+//                              @AppClient Integer client,
+//                              GiftSendVo sendVo) {
+//        if (sendVo.getBpId() == null ||
+//                sendVo.getType() == null || sendVo.getType() < 3 || sendVo.getType() > 4
+////                StringUtils.isAnyBlank(sendVo.getGreeting())
+//        ) {
+//            return ResponseFactory.errMissingParameter();
+//        }
+//        // 判断随机赠送的概率
+//        if (sendVo.getType() == 4 && (sendVo.getP() == null || sendVo.getP() <= 0 || sendVo.getP() >= 1)) {
+//            return ResponseFactory.err("请输入中奖率");
+//        }
+//        return giftService.sendForWx(userDetails.getUserId(), sendVo, client);
+//    }
+
+
 
     /**
      * 答谢礼物赠送

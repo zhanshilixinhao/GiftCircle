@@ -3,9 +3,11 @@ package com.chouchongkeji.service.backpack.gift;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.service.backpack.gift.vo.GiftBaseVo;
 import com.chouchongkeji.service.backpack.gift.vo.GiftSendVo;
+import com.chouchongkeji.service.backpack.gift.vo.SendWXVo;
 import com.chouchongkeji.service.backpack.gift.vo2.GiftSendVo2;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -58,7 +60,9 @@ public interface GiftService {
      * @author yichenshanren
      * @date 2018/7/2
      */
-    Response sendForWx(Integer userId, GiftSendVo sendVo, Integer client);
+    Response sendForWx(Integer userId, GiftSendVo sendVo, Integer client, HashSet<SendWXVo> sendWXVos);
+
+//    Response sendForWx(Integer userId, GiftSendVo sendVo, Integer client);
 
     /**
      * 小程序领取好友分享的礼物
@@ -83,6 +87,7 @@ public interface GiftService {
      * @date 2018/7/2
      */
     Response sendForAppV2(Integer userId, GiftSendVo2 sendVo, Integer client);
+
 
     /*----------------------------------------礼物赠送v2结束---------------------------------------------------*/
 

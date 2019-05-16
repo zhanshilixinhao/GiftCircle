@@ -516,6 +516,7 @@ public class GiftServiceImpl implements GiftService {
 
 
     /*----------------------------------------礼物赠送v2结束---------------------------------------------------*/
+    /*----------------------------------------礼物赠送原来开始---------------------------------------------------*/
 
 
     /**
@@ -618,6 +619,9 @@ public class GiftServiceImpl implements GiftService {
         }
     }
 
+    /*----------------------------------------礼物赠送原来结束---------------------------------------------------*/
+    /*----------------------------------------微信礼物赠送---------------------------------------------------*/
+
     /**
      * 微信赠送礼物实现
      *
@@ -628,36 +632,29 @@ public class GiftServiceImpl implements GiftService {
      * @date 2018/7/2
      */
     @Override
-    public Response sendForWx(Integer userId, GiftSendVo sendVo, Integer client) {
+    public Response sendForWx(Integer userId, GiftSendVo sendVo, Integer client, HashSet<SendWXVo> sendWXVos) {
         if (StringUtils.isBlank(sendVo.getEvent())) {
             sendVo.setEvent("小程序赠送");
         }
-
-        // 判断赠送的物品是否在背包里面
-        HashMap<Long, Integer> map = new HashMap<>();
-        // 保存礼物信息
         List<Vbp> vbps = new ArrayList<>();
-        Vbp vbp = vbpMapper.selectByUserIdBpId(userId, sendVo.getBpId());
-        if (vbp == null || vbp.getQuantity() < 1) {
-            return ResponseFactory.err("赠送的礼物不存在背包中或赠送的数量大于背包中的数量!");
-        }
-        vbps.add(vbp);
-        map.put(sendVo.getBpId(), 1);
-        // 判断附属物品是否存在
-        Integer quantity;
-        if (CollectionUtils.isNotEmpty(sendVo.getSubBpIds())) {
-            for (Long id : sendVo.getSubBpIds()) {
-                // 取出
-                vbp = vbpMapper.selectByUserIdBpId(userId, id);
-                quantity = map.get(id);
-                quantity = quantity == null ? 1 : quantity + 1;
-                if (vbp == null || vbp.getQuantity() < quantity) {
-                    return ResponseFactory.err("赠送的礼物不存在背包中或赠送的数量大于背包中的数量!");
+        Long bpId = null;
+        Integer quantity = null;
+        for (SendWXVo sendWXVo : sendWXVos) {
+            bpId = sendWXVo.getBpId();
+            quantity = sendWXVo.getQuantity();
+            // 判断赠送的物品是否在背包里面
+            // 保存礼物信息
+            Vbp vbp = vbpMapper.selectByUserIdBpId(userId, bpId);
+            if (vbp == null || vbp.getQuantity() < quantity) {
+                return ResponseFactory.err("赠送的礼物不存在背包中或赠送的数量大于背包中的数量!");
+            }
+            vbp.setQuantity(quantity);
+            vbps.add(vbp);
+            Date buyTime = vbp.getBuyTime();
+            if (vbp.getType() != null && vbp.getType() == 1) {
+                if (buyTime == null || DateUtils.addDays(buyTime, Constants.BP_EXPIRE_TIME).getTime() - System.currentTimeMillis() <= 0) {
+                    return ResponseFactory.err("超过赠送时限!");
                 }
-                if (vbp.getBuyTime() == null || DateUtils.addDays(vbp.getBuyTime(), Constants.BP_EXPIRE_TIME).getTime() < System.currentTimeMillis()) {
-                    return ResponseFactory.err("赠送的礼物超过赠送有效期!");
-                }
-                vbps.add(vbp);
             }
         }
         // 增加送礼记录
@@ -694,14 +691,19 @@ public class GiftServiceImpl implements GiftService {
 //            }
             // 如果是随机赠送，需要分别添加每个物品到礼物详情记录
             if (sendVo.getType() == Constants.GIFT_SEND_TYPE.WX_FRIEND_RANDOM) {
-                list = new ArrayList<>();
-                list.add(assembleDetail(sendVo.getBpId(), item));
-                saveGiftSendDetail(sendVo, record, list, status);
+                for (int i = 0; i < item.getQuantity(); i++) {
+                    list = new ArrayList<>();
+                    list.add(assembleDetail(bpId, item));
+                    saveGiftSendDetail(sendVo, record, list, status);
+                }
+
             } else {
-                list.add(assembleDetail(sendVo.getBpId(), item));
+                for (int i = 0; i < item.getQuantity(); i++) {
+                    list.add(assembleDetail(bpId, item));
+                }
+
             }
         }
-
         // 如果是直接赠送，礼物信息一起保存，忘记为什么要这么做了
         if (sendVo.getType() == Constants.GIFT_SEND_TYPE.WX_FRIEND) {
             saveGiftSendDetail(sendVo, record, list, status);
@@ -712,6 +714,99 @@ public class GiftServiceImpl implements GiftService {
         result.put("giftRecordId", record.getId());
         return ResponseFactory.sucData(result);
     }
+    //原来
+//    public Response sendForWx(Integer userId, GiftSendVo sendVo, Integer client) {
+//        if (StringUtils.isBlank(sendVo.getEvent())) {
+//            sendVo.setEvent("小程序赠送");
+//        }
+//
+//        // 判断赠送的物品是否在背包里面
+//        HashMap<Long, Integer> map = new HashMap<>();
+//        // 保存礼物信息
+//        List<Vbp> vbps = new ArrayList<>();
+//        Vbp vbp = vbpMapper.selectByUserIdBpId(userId, sendVo.getBpId());
+//        if (vbp == null || vbp.getQuantity() < 1) {
+//            return ResponseFactory.err("赠送的礼物不存在背包中或赠送的数量大于背包中的数量!");
+//        }
+//        vbps.add(vbp);
+//        map.put(sendVo.getBpId(), 1);
+//        // 判断附属物品是否存在
+//        Integer quantity;
+//        if (CollectionUtils.isNotEmpty(sendVo.getSubBpIds())) {
+//            for (Long id : sendVo.getSubBpIds()) {
+//                // 取出
+//                vbp = vbpMapper.selectByUserIdBpId(userId, id);
+//                quantity = map.get(id);
+//                quantity = quantity == null ? 1 : quantity + 1;
+//                if (vbp == null || vbp.getQuantity() < quantity) {
+//                    return ResponseFactory.err("赠送的礼物不存在背包中或赠送的数量大于背包中的数量!");
+//                }
+//                if (vbp.getBuyTime() == null || DateUtils.addDays(vbp.getBuyTime(), Constants.BP_EXPIRE_TIME).getTime() < System.currentTimeMillis()) {
+//                    return ResponseFactory.err("赠送的礼物超过赠送有效期!");
+//                }
+//                vbps.add(vbp);
+//            }
+//        }
+//        // 增加送礼记录
+//        GiftRecord record = new GiftRecord();
+//        record.setUserId(userId);
+//        record.setGreetting(sendVo.getGreeting());
+//        record.setEvent(sendVo.getEvent());
+//        record.setType(sendVo.getType());
+//        record.setP(sendVo.getP());
+//        // 小程序的状态都是待领取
+//        byte status = Constants.GIFT_STATUS.WAIT;
+//        record.setStatus(status);
+//        // 查看用户是否设置隐藏
+//        AppUser appUser = appUserMapper.selectByPrimaryKey(userId);
+//        if (appUser != null) {
+//            if (appUser.getIsHide() == null || appUser.getIsHide() == 1) {
+//                record.setIsHide((byte) 1);
+//            } else {
+//                record.setIsHide((byte) 2);
+//            }
+//        }
+//        // 保存礼物记录
+//        int count = giftRecordMapper.insert(record);
+//        if (count == 0) {
+//            return ResponseFactory.err("赠送失败!");
+//        }
+//        // 先保存详情
+//        List<GiftItemVo> list = new ArrayList<>();
+//        for (Vbp item : vbps) {
+////            // 更新背包物品的数量 移到领取礼物的时候
+////            count = vbpMapper.updateQuantityById(item.getId(), 1, item.getType());
+////            if (count < 1) {
+////                throw new ServiceException(ErrorCode.ERROR.getCode(), "更新数量失败!");
+////            }
+//            // 如果是随机赠送，需要分别添加每个物品到礼物详情记录
+//            if (sendVo.getType() == Constants.GIFT_SEND_TYPE.WX_FRIEND_RANDOM) {
+//                list = new ArrayList<>();
+//                list.add(assembleDetail(sendVo.getBpId(), item));
+//                saveGiftSendDetail(sendVo, record, list, status);
+//            } else {
+//                list.add(assembleDetail(sendVo.getBpId(), item));
+//            }
+//        }
+//
+//        // 如果是直接赠送，礼物信息一起保存，忘记为什么要这么做了
+//        if (sendVo.getType() == Constants.GIFT_SEND_TYPE.WX_FRIEND) {
+//            saveGiftSendDetail(sendVo, record, list, status);
+//        }
+//
+//        // 返回礼物赠送记录id，用于分享给微信好友
+//        Map<String, Object> result = new HashMap<>();
+//        result.put("giftRecordId", record.getId());
+//        return ResponseFactory.sucData(result);
+//    }
+
+
+
+
+
+
+    /*----------------------------------------微信礼物赠送结束---------------------------------------------------*/
+
 
     /**
      * 保存礼物记录的详细信息
