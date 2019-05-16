@@ -5149,7 +5149,7 @@ type = 3 请求结果示例：
 |   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
 | :----------: | :------: | :------: | :----: | :------: |
 | access_token |  string  |    是    |   无   | 访问令牌 |
-| bpId | String | 是 | 无 | json数组，数组格式，[{"bpId":bpId,"quantity":quantity}] |
+| bpIds | String | 是 | 无 | json数组，数组格式，[{"bpId":bpId,"quantity":quantity}] |
 | subBpIds | string | 否 | 无 | 赠送的附属物品的id集合，多个用，隔开 |
 | greeting | string | 是 | 无 | 祝福语 |
 | event | string | 否 | 小程序赠送 | 事件名称 |
