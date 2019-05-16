@@ -121,7 +121,7 @@ public class GiftController {
     @RequestMapping("sendForWx")
     public Response sendForWx(@AuthenticationPrincipal UserDetails userDetails,
                               @AppClient Integer client,
-                              GiftSendVo sendVo,String bpId) {
+                              GiftSendVo sendVo,String bpIds) {
         if (sendVo.getType() == null || sendVo.getType() < 3 || sendVo.getType() > 4
 //                StringUtils.isAnyBlank(sendVo.getGreeting())
         ) {
@@ -132,7 +132,7 @@ public class GiftController {
             return ResponseFactory.err("请输入中奖率");
         }
         // json数组反序列化
-        HashSet<SendWXVo> sendWXVos = JSON.parseObject(bpId, new TypeReference<HashSet<SendWXVo>>() {
+        HashSet<SendWXVo> sendWXVos = JSON.parseObject(bpIds, new TypeReference<HashSet<SendWXVo>>() {
         });
         if (CollectionUtils.isEmpty(sendWXVos)){
             return ResponseFactory.errMissingParameter();
