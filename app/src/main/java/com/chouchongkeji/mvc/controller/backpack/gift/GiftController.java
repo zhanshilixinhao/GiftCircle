@@ -46,19 +46,19 @@ public class GiftController {
      */
     @RequestMapping("sendForAppV2")
     public Response sendForAppV2(@AuthenticationPrincipal UserDetails userDetails,
-                               @AppClient Integer client,
-                               GiftSendVo2 sendVo) {
+                                 @AppClient Integer client,
+                                 GiftSendVo2 sendVo) {
         if (sendVo.getBpId() == null || // 主物品背包id
                 sendVo.getFriendUserIds() == null || // 赠送好友id
                 sendVo.getType() == null || // 赠送类型
-                StringUtils.isBlank(sendVo.getGreeting()) ) {
+                StringUtils.isBlank(sendVo.getGreeting())) {
             return ResponseFactory.errMissingParameter();
         }
         if (sendVo.getType() == 2 && (sendVo.getTargetTime() == null ||
-                sendVo.getTargetTime().getTime() < System.currentTimeMillis() + 60000)){
+                sendVo.getTargetTime().getTime() < System.currentTimeMillis() + 60000)) {
             return ResponseFactory.err("送礼时间必填并且大于2分钟");
         }
-        if (StringUtils.isBlank(sendVo.getEvent())){
+        if (StringUtils.isBlank(sendVo.getEvent())) {
             sendVo.setEvent("日常关怀");
         }
         return giftService.sendForAppV2(userDetails.getUserId(), sendVo, client);
@@ -121,32 +121,49 @@ public class GiftController {
     @RequestMapping("sendForWx")
     public Response sendForWx(@AuthenticationPrincipal UserDetails userDetails,
                               @AppClient Integer client,
-                              GiftSendVo sendVo,String bpIds) {
-        if (sendVo.getType() == null || sendVo.getType() < 3 || sendVo.getType() > 4
+                              GiftSendVo sendVo, String bpIds) {
+        if (client == 3) {
+            if (sendVo.getType() == null || sendVo.getType() < 3 || sendVo.getType() > 4
 //                StringUtils.isAnyBlank(sendVo.getGreeting())
-        ) {
-            return ResponseFactory.errMissingParameter();
-        }
-        // 判断随机赠送的概率
-        if (sendVo.getType() == 4 && (sendVo.getP() == null || sendVo.getP() <= 0 || sendVo.getP() >= 1)) {
-            return ResponseFactory.err("请输入中奖率");
-        }
-        // json数组反序列化
-        HashSet<SendWXVo> sendWXVos = JSON.parseObject(bpIds, new TypeReference<HashSet<SendWXVo>>() {
-        });
-        if (CollectionUtils.isEmpty(sendWXVos)){
-            return ResponseFactory.errMissingParameter();
-        }
-        for (SendWXVo sendWXVo : sendWXVos) {
-            if (sendWXVo.getQuantity() < 1) {
-                return ResponseFactory.err("商品数量不能小于1");
+            ) {
+                return ResponseFactory.errMissingParameter();
             }
-            if (sendWXVo.getBpId() == null) {
-                return ResponseFactory.err("");
+            // 判断随机赠送的概率
+            if (sendVo.getType() == 4 && (sendVo.getP() == null || sendVo.getP() <= 0 || sendVo.getP() >= 1)) {
+                return ResponseFactory.err("请输入中奖率");
             }
+            // json数组反序列化
+            HashSet<SendWXVo> sendWXVos = JSON.parseObject(bpIds, new TypeReference<HashSet<SendWXVo>>() {
+            });
+            if (CollectionUtils.isEmpty(sendWXVos)) {
+                return ResponseFactory.errMissingParameter();
+            }
+            for (SendWXVo sendWXVo : sendWXVos) {
+                if (sendWXVo.getQuantity() < 1) {
+                    return ResponseFactory.err("商品数量不能小于1");
+                }
+                if (sendWXVo.getBpId() == null) {
+                    return ResponseFactory.err("");
+                }
+            }
+            return giftService.sendForWx(userDetails.getUserId(), sendVo, client, sendWXVos);
+        }else {
+            if (sendVo.getBpId() == null ||
+                    sendVo.getType() == null || sendVo.getType() < 3 || sendVo.getType() > 4
+//                StringUtils.isAnyBlank(sendVo.getGreeting())
+            ) {
+                return ResponseFactory.errMissingParameter();
+            }
+            // 判断随机赠送的概率
+            if (sendVo.getType() == 4 && (sendVo.getP() == null || sendVo.getP() <= 0 || sendVo.getP() >= 1)) {
+                return ResponseFactory.err("请输入中奖率");
+            }
+            return giftService.sendForWxApp(userDetails.getUserId(), sendVo, client);
         }
-        return giftService.sendForWx(userDetails.getUserId(), sendVo, client,sendWXVos);
+
     }
+
+
 //    public Response sendForWx(@AuthenticationPrincipal UserDetails userDetails,
 //                              @AppClient Integer client,
 //                              GiftSendVo sendVo) {
@@ -162,7 +179,6 @@ public class GiftController {
 //        }
 //        return giftService.sendForWx(userDetails.getUserId(), sendVo, client);
 //    }
-
 
 
     /**

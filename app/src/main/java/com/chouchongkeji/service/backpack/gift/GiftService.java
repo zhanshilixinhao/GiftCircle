@@ -62,7 +62,7 @@ public interface GiftService {
      */
     Response sendForWx(Integer userId, GiftSendVo sendVo, Integer client, HashSet<SendWXVo> sendWXVos);
 
-//    Response sendForWx(Integer userId, GiftSendVo sendVo, Integer client);
+    Response sendForWxApp(Integer userId, GiftSendVo sendVo, Integer client);
 
     /**
      * 小程序领取好友分享的礼物
