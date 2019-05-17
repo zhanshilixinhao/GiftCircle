@@ -272,8 +272,9 @@ public class ItemTest {
         RequestParams params = new RequestParams();
         params.put("time",System.currentTimeMillis());
         params.put("access_token", "0b83209b-c43a-44fe-9a1d-71fd71809f8a");
-        params.put("bpIds","[{\"bpId\":7719043018148,\"quantity\":2}]");
-        params.put("greeting","哈哈哈");
+        params.put("bpId",7719051711131L);
+//        params.put("bpIds","[{\"bpId\":7719051711131,\"quantity\":1}]");
+        params.put("greeting","哈哈哈fdgd");
         params.put("type",3);
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
         params.put("sign", map.get(ApiSignUtil.ANDROID));
@@ -288,7 +289,7 @@ public class ItemTest {
         params.put("access_token", "ba369cdd-77b4-446e-958e-e4bffd48169f");
 //        params.put("bpIds","[{\"bpId\":7719043018148,\"quantity\":2}]");
 //        params.put("greeting","哈哈哈");
-        params.put("giftRecordId",161);
+        params.put("giftRecordId",191);
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
         params.put("sign", map.get(ApiSignUtil.ANDROID));
         Response post = OkHttpUtil.post("https://liyuquan.cn/app//auth/v1/gift/getGift", params);
