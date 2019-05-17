@@ -88,6 +88,8 @@ public interface GiftService {
      */
     Response sendForAppV2(Integer userId, GiftSendVo2 sendVo, Integer client);
 
+    Response wxGetGiftStatus(Integer userId, Integer giftRecordId);
+
 
     /*----------------------------------------礼物赠送v2结束---------------------------------------------------*/
 

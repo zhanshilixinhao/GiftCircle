@@ -92,6 +92,13 @@
        from  gift_record_detail
         where gift_record_id = #{recordId}
     </select>
+    <select id="selectByUserIdAndRecordId"
+            resultType="com.chouchongkeji.dial.pojo.backpack.gift.GiftRecordDetail">
+        select
+        id, user_id
+        from gift_record_detail
+        where user_id = #{userId} and gift_record_id = #{giftRecordId}
+    </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from gift_record_detail

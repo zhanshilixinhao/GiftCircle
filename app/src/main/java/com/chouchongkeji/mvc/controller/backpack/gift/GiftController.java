@@ -147,7 +147,7 @@ public class GiftController {
                 }
             }
             return giftService.sendForWx(userDetails.getUserId(), sendVo, client, sendWXVos);
-        }else {
+        } else {
             if (sendVo.getBpId() == null ||
                     sendVo.getType() == null || sendVo.getType() < 3 || sendVo.getType() > 4
 //                StringUtils.isAnyBlank(sendVo.getGreeting())
@@ -219,6 +219,21 @@ public class GiftController {
         return giftService.wxGetGift(userDetails.getUserId(), giftRecordId);
     }
 
+    /**
+     * 查看我是否领取了礼物
+     *
+     * @param userDetails
+     * @param giftRecordId
+     * @return
+     */
+    @RequestMapping("getGiftStatus")
+    public Response wxGetGiftStatus(@AuthenticationPrincipal UserDetails userDetails,
+                              Integer giftRecordId) {
+        if (giftRecordId == null) {
+            return ResponseFactory.errMissingParameter();
+        }
+        return giftService.wxGetGiftStatus(userDetails.getUserId(), giftRecordId);
+    }
 
 }
 

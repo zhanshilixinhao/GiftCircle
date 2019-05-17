@@ -66,4 +66,6 @@ public interface GiftRecordDetailMapper {
      * @return
      */
     int updateStatusByRecordId(Integer id);
+
+    GiftRecordDetail selectByUserIdAndRecordId(@Param("userId") Integer userId,@Param("giftRecordId")  Integer giftRecordId);
 }

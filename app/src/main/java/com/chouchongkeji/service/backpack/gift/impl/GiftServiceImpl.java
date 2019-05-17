@@ -226,6 +226,24 @@ public class GiftServiceImpl implements GiftService {
         }
     }
 
+    @Override
+    public Response wxGetGiftStatus(Integer userId, Integer giftRecordId) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("status", 0); // 0 可以领取
+        GiftRecord giftRecord = giftRecordMapper.selectByPrimaryKey(giftRecordId);
+        if (giftRecord.getUserId().equals(userId)) {
+            map.put("status", 3); // 3 礼物是我送的 我自己不能领取
+        } else if (giftRecord.getStatus() == 3) {
+            map.put("status", 2); // 2 我没有领取 但是礼物已经被别人领取了
+        } else {
+            GiftRecordDetail detail = giftRecordDetailMapper.selectByUserIdAndRecordId(userId, giftRecordId);
+            if (detail != null) {
+                map.put("status", 1); // 1 我已领取
+            }
+        }
+        return ResponseFactory.sucData(map);
+    }
+
     /**
      * 微信好友领取礼物，随机礼物
      * 根据中奖概率计算该用户能否领取
@@ -386,7 +404,7 @@ public class GiftServiceImpl implements GiftService {
             messageVo.setAvatar(appUser.getAvatar());
         }
         AppUser sendUser = appUserMapper.selectByUserId(giftRecord.getUserId());
-        if (sendUser!=null){
+        if (sendUser != null) {
             messageVo.setSendAvatar(sendUser.getAvatar());
         }
         messageVo.setGreetting(giftRecord.getGreetting());
