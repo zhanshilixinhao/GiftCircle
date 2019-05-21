@@ -139,8 +139,8 @@ public class GiftController {
                 return ResponseFactory.errMissingParameter();
             }
             for (SendWXVo sendWXVo : sendWXVos) {
-                if (sendWXVo.getQuantity() < 1) {
-                    return ResponseFactory.err("商品数量不能小于1");
+                if (sendWXVo.getQuantity() == null || sendWXVo.getQuantity() < 1) {
+                    return ResponseFactory.err("商品数量不能为空并且不能小于1");
                 }
                 if (sendWXVo.getBpId() == null) {
                     return ResponseFactory.err("");
