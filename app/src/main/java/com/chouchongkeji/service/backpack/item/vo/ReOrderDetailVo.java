@@ -2,6 +2,7 @@ package com.chouchongkeji.service.backpack.item.vo;
 
 import com.chouchongkeji.dial.pojo.iwant.receiveAddress.Shipping;
 import com.chouchongkeji.service.kdapi.KdResult;
+import com.chouchongkeji.service.kdapi.KdResult2;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.yichen.auth.jackson.ImgUrl;
 
@@ -44,7 +45,7 @@ public class ReOrderDetailVo {
 
     private LogisticsInfoVo logisticsInfo;
 
-    private List<KdResult.DataBean> logisticsTrace;
+    private List<KdResult2.DataBean> logisticsTrace;
 
     private Byte status;
 
@@ -60,11 +61,11 @@ public class ReOrderDetailVo {
         this.id = id;
     }
 
-    public List<KdResult.DataBean> getLogisticsTrace() {
+    public List<KdResult2.DataBean> getLogisticsTrace() {
         return logisticsTrace;
     }
 
-    public void setLogisticsTrace(List<KdResult.DataBean> logisticsTrace) {
+    public void setLogisticsTrace(List<KdResult2.DataBean> logisticsTrace) {
         this.logisticsTrace = logisticsTrace;
     }
 

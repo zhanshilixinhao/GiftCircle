@@ -22,7 +22,9 @@ import com.chouchongkeji.service.backpack.item.vo.LogisticsInfoVo;
 import com.chouchongkeji.service.backpack.item.vo.ReOrderDetailVo;
 import com.chouchongkeji.service.backpack.item.vo.ReceiveItemVo;
 import com.chouchongkeji.service.kdapi.ExpressApi;
+import com.chouchongkeji.service.kdapi.ExpressApi2;
 import com.chouchongkeji.service.kdapi.KdResult;
+import com.chouchongkeji.service.kdapi.KdResult2;
 import com.chouchongkeji.service.mall.item.OrderService;
 import com.chouchongkeji.service.mall.item.vo.SkuListVo;
 import com.chouchongkeji.util.Constants;
@@ -301,9 +303,9 @@ public class ReceiveItemServiceImpl implements ReceiveItemService {
         //显示物流信息
         vo.setLogisticsInfo(logisticsInfoVo);
         //根据物流公司和订单号查询物流信息
-        KdResult logisticsInfo = null;
+        KdResult2 logisticsInfo = null;
         if (logisticsInfoVo != null) {
-            logisticsInfo = ExpressApi.getLogisticsInfo(logisticsInfoVo.getCom(), logisticsInfoVo.getExpressNo());
+            logisticsInfo = ExpressApi2.checkLogisticsInfo(logisticsInfoVo.getCom(), logisticsInfoVo.getExpressNo());
         }
         //把物流信息返回给前端
         vo.setLogisticsTrace(logisticsInfo != null ? logisticsInfo.getData() : new ArrayList<>());
