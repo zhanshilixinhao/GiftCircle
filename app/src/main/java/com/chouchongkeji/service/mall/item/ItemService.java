@@ -84,4 +84,24 @@ public interface ItemService {
      * @Date: 2018/7/6
      */
     Response searchItemArticle(String keyword);
+
+
+    /**
+     * 一级分类列表
+     *
+     * @return
+     * @author linqin
+     * @date 2019/6/20
+     */
+    Response stairCategoryList();
+
+    /**
+     * 二级分类列表
+     *
+     * @param pid 父级id
+     * @return
+     * @author linqin
+     * @date 2019/6/20
+     */
+    Response secondCategoryList(Integer pid);
 }

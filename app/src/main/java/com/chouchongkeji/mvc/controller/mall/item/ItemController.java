@@ -38,6 +38,31 @@ public class ItemController {
         return itemService.getCategoryList();
     }
 
+    /**
+     * 一级分类列表
+     *
+     * @return
+     * @author linqin
+     * @date 2019/6/20
+     */
+    @PostMapping("stair_category")
+    public Response stairCategoryList() {
+        return itemService.stairCategoryList();
+    }
+
+    /**
+     * 二级分类列表
+     *
+     * @param pid 父级id
+     * @return
+     * @author linqin
+     * @date 2019/6/20
+     */
+    @PostMapping("second_category")
+    public Response secondCategoryList(Integer pid) {
+        return itemService.secondCategoryList(pid);
+    }
+
 
     /**
      * 商品列表查询

@@ -1,39 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.chouchongkeji.dial.dao.gift.item.ItemCategoryMapper">
-  <resultMap id="BaseResultMap" type="com.chouchongkeji.dial.pojo.gift.item.ItemCategory">
-    <constructor>
-      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="pid" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="name" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT" />
-      <arg column="sort" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="icon" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-      <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-    </constructor>
-  </resultMap>
-  <sql id="Base_Column_List">
+    <resultMap id="BaseResultMap" type="com.chouchongkeji.dial.pojo.gift.item.ItemCategory">
+        <constructor>
+            <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="pid" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="name" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT"/>
+            <arg column="sort" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="icon" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List">
     id, pid, name, status, sort, icon, created, updated
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from item_category
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <select id="selectAll" resultType="com.chouchongkeji.service.mall.item.vo.ItemCategoryVo">
-   SELECT
-       <include refid="Base_Column_List"/>
-FROM
-    `item_category`
-where
-    pid = 0
-    and status = 1
-order by sort ASC,created DESC
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from item_category
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectAll" resultType="com.chouchongkeji.service.mall.item.vo.ItemCategoryVo">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        `item_category`
+        where
+        pid = 0
+        and status = 1
+        order by sort ASC,created DESC
 
-  </select>
-  <select id="selectByParentId" resultMap="BaseResultMap">
+    </select>
+    <select id="selectByParentId" resultMap="BaseResultMap">
     SELECT
         *
 FROM
@@ -43,11 +44,21 @@ where
     and status = 1
 order by sort ASC,created DESC
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="selectStailAll" resultType="com.chouchongkeji.dial.pojo.gift.item.ItemCategory">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        `item_category`
+        where
+        pid = 0
+        and status = 1
+        order by sort ASC,created DESC
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from item_category
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.gift.item.ItemCategory">
+    <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.gift.item.ItemCategory">
     insert into item_category (id, pid, name,
       status, sort, icon,
       created, updated)
@@ -55,89 +66,92 @@ order by sort ASC,created DESC
       #{status,jdbcType=TINYINT}, #{sort,jdbcType=INTEGER}, #{icon,jdbcType=VARCHAR},
       #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.gift.item.ItemCategory">
-    insert into item_category
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="pid != null">
-        pid,
-      </if>
-      <if test="name != null">
-        name,
-      </if>
-      <if test="status != null">
-        status,
-      </if>
-      <if test="sort != null">
-        sort,
-      </if>
-      <if test="icon != null">
-        icon,
-      </if>
-      <if test="created != null">
-        created,
-      </if>
-      <if test="updated != null">
-        updated,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="pid != null">
-        #{pid,jdbcType=INTEGER},
-      </if>
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="status != null">
-        #{status,jdbcType=TINYINT},
-      </if>
-      <if test="sort != null">
-        #{sort,jdbcType=INTEGER},
-      </if>
-      <if test="icon != null">
-        #{icon,jdbcType=VARCHAR},
-      </if>
-      <if test="created != null">
-        #{created,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updated != null">
-        #{updated,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.chouchongkeji.dial.pojo.gift.item.ItemCategory">
-    update item_category
-    <set>
-      <if test="pid != null">
-        pid = #{pid,jdbcType=INTEGER},
-      </if>
-      <if test="name != null">
-        name = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="status != null">
-        status = #{status,jdbcType=TINYINT},
-      </if>
-      <if test="sort != null">
-        sort = #{sort,jdbcType=INTEGER},
-      </if>
-      <if test="icon != null">
-        icon = #{icon,jdbcType=VARCHAR},
-      </if>
-      <if test="created != null">
-        created = #{created,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updated != null">
-        updated = #{updated,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.dial.pojo.gift.item.ItemCategory">
+    <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.gift.item.ItemCategory">
+        insert into item_category
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="pid != null">
+                pid,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="sort != null">
+                sort,
+            </if>
+            <if test="icon != null">
+                icon,
+            </if>
+            <if test="created != null">
+                created,
+            </if>
+            <if test="updated != null">
+                updated,
+            </if>
+
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="pid != null">
+                #{pid,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=TINYINT},
+            </if>
+            <if test="sort != null">
+                #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="icon != null">
+                #{icon,jdbcType=VARCHAR},
+            </if>
+            <if test="created != null">
+                #{created,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updated != null">
+                #{updated,jdbcType=TIMESTAMP},
+            </if>
+
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.chouchongkeji.dial.pojo.gift.item.ItemCategory">
+        update item_category
+        <set>
+            <if test="pid != null">
+                pid = #{pid,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=TINYINT},
+            </if>
+            <if test="sort != null">
+                sort = #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="icon != null">
+                icon = #{icon,jdbcType=VARCHAR},
+            </if>
+            <if test="created != null">
+                created = #{created,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updated != null">
+                updated = #{updated,jdbcType=TIMESTAMP},
+            </if>
+
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.dial.pojo.gift.item.ItemCategory">
     update item_category
     set pid = #{pid,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
@@ -145,7 +159,8 @@ order by sort ASC,created DESC
       sort = #{sort,jdbcType=INTEGER},
       icon = #{icon,jdbcType=VARCHAR},
       created = #{created,jdbcType=TIMESTAMP},
-      updated = #{updated,jdbcType=TIMESTAMP}
+      updated = #{updated,jdbcType=TIMESTAMP},
+
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

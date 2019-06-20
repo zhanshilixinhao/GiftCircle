@@ -16,6 +16,7 @@ import com.chouchongkeji.properties.ServiceProperties;
 import com.chouchongkeji.service.mall.item.ItemService;
 import com.chouchongkeji.service.mall.item.vo.*;
 import com.github.pagehelper.PageHelper;
+import com.sun.imageio.plugins.common.I18N;
 import com.yichen.auth.service.UserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -62,10 +63,38 @@ public class ItemServiceImpl implements ItemService {
         List<ItemCategoryVo> itemCategory = itemCategoryMapper.selectAll();
         for (ItemCategoryVo category : itemCategory) {
             // 根据父级id查询
-            List<ItemCategory> vos  = itemCategoryMapper.selectByParentId(category.getId());
+            List<ItemCategory> vos = itemCategoryMapper.selectByParentId(category.getId());
             category.children = vos;
         }
         return ResponseFactory.sucData(itemCategory);
+    }
+
+    /**
+     * 一级分类列表
+     *
+     * @return
+     * @author linqin
+     * @date 2019/6/20
+     */
+    @Override
+    public Response stairCategoryList() {
+        List<ItemCategory> list = itemCategoryMapper.selectStailAll();
+        return ResponseFactory.sucData(list);
+    }
+
+
+    /**
+     * 二级分类列表
+     *
+     * @param pid 父级id
+     * @return
+     * @author linqin
+     * @date 2019/6/20
+     */
+    @Override
+    public Response secondCategoryList(Integer pid) {
+        List<ItemCategory> vos = itemCategoryMapper.selectByParentId(pid);
+        return ResponseFactory.sucData(vos);
     }
 
 
@@ -85,9 +114,35 @@ public class ItemServiceImpl implements ItemService {
      */
     @Override
     public Response getItemList(Integer classes, Integer gender, Integer minAge, Integer maxAge,
-                                BigDecimal minPrice, BigDecimal maxPrice, Integer eventId, PageQuery pageQuery,Integer categoryId) {
+                                BigDecimal minPrice, BigDecimal maxPrice, Integer eventId, PageQuery pageQuery, Integer categoryId) {
         PageHelper.startPage(pageQuery.getPageNum(), pageQuery.getPageSize());
-        List<Item> list = itemMapper.selectAll(categoryId,classes, gender, minAge, maxAge, minPrice, maxPrice, eventId);
+        List<Item> list = new ArrayList<>();
+        //分类
+        if (categoryId == null) {
+            list = itemMapper.selectAll(categoryId, classes, gender, minAge, maxAge, minPrice, maxPrice, eventId);
+        }else {
+            List<Integer> ids = new ArrayList<>();
+            ItemCategory itemCategory = itemCategoryMapper.selectByPrimaryKey(categoryId);
+            if (itemCategory != null  ){
+                if (itemCategory.getPid() == 0){
+                    ids.add(categoryId);
+                }else {
+                    List<ItemCategory> vos = itemCategoryMapper.selectByParentId(itemCategory.getPid());
+                    if (!CollectionUtils.isEmpty(vos)){
+                        for (ItemCategory vo : vos) {
+                            ids = new ArrayList<>();
+                            ids.add(vo.getId());
+                        }
+                    }
+                }
+                for (Integer id : ids) {
+                    list = itemMapper.selectAll(id, classes, gender, minAge, maxAge, minPrice, maxPrice, eventId);
+
+                }
+            }else {
+                list = itemMapper.selectAll(categoryId, classes, gender, minAge, maxAge, minPrice, maxPrice, eventId);
+            }
+        }
         List<ItemListVo> vos = new ArrayList<>();
         ItemListVo vo;
         for (Item item : list) {
@@ -160,9 +215,9 @@ public class ItemServiceImpl implements ItemService {
     }
 
 
-
     /**
      * 商品搜索
+     *
      * @param keyword 关键字
      * @return
      * @author: linqin
@@ -189,7 +244,7 @@ public class ItemServiceImpl implements ItemService {
         ItemArticleListVo vo = new ItemArticleListVo();
         // 查询商品
         List<ItemListVo> items = itemMapper.selectItemList(keyword);
-        if (!CollectionUtils.isEmpty(items)){
+        if (!CollectionUtils.isEmpty(items)) {
             for (ItemListVo item : items) {
                 vo = new ItemArticleListVo();
                 vo.setId(item.getItemId());
@@ -202,7 +257,7 @@ public class ItemServiceImpl implements ItemService {
         }
         // 根据关键字查询文章
         List<Article> articles = articleMapper.selectArticleList(keyword);
-        if (!CollectionUtils.isEmpty(articles)){
+        if (!CollectionUtils.isEmpty(articles)) {
             for (Article article : articles) {
                 vo = new ItemArticleListVo();
                 vo.setId(article.getId());

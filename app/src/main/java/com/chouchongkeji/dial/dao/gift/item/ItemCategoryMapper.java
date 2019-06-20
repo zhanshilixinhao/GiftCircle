@@ -26,4 +26,10 @@ public interface ItemCategoryMapper {
      * @return
      */
     List<ItemCategory> selectByParentId(Integer pid);
+
+    /**
+     * 一级分类列表
+     * @return
+     */
+    List<ItemCategory> selectStailAll();
 }
