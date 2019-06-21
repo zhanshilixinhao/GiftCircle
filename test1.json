@@ -1,17 +1,91 @@
 {
   "errCode": 0,
   "result": 0,
-  "time": 1556506660302,
+  "time": 1561111153187,
   "data": [
     {
-      "type": 1,
-      "ratio": 0.2,
-      "desc": "平台收取商品原价的20%作为仓储及物流服务费"
+      "itemId": 985,
+      "cover": "https://liyuquan.cn/static/item/190506/45edb8fa-cfb4-46a8-aa1f-f78c7dc0ff8e.jpg",
+      "title": "Moraz 藦娜丝 草本天然驱蚊灵50ml(进)",
+      "price": 178.00
     },
     {
-      "type": 2,
-      "ratio": 0,
-      "desc": "不扣除20%手续费"
+      "itemId": 978,
+      "cover": "https://liyuquan.cn/static/item/190506/0b167f94-eef1-40b3-862a-c69080ddc331.jpg",
+      "title": "Moraz 藦娜丝 草本成人SPF50防晒喷雾200ml(进)",
+      "price": 198.00
+    },
+    {
+      "itemId": 976,
+      "cover": "https://liyuquan.cn/static/item/190506/f2ceadd8-b586-4050-bfc4-54cce6e78bc8.jpg",
+      "title": "Moraz 藦娜丝 肌痛灵50ml(进)",
+      "price": 220.00
+    },
+    {
+      "itemId": 973,
+      "cover": "https://liyuquan.cn/static/item/190506/71fb40f7-1b4a-4827-8734-fb021eff704a.jpg",
+      "title": "Moraz 藦娜丝 足部护理霜100ml(进)",
+      "price": 138.00
+    },
+    {
+      "itemId": 972,
+      "cover": "https://liyuquan.cn/static/item/190506/2e591751-4f69-4951-86ac-0a3d77275743.jpg",
+      "title": "Moraz 藦娜丝草本天然去屑洗发水250ml(进)",
+      "price": 118.00
+    },
+    {
+      "itemId": 971,
+      "cover": "https://liyuquan.cn/static/item/190506/c0b437e1-49be-46b2-a2c1-8176315ae838.jpg",
+      "title": "Moraz 藦娜丝 倍润护手霜50ml(进)",
+      "price": 88.00
+    },
+    {
+      "itemId": 970,
+      "cover": "https://liyuquan.cn/static/item/190506/0b39ea83-5b71-4d28-960d-674caeabe9a4.jpg",
+      "title": "Moraz藦娜丝持久保湿防晒修复霜SPF50隔离100ml",
+      "price": 220.00
+    },
+    {
+      "itemId": 969,
+      "cover": "https://liyuquan.cn/static/item/190506/ad09633b-2d38-47b0-ab4b-a40c817e220f.jpg",
+      "title": "Moraz 藦娜丝 全效修复皮肤灵50ml(进)",
+      "price": 260.00
+    },
+    {
+      "itemId": 454,
+      "cover": "https://liyuquan.cn/static/item/190403/9cab308f-5b92-41df-85bc-0c8439abce83.png",
+      "title": "海蓝之谜浓缩修护眼部精华霜",
+      "price": 1700.00
+    },
+    {
+      "itemId": 453,
+      "cover": "https://liyuquan.cn/static/item/190403/d3213345-33b1-44a2-a7f4-6568525e6159.png",
+      "title": "海蓝之谜璀璨净澈洁面泡沫",
+      "price": 750.00
+    },
+    {
+      "itemId": 452,
+      "cover": "https://liyuquan.cn/static/item/190403/dbd1cf92-238f-43f5-b21a-27385fde953a.png",
+      "title": "海蓝之谜修护精萃液150ML",
+      "price": 1100.00
+    },
+    {
+      "itemId": 451,
+      "cover": "https://liyuquan.cn/static/item/190403/fc648035-17b4-450d-a46f-9e0ddf5b1536.png",
+      "title": "海蓝之谜紧致焕采眼霜",
+      "price": 1700.00
+    },
+    {
+      "itemId": 450,
+      "cover": "https://liyuquan.cn/static/item/190403/a852af9c-d05c-44ff-b3ad-cf3ad9d0b4ce.png",
+      "title": "海蓝之谜活颜焕肤精华露",
+      "price": 3000.00
+    },
+    {
+      "itemId": 449,
+      "cover": "https://liyuquan.cn/static/item/190403/3e4ece53-9c69-4edf-803a-f181512dac6a.png",
+      "title": "海蓝之谜修护精华露",
+      "price": 4100.00
     }
   ]
 }
