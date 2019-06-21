@@ -26,6 +26,19 @@ public class test4 {
         System.out.println(post.body().string());
     }
 
+    @Test
+    public void distryrictList() throws IOException {
+        RequestParams params = new RequestParams();
+        params.put("time", System.currentTimeMillis());
+        params.put("access_token", "ba369cdd-77b4-446e-958e-e4bffd48169f");
+        params.put("nickname","时间");
+        params.put("avatar","https://wx.qlogo.cn/mmopen/vi_32/cLhvDgpVNMm24pZLQn9NJLvTbribW3ymS4dXSctqaaKWhF7NJcI1Nicqp0QGw2jjVPsCwcrIFOBKv90qbCqTxSicw/132");
+        Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
+        params.put("sign", map.get(ApiSignUtil.ANDROID));
+        Response post = OkHttpUtil.post("http://localhost:8080/auth/user/ryUser", params);
+        System.out.println(post.body().string());
+    }
+
 
 
 }

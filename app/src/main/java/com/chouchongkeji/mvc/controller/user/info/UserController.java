@@ -214,10 +214,28 @@ public class UserController {
      */
     @PostMapping("set_hide")
     public Response setHide(@AuthenticationPrincipal UserDetails userDetails, Byte isHide) {
-        if (isHide == null ) {
+        if (isHide == null) {
             isHide = 1;
         }
-        return userService.setHide(userDetails.getUserId(),isHide);
+        return userService.setHide(userDetails.getUserId(), isHide);
     }
 
+
+    /**
+     * 融云聊天
+     *
+     * @param userId   用户id
+     * @param nickname 用户昵称
+     * @param avatar   用户头像
+     * @return
+     * @author linqin
+     * @date 2019/6/21
+     */
+    @PostMapping("ryUser")
+    public Response ryUserRegister(@AuthenticationPrincipal UserDetails userDetails, String nickname, String avatar) throws Exception {
+        if (StringUtils.isAnyBlank(nickname, avatar) ) {
+            return ResponseFactory.errMissingParameter();
+        }
+        return ResponseFactory.sucData(userService.ryUserRegister(userDetails.getUserId(),nickname,avatar));
+    }
 }

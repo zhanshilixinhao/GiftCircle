@@ -169,6 +169,16 @@
 > 4. 新加用户给好友添加的所有印象标签接口(2.16)
 
 
+
+
+### v2.0.0
+
+* 更新人：linqin
+* 2019/4/23
+* 更新内容
+
+> 1. 新增接口2.17(融云)
+
 ## 目录
 <span id="m"> </span>
 
@@ -692,9 +702,9 @@ http 常用错误码
 ```
 
 
-### 2.16 用户给好友添加的所有印象标签
+### 2.17 融云聊天
 
-- 请求地址：auth/user/tag/userList
+- 请求地址：auth/user/ryUser
 - 服务协议：HTTP/POST
 - 是否需要身份认证：否
 - 作者：yichen
@@ -702,7 +712,8 @@ http 常用错误码
 |   参数名称   | 参数类型 | 是否必传 | 默认值 |         是否必传          |
 | :----------: | :------: | :------: | :----: | :-----------------------: |
 | access_token |  String  |    是    |   无   |         访问令牌          |
-|    friendUserId    |  int  |    是   |   无   |       好友id(被添加标签者)         |
+|    nickname    |  String  |    是   |   无   |   用户昵称         |
+|    avatar    |  String  |    是   |   无   |   用户头像         |
 
 请求结果示例：
 
@@ -710,30 +721,16 @@ http 常用错误码
 {
   "errCode": 0,
   "result": 0,
-  "time": 1556244752207,
-  "data": [
-    {
-      "id": 3,  //印象标签id
-      "tag": "外向", //标签名称
-      "type": 1,  //1正面的,2负面的
-      "created": 1545152109000,
-      "updated": 1545152109000,
-      "userId": 6, //用户id(添加标签者)
-      "friendUserId": 1  //好友id(被添加标签者)
-    },
-    {
-      "id": 3,
-      "tag": "外向",
-      "type": 1,
-      "created": 1545152109000,
-      "updated": 1545152109000,
-      "userId": 6,
-      "friendUserId": 1
-    }
-  ]
+  "time": 1561087913070,
+  "data": {
+    "code": 200,
+    "errorMessage": "",
+    "token": "wEgpQF0PdNygkda6S6GAgohRT4x5c/4nXXjjF7u8pQluBQDrUXcl9IWThYVLXHQsvOtzwbxRVEkB8+nGnInpMA==", //对应在融云服务器的唯一标识
+    "userId": "9" //	用户唯一标识(用户id)
+  }
 }
-
 ```
+
 
 
 

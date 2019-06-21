@@ -10,6 +10,7 @@ import com.chouchongkeji.dial.pojo.user.AppUser;
 import com.chouchongkeji.dial.pojo.user.ThirdAccount;
 import com.chouchongkeji.dial.pojo.user.UserPreference;
 import com.chouchongkeji.dial.pojo.user.memo.Moment;
+import com.chouchongkeji.register.UserRegister;
 import com.yichen.auth.redis.MRedisTemplate;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
@@ -24,6 +25,7 @@ import com.chouchongkeji.service.user.info.vo.UserInfoVo;
 import com.chouchongkeji.service.user.info.vo.UserTagVo;
 import com.chouchongkeji.util.SentPwdUtil;
 import com.chouchongkeji.util.UserInfoUtils;
+import io.rong.models.response.TokenResult;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -483,6 +485,23 @@ public class UserServiceImpl implements UserService {
         return ResponseFactory.sucMsg("设置成功");
     }
 
+
+
+    /**
+     * 融云聊天
+     *
+     * @param userId   用户id
+     * @param nickname 用户昵称
+     * @param avatar   用户头像
+     * @return
+     * @author linqin
+     * @date 2019/6/21
+     */
+    @Override
+    public TokenResult ryUserRegister(Integer userId, String nickname, String avatar) throws Exception{
+        TokenResult register = UserRegister.register(userId, nickname, avatar);
+        return register;
+    }
 
 
 }

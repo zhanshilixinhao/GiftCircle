@@ -59,7 +59,7 @@ public class AppTest {
         params.put("sign", map.get(ApiSignUtil.IOS));
         System.out.println(map);
         Response response = OkHttpUtil.post(OkHttpManager.create(null, null),
-                "https://liyuquan.cn/app/login/phone", params);
+                "http://localhost:8080/login/phone", params);
         System.out.println(response.body().string());
     }
 

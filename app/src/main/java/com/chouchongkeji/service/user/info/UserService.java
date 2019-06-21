@@ -128,4 +128,16 @@ public interface UserService {
      * @date 2018/6/7
      */
     Response setHide(Integer userId, Byte isHide);
+
+    /**
+     * 融云聊天
+     *
+     * @param userId   用户id
+     * @param nickname 用户昵称
+     * @param avatar   用户头像
+     * @return
+     * @author linqin
+     * @date 2019/6/21
+     */
+    Object ryUserRegister(Integer userId, String nickname, String avatar) throws Exception;
 }
