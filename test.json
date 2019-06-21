@@ -1,11 +1,33 @@
 {
   "errCode": 0,
   "result": 0,
-  "time": 1561087913070,
+  "time": 1561105883687,
   "data": {
-    "code": 200,
-    "errorMessage": "",
-    "token": "wEgpQF0PdNygkda6S6GAgohRT4x5c/4nXXjjF7u8pQluBQDrUXcl9IWThYVLXHQsvOtzwbxRVEkB8+nGnInpMA==",
-    "userId": "9"
+    "id": 13,
+    "userId": 5,
+    "targetTime": 1556774570000,
+    "detail": "没你说呢",
+    "users": "2,7",
+    "created": 1556601795000,
+    "nickname": "年锐",
+    "name": "",
+    "count": 1,
+    "avatar": "https://wx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEI0O342xlFTVScTqIM7UxkIialWUUr4UwtP6cvyPUSsIy83v2cvgV5KY8aXdKAykXc4gc7gLPyGGdA/132",
+    "eventTypeId": 27,
+    "eventTypeName": "u灯火辉煌",
+    "userList": [
+      {
+        "userId": 2,
+        "nickname": "淡水鱼",
+        "avatar": "https://wx.qlogo.cn/mmopen/vi_32/jia7qibvlCExrs2NxtibLf62o2V3zOzWfD39ER71tsSHIovw0sKHIknsmEsMQNJnOOR47SsSc8DAPRuyd6a5u7iarA/132"
+      },
+      {
+        "userId": 7,
+        "nickname": "林琴",
+        "avatar": "https://wx.qlogo.cn/mmopen/vi_32/cLhvDgpVNMm24pZLQn9NJLvTbribW3ymS4dXSctqaaKWhF7NJcI1Nicqp0QGw2jjVPsCwcrIFOBKv90qbCqTxSicw/132"
+      }
+    ],
+    "type": 2,
+    "hortNum": null
   }
 }

@@ -1,14 +1,21 @@
 package com.chouchongkeji.service.user.memo.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.chouchongkeji.dial.dao.friend.FriendMapper;
+import com.chouchongkeji.dial.dao.user.AppUserMapper;
 import com.chouchongkeji.dial.dao.user.memo.MemoAffairMapper;
 import com.chouchongkeji.dial.dao.user.memo.MemoEventTypeMapper;
 import com.chouchongkeji.dial.dao.user.memo.MemoFestivalItemMapper;
 import com.chouchongkeji.dial.dao.user.memo.MemoFestivalMapper;
+import com.chouchongkeji.dial.pojo.friend.Friend;
+import com.chouchongkeji.dial.pojo.user.AppUser;
 import com.chouchongkeji.dial.pojo.user.memo.MemoAffair;
 import com.chouchongkeji.dial.pojo.user.memo.MemoEventType;
 import com.chouchongkeji.dial.pojo.user.memo.MemoFestival;
+import com.chouchongkeji.goexplore.utils.Utils;
+import com.chouchongkeji.service.user.memo.vo.*;
 import com.yichen.auth.redis.CacheCallback;
 import com.yichen.auth.redis.MRedisTemplate;
 import com.chouchongkeji.goexplore.common.Response;
@@ -18,9 +25,8 @@ import com.chouchongkeji.service.home.vo.CalendarVo;
 import com.chouchongkeji.service.mall.item.vo.ItemListVo;
 import com.chouchongkeji.service.user.friend.vo.FriendVo;
 import com.chouchongkeji.service.user.memo.AffairService;
-import com.chouchongkeji.service.user.memo.vo.FriendHumVo;
-import com.chouchongkeji.service.user.memo.vo.MemoFestivalVo;
-import com.chouchongkeji.service.user.memo.vo.MemoItemVo;
+import com.yichen.auth.service.UserDetails;
+import io.rong.methods.user.User;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
@@ -30,10 +36,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -49,6 +52,9 @@ public class AffairServiceImpl implements AffairService {
 
     @Autowired
     private FriendMapper friendMapper;
+
+    @Autowired
+    private AppUserMapper appUserMapper;
 
     @Autowired
     private MemoAffairMapper memoAffairMapper;
@@ -192,8 +198,8 @@ public class AffairServiceImpl implements AffairService {
         // 事件类型
         Integer eventTypeId = memoAffair.getEventTypeId();
         if (eventTypeId != null) {
-            MemoEventType list = memoEventTypeMapper.selectByUserId(userId,eventTypeId);
-            if (list == null){
+            MemoEventType list = memoEventTypeMapper.selectByUserId(userId, eventTypeId);
+            if (list == null) {
                 return ResponseFactory.err("事件类型不存在");
             }
         }
@@ -236,7 +242,7 @@ public class AffairServiceImpl implements AffairService {
             }
             affair.setCount(idSet.size());
         }
-        if (StringUtils.isBlank(affair.getUsers())){
+        if (StringUtils.isBlank(affair.getUsers())) {
             memoAffairMapper.updateById(affair.getId());
         }
         // 循环
@@ -246,8 +252,8 @@ public class AffairServiceImpl implements AffairService {
         // 事件类型
         Integer eventTypeId = affair.getEventTypeId();
         if (eventTypeId != null) {
-            MemoEventType list = memoEventTypeMapper.selectByUserId(userId,eventTypeId);
-            if (list == null){
+            MemoEventType list = memoEventTypeMapper.selectByUserId(userId, eventTypeId);
+            if (list == null) {
                 return ResponseFactory.err("事件类型不存在");
             }
         }
@@ -316,9 +322,9 @@ public class AffairServiceImpl implements AffairService {
                 //现在时间
                 tarcalendar.setTime(new Date());
                 tarcalendar.set(Calendar.DAY_OF_WEEK, i1);
-                tarcalendar.set(Calendar.HOUR_OF_DAY,i2);
-                tarcalendar.set(Calendar.MINUTE,i3);
-                tarcalendar.set(Calendar.SECOND,i4);
+                tarcalendar.set(Calendar.HOUR_OF_DAY, i2);
+                tarcalendar.set(Calendar.MINUTE, i3);
+                tarcalendar.set(Calendar.SECOND, i4);
                 Date time = tarcalendar.getTime();
                 for (int i = -104; i < 104; i++) {
                     MemoItemVo itemVo = (MemoItemVo) week.clone();
@@ -381,7 +387,7 @@ public class AffairServiceImpl implements AffairService {
                         // 取出调整后日期
                         tarcalendar.setTime(DateUtils.addYears(time, i));
                         int day2 = tarcalendar.get(Calendar.DAY_OF_MONTH);
-                        if (day == day2){
+                        if (day == day2) {
                             itemVo.setTargetTime(DateUtils.addYears(time, i));
                             list.add(itemVo);
                         }
@@ -483,6 +489,58 @@ public class AffairServiceImpl implements AffairService {
     public Response getFriendList(Integer userId) {
         List<FriendHumVo> list = friendMapper.selectByUserId(userId);
         return ResponseFactory.sucData(list);
+    }
+
+
+
+    /*---------------------------------------------------v2------------------------------------------------------*/
+
+    /**
+     * 普通事件详情
+     *
+     * @param userDetails
+     * @param id          事件id
+     * @return
+     * @author linqin
+     * @date 2019/6/21
+     */
+    @Override
+    public Response memoAffairDetail(UserDetails userDetails, Integer id) {
+        MemoItemVoV2 v2 = memoAffairMapper.selectByKey(id);
+        if (v2 == null) {
+            return ResponseFactory.err("详情获取失败");
+        }
+        List<Users> list = new ArrayList<>();
+        // 被邀请的用户
+        if (v2.getUsers() != null) {
+            String[] split = v2.getUsers().split(",");
+            for (String userId : split) {
+                Users s = new Users();
+                AppUser users = appUserMapper.selectByPrimaryKey(Integer.parseInt(userId));
+                if (users != null) {
+                    s.setAvatar(users.getAvatar());
+                    s.setNickname(users.getNickname());
+                    s.setUserId(users.getId());
+                    list.add(s);
+                }
+            }
+
+            v2.setUserList(list);
+        }
+        // 自己创建
+        if (v2.getUserId().equals(userDetails.getUserId())) {
+            v2.setType(1);
+        } else {
+            v2.setType(2); //被邀请
+            // 互动值
+            FriendVo friend = friendMapper.selectByUserIdAndFriendUserId(v2.getUserId(), userDetails.getUserId());
+            if (friend != null){
+                v2.setHortNum(friend.getHeartNum());
+            }else {
+                v2.setHortNum(0f);
+            }
+        }
+        return ResponseFactory.sucData(v2);
     }
 
 

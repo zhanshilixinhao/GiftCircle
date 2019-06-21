@@ -179,7 +179,7 @@
 
 > 1. 新增接口2.17(融云)
 > 2. 新增接口6.24/6.25(一级商品分类，二级商品)
-
+> 3. 新增接口22.13(普通事件详情)
 
 
 ## 目录
@@ -7364,6 +7364,59 @@ type = 3 请求结果示例：
 
 
 ```
+
+
+### 22.13 普通事件详情
+
+- 请求地址：auth/memo/affair2/affair_detail
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yichen
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| id | int | 是 | 无 | 事件id |
+
+
+* 请求示例
+
+```js
+{
+  "errCode": 0,
+  "result": 0,
+  "time": 1561105883687,
+  "data": {
+    "id": 13, //事件id
+    "userId": 5, //创建着id
+    "targetTime": 1556774570000, //事件时间
+    "detail": "没你说呢", //事件内容
+    "users": "2,7", //被邀请人用户id
+    "created": 1556601795000, //创建时间
+    "nickname": "年锐", // 创建者用户昵称
+    "count": 2, //邀请人数
+    "avatar": "https://wx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEI0O342xlFTVScTqIM7UxkIialWUUr4UwtP6cvyPUSsIy83v2cvgV5KY8aXdKAykXc4gc7gLPyGGdA/132", // 创建者用户头像
+    "eventTypeId": 27, //事件类型id
+    "eventTypeName": "u灯火辉煌", //事件类型名称
+    "userList": [ //被邀请着用户列表
+      {
+        "userId": 2,
+        "nickname": "淡水鱼",
+        "avatar": "https://wx.qlogo.cn/mmopen/vi_32/jia7qibvlCExrs2NxtibLf62o2V3zOzWfD39ER71tsSHIovw0sKHIknsmEsMQNJnOOR47SsSc8DAPRuyd6a5u7iarA/132"
+      },
+      {
+        "userId": 7,
+        "nickname": "林琴",
+        "avatar": "https://wx.qlogo.cn/mmopen/vi_32/cLhvDgpVNMm24pZLQn9NJLvTbribW3ymS4dXSctqaaKWhF7NJcI1Nicqp0QGw2jjVPsCwcrIFOBKv90qbCqTxSicw/132"
+      }
+    ],
+    "type": 2, //1 自己创建 2 别人创建
+    "hortNum": 0.0 //互动值
+  }
+}
+
+```
+
 
 
 ## 23 用户礼花

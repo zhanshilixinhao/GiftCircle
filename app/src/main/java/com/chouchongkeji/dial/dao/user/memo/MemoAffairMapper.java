@@ -3,7 +3,9 @@ package com.chouchongkeji.dial.dao.user.memo;
 import com.chouchongkeji.dial.pojo.user.memo.MemoAffair;
 import com.chouchongkeji.service.user.memo.vo.HomeMemoItemVo;
 import com.chouchongkeji.service.user.memo.vo.MemoItemVo;
+import com.chouchongkeji.service.user.memo.vo.MemoItemVoV2;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.Date;
 import java.util.List;
@@ -73,4 +75,13 @@ public interface MemoAffairMapper {
     List<MemoItemVo> selectAllByUserIdKeyword(@Param("userId") Integer userId,@Param("keyword") String keyword);
 
     void updateById(Integer id);
+
+
+
+    /**
+     * 普通事件详情
+     * @param id 事件id
+     * @return
+     */
+    MemoItemVoV2 selectByKey(Integer id);
 }

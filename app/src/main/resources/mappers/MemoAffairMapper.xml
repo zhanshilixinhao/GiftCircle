@@ -395,6 +395,24 @@ FROM
      where
         detail LIKE concat('%',#{keyword},'%')
     </select>
+    <select id="selectByKey" resultType="com.chouchongkeji.service.user.memo.vo.MemoItemVoV2">
+        select a.id,
+       a.user_id,
+       a.target_time,
+       a.detail,
+       a.users,
+       a.created,
+       a.count,
+       a.event_type_id,
+       b.name as eventTypeName,
+       c.nickname,
+       c.avatar
+from memo_affair a
+         left join memo_event_type b on a.event_type_id = b.id
+         left join app_user c on a.user_id = c.id
+         where a.id = #{id}
+    </select>
+
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from memo_affair

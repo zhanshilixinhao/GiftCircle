@@ -40,5 +40,18 @@ public class test4 {
     }
 
 
+    @Test
+    public void c() throws IOException {
+        RequestParams params = new RequestParams();
+        params.put("time", System.currentTimeMillis());
+        params.put("access_token", "ba369cdd-77b4-446e-958e-e4bffd48169f");
+        params.put("id",13);
+        Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
+        params.put("sign", map.get(ApiSignUtil.ANDROID));
+        Response post = OkHttpUtil.post("http://localhost:8080/auth/memo/affair2/affair_detail", params);
+        System.out.println(post.body().string());
+    }
+
+
 
 }

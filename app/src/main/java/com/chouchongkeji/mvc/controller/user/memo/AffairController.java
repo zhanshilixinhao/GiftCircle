@@ -7,6 +7,7 @@ import com.chouchongkeji.goexplore.utils.Utils;
 import com.chouchongkeji.service.user.memo.AffairService;
 import com.chouchongkeji.service.user.memo.MemoAffairService;
 import com.yichen.auth.service.UserDetails;
+import io.rong.methods.user.User;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -114,10 +115,10 @@ public class AffairController {
      */
     @PostMapping("add")
     public Response addAffair(@AuthenticationPrincipal UserDetails userDetails, MemoAffair memoAffair, Byte isCirculation) {
-        if (StringUtils.isAnyBlank(memoAffair.getDetail()) || memoAffair.getTargetTime() == null ) {
+        if (StringUtils.isAnyBlank(memoAffair.getDetail()) || memoAffair.getTargetTime() == null) {
             return ResponseFactory.errMissingParameter();
         }
-        if (memoAffair.getEventTypeId() == null){
+        if (memoAffair.getEventTypeId() == null) {
             memoAffair.setEventTypeId(1);
         }
         if (isCirculation == null) {
@@ -148,10 +149,10 @@ public class AffairController {
      */
     @PostMapping("modify_affair")
     public Response modifyAffair(@AuthenticationPrincipal UserDetails userDetails, MemoAffair affair) {
-        if (affair.getId() == null || affair.getTargetTime() == null || StringUtils.isBlank(affair.getDetail()) ) {
+        if (affair.getId() == null || affair.getTargetTime() == null || StringUtils.isBlank(affair.getDetail())) {
             return ResponseFactory.errMissingParameter();
         }
-        if (affair.getEventTypeId() == null){
+        if (affair.getEventTypeId() == null) {
             affair.setEventTypeId(1);
         }
         HashSet<Integer> idSet = null;
@@ -244,11 +245,11 @@ public class AffairController {
      * @date 2018/6/22
      */
     @PostMapping("festival_detail")
-    public Response memoFestivalDetail(@AuthenticationPrincipal UserDetails userDetails,Integer id) {
+    public Response memoFestivalDetail(@AuthenticationPrincipal UserDetails userDetails, Integer id) {
         if (id == null) {
             return ResponseFactory.errMissingParameter();
         }
-        return affairService.memoFestivalDetail(userDetails.getUserId(),id);
+        return affairService.memoFestivalDetail(userDetails.getUserId(), id);
     }
 
 
@@ -265,7 +266,7 @@ public class AffairController {
         if (id == null) {
             return ResponseFactory.errMissingParameter();
         }
-        return affairService.memoFestivalDetailItems(userDetails.getUserId(),id);
+        return affairService.memoFestivalDetailItems(userDetails.getUserId(), id);
     }
 
 
@@ -283,7 +284,25 @@ public class AffairController {
     }
 
 
+    /*---------------------------------------------------v2------------------------------------------------------*/
 
+
+    /**
+     * 普通事件详情（v2）
+     *
+     * @param userDetails
+     * @param id          事件id
+     * @return
+     * @author linqin
+     * @date 2019/6/21
+     */
+    @PostMapping("affair_detail")
+    public Response memoAffairDetail(@AuthenticationPrincipal UserDetails userDetails, Integer id) {
+        if (id == null){
+            return ResponseFactory.errMissingParameter();
+        }
+        return affairService.memoAffairDetail(userDetails,id);
+    }
 
 
 }

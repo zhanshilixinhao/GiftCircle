@@ -142,4 +142,17 @@ public interface AffairService {
      * @date 2018/6/22
      */
     Response getFriendList(Integer userId);
+
+    /*---------------------------------------------------v2------------------------------------------------------*/
+
+    /**
+     * 普通事件详情
+     *
+     * @param userDetails
+     * @param id          事件id
+     * @return
+     * @author linqin
+     * @date 2019/6/21
+     */
+    Response memoAffairDetail(UserDetails userDetails, Integer id);
 }
