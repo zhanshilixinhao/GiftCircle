@@ -117,33 +117,6 @@ public class ItemServiceImpl implements ItemService {
                                 BigDecimal minPrice, BigDecimal maxPrice, Integer eventId, PageQuery pageQuery, Integer categoryId) {
         PageHelper.startPage(pageQuery.getPageNum(), pageQuery.getPageSize());
         List<Item> list = itemMapper.selectAll(categoryId, classes, gender, minAge, maxAge, minPrice, maxPrice, eventId);
-
-        //分类
-//        if (categoryId == null) {
-//            list = itemMapper.selectAll(categoryId, classes, gender, minAge, maxAge, minPrice, maxPrice, eventId);
-//        }else {
-//            List<Integer> ids = new ArrayList<>();
-//            ItemCategory itemCategory = itemCategoryMapper.selectByPrimaryKey(categoryId);
-//            if (itemCategory != null  ){
-//                if (itemCategory.getPid() == 0){
-//                    ids.add(categoryId);
-//                }else {
-//                    List<ItemCategory> vos = itemCategoryMapper.selectByParentId(itemCategory.getPid());
-//                    if (!CollectionUtils.isEmpty(vos)){
-//                        for (ItemCategory vo : vos) {
-//                            ids = new ArrayList<>();
-//                            ids.add(vo.getId());
-//                        }
-//                    }
-//                }
-//                for (Integer id : ids) {
-//                    list = itemMapper.selectAll(id, classes, gender, minAge, maxAge, minPrice, maxPrice, eventId);
-//
-//                }
-//            }else {
-//                list = itemMapper.selectAll(categoryId, classes, gender, minAge, maxAge, minPrice, maxPrice, eventId);
-//            }
-//        }
         List<ItemListVo> vos = new ArrayList<>();
         ItemListVo vo;
         for (Item item : list) {
