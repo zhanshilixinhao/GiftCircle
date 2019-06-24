@@ -16,21 +16,35 @@
     id, item_id, sort, status, day, created, updated
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from recommended_today
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="selectByTime" resultType="com.chouchongkeji.service.mall.item.vo.ItemListVo2">
+      select b.id as itemId,
+       b.title,
+       b.cover,
+       c.name as brandName,
+       a.day
+from recommended_today a
+         left join item b on a.item_id = b.id
+         left join brand c on b.brand_id = c.id
+where b.status = 1
+and a.status = 1
+ and unix_timestamp(a.day) >= #{time}
+ and unix_timestamp(a.day) &lt; #{endTime}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from recommended_today
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.gift.item.RecommendedToday">
-    insert into recommended_today (id, item_id, sort, 
-      status, day, created, 
+    insert into recommended_today (id, item_id, sort,
+      status, day, created,
       updated)
-    values (#{id,jdbcType=INTEGER}, #{itemId,jdbcType=INTEGER}, #{sort,jdbcType=INTEGER}, 
-      #{status,jdbcType=TINYINT}, #{day,jdbcType=TIMESTAMP}, #{created,jdbcType=TIMESTAMP}, 
+    values (#{id,jdbcType=INTEGER}, #{itemId,jdbcType=INTEGER}, #{sort,jdbcType=INTEGER},
+      #{status,jdbcType=TINYINT}, #{day,jdbcType=TIMESTAMP}, #{created,jdbcType=TIMESTAMP},
       #{updated,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.gift.item.RecommendedToday">

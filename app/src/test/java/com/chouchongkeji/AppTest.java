@@ -186,7 +186,7 @@ public class AppTest {
 
     @Test
     public void time() throws ParseException {
-        Date now = new Date(1529815765455L);
+        Date now = new Date(1561305600L);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");//可以方便地修改日期格式
         String hehe = dateFormat.format(now); //日期
         Date parse = dateFormat.parse("20180103000000");  //时间戳

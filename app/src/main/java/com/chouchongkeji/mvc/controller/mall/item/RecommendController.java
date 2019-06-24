@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.ParseException;
+
 /**
  * @author linqin
  * @date 2019/6/24
@@ -28,7 +30,7 @@ public class RecommendController {
      * @date 2019/6/24
      */
     @PostMapping("list")
-    public Response getRecommendItem() {
+    public Response getRecommendItem() throws ParseException {
         return recommendService.getRecommendItem();
     }
 
