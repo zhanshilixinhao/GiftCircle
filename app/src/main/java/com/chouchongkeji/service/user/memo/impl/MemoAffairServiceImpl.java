@@ -12,6 +12,7 @@ import com.chouchongkeji.service.user.memo.MemoAffairService;
 import com.chouchongkeji.service.user.memo.vo.HomeMemoItemVo;
 import com.chouchongkeji.service.user.memo.vo.MemoItemVo;
 import com.chouchongkeji.util.OrderHelper;
+import com.chouchongkeji.util.TimeUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -207,8 +208,8 @@ public class MemoAffairServiceImpl implements MemoAffairService {
      */
     @Override
     public Response getHomeList(Integer userId) throws ParseException {
-        Long start = time(System.currentTimeMillis());
-        Long end = timeEnd(System.currentTimeMillis());
+        Long start = TimeUtils.time(System.currentTimeMillis());
+        Long end = TimeUtils.timeEnd(System.currentTimeMillis());
         List<HomeMemoItemVo> list = memoAffairMapper.selectLastByUserId(userId, start, end);
         // 节日事件
 //        List<MemoItemVo> memos = memoFestivalMapper.selectHomeFestival( start, end);
@@ -411,29 +412,6 @@ public class MemoAffairServiceImpl implements MemoAffairService {
         list.add(homeMemoItemVo);
     }
 
-    /**
-     * 时间戳(当天0点)
-     */
-    public Long time(Long day) throws ParseException {
-        Date now = new Date(day);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-        String format = dateFormat.format(now);//日期
-        Date parse = dateFormat.parse(format);  //时间戳
-        day = parse.getTime() / 1000;
-        return day;
-    }
-
-    /**
-     * 时间戳（当天12点）
-     */
-    public Long timeEnd(Long end) throws ParseException {
-        Date now = new Date(end);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-        String format = dateFormat.format(now);
-        Date parse = dateFormat.parse(format);
-        end = DateUtils.addDays(parse, 1).getTime() / 1000;
-        return end;
-    }
 
 
 }

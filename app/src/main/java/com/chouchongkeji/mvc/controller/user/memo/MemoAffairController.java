@@ -6,6 +6,7 @@ import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.utils.Utils;
 import com.chouchongkeji.service.user.memo.MemoAffairService;
 import com.chouchongkeji.util.Constants;
+import com.chouchongkeji.util.TimeUtils;
 import com.yichen.auth.service.UserDetails;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
@@ -110,39 +111,16 @@ public class MemoAffairController {
         if (start == null) {
             start = 0L;
         } else {
-            start = memoAffairService.time(start);
+            start = TimeUtils.time(start);
         }
         if (end == null) {
             end = 0L;
         } else {
-            end = memoAffairService.timeEnd(end);
+            end = TimeUtils.timeEnd(end);
         }
         return memoAffairService.getAffairList(userDetails.getUserId(), start, end);
     }
 
-//    /**
-//     * 时间戳(当天0点)
-//     */
-//    public Long time(Long day) throws ParseException {
-//        Date now = new Date(day);
-//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-//        String format = dateFormat.format(now);//日期
-//        Date parse = dateFormat.parse(format);  //时间戳
-//        day = parse.getTime() / 1000;
-//        return day;
-//    }
-//
-//    /**
-//     * 时间戳（当天12点）
-//     */
-//    public Long timeEnd(Long end) throws ParseException {
-//        Date now = new Date(end);
-//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-//        String format = dateFormat.format(now);
-//        Date parse = dateFormat.parse(format);
-//        end = DateUtils.addDays(parse, 1).getTime() / 1000;
-//        return end;
-//    }
 
 
     /**

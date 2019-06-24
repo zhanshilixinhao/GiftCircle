@@ -81,14 +81,5 @@ public interface MemoAffairService {
      */
     Response getHomeList(Integer userId) throws ParseException;
 
-    /**
-     * 时间戳(当天0点)
-     */
-    Long time(Long day) throws ParseException;
 
-
-    /**
-     * 时间戳（当天12点）
-     */
-    Long timeEnd(Long end) throws ParseException;
 }

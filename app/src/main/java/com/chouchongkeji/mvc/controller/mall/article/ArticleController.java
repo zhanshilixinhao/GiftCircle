@@ -5,6 +5,7 @@ import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.query.PageQuery;
 import com.chouchongkeji.service.mall.article.ArticleService;
 import com.chouchongkeji.util.Constants;
+import com.chouchongkeji.util.TimeUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,38 +42,15 @@ public class ArticleController {
         Long start;
         Long end;
         if (day == null) {
-             start = time(System.currentTimeMillis());
-              end = timeEnd(System.currentTimeMillis());
+             start = TimeUtils.time(System.currentTimeMillis());
+              end = TimeUtils.timeEnd(System.currentTimeMillis());
         } else {
-             start = time(day);
-             end = timeEnd(day);
+             start = TimeUtils.time(day);
+             end = TimeUtils.timeEnd(day);
         }
         return articleService.getArticleByDay(start,end);
     }
 
-    /**
-     * 时间戳(当天0点)
-     */
-    public Long time(Long day) throws ParseException {
-        Date now = new Date(day);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-        String format = dateFormat.format(now);//日期
-        Date parse = dateFormat.parse(format);  //时间戳
-        day = parse.getTime() / 1000;
-        return day;
-    }
-
-    /**
-     * 时间戳（当天12点）
-     */
-    public Long timeEnd(Long end) throws ParseException {
-        Date now = new Date(end);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-        String format = dateFormat.format(now);
-        Date parse = dateFormat.parse(format);
-        end = DateUtils.addDays(parse, 1).getTime()/1000;
-        return end;
-    }
 
 
     /**

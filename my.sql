@@ -1253,6 +1253,25 @@ on theme_item (theme_id);
 
 
 
+create table if not exists recommended_today
+(
+  id int(11) unsigned auto_increment comment '推荐id'
+  primary key,
+  item_id int null comment '商品id',
+  sort int null comment '排序值',
+  status tinyint null comment '状态 1 正常 2 禁用',
+  day datetime null comment '推荐日期',
+  created datetime null comment '创建时间',
+  updated datetime null comment '更新时间'
+  )
+  comment '今日推荐' charset=utf8mb4;
+
+create index item_id
+on recommended_today (item_id);
+
+
+
+
 create table if not exists label
 (
   id int(11) unsigned auto_increment comment '商城标签id'

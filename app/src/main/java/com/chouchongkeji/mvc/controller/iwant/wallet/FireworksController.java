@@ -4,6 +4,7 @@ import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.query.PageQuery;
 import com.chouchongkeji.service.iwant.wallet.FireworksService;
 import com.chouchongkeji.service.user.memo.MemoAffairService;
+import com.chouchongkeji.util.TimeUtils;
 import com.yichen.auth.service.UserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -25,8 +26,7 @@ public class FireworksController {
     @Autowired
     private FireworksService fireworksService;
 
-    @Autowired
-    private MemoAffairService memoAffairService;
+
 
     /**
      * 用户礼花详情
@@ -70,10 +70,10 @@ public class FireworksController {
     public Response earnRecordList(@AuthenticationPrincipal UserDetails userDetails, PageQuery pageQuery,
                                    Long starting, Long ending) throws ParseException {
         if (starting != null) {
-            starting = memoAffairService.time(starting);
+            starting = TimeUtils.time(starting);
         }
         if (ending != null) {
-            ending = memoAffairService.timeEnd(ending);
+            ending = TimeUtils.timeEnd(ending);
         }
         return fireworksService.earnRecordList(userDetails.getUserId(), pageQuery, starting, ending);
     }
