@@ -1,6 +1,10 @@
 package com.chouchongkeji.dial.dao.user;
 
 import com.chouchongkeji.dial.pojo.user.AppUser;
+import com.chouchongkeji.service.user.friend.vo.UserFriendVo;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface AppUserMapper {
     int deleteByPrimaryKey(Integer id);
@@ -20,5 +24,5 @@ public interface AppUserMapper {
     AppUser selectByUserId(Integer userId);
 
 
-
+    List<UserFriendVo> selectByUserIdAndPhone(@Param("userId") Integer userId,@Param("list") String[] list);
 }

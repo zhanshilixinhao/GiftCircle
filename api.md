@@ -180,7 +180,7 @@
 > 1. 新增接口2.17(融云)
 > 2. 新增接口6.24/6.25(一级商品分类，二级商品)
 > 3. 新增接口22.13(普通事件详情)
-
+> 4. 新增接口10.15（手机通讯录好友列表（v2））
 
 ## 目录
 <span id="m"> </span>
@@ -3526,6 +3526,55 @@ type = 3 请求结果示例：
   "msg": "添加成功",
   "time": 1553067029023
 }
+
+```
+
+
+
+### 10.15 手机通讯录好友列表（v2）
+
+- 请求地址：auth/friend/book_list
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yichen
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 被邀请者token |
+|phoen|String|是|无|电话号码（多个时用逗号隔开）|
+
+
+* 请求结果示例
+
+```js
+{
+  "errCode": 0,
+  "result": 0,
+  "time": 1561344147657,
+  "data": [
+    {
+      "id": 48, //用户id 
+      "account": "18088314253", //账号
+      "password": null,  
+      "phone": "18088314253", //电话号码
+      "avatar": "https://wx.qlogo.cn/mmopen/vi_32/ oQknVLicbHPHBYoc7EZ672z3feDwGibcJe80XicL2oJ5GfeX5SNDYz8zFfokvtaN1vphU0FJTN7fdkiasODc8TtYBQ/132", //头像
+      "nickname": "WANGTAO", //昵称
+      "age": 0, //年龄
+      "gender": 1, //1男，2女
+      "signature": "个性签名", //签名
+      "district": "Yunnan", //地址
+      "status": 1,//正常
+      "sentPwd": "",
+      "wxid": "",
+      "created": 1557283621000,
+      "updated": 1557283665000,
+      "qrcode": "",
+      "isHide": null,
+      "type": 0 // 1 是好友，0 不是好友
+    }
+  ]
+}
+
 
 ```
 

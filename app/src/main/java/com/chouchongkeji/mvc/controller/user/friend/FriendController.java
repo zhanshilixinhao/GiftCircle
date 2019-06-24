@@ -53,7 +53,7 @@ public class FriendController {
     /**
      * 微信邀请添加好友
      *
-     * @param userDetails 被邀请者
+     * @param userDetails  被邀请者
      * @param targetUserId 邀请者用户id
      * @return
      * @author yichenshanren
@@ -61,10 +61,10 @@ public class FriendController {
      */
     @PostMapping("wx_add")
     public Response WXAddFriend(@AuthenticationPrincipal UserDetails userDetails, Integer targetUserId) {
-        if (targetUserId == null){
+        if (targetUserId == null) {
             return ResponseFactory.errMissingParameter();
         }
-        return friendService.WXAddFriend(userDetails.getUserId(),targetUserId);
+        return friendService.WXAddFriend(userDetails.getUserId(), targetUserId);
     }
 
 
@@ -264,5 +264,23 @@ public class FriendController {
         }
         return friendService.optNotifyMsg(userDetails.getUserId(), opt, msgId, reply);
     }
+
+
+    /**
+     * 手机通讯录好友列表（v2）
+     *
+     * @param userDetails 用户i西南西
+     * @return
+     * @author yichenshanren
+     * @date 2018/6/21
+     */
+    @PostMapping("book_list")
+    public Response addressBookList(@AuthenticationPrincipal UserDetails userDetails, String phone) {
+        if (StringUtils.isBlank(phone)){
+            return ResponseFactory.errMissingParameter();
+        }
+        return friendService.addressBookList(userDetails.getUserId(),phone);
+    }
+
 
 }

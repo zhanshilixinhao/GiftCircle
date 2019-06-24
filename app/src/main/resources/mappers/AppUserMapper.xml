@@ -46,8 +46,19 @@
      WHERE
 	   id = #{userId}
     </select>
+    <select id="selectByUserIdAndPhone" resultType="com.chouchongkeji.service.user.friend.vo.UserFriendVo">
+select a.* ,b.id is not null as type
+from app_user a
+left join friend b on a.id = b.friend_user_id and b.user_id = #{userId}
+where
+      a.status = 1
+  and  a.phone in (
+  <foreach collection="list" item="item" index="a" separator="," >#{item}</foreach>
+  )
+  and a.id != #{userId}
+    </select>
 
-  <!--<select id="selectByAccount" resultMap="BaseResultMap">-->
+    <!--<select id="selectByAccount" resultMap="BaseResultMap">-->
   <!--select -->
   <!--<include refid="Base_Column_List"/>-->
   <!--from app_user-->

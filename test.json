@@ -1,33 +1,67 @@
 {
   "errCode": 0,
   "result": 0,
-  "time": 1561105883687,
-  "data": {
-    "id": 13,
-    "userId": 5,
-    "targetTime": 1556774570000,
-    "detail": "没你说呢",
-    "users": "2,7",
-    "created": 1556601795000,
-    "nickname": "年锐",
-    "name": "",
-    "count": 1,
-    "avatar": "https://wx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEI0O342xlFTVScTqIM7UxkIialWUUr4UwtP6cvyPUSsIy83v2cvgV5KY8aXdKAykXc4gc7gLPyGGdA/132",
-    "eventTypeId": 27,
-    "eventTypeName": "u灯火辉煌",
-    "userList": [
-      {
-        "userId": 2,
-        "nickname": "淡水鱼",
-        "avatar": "https://wx.qlogo.cn/mmopen/vi_32/jia7qibvlCExrs2NxtibLf62o2V3zOzWfD39ER71tsSHIovw0sKHIknsmEsMQNJnOOR47SsSc8DAPRuyd6a5u7iarA/132"
-      },
-      {
-        "userId": 7,
-        "nickname": "林琴",
-        "avatar": "https://wx.qlogo.cn/mmopen/vi_32/cLhvDgpVNMm24pZLQn9NJLvTbribW3ymS4dXSctqaaKWhF7NJcI1Nicqp0QGw2jjVPsCwcrIFOBKv90qbCqTxSicw/132"
-      }
-    ],
-    "type": 2,
-    "hortNum": null
-  }
+  "time": 1561344147657,
+  "data": [
+    {
+      "id": 48,
+      "account": "18088314253",
+      "password": "5918800542",
+      "phone": "18088314253",
+      "avatar": "https://wx.qlogo.cn/mmopen/vi_32/oQknVLicbHPHBYoc7EZ672z3feDwGibcJe80XicL2oJ5GfeX5SNDYz8zFfokvtaN1vphU0FJTN7fdkiasODc8TtYBQ/132",
+      "nickname": "WANGTAO",
+      "age": 0,
+      "gender": 1,
+      "signature": "个性签名",
+      "district": "Yunnan",
+      "status": 1,
+      "sentPwd": "",
+      "wxid": "",
+      "created": 1557283621000,
+      "updated": 1557283665000,
+      "qrcode": "",
+      "isHide": null,
+      "type": 0
+    },
+    {
+      "id": 9,
+      "account": "18313747954",
+      "password": "$2a$10$xLkGX/fVB0VwbTF0Zfv3p.IfFv5Ch8bQBZh.oMhPVp8SuowoQwSJ.",
+      "phone": "18313747954",
+      "avatar": "https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKXMYJOomfp7WhXdOcR10u3rjZaxW4q6cbibbOiaZtW3HiaSG5dZuJtJsNJcYAxg9icTWlGia7rj1uoBSw/132",
+      "nickname": "路遥",
+      "age": 0,
+      "gender": 1,
+      "signature": "个性签名",
+      "district": "湖北黄冈市武穴市",
+      "status": 1,
+      "sentPwd": "",
+      "wxid": "",
+      "created": 1556610326000,
+      "updated": 1558191947000,
+      "qrcode": "",
+      "isHide": null,
+      "type": 1
+    },
+    {
+      "id": 10,
+      "account": "18510454067",
+      "password": "6995846387",
+      "phone": "18510454067",
+      "avatar": "https://wx.qlogo.cn/mmopen/vi_32/Uvmqvhy17eN7E4VcDaD6I56EGGOzK8X8kcZ0wqibqtKjZ5VGSOPcWuRXPckmnnMu1snHLG8EH1jjQg26uP6TtaA/132",
+      "nickname": "fou u love",
+      "age": 0,
+      "gender": 1,
+      "signature": "个性签名",
+      "district": "Beijing",
+      "status": 1,
+      "sentPwd": "",
+      "wxid": "",
+      "created": 1556610543000,
+      "updated": 1556610967000,
+      "qrcode": "",
+      "isHide": null,
+      "type": 1
+    }
+  ]
 }

@@ -170,4 +170,14 @@ public interface FriendService {
      * @date 2018/6/21
      */
     Response WXAddFriend(Integer userId, Integer targetUserId);
+
+    /**
+     * 手机通讯录好友列表（v2）
+     *
+     * @param userDetails 用户i西南西
+     * @return
+     * @author yichenshanren
+     * @date 2018/6/21
+     */
+    Response addressBookList(Integer userId, String phone);
 }

@@ -21,6 +21,8 @@ import com.chouchongkeji.service.user.friend.FriendService;
 import com.chouchongkeji.service.user.friend.vo.*;
 import com.chouchongkeji.util.Constants;
 import com.github.pagehelper.PageHelper;
+import javafx.print.Collation;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -640,6 +642,26 @@ public class FriendServiceImpl implements FriendService {
         return ResponseFactory.sucData(friendGroups);
     }
     /*-------------------------------------------------好友分组操作结束----------------------------------------------*/
+    /*-------------------------------------------------v2开始----------------------------------------------*/
 
+    /**
+     * 手机通讯录好友列表（v2）
+     *
+     * @param userId 用户i西南西
+     * @return
+     * @author yichenshanren
+     * @date 2018/6/21
+     */
+    @Override
+    public Response addressBookList(Integer userId, String phone) {
+        String[] ph = phone.split(",");
+        List<UserFriendVo> userFriendVos = appUserMapper.selectByUserIdAndPhone(userId,ph);
+        if (CollectionUtils.isNotEmpty(userFriendVos)){
+            for (UserFriendVo userFriendVo : userFriendVos) {
+                userFriendVo.setPassword(null);
+            }
+        }
+        return ResponseFactory.sucData(userFriendVos);
+    }
 
 }
