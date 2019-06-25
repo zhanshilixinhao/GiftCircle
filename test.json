@@ -1,67 +1,91 @@
 {
   "errCode": 0,
   "result": 0,
-  "time": 1561344147657,
+  "time": 1561453190920,
   "data": [
     {
-      "id": 48,
-      "account": "18088314253",
-      "password": "5918800542",
-      "phone": "18088314253",
-      "avatar": "https://wx.qlogo.cn/mmopen/vi_32/oQknVLicbHPHBYoc7EZ672z3feDwGibcJe80XicL2oJ5GfeX5SNDYz8zFfokvtaN1vphU0FJTN7fdkiasODc8TtYBQ/132",
-      "nickname": "WANGTAO",
-      "age": 0,
-      "gender": 1,
-      "signature": "个性签名",
-      "district": "Yunnan",
-      "status": 1,
-      "sentPwd": "",
-      "wxid": "",
-      "created": 1557283621000,
-      "updated": 1557283665000,
-      "qrcode": "",
-      "isHide": null,
-      "type": 0
+      "itemId": 376,
+      "cover": "https://liyuquan.cn/static/item/190402/81eb13ab-5255-479d-b210-5d66bd86ca8c.png",
+      "title": "兰芝夜间修护睡眠面膜",
+      "price": 38.00
     },
     {
-      "id": 9,
-      "account": "18313747954",
-      "password": "$2a$10$xLkGX/fVB0VwbTF0Zfv3p.IfFv5Ch8bQBZh.oMhPVp8SuowoQwSJ.",
-      "phone": "18313747954",
-      "avatar": "https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKXMYJOomfp7WhXdOcR10u3rjZaxW4q6cbibbOiaZtW3HiaSG5dZuJtJsNJcYAxg9icTWlGia7rj1uoBSw/132",
-      "nickname": "路遥",
-      "age": 0,
-      "gender": 1,
-      "signature": "个性签名",
-      "district": "湖北黄冈市武穴市",
-      "status": 1,
-      "sentPwd": "",
-      "wxid": "",
-      "created": 1556610326000,
-      "updated": 1558191947000,
-      "qrcode": "",
-      "isHide": null,
-      "type": 1
+      "itemId": 311,
+      "cover": "https://liyuquan.cn/static/item/190402/58d16903-a1fe-4380-b48a-9874f0e739bf.jpg",
+      "title": "科颜氏高保湿精华爽肤水",
+      "price": 48.00
     },
     {
-      "id": 10,
-      "account": "18510454067",
-      "password": "6995846387",
-      "phone": "18510454067",
-      "avatar": "https://wx.qlogo.cn/mmopen/vi_32/Uvmqvhy17eN7E4VcDaD6I56EGGOzK8X8kcZ0wqibqtKjZ5VGSOPcWuRXPckmnnMu1snHLG8EH1jjQg26uP6TtaA/132",
-      "nickname": "fou u love",
-      "age": 0,
-      "gender": 1,
-      "signature": "个性签名",
-      "district": "Beijing",
-      "status": 1,
-      "sentPwd": "",
-      "wxid": "",
-      "created": 1556610543000,
-      "updated": 1556610967000,
-      "qrcode": "",
-      "isHide": null,
-      "type": 1
+      "itemId": 319,
+      "cover": "https://liyuquan.cn/static/item/190402/e3fd97a1-4878-4249-a703-012cbd4b455b.jpg",
+      "title": "科颜氏高保湿洁面啫喱",
+      "price": 48.00
+    },
+    {
+      "itemId": 369,
+      "cover": "https://liyuquan.cn/static/item/190402/453aef28-06a7-45f6-9cc4-6b92394729bf.png",
+      "title": "科颜氏清爽舒润爽肤水",
+      "price": 48.00
+    },
+    {
+      "itemId": 351,
+      "cover": "https://liyuquan.cn/static/item/190402/8ca13671-d44e-4495-82b9-276d711f9928.png",
+      "title": "兰蔻新立体塑颜紧致眼霜",
+      "price": 68.00
+    },
+    {
+      "itemId": 346,
+      "cover": "https://liyuquan.cn/static/item/190402/84221718-b672-4c20-a04d-b0e253e6a726.jpg",
+      "title": "Lancome兰蔻眼部精华肌底液小黑瓶",
+      "price": 78.00
+    },
+    {
+      "itemId": 347,
+      "cover": "https://liyuquan.cn/static/item/190402/a85f4559-7281-4f41-b1a1-509bf79b06bd.png",
+      "title": "兰蔻新清滢柔肤水粉水",
+      "price": 78.00
+    },
+    {
+      "itemId": 353,
+      "cover": "https://liyuquan.cn/static/item/190402/c499482e-4b7c-41a7-9631-b83ce33d3f37.png",
+      "title": "兰蔻新臻白净透洁面泡沫",
+      "price": 78.00
+    },
+    {
+      "itemId": 388,
+      "cover": "https://liyuquan.cn/static/item/190402/2f40ee5e-5512-445f-8c07-c5ac4fd1f324.png",
+      "title": "雅诗兰黛鲜活亮采果萃水（滋润型）200ML",
+      "price": 78.00
+    },
+    {
+      "itemId": 317,
+      "cover": "https://liyuquan.cn/static/item/190402/5f545753-6820-4b04-860f-237cdaa37811.png",
+      "title": "芙丽芳丝俏润唇膏5g",
+      "price": 85.00
+    },
+    {
+      "itemId": 359,
+      "cover": "https://liyuquan.cn/static/item/190402/5f3a7787-0b09-4552-b8e7-258e59633ba5.jpg",
+      "title": "兰蔻新水份缘保湿舒缓日霜",
+      "price": 88.00
+    },
+    {
+      "itemId": 368,
+      "cover": "https://liyuquan.cn/static/item/190402/5d92b869-08b4-43cb-94ef-ae9971bacd43.png",
+      "title": "兰蔻新水份缘保湿舒缓凝霜",
+      "price": 88.00
+    },
+    {
+      "itemId": 971,
+      "cover": "https://liyuquan.cn/static/item/190506/c0b437e1-49be-46b2-a2c1-8176315ae838.jpg",
+      "title": "Moraz 藦娜丝 倍润护手霜50ml(进)",
+      "price": 88.00
+    },
+    {
+      "itemId": 394,
+      "cover": "https://liyuquan.cn/static/item/190402/100d92b3-135f-4a06-86a8-9408b829143c.png",
+      "title": "丝塔芙经典温和系列超享装",
+      "price": 89.00
     }
   ]
 }

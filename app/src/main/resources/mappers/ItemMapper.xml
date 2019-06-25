@@ -148,6 +148,18 @@
                 <when test="classes!=null and (classes==1 or classes==2)">
                     a.updated desc
                 </when>
+                <when test="priceRank != null and priceRank == 1">
+                    a.price desc
+                </when>
+                <when test="priceRank != null and priceRank == 2">
+                    a.price asc
+                </when>
+                <when test="acuraRank != null and acuraRank == 1">
+                    a.sales desc
+                </when>
+                <when test="acuraRank != null and acuraRank == 2">
+                    a.sales asc
+                </when>
                 <otherwise>
                     a.created desc
                 </otherwise>

@@ -28,7 +28,9 @@ public interface ItemMapper {
                          @Param("maxAge") Integer maxAge,
                          @Param("minPrice") BigDecimal minPrice,
                          @Param("maxPrice") BigDecimal maxPrice,
-                         @Param("eventId") Integer eventId);
+                         @Param("eventId") Integer eventId,
+                         @Param("priceRank")Byte priceRank,
+                         @Param("acuraRank")Byte acuraRank);
 
     /**
      * 获得商品的详情
@@ -52,7 +54,7 @@ public interface ItemMapper {
 
     Item selectByItemId(Integer itemId);
 
-    Integer updateSalesByItemId(@Param("itemId") Integer itemId,@Param("quantity") Integer quantity);
+    Integer updateSalesByItemId(@Param("itemId") Integer itemId, @Param("quantity") Integer quantity);
 
     DetailVo selectItemDtail(Integer skuId);
 
@@ -60,6 +62,7 @@ public interface ItemMapper {
 
     /**
      * 根据skuId 获取商品详情
+     *
      * @param skuId
      * @return
      */
@@ -67,6 +70,7 @@ public interface ItemMapper {
 
     /**
      * 根据skuId取出商品状态
+     *
      * @param targetId
      * @return
      */

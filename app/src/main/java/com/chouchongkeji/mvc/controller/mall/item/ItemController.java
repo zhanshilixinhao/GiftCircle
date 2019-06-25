@@ -74,19 +74,21 @@ public class ItemController {
      * @param minPrice 最低价格
      * @param maxPrice 最高价格
      * @param eventId  事件id
+     * @param priceRank  价格排序  1 降序 2 升序
+     * @param acuraRank  销量排序 1 降序 2 升序
      * @return
      * @author linqin
      * @date 2018/6/12
      */
     @PostMapping("item_list")
     public Response itemList(Integer classes, Integer gender, Integer minAge, Integer maxAge,
-                             BigDecimal minPrice, BigDecimal maxPrice, Integer eventId, PageQuery pageQuery, Integer categoryId) {
+                             BigDecimal minPrice, BigDecimal maxPrice, Integer eventId, PageQuery pageQuery, Integer categoryId,Byte priceRank,Byte acuraRank) {
         if (classes != null) {
             if (classes > 3 || classes < 0) {
                 return ResponseFactory.err("classes错误");
             }
         }
-        return itemService.getItemList(classes, gender, minAge, maxAge, minPrice, maxPrice, eventId, pageQuery, categoryId);
+        return itemService.getItemList(classes, gender, minAge, maxAge, minPrice, maxPrice, eventId, pageQuery, categoryId, priceRank,acuraRank);
 
     }
 

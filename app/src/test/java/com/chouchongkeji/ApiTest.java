@@ -127,11 +127,11 @@ public class ApiTest {
         params.put("categoryId",7);
 //        params.put("depositBank","红山");
 //        params.put("cardHolder","");
-//        params.put("cardNo","8275803664988786366");
-//        params.put("id",17);
+        params.put("acuraRank",2);
+        params.put("priceRank",2);
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
         params.put("sign",map.get(ApiSignUtil.ANDROID));
-        Response post = OkHttpUtil.post("http://localhost:8080/noauth/item/item_list", params);
+        Response post = OkHttpUtil.post("http://localhost:8088/noauth/item/item_list", params);
         System.out.println(post.body().string());
     }
 

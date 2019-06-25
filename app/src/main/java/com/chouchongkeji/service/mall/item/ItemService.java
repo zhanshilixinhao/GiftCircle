@@ -35,7 +35,7 @@ public interface ItemService {
      *  @date 2018/6/12
      */
     Response getItemList(Integer classes, Integer gender, Integer minAge, Integer maxAge, BigDecimal minPrice,
-                         BigDecimal maxPrice, Integer eventId, PageQuery pageQuery,Integer categoryId);
+                         BigDecimal maxPrice, Integer eventId, PageQuery pageQuery,Integer categoryId,Byte priceRank,Byte acuraRank);
 
     /**
      * 获取商品详情
