@@ -63,6 +63,9 @@ create table if not exists article
   summary varchar(255) null comment '简介',
   detail text null comment '文章详情富文本',
   admin_id int null comment '创建人',
+  scene_id int null comment '文章场景id',
+  label_id int null comment '文章对象标签',
+  festival_id int null comment '文章节日id',
   status tinyint null comment '1 正常 2 不可用 3 已删除',
   `type`  tinyint null comment '文章类型1-banner,2-星座 ，3-普通文章',
   show_time datetime null comment'文章展示时间',
@@ -88,6 +91,25 @@ create table if not exists article_item
   comment '文章商品关联表' charset=utf8mb4;
 
 
+create table if not exists article_scene
+(
+  id int(11) auto_increment
+  primary key,
+  title varchar (50) null comment'场景名称',
+  created datetime null,
+  updated datetime null
+  )
+  comment '文章场景' charset=utf8mb4;
+
+  create table if not exists article_festival
+(
+  id int(11) auto_increment
+  primary key,
+  title varchar (50) null comment'节日名称',
+  created datetime null,
+  updated datetime null
+  )
+  comment '文章节日' charset=utf8mb4;
 
 
 

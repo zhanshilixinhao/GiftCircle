@@ -59,7 +59,7 @@ public class HomeTest {
     public void item() throws IOException {
         RequestParams params = new RequestParams();
         params.put("time" ,System.currentTimeMillis());
-        params.put("id" ,8);
+        params.put("id" ,210);
         Map map = ApiSignUtil.sign1(params.getParams(),ApiSignUtil.ANDROID);
         params.put("sign",map.get(ApiSignUtil.ANDROID));
         Response post = OkHttpUtil.post("http://localhost:8088/noauth/v1/article/item_list", params);

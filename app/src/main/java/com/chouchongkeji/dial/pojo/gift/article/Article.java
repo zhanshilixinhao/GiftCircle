@@ -13,6 +13,12 @@ public class Article {
 
     private Integer adminId;
 
+    private Integer sceneId;
+
+    private Integer labelId;
+
+    private Integer festivalId;
+
     private Byte status;
 
     private Integer sort;
@@ -150,5 +156,29 @@ public class Article {
 
     public void setShowTime(Date showTime) {
         this.showTime = showTime;
+    }
+
+    public Integer getSceneId() {
+        return sceneId;
+    }
+
+    public void setSceneId(Integer sceneId) {
+        this.sceneId = sceneId;
+    }
+
+    public Integer getLabelId() {
+        return labelId;
+    }
+
+    public void setLabelId(Integer labelId) {
+        this.labelId = labelId;
+    }
+
+    public Integer getFestivalId() {
+        return festivalId;
+    }
+
+    public void setFestivalId(Integer festivalId) {
+        this.festivalId = festivalId;
     }
 }
