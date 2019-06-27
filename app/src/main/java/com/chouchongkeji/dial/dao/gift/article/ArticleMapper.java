@@ -2,6 +2,7 @@ package com.chouchongkeji.dial.dao.gift.article;
 
 import com.chouchongkeji.dial.pojo.gift.article.Article;
 import com.chouchongkeji.service.mall.article.vo.ArticleVo;
+import com.chouchongkeji.service.mall.article.vo.ArticleWxVo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -44,4 +45,14 @@ public interface ArticleMapper {
      * @return
      */
     List<Article> selectArticleList(String keyword);
+
+    /**
+     * 微信文章搜索
+     * @param sceneId
+     * @param labelId
+     * @param festivalId
+     * @param keywords
+     * @return
+     */
+    List<ArticleWxVo> selectBySearch(@Param("sceneId") Integer sceneId,@Param("labelId") Integer labelId,@Param("festivalId") Integer festivalId,@Param("keywords") String keywords);
 }

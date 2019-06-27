@@ -13,19 +13,24 @@
     id, title, created, updated
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from article_festival
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="selectByAll" resultType="com.chouchongkeji.dial.pojo.gift.article.ArticleFestival">
+      select
+      <include refid="Base_Column_List" />
+      from article_festival
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from article_festival
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.gift.article.ArticleFestival">
-    insert into article_festival (id, title, created, 
+    insert into article_festival (id, title, created,
       updated)
-    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP}, 
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP},
       #{updated,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.gift.article.ArticleFestival">

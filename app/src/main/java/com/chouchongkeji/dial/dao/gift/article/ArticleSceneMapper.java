@@ -2,6 +2,8 @@ package com.chouchongkeji.dial.dao.gift.article;
 
 import com.chouchongkeji.dial.pojo.gift.article.ArticleScene;
 
+import java.util.List;
+
 public interface ArticleSceneMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +16,6 @@ public interface ArticleSceneMapper {
     int updateByPrimaryKeySelective(ArticleScene record);
 
     int updateByPrimaryKey(ArticleScene record);
+
+    List<ArticleScene> selectByAll();
 }

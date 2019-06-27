@@ -2,6 +2,7 @@ package com.chouchongkeji.service.mall.article;
 
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.query.PageQuery;
+import org.springframework.web.bind.annotation.PostMapping;
 
 public interface ArticleService {
 
@@ -57,5 +58,29 @@ public interface ArticleService {
      */
     Response getArticleItem(Integer id, PageQuery pageQuery);
 
+    /*--------------------------------------------------微信文章----------------------------------------------------------------------*/
 
+    /**
+     * 文章节日列表
+     * @return
+     */
+    Response getFestivalListAll();
+
+
+    /**
+     * 文章场景列表
+     * @return
+     */
+    Response getSceneListAll();
+
+
+    /**
+     * 微信文章搜索
+     * @param sceneId 场景id
+     * @param labelId 对象id
+     * @param festivalId 节日id
+     * @param keywords 关键字
+     * @return
+     */
+    Response wxArticleSearch(Integer sceneId, Integer labelId, Integer festivalId, String keywords);
 }

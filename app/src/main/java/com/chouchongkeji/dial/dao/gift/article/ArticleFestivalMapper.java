@@ -2,6 +2,8 @@ package com.chouchongkeji.dial.dao.gift.article;
 
 import com.chouchongkeji.dial.pojo.gift.article.ArticleFestival;
 
+import java.util.List;
+
 public interface ArticleFestivalMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +16,6 @@ public interface ArticleFestivalMapper {
     int updateByPrimaryKeySelective(ArticleFestival record);
 
     int updateByPrimaryKey(ArticleFestival record);
+
+    List<ArticleFestival> selectByAll();
 }

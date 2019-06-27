@@ -1,28 +1,19 @@
 {
   "errCode": 0,
   "result": 0,
-  "time": 1561357616192,
+  "time": 1561606902152,
   "data": [
     {
-      "itemId": 601,
-      "cover": "https://liyuquan.cn/static/item/190409/b99b82b5-0805-48c8-897a-41c8608ee665.jpg",
-      "title": "彩云之荞苦荞茶胚芽茶120g",
-      "brandName": "土大姐",
-      "day": 1561327812000
+      "id": 190,
+      "title": "一花一世界，一酒一人生",
+      "summary": "没有白酒的激烈，也没有啤酒的寡淡，却带着玫瑰与酒融合后独有的芬芳，入口醇香，回味无穷。",
+      "cover": "https://liyuquan.cn/static/item/190531/bcdfb54d-0297-4b18-9037-6428ec906558.jpg"
     },
     {
-      "itemId": 602,
-      "cover": "https://liyuquan.cn/static/item/190409/f0b74198-7711-4c63-a075-e1d7f56b373f.jpg",
-      "title": "200g寻花茉莉花花草调味茶花饼",
-      "brandName": "土大姐",
-      "day": 1561327812000
-    },
-    {
-      "itemId": 603,
-      "cover": "https://liyuquan.cn/static/item/190409/01c29692-311c-4421-b5bb-aed7acb2f2d9.jpg",
-      "title": "寻花系列：200g花草普洱茶（熟）玫瑰花",
-      "brandName": "土大姐",
-      "day": 1561327812000
+      "id": 194,
+      "title": "鲜花饼助攻绿色生活，为环保吃出贡献！",
+      "summary": "爱买鲜花饼这种类型的绿色食品，这样的生活既健康又绿色！",
+      "cover": "https://liyuquan.cn/static/item/190603/1e98c4ce-af62-4a59-87ee-af24d9b7fa3a.png"
     }
   ]
 }

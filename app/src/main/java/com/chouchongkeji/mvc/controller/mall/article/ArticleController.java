@@ -119,4 +119,42 @@ public class ArticleController {
         return articleService.getArticleItem(id,pageQuery);
     }
 
+    /*--------------------------------------------------微信文章----------------------------------------------------------------------*/
+
+    /**
+     * 文章节日列表
+     * @return
+     */
+    @PostMapping("festival_all")
+    public Response getFestivalListAll(){
+        return articleService.getFestivalListAll();
+    }
+
+
+
+    /**
+     * 文章场景列表
+     * @return
+     */
+    @PostMapping("scene_all")
+    public Response getSceneListAll(){
+        return articleService.getSceneListAll();
+    }
+
+
+    /**
+     * 微信文章搜索
+     * @param sceneId 场景id
+     * @param labelId 对象id
+     * @param festivalId 节日id
+     * @param keywords 关键字
+     * @return
+     */
+    @PostMapping("search")
+    public Response wxArticleSearch(Integer sceneId,Integer labelId,Integer festivalId, String keywords){
+        return articleService.wxArticleSearch(sceneId,labelId,festivalId,keywords);
+    }
+
+
+
 }
