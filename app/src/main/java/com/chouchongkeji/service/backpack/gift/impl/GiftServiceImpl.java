@@ -742,6 +742,7 @@ public class GiftServiceImpl implements GiftService {
      * @author yichenshanren
      * @date 2018/7/2
      */
+    @Override
     public Response sendForWxApp(Integer userId, GiftSendVo sendVo, Integer client) {
         if (StringUtils.isBlank(sendVo.getEvent())) {
             sendVo.setEvent("小程序赠送");
