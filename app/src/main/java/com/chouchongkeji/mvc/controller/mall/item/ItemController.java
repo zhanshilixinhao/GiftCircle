@@ -82,13 +82,13 @@ public class ItemController {
      */
     @PostMapping("item_list")
     public Response itemList(Integer classes, Integer gender, Integer minAge, Integer maxAge,
-                             BigDecimal minPrice, BigDecimal maxPrice, Integer eventId, PageQuery pageQuery, Integer categoryId,Byte priceRank,Byte acuraRank) {
+                             BigDecimal minPrice, BigDecimal maxPrice, Integer eventId, PageQuery pageQuery, Integer categoryId,Byte priceRank,Byte acuraRank,String keywords) {
         if (classes != null) {
             if (classes > 3 || classes < 0) {
                 return ResponseFactory.err("classes错误");
             }
         }
-        return itemService.getItemList(classes, gender, minAge, maxAge, minPrice, maxPrice, eventId, pageQuery, categoryId, priceRank,acuraRank);
+        return itemService.getItemList(classes, gender, minAge, maxAge, minPrice, maxPrice, eventId, pageQuery, categoryId, priceRank,acuraRank,keywords);
 
     }
 

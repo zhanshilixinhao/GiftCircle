@@ -60,42 +60,10 @@
         <if test="categoryId != null">
             left join item_category c on a.category_id = c.id
         </if>
-        <where>
-            <trim suffixOverrides="and">
-                <if test="categoryId != null">
-                    c.id = #{categoryId} and
-                </if>
-                <if test="eventId!= null and eventId>0">
-                    b.theme_id = #{eventId} and
-                </if>
-                <if test="classes!=null">
-                    <choose>
-                        <when test="classes==1">
-                            a.choiceness = 1 and
-                        </when>
-                        <when test="classes== 2">
-                            a.hot = 1 and
-                        </when>
-                    </choose>
-                </if>
-                <if test="gender!=null and gender > 0">
-                    a.re_gender = #{gender} and
-                </if>
-                <if test="minAge!=null">
-                    a.re_age_min >= #{minAge} and
-                </if>
-                <if test="maxAge!=null">
-                    a.re_max_age &lt;= #{maxAge} and
-                </if>
-                <if test="minPrice!=null">
-                    a.price >= #{minPrice} and
-                </if>
-                <if test="maxPrice!=null">
-                    a.price &lt;= #{maxPrice} and
-                </if>
-                a.status = 1 and
-            </trim>
-        </where>
+        where 1=1
+        <if test="categoryId != null">
+           and c.id = #{categoryId}
+        </if>
         union all
         select
         a.*
@@ -106,13 +74,15 @@
         <if test="categoryId != null">
             left join item_category c on a.category_id = c.id
         </if>
+        where 1=1
+        <if test="categoryId != null">
+          and c.pid = #{categoryId}
+        </if>
+        ) a
         <where>
             <trim suffixOverrides="and">
-                <if test="categoryId != null">
-                    c.pid = #{categoryId} and
-                </if>
                 <if test="eventId!= null and eventId>0">
-                    b.theme_id = #{eventId} and
+                    a.theme_id = #{eventId} and
                 </if>
                 <if test="classes!=null">
                     <choose>
@@ -139,10 +109,12 @@
                 <if test="maxPrice!=null">
                     a.price &lt;= #{maxPrice} and
                 </if>
+                <if test="keywords!=null and keywords != ''">
+                    a.title like concat('%',#{keywords},'%') and
+                </if>
                 a.status = 1 and
             </trim>
         </where>
-        ) a
         order by
             <choose>
                 <when test="classes!=null and (classes==1 or classes==2)">

@@ -30,7 +30,8 @@ public interface ItemMapper {
                          @Param("maxPrice") BigDecimal maxPrice,
                          @Param("eventId") Integer eventId,
                          @Param("priceRank")Byte priceRank,
-                         @Param("acuraRank")Byte acuraRank);
+                         @Param("acuraRank")Byte acuraRank,
+                         @Param("keywords")String keywords);
 
     /**
      * 获得商品的详情
