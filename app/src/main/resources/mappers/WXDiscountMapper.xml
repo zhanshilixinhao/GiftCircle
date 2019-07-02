@@ -49,6 +49,7 @@
 from wx_discount a
        left join v_bp b on b.id = a.bp_id
 where a.user_id = #{userId}
+order by a.created DESC
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from wx_discount
