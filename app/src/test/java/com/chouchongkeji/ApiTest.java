@@ -129,8 +129,8 @@ public class ApiTest {
 //        params.put("depositBank","红山");
 //        params.put("cardHolder","");
 //        params.put("acuraRank",2);
-        params.put("priceRank",2);
-//        params.put("keywords","花");
+//        params.put("priceRank",2);
+        params.put("keywords","花");
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
         params.put("sign",map.get(ApiSignUtil.ANDROID));
         Response post = OkHttpUtil.post("http://localhost:8088/noauth/item/item_list", params);

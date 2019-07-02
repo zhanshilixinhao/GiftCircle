@@ -32,7 +32,8 @@
         <result property="itemId" column="item_id"/>
         <result property="title" column="title"/>
         <result property="price" column="price"/>
-        <result property="pictures" column="pictures" typeHandler="com.chouchongkeji.goexplore.handler.PicturesHandler"/>
+        <result property="pictures" column="pictures"
+                typeHandler="com.chouchongkeji.goexplore.handler.PicturesHandler"/>
         <result property="description" column="description"/>
         <result property="detailUrl" column="detailUrl"/>
     </resultMap>
@@ -49,35 +50,28 @@
     </select>
 
     <select id="selectAll" resultMap="BaseResultMap">
+        <if test="categoryId != null">
         select a.*
         from (
         select
         a.*
         from item a
         <if test="eventId!= null and eventId>0">
-            left join  theme_item b on a.id = b.item_id
+            left join theme_item b on a.id = b.item_id
         </if>
-        <if test="categoryId != null">
-            left join item_category c on a.category_id = c.id
-        </if>
+        left join item_category c on a.category_id = c.id
         where 1=1
-        <if test="categoryId != null">
-           and c.id = #{categoryId}
-        </if>
+        and c.id = #{categoryId}
         union all
         select
         a.*
         from item a
         <if test="eventId!= null and eventId>0">
-            left join  theme_item b on a.id = b.item_id
+            left join theme_item b on a.id = b.item_id
         </if>
-        <if test="categoryId != null">
-            left join item_category c on a.category_id = c.id
-        </if>
+        left join item_category c on a.category_id = c.id
         where 1=1
-        <if test="categoryId != null">
-          and c.pid = #{categoryId}
-        </if>
+        and c.pid = #{categoryId}
         ) a
         <where>
             <trim suffixOverrides="and">
@@ -116,6 +110,71 @@
             </trim>
         </where>
         order by
+        <choose>
+            <when test="classes!=null and (classes==1 or classes==2)">
+                a.updated desc
+            </when>
+            <when test="priceRank != null and priceRank == 1">
+                a.price desc
+            </when>
+            <when test="priceRank != null and priceRank == 2">
+                a.price asc
+            </when>
+            <when test="acuraRank != null and acuraRank == 1">
+                a.sales desc
+            </when>
+            <when test="acuraRank != null and acuraRank == 2">
+                a.sales asc
+            </when>
+            <otherwise>
+                a.created desc
+            </otherwise>
+        </choose>
+        </if>
+        <if test="categoryId == null">
+            select
+            a.*
+            from item a
+            <if test="eventId!= null and eventId>0">
+                left join theme_item b on a.id = b.item_id
+            </if>
+            <where>
+                <trim suffixOverrides="and">
+                    <if test="eventId!= null and eventId>0">
+                        b.theme_id = #{eventId} and
+                    </if>
+                    <if test="classes!=null">
+                        <choose>
+                            <when test="classes==1">
+                                a.choiceness = 1 and
+                            </when>
+                            <when test="classes== 2">
+                                a.hot = 1 and
+                            </when>
+                        </choose>
+                    </if>
+                    <if test="gender!=null and gender > 0">
+                        a.re_gender = #{gender} and
+                    </if>
+                    <if test="minAge!=null">
+                        a.re_age_min >= #{minAge} and
+                    </if>
+                    <if test="maxAge!=null">
+                        a.re_max_age &lt;= #{maxAge} and
+                    </if>
+                    <if test="minPrice!=null">
+                        a.price >= #{minPrice} and
+                    </if>
+                    <if test="maxPrice!=null">
+                        a.price &lt;= #{maxPrice} and
+                    </if>
+                    <if test="keywords!=null and keywords != ''">
+                        a.title like concat('%',#{keywords},'%') and
+                    </if>
+                    a.status = 1 and
+                </trim>
+            </where>
+            order by
             <choose>
                 <when test="classes!=null and (classes==1 or classes==2)">
                     a.updated desc
@@ -136,62 +195,63 @@
                     a.created desc
                 </otherwise>
             </choose>
+        </if>
     </select>
 
 
-<!--    <select id="selectAll" resultMap="BaseResultMap">-->
-<!--        select-->
-<!--        a.*-->
-<!--        from item a-->
-<!--        <if test="eventId!= null and eventId>0">-->
-<!--            left join  theme_item b on a.id = b.item_id-->
-<!--        </if>-->
-<!--        <where>-->
-<!--            <trim suffixOverrides="and">-->
-<!--                <if test="categoryId != null">-->
-<!--                    a.category_id = #{categoryId} and-->
-<!--                </if>-->
-<!--                <if test="eventId!= null and eventId>0">-->
-<!--                    b.theme_id = #{eventId} and-->
-<!--                </if>-->
-<!--                <if test="classes!=null">-->
-<!--                    <choose>-->
-<!--                        <when test="classes==1">-->
-<!--                            a.choiceness = 1 and-->
-<!--                        </when>-->
-<!--                        <when test="classes== 2">-->
-<!--                            a.hot = 1 and-->
-<!--                        </when>-->
-<!--                    </choose>-->
-<!--                </if>-->
-<!--                <if test="gender!=null and gender > 0">-->
-<!--                    a.re_gender = #{gender} and-->
-<!--                </if>-->
-<!--                <if test="minAge!=null">-->
-<!--                    a.re_age_min >= #{minAge} and-->
-<!--                </if>-->
-<!--                <if test="maxAge!=null">-->
-<!--                    a.re_max_age &lt;= #{maxAge} and-->
-<!--                </if>-->
-<!--                <if test="minPrice!=null">-->
-<!--                    a.price >= #{minPrice} and-->
-<!--                </if>-->
-<!--                <if test="maxPrice!=null">-->
-<!--                    a.price &lt;= #{maxPrice} and-->
-<!--                </if>-->
-<!--                a.status = 1 and-->
-<!--            </trim>-->
-<!--        </where>-->
-<!--        order by-->
-<!--            <choose>-->
-<!--                <when test="classes!=null and (classes==1 or classes==2)">-->
-<!--                    a.updated desc-->
-<!--                </when>-->
-<!--                <otherwise>-->
-<!--                    a.created desc-->
-<!--                </otherwise>-->
-<!--            </choose>-->
-<!--    </select>-->
+    <!--    <select id="selectAll" resultMap="BaseResultMap">-->
+    <!--        select-->
+    <!--        a.*-->
+    <!--        from item a-->
+    <!--        <if test="eventId!= null and eventId>0">-->
+    <!--            left join  theme_item b on a.id = b.item_id-->
+    <!--        </if>-->
+    <!--        <where>-->
+    <!--            <trim suffixOverrides="and">-->
+    <!--                <if test="categoryId != null">-->
+    <!--                    a.category_id = #{categoryId} and-->
+    <!--                </if>-->
+    <!--                <if test="eventId!= null and eventId>0">-->
+    <!--                    b.theme_id = #{eventId} and-->
+    <!--                </if>-->
+    <!--                <if test="classes!=null">-->
+    <!--                    <choose>-->
+    <!--                        <when test="classes==1">-->
+    <!--                            a.choiceness = 1 and-->
+    <!--                        </when>-->
+    <!--                        <when test="classes== 2">-->
+    <!--                            a.hot = 1 and-->
+    <!--                        </when>-->
+    <!--                    </choose>-->
+    <!--                </if>-->
+    <!--                <if test="gender!=null and gender > 0">-->
+    <!--                    a.re_gender = #{gender} and-->
+    <!--                </if>-->
+    <!--                <if test="minAge!=null">-->
+    <!--                    a.re_age_min >= #{minAge} and-->
+    <!--                </if>-->
+    <!--                <if test="maxAge!=null">-->
+    <!--                    a.re_max_age &lt;= #{maxAge} and-->
+    <!--                </if>-->
+    <!--                <if test="minPrice!=null">-->
+    <!--                    a.price >= #{minPrice} and-->
+    <!--                </if>-->
+    <!--                <if test="maxPrice!=null">-->
+    <!--                    a.price &lt;= #{maxPrice} and-->
+    <!--                </if>-->
+    <!--                a.status = 1 and-->
+    <!--            </trim>-->
+    <!--        </where>-->
+    <!--        order by-->
+    <!--            <choose>-->
+    <!--                <when test="classes!=null and (classes==1 or classes==2)">-->
+    <!--                    a.updated desc-->
+    <!--                </when>-->
+    <!--                <otherwise>-->
+    <!--                    a.created desc-->
+    <!--                </otherwise>-->
+    <!--            </choose>-->
+    <!--    </select>-->
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from item
     where id = #{id,jdbcType=INTEGER}
