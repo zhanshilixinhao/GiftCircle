@@ -53,33 +53,33 @@ public class Item {
     private String wxCover;
 
 
-    public Item(Integer id, String title, BigDecimal price, Integer sales, Integer stock,
-                String description, Byte reGender, Byte reMaxAge, Byte reAgeMin,
-                Integer storeId, Integer categoryId, String cover, String pictures, Byte choiceness,
-                Byte hot, Byte status, Byte isAudit, Integer brandId, Date created, Date updated,Integer adminId) {
-        this.id = id;
-        this.title = title;
-        this.price = price;
-        this.sales = sales;
-        this.stock = stock;
-        this.description = description;
-        this.reGender = reGender;
-        this.reMaxAge = reMaxAge;
-        this.reAgeMin = reAgeMin;
-//        this.reEvent = reEvent;
-        this.storeId = storeId;
-        this.categoryId = categoryId;
-        this.cover = cover;
-        this.pictures = pictures;
-        this.choiceness = choiceness;
-        this.hot = hot;
-        this.status = status;
-        this.isAudit = isAudit;
-        this.brandId = brandId;
-        this.created = created;
-        this.updated = updated;
-        this.adminId = adminId;
-    }
+//    public Item(Integer id, String title, BigDecimal price, Integer sales, Integer stock,
+//                String description, Byte reGender, Byte reMaxAge, Byte reAgeMin,
+//                Integer storeId, Integer categoryId, String cover, String pictures, Byte choiceness,
+//                Byte hot, Byte status, Byte isAudit, Integer brandId, Date created, Date updated,Integer adminId) {
+//        this.id = id;
+//        this.title = title;
+//        this.price = price;
+//        this.sales = sales;
+//        this.stock = stock;
+//        this.description = description;
+//        this.reGender = reGender;
+//        this.reMaxAge = reMaxAge;
+//        this.reAgeMin = reAgeMin;
+////        this.reEvent = reEvent;
+//        this.storeId = storeId;
+//        this.categoryId = categoryId;
+//        this.cover = cover;
+//        this.pictures = pictures;
+//        this.choiceness = choiceness;
+//        this.hot = hot;
+//        this.status = status;
+//        this.isAudit = isAudit;
+//        this.brandId = brandId;
+//        this.created = created;
+//        this.updated = updated;
+//        this.adminId = adminId;
+//    }
 
     public Item() {
         super();

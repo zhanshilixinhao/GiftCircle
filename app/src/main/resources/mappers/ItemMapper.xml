@@ -2,31 +2,31 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.chouchongkeji.dial.dao.gift.item.ItemMapper">
     <resultMap id="BaseResultMap" type="com.chouchongkeji.dial.pojo.gift.item.Item">
-        <constructor>
-            <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
-            <arg column="title" javaType="java.lang.String" jdbcType="VARCHAR"/>
-            <arg column="price" javaType="java.math.BigDecimal" jdbcType="DECIMAL"/>
-            <arg column="sales" javaType="java.lang.Integer" jdbcType="INTEGER"/>
-            <arg column="stock" javaType="java.lang.Integer" jdbcType="INTEGER"/>
-            <arg column="description" javaType="java.lang.String" jdbcType="VARCHAR"/>
-            <arg column="re_gender" javaType="java.lang.Byte" jdbcType="TINYINT"/>
-            <arg column="re_max_age" javaType="java.lang.Byte" jdbcType="TINYINT"/>
-            <arg column="re_age_min" javaType="java.lang.Byte" jdbcType="TINYINT"/>
-            <!--<arg column="re_event" javaType="java.lang.Long" jdbcType="BIGINT"/>-->
-            <arg column="store_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
-            <arg column="category_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
-            <arg column="cover" javaType="java.lang.String" jdbcType="VARCHAR"/>
-            <arg column="pictures" javaType="java.lang.String" jdbcType="VARCHAR"/>
-            <arg column="choiceness" javaType="java.lang.Byte" jdbcType="TINYINT"/>
-            <arg column="hot" javaType="java.lang.Byte" jdbcType="TINYINT"/>
-            <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT"/>
-            <arg column="is_audit" javaType="java.lang.Byte" jdbcType="TINYINT"/>
-            <arg column="brand_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
-            <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
-            <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
-            <arg column="admin_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
-            <arg column="wx_cover" javaType="java.lang.String" jdbcType="VARCHAR"/>
-        </constructor>
+<!--        <constructor>-->
+<!--            <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER"/>-->
+<!--            <arg column="title" javaType="java.lang.String" jdbcType="VARCHAR"/>-->
+<!--            <arg column="price" javaType="java.math.BigDecimal" jdbcType="DECIMAL"/>-->
+<!--            <arg column="sales" javaType="java.lang.Integer" jdbcType="INTEGER"/>-->
+<!--            <arg column="stock" javaType="java.lang.Integer" jdbcType="INTEGER"/>-->
+<!--            <arg column="description" javaType="java.lang.String" jdbcType="VARCHAR"/>-->
+<!--            <arg column="re_gender" javaType="java.lang.Byte" jdbcType="TINYINT"/>-->
+<!--            <arg column="re_max_age" javaType="java.lang.Byte" jdbcType="TINYINT"/>-->
+<!--            <arg column="re_age_min" javaType="java.lang.Byte" jdbcType="TINYINT"/>-->
+<!--            &lt;!&ndash;<arg column="re_event" javaType="java.lang.Long" jdbcType="BIGINT"/>&ndash;&gt;-->
+<!--            <arg column="store_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>-->
+<!--            <arg column="category_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>-->
+<!--            <arg column="cover" javaType="java.lang.String" jdbcType="VARCHAR"/>-->
+<!--            <arg column="pictures" javaType="java.lang.String" jdbcType="VARCHAR"/>-->
+<!--            <arg column="choiceness" javaType="java.lang.Byte" jdbcType="TINYINT"/>-->
+<!--            <arg column="hot" javaType="java.lang.Byte" jdbcType="TINYINT"/>-->
+<!--            <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT"/>-->
+<!--            <arg column="is_audit" javaType="java.lang.Byte" jdbcType="TINYINT"/>-->
+<!--            <arg column="brand_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>-->
+<!--            <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP"/>-->
+<!--            <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP"/>-->
+<!--            <arg column="admin_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>-->
+<!--            <arg column="wx_cover" javaType="java.lang.String" jdbcType="VARCHAR"/>-->
+<!--        </constructor>-->
     </resultMap>
     <resultMap id="ResultMap" type="com.chouchongkeji.service.backpack.consignment.vo.DetailVo">
         <result property="consignmentId" column="consignment_id"/>
@@ -527,7 +527,7 @@ WHERE
         description,
         pictures,
         status,
-        wx_cover
+        wx_cover as wxCover
         FROM
         item
         WHERE
