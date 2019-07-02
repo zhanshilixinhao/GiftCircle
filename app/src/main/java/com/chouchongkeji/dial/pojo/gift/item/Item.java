@@ -1,5 +1,7 @@
 package com.chouchongkeji.dial.pojo.gift.item;
 
+import com.yichen.auth.jackson.ImgUrl;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -47,6 +49,9 @@ public class Item {
     private Date updated;
 
     private Integer adminId;
+
+    private String wxCover;
+
 
     public Item(Integer id, String title, BigDecimal price, Integer sales, Integer stock,
                 String description, Byte reGender, Byte reMaxAge, Byte reAgeMin,
@@ -254,5 +259,13 @@ public class Item {
 
     public void setAdminId(Integer adminId) {
         this.adminId = adminId;
+    }
+
+    public String getWxCover() {
+        return wxCover;
+    }
+
+    public void setWxCover(String wxCover) {
+        this.wxCover = wxCover;
     }
 }

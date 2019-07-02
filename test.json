@@ -1,91 +1,19 @@
 {
   "errCode": 0,
   "result": 0,
-  "time": 1562032021342,
-  "data": [
-    {
-      "itemId": 941,
-      "cover": "https://liyuquan.cn/static/item/190424/5628e395-8307-4b84-bf73-f52f9d0d9632.jpg",
-      "title": "特制蛋糕★缤纷花园",
-      "price": 360.00
-    },
-    {
-      "itemId": 939,
-      "cover": "https://liyuquan.cn/static/item/190424/f36210bd-e005-4f4c-a0db-d9165a6b2f26.jpg",
-      "title": "芭比娃娃蛋糕（青花瓷款）",
-      "price": 298.00
-    },
-    {
-      "itemId": 938,
-      "cover": "https://liyuquan.cn/static/item/190424/84fa4840-b7f8-46d2-bc41-dd6bfa9b059a.jpg",
-      "title": "芭比娃娃蛋糕（梅花款），欢迎订制！",
-      "price": 298.00
-    },
-    {
-      "itemId": 917,
-      "cover": "https://liyuquan.cn/static/item/190424/32a36fb3-4694-4af2-b3af-ccb57ed0e405.jpg",
-      "title": "特制蛋糕★幸福花球。 雅致的颜色，美美哒裱花~~~~ 此款蛋糕裱花精美，款式雅致，尤其适合如生日、纪念日",
-      "price": 280.00
-    },
-    {
-      "itemId": 916,
-      "cover": "https://liyuquan.cn/static/item/190424/10feb840-ff7a-4cec-b39a-48021f706f60.jpg",
-      "title": "蛋糕包邮★韩式裱花半圆6寸6厘米",
-      "price": 268.00
-    },
-    {
-      "itemId": 911,
-      "cover": "https://liyuquan.cn/static/item/190424/44a38a6f-025f-48d8-b1fe-031cf808330b.jpg",
-      "title": "生日蛋糕配送 生日蛋糕送货★蓝色爱心韩式裱花蛋糕",
-      "price": 298.00
-    },
-    {
-      "itemId": 910,
-      "cover": "https://liyuquan.cn/static/item/190424/05b56fe2-1d7c-40aa-a261-51e9ac6a0897.jpg",
-      "title": "生日蛋糕配送 生日蛋糕送货★韩式裱花定制",
-      "price": 268.00
-    },
-    {
-      "itemId": 909,
-      "cover": "https://liyuquan.cn/static/item/190424/0797874c-7bf4-4067-b2ca-f74b5c67fe01.jpg",
-      "title": "生日蛋糕配送 生日蛋糕送货★韩式裱花定制",
-      "price": 298.00
-    },
-    {
-      "itemId": 908,
-      "cover": "https://liyuquan.cn/static/item/190424/f4c5b105-697f-46fc-9709-1d905f10e5ce.jpg",
-      "title": "韩式裱花蛋糕 包邮★创意韩式",
-      "price": 450.00
-    },
-    {
-      "itemId": 906,
-      "cover": "https://liyuquan.cn/static/item/190424/36081905-945b-46c4-9c50-f0de34ef10c3.jpg",
-      "title": "蛋糕包邮★韩式裱花半圆加高",
-      "price": 328.00
-    },
-    {
-      "itemId": 876,
-      "cover": "https://liyuquan.cn/static/item/190424/16caacf1-e969-4f9d-93cc-07483c829c3d.jpg",
-      "title": "订制插画韩式裱花蛋糕",
-      "price": 298.00
-    },
-    {
-      "itemId": 874,
-      "cover": "https://liyuquan.cn/static/item/190424/5c20500a-5d17-4453-ab60-afe2955d1ea0.jpg",
-      "title": "订制焦糖海盐韩式裱花蛋糕",
-      "price": 298.00
-    },
-    {
-      "itemId": 856,
-      "cover": "https://liyuquan.cn/static/item/190424/00994978-d352-4f4f-a2fc-3dcdf82adb14.jpg",
-      "title": "订制庆典韩式裱花数码蛋糕",
-      "price": 880.00
-    },
-    {
-      "itemId": 850,
-      "cover": "https://liyuquan.cn/static/item/190424/da88343b-69c2-4569-830e-7faf73a261a2.jpg",
-      "title": "订制韩式裱花翻糖小猴蛋糕",
-      "price": 398.00
-    }
-  ]
+  "time": 1562054613416,
+  "data": {
+    "id": 528,
+    "title": "博斯精品男士淡香水",
+    "price": 610.00,
+    "sales": 0,
+    "description": "正品保证 急速配货",
+    "pictures": [
+      "https://liyuquan.cn/static/item/190404/7cdfb4e6-2cd7-41bd-b9e7-b54af5d5bfed.png"
+    ],
+    "detailUrl": "https://liyuquan.cn/static/product.html?uid=528",
+    "isCollect": 2,
+    "status": 1,
+    "wxCover": "https://liyuquan.cn/static/item/190404/568aeada-5ad7-426f-b546-383cbe53dddf.png"
+  }
 }

@@ -184,6 +184,7 @@
 > 5. 新增接口6.26 （首页今日精选）
 > 6. 修改接口6.8 （商品列表增加参数）
 > 7. 新增小程序文章搜索相关接口（25）
+> 8. 修改商品详情接口，增加小程序商品详情图片字段（6.9）
 
 ## 目录
 <span id="m"> </span>
@@ -1964,6 +1965,7 @@ JSON：
         ],
         "detailUrl": "https://43.241.223.169:800/static/product.html?id=2",
         "isCollect": 2
+        "wxCover": "https://liyuquan.cn/static/item/190404/568aeada-5ad7-426f-b546-383cbe53dddf.png"
     }
 }
 ```
@@ -1981,6 +1983,10 @@ JSON：
 | pictures    | List<String> |    是    |        轮播图片数组        |
 | detailUrl   |    String    |    是    |        商品详情地址        |
 | isCollect   |     Int      |    是    | 是否收藏 1.已收藏 2.未收藏 |
+| wxCover    | String |    是    |        小程序商品详情图片        |
+
+
+
 
 ### 6.10 商品评论列表
 

@@ -515,6 +515,7 @@ create table if not exists item
   store_id int null comment '店铺id',
   category_id int null comment '分类id',
   cover varchar(255) null comment '封面图',
+  wx_cover varchar(1000) null comment '小程序商品详情图片',
   pictures varchar(2000) null comment '商品相册',
   choiceness tinyint default 0 null comment '精选，0-否，1-是',
   hot tinyint default 0 null comment '热门，0-否，1-是',

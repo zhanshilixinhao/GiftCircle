@@ -25,6 +25,7 @@
             <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
             <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
             <arg column="admin_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="wx_cover" javaType="java.lang.String" jdbcType="VARCHAR"/>
         </constructor>
     </resultMap>
     <resultMap id="ResultMap" type="com.chouchongkeji.service.backpack.consignment.vo.DetailVo">
@@ -40,7 +41,7 @@
     <sql id="Base_Column_List">
     id, title, price, sales, stock, description, re_gender, re_max_age, re_age_min,
     store_id, category_id, cover, pictures, choiceness, hot, status, is_audit, brand_id,
-    created, updated, admin_id
+    created, updated, admin_id,wx_cover
   </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
@@ -525,7 +526,8 @@ WHERE
         sales,
         description,
         pictures,
-        status
+        status,
+        wx_cover
         FROM
         item
         WHERE

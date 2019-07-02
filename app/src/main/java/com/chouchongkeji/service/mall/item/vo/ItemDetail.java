@@ -32,6 +32,10 @@ public class ItemDetail {
     // 商品状态
     private Byte status;
 
+    // 小程序图片详情
+    @ImgUrl
+    private String wxCover;
+
     public Integer getIsCollect() {
         return isCollect;
     }
@@ -102,5 +106,13 @@ public class ItemDetail {
 
     public void setStatus(Byte status) {
         this.status = status;
+    }
+
+    public String getWxCover() {
+        return wxCover;
+    }
+
+    public void setWxCover(String wxCover) {
+        this.wxCover = wxCover;
     }
 }
