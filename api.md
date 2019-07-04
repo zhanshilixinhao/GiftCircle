@@ -4798,6 +4798,7 @@ type = 3 请求结果示例：
             cover: "https://io.shanren.group/image/cover.jpg",  
             description: "东周末年", //描述
             brand: "公牛", //品牌
+            "spec": " 经典", //规格
             type: 1, //1商品 ，2-虚拟物品 3，优惠券
             quantity: 0, 
              "pickRemainTime": 2591891873, //提货剩余时间（从购买到30天的剩余毫秒数）
@@ -4813,6 +4814,7 @@ type = 3 请求结果示例：
              "cover": "https://liyuquan.cn/static/item/190212/21b8753f-049a-43fb-bcfa-a1bea105d7ae.jpg",
              "description": "产品参数：\n产品名称：Nars/娜斯 柔哑净瑕遮瑕膏\n品牌: Nars/娜斯遮瑕笔/遮瑕膏\n单品: 柔哑净瑕遮瑕膏\n产地: 美国\n颜色分类: Honey Chantilly Cannelle Custard Vanilla Crème Brulee\n保质期: 36个月\n功效: 遮瑕\n规格类型: 正常规格\n是否为特殊用途化妆品: 否\n限期使用日期范围: 2021-06-01至2021-06-01\n化妆品保质期: 36个月",
             "brand": "Nars官方旗舰店",
+            "spec": " 经典",
              "type": 1,
              "quantity": 1,
             "pickRemainTime": 2591891873,
@@ -4828,6 +4830,7 @@ type = 3 请求结果示例：
             "cover": "https://liyuquan.cn/static/item/190212/5070d53d-e0dc-47b3-a16d-7e0d171b759a.jpg",
             "description": "产品参数：\n产品名称：Nars/娜斯 阴影修容粉\n是否为特殊用途化妆品: 否\n功效: 立体\n保质期: 3年\n规格类型: 正常规格\n产地: 美国\n品牌: Nars/娜斯修颜/高光/阴影粉\n单品: 阴影修容粉\n净含量: 8g\n颜色分类: Laguna",
             "brand": "Nars官方旗舰店",
+            "spec": " 经典",
             "type": 1,
             "quantity": 1,
             "pickRemainTime": 2591989873,

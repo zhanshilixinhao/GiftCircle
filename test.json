@@ -1,19 +1,103 @@
 {
   "errCode": 0,
   "result": 0,
-  "time": 1562054613416,
-  "data": {
-    "id": 528,
-    "title": "博斯精品男士淡香水",
-    "price": 610.00,
-    "sales": 0,
-    "description": "正品保证 急速配货",
-    "pictures": [
-      "https://liyuquan.cn/static/item/190404/7cdfb4e6-2cd7-41bd-b9e7-b54af5d5bfed.png"
-    ],
-    "detailUrl": "https://liyuquan.cn/static/product.html?uid=528",
-    "isCollect": 2,
-    "status": 1,
-    "wxCover": "https://liyuquan.cn/static/item/190404/568aeada-5ad7-426f-b546-383cbe53dddf.png"
-  }
+  "time": 1562227016426,
+  "data": [
+    {
+      "id": 7719052014234,
+      "userId": 7,
+      "targetId": 695,
+      "price": 268.00,
+      "title": "汾酒集团 杏花村15 52度 475ml清香型礼盒白酒",
+      "cover": "https://liyuquan.cn/static/item/190411/03684a39-24ef-4bf6-8f6c-65114b1b137a.jpg",
+      "description": "产品名称：汾酒集团·杏花村15\n\n产地：山西杏花村\n\n净含量：475ml\n\n香型：清香型  \n\n酒精度：52°\n\n产品原料：水、高粱、大麦、豌豆\n\n产品标准代号：GB/T10781.2 \n\n质量等级：优级\n\n食品生产许可证编号：SC11514118201952\n\n生产日期：见礼盒顶部\n\n食用方法：开盖即饮\n\n储存条件：密闭，放置于阴凉处，避免阳光直晒。",
+      "brand": "汾酒",
+      "spec": " 标准款",
+      "type": 1,
+      "quantity": 1,
+      "pickRemainTime": -1299972382,
+      "created": 1558335043000,
+      "buyTime": 1558335044000
+    },
+    {
+      "id": 7719052014237,
+      "userId": 7,
+      "targetId": 504,
+      "price": 385.00,
+      "title": "安娜苏许愿精灵香水",
+      "cover": "https://liyuquan.cn/static/item/190404/9dc0bd0d-cb90-4297-976d-1351c45a2561.png",
+      "description": "正品保证 急速配货",
+      "brand": "安娜苏",
+      "spec": " 标准款",
+      "type": 1,
+      "quantity": 1,
+      "pickRemainTime": -1299958382,
+      "created": 1558335058000,
+      "buyTime": 1558335058000
+    },
+    {
+      "id": 7719070109102,
+      "userId": 7,
+      "targetId": 164,
+      "price": 32.00,
+      "title": "【正品花蜜】正宗云南特产经典玫瑰鲜花饼袋装礼袋40gX6枚",
+      "cover": "https://liyuquan.cn/static/item/190131/d7d93a3f-2efc-4928-a820-402aeb63ac15.jpg",
+      "description": "一款云南人都爱吃的鲜花饼-每天现摘玫瑰花瓣纯手工制作而成.",
+      "brand": "卷膜礼袋",
+      "spec": " 经典",
+      "type": 1,
+      "quantity": 1,
+      "pickRemainTime": 2308937618,
+      "created": 1561943954000,
+      "buyTime": 1561943954000
+    },
+    {
+      "id": 7719070415105,
+      "userId": 7,
+      "targetId": 1257,
+      "price": 188.00,
+      "title": "么么哒头像蛋糕",
+      "cover": "https://liyuquan.cn/static/item/190423/86200e07-b30e-4423-80f6-e6b6bb92ced9.jpg",
+      "description": "么么哒头像蛋糕\n\nPS.蛋糕底托盘散落水果仅做拍照装饰之用，不在售卖之列哟",
+      "brand": "由你啃蛋糕",
+      "spec": " 1磅",
+      "type": 1,
+      "quantity": 1,
+      "pickRemainTime": 2590324618,
+      "created": 1562225341000,
+      "buyTime": 1562225341000
+    },
+    {
+      "id": 7719070415108,
+      "userId": 7,
+      "targetId": 1140,
+      "price": 298.00,
+      "title": "订制长寿面半翻糖蛋糕 生日蛋糕",
+      "cover": "https://liyuquan.cn/static/item/190423/dfd248a3-c3b8-4f6c-974d-a2ca6963bb9f.jpg",
+      "description": "生日吃长寿面的习俗至今已有上千年的历史，而今我们将此传统与美味的蛋糕结合，制作出长寿面蛋糕，借此表达祝福长辈健康长寿的美好祝愿~\n\n翻糖制作精致的造型，加上健康美味的动物乳脂奶油蛋糕，绝对是祝寿蛋糕的首选~\n\n精致的翻糖造型需要师傅用心制作，请各位亲们务必提前半天以上预订哟~~~",
+      "brand": "由你啃蛋糕",
+      "spec": " 1磅",
+      "type": 1,
+      "quantity": 1,
+      "pickRemainTime": 2590350618,
+      "created": 1562225367000,
+      "buyTime": 1562225367000
+    },
+    {
+      "id": 7719070210103,
+      "userId": 7,
+      "targetId": 407,
+      "price": 320.00,
+      "title": "Dior克丽丝汀迪奥烈艳蓝金挚红唇膏999红管",
+      "cover": "https://liyuquan.cn/static/item/190403/b0a0a293-72b4-4f33-8ba6-50978b9190e6.jpg",
+      "description": "无",
+      "brand": "迪奥",
+      "spec": " 标准款",
+      "type": 1,
+      "quantity": 2,
+      "pickRemainTime": 2398258618,
+      "created": 1562033274000,
+      "buyTime": 1562033275000
+    }
+  ]
 }

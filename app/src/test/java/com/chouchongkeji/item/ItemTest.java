@@ -107,7 +107,7 @@ public class ItemTest {
     public void bpList() throws IOException {
         RequestParams params = new RequestParams();
         params.put("time", System.currentTimeMillis());
-        params.put("access_token", "7a867108-2521-4d95-b482-8603ddcd4c5f");
+        params.put("access_token", "0b83209b-c43a-44fe-9a1d-71fd71809f8a");
         params.put("type", 1);
 //        params.put("pageNum",2);
 //        params.put("pageSize",14);
@@ -121,8 +121,8 @@ public class ItemTest {
     public void bpLisearcst() throws IOException {
         RequestParams params = new RequestParams();
         params.put("time", System.currentTimeMillis());
-        params.put("access_token", "7a867108-2521-4d95-b482-8603ddcd4c5f");
-        params.put("key", "s");
+        params.put("access_token", "0b83209b-c43a-44fe-9a1d-71fd71809f8a");
+        params.put("key", "蛋糕");
 //        params.put("pageNum",2);
 //        params.put("pageSize",14);
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);

@@ -27,6 +27,8 @@ public class Vbp {
 
     private String brand;
 
+    private String spec;
+
     private Byte type;
 
     private Integer quantity;
@@ -138,5 +140,13 @@ public class Vbp {
 
     public void setPickRemainTime(Long pickRemainTime) {
         this.pickRemainTime = pickRemainTime;
+    }
+
+    public String getSpec() {
+        return spec;
+    }
+
+    public void setSpec(String spec) {
+        this.spec = spec;
     }
 }
