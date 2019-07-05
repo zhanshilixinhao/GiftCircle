@@ -42,6 +42,25 @@ public class BpController {
         return bpService.getList(userDetails.getUserId(), type, page);
     }
 
+
+    /**
+     * 微信背包列表
+     *
+     * @param userDetails 用户信息
+     * @param type        1 物品 2 虚拟物品 3 优惠券
+     * @return
+     * @author yichenshanren
+     * @date 2018/7/2
+     */
+    @PostMapping("wx_list")
+    public Response getWxBpList(@AuthenticationPrincipal UserDetails userDetails, Integer type) {
+        if (type == null || type < 0 || type > 3) {
+            return ResponseFactory.err("type错误!");
+        }
+        return bpService.getWxBpList(userDetails.getUserId(), type);
+    }
+
+
     /**
      * 我的背包红点(未查看的新品)
      *

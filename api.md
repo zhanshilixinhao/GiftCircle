@@ -5196,6 +5196,48 @@ type = 3 请求结果示例：
 ```
 
 
+### 14.12 小程序背包列表
+
+- 请求地址：auth/v1/bp/wx_list
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yichen
+
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| type | int | 是 | 无 | 类型 1 物品 2 虚拟物品 3 优惠券 |
+
+* 请求结果示例
+
+```js
+{
+    errCode: 0, 
+    result: 0, 
+    time: 1530691273381, 
+    data: [
+        {
+            id:7719021911112,        // 背包id  （优惠券时券码）        
+            userId: 1, //用户id
+            targetId: 2,  //目标物品id，type=1商品skuId，type=2虚拟物品id，type=3优惠券id
+            price: 1000,   //价格
+            title: "魏文侯",   //标题
+            cover: "https://io.shanren.group/image/cover.jpg",  
+            description: "东周末年", //描述
+            brand: "公牛", //品牌
+            "spec": " 经典", //规格
+            type: 1, //1商品 ，2-虚拟物品 3，优惠券
+            quantity: 0, 
+             "pickRemainTime": 2591891873, //提货剩余时间（从购买到30天的剩余毫秒数）
+            "created": 1550547983000,
+            "buyTime": 1550547983000  //购买时间
+        }
+    ]
+}
+```
+
+
 
 ## 15 背包-礼物赠送
 

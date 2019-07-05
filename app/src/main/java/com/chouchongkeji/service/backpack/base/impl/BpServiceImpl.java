@@ -84,6 +84,33 @@ public class BpServiceImpl implements BpService {
 
 
     /**
+     * 微信背包列表
+     *
+     * @param userId 用户信息
+     * @param type        1 物品 2 虚拟物品 3 优惠券
+     * @return
+     * @author yichenshanren
+     * @date 2018/7/2
+     */
+    @Override
+    public Response getWxBpList(Integer userId, Integer type) {
+        List<Vbp> list;
+        list = bpItemMapper.selectAllByUserId(userId, type);
+        if (CollectionUtils.isNotEmpty(list)) {
+            for (Vbp vbp : list) {
+                if (vbp.getBuyTime() != null) {
+                    vbp.setPickRemainTime(DateUtils.addDays(vbp.getBuyTime(), Constants.BP_EXPIRE_TIME).getTime() - System.currentTimeMillis());
+                }else {
+                    vbp.setPickRemainTime(738477564149L);
+                }
+            }
+        }
+        // 存查看背包列表的时间
+        mRedisTemplate.setString("lasttimebplist"+userId,String.valueOf(System.currentTimeMillis()));
+        return ResponseFactory.sucData(list);
+    }
+
+    /**
      * 我的背包红点(未查看的新品)
      *
      * @param userId

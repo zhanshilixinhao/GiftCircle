@@ -133,4 +133,15 @@ public interface BpService {
      * @date 2018/7/2
      */
     Response getUnreadBpItem(Integer userId);
+
+    /**
+     * 微信背包列表
+     *
+     * @param userDetails 用户信息
+     * @param type        1 物品 2 虚拟物品 3 优惠券
+     * @return
+     * @author yichenshanren
+     * @date 2018/7/2
+     */
+    Response getWxBpList(Integer userId, Integer type);
 }
