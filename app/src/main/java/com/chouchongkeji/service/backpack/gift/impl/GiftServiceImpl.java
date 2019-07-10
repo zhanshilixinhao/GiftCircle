@@ -318,6 +318,17 @@ public class GiftServiceImpl implements GiftService {
         vo.setType(giftRecord.getType());
         // 详细信息
         GiftMessageVo messageVo = new GiftMessageVo();
+        // 赠送者信息
+        AppUser appUser = appUserMapper.selectByUserId(userId);
+        if (appUser != null) {
+            messageVo.setAvatar(appUser.getAvatar());
+            messageVo.setNickname(appUser.getNickname());
+        }
+        AppUser sendUser = appUserMapper.selectByUserId(giftRecord.getUserId());
+        if (sendUser != null) {
+            messageVo.setSendAvatar(sendUser.getAvatar());
+            messageVo.setSendNickname(sendUser.getNickname());
+        }
         messageVo.setUserId(userId);
         messageVo.setGreetting(giftRecord.getGreetting());
         messageVo.setSendUserId(giftRecord.getUserId());
