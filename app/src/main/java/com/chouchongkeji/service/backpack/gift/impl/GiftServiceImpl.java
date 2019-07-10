@@ -402,10 +402,12 @@ public class GiftServiceImpl implements GiftService {
         messageVo.setUserId(userId);
         if (appUser != null) {
             messageVo.setAvatar(appUser.getAvatar());
+            messageVo.setNickname(appUser.getNickname());
         }
         AppUser sendUser = appUserMapper.selectByUserId(giftRecord.getUserId());
         if (sendUser != null) {
             messageVo.setSendAvatar(sendUser.getAvatar());
+            messageVo.setSendNickname(sendUser.getNickname());
         }
         messageVo.setGreetting(giftRecord.getGreetting());
         messageVo.setGiftItems(list);

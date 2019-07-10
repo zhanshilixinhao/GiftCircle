@@ -26,6 +26,8 @@ public class GiftMessageVo {
     @ImgUrl
     private String sendAvatar;
 
+    private String sendNickname;
+
     @ImgUrl
     private String avatar;
     private String nickname;
@@ -199,5 +201,13 @@ public class GiftMessageVo {
 
     public void setSendAvatar(String sendAvatar) {
         this.sendAvatar = sendAvatar;
+    }
+
+    public String getSendNickname() {
+        return sendNickname;
+    }
+
+    public void setSendNickname(String sendNickname) {
+        this.sendNickname = sendNickname;
     }
 }
