@@ -5739,10 +5739,42 @@ type = 3 请求结果示例：
 
 ```js
 {
-  errCode: 0,
+  "errCode": 0,
+  "result": 0,
+  "time": 1562833889162,
   data: {
-      status: 0 // 0 可以领取，1 我已领取 2 我未领取但礼物已被领完 3 离我是我送的我自己不能领取
-  }
+        type: 3,
+         "status": 2 // 0 可以领取，1 我已领取 2 我未领取但礼物已被领完 3 离我是我送的我自己不能领取
+        giftInfo:  {
+            recordDetailId: 2,  // 礼物赠送记录详情id，可用于答谢
+            userId: 4, 
+            greetting: "一厢情愿的不舍", // 祝福语
+            giftItems: [ // 赠送的礼物信息
+                {
+                    bpId: 2,  // 背包id
+                    targetId: 2,  
+                    targetType: 3, // 1 物品 2 虚拟物品 3 优惠券 
+                    giftType: 1,  
+                    price: 100, // 物品价格
+                    title: "1元优惠券",  // 物品名称
+                    cover: "https://io.shanren.group/image/cover.jpg", 
+                    description: "{ // 物品描述
+ \"type\": \"优惠券\",
+ \"discunt\":\"1元\",
+ \"decription\":\"仅限购买三只松鼠\"
+}", 
+                    brand: "小牛" // 物品品牌
+                }
+            ], 
+            // 赠送者信息
+            sendUserId: 1, // 赠送者用户id 
+            sendAvatar: "http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTLrNV6YHkfyvicgKhfVwMibBqdQWvYHFvyXjSYTzuX0cxLjicvRBu5UXDicAPKpPxdiboRpC00JibL0yeOQ/132", // 赠送者头像
+            "sendNickname": "路遥", // 赠送着昵称
+            avatar: "https://wx.qlogo.cn/mmopen/vi_32/cLhvDgpVNMm24pZLQn9NJLvTbribW3ymS4dXSctqaaKWhF7NJcI1Nicqp0QGw2jjVPsCwcrIFOBKv90qbCqTxSicw/132", //收礼者头像
+            "nickname": "林琴", //收礼着昵称
+            isReply: 2, // 1 已答谢 2 未答谢
+          
+    }
 }
 ```
 

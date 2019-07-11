@@ -12,6 +12,8 @@ public class WXGetGiftResVo<T> {
     private Byte type;
     private T giftInfo; // 礼物信息
 
+    private Integer status;
+
     public Byte getType() {
         return type;
     }
@@ -26,5 +28,13 @@ public class WXGetGiftResVo<T> {
 
     public void setGiftInfo(T giftInfo) {
         this.giftInfo = giftInfo;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

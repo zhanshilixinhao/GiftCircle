@@ -100,6 +100,8 @@
         where user_id = #{userId} and gift_record_id = #{giftRecordId}
     </select>
 
+
+
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from gift_record_detail
     where id = #{id,jdbcType=INTEGER}

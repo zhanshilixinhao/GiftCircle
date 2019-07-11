@@ -208,15 +208,25 @@ public class GiftServiceImpl implements GiftService {
         if (giftRecord == null) {
             return ResponseFactory.errMsg(20003, "礼物不存在或已过期!");
         }
-        // 判断礼物是否还可以领取
-        if (giftRecord.getStatus() > Constants.GIFT_STATUS.PART_SEND) {
-            return ResponseFactory.errMsg(20004, "礼物已被领取或已过期!");
+        Response response = wxGetGiftStatus(userId, giftRecordId);
+        if (((WXGetGiftResVo)response.getData()).getStatus() != 0){
+            return response;
         }
         // 取出礼物记录详情
         List<GiftRecordDetail> details = giftRecordDetailMapper.selectByRecordId(giftRecord.getId());
         if (CollectionUtils.isEmpty(details)) {
             return ResponseFactory.errMsg(20005, "礼物不存在!" + giftRecordId);
         }
+        // 判断礼物是否还可以领取
+        List<GiftItemVo> itemVos = new ArrayList<>();
+        if (giftRecord.getStatus() > Constants.GIFT_STATUS.PART_SEND) {
+            for (GiftRecordDetail detail : details) {
+                itemVos.addAll(JSON.parseArray(detail.getContent(), GiftItemVo.class));
+            }
+            WXGetGiftResVo<GiftMessageVo> vo = messageGift(userId, giftRecord, 0, itemVos);
+            return ResponseFactory.errData(20004, "礼物已被领取或已过期!", vo);
+        }
+
         // 如果开可以领取，
         if (giftRecord.getType() == Constants.GIFT_SEND_TYPE.WX_FRIEND) {
             // 如果是 直接赠送的，直接更新状态为已赠送
@@ -228,20 +238,36 @@ public class GiftServiceImpl implements GiftService {
 
     @Override
     public Response wxGetGiftStatus(Integer userId, Integer giftRecordId) {
-        Map<String, Object> map = new HashMap<>();
-        map.put("status", 0); // 0 可以领取
+        WXGetGiftResVo<GiftMessageVo> vo = new WXGetGiftResVo<>();
+        Integer sta = 0;// 0 可以领取
         GiftRecord giftRecord = giftRecordMapper.selectByPrimaryKey(giftRecordId);
         if (giftRecord.getUserId().equals(userId)) {
-            map.put("status", 3); // 3 礼物是我送的 我自己不能领取
+            sta = 3; // 3 礼物是我送的 我自己不能领取
         } else if (giftRecord.getStatus() == 3) {
-            map.put("status", 2); // 2 我没有领取 但是礼物已经被别人领取了
+            sta = 2; // 2 我没有领取 但是礼物已经被别人领取了
         } else {
             GiftRecordDetail detail = giftRecordDetailMapper.selectByUserIdAndRecordId(userId, giftRecordId);
             if (detail != null) {
-                map.put("status", 1); // 1 我已领取
+                sta = 1; // 1 我已领取
             }
         }
-        return ResponseFactory.sucData(map);
+        // 送礼详情
+        // 找出还未被领取的礼物
+        List<GiftRecordDetail> list = new ArrayList<>();
+        List<GiftItemVo> itemVos = new ArrayList<>();
+        List<GiftRecordDetail> details = giftRecordDetailMapper.selectByRecordId(giftRecordId);
+        if (CollectionUtils.isNotEmpty(details)) {
+            for (GiftRecordDetail detail : details) {
+                itemVos.addAll(JSON.parseArray(detail.getContent(), GiftItemVo.class));
+                if (detail.getStatus() == Constants.GIFT_STATUS.WAIT) {
+                    list.add(detail);
+                }
+            }
+        }
+        // 找出还未被领取的礼物
+        vo = messageGift(userId, giftRecord, list.size(), itemVos);
+        vo.setStatus(sta);
+        return ResponseFactory.sucData(vo);
     }
 
     /**
@@ -266,16 +292,21 @@ public class GiftServiceImpl implements GiftService {
         List<GiftRecordDetail> list = new ArrayList<>();
         List<GiftItemVo> itemVos = new ArrayList<>();
         for (GiftRecordDetail detail : details) {
-            if (detail.getUserId() != null && detail.getUserId().compareTo(userId) == 0) {
-                return ResponseFactory.errMsg(20005, "你已领取过了!");
-            }
+//            if (detail.getUserId() != null && detail.getUserId().compareTo(userId) == 0) {
+//                return ResponseFactory.errMsg(20005, "你已领取过了!");
+//            }
             if (detail.getStatus() == Constants.GIFT_STATUS.WAIT) {
                 list.add(detail);
                 itemVos.addAll(JSON.parseArray(detail.getContent(), GiftItemVo.class));
             }
+            if (detail.getUserId() != null && detail.getUserId().compareTo(userId) == 0) {
+                WXGetGiftResVo<GiftMessageVo> vo = messageGift(userId, giftRecord, list.size(), itemVos);
+                return ResponseFactory.errData(20005, "你已领取过了!", vo);
+            }
         }
         if (CollectionUtils.isEmpty(list)) {
-            return ResponseFactory.errMsg(20002, "手速太慢啦，礼品都没有了!");
+            WXGetGiftResVo<GiftMessageVo> vo = messageGift(userId, giftRecord, list.size(), itemVos);
+            return ResponseFactory.errData(20002, "手速太慢啦，礼品都没有了!", vo);
         }
         // 计算是否能中奖
         if (!cal(p)) {
@@ -313,6 +344,41 @@ public class GiftServiceImpl implements GiftService {
      * @return
      */
     private Response unluckNoGift(Integer userId, GiftRecord giftRecord, List<GiftRecordDetail> details, List<GiftItemVo> itemVos) {
+//        // 返回未被领取的礼物
+//        WXGetGiftResVo<GiftMessageVo> vo = new WXGetGiftResVo<>();
+//        vo.setType(giftRecord.getType());
+//        // 详细信息
+//        GiftMessageVo messageVo = new GiftMessageVo();
+//        // 赠送者信息
+//        AppUser appUser = appUserMapper.selectByUserId(userId);
+//        if (appUser != null) {
+//            messageVo.setAvatar(appUser.getAvatar());
+//            messageVo.setNickname(appUser.getNickname());
+//        }
+//        AppUser sendUser = appUserMapper.selectByUserId(giftRecord.getUserId());
+//        if (sendUser != null) {
+//            messageVo.setSendAvatar(sendUser.getAvatar());
+//            messageVo.setSendNickname(sendUser.getNickname());
+//        }
+//        messageVo.setUserId(userId);
+//        messageVo.setGreetting(giftRecord.getGreetting());
+//        messageVo.setSendUserId(giftRecord.getUserId());
+//        messageVo.setGiftItems(itemVos);
+//        messageVo.setReNum(details.size());
+//        vo.setGiftInfo(messageVo);
+        WXGetGiftResVo<GiftMessageVo> vo = messageGift(userId, giftRecord, details.size(), itemVos);
+        return ResponseFactory.errData(20001, "运气太差啦，没有抢到礼品!", vo);
+    }
+
+
+    /**
+     * @param userId
+     * @param giftRecord
+     * @param details
+     * @param itemVos
+     * @return
+     */
+    private WXGetGiftResVo<GiftMessageVo> messageGift(Integer userId, GiftRecord giftRecord, Integer size, List<GiftItemVo> itemVos) {
         // 返回未被领取的礼物
         WXGetGiftResVo<GiftMessageVo> vo = new WXGetGiftResVo<>();
         vo.setType(giftRecord.getType());
@@ -333,9 +399,9 @@ public class GiftServiceImpl implements GiftService {
         messageVo.setGreetting(giftRecord.getGreetting());
         messageVo.setSendUserId(giftRecord.getUserId());
         messageVo.setGiftItems(itemVos);
-        messageVo.setReNum(details.size());
+        messageVo.setReNum(size);
         vo.setGiftInfo(messageVo);
-        return ResponseFactory.errData(20001, "运气太差啦，没有抢到礼品!", vo);
+        return vo;
     }
 
     /**
