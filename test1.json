@@ -1,29 +1,29 @@
 {
   "errCode": 0,
   "result": 0,
-  "time": 1562723685192,
+  "time": 1562922997047,
   "data": {
     "type": 4,
     "giftInfo": {
       "summary": "",
       "messageType": "",
-      "recordDetailId": 455,
+      "recordDetailId": null,
       "messageId": null,
       "userId": 7,
       "isRead": null,
       "greetting": "送你一个礼物，希望你天天开心！",
       "giftItems": [
         {
-          "bpId": 7719070516106,
-          "targetId": 407,
+          "bpId": 7719071111109,
+          "targetId": 621,
           "targetType": 1,
           "giftType": 1,
-          "price": 320.00,
-          "title": "Dior克丽丝汀迪奥烈艳蓝金挚红唇膏999红管",
-          "buyTime": 1562033275000,
-          "cover": "https://liyuquan.cn/static/item/190403/b0a0a293-72b4-4f33-8ba6-50978b9190e6.jpg",
-          "description": "无",
-          "brand": "迪奥"
+          "price": 88.00,
+          "title": "丰驿野生鸡枞菌云南土特产160克野生食用菌干货食材配料山珍",
+          "buyTime": 1562573377000,
+          "cover": "https://liyuquan.cn/static/item/190408/0d8493d5-9652-461f-95fe-1e2f1681b57b.jpg",
+          "description": "极速发货",
+          "brand": "土大姐"
         }
       ],
       "sendUserId": 9,
@@ -35,10 +35,11 @@
       "friendId": null,
       "relationShip": "",
       "reply": "",
-      "isReply": 2,
+      "isReply": null,
       "created": null,
       "targetTime": null,
       "reNum": 0
-    }
+    },
+    "status": 2
   }
 }
