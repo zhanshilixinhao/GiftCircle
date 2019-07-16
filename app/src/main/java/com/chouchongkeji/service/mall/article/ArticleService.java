@@ -2,6 +2,7 @@ package com.chouchongkeji.service.mall.article;
 
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.query.PageQuery;
+import com.yichen.auth.mvc.AppClient;
 import org.springframework.web.bind.annotation.PostMapping;
 
 public interface ArticleService {
@@ -25,7 +26,7 @@ public interface ArticleService {
      * @author: yy
      * @Date: 2018/6/11
      */
-    Response getArticleList(PageQuery page,Byte type);
+    Response getArticleList(@AppClient Integer client, PageQuery page, Byte type);
 
     /**
      * 获取文章详情

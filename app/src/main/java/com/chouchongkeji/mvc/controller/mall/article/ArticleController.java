@@ -6,6 +6,7 @@ import com.chouchongkeji.goexplore.query.PageQuery;
 import com.chouchongkeji.service.mall.article.ArticleService;
 import com.chouchongkeji.util.Constants;
 import com.chouchongkeji.util.TimeUtils;
+import com.yichen.auth.mvc.AppClient;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -62,12 +63,12 @@ public class ArticleController {
      * @Date: 2018/6/11
      */
     @PostMapping("list")
-    public Response getArticleList(PageQuery page, Byte type) {
+    public Response getArticleList(@AppClient Integer client, PageQuery page, Byte type) {
         if (type == null || (type != Constants.ARTICLE_TYPE.BANNER && type != Constants.ARTICLE_TYPE.SIGN
                 && type != Constants.ARTICLE_TYPE.ARTICLE && type != Constants.ARTICLE_TYPE.MALL)) {
             return ResponseFactory.errMissingParameter();
         }
-        return articleService.getArticleList(page, type);
+        return articleService.getArticleList(client, page, type);
     }
 
     /**

@@ -90,8 +90,10 @@ public class UserLoginServiceImpl implements UserLoginService {
                 Map<String, String> map = new HashMap<>();
                 map.put("key", key);
                 return ResponseFactory.errData(response.getErrCode(), response.getMsg(), map);
-            } else
+            } else{
                 return ResponseFactory.errData(response.getErrCode(), response.getMsg(), key);
+            }
+
         }
         return response;
     }

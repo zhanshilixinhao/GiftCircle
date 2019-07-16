@@ -17,6 +17,7 @@ import com.chouchongkeji.service.mall.article.vo.ArticleVo;
 import com.chouchongkeji.service.mall.article.vo.ArticleWxVo;
 import com.chouchongkeji.service.mall.item.vo.ItemListVo;
 import com.github.pagehelper.PageHelper;
+import com.yichen.auth.mvc.AppClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -69,8 +70,10 @@ public class ArticleServiceImpl implements ArticleService {
      * @Date: 2018/6/11
      */
     @Override
-    public Response getArticleList(PageQuery page,Byte type) {
-        PageHelper.startPage(page.getPageNum(), page.getPageSize());
+    public Response getArticleList(@AppClient Integer client, PageQuery page, Byte type) {
+        if (client != 3){
+            PageHelper.startPage(page.getPageNum(), page.getPageSize());
+        }
         Integer status = 1;
         List<ArticleVo> articleVos = articleMapper.selectByStatus(status,type);
         return ResponseFactory.sucData(articleVos);
