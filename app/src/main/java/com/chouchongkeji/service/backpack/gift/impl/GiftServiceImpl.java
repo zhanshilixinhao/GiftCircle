@@ -244,11 +244,11 @@ public class GiftServiceImpl implements GiftService {
         if (giftRecord.getUserId().equals(userId)) {
             sta = 3; // 3 礼物是我送的 我自己不能领取
         } else if (giftRecord.getStatus() == 3) {
-            sta = 2; // 2 我没有领取 但是礼物已经被别人领取了
-        } else {
             GiftRecordDetail detail = giftRecordDetailMapper.selectByUserIdAndRecordId(userId, giftRecordId);
             if (detail != null) {
                 sta = 1; // 1 我已领取
+            } else {
+                sta = 2; // 2 我没有领取 但是礼物已经被别人领取了
             }
         }
         // 送礼详情
