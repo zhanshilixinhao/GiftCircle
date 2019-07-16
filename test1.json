@@ -1,45 +1,79 @@
 {
   "errCode": 0,
   "result": 0,
-  "time": 1562922997047,
-  "data": {
-    "type": 4,
-    "giftInfo": {
-      "summary": "",
-      "messageType": "",
-      "recordDetailId": null,
-      "messageId": null,
-      "userId": 7,
-      "isRead": null,
-      "greetting": "送你一个礼物，希望你天天开心！",
-      "giftItems": [
-        {
-          "bpId": 7719071111109,
-          "targetId": 621,
-          "targetType": 1,
-          "giftType": 1,
-          "price": 88.00,
-          "title": "丰驿野生鸡枞菌云南土特产160克野生食用菌干货食材配料山珍",
-          "buyTime": 1562573377000,
-          "cover": "https://liyuquan.cn/static/item/190408/0d8493d5-9652-461f-95fe-1e2f1681b57b.jpg",
-          "description": "极速发货",
-          "brand": "土大姐"
-        }
-      ],
-      "sendUserId": 9,
-      "sendAvatar": "https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKXMYJOomfp7WhXdOcR10u3rjZaxW4q6cbibbOiaZtW3HiaSG5dZuJtJsNJcYAxg9icTWlGia7rj1uoBSw/132",
-      "sendNickname": "路遥",
-      "avatar": "https://wx.qlogo.cn/mmopen/vi_32/cLhvDgpVNMm24pZLQn9NJLvTbribW3ymS4dXSctqaaKWhF7NJcI1Nicqp0QGw2jjVPsCwcrIFOBKv90qbCqTxSicw/132",
-      "nickname": "林琴",
-      "remark": "",
-      "friendId": null,
-      "relationShip": "",
-      "reply": "",
-      "isReply": null,
-      "created": null,
-      "targetTime": null,
-      "reNum": 0
+  "time": 1563244287804,
+  "data": [
+    {
+      "id": 227,
+      "title": "送礼纠结？不会出错的香水pk一下",
+      "summary": "古埃及人认为，香水是太阳神的汗水，如果将香味散发到空气中，就可以与神交流~",
+      "cover": "https://liyuquan.cn/static/item/190626/ba3d32eb-5043-4e7b-9cde-5818e261722f.jpg",
+      "created": 1561541847000,
+      "type": 4,
+      "showTime": 1561824000000
     },
-    "status": 2
-  }
+    {
+      "id": 224,
+      "title": "拒绝街香，这几款香水让你分分钟魅力大增",
+      "summary": "香水可以说是一张隐形名片。每一个精致的女性都应该有一款香水，属于自己味道的。",
+      "cover": "https://liyuquan.cn/static/item/190621/15d5eb1f-26d1-448f-9a0a-528ca7b3cdc5.jpg",
+      "created": 1561082509000,
+      "type": 4,
+      "showTime": 1561392000000
+    },
+    {
+      "id": 209,
+      "title": "产后生活六神无主？暖心母婴用品来帮忙！",
+      "summary": "对于新妈妈们来说，刚刚有了宝宝是一件非常高兴的事，但也是一件需要付出心思的事，因为带宝宝这件事并不容易。",
+      "cover": "https://liyuquan.cn/static/item/190613/badad785-8192-4a5a-ba90-f61f2099c6ca.png",
+      "created": 1560406604000,
+      "type": 4,
+      "showTime": 1560873600000
+    },
+    {
+      "id": 200,
+      "title": "让妈妈变年轻的礼物，你必buy的水乳套装在这里",
+      "summary": "护肤品送的好，妈妈看上去就是我的小姐妹！驻颜有方，希望妈妈永远年轻，永远是个美人。",
+      "cover": "https://liyuquan.cn/static/item/190605/ae836378-a21e-482d-b5ed-0bb5e1d0f409.jpg",
+      "created": 1559703128000,
+      "type": 4,
+      "showTime": 1560355200000
+    },
+    {
+      "id": 190,
+      "title": "一花一世界，一酒一人生",
+      "summary": "没有白酒的激烈，也没有啤酒的寡淡，却带着玫瑰与酒融合后独有的芬芳，入口醇香，回味无穷。",
+      "cover": "https://liyuquan.cn/static/item/190531/bcdfb54d-0297-4b18-9037-6428ec906558.jpg",
+      "created": 1559291779000,
+      "type": 4,
+      "showTime": 1559836800000
+    },
+    {
+      "id": 192,
+      "title": "夏季保湿全攻略||如何把“干燥肌”变“水润肌”？",
+      "summary": "夏季保湿做得好肌肤才没烦恼，不过必须了解了自己的肤质肤况，再来挑选适合的产品。在夏季这种天气状况下，随着气温不断升高，毛孔扩大会使皮脂腺的分泌加速，脸部油脂分泌旺盛！",
+      "cover": "https://liyuquan.cn/static/item/190531/abe7de64-91f0-4d72-b575-5da951a2ce7d.png",
+      "created": 1559294228000,
+      "type": 4,
+      "showTime": 1559318400000
+    },
+    {
+      "id": 149,
+      "title": "又到抗“燥”时节！小仙女夏季保湿攻略来了！",
+      "summary": "夏天是一个多情的季节，在诗人笔下的它充满诗情画意。但夏季也是一年中天气变化幅度最大的时期，是气温乍暖还寒和冷暖骤变的时候，一天中最低气温和最高气温相差甚大！",
+      "cover": "https://liyuquan.cn/static/item/190517/fc80bbac-6216-4f48-bed6-da677847cfb5.jpg",
+      "created": 1556614397000,
+      "type": 4,
+      "showTime": 1556553600000
+    },
+    {
+      "id": 146,
+      "title": "五一出行，美白防晒不要忘哦~",
+      "summary": "马上就到五一小假期了，有木有很激动！！！很多朋友是不是早就计划好要出去浪了呢？不过出门游玩，除了做好出游攻略，定好酒店以外，可不要忘记做好美白防晒哟~不然一个假期结束都不敢见人了。",
+      "cover": "https://liyuquan.cn/static/item/190517/335f17a1-3dd1-4ec4-af39-cae0c9d2886e.jpg",
+      "created": 1556607643000,
+      "type": 4,
+      "showTime": 1556553600000
+    }
+  ]
 }

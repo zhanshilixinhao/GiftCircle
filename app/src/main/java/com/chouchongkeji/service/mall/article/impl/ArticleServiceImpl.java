@@ -71,7 +71,7 @@ public class ArticleServiceImpl implements ArticleService {
      */
     @Override
     public Response getArticleList(@AppClient Integer client, PageQuery page, Byte type) {
-        if (client != 3){
+        if ( client != 3){
             PageHelper.startPage(page.getPageNum(), page.getPageSize());
         }
         Integer status = 1;

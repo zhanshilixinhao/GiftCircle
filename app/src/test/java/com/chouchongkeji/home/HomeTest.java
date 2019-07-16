@@ -35,11 +35,11 @@ public class HomeTest {
     public void articleList() throws IOException {
         RequestParams params = new RequestParams();
         params.put("time" ,System.currentTimeMillis());
-        params.put("type" ,1);
-        params.put("pageNum",1);
-        params.put("pageSize",14);
-        Map map = ApiSignUtil.sign1(params.getParams(),ApiSignUtil.ANDROID);
-        params.put("sign",map.get(ApiSignUtil.ANDROID));
+        params.put("type" ,4);
+//        params.put("pageNum",1);
+//        params.put("pageSize",14);
+        Map map = ApiSignUtil.sign1(params.getParams(),ApiSignUtil.WXMINI);
+        params.put("sign",map.get(ApiSignUtil.WXMINI));
         Response post = OkHttpUtil.post("http://localhost:8088/noauth/v1/article/list", params);
         System.out.println(post.body().string());
     }

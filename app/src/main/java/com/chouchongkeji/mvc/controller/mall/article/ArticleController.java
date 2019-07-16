@@ -68,7 +68,7 @@ public class ArticleController {
                 && type != Constants.ARTICLE_TYPE.ARTICLE && type != Constants.ARTICLE_TYPE.MALL)) {
             return ResponseFactory.errMissingParameter();
         }
-        return articleService.getArticleList(client, page, type);
+        return articleService.getArticleList(client,page, type);
     }
 
     /**
