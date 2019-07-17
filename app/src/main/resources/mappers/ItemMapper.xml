@@ -128,7 +128,7 @@
                 a.sales asc
             </when>
             <otherwise>
-                a.sorc ASC, a.created desc
+                a.sort ASC, a.created desc
             </otherwise>
         </choose>
         </if>
