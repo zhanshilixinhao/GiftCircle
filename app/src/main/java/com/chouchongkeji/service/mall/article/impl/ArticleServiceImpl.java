@@ -174,7 +174,8 @@ public class ArticleServiceImpl implements ArticleService {
      * @return
      */
     @Override
-    public Response wxArticleSearch(Integer sceneId, Integer labelId, Integer festivalId, String keywords) {
+    public Response wxArticleSearch(Integer sceneId, Integer labelId, Integer festivalId, String keywords,PageQuery page) {
+        PageHelper.startPage(page.getPageNum(),page.getPageSize());
         List<ArticleWxVo> articleWxVos = articleMapper.selectBySearch(sceneId,labelId,festivalId,keywords);
         return ResponseFactory.sucData(articleWxVos);
     }

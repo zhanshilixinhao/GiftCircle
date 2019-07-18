@@ -244,13 +244,34 @@ WHERE
             and title LIKE concat('%',#{keywords},'%')
         </if>
         <if test="sceneId != null">
-            and scene_id = #{sceneId}
+            <choose>
+                <when test="sceneId == 0">
+                    and scene_id IS NOT NULL
+                </when>
+                <when test="sceneId != 0">
+                    and scene_id = #{sceneId}
+                </when>
+            </choose>
         </if>
         <if test="labelId != null">
-            and label_id = #{labelId}
+            <choose>
+                <when test="labelId == 0">
+                    and label_id IS NOT NULL
+                </when>
+                <when test="labelId != 0">
+                    and label_id = #{labelId}
+                </when>
+            </choose>
         </if>
         <if test="festivalId != null">
-            and festival_id = #{festivalId}
+            <choose>
+                <when test="festivalId == 0">
+                    and festival_id IS NOT NULL
+                </when>
+                <when test="festivalId != 0">
+                    and festival_id = #{festivalId}
+                </when>
+            </choose>
         </if>
         ORDER BY
         sort DESC,created DESC

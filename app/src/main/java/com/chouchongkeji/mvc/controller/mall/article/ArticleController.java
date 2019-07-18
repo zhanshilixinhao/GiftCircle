@@ -145,15 +145,15 @@ public class ArticleController {
 
     /**
      * 微信文章搜索
-     * @param sceneId 场景id
-     * @param labelId 对象id
-     * @param festivalId 节日id
+     * @param sceneId 场景id 0 查询所有场景
+     * @param labelId 对象id  0 所有
+     * @param festivalId 节日id 0所有
      * @param keywords 关键字
      * @return
      */
     @PostMapping("search")
-    public Response wxArticleSearch(Integer sceneId,Integer labelId,Integer festivalId, String keywords){
-        return articleService.wxArticleSearch(sceneId,labelId,festivalId,keywords);
+    public Response wxArticleSearch(Integer sceneId,Integer labelId,Integer festivalId, String keywords,PageQuery page){
+        return articleService.wxArticleSearch(sceneId,labelId,festivalId,keywords,page);
     }
 
 

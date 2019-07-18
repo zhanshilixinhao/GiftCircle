@@ -83,5 +83,5 @@ public interface ArticleService {
      * @param keywords 关键字
      * @return
      */
-    Response wxArticleSearch(Integer sceneId, Integer labelId, Integer festivalId, String keywords);
+    Response wxArticleSearch(Integer sceneId, Integer labelId, Integer festivalId, String keywords,PageQuery page);
 }

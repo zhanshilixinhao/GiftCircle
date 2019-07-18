@@ -101,9 +101,9 @@ public class test4 {
     public void sera() throws IOException {
         RequestParams params = new RequestParams();
         params.put("time", System.currentTimeMillis());
-//        params.put("labelId", 1);
-//        params.put("festivalId",1);
-//        params.put("sceneId",1);
+        params.put("labelId", 0);
+        params.put("festivalId",0);
+        params.put("sceneId",0);
 //        params.put("keywords","礼");
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
         params.put("sign", map.get(ApiSignUtil.ANDROID));
