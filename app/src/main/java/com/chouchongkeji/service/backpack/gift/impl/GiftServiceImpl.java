@@ -203,13 +203,14 @@ public class GiftServiceImpl implements GiftService {
      */
     @Override
     public Response wxGetGift(Integer userId, Integer giftRecordId) {
+        mRedisTemplate.setString("lyq" + userId + giftRecordId,"a",2592000);
         // 取出礼物记录
         GiftRecord giftRecord = giftRecordMapper.selectByPrimaryKey(giftRecordId);
         if (giftRecord == null) {
             return ResponseFactory.errMsg(20003, "礼物不存在或已过期!");
         }
         Response response = wxGetGiftStatus(userId, giftRecordId);
-        if (((WXGetGiftResVo)response.getData()).getStatus() != 0){
+        if (((WXGetGiftResVo) response.getData()).getStatus() != 0) {
             return response;
         }
         // 取出礼物记录详情
@@ -249,6 +250,11 @@ public class GiftServiceImpl implements GiftService {
                 sta = 1; // 1 我已领取
             } else {
                 sta = 2; // 2 我没有领取 但是礼物已经被别人领取了
+            }
+        } else {
+            String string = mRedisTemplate.getString("lyq" + userId + giftRecordId);
+            if (StringUtils.isNotBlank(string)){
+                sta = 4;//领取过一次并且没有领取到(手速太慢,没有领取到)
             }
         }
         // 送礼详情
