@@ -203,7 +203,6 @@ public class GiftServiceImpl implements GiftService {
      */
     @Override
     public Response wxGetGift(Integer userId, Integer giftRecordId) {
-        mRedisTemplate.setString("lyq" + userId + giftRecordId,"a",2592000);
         // 取出礼物记录
         GiftRecord giftRecord = giftRecordMapper.selectByPrimaryKey(giftRecordId);
         if (giftRecord == null) {
@@ -211,6 +210,9 @@ public class GiftServiceImpl implements GiftService {
         }
         Response response = wxGetGiftStatus(userId, giftRecordId);
         if (((WXGetGiftResVo) response.getData()).getStatus() != 0) {
+            if (((WXGetGiftResVo) response.getData()).getStatus() == 4){
+                 return ResponseFactory.errData(20001,"运气太差没有抢到礼物",response.getData());
+            }
             return response;
         }
         // 取出礼物记录详情
@@ -218,6 +220,7 @@ public class GiftServiceImpl implements GiftService {
         if (CollectionUtils.isEmpty(details)) {
             return ResponseFactory.errMsg(20005, "礼物不存在!" + giftRecordId);
         }
+        mRedisTemplate.setString("lyq" + userId + giftRecordId,"a",2592000);
         // 判断礼物是否还可以领取
         List<GiftItemVo> itemVos = new ArrayList<>();
         if (giftRecord.getStatus() > Constants.GIFT_STATUS.PART_SEND) {
@@ -1014,6 +1017,7 @@ public class GiftServiceImpl implements GiftService {
         detail.setTargetType(vbp.getType());
         detail.setTargetId(vbp.getTargetId());
         detail.setBrand(vbp.getBrand());
+        detail.setSpec(vbp.getSpec());
         detail.setGiftType(bpId.equals(vbp.getId()) ? Constants.GIFT_M_TYPE.MAIN : Constants.GIFT_M_TYPE.SUB);
         return detail;
     }

@@ -29,6 +29,8 @@ public class GiftItemVo {
 
     private String brand;
 
+    private String spec; //规格
+
     public Long getBpId() {
         return bpId;
     }
@@ -107,5 +109,13 @@ public class GiftItemVo {
 
     public void setBuyTime(Date buyTime) {
         this.buyTime = buyTime;
+    }
+
+    public String getSpec() {
+        return spec;
+    }
+
+    public void setSpec(String spec) {
+        this.spec = spec;
     }
 }
