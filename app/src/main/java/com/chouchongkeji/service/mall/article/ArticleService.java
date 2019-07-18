@@ -26,7 +26,7 @@ public interface ArticleService {
      * @author: yy
      * @Date: 2018/6/11
      */
-    Response getArticleList(@AppClient Integer client, PageQuery page, Byte type);
+    Response getArticleList( PageQuery page, Byte type);
 
     /**
      * 获取文章详情

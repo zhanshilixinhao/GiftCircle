@@ -38,10 +38,10 @@ public class ArticleServiceImpl implements ArticleService {
     private ServiceProperties serviceProperties;
 
     @Autowired
-    private ArticleItemMapper  articleItemMapper;
+    private ArticleItemMapper articleItemMapper;
 
     @Autowired
-    private ArticleFestivalMapper  articleFestivalMapper;
+    private ArticleFestivalMapper articleFestivalMapper;
 
     @Autowired
     private ArticleSceneMapper articleSceneMapper;
@@ -57,7 +57,7 @@ public class ArticleServiceImpl implements ArticleService {
      */
     @Override
     public Response getArticleByDay(Long start, Long end) {
-        List<ArticleVo> list = articleMapper.selectByDay(start,end);
+        List<ArticleVo> list = articleMapper.selectByDay(start, end);
         return ResponseFactory.sucData(list);
     }
 
@@ -70,12 +70,10 @@ public class ArticleServiceImpl implements ArticleService {
      * @Date: 2018/6/11
      */
     @Override
-    public Response getArticleList(@AppClient Integer client, PageQuery page, Byte type) {
-        if ( client != 3){
-            PageHelper.startPage(page.getPageNum(), page.getPageSize());
-        }
+    public Response getArticleList(PageQuery page, Byte type) {
+        PageHelper.startPage(page.getPageNum(), page.getPageSize());
         Integer status = 1;
-        List<ArticleVo> articleVos = articleMapper.selectByStatus(status,type);
+        List<ArticleVo> articleVos = articleMapper.selectByStatus(status, type);
         return ResponseFactory.sucData(articleVos);
     }
 
@@ -132,7 +130,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public Response getArticleItem(Integer id, PageQuery pageQuery) {
         //分页
-        PageHelper.startPage(pageQuery.getPageNum(),pageQuery.getPageSize());
+        PageHelper.startPage(pageQuery.getPageNum(), pageQuery.getPageSize());
         // 根据文章id查询商品列表
         List<ItemListVo> list = articleItemMapper.selectItemById(id);
         return ResponseFactory.sucData(list);
@@ -144,6 +142,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     /**
      * 文章节日列表
+     *
      * @return
      */
     @Override
@@ -153,9 +152,9 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
 
-
     /**
      * 文章场景列表
+     *
      * @return
      */
     @Override
@@ -167,16 +166,17 @@ public class ArticleServiceImpl implements ArticleService {
 
     /**
      * 微信文章搜索
-     * @param sceneId 场景id
-     * @param labelId 对象id
+     *
+     * @param sceneId    场景id
+     * @param labelId    对象id
      * @param festivalId 节日id
-     * @param keywords 关键字
+     * @param keywords   关键字
      * @return
      */
     @Override
-    public Response wxArticleSearch(Integer sceneId, Integer labelId, Integer festivalId, String keywords,PageQuery page) {
-        PageHelper.startPage(page.getPageNum(),page.getPageSize());
-        List<ArticleWxVo> articleWxVos = articleMapper.selectBySearch(sceneId,labelId,festivalId,keywords);
+    public Response wxArticleSearch(Integer sceneId, Integer labelId, Integer festivalId, String keywords, PageQuery page) {
+        PageHelper.startPage(page.getPageNum(), page.getPageSize());
+        List<ArticleWxVo> articleWxVos = articleMapper.selectBySearch(sceneId, labelId, festivalId, keywords);
         return ResponseFactory.sucData(articleWxVos);
     }
 

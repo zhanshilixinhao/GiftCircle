@@ -63,12 +63,12 @@ public class ArticleController {
      * @Date: 2018/6/11
      */
     @PostMapping("list")
-    public Response getArticleList(@AppClient Integer client, PageQuery page, Byte type) {
+    public Response getArticleList(PageQuery page, Byte type) {
         if (type == null || (type != Constants.ARTICLE_TYPE.BANNER && type != Constants.ARTICLE_TYPE.SIGN
                 && type != Constants.ARTICLE_TYPE.ARTICLE && type != Constants.ARTICLE_TYPE.MALL)) {
             return ResponseFactory.errMissingParameter();
         }
-        return articleService.getArticleList(client,page, type);
+        return articleService.getArticleList(page, type);
     }
 
     /**
