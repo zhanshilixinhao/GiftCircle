@@ -153,7 +153,7 @@ public class Test2 {
     public void profile() throws IOException {
         RequestParams params = new RequestParams();
         params.put("time",System.currentTimeMillis());
-        params.put("access_token", "7a867108-2521-4d95-b482-8603ddcd4c5f");
+        params.put("access_token", "824d7b11-4bdf-461e-b1d5-138859f14459");
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
         params.put("sign",map.get(ApiSignUtil.ANDROID));
         Response post = OkHttpUtil.post("http://localhost:8088/auth/user/profile", params);
