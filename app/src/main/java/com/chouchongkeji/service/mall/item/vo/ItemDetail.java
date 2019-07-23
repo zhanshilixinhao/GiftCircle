@@ -34,7 +34,7 @@ public class ItemDetail {
 
     // 小程序图片详情
     @ImgUrl
-    private String wxCover;
+    private List<String> wxCover;
 
     public Integer getIsCollect() {
         return isCollect;
@@ -108,11 +108,11 @@ public class ItemDetail {
         this.status = status;
     }
 
-    public String getWxCover() {
+    public List<String> getWxCover() {
         return wxCover;
     }
 
-    public void setWxCover(String wxCover) {
+    public void setWxCover(List<String> wxCover) {
         this.wxCover = wxCover;
     }
 }
