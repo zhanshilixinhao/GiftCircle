@@ -247,6 +247,8 @@ public class GiftServiceImpl implements GiftService {
         GiftRecord giftRecord = giftRecordMapper.selectByPrimaryKey(giftRecordId);
         if (giftRecord.getUserId().equals(userId)) {
             sta = 3; // 3 礼物是我送的 我自己不能领取
+            vo.setStatus(sta);
+            return ResponseFactory.sucData(vo);
         } else if (giftRecord.getStatus() == 3) {
             GiftRecordDetail detail = giftRecordDetailMapper.selectByUserIdAndRecordId(userId, giftRecordId);
             if (detail != null) {
