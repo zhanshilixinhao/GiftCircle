@@ -69,6 +69,22 @@ public class ItemServiceImpl implements ItemService {
         return ResponseFactory.sucData(itemCategory);
     }
 
+
+    /**
+     * 更多分类
+     *
+     * @return
+     * @author linqin
+     * @date 2018/6/12
+     */
+    @Override
+    public Response moreCategory() {
+        Integer id = 0;
+        ItemCategory itemCategory = itemCategoryMapper.selectByPrimaryKey(id);
+        return ResponseFactory.sucData(itemCategory);
+    }
+
+
     /**
      * 一级分类列表
      *

@@ -2677,8 +2677,39 @@ type = 3 请求结果示例：
   ]
 }
 
+```
+
+
+### 6.27(v2) 更多分类
+
+- 请求地址：noauth/item/more
+- 服务协议：HTTP/POST
+- 是否需要身份认证：否
+- 作者：linqin
+- 无参数
+
+请求结果示例：
+
+```json
+
+{
+  "errCode": 0,
+  "result": 0,
+  "time": 1563849709840,
+  "data": {
+    "id": 0,  //id
+    "pid": 0, // 父级id
+    "name": "更多分类",   //分类名称
+    "status": 1,
+    "sort": 0, //排序
+    "icon": "https://liyuquan.cn/static/item/190723/09544167-8b36-4a24-a1f7-db7dc1c64903.jpg", //图片
+    "created": 1563817624000,
+    "updated": 1563849435000
+  }
+}
 
 ```
+
 
 ## 7. 购物车
 

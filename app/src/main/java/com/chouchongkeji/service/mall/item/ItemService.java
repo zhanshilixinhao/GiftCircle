@@ -104,4 +104,13 @@ public interface ItemService {
      * @date 2019/6/20
      */
     Response secondCategoryList(Integer pid);
+
+
+    /**
+     * 更多分类
+     * @return
+     * @author linqin
+     * @date 2018/6/12
+     */
+    Response moreCategory();
 }

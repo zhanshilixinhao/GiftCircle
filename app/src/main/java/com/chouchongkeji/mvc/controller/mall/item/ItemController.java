@@ -38,6 +38,20 @@ public class ItemController {
         return itemService.getCategoryList();
     }
 
+
+    /**
+     * 更多分类
+     *
+     * @return
+     * @author linqin
+     * @date 2018/6/12
+     */
+    @PostMapping("/more")
+    public Response moreCategory() {
+        return itemService.moreCategory();
+    }
+
+
     /**
      * 一级分类列表
      *

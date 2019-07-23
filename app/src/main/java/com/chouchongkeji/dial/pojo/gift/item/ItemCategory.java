@@ -1,5 +1,7 @@
 package com.chouchongkeji.dial.pojo.gift.item;
 
+import com.yichen.auth.jackson.ImgUrl;
+
 import java.util.Date;
 
 public class ItemCategory {
@@ -13,6 +15,7 @@ public class ItemCategory {
 
     private Integer sort;
 
+    @ImgUrl
     private String icon;
 
     private Date created;
