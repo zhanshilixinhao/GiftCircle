@@ -1975,7 +1975,10 @@ JSON：
         ],
         "detailUrl": "https://43.241.223.169:800/static/product.html?id=2",
         "isCollect": 2
-        "wxCover": "https://liyuquan.cn/static/item/190404/568aeada-5ad7-426f-b546-383cbe53dddf.png"
+        "wxCover":[
+            "cover.jpg",
+            "http://thirdwx.qlogo.cn/mmopen/vi_32/jhXsk4K6SZs58GvXyrPichgxlDv6y4IYrrKN5GCA1UTvHRKbRGtiac2SxmGMYibJSvCZzcLhNmQEykDgXTTzkPOXQ/132"
+        ]
     }
 }
 ```

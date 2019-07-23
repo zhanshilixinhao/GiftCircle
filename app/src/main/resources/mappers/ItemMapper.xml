@@ -515,6 +515,8 @@ WHERE
         <result column="description" property="description"/>
         <result column="pictures" property="pictures"
                 typeHandler="com.chouchongkeji.goexplore.handler.PicturesHandler"/>
+        <result column="wxCover" property="wxCover"
+                typeHandler="com.chouchongkeji.goexplore.handler.PicturesHandler"/>
     </resultMap>
 
     <!--获得商品详情-->

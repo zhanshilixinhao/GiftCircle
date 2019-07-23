@@ -23,11 +23,11 @@ public class ItemTest {
     public void detail() throws IOException {
         RequestParams params = new RequestParams();
         params.put("time", System.currentTimeMillis());
-        params.put("access_token", "0b83209b-c43a-44fe-9a1d-71fd71809f8a");
-        params.put("id", 528);
+//        params.put("access_token", "0b83209b-c43a-44fe-9a1d-71fd71809f8a");
+        params.put("id", 1078);
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
         params.put("sign", map.get(ApiSignUtil.ANDROID));
-        Response post = OkHttpUtil.post("http://localhost:8088/noauth/item/item_detail", params);
+        Response post = OkHttpUtil.post("http://localhost:8089/noauth/item/item_detail", params);
         System.out.println(post.body().string());
     }
 
