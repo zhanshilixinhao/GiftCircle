@@ -197,7 +197,7 @@ public class AffairServiceImpl implements AffairService {
         }
         // 事件类型
         Integer eventTypeId = memoAffair.getEventTypeId();
-        if (eventTypeId != null) {
+        if (eventTypeId != null && eventTypeId != 1) {
             MemoEventType list = memoEventTypeMapper.selectByUserId(userId, eventTypeId);
             if (list == null) {
                 return ResponseFactory.err("事件类型不存在");
@@ -251,7 +251,7 @@ public class AffairServiceImpl implements AffairService {
         }
         // 事件类型
         Integer eventTypeId = affair.getEventTypeId();
-        if (eventTypeId != null) {
+        if (eventTypeId != null && eventTypeId != 1) {
             MemoEventType list = memoEventTypeMapper.selectByUserId(userId, eventTypeId);
             if (list == null) {
                 return ResponseFactory.err("事件类型不存在");
