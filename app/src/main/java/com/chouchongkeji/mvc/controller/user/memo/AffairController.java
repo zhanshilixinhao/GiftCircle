@@ -153,7 +153,7 @@ public class AffairController {
         if (affair.getId() == null || affair.getTargetTime() == null || StringUtils.isBlank(affair.getDetail())) {
             return ResponseFactory.errMissingParameter();
         }
-        if (affair.getEventTypeId() == null) {
+        if (affair.getEventTypeId() == null || affair.getEventTypeId() < 1) {
             affair.setEventTypeId(1);
         }
         HashSet<Integer> idSet = null;
