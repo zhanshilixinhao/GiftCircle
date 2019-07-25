@@ -22,4 +22,6 @@ public interface ThirdAccountMapper {
                                        @Param("type") int type);
 
     List<ThirdAccount> selectByPhone(String phone);
+
+    ThirdAccount selectByPhoneAndType(@Param("phone") String phone, @Param("type") int type);
 }

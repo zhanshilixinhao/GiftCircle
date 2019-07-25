@@ -78,7 +78,11 @@ public class ThirdAccServiceImpl implements ThirdAccService {
     @Override
     public Response addOpenAccDetail(String openId, int type, String phone) {
         // 获取第三方账号信息
-        ThirdAccount userThird1 = thirdAccountMapper.selectByOpenIdAndType(openId, type);
+        ThirdAccount userThird1 = thirdAccountMapper.selectByPhoneAndType(phone, type);
+        if (userThird1 != null) {
+            return ResponseFactory.errMsg(ErrorCode.PHONE_EXISTED.getCode(), "该手机号已经绑定其他账号");
+        }
+         userThird1 = thirdAccountMapper.selectByOpenIdAndType(openId, type);
         // 如果账号已经存在，不能再绑定
         if (userThird1 != null) {
             return ResponseFactory.errMsg(ErrorCode.PHONE_EXISTED.getCode(), "该手机号已经绑定其他账号");
