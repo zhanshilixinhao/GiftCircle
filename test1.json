@@ -1,15 +1,46 @@
 {
   "errCode": 0,
   "result": 0,
-  "time": 1563849709840,
+  "time": 1564045233983,
   "data": {
-    "id": 0,
-    "pid": 0,
-    "name": "更多分类",
-    "status": 1,
-    "sort": 0,
-    "icon": "https://liyuquan.cn/static/item/190723/09544167-8b36-4a24-a1f7-db7dc1c64903.jpg",
-    "created": 1563817624000,
-    "updated": 1563849435000
+    "type": 1,
+    "giftInfo": {
+      "summary": "",
+      "messageType": "",
+      "recordDetailId": null,
+      "messageId": null,
+      "userId": 7,
+      "isRead": null,
+      "greetting": "福利领取",
+      "giftItems": [
+        {
+          "bpId": null,
+          "targetId": 1448,
+          "targetType": 1,
+          "giftType": null,
+          "price": 330.00,
+          "title": "ELLE  时尚气垫粉底液",
+          "buyTime": null,
+          "cover": "https://liyuquan.cn/static/item/190723/0ae26836-e2e5-47a7-b8ce-b14d94a043ec.jpg",
+          "description": "品名：ELLE时尚气垫粉底液\n是否为特殊用途化妆品：否\n粉底分类：粉底液\n是否防晒：否\n功效：修饰肤色、 隐形毛孔、 提亮肤色 、遮瑕 、收缩毛孔\n适合肤质 ：任何肤质\n保质期 ：3年\n规格类型 ：正常规格\n净含量 ：12g\n颜色分类：C01瓷白色  C02自然色  W01象牙白  W02米肤色",
+          "brand": "ELLE",
+          "spec": " W01 象牙白"
+        }
+      ],
+      "sendUserId": null,
+      "sendAvatar": "",
+      "sendNickname": "",
+      "avatar": "",
+      "nickncodeame": "",
+      "remark": "",
+      "friendId": null,
+      "relationShip": "",
+      "reply": "",
+      "isReply": null,
+      "created": null,
+      "targetTime": null,
+      "reNum": 4
+    },
+    "status": 2
   }
 }

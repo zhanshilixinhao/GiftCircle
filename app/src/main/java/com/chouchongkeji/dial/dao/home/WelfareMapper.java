@@ -25,4 +25,7 @@ public interface WelfareMapper {
      * @return
      */
     Welfare selectAllByTime();
+
+
+    Welfare selectById(Integer id);
 }

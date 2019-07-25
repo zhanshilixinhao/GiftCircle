@@ -7156,6 +7156,64 @@ type = 3 请求结果示例：
 ```
 
 
+
+### 21.4 微信扫码获取礼物
+
+- 请求地址：auth/welfare/wx_confirm
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yichen
+
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+| id | int | 是 | 无 | 福利id |
+
+- 请求示例
+
+```js
+{
+  "errCode": 0,
+  "result": 0,
+  "time": 1562833889162,
+  data: {
+        type: 1// 1 商品 2 虚拟商品,
+         "status": 2 // 1 正常领取  2 已领取 3 礼物没有了,被领完了
+        giftInfo:  {
+            recordDetailId: 2,  // 礼物赠送记录详情id，可用于答谢
+            userId: 4, 
+            greetting: "一厢情愿的不舍", // 祝福语
+            giftItems: [ // 赠送的礼物信息
+                {
+                    bpId: 2,  // 背包id
+                    targetId: 2,  
+                    targetType: 3, // 1 物品 2 虚拟物品 3 优惠券 
+                    giftType: 1,  
+                    price: 100, // 物品价格
+                    title: "1元优惠券",  // 物品名称
+                    cover: "https://io.shanren.group/image/cover.jpg", 
+                    description: "{ // 物品描述
+ \"type\": \"优惠券\",
+ \"discunt\":\"1元\",
+ \"decription\":\"仅限购买三只松鼠\"
+}", 
+                    brand: "小牛" // 物品品牌
+                    spec:"kl"//规格
+                }
+            ], 
+            // 赠送者信息
+            sendUserId: 1, // 赠送者用户id 
+            sendAvatar: "http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTLrNV6YHkfyvicgKhfVwMibBqdQWvYHFvyXjSYTzuX0cxLjicvRBu5UXDicAPKpPxdiboRpC00JibL0yeOQ/132", // 赠送者头像
+            "sendNickname": "路遥", // 赠送着昵称
+            avatar: "https://wx.qlogo.cn/mmopen/vi_32/cLhvDgpVNMm24pZLQn9NJLvTbribW3ymS4dXSctqaaKWhF7NJcI1Nicqp0QGw2jjVPsCwcrIFOBKv90qbCqTxSicw/132", //收礼者头像
+            "nickname": "林琴", //收礼着昵称
+            isReply: 2, // 1 已答谢 2 未答谢
+          
+    }
+}
+```
+
 ## 22 备忘录2.0
 
 ### 22.1 添加备忘录事件类型

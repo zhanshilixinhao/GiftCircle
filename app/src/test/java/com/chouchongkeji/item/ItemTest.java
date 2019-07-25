@@ -341,4 +341,17 @@ public class ItemTest {
         Response post = OkHttpUtil.post("http://localhost:8088/noauth/item/more", params);
         System.out.println(post.body().string());
     }
+
+    @Test
+    public void morwxe() throws IOException {
+        RequestParams params = new RequestParams();
+        params.put("time", System.currentTimeMillis());
+        params.put("access_token", "50e46c96-b152-49cb-81d6-0219b7e5a88a");
+        params.put("id", 1);
+
+        Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
+        params.put("sign", map.get(ApiSignUtil.ANDROID));
+        Response post = OkHttpUtil.post("http://localhost:8089/auth/welfare/wx_confirm", params);
+        System.out.println(post.body().string());
+    }
 }

@@ -90,8 +90,22 @@ WHERE
       from item_sku
       where id = #{skuId}
     </select>
+  <select id="selectBySkuIdAll" resultType="com.chouchongkeji.service.backpack.gift.vo.GiftItemVo">
+    select
+a.id as targetId,
+       a.price,
+       a.title,
+       a.cover,
+       b.description,
+       c.name as brand,
+       a.linqin as spec
+from item_sku a
+left join item b on a.item_id = b.id
+left join brand c on c.id = b.brand_id
+where a.id = #{id}
+  </select>
 
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from item_sku
     where id = #{id,jdbcType=INTEGER}
   </delete>

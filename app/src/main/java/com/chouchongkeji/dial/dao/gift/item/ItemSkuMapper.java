@@ -1,6 +1,7 @@
 package com.chouchongkeji.dial.dao.gift.item;
 
 import com.chouchongkeji.dial.pojo.gift.item.ItemSku;
+import com.chouchongkeji.service.backpack.gift.vo.GiftItemVo;
 import com.chouchongkeji.service.mall.item.vo.SkuListVo;
 import org.apache.ibatis.annotations.Param;
 
@@ -29,4 +30,6 @@ public interface ItemSkuMapper {
 
 
     SkuListVo selectDetailBySkuId(@Param("skuId") Integer id);
+
+    GiftItemVo selectBySkuIdAll(Integer id);
 }

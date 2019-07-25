@@ -18,11 +18,11 @@
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    id, brand_id, cate_id, name, price, cover, description, sales, status, sort, created, 
+    id, brand_id, cate_id, name, price, cover, description, sales, status, sort, created,
     updated
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from virtual_item
     where id = #{id,jdbcType=INTEGER}
@@ -32,14 +32,14 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.gift.virtualItem.VirtualItem">
-    insert into virtual_item (id, brand_id, cate_id, 
-      name, price, cover, 
-      description, sales, status, 
+    insert into virtual_item (id, brand_id, cate_id,
+      name, price, cover,
+      description, sales, status,
       sort, created, updated
       )
-    values (#{id,jdbcType=INTEGER}, #{brandId,jdbcType=INTEGER}, #{cateId,jdbcType=INTEGER}, 
-      #{name,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, #{cover,jdbcType=VARCHAR}, 
-      #{description,jdbcType=VARCHAR}, #{sales,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, 
+    values (#{id,jdbcType=INTEGER}, #{brandId,jdbcType=INTEGER}, #{cateId,jdbcType=INTEGER},
+      #{name,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, #{cover,jdbcType=VARCHAR},
+      #{description,jdbcType=VARCHAR}, #{sales,jdbcType=INTEGER}, #{status,jdbcType=TINYINT},
       #{sort,jdbcType=INTEGER}, #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP}
       )
   </insert>
@@ -196,4 +196,17 @@
     </if>
     ORDER BY a.sort DESC, a.created DESC
   </select>
+    <select id="selectById" resultType="com.chouchongkeji.service.backpack.gift.vo.GiftItemVo">
+      select
+a.id as targetId,
+       a.price,
+       a.name as title,
+       a.cover,
+       a.description,
+       b.name as brand
+from virtual_item a
+left join virtual_item_brand b on a.brand_id = b.id
+where a.id = #{targetId}
+
+    </select>
 </mapper>

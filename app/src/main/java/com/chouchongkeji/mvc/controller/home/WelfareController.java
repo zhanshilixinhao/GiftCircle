@@ -1,6 +1,7 @@
 package com.chouchongkeji.mvc.controller.home;
 
 import com.chouchongkeji.goexplore.common.Response;
+import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.service.home.WelfareService;
 import com.yichen.auth.service.UserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,5 +49,21 @@ public class WelfareController {
         return welfareService.getWelfare(userDetails.getUserId());
     }
 
+    /**
+     * 微信领取福利
+     *
+     * @param userDetails
+     * @param id 福利id
+     * @return
+     * @author linqin
+     * @date 2019/2/20
+     */
+    @PostMapping("wx_confirm")
+    public Response wxConfirmWelfare(@AuthenticationPrincipal UserDetails userDetails,Integer id) {
+        if (id == null){
+            return ResponseFactory.errMissingParameter();
+        }
+        return welfareService.wxConfirmWelfare(userDetails,id);
+    }
 
 }

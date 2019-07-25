@@ -1,6 +1,7 @@
 package com.chouchongkeji.dial.dao.gift.virtualItem;
 
 import com.chouchongkeji.dial.pojo.gift.virtualItem.VirtualItem;
+import com.chouchongkeji.service.backpack.gift.vo.GiftItemVo;
 import com.chouchongkeji.service.mall.virtualItem.vo.VirtualItemVo;
 import org.apache.ibatis.annotations.Param;
 
@@ -28,4 +29,6 @@ public interface VirtualItemMapper {
      * @Date: 2018/6/11
      */
     List<VirtualItemVo> selectByCateId(@Param("id") Integer id, @Param("status") Integer status);
+
+    GiftItemVo selectById(Integer targetId);
 }

@@ -34,6 +34,7 @@
       select
       a.id ,
       a.type,
+      a.is_code,
       a.target_id,
       a.quantity,
       a.target_date,
@@ -52,6 +53,7 @@
       select
       a.id ,
       a.type,
+      a.is_code,
       a.target_id,
       a.quantity,
       a.target_date,
@@ -69,6 +71,7 @@
       select
       a.id ,
       a.type,
+      a.is_code,
       a.target_id,
       a.quantity,
       a.target_date,
@@ -84,6 +87,7 @@
       ) a
       where now()>= start_time
       and now() &lt; end_time
+      and is_code = 1
     </select>
   <select id="selectAllByTime" resultType="com.chouchongkeji.dial.pojo.home.Welfare">
     select a.*
@@ -110,7 +114,33 @@
     ) a
     where now()>= start_time
     and now() &lt; end_time
-
+    and is_code = 1
+  </select>
+  <select id="selectById" resultType="com.chouchongkeji.dial.pojo.home.Welfare">
+    select a.*
+    from (
+    select
+    a.*,
+    b.price
+    from welfare a
+    left join item_sku b on a.target_id = b.id
+    where a.type = 1
+    union all
+    select
+    a.*,
+    b.price
+    from welfare a
+    left join virtual_item b on a.target_id = b.id
+    where a.type = 2
+    union all
+    select
+    a.*,
+    0 as price
+    from welfare a
+    where a.type = 3
+    ) a
+    where id = #{id}
+    and is_code = 2
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from welfare
