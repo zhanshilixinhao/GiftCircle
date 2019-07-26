@@ -192,14 +192,14 @@ public class WelfareServiceImpl implements WelfareService {
         if (record != null) {
             List<GiftItemVo> itemVos = itemDetail(welfare);
             vo = messageGift(userDetails.getUserId(), welfare.getCount(), itemVos);
-            vo.setStatus(2); //已经领取过礼物
+            vo.setStatus(1); //已经领取过礼物
             return ResponseFactory.sucData(vo);
         }
         // 剩余数量小于等于0则无法领取
         if (welfare.getCount() <= 0) {
             List<GiftItemVo> itemVos = itemDetail(welfare);
             vo = messageGift(userDetails.getUserId(), welfare.getCount(), itemVos);
-            vo.setStatus(3); //礼物已经被领完
+            vo.setStatus(2); //礼物已经被领完
             return ResponseFactory.sucData(vo);
         }
         // 领取礼物加入背包
@@ -242,7 +242,7 @@ public class WelfareServiceImpl implements WelfareService {
         }
         List<GiftItemVo> itemVos = itemDetail(welfare);
         vo = messageGift(userDetails.getUserId(), welfare.getCount(), itemVos);
-        vo.setStatus(1); //领取礼物成功
+        vo.setStatus(0); //领取礼物成功
         return ResponseFactory.sucData(vo);
     }
 
