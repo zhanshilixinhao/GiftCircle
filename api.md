@@ -2714,6 +2714,63 @@ type = 3 请求结果示例：
 ```
 
 
+### 6.28 商品详情(h5)
+
+- 请求地址：noauth/item/itemDetailShare
+- 服务协议：HTTP/POST
+- 是否需要身份认证：否
+- 作者：yy
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+|      id      |   Int    |    是    |   无   |  商品id  |
+
+请求结果示例：
+
+```json
+{
+    "errCode": 0,
+    "result": 0,
+    "time": 1528876600866,
+    "data": {
+        "id": 2,
+        "title": "小黄人",
+        "price": 50,
+        "sales": 1,
+        "description": "秦国质子",
+        "status": 1,
+        "pictures": [
+            "cover.jpg",
+            "http://thirdwx.qlogo.cn/mmopen/vi_32/jhXsk4K6SZs58GvXyrPichgxlDv6y4IYrrKN5GCA1UTvHRKbRGtiac2SxmGMYibJSvCZzcLhNmQEykDgXTTzkPOXQ/132"
+        ],
+        "detailUrl": "https://43.241.223.169:800/static/product.html?id=2",
+        "isCollect": 2
+        "wxCover":[
+            "cover.jpg",
+            "http://thirdwx.qlogo.cn/mmopen/vi_32/jhXsk4K6SZs58GvXyrPichgxlDv6y4IYrrKN5GCA1UTvHRKbRGtiac2SxmGMYibJSvCZzcLhNmQEykDgXTTzkPOXQ/132"
+        ]
+    }
+}
+```
+
+| 参数名称    |   参数类型   | 是否必传 |          参数说明          |
+| ----------- | :----------: | :------: | :------------------------: |
+| errCode     |     Int      |    是    | 错误码 0 标识成功获取数据  |
+| data        |    Object    |    否    |        成功返回数据        |
+| id          |     Int      |    是    |           商品id           |
+| title       |    String    |    是    |          商品标题          |
+| price       |   decimal    |    是    |          商品价格          |
+| sales       |     Int      |    是    |            销量            |
+| status       |     Int      |    是    |            状态1-正常，2-下架   |
+| description |    String    |    是    |          商品属性          |
+| pictures    | List<String> |    是    |        轮播图片数组        |
+| detailUrl   |    String    |    是    |        商品详情地址        |
+| isCollect   |     Int      |    是    | 是否收藏 1.已收藏 2.未收藏 |
+| wxCover    | String |    是    |        小程序商品详情图片        |
+
+
+
+
 ## 7. 购物车
 
 ### 7.1 购物车列表
