@@ -123,6 +123,24 @@ public class ItemController {
     }
 
     /**
+     * 获取商品详情
+     *
+     * @param: [id 商品id]
+     * @return: com.chouchongkeji.goexplore.common.Response
+     * @author: yy
+     * @Date: 2018/6/13
+     */
+    @PostMapping("itemDetailShare")
+    public Response getItemDetailShare(@AuthenticationPrincipal UserDetails userDetails, Integer id) {
+        if (id == null) {
+            return ResponseFactory.errMissingParameter();
+        }
+        return itemService.getItemDetail(userDetails, id);
+    }
+
+
+
+    /**
      * 获得商品html详情
      *
      * @param: [id 商品id]
