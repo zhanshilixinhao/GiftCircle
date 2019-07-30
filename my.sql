@@ -112,6 +112,16 @@ create table if not exists article_scene
   comment '文章节日' charset=utf8mb4;
 
 
+  create table if not exists article_label
+(
+  id int(11) auto_increment
+  primary key,
+  title varchar (50) null comment'对象名称',
+  created datetime null,
+  updated datetime null
+  )
+  comment '文章对象' charset=utf8mb4;
+
 
 create table if not exists bank_dict
 (

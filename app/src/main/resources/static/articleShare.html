@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<head>
+
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+
+    <script type="text/javascript">
+        function loadXMLDoc(id,type) {
+            var xmlhttp;
+            if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+                xmlhttp = new XMLHttpRequest();
+            }
+            else {// code for IE6, IE5
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xmlhttp.onreadystatechange = function () {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    console.log(JSON.parse(xmlhttp.response))
+                    document.getElementById("myDiv").innerHTML =
+                        JSON.parse(xmlhttp.responseText).data;
+
+                }
+            }
+            xmlhttp.open("GET", "/app/noauth/v1/article/html?id=" +id+'&type='+type, true);
+            xmlhttp.send();
+        }
+
+        window.onload = function () {
+
+            var id = getParam('uid')
+            var type = getParam('type')
+
+            // console.log(type)
+//            console.log(id)
+            loadXMLDoc(id, type);
+     
+           var href = "liyuquan://app?uid="+id 
+           var a = document.getElementById("link");
+	   a.setAttribute("href",href);
+
+
+        }
+
+        function getParam(name) {
+            var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+            var r = window.location.search.substr(1).match(reg);  //这里返回找到正则的匹配
+
+            var id = ''
+            if (r != null) {
+                id = unescape(r[2]);    //这里返回对应的值
+            }
+            return id
+        }
+    </script>
+</head>
+<style>
+    img {
+        width: 100%;
+        height: auto;
+    }
+</style>
+<body>
+<a href="" title="打开APP" id="link" >打开APP</a>
+<div id="myDiv"></div>
+
+</body>
+</html>
