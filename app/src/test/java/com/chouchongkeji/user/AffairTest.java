@@ -7,6 +7,7 @@ import okhttp3.Response;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Map;
 
 /**
@@ -114,14 +115,16 @@ public class AffairTest {
     public void l() throws IOException {
         RequestParams params = new RequestParams();
         params.put("time", System.currentTimeMillis());
-        params.put("access_token", "faaeaefc-5bf9-471d-bd5d-85344c8f7fcd");
+        params.put("access_token", "50e46c96-b152-49cb-81d6-0219b7e5a88a");
 //        params.put("id", "94");
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
         params.put("sign", map.get(ApiSignUtil.ANDROID));
 
-        Response post = OkHttpUtil.post("http://localhost:8088/auth/memo/affair2/list", params);
+        Response post = OkHttpUtil.post("http://localhost:8089/auth/memo/affair2/list", params);
         System.out.println(post.body().string());
     }
+
+
     @Test
     public void de() throws IOException {
         RequestParams params = new RequestParams();

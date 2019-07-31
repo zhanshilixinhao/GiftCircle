@@ -80,7 +80,7 @@
             </trim>
         </where>
         ORDER BY
-        a.created DESC
+        a.target_time ASC
     </select>
     <select id="selectFriendByUserIdAndDate" resultType="com.chouchongkeji.service.user.memo.vo.MemoItemVo">
         SELECT

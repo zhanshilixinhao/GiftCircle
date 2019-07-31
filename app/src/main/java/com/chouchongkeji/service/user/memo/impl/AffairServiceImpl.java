@@ -309,31 +309,33 @@ public class AffairServiceImpl implements AffairService {
         }
         // 按周循环（200周）
         List<MemoItemVo> weeks = memoAffairMapper.selectAllByUserIdWeek(userId);
-        if (CollectionUtils.isNotEmpty(weeks)) try {
-            for (MemoItemVo week : weeks) {
-                // 目标日期
-                Calendar tarcalendar = Calendar.getInstance();
-                tarcalendar.setTime(week.getTargetTime());
-                // 目标星期
-                int i1 = tarcalendar.get(Calendar.DAY_OF_WEEK);
-                int i2 = tarcalendar.get(Calendar.HOUR_OF_DAY);
-                int i3 = tarcalendar.get(Calendar.MINUTE);
-                int i4 = tarcalendar.get(Calendar.SECOND);
-                //现在时间
-                tarcalendar.setTime(new Date());
-                tarcalendar.set(Calendar.DAY_OF_WEEK, i1);
-                tarcalendar.set(Calendar.HOUR_OF_DAY, i2);
-                tarcalendar.set(Calendar.MINUTE, i3);
-                tarcalendar.set(Calendar.SECOND, i4);
-                Date time = tarcalendar.getTime();
-                for (int i = -104; i < 104; i++) {
-                    MemoItemVo itemVo = (MemoItemVo) week.clone();
-                    itemVo.setTargetTime(DateUtils.addWeeks(time, i));
-                    list.add(itemVo);
+        if (CollectionUtils.isNotEmpty(weeks)) {
+            try {
+                for (MemoItemVo week : weeks) {
+                    // 目标日期
+                    Calendar tarcalendar = Calendar.getInstance();
+                    tarcalendar.setTime(week.getTargetTime());
+                    // 目标星期
+                    int i1 = tarcalendar.get(Calendar.DAY_OF_WEEK);
+                    int i2 = tarcalendar.get(Calendar.HOUR_OF_DAY);
+                    int i3 = tarcalendar.get(Calendar.MINUTE);
+                    int i4 = tarcalendar.get(Calendar.SECOND);
+                    //现在时间
+                    tarcalendar.setTime(new Date());
+                    tarcalendar.set(Calendar.DAY_OF_WEEK, i1);
+                    tarcalendar.set(Calendar.HOUR_OF_DAY, i2);
+                    tarcalendar.set(Calendar.MINUTE, i3);
+                    tarcalendar.set(Calendar.SECOND, i4);
+                    Date time = tarcalendar.getTime();
+                    for (int i = -104; i < 104; i++) {
+                        MemoItemVo itemVo = (MemoItemVo) week.clone();
+                        itemVo.setTargetTime(DateUtils.addWeeks(time, i));
+                        list.add(itemVo);
+                    }
                 }
+            } catch (CloneNotSupportedException e) {
+                e.printStackTrace();
             }
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
         }
         // 按月循环(前后60个月)
         List<MemoItemVo> months = memoAffairMapper.selectAllByUserIdMonth(userId);
@@ -534,9 +536,9 @@ public class AffairServiceImpl implements AffairService {
             v2.setType(2); //被邀请
             // 互动值
             FriendVo friend = friendMapper.selectByUserIdAndFriendUserId(v2.getUserId(), userDetails.getUserId());
-            if (friend != null){
+            if (friend != null) {
                 v2.setHortNum(friend.getHeartNum());
-            }else {
+            } else {
                 v2.setHortNum(0f);
             }
         }
