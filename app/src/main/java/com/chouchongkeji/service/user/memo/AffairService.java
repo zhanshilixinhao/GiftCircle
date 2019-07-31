@@ -5,6 +5,7 @@ import com.chouchongkeji.goexplore.common.Response;
 import com.yichen.auth.service.UserDetails;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
+import java.text.ParseException;
 import java.util.HashSet;
 
 /**
@@ -99,7 +100,7 @@ public interface AffairService {
      * @author linqin
      * @date 2019/1/7 16:38
      */
-    Response getAffairList(Integer userId, Long start, Long end);
+    Response getAffairList(Integer userId, Long start, Long end) throws ParseException;
 
     /**
      * 获得好友的备忘录

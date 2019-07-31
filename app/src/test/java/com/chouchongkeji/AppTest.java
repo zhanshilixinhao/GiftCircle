@@ -189,8 +189,8 @@ public class AppTest {
         Date now = new Date(3111034153000L);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");//可以方便地修改日期格式
         String hehe = dateFormat.format(now); //日期
-        Date parse = dateFormat.parse("20180103000000");  //时间戳
-        System.out.println(parse.getTime());
+//        Date parse = dateFormat.parse("20180103000000");  //时间戳
+//        System.out.println(parse.getTime());
         System.out.println(hehe);
     }
 

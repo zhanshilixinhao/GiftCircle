@@ -14,8 +14,10 @@ import com.chouchongkeji.dial.pojo.user.AppUser;
 import com.chouchongkeji.dial.pojo.user.memo.MemoAffair;
 import com.chouchongkeji.dial.pojo.user.memo.MemoEventType;
 import com.chouchongkeji.dial.pojo.user.memo.MemoFestival;
+import com.chouchongkeji.goexplore.utils.DateUtil;
 import com.chouchongkeji.goexplore.utils.Utils;
 import com.chouchongkeji.service.user.memo.vo.*;
+import com.chouchongkeji.util.TimeUtils;
 import com.yichen.auth.redis.CacheCallback;
 import com.yichen.auth.redis.MRedisTemplate;
 import com.chouchongkeji.goexplore.common.Response;
@@ -35,6 +37,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -299,7 +302,7 @@ public class AffairServiceImpl implements AffairService {
      * @date 2019/1/7 16:38
      */
     @Override
-    public Response getAffairList(Integer userId, Long start, Long end) {
+    public Response getAffairList(Integer userId, Long start, Long end) throws ParseException {
         //不循环
         List<MemoItemVo> list = memoAffairMapper.selectByUserIdAndDate(userId, start, end);
         // 节日事件
@@ -399,7 +402,32 @@ public class AffairServiceImpl implements AffairService {
                 e.printStackTrace();
             }
         }
-        return ResponseFactory.sucData(list);
+        List<MemoItemVo> list1 = new ArrayList<>();
+        // 当前零点时间戳
+        Long s = TimeUtils.time(System.currentTimeMillis()) * 1000;
+        // 一年后时间
+        Date date = DateUtils.addYears(new Date(), 1);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");//可以方便地修改日期格式
+        Long e = dateFormat.parse(dateFormat.format(date)).getTime();
+        // 一个月后
+        Date date1 = DateUtils.addMonths(new Date(), 1);
+        Long y = dateFormat.parse(dateFormat.format(date1)).getTime();
+        if (CollectionUtils.isNotEmpty(list)) {
+            for (MemoItemVo memoItemVo : list) {
+                Long targetTime = dateFormat.parse(dateFormat.format(memoItemVo.getTargetTime())).getTime();
+                if (memoItemVo.getType() == 3) {
+                    if (targetTime < y && targetTime >= s) {
+                        list1.add(memoItemVo);
+                    }
+                } else {
+                    if (targetTime < e && targetTime >= s) {
+                        list1.add(memoItemVo);
+                    }
+                }
+
+            }
+        }
+        return ResponseFactory.sucData(list1);
     }
 
 
