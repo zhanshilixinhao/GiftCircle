@@ -1,11 +1,9 @@
 package com.chouchongkeji.service.mall.article.impl;
 
-import com.chouchongkeji.dial.dao.gift.article.ArticleFestivalMapper;
-import com.chouchongkeji.dial.dao.gift.article.ArticleItemMapper;
-import com.chouchongkeji.dial.dao.gift.article.ArticleMapper;
-import com.chouchongkeji.dial.dao.gift.article.ArticleSceneMapper;
+import com.chouchongkeji.dial.dao.gift.article.*;
 import com.chouchongkeji.dial.pojo.gift.article.Article;
 import com.chouchongkeji.dial.pojo.gift.article.ArticleFestival;
+import com.chouchongkeji.dial.pojo.gift.article.ArticleLabel;
 import com.chouchongkeji.dial.pojo.gift.article.ArticleScene;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
@@ -45,6 +43,9 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Autowired
     private ArticleSceneMapper articleSceneMapper;
+
+    @Autowired
+    private ArticleLabelMapper articleLabelMapper;
 
 
     /**
@@ -163,6 +164,17 @@ public class ArticleServiceImpl implements ArticleService {
         return ResponseFactory.sucData(list);
     }
 
+
+    /**
+     * 文章对象列表
+     *
+     * @return
+     */
+    @Override
+    public Response getLabelListAll() {
+        List<ArticleLabel> list = articleLabelMapper.selectByAll();
+        return ResponseFactory.sucData(list);
+    }
 
     /**
      * 微信文章搜索

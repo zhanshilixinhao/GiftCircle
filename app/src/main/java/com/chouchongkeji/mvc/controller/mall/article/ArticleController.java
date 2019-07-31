@@ -142,6 +142,15 @@ public class ArticleController {
         return articleService.getSceneListAll();
     }
 
+    /**
+     * 文章对象列表
+     * @return
+     */
+    @PostMapping("label_all")
+    public Response getLabelListAll(){
+        return articleService.getLabelListAll();
+    }
+
 
     /**
      * 微信文章搜索

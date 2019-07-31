@@ -2,6 +2,8 @@ package com.chouchongkeji.dial.dao.gift.article;
 
 import com.chouchongkeji.dial.pojo.gift.article.ArticleLabel;
 
+import java.util.List;
+
 public interface ArticleLabelMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +16,6 @@ public interface ArticleLabelMapper {
     int updateByPrimaryKeySelective(ArticleLabel record);
 
     int updateByPrimaryKey(ArticleLabel record);
+
+    List<ArticleLabel> selectByAll();
 }

@@ -84,4 +84,11 @@ public interface ArticleService {
      * @return
      */
     Response wxArticleSearch(Integer sceneId, Integer labelId, Integer festivalId, String keywords,PageQuery page);
+
+
+    /**
+     * 文章对象列表
+     * @return
+     */
+    Response getLabelListAll();
 }
