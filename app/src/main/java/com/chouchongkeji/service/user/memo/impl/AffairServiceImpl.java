@@ -424,8 +424,15 @@ public class AffairServiceImpl implements AffairService {
                         list1.add(memoItemVo);
                     }
                 }
-
             }
+            //排序
+            list1.sort(new Comparator<MemoItemVo>() {
+                @Override
+                public int compare(MemoItemVo o1, MemoItemVo o2) {
+
+                    return o1.getTargetTime().compareTo(o2.getTargetTime());
+                }
+            });
         }
         return ResponseFactory.sucData(list1);
     }
