@@ -402,31 +402,41 @@ public class AffairServiceImpl implements AffairService {
                 e.printStackTrace();
             }
         }
-        List<MemoItemVo> list1 = new ArrayList<>();
-        // 当前零点时间戳
-        Long s = TimeUtils.time(System.currentTimeMillis()) * 1000;
-        // 一年后时间
-        Date date = DateUtils.addYears(new Date(), 1);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");//可以方便地修改日期格式
-        Long e = dateFormat.parse(dateFormat.format(date)).getTime();
-        // 一个月后
-        Date date1 = DateUtils.addMonths(new Date(), 1);
-        Long y = dateFormat.parse(dateFormat.format(date1)).getTime();
-        if (CollectionUtils.isNotEmpty(list)) {
-            for (MemoItemVo memoItemVo : list) {
-                Long targetTime = dateFormat.parse(dateFormat.format(memoItemVo.getTargetTime())).getTime();
-                if (memoItemVo.getType() == 3) {
-                    if (targetTime < y && targetTime >= s) {
-                        list1.add(memoItemVo);
-                    }
-                } else {
-                    if (targetTime < e && targetTime >= s) {
-                        list1.add(memoItemVo);
-                    }
-                }
-            }
+//        List<MemoItemVo> list1 = new ArrayList<>();
+//        // 当前零点时间戳
+//        Long s = TimeUtils.time(System.currentTimeMillis()) * 1000;
+//        // 一年后时间
+//        Date date = DateUtils.addYears(new Date(), 1);
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");//可以方便地修改日期格式
+//        Long e = dateFormat.parse(dateFormat.format(date)).getTime();
+//        // 一个月后
+//        Date date1 = DateUtils.addMonths(new Date(), 1);
+//        Long y = dateFormat.parse(dateFormat.format(date1)).getTime();
+//        if (CollectionUtils.isNotEmpty(list)) {
+//            for (MemoItemVo memoItemVo : list) {
+//                Long targetTime = dateFormat.parse(dateFormat.format(memoItemVo.getTargetTime())).getTime();
+//                if (memoItemVo.getType() == 3) {
+//                    if (targetTime < y && targetTime >= s) {
+//                        list1.add(memoItemVo);
+//                    }
+//                } else {
+//                    if (targetTime < e && targetTime >= s) {
+//                        list1.add(memoItemVo);
+//                    }
+//                }
+//            }
+//            //排序
+//            list1.sort(new Comparator<MemoItemVo>() {
+//                @Override
+//                public int compare(MemoItemVo o1, MemoItemVo o2) {
+//
+//                    return o1.getTargetTime().compareTo(o2.getTargetTime());
+//                }
+//            });
+//        }
+        if (CollectionUtils.isNotEmpty(list)){
             //排序
-            list1.sort(new Comparator<MemoItemVo>() {
+            list.sort(new Comparator<MemoItemVo>() {
                 @Override
                 public int compare(MemoItemVo o1, MemoItemVo o2) {
 
@@ -434,7 +444,7 @@ public class AffairServiceImpl implements AffairService {
                 }
             });
         }
-        return ResponseFactory.sucData(list1);
+        return ResponseFactory.sucData(list);
     }
 
 
