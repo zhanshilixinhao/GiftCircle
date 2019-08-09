@@ -35,7 +35,7 @@
 
            var href = "liyuquan://app?uid="+id
            var a = document.getElementById("link");
-	   a.setAttribute("href",href);
+	       a.setAttribute("href",href);
 
 
         }
@@ -51,37 +51,6 @@
             return id
         }
 
-        $.AMUI.progress.start();
-        Zepto.post("https://liyuquan.cn/app/noauth/v1/article/detail",{
-            id: getParam("uid")
-        }, function(a){
-            $.AMUI.progress.done();
-            Zepto('.shopTitle').html(a.data.title)
-            Zepto('.shopDes').html(a.data.description)
-            Zepto('.shopPrice').html(a.data.price)
-
-            var bannerStr = ''
-            a.data.pictures.forEach(element => {
-                bannerStr += `<li>
-            <img class="aImg" src="${element}">
-          </li>`
-            });
-            Zepto('.shopSlide').html(bannerStr)
-
-            var bannerStr = ''
-            a.data.wxCover.forEach(element => {
-                bannerStr += `<img class="bImg" src="${element}">`
-            });
-            Zepto('.shopCon').html(bannerStr)
-
-            Zepto(function ($) {
-                $('.am-slider').flexslider({
-                    slideshow: true,
-                    slideshowSpeed: 2000,
-                    controlNav: false
-                });
-            });
-        })
     </script>
 </head>
 <style>
