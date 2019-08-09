@@ -49,6 +49,7 @@ FROM
 WHERE
 	user_id = #{userId}
 	and c.status != 3
+	and b.id = a.sku_id
 ORDER BY
 	a.created DESC
     </select>

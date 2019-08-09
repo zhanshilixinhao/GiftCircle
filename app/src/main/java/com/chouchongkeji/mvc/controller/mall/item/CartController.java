@@ -100,7 +100,9 @@ public class CartController {
         }
         HashSet<Integer> ids = new HashSet<>();
         boolean ids1 = Utils.getIds(skuId, ids);//把,隔开的字符串转换为集合
-        if (ids1) return ResponseFactory.err("id错误");
+        if (ids1) {
+            return ResponseFactory.err("id错误");
+        }
         return cartService.deleteItem(userDetails.getUserId(), ids);
     }
 
