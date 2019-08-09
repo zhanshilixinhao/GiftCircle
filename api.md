@@ -2776,6 +2776,43 @@ type = 3 请求结果示例：
 | wxCover    | String |    是    |        小程序商品详情图片        |
 
 
+### 6.29 文章详情(h5)
+
+- 请求地址：noauth/v1/article/detail_h5
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：yy
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| id |  Int  |    是    |   无   | 文章id |
+
+请求结果示例：
+
+```json
+{
+  "errCode": 0,
+  "result": 0,
+  "time": 1547089258347,
+  "data": {
+    "id": 1,
+    "title": "养不起，马来西亚考虑提前归还大熊猫？",
+    "cover": "https://liyuquan.cn/static/item/181219/69455f6d-5d97-43bb-8d08-a160d5b88f57.png",
+    "created": 1545134864000,
+    "detail": "https://liyuquan.cn/static/article.html?uid=1"
+  }
+}
+```
+
+| 参数名称 | 参数类型 | 是否必传 | 参数说明 |
+| ------- |:------:|:------:|:------:|
+| errCode | Int | 是 | 错误码 0 标识成功获取数据 |
+| data | Object | 否 | 成功返回数据 |
+| id |  Int  |    是   | 文章id |
+| title | String | 是 | 文章标题 |
+|cover|string|否|文章封面|
+| created | long | 是 | 创建时间 |
+| detail | String | 是 | 文章详情(富文本) |
 
 
 ## 7. 购物车
