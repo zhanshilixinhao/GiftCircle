@@ -88,6 +88,23 @@ public class ArticleController {
     }
 
     /**
+     * h5获取文章详情
+     *
+     * @param: [userDetails 用户认证信息, id 文章id]
+     * @return: com.chouchongkeji.goexplore.common.Response
+     * @author: yy
+     * @Date: 2018/6/11
+     */
+    @RequestMapping("detail_h5")
+    public Response getH5ArticleDetail(Integer id) {
+        if (id == null) {
+            return ResponseFactory.errMissingParameter();
+        }
+        return articleService.getArticleDetail(id);
+    }
+
+
+    /**
      * 获得文章html
      *
      * @param: [id 文章id]
