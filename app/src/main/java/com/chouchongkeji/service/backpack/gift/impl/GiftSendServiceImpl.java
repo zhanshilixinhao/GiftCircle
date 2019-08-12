@@ -3,6 +3,7 @@ package com.chouchongkeji.service.backpack.gift.impl;
 import com.chouchongkeji.dial.dao.backpack.BpItemMapper;
 import com.chouchongkeji.dial.dao.backpack.gift.GiftRecordDetailMapper;
 import com.chouchongkeji.dial.dao.backpack.gift.GiftRecordMapper;
+import com.chouchongkeji.dial.dao.friend.FriendMapper;
 import com.chouchongkeji.dial.pojo.backpack.BpItem;
 import com.chouchongkeji.dial.pojo.backpack.gift.GiftRecordDetail;
 import com.chouchongkeji.dial.pojo.gift.virtualItem.GiftRecord;
@@ -15,6 +16,7 @@ import com.chouchongkeji.service.backpack.gift.GiftSendService;
 import com.chouchongkeji.service.backpack.gift.vo.GiftItemVo;
 import com.chouchongkeji.service.backpack.gift.vo.GiftRecordDetailVo;
 import com.chouchongkeji.service.backpack.gift.vo.GiftSendListVo;
+import com.chouchongkeji.service.user.friend.vo.FriendVo;
 import com.chouchongkeji.util.Constants;
 import com.github.pagehelper.PageHelper;
 import org.apache.commons.collections.CollectionUtils;
@@ -44,6 +46,9 @@ public class GiftSendServiceImpl implements GiftSendService {
     @Autowired
     private BpItemMapper bpItemMapper;
 
+    @Autowired
+    private FriendMapper friendMapper;
+
     /**
      * 赠送礼物列表
      *
@@ -68,7 +73,17 @@ public class GiftSendServiceImpl implements GiftSendService {
                         if (StringUtils.isBlank(detail.getFriendAvatar())){
                             detail.setFriendAvatar(Constants.WEIXIINAVATAR);
                             detail.setFriendNickname(Constants.WEIXINNAME);
+                        } else {
+                            FriendVo friend = friendMapper.selectByUserIdAndFriendUserId(userId,detail.getUserId());
+                            if (friend != null && StringUtils.isNotBlank(friend.getRemark())){
+                                detail.setFriendNickname(friend.getRemark());
+                            }
                         }
+                    }
+                }else {
+                    FriendVo friend = friendMapper.selectByUserIdAndFriendUserId(userId,giftVo.getUserId());
+                    if (friend != null && StringUtils.isNotBlank(friend.getRemark())){
+                        giftVo.setNickname(friend.getRemark());
                     }
                 }
             }

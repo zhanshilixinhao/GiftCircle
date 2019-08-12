@@ -305,78 +305,89 @@ public class AffairServiceImpl implements AffairService {
     public Response getAffairList(Integer userId, Long start, Long end) throws ParseException {
         //不循环
         List<MemoItemVo> list = memoAffairMapper.selectByUserIdAndDate(userId, start, end);
-        // 节日事件
+        if (CollectionUtils.isNotEmpty(list)) {
+            for (MemoItemVo vo : list) {
+                // 被邀请
+                if (vo.getType() == 2){
+                    FriendVo friend = friendMapper.selectByUserIdAndFriendUserId(userId,vo.getUserId() );
+                    if (friend != null && StringUtils.isNotBlank(friend.getRemark())){
+                        vo.setNickname(friend.getRemark());
+                    }
+                }
+            }
+        }
+            // 节日事件
         List<MemoItemVo> memos = memoFestivalMapper.selectAll();
         if (CollectionUtils.isNotEmpty(memos)) {
             list.addAll(memos);
         }
-        // 按周循环（200周）
-        List<MemoItemVo> weeks = memoAffairMapper.selectAllByUserIdWeek(userId);
-        if (CollectionUtils.isNotEmpty(weeks)) {
-            try {
-                for (MemoItemVo week : weeks) {
-                    // 目标日期
-                    Calendar tarcalendar = Calendar.getInstance();
-                    tarcalendar.setTime(week.getTargetTime());
-                    // 目标星期
-                    int i1 = tarcalendar.get(Calendar.DAY_OF_WEEK);
-                    int i2 = tarcalendar.get(Calendar.HOUR_OF_DAY);
-                    int i3 = tarcalendar.get(Calendar.MINUTE);
-                    int i4 = tarcalendar.get(Calendar.SECOND);
-                    //现在时间
-                    tarcalendar.setTime(new Date());
-                    tarcalendar.set(Calendar.DAY_OF_WEEK, i1);
-                    tarcalendar.set(Calendar.HOUR_OF_DAY, i2);
-                    tarcalendar.set(Calendar.MINUTE, i3);
-                    tarcalendar.set(Calendar.SECOND, i4);
-                    Date time = tarcalendar.getTime();
-                    for (int i = -104; i < 104; i++) {
-                        MemoItemVo itemVo = (MemoItemVo) week.clone();
-                        itemVo.setTargetTime(DateUtils.addWeeks(time, i));
-                        list.add(itemVo);
-                    }
-                }
-            } catch (CloneNotSupportedException e) {
-                e.printStackTrace();
-            }
-        }
-        // 按月循环(前后60个月)
-        List<MemoItemVo> months = memoAffairMapper.selectAllByUserIdMonth(userId);
-        if (CollectionUtils.isNotEmpty(months)) {
-            try {
-                for (MemoItemVo item : months) {
-                    // 当前日期
-                    Calendar tarcalendar = Calendar.getInstance();
-                    // 目标日期
-                    tarcalendar.setTime(item.getTargetTime());
-                    int day = tarcalendar.get(Calendar.DAY_OF_MONTH);//天
-                    int month = tarcalendar.get(Calendar.MONTH);//月
-                    int year = tarcalendar.get(Calendar.YEAR);// 年
-                    // 判断是是闰年
-                    if ((year % 4 == 0 && year % 100 != 0) || (year % 100 == 0 && year % 400 == 0)) {
-                        //2月29
-                        if (month == 1 && day == 29) {
-                            tarcalendar.set(Calendar.MONTH, 2);
-                        }
-                    }
-                    // 调整到当前年份
-                    tarcalendar.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR));
-                    Date time = tarcalendar.getTime();
-                    for (int i = -60; i < 60; i++) {
-                        MemoItemVo itemVo = (MemoItemVo) item.clone();
-                        //取出加了月份的日期
-                        tarcalendar.setTime(DateUtils.addMonths(time, i));
-                        int day2 = tarcalendar.get(Calendar.DAY_OF_MONTH);
-                        if (day == day2) {
-                            itemVo.setTargetTime(DateUtils.addMonths(time, i));
-                            list.add(itemVo);
-                        }
-                    }
-                }
-            } catch (CloneNotSupportedException e) {
-                e.printStackTrace();
-            }
-        }
+//        // 按周循环（200周）
+//        List<MemoItemVo> weeks = memoAffairMapper.selectAllByUserIdWeek(userId);
+//        if (CollectionUtils.isNotEmpty(weeks)) {
+//            try {
+//                for (MemoItemVo week : weeks) {
+//                    // 目标日期
+//                    Calendar tarcalendar = Calendar.getInstance();
+//                    tarcalendar.setTime(week.getTargetTime());
+//                    // 目标星期
+//                    int i1 = tarcalendar.get(Calendar.DAY_OF_WEEK);
+//                    int i2 = tarcalendar.get(Calendar.HOUR_OF_DAY);
+//                    int i3 = tarcalendar.get(Calendar.MINUTE);
+//                    int i4 = tarcalendar.get(Calendar.SECOND);
+//                    //现在时间
+//                    tarcalendar.setTime(new Date());
+//                    tarcalendar.set(Calendar.DAY_OF_WEEK, i1);
+//                    tarcalendar.set(Calendar.HOUR_OF_DAY, i2);
+//                    tarcalendar.set(Calendar.MINUTE, i3);
+//                    tarcalendar.set(Calendar.SECOND, i4);
+//                    Date time = tarcalendar.getTime();
+//                    for (int i = -104; i < 104; i++) {
+//                        MemoItemVo itemVo = (MemoItemVo) week.clone();
+//                        itemVo.setTargetTime(DateUtils.addWeeks(time, i));
+//                        list.add(itemVo);
+//                    }
+//                }
+//            } catch (CloneNotSupportedException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        // 按月循环(前后60个月)
+//        List<MemoItemVo> months = memoAffairMapper.selectAllByUserIdMonth(userId);
+//        if (CollectionUtils.isNotEmpty(months)) {
+//            try {
+//                for (MemoItemVo item : months) {
+//                    // 当前日期
+//                    Calendar tarcalendar = Calendar.getInstance();
+//                    // 目标日期
+//                    tarcalendar.setTime(item.getTargetTime());
+//                    int day = tarcalendar.get(Calendar.DAY_OF_MONTH);//天
+//                    int month = tarcalendar.get(Calendar.MONTH);//月
+//                    int year = tarcalendar.get(Calendar.YEAR);// 年
+//                    // 判断是是闰年
+//                    if ((year % 4 == 0 && year % 100 != 0) || (year % 100 == 0 && year % 400 == 0)) {
+//                        //2月29
+//                        if (month == 1 && day == 29) {
+//                            tarcalendar.set(Calendar.MONTH, 2);
+//                        }
+//                    }
+//                    // 调整到当前年份
+//                    tarcalendar.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR));
+//                    Date time = tarcalendar.getTime();
+//                    for (int i = -60; i < 60; i++) {
+//                        MemoItemVo itemVo = (MemoItemVo) item.clone();
+//                        //取出加了月份的日期
+//                        tarcalendar.setTime(DateUtils.addMonths(time, i));
+//                        int day2 = tarcalendar.get(Calendar.DAY_OF_MONTH);
+//                        if (day == day2) {
+//                            itemVo.setTargetTime(DateUtils.addMonths(time, i));
+//                            list.add(itemVo);
+//                        }
+//                    }
+//                }
+//            } catch (CloneNotSupportedException e) {
+//                e.printStackTrace();
+//            }
+//        }
         // 按年循环(100年)
         List<MemoItemVo> years = memoAffairMapper.selectAllCByUserId(userId);
         if (CollectionUtils.isNotEmpty(years)) {
@@ -394,6 +405,13 @@ public class AffairServiceImpl implements AffairService {
                         int day2 = tarcalendar.get(Calendar.DAY_OF_MONTH);
                         if (day == day2) {
                             itemVo.setTargetTime(DateUtils.addYears(time, i));
+                            // 好友备注问题
+                            if (item.getType() == 2){
+                                FriendVo friend = friendMapper.selectByUserIdAndFriendUserId(userId,item.getUserId() );
+                                if (friend != null && StringUtils.isNotBlank(friend.getRemark())){
+                                    itemVo.setNickname(friend.getRemark());
+                                }
+                            }
                             list.add(itemVo);
                         }
                     }
@@ -535,6 +553,13 @@ public class AffairServiceImpl implements AffairService {
     @Override
     public Response getFriendList(Integer userId) {
         List<FriendHumVo> list = friendMapper.selectByUserId(userId);
+        if (CollectionUtils.isNotEmpty(list)){
+            for (FriendHumVo vo : list) {
+                if (StringUtils.isNotBlank(vo.getRemark())){
+                    vo.setNickname(vo.getRemark());
+                }
+            }
+        }
         return ResponseFactory.sucData(list);
     }
 
@@ -566,8 +591,12 @@ public class AffairServiceImpl implements AffairService {
                 AppUser users = appUserMapper.selectByPrimaryKey(Integer.parseInt(userId));
                 if (users != null) {
                     s.setAvatar(users.getAvatar());
-                    s.setNickname(users.getNickname());
                     s.setUserId(users.getId());
+                    s.setNickname(users.getNickname());
+                    FriendVo friend1 = friendMapper.selectByUserIdAndFriendUserId(userDetails.getUserId(),Integer.parseInt(userId));
+                    if (friend1 != null && StringUtils.isNotBlank(friend1.getRemark())){
+                        s.setNickname(friend1.getRemark());
+                    }
                     list.add(s);
                 }
             }
@@ -585,6 +614,11 @@ public class AffairServiceImpl implements AffairService {
                 v2.setHortNum(friend.getHeartNum());
             } else {
                 v2.setHortNum(0f);
+            }
+            // 备注问题
+            FriendVo friend1 = friendMapper.selectByUserIdAndFriendUserId(userDetails.getUserId(),v2.getUserId() );
+            if (friend1 != null && StringUtils.isNotBlank(friend1.getRemark())){
+                v2.setNickname(friend1.getRemark());
             }
         }
         return ResponseFactory.sucData(v2);

@@ -79,7 +79,8 @@
        a.friend_user_id,
  a.heart_num,
        b.nickname,
-       b.avatar
+       b.avatar,
+       a.remark
 from friend a
 left join app_user b on a.friend_user_id = b.id
 where a.user_id = #{userId} and a.friend_user_id != #{userId}

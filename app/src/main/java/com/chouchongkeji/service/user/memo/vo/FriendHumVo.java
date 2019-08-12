@@ -20,6 +20,7 @@ public class FriendHumVo {
     @ImgUrl
     private String avatar; //好友头像
 
+    private String remark;//备注
 
     public Integer getUserId() {
         return userId;
@@ -61,5 +62,11 @@ public class FriendHumVo {
         this.avatar = avatar;
     }
 
+    public String getRemark() {
+        return remark;
+    }
 
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
 }

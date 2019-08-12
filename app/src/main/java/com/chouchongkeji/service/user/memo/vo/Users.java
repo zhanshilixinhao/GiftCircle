@@ -12,6 +12,8 @@ public class Users {
 
     private String nickname;
 
+    private String remark;
+
     @ImgUrl
     private String avatar;
 

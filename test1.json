@@ -1,151 +1,351 @@
 {
   "errCode": 0,
   "result": 0,
-  "time": 1564734003370,
+  "time": 1565603592260,
   "data": [
     {
-      "id": 96,
+      "id": 508,
       "userId": 7,
-      "targetTime": 1564729066000,
-      "isCirculation": 3,
-      "detail": "没有(>﹏<)",
+      "greetting": "没有",
       "type": 1,
-      "users": "2,10,1,70,5,9",
-      "created": 1564729095000,
+      "event": "日常关怀",
+      "targetTime": 1565599467000,
+      "status": 3,
+      "updated": 1565599467000,
       "nickname": "哈哈",
-      "name": "",
-      "count": 6,
-      "avatar": "https://liyuquan.cn/staticorder/comment/20190802/1564732605642736-600-600.jpg",
-      "eventTypeId": 1,
-      "eventTypeName": "普通事件"
+      "avatar": "https://liyuquan.cn/staticorder/comment/20190805/1564991526624213-600-600.jpg",
+      "flag": 1,
+      "detail": [
+        {
+          "id": 618,
+          "giftRecordId": 508,
+          "userId": 9,
+          "amount": null,
+          "content": [
+            {
+              "bpId": 7719080911105,
+              "targetId": 1618,
+              "targetType": 1,
+              "giftType": 1,
+              "price": 178.00,
+              "title": "滇云蜜语  A+级天然野生百花蜜小瓶包装",
+              "buyTime": 1565322998000,
+              "cover": "https://liyuquan.cn/static/item/190808/b01fff29-58d2-422f-93b8-ecf72aec92fe.jpg",
+              "description": "品名称：滇云蜜语A+级天然野生百花蜜小瓶包装\n生产许可证编号: SC12653282342729\n配料表: 蜂蜜\n储藏方法: 常温、避光、防蚁，避免水分进入\n保质期: 3年\n食品添加剂: 无\n净含量: 250g",
+              "brand": "滇云蜜语",
+              "spec": " 250g"
+            }
+          ],
+          "isReply": 0,
+          "reply": "",
+          "status": 3,
+          "updated": 1565599467000,
+          "created": 1565599467000,
+          "friendNickname": "时间",
+          "friendAvatar": "https://liyuquan.cn/static/avatar.jpg"
+        }
+      ]
     },
     {
-      "id": 97,
+      "id": 505,
       "userId": 7,
-      "targetTime": 1564729900000,
-      "isCirculation": 0,
-      "detail": "我",
+      "greetting": "z",
       "type": 1,
-      "users": "",
-      "created": 1564729911000,
+      "event": "日常关怀",
+      "targetTime": 1565255276000,
+      "status": 3,
+      "updated": 1565255275000,
       "nickname": "哈哈",
-      "name": "",
-      "count": null,
-      "avatar": "https://liyuquan.cn/staticorder/comment/20190802/1564732605642736-600-600.jpg",
-      "eventTypeId": 1,
-      "eventTypeName": "普通事件"
+      "avatar": "https://liyuquan.cn/staticorder/comment/20190805/1564991526624213-600-600.jpg",
+      "flag": 1,
+      "detail": [
+        {
+          "id": 615,
+          "giftRecordId": 505,
+          "userId": 5,
+          "amount": null,
+          "content": [
+            {
+              "bpId": 7719080817105,
+              "targetId": 1436,
+              "targetType": 1,
+              "giftType": 1,
+              "price": 0.10,
+              "title": "乐事  薯片零食组合104g*3罐",
+              "buyTime": 1565255245000,
+              "cover": "https://liyuquan.cn/static/item/190709/d2a2edfd-9b35-4daf-915f-3d4d6165ef0e.jpg",
+              "description": "无",
+              "brand": "薯片",
+              "spec": " 标准款"
+            }
+          ],
+          "isReply": 0,
+          "reply": "",
+          "status": 3,
+          "updated": 1565255275000,
+          "created": 1565255275000,
+          "friendNickname": "年锐",
+          "friendAvatar": "https://liyuquan.cn/staticorder/comment/20190731/1564561043231711-400-400.jpg"
+        }
+      ]
     },
     {
-      "id": 20,
-      "userId": null,
-      "targetTime": 1565884800000,
-      "isCirculation": null,
-      "detail": "“总是向你索取，却不曾说谢谢你，总是长大以后才懂得你不容易”，多数人都觉得父亲是一个高冷的存在，是一直不苟言笑，严肃的模样，那么今天，我们一起来拿下这个傲娇老爹！",
+      "id": 497,
+      "userId": 7,
+      "greetting": "",
       "type": 3,
-      "users": "",
-      "created": 1559537088000,
-      "nickname": "",
-      "name": "剪发多",
-      "count": null,
-      "avatar": "https://liyuquan.cn/static/item/190603/31e47f8f-f3b2-4750-824d-e304c5ba6d5b.jpg",
-      "eventTypeId": null,
-      "eventTypeName": ""
+      "event": "小程序赠送",
+      "targetTime": null,
+      "status": 3,
+      "updated": 1564535344000,
+      "nickname": "哈哈",
+      "avatar": "https://liyuquan.cn/staticorder/comment/20190805/1564991526624213-600-600.jpg",
+      "flag": 1,
+      "detail": [
+        {
+          "id": 607,
+          "giftRecordId": 497,
+          "userId": 201,
+          "amount": null,
+          "content": [
+            {
+              "bpId": 7719072615113,
+              "targetId": 1441,
+              "targetType": 1,
+              "giftType": 1,
+              "price": 350.00,
+              "title": "ELLE  轻雾遮瑕粉底液",
+              "buyTime": 1564127175000,
+              "cover": "https://liyuquan.cn/static/item/190723/352f68bd-6301-4aa3-a85d-d1799c56205b.jpg",
+              "description": "品名：ELLE轻雾遮瑕粉底液\n净含量：30ML\n颜色分类：C01瓷白色   C02自然色   W01象牙白  W02米肤色\n保质期：3年\n适合肤质：任何肤质\n粉底分类：粉底液\n功效：修饰肤色、隐形毛孔 、防水 、提亮肤色、 遮瑕\n规格类型：正常规格\n是否为特殊用途化妆品：否",
+              "brand": "ELLE",
+              "spec": " W02 米肤色"
+            }
+          ],
+          "isReply": 0,
+          "reply": "",
+          "status": 3,
+          "updated": 1564535344000,
+          "created": 1564535344000,
+          "friendNickname": "微信好友",
+          "friendAvatar": "https://liyuquan.cn/static/bank/weixin.png"
+        }
+      ]
     },
     {
-      "id": 90,
+      "id": 495,
       "userId": 7,
-      "targetTime": 1565936322000,
-      "isCirculation": 0,
-      "detail": "有点",
+      "greetting": "m",
       "type": 1,
-      "users": "",
-      "created": 1564553934000,
+      "event": "日常关怀",
+      "targetTime": 1564387601000,
+      "status": 3,
+      "updated": 1564387601000,
       "nickname": "哈哈",
-      "name": "",
-      "count": null,
-      "avatar": "https://liyuquan.cn/staticorder/comment/20190802/1564732605642736-600-600.jpg",
-      "eventTypeId": 1,
-      "eventTypeName": "普通事件"
+      "avatar": "https://liyuquan.cn/staticorder/comment/20190805/1564991526624213-600-600.jpg",
+      "flag": 1,
+      "detail": [
+        {
+          "id": 605,
+          "giftRecordId": 495,
+          "userId": 2,
+          "amount": null,
+          "content": [
+            {
+              "bpId": 7719072216103,
+              "targetId": 1322,
+              "targetType": 1,
+              "giftType": 1,
+              "price": 0.10,
+              "title": "长寿面半翻糖蛋糕 生日蛋糕",
+              "buyTime": 1563161935000,
+              "cover": "https://liyuquan.cn/static/item/190429/599fcb20-f790-42fc-afc4-af12fa80e68b.jpg",
+              "description": "无",
+              "brand": "蛋糕",
+              "spec": " 1磅"
+            }
+          ],
+          "isReply": 0,
+          "reply": "",
+          "status": 3,
+          "updated": 1564387601000,
+          "created": 1564387601000,
+          "friendNickname": "丁",
+          "friendAvatar": "https://liyuquan.cn/staticorder/comment/20190729/1564386854932905-550-550.jpg"
+        }
+      ]
     },
     {
-      "id": 98,
+      "id": 485,
       "userId": 7,
-      "targetTime": 1566371463000,
-      "isCirculation": 0,
-      "detail": "墨绿小",
-      "type": 1,
-      "users": "",
-      "created": 1564729928000,
+      "greetting": "送你一个礼物，希望你天天开心！",
+      "type": 3,
+      "event": "小程序赠送",
+      "targetTime": null,
+      "status": 3,
+      "updated": 1563948442000,
       "nickname": "哈哈",
-      "name": "",
-      "count": null,
-      "avatar": "https://liyuquan.cn/staticorder/comment/20190802/1564732605642736-600-600.jpg",
-      "eventTypeId": 1,
-      "eventTypeName": "普通事件"
+      "avatar": "https://liyuquan.cn/staticorder/comment/20190805/1564991526624213-600-600.jpg",
+      "flag": 1,
+      "detail": [
+        {
+          "id": 595,
+          "giftRecordId": 485,
+          "userId": 2,
+          "amount": null,
+          "content": [
+            {
+              "bpId": 7719071115112,
+              "targetId": 1322,
+              "targetType": 1,
+              "giftType": 1,
+              "price": 0.10,
+              "title": "长寿面半翻糖蛋糕 生日蛋糕",
+              "buyTime": 1562812735000,
+              "cover": "https://liyuquan.cn/static/item/190429/599fcb20-f790-42fc-afc4-af12fa80e68b.jpg",
+              "description": "无",
+              "brand": "蛋糕",
+              "spec": " 1磅"
+            }
+          ],
+          "isReply": 0,
+          "reply": "",
+          "status": 3,
+          "updated": 1563948442000,
+          "created": 1563948442000,
+          "friendNickname": "丁",
+          "friendAvatar": "https://liyuquan.cn/staticorder/comment/20190729/1564386854932905-550-550.jpg"
+        }
+      ]
     },
     {
-      "id": 100,
+      "id": 478,
       "userId": 7,
-      "targetTime": 1567324966000,
-      "isCirculation": 3,
-      "detail": "农",
-      "type": 1,
-      "users": "",
-      "created": 1564733115000,
+      "greetting": "送你一个礼物，希望你天天开心！",
+      "type": 4,
+      "event": "小程序赠送",
+      "targetTime": null,
+      "status": 3,
+      "updated": 1563784898000,
       "nickname": "哈哈",
-      "name": "",
-      "count": null,
-      "avatar": "https://liyuquan.cn/staticorder/comment/20190802/1564732605642736-600-600.jpg",
-      "eventTypeId": 1,
-      "eventTypeName": "普通事件"
+      "avatar": "https://liyuquan.cn/staticorder/comment/20190805/1564991526624213-600-600.jpg",
+      "flag": 1,
+      "detail": [
+        {
+          "id": 585,
+          "giftRecordId": 478,
+          "userId": 2,
+          "amount": null,
+          "content": [
+            {
+              "bpId": 7719071616108,
+              "targetId": 157,
+              "targetType": 1,
+              "giftType": 1,
+              "price": 40.00,
+              "title": "【正品花蜜】纯手工经典现烤玫瑰馅饼（10个/盒）",
+              "buyTime": 1562573403000,
+              "cover": "https://liyuquan.cn/static/item/190131/ac821cbc-4959-4678-9eca-ffd71dcf9066.jpg",
+              "description": "一款云南人都爱吃的鲜花饼-每天现摘玫瑰花瓣纯手工制作而成.",
+              "brand": "新鲜现烤",
+              "spec": " 经典现烤"
+            }
+          ],
+          "isReply": 0,
+          "reply": "",
+          "status": 3,
+          "updated": 1563784898000,
+          "created": 1563784898000,
+          "friendNickname": "丁",
+          "friendAvatar": "https://liyuquan.cn/staticorder/comment/20190729/1564386854932905-550-550.jpg"
+        }
+      ]
     },
     {
-      "id": 91,
+      "id": 477,
       "userId": 7,
-      "targetTime": 1593501495000,
-      "isCirculation": 0,
-      "detail": "2020",
-      "type": 1,
-      "users": "",
-      "created": 1564557508000,
+      "greetting": "送你一个礼物，希望你天天开心！",
+      "type": 3,
+      "event": "小程序赠送",
+      "targetTime": null,
+      "status": 3,
+      "updated": 1563784795000,
       "nickname": "哈哈",
-      "name": "",
-      "count": null,
-      "avatar": "https://liyuquan.cn/staticorder/comment/20190802/1564732605642736-600-600.jpg",
-      "eventTypeId": 1,
-      "eventTypeName": "普通事件"
+      "avatar": "https://liyuquan.cn/staticorder/comment/20190805/1564991526624213-600-600.jpg",
+      "flag": 1,
+      "detail": [
+        {
+          "id": 584,
+          "giftRecordId": 477,
+          "userId": 2,
+          "amount": null,
+          "content": [
+            {
+              "bpId": 7719071517113,
+              "targetId": 359,
+              "targetType": 1,
+              "giftType": 1,
+              "price": 1230.00,
+              "title": "SK-II微肌因赋活修护精华露",
+              "buyTime": 1562573422000,
+              "cover": "https://liyuquan.cn/static/item/190402/480207e8-c5f5-434e-8bc9-686bcc5924e7.png",
+              "description": "商品名称：SK-II 微肌因赋活修护精华露\n适合肤质：任何肤质\n功效：改善肌肤粗糙、细腻紧致毛孔\n国产/进口：进口\n产品产地：日本\n适用人群：成人\n规格：50ml",
+              "brand": "SK-Ⅱ",
+              "spec": " 标准款"
+            }
+          ],
+          "isReply": 0,
+          "reply": "",
+          "status": 3,
+          "updated": 1563784795000,
+          "created": 1563784795000,
+          "friendNickname": "丁",
+          "friendAvatar": "https://liyuquan.cn/staticorder/comment/20190729/1564386854932905-550-550.jpg"
+        }
+      ]
     },
     {
-      "id": 99,
+      "id": 476,
       "userId": 7,
-      "targetTime": 1596268912000,
-      "isCirculation": 3,
-      "detail": "农",
-      "type": 1,
-      "users": "",
-      "created": 1564732963000,
+      "greetting": "送你一个礼物，希望你天天开心！",
+      "type": 3,
+      "event": "小程序赠送",
+      "targetTime": null,
+      "status": 3,
+      "updated": 1563784715000,
       "nickname": "哈哈",
-      "name": "",
-      "count": null,
-      "avatar": "https://liyuquan.cn/staticorder/comment/20190802/1564732605642736-600-600.jpg",
-      "eventTypeId": 1,
-      "eventTypeName": "普通事件"
-    },
-    {
-      "id": 96,
-      "userId": 7,
-      "targetTime": 1596351466000,
-      "isCirculation": 3,
-      "detail": "没有(>﹏<)",
-      "type": 1,
-      "users": "2,10,1,70,5,9",
-      "created": 1564729095000,
-      "nickname": "哈哈",
-      "name": "",
-      "count": 6,
-      "avatar": "https://liyuquan.cn/staticorder/comment/20190802/1564732605642736-600-600.jpg",
-      "eventTypeId": 1,
-      "eventTypeName": "普通事件"
+      "avatar": "https://liyuquan.cn/staticorder/comment/20190805/1564991526624213-600-600.jpg",
+      "flag": 1,
+      "detail": [
+        {
+          "id": 583,
+          "giftRecordId": 476,
+          "userId": 2,
+          "amount": null,
+          "content": [
+            {
+              "bpId": 7719070816145,
+              "targetId": 339,
+              "targetType": 1,
+              "giftType": 1,
+              "price": 440.00,
+              "title": "SK-II男士焕活保湿洁面霜",
+              "buyTime": 1562573431000,
+              "cover": "https://liyuquan.cn/static/item/190402/ab235816-3d17-49d6-9d2f-6e5958866356.png",
+              "description": "无",
+              "brand": "SK-Ⅱ",
+              "spec": " 标准款"
+            }
+          ],
+          "isReply": 0,
+          "reply": "",
+          "status": 3,
+          "updated": 1563784715000,
+          "created": 1563784715000,
+          "friendNickname": "丁",
+          "friendAvatar": "https://liyuquan.cn/staticorder/comment/20190729/1564386854932905-550-550.jpg"
+        }
+      ]
     }
   ]
 }
