@@ -199,13 +199,13 @@ public class ApiTest {
     public void recordList() throws IOException {
         RequestParams params = new RequestParams();
         params.put("time",System.currentTimeMillis());
-        params.put("access_token","572f7a09-b3e0-4ec5-b04b-13c82771c1c8");
-        params.put("type",1);
+        params.put("access_token","50e46c96-b152-49cb-81d6-0219b7e5a88a");
+        params.put("type",2);
         params.put("pageNum",1);
         params.put("pageSize",14);
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
         params.put("sign",map.get(ApiSignUtil.ANDROID));
-        Response post = OkHttpUtil.post("http://localhost:8088/auth/friend/bp/record_list", params);
+        Response post = OkHttpUtil.post("http://localhost:8089/auth/friend/bp/record_list", params);
         System.out.println(post.body().string());
     }
 

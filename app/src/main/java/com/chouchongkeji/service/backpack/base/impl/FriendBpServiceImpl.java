@@ -3,6 +3,7 @@ package com.chouchongkeji.service.backpack.base.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.chouchongkeji.dial.dao.backpack.BpItemMapper;
 import com.chouchongkeji.dial.dao.backpack.ForRecordMapper;
+import com.chouchongkeji.dial.dao.friend.FriendMapper;
 import com.chouchongkeji.dial.dao.user.AppUserMapper;
 import com.chouchongkeji.dial.pojo.backpack.BpItem;
 import com.chouchongkeji.dial.pojo.backpack.ForRecord;
@@ -18,10 +19,13 @@ import com.chouchongkeji.service.backpack.base.BpService;
 import com.chouchongkeji.service.backpack.base.FriendBpService;
 import com.chouchongkeji.service.backpack.base.vo.ForRecordVo;
 import com.chouchongkeji.service.message.MessageService;
+import com.chouchongkeji.service.user.friend.vo.FriendVo;
 import com.chouchongkeji.util.Constants;
 import com.chouchongkeji.util.OrderHelper;
 import com.github.pagehelper.PageHelper;
 import com.yichen.auth.service.UserDetails;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -57,6 +61,9 @@ public class FriendBpServiceImpl implements FriendBpService {
     @Autowired
     private MessageService messageService;
 
+
+    @Autowired
+    private FriendMapper friendMapper;
 
     /**
      * 好友背包列表
@@ -162,6 +169,14 @@ public class FriendBpServiceImpl implements FriendBpService {
         PageHelper.startPage(pageQuery.getPageNum(), pageQuery.getPageSize());
         //查询索要记录列表
         List<ForRecordVo> list = forRecordMapper.selectAllByUserId(userId, type);
+        if (CollectionUtils.isNotEmpty(list)){
+            for (ForRecordVo vo : list) {
+                FriendVo friend = friendMapper.selectByUserIdAndFriendUserId(userId,vo.getFriendUserId());
+                if (friend != null && StringUtils.isNotBlank(friend.getRemark())){
+                    vo.setNickname(friend.getRemark());
+                }
+            }
+        }
         return ResponseFactory.sucData(list);
     }
 
