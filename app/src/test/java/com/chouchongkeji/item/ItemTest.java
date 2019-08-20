@@ -174,12 +174,12 @@ public class ItemTest {
     public void getGift() throws IOException {
         RequestParams params = new RequestParams();
         params.put("time", System.currentTimeMillis());
-        params.put("access_token", "0b83209b-c43a-44fe-9a1d-71fd71809f8a");
-        params.put("giftRecordId", 401);
+        params.put("access_token", "50e46c96-b152-49cb-81d6-0219b7e5a88a");
+        params.put("giftRecordId", 531);
 //        params.put("tagIds","2,3");
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
         params.put("sign", map.get(ApiSignUtil.ANDROID));
-        Response post = OkHttpUtil.post("http://localhost:8088/auth/v1/gift/getGift", params);
+        Response post = OkHttpUtil.post("http://localhost:8089/auth/v1/gift/getGift", params);
         System.out.println(post.body().string());
     }
 
