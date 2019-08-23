@@ -147,7 +147,7 @@ public class FriendServiceImpl implements FriendService {
      */
     @Override
     public Response WXAddFriend(Integer userId, Integer targetUserId) {
-        if (userId.equals(targetUserId)){
+        if (userId.equals(targetUserId)) {
             return ResponseFactory.err("不能邀请自己");
         }
         // 查询用户信息
@@ -657,19 +657,21 @@ public class FriendServiceImpl implements FriendService {
         List<UserFriendVo> userFriendVos = new ArrayList<>();
         String[] ph = phone.split(",");
         for (String str : ph) {
-            str=str.trim();
-            String str2="";
-            if(str != null && !"".equals(str)){
-                for(int i=0;i<str.length();i++){
-                    if(str.charAt(i)>=48 && str.charAt(i)<=57){
-                        str2+=str.charAt(i);
+            str = str.trim();
+            String str2 = "";
+            if (str != null && !"".equals(str)) {
+                for (int i = 0; i < str.length(); i++) {
+                    if (str.charAt(i) >= 48 && str.charAt(i) <= 57) {
+                        str2 += str.charAt(i);
                     }
                 }
-
+            }
+            if (str2.length() < 11) {
+                continue;
             }
             String phone1 = str2.substring(str2.length() - 11, str2.length());
-            UserFriendVo vo = appUserMapper.selectByPhoneUserId(userId,phone1);
-            if (vo != null){
+            UserFriendVo vo = appUserMapper.selectByPhoneUserId(userId, phone1);
+            if (vo != null) {
                 userFriendVos.add(vo);
             }
         }
