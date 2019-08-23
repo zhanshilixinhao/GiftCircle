@@ -56,11 +56,11 @@ public class test4 {
     public void book() throws IOException {
         RequestParams params = new RequestParams();
         params.put("time", System.currentTimeMillis());
-        params.put("access_token", "0b83209b-c43a-44fe-9a1d-71fd71809f8a");
-        params.put("phone","15752400657,18313747954,18088314253,18510454067");
+        params.put("access_token", "50e46c96-b152-49cb-81d6-0219b7e5a88a");
+        params.put("phone","157 5240 0657,86183 1374 7954,180 8831 4253,18510454067");
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
         params.put("sign", map.get(ApiSignUtil.ANDROID));
-        Response post = OkHttpUtil.post("http://localhost:8088/auth/friend/book_list", params);
+        Response post = OkHttpUtil.post("http://localhost:8089/auth/friend/book_list", params);
         System.out.println(post.body().string());
     }
 

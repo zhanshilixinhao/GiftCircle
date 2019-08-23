@@ -57,8 +57,17 @@ where
   )
   and a.id != #{userId}
     </select>
+  <select id="selectByPhoneUserId" resultType="com.chouchongkeji.service.user.friend.vo.UserFriendVo">
+    select a.* ,b.id is not null as type
+    from app_user a
+    left join friend b on a.id = b.friend_user_id and b.user_id = #{userId}
+    where
+    a.status = 1
+    and  a.phone = #{phone1}
+    and a.id != #{userId}
+  </select>
 
-    <!--<select id="selectByAccount" resultMap="BaseResultMap">-->
+  <!--<select id="selectByAccount" resultMap="BaseResultMap">-->
   <!--select -->
   <!--<include refid="Base_Column_List"/>-->
   <!--from app_user-->

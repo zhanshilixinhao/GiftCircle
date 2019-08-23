@@ -25,4 +25,6 @@ public interface AppUserMapper {
 
 
     List<UserFriendVo> selectByUserIdAndPhone(@Param("userId") Integer userId,@Param("list") String[] list);
+
+    UserFriendVo selectByPhoneUserId(@Param("userId") Integer userId, @Param("phone1") String phone1);
 }

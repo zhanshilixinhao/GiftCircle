@@ -654,14 +654,52 @@ public class FriendServiceImpl implements FriendService {
      */
     @Override
     public Response addressBookList(Integer userId, String phone) {
+        List<UserFriendVo> userFriendVos = new ArrayList<>();
         String[] ph = phone.split(",");
-        List<UserFriendVo> userFriendVos = appUserMapper.selectByUserIdAndPhone(userId,ph);
-        if (CollectionUtils.isNotEmpty(userFriendVos)){
-            for (UserFriendVo userFriendVo : userFriendVos) {
-                userFriendVo.setPassword(null);
+        for (String str : ph) {
+            str=str.trim();
+            String str2="";
+            if(str != null && !"".equals(str)){
+                for(int i=0;i<str.length();i++){
+                    if(str.charAt(i)>=48 && str.charAt(i)<=57){
+                        str2+=str.charAt(i);
+                    }
+                }
+
+            }
+            String phone1 = str2.substring(str2.length() - 11, str2.length());
+            UserFriendVo vo = appUserMapper.selectByPhoneUserId(userId,phone1);
+            if (vo != null){
+                userFriendVos.add(vo);
             }
         }
+//        List<UserFriendVo> userFriendVos = appUserMapper.selectByUserIdAndPhone(userId,ph);
+//        if (CollectionUtils.isNotEmpty(userFriendVos)){
+//            for (UserFriendVo userFriendVo : userFriendVos) {
+//                userFriendVo.setPassword(null);
+//            }
+//        }
         return ResponseFactory.sucData(userFriendVos);
     }
+
+//    public static void main(String[] args) {
+////        String s = "86 183 1374 7954";
+////        String result = s.substring(s.length()-11,s.length());
+////        System.out.println(result);    //输出结果为345
+//
+//        String str = "86+ 183 1374 7954";
+//        str=str.trim();
+//        String str2="";
+//        if(str != null && !"".equals(str)){
+//            for(int i=0;i<str.length();i++){
+//                if(str.charAt(i)>=48 && str.charAt(i)<=57){
+//                    str2+=str.charAt(i);
+//                }
+//            }
+//
+//        }
+//        String s = str2.substring(str2.length() - 11, str2.length());
+//        System.out.println(s);
+//    }
 
 }
