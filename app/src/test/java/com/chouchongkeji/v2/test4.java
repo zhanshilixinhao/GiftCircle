@@ -57,7 +57,7 @@ public class test4 {
         RequestParams params = new RequestParams();
         params.put("time", System.currentTimeMillis());
         params.put("access_token", "50e46c96-b152-49cb-81d6-0219b7e5a88a");
-        params.put("phone","157 5240 0657,86183 1374 7954,180 8831 4253,18510454067");
+        params.put("phone","157 5240 0657,86183 1374 7954,180 8831 4253,18510454067，183 1374 7954，13852865222");
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
         params.put("sign", map.get(ApiSignUtil.ANDROID));
         Response post = OkHttpUtil.post("http://localhost:8089/auth/friend/book_list", params);

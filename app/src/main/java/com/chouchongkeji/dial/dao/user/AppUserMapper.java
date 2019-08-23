@@ -4,6 +4,7 @@ import com.chouchongkeji.dial.pojo.user.AppUser;
 import com.chouchongkeji.service.user.friend.vo.UserFriendVo;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.HashSet;
 import java.util.List;
 
 public interface AppUserMapper {
@@ -24,7 +25,7 @@ public interface AppUserMapper {
     AppUser selectByUserId(Integer userId);
 
 
-    List<UserFriendVo> selectByUserIdAndPhone(@Param("userId") Integer userId,@Param("list") String[] list);
+    List<UserFriendVo> selectByUserIdAndPhone(@Param("userId") Integer userId,@Param("list") HashSet<String> list);
 
     UserFriendVo selectByPhoneUserId(@Param("userId") Integer userId, @Param("phone1") String phone1);
 }

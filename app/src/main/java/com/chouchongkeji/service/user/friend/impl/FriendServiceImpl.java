@@ -30,6 +30,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -654,8 +655,8 @@ public class FriendServiceImpl implements FriendService {
      */
     @Override
     public Response addressBookList(Integer userId, String phone) {
-        List<UserFriendVo> userFriendVos = new ArrayList<>();
         String[] ph = phone.split(",");
+        HashSet<String> phones = new HashSet<>();
         for (String str : ph) {
             str = str.trim();
             String str2 = "";
@@ -669,18 +670,15 @@ public class FriendServiceImpl implements FriendService {
             if (str2.length() < 11) {
                 continue;
             }
-            String phone1 = str2.substring(str2.length() - 11, str2.length());
-            UserFriendVo vo = appUserMapper.selectByPhoneUserId(userId, phone1);
-            if (vo != null) {
-                userFriendVos.add(vo);
+            String phone1 = str2.substring(str2.length() - 11);
+            phones.add(phone1);
+        }
+        List<UserFriendVo> userFriendVos = appUserMapper.selectByUserIdAndPhone(userId,phones);
+        if (CollectionUtils.isNotEmpty(userFriendVos)){
+            for (UserFriendVo userFriendVo : userFriendVos) {
+                userFriendVo.setPassword(null);
             }
         }
-//        List<UserFriendVo> userFriendVos = appUserMapper.selectByUserIdAndPhone(userId,ph);
-//        if (CollectionUtils.isNotEmpty(userFriendVos)){
-//            for (UserFriendVo userFriendVo : userFriendVos) {
-//                userFriendVo.setPassword(null);
-//            }
-//        }
         return ResponseFactory.sucData(userFriendVos);
     }
 

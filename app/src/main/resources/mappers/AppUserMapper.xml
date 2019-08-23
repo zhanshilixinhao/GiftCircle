@@ -56,6 +56,7 @@ where
   <foreach collection="list" item="item" index="a" separator="," >#{item}</foreach>
   )
   and a.id != #{userId}
+  order by a.created ASC
     </select>
   <select id="selectByPhoneUserId" resultType="com.chouchongkeji.service.user.friend.vo.UserFriendVo">
     select a.* ,b.id is not null as type
