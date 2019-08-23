@@ -277,7 +277,7 @@ public class FriendController {
     @PostMapping("book_list")
     public Response addressBookList(@AuthenticationPrincipal UserDetails userDetails, String phone) {
         if (StringUtils.isBlank(phone)){
-            return ResponseFactory.errMissingParameter();
+            return ResponseFactory.suc();
         }
         return friendService.addressBookList(userDetails.getUserId(),phone);
     }
