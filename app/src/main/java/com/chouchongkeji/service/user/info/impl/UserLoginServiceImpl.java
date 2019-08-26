@@ -110,12 +110,14 @@ public class UserLoginServiceImpl implements UserLoginService {
     public Response bindPhone(String phone, String openid, Integer client, Integer userId,AppUser user) {
         int id = bindPhone1(phone, openid, client, userId);
         if (id != 0){
-            // 修改用户信息
+            // 修改用户信息(被邀请者)
             if (user != null){
                 userService.updateProfile(id,user);
             }
             // 添加好友
-            friendService.WXAddFriend(id, userId);
+            if (userId != null){
+                friendService.WXAddFriend(id, userId);
+            }
         }
         // 绑定成功后登录
         Response response = WXCodeApi.login(openid,
@@ -133,11 +135,12 @@ public class UserLoginServiceImpl implements UserLoginService {
         if (!response.isSuccessful()) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), response.getMsg());
         }
+        //好友用户id(被邀请者)
+        Integer id = (Integer) response.getData();
+        if (id == null) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "用户id获取失败");
+        }
         if (userId != null) {
-            Integer id = (Integer) response.getData();//好友用户id
-            if (id == null) {
-                throw new ServiceException(ErrorCode.ERROR.getCode(), "用户id获取失败");
-            }
             // 添加邀请好友记录
             Integer inviteId = fireworksService.addInviteUser(id, userId);
             if (inviteId == 0) {
@@ -151,8 +154,7 @@ public class UserLoginServiceImpl implements UserLoginService {
             }
 //            // 添加好友
 //            friendService.addWXFriend(id, userId);
-            return id;
         }
-        return 0;
+        return id;
     }
 }

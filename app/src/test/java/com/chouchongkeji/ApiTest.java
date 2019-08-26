@@ -181,6 +181,18 @@ public class ApiTest {
     }
 
     @Test
+    public void bind() throws IOException {
+        RequestParams params = new RequestParams();
+        params.put("time",System.currentTimeMillis());
+        params.put("phone","15752400657");
+        params.put("type",2);
+        Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
+        params.put("sign",map.get(ApiSignUtil.ANDROID));
+        Response post = OkHttpUtil.post("http://localhost:8088/noauth/user/bindPhone", params);
+        System.out.println(post.body().string());
+    }
+
+    @Test
     public void findPwd() throws IOException {
         RequestParams params = new RequestParams();
         params.put("time",System.currentTimeMillis());
