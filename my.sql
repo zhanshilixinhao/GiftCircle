@@ -303,6 +303,56 @@ on coupon (admin_id);
 create index merchant_id
 on coupon (merchant_id);
 
+
+
+
+create table if not exists coupon_send_record
+(
+  id int auto_increment
+  primary key,
+  merchant_id int null comment '合作商id',
+  admin_id int null comment '管理员id',
+  coupon_id int null comment '优惠券id',
+  user_id int null comment '用户id',
+  title varchar(64) null comment '标题,例如5元',
+  cover varchar(255) null comment '优惠券图片',
+  quantity int null comment'赠送优惠券数量',
+  updated datetime null,
+  created datetime null
+  )
+  comment '优惠券赠送记录' charset=utf8mb4;
+
+create index admin_id
+on coupon_send_record (admin_id);
+
+create index merchant_id
+on coupon_send_record (merchant_id);
+
+
+create table if not exists coupon_use_record
+(
+  id int auto_increment
+  primary key,
+  merchant_id int null comment '合作商id',
+  admin_id int null comment '管理员id',
+  coupon_id int null comment '优惠券id',
+  user_id int null comment '用户id',
+  title varchar(64) null comment '标题,例如5元',
+  cover varchar(255) null comment '优惠券图片',
+  bp_id bigint(20) null comment'背包id(核销号码)',
+  updated datetime null,
+  created datetime null
+  )
+  comment '优惠券核销记录' charset=utf8mb4;
+
+create index admin_id
+on coupon_use_record (admin_id);
+
+create index merchant_id
+on coupon_use_record (merchant_id);
+
+
+
 create table if not exists discounting
 (
   id int auto_increment comment '表id'
