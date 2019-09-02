@@ -149,12 +149,13 @@ public class DiscountingServiceImpl implements DiscountingService {
             if (i < 0) {
                 return ResponseFactory.err("余额添加失败");
             }
-        }
-        wallet.setBalance(BigDecimalUtil.add(discountPrice.doubleValue(), wallet.getBalance().doubleValue()));
-        wallet.setTotalAmount(BigDecimalUtil.add(discountPrice.doubleValue(), wallet.getTotalAmount().doubleValue()));
-        int update = walletMapper.updateByPrimaryKeySelective(wallet);
-        if (update < 0) {
-            return ResponseFactory.err("余额添加失败");
+        }else {
+            wallet.setBalance(BigDecimalUtil.add(discountPrice.doubleValue(), wallet.getBalance().doubleValue()));
+            wallet.setTotalAmount(BigDecimalUtil.add(discountPrice.doubleValue(), wallet.getTotalAmount().doubleValue()));
+            int update = walletMapper.updateByPrimaryKeySelective(wallet);
+            if (update < 0) {
+                return ResponseFactory.err("余额添加失败");
+            }
         }
         //添加系统消息
         AppMessage message = new AppMessage();
