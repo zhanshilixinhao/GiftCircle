@@ -34,8 +34,8 @@ public interface ItemService {
      * @author linqin
      *  @date 2018/6/12
      */
-    Response getItemList(Integer classes, Integer gender, Integer minAge, Integer maxAge, BigDecimal minPrice,
-                         BigDecimal maxPrice, Integer eventId, PageQuery pageQuery,Integer categoryId,Byte priceRank,Byte acuraRank,String keywords);
+    Response getItemList(Integer classes, Integer gender, Integer minAge, Integer maxAge, BigDecimal minPrice, BigDecimal maxPrice, Integer eventId,
+                         PageQuery pageQuery,Integer categoryId,Byte priceRank,Byte acuraRank,String keywords,Integer isPage);
 
     /**
      * 获取商品详情

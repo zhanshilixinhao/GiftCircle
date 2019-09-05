@@ -1925,6 +1925,7 @@ JSON：
 | categoryId |   int    |    否    |   无   |            商品分类Id             |
 | priceRank |   byte    |    否   |   无   |            价格排序  1 降序 2 升序    |
 | acuraRank |   byte    |    否    |   无   |    销量排序 1 降序 2 升序  |
+|isPage|int|否|无|1不分页，不传需要分页|
 
 请求结果示例：
 

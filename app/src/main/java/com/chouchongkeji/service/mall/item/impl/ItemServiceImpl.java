@@ -129,9 +129,11 @@ public class ItemServiceImpl implements ItemService {
      * @date 2018/6/12
      */
     @Override
-    public Response getItemList(Integer classes, Integer gender, Integer minAge, Integer maxAge, BigDecimal minPrice,
-                                BigDecimal maxPrice, Integer eventId, PageQuery pageQuery, Integer categoryId,Byte priceRank,Byte acuraRank,String keywords) {
-        PageHelper.startPage(pageQuery.getPageNum(), pageQuery.getPageSize());
+    public Response getItemList(Integer classes, Integer gender, Integer minAge, Integer maxAge, BigDecimal minPrice, BigDecimal maxPrice,
+                                Integer eventId, PageQuery pageQuery, Integer categoryId,Byte priceRank,Byte acuraRank,String keywords,Integer isPage) {
+        if (isPage == null){
+            PageHelper.startPage(pageQuery.getPageNum(), pageQuery.getPageSize());
+        }
         List<Item> list = itemMapper.selectAll(categoryId, classes, gender, minAge, maxAge, minPrice, maxPrice, eventId,priceRank,acuraRank,keywords);
         List<ItemListVo> vos = new ArrayList<>();
         ItemListVo vo;

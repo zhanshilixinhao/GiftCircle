@@ -1,6 +1,7 @@
 package com.chouchongkeji.service.backpack.gift.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.TypeReference;
 import com.chouchongkeji.dial.dao.backpack.VbpMapper;
 import com.chouchongkeji.dial.dao.backpack.gift.GiftRecordDetailMapper;
@@ -210,8 +211,8 @@ public class GiftServiceImpl implements GiftService {
         }
         Response response = wxGetGiftStatus(userId, giftRecordId);
         if (((WXGetGiftResVo) response.getData()).getStatus() != 0) {
-            if (((WXGetGiftResVo) response.getData()).getStatus() == 4){
-                 return ResponseFactory.errData(20001,"运气太差没有抢到礼物",response.getData());
+            if (((WXGetGiftResVo) response.getData()).getStatus() == 4) {
+                return ResponseFactory.errData(20001, "运气太差没有抢到礼物", response.getData());
             }
             return response;
         }
@@ -220,12 +221,21 @@ public class GiftServiceImpl implements GiftService {
         if (CollectionUtils.isEmpty(details)) {
             return ResponseFactory.errMsg(20005, "礼物不存在!" + giftRecordId);
         }
-        mRedisTemplate.setString("lyq" + userId + giftRecordId,"a",2592000);
+        mRedisTemplate.setString("lyq" + userId + giftRecordId, "a", 2592000);
         // 判断礼物是否还可以领取
         List<GiftItemVo> itemVos = new ArrayList<>();
         if (giftRecord.getStatus() > Constants.GIFT_STATUS.PART_SEND) {
             for (GiftRecordDetail detail : details) {
-                itemVos.addAll(JSON.parseArray(detail.getContent(), GiftItemVo.class));
+                List<GiftItemVo> giftItemVos = JSON.parseArray(detail.getContent(), GiftItemVo.class);
+                if (CollectionUtils.isNotEmpty(giftItemVos)) {
+                    for (GiftItemVo giftItemVo : giftItemVos) {
+                        if (giftItemVo.getTargetType() == Constants.BACKPACK_TYPE.DISCOUNT_COUPON) {
+                            giftItemVo.setBrand(giftItemVo.getBpId().toString());
+                        }
+                    }
+                }
+                itemVos.addAll(giftItemVos);
+//                itemVos.addAll(JSON.parseArray(detail.getContent(), GiftItemVo.class));
             }
             WXGetGiftResVo<GiftMessageVo> vo = messageGift(userId, giftRecord, 0, itemVos);
             return ResponseFactory.errData(20004, "礼物已被领取或已过期!", vo);
@@ -258,7 +268,7 @@ public class GiftServiceImpl implements GiftService {
             }
         } else {
             String string = mRedisTemplate.getString("lyq" + userId + giftRecordId);
-            if (StringUtils.isNotBlank(string)){
+            if (StringUtils.isNotBlank(string)) {
                 sta = 4;//领取过一次并且没有领取到(手速太慢,没有领取到)
             }
         }
@@ -269,7 +279,16 @@ public class GiftServiceImpl implements GiftService {
         List<GiftRecordDetail> details = giftRecordDetailMapper.selectByRecordId(giftRecordId);
         if (CollectionUtils.isNotEmpty(details)) {
             for (GiftRecordDetail detail : details) {
-                itemVos.addAll(JSON.parseArray(detail.getContent(), GiftItemVo.class));
+                List<GiftItemVo> giftItemVos = JSON.parseArray(detail.getContent(), GiftItemVo.class);
+                if (CollectionUtils.isNotEmpty(giftItemVos)) {
+                    for (GiftItemVo giftItemVo : giftItemVos) {
+                        if (giftItemVo.getTargetType() == Constants.BACKPACK_TYPE.DISCOUNT_COUPON) {
+                            giftItemVo.setBrand(giftItemVo.getBpId().toString());
+                        }
+                    }
+                }
+                itemVos.addAll(giftItemVos);
+//                itemVos.addAll(JSON.parseArray(detail.getContent(), GiftItemVo.class));
                 if (detail.getStatus() == Constants.GIFT_STATUS.WAIT) {
                     list.add(detail);
                 }
@@ -308,7 +327,17 @@ public class GiftServiceImpl implements GiftService {
 //            }
             if (detail.getStatus() == Constants.GIFT_STATUS.WAIT) {
                 list.add(detail);
-                itemVos.addAll(JSON.parseArray(detail.getContent(), GiftItemVo.class));
+                // 修改核销码
+                List<GiftItemVo> giftItemVos = JSON.parseArray(detail.getContent(), GiftItemVo.class);
+                if (CollectionUtils.isNotEmpty(giftItemVos)) {
+                    for (GiftItemVo giftItemVo : giftItemVos) {
+                        if (giftItemVo.getTargetType() == Constants.BACKPACK_TYPE.DISCOUNT_COUPON) {
+                            giftItemVo.setBrand(giftItemVo.getBpId().toString());
+                        }
+                    }
+                }
+                itemVos.addAll(giftItemVos);
+//                itemVos.addAll(JSON.parseArray(detail.getContent(), GiftItemVo.class));
             }
             if (detail.getUserId() != null && detail.getUserId().compareTo(userId) == 0) {
                 WXGetGiftResVo<GiftMessageVo> vo = messageGift(userId, giftRecord, list.size(), itemVos);
@@ -476,6 +505,10 @@ public class GiftServiceImpl implements GiftService {
             int count = vbpMapper.updateQuantityById(itemVo.getBpId(), 1, itemVo.getGiftType());
             if (count < 1) {
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "用户背包中没有该物品!");
+            }
+            // 修改卡券核销码
+            if (itemVo.getTargetType() == Constants.BACKPACK_TYPE.DISCOUNT_COUPON) {
+                itemVo.setBrand(itemVo.getBpId().toString());
             }
         }
         // 添加物品到背包
