@@ -1,12 +1,15 @@
 package com.chouchongkeji.service.user.info.impl;
 
+import com.chouchongkeji.dial.dao.gift.item.ItemOrderDetailMapper;
 import com.chouchongkeji.dial.dao.user.AppUserMapper;
+import com.chouchongkeji.dial.pojo.gift.item.ItemOrderDetail;
 import com.chouchongkeji.dial.pojo.gift.virtualItem.AppMessage;
 import com.chouchongkeji.dial.pojo.user.AppUser;
 import com.chouchongkeji.exception.ServiceException;
 import com.chouchongkeji.goexplore.common.ErrorCode;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.common.Response;
+import com.chouchongkeji.service.backpack.base.BpService;
 import com.chouchongkeji.service.message.MessageService;
 import com.chouchongkeji.service.user.info.UserService;
 import com.yichen.auth.redis.MRedisTemplate;
@@ -18,15 +21,13 @@ import com.chouchongkeji.service.wxapi.WXResult;
 import com.chouchongkeji.util.Constants;
 import com.yichen.auth.properties.SecurityProperties;
 import com.yichen.auth.service.ThirdAccService;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * @author linqin
@@ -59,6 +60,12 @@ public class UserLoginServiceImpl implements UserLoginService {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private BpService bpService;
+
+    @Autowired
+    private ItemOrderDetailMapper itemOrderDetailMapper;
+
     /**
      * 微信授权登录
      *
@@ -90,7 +97,7 @@ public class UserLoginServiceImpl implements UserLoginService {
                 Map<String, String> map = new HashMap<>();
                 map.put("key", key);
                 return ResponseFactory.errData(response.getErrCode(), response.getMsg(), map);
-            } else{
+            } else {
                 return ResponseFactory.errData(response.getErrCode(), response.getMsg(), key);
             }
 
@@ -107,15 +114,15 @@ public class UserLoginServiceImpl implements UserLoginService {
      * @return
      */
     @Override
-    public Response bindPhone(String phone, String openid, Integer client, Integer userId,AppUser user) {
+    public Response bindPhone(String phone, String openid, Integer client, Integer userId, AppUser user) {
         int id = bindPhone1(phone, openid, client, userId);
-        if (id != 0){
+        if (id != 0) {
             // 修改用户信息(被邀请者)
-            if (user != null){
-                userService.updateProfile(id,user);
+            if (user != null) {
+                userService.updateProfile(id, user);
             }
             // 添加好友
-            if (userId != null){
+            if (userId != null) {
                 friendService.WXAddFriend(id, userId);
             }
         }
@@ -152,8 +159,17 @@ public class UserLoginServiceImpl implements UserLoginService {
             if (integer1 != 1) {
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "邀请者获得礼花失败");
             }
-//            // 添加好友
-//            friendService.addWXFriend(id, userId);
+        }
+        // 测试账号（添加测试商品到背包）
+        if ("13110487948".equals(phone)) {
+            //物品添加到背包
+            List<ItemOrderDetail> list = itemOrderDetailMapper.selectByUserIdAndOrderNo(7, 1219091010108L);
+            if (CollectionUtils.isNotEmpty(list)) {
+                for (ItemOrderDetail itemOrderDetail : list) {
+                    itemOrderDetail.setUserId(id);
+                }
+                bpService.addFromItemOrder(list);
+            }
         }
         return id;
     }
