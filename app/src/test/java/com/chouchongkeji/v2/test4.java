@@ -101,14 +101,14 @@ public class test4 {
     @Test
     public void sera() throws IOException {
         RequestParams params = new RequestParams();
-        params.put("time", System.currentTimeMillis());
-        params.put("labelId", 0);
-        params.put("festivalId",0);
-        params.put("sceneId",0);
-//        params.put("keywords","礼");
-        Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
-        params.put("sign", map.get(ApiSignUtil.ANDROID));
-        Response post = OkHttpUtil.post("http://localhost:8088/noauth/v1/article/search", params);
+        params.put("time", 1568859293);
+        params.put("pageNum",-1);
+        params.put("pageSize",14);
+//        params.put("festivalId",1);
+//        params.put("access_token", "50e46c96-b152-49cb-81d6-0219b7e5a88a");
+        Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.IOS);
+        params.put("sign", map.get(ApiSignUtil.IOS));
+        Response post = OkHttpUtil.post("https://liyuquan.cn/app/noauth/v1/article/search", params);
         System.out.println(post.body().string());
     }
 
