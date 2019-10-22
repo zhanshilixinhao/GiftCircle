@@ -1764,3 +1764,41 @@ CREATE TABLE app_version (
   PRIMARY KEY ( id )
 ) ENGINE = INNODB CHARACTER
 SET = utf8mb4 COMMENT = '版本升级';
+
+
+
+/*==============================================================v3==============================================================*/
+
+DROP TABLE IF EXISTS membership card;
+CREATE TABLE membership card (
+   id INT ( 10 ) NOT NULL auto_increment,
+   card_no varchar(100) comment '会员卡卡号',
+   `title` varchar(200) COMMENT '标题',
+   `summary` varchar(200) COMMENT '简介',
+   colour varchar(100) comment'会员卡颜色',
+   logo varchar(500) comment'logo',
+  `store_ids` varchar(500) COMMENT '可使用的门店id集合(可查门店名称,地址)',
+  admin_id int(11) comment'创建者id',
+  `type` tinyint(4) comment'会员卡类型 1 礼遇圈通用卡  10 门店会员卡',
+  member_event_id int(11) comment'会员卡活动id',
+  `status` tinyint(4) DEFAULT NULL,
+  updated datetime COMMENT '修改时间',
+  created datetime COMMENT '创建时间',
+  PRIMARY KEY ( id )
+) ENGINE = INNODB CHARACTER
+SET = utf8mb4 COMMENT = '版本升级';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
