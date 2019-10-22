@@ -83,6 +83,11 @@ public class WXCodeApi {
         return result;
     }
 
+    public static void main(String[] args) {
+        WXResult wx80c79d8611c60ba8 = getSession(3, "wx80c79d8611c60ba8");
+        System.out.println(wx80c79d8611c60ba8);
+    }
+
     /**
      * 微信openId登录
      *
