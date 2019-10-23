@@ -37,7 +37,7 @@
             targetPackage     指定生成的model生成所在的包名
             targetProject     指定在该项目下所在的路径
         -->
-        <javaModelGenerator targetPackage="com.chouchongkeji.dial.pojo.gift.article"
+        <javaModelGenerator targetPackage="com.chouchongkeji.dial.pojo.v3"
                             targetProject="./app/src/main/java">
             <!-- 是否允许子包，即targetPackage.schemaName.tableName -->
             <property name="enableSubPackages" value="false"/>
@@ -62,23 +62,23 @@
         -->
 
         <!-- targetPackage：mapper接口dao生成的位置 -->
-        <javaClientGenerator type="XMLMAPPER" targetPackage="com.chouchongkeji.dial.dao.gift.article"
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.chouchongkeji.dial.dao.v3"
                              targetProject="./app/src/main/java">
             <!-- enableSubPackages:是否让schema作为包的后缀 -->
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
 
 
-        <table tableName="article_label" domainObjectName="ArticleLabel" enableCountByExample="false"
-               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false"></table>
-<!--        <table tableName="article_scene" domainObjectName="ArticleScene" enableCountByExample="false"-->
+<!--        <table tableName="store" domainObjectName="Store" enableCountByExample="false"-->
+<!--               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false"></table>-->
+<!--        <table tableName="membership_card" domainObjectName="MembershipCard" enableCountByExample="false"-->
 <!--               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
 <!--               selectByExampleQueryId="false"></table>-->
 
-<!--                <table tableName="sys_admin_withdraw" domainObjectName="SysAdminWithdraw" enableCountByExample="false"-->
-<!--                       enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--                       selectByExampleQueryId="false"></table>-->
+<!--        <table tableName="member_card" domainObjectName="MemberCard" enableCountByExample="false"-->
+<!--               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false"></table>-->
         <!--<table tableName="third_account" domainObjectName="ThirdAccount" enableCountByExample="false"
              enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
              selectByExampleQueryId="false"></table>

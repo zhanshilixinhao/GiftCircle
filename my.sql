@@ -1773,7 +1773,7 @@ on store (merchant_id);
 DROP TABLE IF EXISTS membership_card;
 CREATE TABLE membership_card (
    id INT ( 10 ) NOT NULL auto_increment,
-   card_no varchar(100) comment '会员卡卡号',
+   card_no bigint(20) comment '会员卡卡号',
    `title` varchar(200) COMMENT '标题',
    `summary` varchar(200) COMMENT '简介',
    colour varchar(100) comment'会员卡颜色',
