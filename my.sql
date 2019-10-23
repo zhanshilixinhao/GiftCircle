@@ -1108,21 +1108,6 @@ create table if not exists shipping
 create index user_id
 on shipping (user_id);
 
-create table if not exists store
-(
-  id int auto_increment
-  primary key,
-  merchant_id int null comment '商家id',
-  name varchar(200) null comment '店铺名称',
-  address varchar(200) null comment '店铺地址',
-  phone varchar(15) null comment '电话',
-  created datetime null,
-  updated datetime null
-  )
-  comment '店铺' charset=utf8mb4;
-
-create index merchant_id
-on store (merchant_id);
 
 create table if not exists suggestion
 (
@@ -1767,10 +1752,26 @@ SET = utf8mb4 COMMENT = '版本升级';
 
 
 
+create table if not exists store
+(
+  id int auto_increment primary key,
+  merchant_id int null comment '商家(总公司)id',
+  name varchar(200) null comment '店铺名称',
+  address varchar(200) null comment '店铺地址',
+  phone varchar(15) null comment '电话',
+  created datetime null,
+  updated datetime null
+  )
+  comment '店铺(分店)' charset=utf8mb4;
+
+create index merchant_id
+on store (merchant_id);
+
 /*==============================================================v3==============================================================*/
 
-DROP TABLE IF EXISTS membership card;
-CREATE TABLE membership card (
+
+DROP TABLE IF EXISTS membership_card;
+CREATE TABLE membership_card (
    id INT ( 10 ) NOT NULL auto_increment,
    card_no varchar(100) comment '会员卡卡号',
    `title` varchar(200) COMMENT '标题',
@@ -1780,24 +1781,123 @@ CREATE TABLE membership card (
   `store_ids` varchar(500) COMMENT '可使用的门店id集合(可查门店名称,地址)',
   admin_id int(11) comment'创建者id',
   `type` tinyint(4) comment'会员卡类型 1 礼遇圈通用卡  10 门店会员卡',
-  member_event_id int(11) comment'会员卡活动id',
-  `status` tinyint(4) DEFAULT NULL,
+  `grade` tinyint(4) comment'会员卡等级 1 vip , 2 svip, 3 ssvip ',
+  `status` tinyint(4) DEFAULT NULL comment'1 正常',
+  updated datetime COMMENT '修改时间',
+  created datetime COMMENT '创建时间',
+  PRIMARY KEY ( id ),
+  unique key card_no (card_no)
+) ENGINE = INNODB CHARACTER
+SET = utf8mb4 COMMENT = '会员卡';
+
+
+DROP TABLE IF EXISTS member_event;
+CREATE TABLE member_event (
+   id INT ( 10 ) NOT NULL auto_increment,
+   `title` varchar(200) COMMENT '标题',
+   `summary` varchar(200) COMMENT '简介',
+   recharge_money decimal(18,2) comment'充值金额',
+   send_money decimal(18,2) comment'赠送金额',
+   target_id int(11) comment'目标id',
+   admin_id int(11) comment'创建者id',
+  `type` tinyint(4) comment'1 充钱送钱 2 充钱送优惠券 3 充钱送礼物',
+  `status` tinyint(4) DEFAULT NULL comment'1 正常',
   updated datetime COMMENT '修改时间',
   created datetime COMMENT '创建时间',
   PRIMARY KEY ( id )
 ) ENGINE = INNODB CHARACTER
-SET = utf8mb4 COMMENT = '版本升级';
+SET = utf8mb4 COMMENT = '会员卡活动';
+
+
+DROP TABLE IF EXISTS member_card;
+CREATE TABLE member_card (
+   id INT ( 10 ) NOT NULL auto_increment,
+   `membership_card_id` int(11) COMMENT '会员卡id',
+   `members_event_id` int(11) COMMENT '活动id',
+  updated datetime COMMENT '修改时间',
+  created datetime COMMENT '创建时间',
+  PRIMARY KEY ( id ),
+  key membership_card_id (membership_card_id),
+  key members_event_id (members_event_id)
+) ENGINE = INNODB CHARACTER
+SET = utf8mb4 COMMENT = '会员卡活动关联表';
+
+
+DROP TABLE IF EXISTS user_member_card;
+CREATE TABLE user_member_card (
+   id INT ( 10 ) NOT NULL auto_increment,
+   `membership_card_id` int(11) COMMENT '会员卡id',
+   `user_id` int(11) COMMENT '用户id',
+   balance decimal(18,2) comment'余额',
+   total_amount decimal(18,2) null comment '历史总金额',
+   consume_amount decimal(18,2) null comment '消费总金额',
+  updated datetime COMMENT '修改时间',
+  created datetime COMMENT '创建时间',
+  PRIMARY KEY ( id ),
+  key user_id(user_id)
+) ENGINE = INNODB CHARACTER
+SET = utf8mb4 COMMENT = '会员卡用户关联表';
 
 
 
+DROP TABLE IF EXISTS member_charge_record;
+CREATE TABLE member_charge_record (
+   id INT ( 10 ) NOT NULL auto_increment,
+   `membership_card_id` int(11) COMMENT '会员卡id',
+   `user_id` int(11) COMMENT '用户id',
+   member_event_id int(11) comment'会员卡活动id',
+   recharge_money decimal(18,2) comment'充值金额',
+   send_money decimal(18,2) comment'赠送金额',
+  `type` tinyint(4) comment'充值方式 1 app充值 2 门店充值',
+  `store_id` int(11) COMMENT '门店id(门店充值)',
+  admin_id int(11) comment'后台操作者id',
+  `explain` varchar(200) comment'充值说明',
+  updated datetime COMMENT '修改时间',
+  created datetime COMMENT '创建时间',
+  PRIMARY KEY ( id ),
+  key user_id(user_id)
+) ENGINE = INNODB CHARACTER
+SET = utf8mb4 COMMENT = '会员卡充值记录';
 
 
 
+DROP TABLE IF EXISTS member_expense_record;
+CREATE TABLE member_expense_record (
+   id INT ( 10 ) NOT NULL auto_increment,
+   `membership_card_id` int(11) COMMENT '会员卡id',
+   `user_id` int(11) COMMENT '用户id',
+   expense_money decimal(18,2) comment'消费金额',
+  `type` tinyint(4) comment'消费方式 1 app消费 2 门店消费',
+  `store_id` int(11) COMMENT '门店id(消费门店)',
+  `target_id` int(11) COMMENT '目标id(物品id..)',
+  admin_id int(11) comment'后台操作者id',
+  `explain` varchar(200) comment'消费说明',
+  updated datetime COMMENT '修改时间',
+  created datetime COMMENT '创建时间',
+  PRIMARY KEY ( id ),
+  key user_id(user_id)
+) ENGINE = INNODB CHARACTER
+SET = utf8mb4 COMMENT = '会员卡消费记录';
 
 
-
-
-
+DROP TABLE IF EXISTS store_member_charge;
+CREATE TABLE store_member_charge (
+   id INT ( 10 ) NOT NULL auto_increment,
+   `user_id` int(11) COMMENT '用户id',
+   merchant_id int null comment '商家(总公司)id',
+   `store_id` int(11) COMMENT '门店id(门店充值)',
+   recharge_money decimal(18,2) comment'充值金额',
+   send_money decimal(18,2) comment'赠送金额',
+   expense_money decimal(18,2) comment'消费金额',
+  `type` tinyint(4) comment' 1 充值 2 消费',
+  `explain` varchar(200) comment'说明',
+  updated datetime COMMENT '修改时间',
+  created datetime COMMENT '创建时间',
+  PRIMARY KEY ( id ),
+  key user_id(user_id),
+  key store_id(store_id)
+) ENGINE = INNODB CHARACTER
+SET = utf8mb4 COMMENT = '门店金额详情表';
 
 
 
