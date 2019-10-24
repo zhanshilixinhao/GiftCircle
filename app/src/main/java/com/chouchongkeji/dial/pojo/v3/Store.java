@@ -17,7 +17,11 @@ public class Store {
 
     private Date updated;
 
-    public Store(Integer id, Integer merchantId, String name, String address, String phone, Date created, Date updated) {
+    private String area;
+
+    private String linkman;
+
+    public Store(Integer id, Integer merchantId, String name, String address, String phone, Date created, Date updated, String area, String linkman) {
         this.id = id;
         this.merchantId = merchantId;
         this.name = name;
@@ -25,6 +29,8 @@ public class Store {
         this.phone = phone;
         this.created = created;
         this.updated = updated;
+        this.area = area;
+        this.linkman = linkman;
     }
 
     public Store() {
@@ -85,5 +91,21 @@ public class Store {
 
     public void setUpdated(Date updated) {
         this.updated = updated;
+    }
+
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area == null ? null : area.trim();
+    }
+
+    public String getLinkman() {
+        return linkman;
+    }
+
+    public void setLinkman(String linkman) {
+        this.linkman = linkman == null ? null : linkman.trim();
     }
 }

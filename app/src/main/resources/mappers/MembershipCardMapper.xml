@@ -6,25 +6,43 @@
       <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="card_no" javaType="java.lang.Long" jdbcType="BIGINT" />
       <arg column="title" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="summary" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="colour" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="logo" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="store_ids" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="admin_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="type" javaType="java.lang.Byte" jdbcType="TINYINT" />
-      <arg column="grade" javaType="java.lang.Byte" jdbcType="TINYINT" />
       <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT" />
       <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
       <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
     </constructor>
   </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.chouchongkeji.dial.pojo.v3.MembershipCard">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="card_no" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="title" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="colour" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="logo" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="store_ids" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="admin_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="type" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="summary" javaType="java.lang.String" jdbcType="LONGVARCHAR" />
+    </constructor>
+  </resultMap>
   <sql id="Base_Column_List">
-    id, card_no, title, summary, colour, logo, store_ids, admin_id, type, grade, status, 
-    updated, created
+    id, card_no, title, colour, logo, store_ids, admin_id, type, status, updated, created
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <sql id="Blob_Column_List">
+    summary
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
     select 
     <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
     from membership_card
     where id = #{id,jdbcType=INTEGER}
   </select>
@@ -34,15 +52,15 @@
   </delete>
   <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.v3.MembershipCard">
     insert into membership_card (id, card_no, title, 
-      summary, colour, logo, 
-      store_ids, admin_id, type, 
-      grade, status, updated, 
-      created)
+      colour, logo, store_ids, 
+      admin_id, type, status, 
+      updated, created, summary
+      )
     values (#{id,jdbcType=INTEGER}, #{cardNo,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, 
-      #{summary,jdbcType=VARCHAR}, #{colour,jdbcType=VARCHAR}, #{logo,jdbcType=VARCHAR}, 
-      #{storeIds,jdbcType=VARCHAR}, #{adminId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, 
-      #{grade,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, #{updated,jdbcType=TIMESTAMP}, 
-      #{created,jdbcType=TIMESTAMP})
+      #{colour,jdbcType=VARCHAR}, #{logo,jdbcType=VARCHAR}, #{storeIds,jdbcType=VARCHAR}, 
+      #{adminId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, 
+      #{updated,jdbcType=TIMESTAMP}, #{created,jdbcType=TIMESTAMP}, #{summary,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.v3.MembershipCard">
     insert into membership_card
@@ -55,9 +73,6 @@
       </if>
       <if test="title != null">
         title,
-      </if>
-      <if test="summary != null">
-        summary,
       </if>
       <if test="colour != null">
         colour,
@@ -74,9 +89,6 @@
       <if test="type != null">
         type,
       </if>
-      <if test="grade != null">
-        grade,
-      </if>
       <if test="status != null">
         status,
       </if>
@@ -85,6 +97,9 @@
       </if>
       <if test="created != null">
         created,
+      </if>
+      <if test="summary != null">
+        summary,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -96,9 +111,6 @@
       </if>
       <if test="title != null">
         #{title,jdbcType=VARCHAR},
-      </if>
-      <if test="summary != null">
-        #{summary,jdbcType=VARCHAR},
       </if>
       <if test="colour != null">
         #{colour,jdbcType=VARCHAR},
@@ -115,9 +127,6 @@
       <if test="type != null">
         #{type,jdbcType=TINYINT},
       </if>
-      <if test="grade != null">
-        #{grade,jdbcType=TINYINT},
-      </if>
       <if test="status != null">
         #{status,jdbcType=TINYINT},
       </if>
@@ -126,6 +135,9 @@
       </if>
       <if test="created != null">
         #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="summary != null">
+        #{summary,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
@@ -137,9 +149,6 @@
       </if>
       <if test="title != null">
         title = #{title,jdbcType=VARCHAR},
-      </if>
-      <if test="summary != null">
-        summary = #{summary,jdbcType=VARCHAR},
       </if>
       <if test="colour != null">
         colour = #{colour,jdbcType=VARCHAR},
@@ -156,9 +165,6 @@
       <if test="type != null">
         type = #{type,jdbcType=TINYINT},
       </if>
-      <if test="grade != null">
-        grade = #{grade,jdbcType=TINYINT},
-      </if>
       <if test="status != null">
         status = #{status,jdbcType=TINYINT},
       </if>
@@ -168,20 +174,36 @@
       <if test="created != null">
         created = #{created,jdbcType=TIMESTAMP},
       </if>
+      <if test="summary != null">
+        summary = #{summary,jdbcType=LONGVARCHAR},
+      </if>
     </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.chouchongkeji.dial.pojo.v3.MembershipCard">
+    update membership_card
+    set card_no = #{cardNo,jdbcType=BIGINT},
+      title = #{title,jdbcType=VARCHAR},
+      colour = #{colour,jdbcType=VARCHAR},
+      logo = #{logo,jdbcType=VARCHAR},
+      store_ids = #{storeIds,jdbcType=VARCHAR},
+      admin_id = #{adminId,jdbcType=INTEGER},
+      type = #{type,jdbcType=TINYINT},
+      status = #{status,jdbcType=TINYINT},
+      updated = #{updated,jdbcType=TIMESTAMP},
+      created = #{created,jdbcType=TIMESTAMP},
+      summary = #{summary,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.dial.pojo.v3.MembershipCard">
     update membership_card
     set card_no = #{cardNo,jdbcType=BIGINT},
       title = #{title,jdbcType=VARCHAR},
-      summary = #{summary,jdbcType=VARCHAR},
       colour = #{colour,jdbcType=VARCHAR},
       logo = #{logo,jdbcType=VARCHAR},
       store_ids = #{storeIds,jdbcType=VARCHAR},
       admin_id = #{adminId,jdbcType=INTEGER},
       type = #{type,jdbcType=TINYINT},
-      grade = #{grade,jdbcType=TINYINT},
       status = #{status,jdbcType=TINYINT},
       updated = #{updated,jdbcType=TIMESTAMP},
       created = #{created,jdbcType=TIMESTAMP}

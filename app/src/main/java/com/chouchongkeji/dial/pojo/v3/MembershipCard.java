@@ -9,8 +9,6 @@ public class MembershipCard {
 
     private String title;
 
-    private String summary;
-
     private String colour;
 
     private String logo;
@@ -21,28 +19,41 @@ public class MembershipCard {
 
     private Byte type;
 
-    private Byte grade;
-
     private Byte status;
 
     private Date updated;
 
     private Date created;
 
-    public MembershipCard(Integer id, Long cardNo, String title, String summary, String colour, String logo, String storeIds, Integer adminId, Byte type, Byte grade, Byte status, Date updated, Date created) {
+    private String summary;
+
+    public MembershipCard(Integer id, Long cardNo, String title, String colour, String logo, String storeIds, Integer adminId, Byte type, Byte status, Date updated, Date created) {
         this.id = id;
         this.cardNo = cardNo;
         this.title = title;
-        this.summary = summary;
         this.colour = colour;
         this.logo = logo;
         this.storeIds = storeIds;
         this.adminId = adminId;
         this.type = type;
-        this.grade = grade;
         this.status = status;
         this.updated = updated;
         this.created = created;
+    }
+
+    public MembershipCard(Integer id, Long cardNo, String title, String colour, String logo, String storeIds, Integer adminId, Byte type, Byte status, Date updated, Date created, String summary) {
+        this.id = id;
+        this.cardNo = cardNo;
+        this.title = title;
+        this.colour = colour;
+        this.logo = logo;
+        this.storeIds = storeIds;
+        this.adminId = adminId;
+        this.type = type;
+        this.status = status;
+        this.updated = updated;
+        this.created = created;
+        this.summary = summary;
     }
 
     public MembershipCard() {
@@ -71,14 +82,6 @@ public class MembershipCard {
 
     public void setTitle(String title) {
         this.title = title == null ? null : title.trim();
-    }
-
-    public String getSummary() {
-        return summary;
-    }
-
-    public void setSummary(String summary) {
-        this.summary = summary == null ? null : summary.trim();
     }
 
     public String getColour() {
@@ -121,14 +124,6 @@ public class MembershipCard {
         this.type = type;
     }
 
-    public Byte getGrade() {
-        return grade;
-    }
-
-    public void setGrade(Byte grade) {
-        this.grade = grade;
-    }
-
     public Byte getStatus() {
         return status;
     }
@@ -151,5 +146,13 @@ public class MembershipCard {
 
     public void setCreated(Date created) {
         this.created = created;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary == null ? null : summary.trim();
     }
 }

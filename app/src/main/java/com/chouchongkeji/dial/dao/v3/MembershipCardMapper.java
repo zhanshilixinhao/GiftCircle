@@ -13,5 +13,7 @@ public interface MembershipCardMapper {
 
     int updateByPrimaryKeySelective(MembershipCard record);
 
+    int updateByPrimaryKeyWithBLOBs(MembershipCard record);
+
     int updateByPrimaryKey(MembershipCard record);
 }

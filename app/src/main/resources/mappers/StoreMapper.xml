@@ -10,10 +10,12 @@
       <arg column="phone" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
       <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="area" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="linkman" javaType="java.lang.String" jdbcType="VARCHAR" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    id, merchant_id, name, address, phone, created, updated
+    id, merchant_id, name, address, phone, created, updated, area, linkman
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -28,10 +30,12 @@
   <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.v3.Store">
     insert into store (id, merchant_id, name, 
       address, phone, created, 
-      updated)
+      updated, area, linkman
+      )
     values (#{id,jdbcType=INTEGER}, #{merchantId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
       #{address,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP}, 
-      #{updated,jdbcType=TIMESTAMP})
+      #{updated,jdbcType=TIMESTAMP}, #{area,jdbcType=VARCHAR}, #{linkman,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.v3.Store">
     insert into store
@@ -57,6 +61,12 @@
       <if test="updated != null">
         updated,
       </if>
+      <if test="area != null">
+        area,
+      </if>
+      <if test="linkman != null">
+        linkman,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -79,6 +89,12 @@
       </if>
       <if test="updated != null">
         #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="area != null">
+        #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="linkman != null">
+        #{linkman,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -103,6 +119,12 @@
       <if test="updated != null">
         updated = #{updated,jdbcType=TIMESTAMP},
       </if>
+      <if test="area != null">
+        area = #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="linkman != null">
+        linkman = #{linkman,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -113,7 +135,9 @@
       address = #{address,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
       created = #{created,jdbcType=TIMESTAMP},
-      updated = #{updated,jdbcType=TIMESTAMP}
+      updated = #{updated,jdbcType=TIMESTAMP},
+      area = #{area,jdbcType=VARCHAR},
+      linkman = #{linkman,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

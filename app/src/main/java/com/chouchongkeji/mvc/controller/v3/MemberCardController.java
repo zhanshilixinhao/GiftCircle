@@ -1,6 +1,5 @@
 package com.chouchongkeji.mvc.controller.v3;
 
-import com.chouchongkeji.dial.dao.v3.MemberCardMapper;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.query.PageQuery;
 import com.chouchongkeji.service.v3.MemberCardService;
