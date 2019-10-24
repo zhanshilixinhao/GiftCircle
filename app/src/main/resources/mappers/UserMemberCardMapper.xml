@@ -16,27 +16,47 @@
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    id, membership_card_id, user_id, balance, total_amount, consume_amount, updated, 
+    id, membership_card_id, user_id, balance, total_amount, consume_amount, updated,
     created, status, store_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from user_member_card
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="selectByUserId" resultType="com.chouchongkeji.service.v3.vo.CardVo">
+      select a.id,
+       a.membership_card_id,
+       a.user_id,
+       a.balance,
+       a.created,
+       b.card_no,
+       b.title,
+       b.summary,
+       b.colour,
+       b.logo,
+       b.store_ids,
+       b.type
+from user_member_card a
+         left join membership_card b on a.membership_card_id = b.id
+where a.status = 1
+and b.status = 1
+and a.user_id = #{userId}
+order by a.created DESC
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from user_member_card
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.v3.UserMemberCard">
-    insert into user_member_card (id, membership_card_id, user_id, 
-      balance, total_amount, consume_amount, 
-      updated, created, status, 
+    insert into user_member_card (id, membership_card_id, user_id,
+      balance, total_amount, consume_amount,
+      updated, created, status,
       store_id)
-    values (#{id,jdbcType=INTEGER}, #{membershipCardId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
-      #{balance,jdbcType=DECIMAL}, #{totalAmount,jdbcType=DECIMAL}, #{consumeAmount,jdbcType=DECIMAL}, 
-      #{updated,jdbcType=TIMESTAMP}, #{created,jdbcType=TIMESTAMP}, #{status,jdbcType=TINYINT}, 
+    values (#{id,jdbcType=INTEGER}, #{membershipCardId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER},
+      #{balance,jdbcType=DECIMAL}, #{totalAmount,jdbcType=DECIMAL}, #{consumeAmount,jdbcType=DECIMAL},
+      #{updated,jdbcType=TIMESTAMP}, #{created,jdbcType=TIMESTAMP}, #{status,jdbcType=TINYINT},
       #{storeId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.v3.UserMemberCard">

@@ -35,8 +35,6 @@ public class CardVo {
 
     private Byte type;
 
-    private Byte grade;
-
     private String storeIds;
 
     private List<String> stores;
@@ -129,13 +127,6 @@ public class CardVo {
         this.type = type;
     }
 
-    public Byte getGrade() {
-        return grade;
-    }
-
-    public void setGrade(Byte grade) {
-        this.grade = grade;
-    }
 
     public String getStoreIds() {
         return storeIds;
