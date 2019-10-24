@@ -76,7 +76,7 @@
 <!--               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
 <!--               selectByExampleQueryId="false"></table>-->
 
-<!--        <table tableName="member_card" domainObjectName="MemberCard" enableCountByExample="false"-->
+<!--        <table tableName="user_member_card" domainObjectName="UserMemberCard" enableCountByExample="false"-->
 <!--               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
 <!--               selectByExampleQueryId="false"></table>-->
         <!--<table tableName="third_account" domainObjectName="ThirdAccount" enableCountByExample="false"

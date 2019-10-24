@@ -1831,6 +1831,7 @@ CREATE TABLE user_member_card (
    balance decimal(18,2) comment'余额',
    total_amount decimal(18,2) null comment '历史总金额',
    consume_amount decimal(18,2) null comment '消费总金额',
+   `status` tinyint(4) DEFAULT NULL comment'1 正常',
   updated datetime COMMENT '修改时间',
   created datetime COMMENT '创建时间',
   PRIMARY KEY ( id ),
