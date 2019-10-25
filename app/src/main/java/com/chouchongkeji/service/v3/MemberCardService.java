@@ -33,4 +33,15 @@ public interface MemberCardService {
      * @date 2019/10/23
      */
     Response detailMemberCard(UserDetails userDetails, Integer id);
+
+
+    /**
+     * 会员卡充值记录
+     * @param userDetails
+     * @param id 会员卡id
+     * @return
+     * @author linqin
+     * @date 2019/10/23
+     */
+    Response chargeRecordList(UserDetails userDetails, Integer id,PageQuery page);
 }

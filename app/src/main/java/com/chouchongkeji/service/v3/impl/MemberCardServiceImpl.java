@@ -1,5 +1,6 @@
 package com.chouchongkeji.service.v3.impl;
 
+import com.chouchongkeji.dial.dao.v3.MemberChargeRecordMapper;
 import com.chouchongkeji.dial.dao.v3.StoreMapper;
 import com.chouchongkeji.dial.dao.v3.UserMemberCardMapper;
 import com.chouchongkeji.dial.pojo.v3.Store;
@@ -7,8 +8,10 @@ import com.chouchongkeji.dial.pojo.v3.UserMemberCard;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.query.PageQuery;
+import com.chouchongkeji.goexplore.utils.BigDecimalUtil;
 import com.chouchongkeji.service.v3.MemberCardService;
 import com.chouchongkeji.service.v3.vo.CardVo;
+import com.chouchongkeji.service.v3.vo.ChargeListVo;
 import com.github.pagehelper.PageHelper;
 import com.yichen.auth.service.UserDetails;
 import org.apache.commons.collections.CollectionUtils;
@@ -33,6 +36,9 @@ public class MemberCardServiceImpl implements MemberCardService {
 
     @Autowired
     private StoreMapper storeMapper;
+
+    @Autowired
+    private MemberChargeRecordMapper memberChargeRecordMapper;
 
     /**
      * 获取用户会员卡列表
@@ -120,4 +126,23 @@ public class MemberCardServiceImpl implements MemberCardService {
        return ResponseFactory.sucData(vo);
     }
 
+
+    /**
+     * 会员卡充值记录
+     * @param userDetails
+     * @param id 会员卡id
+     * @return
+     * @author linqin
+     * @date 2019/10/23
+     */
+    @Override
+    public Response chargeRecordList(UserDetails userDetails, Integer id,PageQuery page) {
+        List<ChargeListVo> listVos = memberChargeRecordMapper.selectByMembertCardId(userDetails.getUserId(),id);
+        if (CollectionUtils.isNotEmpty(listVos)){
+            for (ChargeListVo listVo : listVos) {
+                listVo.setTotalAmount(BigDecimalUtil.add(listVo.getRechargeMoney().doubleValue(),listVo.getSendMoney().doubleValue()));
+            }
+        }
+        return ResponseFactory.sucData(listVos);
+    }
 }

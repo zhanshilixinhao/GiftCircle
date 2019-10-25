@@ -69,10 +69,10 @@
         </javaClientGenerator>
 
 
-<!--        <table tableName="store" domainObjectName="Store" enableCountByExample="false"-->
+<!--        <table tableName="member_charge_record" domainObjectName="MemberChargeRecord" enableCountByExample="false"-->
 <!--               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
 <!--               selectByExampleQueryId="false"></table>-->
-<!--        <table tableName="membership_card" domainObjectName="MembershipCard" enableCountByExample="false"-->
+<!--        <table tableName="member_expense_record" domainObjectName="MemberExpenseRecord" enableCountByExample="false"-->
 <!--               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
 <!--               selectByExampleQueryId="false"></table>-->
 
