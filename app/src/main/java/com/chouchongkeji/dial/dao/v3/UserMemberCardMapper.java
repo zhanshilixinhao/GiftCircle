@@ -3,6 +3,7 @@ package com.chouchongkeji.dial.dao.v3;
 import com.chouchongkeji.dial.pojo.v3.UserMemberCard;
 import com.chouchongkeji.service.v3.vo.CardVo;
 
+import java.util.HashSet;
 import java.util.List;
 
 public interface UserMemberCardMapper {
@@ -24,4 +25,13 @@ public interface UserMemberCardMapper {
      * @return
      */
     List<CardVo> selectByUserId(Integer userId);
+
+    HashSet<Integer> selectCardIdsByUserId(Integer userId);
+
+    /**
+     * 会员卡详情
+     * @param id
+     * @return
+     */
+    CardVo selectByKey(Integer id);
 }

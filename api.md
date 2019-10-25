@@ -8148,3 +8148,139 @@ type = 3 请求结果示例：
 }
 
 ```
+
+
+## v3 会员卡
+### 1 获取用户会员卡列表
+
+- 请求地址：auth/v3/memberCard/list
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：linqin
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+|   pageNum    |   Int    |    否    |   1    |   分页   |
+|   pageSize   |   Int    |    否    |   14   | 分页大小 |
+
+* 请求示例
+
+```js
+{
+  "errCode": 0,
+  "result": 0,
+  "time": 1571974468564,
+  "data": [
+    {
+      "id": 3, //用户会员卡关联id
+      "membershipCardId": 0, // 会员卡id
+      "userId": 7, // 用户id
+      "balance": 0.00, //会员卡余额
+      "created": 1571974117000, //卡片创建时间
+      "cardNo": 12345678,// 卡号
+      "title": "礼遇圈", //卡标题
+      "summary": "没有", //卡使用说明
+      "colour": "#888888", //卡片颜色
+      "logo": "avatar.jpg", //卡logo
+      "type": 1, //1 礼遇圈总卡
+      "storeIds": "1,2", // 可用门店id集合
+      "stores": [ //可用门店信息
+        {
+          "id": 1, //门店id
+          "merchantId": 10, //总公司id
+          "name": "礼遇圈", // 门店名称
+          "address": "昆明步行街", //门店详细地址
+          "phone": "2342", //门店电话
+          "created": 1571973872000,// 门店创建时间
+          "updated": 1571973874000,// 门店更新时间
+          "area": "昆明", // 门店地区
+          "linkman": "大概" //门店联系人
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "membershipCardId": 2,
+      "userId": 7,
+      "balance": 100.00,
+      "created": 1571886511000,
+      "cardNo": 3453535,
+      "title": "星巴克",
+      "summary": "大声道",
+      "colour": "#000000",
+      "logo": "avatar1.jpg",
+      "type": 2,
+      "storeIds": "1,2",
+      "stores": [
+        {
+          "id": 1,
+          "merchantId": 10,
+          "name": "礼遇圈",
+          "address": "就是你的",
+          "phone": "2342",
+          "created": 1571973872000,
+          "updated": 1571973874000,
+          "area": "更丰富",
+          "linkman": "大概"
+        },
+      ]
+    }
+  ]
+}
+
+
+```
+
+
+### 2 用户会员卡详情
+
+- 请求地址：auth/v3/memberCard/detail
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：linqin
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+|   id    |   Int    |    是    |   1    |   用户会员卡关联id   |
+
+
+* 请求示例
+
+```js
+{
+  "errCode": 0,
+  "result": 0,
+  "time": 1571986667931,
+  "data": {
+      "id": 3, //用户会员卡关联id
+      "membershipCardId": 0, // 会员卡id
+      "userId": 7, // 用户id
+      "balance": 0.00, //会员卡余额
+      "created": 1571974117000, //卡片创建时间
+      "cardNo": 12345678,// 卡号
+      "title": "礼遇圈", //卡标题
+      "summary": "没有", //卡使用说明
+      "colour": "#888888", //卡片颜色
+      "logo": "avatar.jpg", //卡logo
+      "type": 1, //1 礼遇圈总卡
+      "storeIds": "1,2", // 可用门店id集合
+      "stores": [ //可用门店信息
+        {
+          "id": 1, //门店id
+          "merchantId": 10, //总公司id
+          "name": "礼遇圈", // 门店名称
+          "address": "昆明步行街", //门店详细地址
+          "phone": "2342", //门店电话
+          "created": 1571973872000,// 门店创建时间
+          "updated": 1571973874000,// 门店更新时间
+          "area": "昆明", // 门店地区
+          "linkman": "大概" //门店联系人
+        }
+    ]
+  }
+}
+
+
+```

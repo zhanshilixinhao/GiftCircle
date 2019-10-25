@@ -45,6 +45,30 @@ and b.status = 1
 and a.user_id = #{userId}
 order by a.created DESC
     </select>
+  <select id="selectCardIdsByUserId" resultType="java.lang.Integer">
+    select
+membership_card_id
+from user_member_card
+where user_id = #{userId}
+and status = 1
+  </select>
+    <select id="selectByKey" resultType="com.chouchongkeji.service.v3.vo.CardVo">
+      select a.id,
+       a.membership_card_id,
+       a.user_id,
+       a.balance,
+       a.created,
+       b.card_no,
+       b.title,
+       b.summary,
+       b.colour,
+       b.logo,
+       b.store_ids,
+       b.type
+from user_member_card a
+         left join membership_card b on a.membership_card_id = b.id
+where a.id = #{id}
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from user_member_card
     where id = #{id,jdbcType=INTEGER}
@@ -56,7 +80,7 @@ order by a.created DESC
       store_id)
     values (#{id,jdbcType=INTEGER}, #{membershipCardId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER},
       #{balance,jdbcType=DECIMAL}, #{totalAmount,jdbcType=DECIMAL}, #{consumeAmount,jdbcType=DECIMAL},
-      #{updated,jdbcType=TIMESTAMP}, #{created,jdbcType=TIMESTAMP}, #{status,jdbcType=TINYINT},
+      now(), now(), #{status,jdbcType=TINYINT},
       #{storeId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.v3.UserMemberCard">

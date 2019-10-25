@@ -1,6 +1,8 @@
 package com.chouchongkeji.service.v3.vo;
 
 
+import com.chouchongkeji.dial.pojo.v3.Store;
+
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -37,7 +39,7 @@ public class CardVo {
 
     private String storeIds;
 
-    private List<String> stores;
+    private List<Store> stores;
 
     public Integer getId() {
         return id;
@@ -136,11 +138,11 @@ public class CardVo {
         this.storeIds = storeIds;
     }
 
-    public List<String> getStores() {
+    public List<Store> getStores() {
         return stores;
     }
 
-    public void setStores(List<String> stores) {
+    public void setStores(List<Store> stores) {
         this.stores = stores;
     }
 }

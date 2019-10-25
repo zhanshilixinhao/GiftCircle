@@ -21,4 +21,16 @@ public interface MemberCardService {
      * @date 2019/10/23
      */
     Response getMemberCardList(UserDetails userDetails, PageQuery page);
+
+
+    /**
+     * 会员卡详情
+     *
+     * @param userDetails
+     * @param id          用户会员卡关联id
+     * @return
+     * @author linqin
+     * @date 2019/10/23
+     */
+    Response detailMemberCard(UserDetails userDetails, Integer id);
 }

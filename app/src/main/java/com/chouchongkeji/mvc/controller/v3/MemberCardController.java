@@ -1,6 +1,7 @@
 package com.chouchongkeji.mvc.controller.v3;
 
 import com.chouchongkeji.goexplore.common.Response;
+import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.query.PageQuery;
 import com.chouchongkeji.service.v3.MemberCardService;
 import com.yichen.auth.service.UserDetails;
@@ -34,5 +35,23 @@ public class MemberCardController {
     public Response getMemberCardList(@AuthenticationPrincipal UserDetails userDetails, PageQuery page) {
         return memberCardService.getMemberCardList(userDetails, page);
     }
+
+    /**
+     * 会员卡详情
+     *
+     * @param userDetails
+     * @param id          用户会员卡关联id
+     * @return
+     * @author linqin
+     * @date 2019/10/23
+     */
+    @PostMapping("detail")
+    public Response detailMemberCard(@AuthenticationPrincipal UserDetails userDetails, Integer id) {
+        if (id == null){
+            return ResponseFactory.errMissingParameter();
+        }
+        return memberCardService.detailMemberCard(userDetails,id);
+    }
+
 
 }
