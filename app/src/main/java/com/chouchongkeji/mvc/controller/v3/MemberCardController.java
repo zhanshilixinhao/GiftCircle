@@ -103,5 +103,19 @@ public class MemberCardController {
     }
 
 
+    /**
+     * 会员卡消费记录详情
+     * @param userDetails
+     * @param id 会员卡消费记录id
+     * @return
+     */
+    @PostMapping("expense/detail")
+    public Response expenseRecordDetail(@AuthenticationPrincipal UserDetails userDetails,Integer id){
+        if (id == null){
+            return ResponseFactory.errMissingParameter();
+        }
+        return memberCardService.expenseRecordDetail(userDetails.getUserId(),id);
+    }
+
 
 }

@@ -63,4 +63,12 @@ public interface MemberCardService {
      * @return
      */
     Response expenseRecordList(Integer userId, Integer id, PageQuery page);
+
+    /**
+     * 会员卡消费记录详情
+     * @param userId
+     * @param id 会员卡消费记录id
+     * @return
+     */
+    Response expenseRecordDetail(Integer userId, Integer id);
 }

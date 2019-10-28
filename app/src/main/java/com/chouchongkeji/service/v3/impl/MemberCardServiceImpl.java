@@ -12,10 +12,7 @@ import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.query.PageQuery;
 import com.chouchongkeji.goexplore.utils.BigDecimalUtil;
 import com.chouchongkeji.service.v3.MemberCardService;
-import com.chouchongkeji.service.v3.vo.CardVo;
-import com.chouchongkeji.service.v3.vo.ChargeDetailVo;
-import com.chouchongkeji.service.v3.vo.ChargeListVo;
-import com.chouchongkeji.service.v3.vo.ExpenseListVo;
+import com.chouchongkeji.service.v3.vo.*;
 import com.github.pagehelper.PageHelper;
 import com.yichen.auth.service.UserDetails;
 import org.apache.commons.collections.CollectionUtils;
@@ -199,4 +196,26 @@ public class MemberCardServiceImpl implements MemberCardService {
      List<ExpenseListVo> listVos = memberExpenseRecordMapper.selectByIdUserId(userId,id);
      return ResponseFactory.sucData(listVos);
     }
+
+
+    /**
+     * 会员卡消费记录详情
+     * @param userId
+     * @param id 会员卡消费记录id
+     * @return
+     */
+    @Override
+    public Response expenseRecordDetail(Integer userId, Integer id) {
+      ExpenseDetailVo detail = memberExpenseRecordMapper.selectByKeyUserId(userId,id);
+        if (detail != null){
+            if (detail.getType() == 1){
+                detail.setAddress("APP");
+            }
+            if (detail.getTargetId() == null){
+                detail.setTitle("会员卡线下消费");
+            }
+        }
+      return ResponseFactory.sucData(detail);
+    }
+
 }

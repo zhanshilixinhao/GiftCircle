@@ -8362,5 +8362,91 @@ type = 3 请求结果示例：
   }
 }
 
+```
+
+### 5 用户会员卡充值记录
+
+- 请求地址：auth/v3/memberCard/expense/record
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：linqin
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+|   id    |   Int    |    是    |   1    |   会员卡id   |
+|   pageNum    |   Int    |    否    |   1    |   分页   |
+|   pageSize   |   Int    |    否    |   14   | 分页大小 |
+
+* 请求示例
+
+```js
+{
+  "errCode": 0,
+  "result": 0,
+  "time": 1572249313329,
+  "data": [
+    {
+      "id": 2, //消费记录id
+      "membershipCardId": 0, //会员卡id
+      "userId": 7, // 用户id
+      "expenseMoney": 0.01, // 消费金额
+      "type": 2, //1 app消费 2门店消费
+      "explain": "线下消费", //消费说明
+      "created": 1572248821000 //消费时间
+    },
+    {
+      "id": 1,
+      "membershipCardId": 0,
+      "userId": 7,
+      "expenseMoney": 0.01,
+      "type": 1,
+      "explain": "购买薯片商品消费",
+      "created": 1572248761000
+    }
+  ]
+}
+
+
+```
+
+
+
+### 6 用户会员卡充值记录
+
+- 请求地址：auth/v3/memberCard/expense/detail
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：linqin
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+|   id    |   Int    |    是    |   1    |   消费记录id   |
+
+
+* 请求示例
+
+```js
+{
+  "errCode": 0,
+  "result": 0,
+  "time": 1572253851144,
+  "data": {
+    "id": 1, //消费记录id
+    "membershipCardId": 0, //会员卡id
+    "userId": 7,//用户id
+    "expenseMoney": 0.01, //消费金额
+    "type": 1,//1 app消费 2门店消费
+    "created": 1572248761000, //消费时间
+    "storeId": 0, //交易门店id
+    "storeName": "礼遇圈", //交易门店名称
+    "address": "APP",//交易地址
+    "phone": "2342", //联系方式
+    "targetId": 1075, //购买商品skuid/优惠券id
+    "title": "由你啃  Hello kitty粉色芝士淋面蛋糕" //交易商品
+  }
+}
+
 
 ```

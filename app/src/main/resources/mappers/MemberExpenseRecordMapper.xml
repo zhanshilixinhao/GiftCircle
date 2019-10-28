@@ -39,7 +39,26 @@ where user_id = #{userId}
   and membership_card_id = #{id}
     order by created DESC
     </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <select id="selectByKeyUserId" resultType="com.chouchongkeji.service.v3.vo.ExpenseDetailVo">
+        select a.id,
+       a.membership_card_id,
+       a.user_id,
+       a.expense_money,
+       a.type,
+       a.created,
+       a.store_id,
+       a.target_id,
+       s.address,
+       s.phone,
+       s.name as storeName,
+       i.title
+from member_expense_record a
+         left join store s on a.store_id = s.id
+left join item_sku i on a.target_id = i.id
+where a.id = #{id}
+    and  a.user_id = #{userId}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from member_expense_record
     where id = #{id,jdbcType=INTEGER}
   </delete>

@@ -1,6 +1,7 @@
 package com.chouchongkeji.dial.dao.v3;
 
 import com.chouchongkeji.dial.pojo.v3.MemberExpenseRecord;
+import com.chouchongkeji.service.v3.vo.ExpenseDetailVo;
 import com.chouchongkeji.service.v3.vo.ExpenseListVo;
 import org.apache.ibatis.annotations.Param;
 
@@ -26,4 +27,11 @@ public interface MemberExpenseRecordMapper {
      * @return
      */
     List<ExpenseListVo> selectByIdUserId(@Param("userId") Integer userId, @Param("id") Integer id);
+    /**
+     * 消费记录详情
+     * @param userId
+     * @param id
+     * @return
+     */
+    ExpenseDetailVo selectByKeyUserId(@Param("userId") Integer userId, @Param("id") Integer id);
 }

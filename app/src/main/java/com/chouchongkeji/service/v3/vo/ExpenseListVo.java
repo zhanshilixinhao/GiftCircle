@@ -16,7 +16,7 @@ public class ExpenseListVo {
 
     private Integer userId;
 
-    private BigDecimal expenseAmount;
+    private BigDecimal expenseMoney;
 
     private Byte type;
 
@@ -72,11 +72,11 @@ public class ExpenseListVo {
         this.created = created;
     }
 
-    public BigDecimal getExpenseAmount() {
-        return expenseAmount;
+    public BigDecimal getExpenseMoney() {
+        return expenseMoney;
     }
 
-    public void setExpenseAmount(BigDecimal expenseAmount) {
-        this.expenseAmount = expenseAmount;
+    public void setExpenseMoney(BigDecimal expenseMoney) {
+        this.expenseMoney = expenseMoney;
     }
 }
