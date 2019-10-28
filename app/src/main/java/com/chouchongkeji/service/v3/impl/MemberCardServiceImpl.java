@@ -1,8 +1,10 @@
 package com.chouchongkeji.service.v3.impl;
 
 import com.chouchongkeji.dial.dao.v3.MemberChargeRecordMapper;
+import com.chouchongkeji.dial.dao.v3.MemberExpenseRecordMapper;
 import com.chouchongkeji.dial.dao.v3.StoreMapper;
 import com.chouchongkeji.dial.dao.v3.UserMemberCardMapper;
+import com.chouchongkeji.dial.pojo.v3.MemberExpenseRecord;
 import com.chouchongkeji.dial.pojo.v3.Store;
 import com.chouchongkeji.dial.pojo.v3.UserMemberCard;
 import com.chouchongkeji.goexplore.common.Response;
@@ -13,6 +15,7 @@ import com.chouchongkeji.service.v3.MemberCardService;
 import com.chouchongkeji.service.v3.vo.CardVo;
 import com.chouchongkeji.service.v3.vo.ChargeDetailVo;
 import com.chouchongkeji.service.v3.vo.ChargeListVo;
+import com.chouchongkeji.service.v3.vo.ExpenseListVo;
 import com.github.pagehelper.PageHelper;
 import com.yichen.auth.service.UserDetails;
 import org.apache.commons.collections.CollectionUtils;
@@ -40,6 +43,9 @@ public class MemberCardServiceImpl implements MemberCardService {
 
     @Autowired
     private MemberChargeRecordMapper memberChargeRecordMapper;
+
+    @Autowired
+    private MemberExpenseRecordMapper memberExpenseRecordMapper;
 
     /**
      * 获取用户会员卡列表
@@ -181,5 +187,16 @@ public class MemberCardServiceImpl implements MemberCardService {
         return ResponseFactory.sucData(detailVo);
     }
 
-
+    /**
+     * 会员卡消费记录
+     * @param userId
+     * @param id 会员卡id
+     * @param page
+     * @return
+     */
+    @Override
+    public Response expenseRecordList(Integer userId, Integer id, PageQuery page) {
+     List<ExpenseListVo> listVos = memberExpenseRecordMapper.selectByIdUserId(userId,id);
+     return ResponseFactory.sucData(listVos);
+    }
 }

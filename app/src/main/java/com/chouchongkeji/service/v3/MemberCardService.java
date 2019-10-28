@@ -54,4 +54,13 @@ public interface MemberCardService {
      * @date 2019/10/23
      */
     Response chargeRecordDetail(UserDetails userDetails, Integer id);
+
+    /**
+     * 会员卡消费记录
+     * @param userId
+     * @param id 会员卡id
+     * @param page
+     * @return
+     */
+    Response expenseRecordList(Integer userId, Integer id, PageQuery page);
 }

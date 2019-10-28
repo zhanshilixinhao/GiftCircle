@@ -15,7 +15,6 @@ public class ChargeDetailVo extends ChargeListVo {
 
     private String phone;
 
-    private Integer targetId;
     /**
      * 商品名称
      */
@@ -53,13 +52,6 @@ public class ChargeDetailVo extends ChargeListVo {
         this.phone = phone;
     }
 
-    public Integer getTargetId() {
-        return targetId;
-    }
-
-    public void setTargetId(Integer targetId) {
-        this.targetId = targetId;
-    }
 
     public String getTitle() {
         return title;

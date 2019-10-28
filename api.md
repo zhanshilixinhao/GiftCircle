@@ -8358,7 +8358,6 @@ type = 3 请求结果示例：
     "storeName": "礼遇圈", // 交易店铺
     "address": "APP", // 交易地址
     "phone": "2342",//联系方式
-    "targetId": null,
     "title": "会员卡充值" //交易商品
   }
 }

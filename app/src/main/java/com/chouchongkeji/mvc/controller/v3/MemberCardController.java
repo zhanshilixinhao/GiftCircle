@@ -87,6 +87,21 @@ public class MemberCardController {
     }
 
 
+    /**
+     * 会员卡消费记录
+     * @param userDetails
+     * @param id 会员卡id
+     * @param page
+     * @return
+     */
+    @PostMapping("expense/record")
+    public Response expenseRecordList(@AuthenticationPrincipal UserDetails userDetails,Integer id,PageQuery page){
+        if (id == null){
+            return ResponseFactory.errMissingParameter();
+        }
+        return memberCardService.expenseRecordList(userDetails.getUserId(),id,page);
+    }
+
 
 
 }
