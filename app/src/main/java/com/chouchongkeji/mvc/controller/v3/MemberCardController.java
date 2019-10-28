@@ -69,4 +69,24 @@ public class MemberCardController {
         return memberCardService.chargeRecordList(userDetails,id,page);
     }
 
+
+    /**
+     * 会员卡充值记录详情
+     * @param userDetails
+     * @param id 会员卡充值记录id
+     * @return
+     * @author linqin
+     * @date 2019/10/23
+     */
+    @PostMapping("charge/detail")
+    public Response chargeRecordDetail(@AuthenticationPrincipal UserDetails userDetails,Integer id) {
+        if (id == null){
+            return ResponseFactory.errMissingParameter();
+        }
+        return memberCardService.chargeRecordDetail(userDetails,id);
+    }
+
+
+
+
 }

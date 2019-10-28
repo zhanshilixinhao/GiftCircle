@@ -11,6 +11,7 @@ import com.chouchongkeji.goexplore.query.PageQuery;
 import com.chouchongkeji.goexplore.utils.BigDecimalUtil;
 import com.chouchongkeji.service.v3.MemberCardService;
 import com.chouchongkeji.service.v3.vo.CardVo;
+import com.chouchongkeji.service.v3.vo.ChargeDetailVo;
 import com.chouchongkeji.service.v3.vo.ChargeListVo;
 import com.github.pagehelper.PageHelper;
 import com.yichen.auth.service.UserDetails;
@@ -140,9 +141,45 @@ public class MemberCardServiceImpl implements MemberCardService {
         List<ChargeListVo> listVos = memberChargeRecordMapper.selectByMembertCardId(userDetails.getUserId(),id);
         if (CollectionUtils.isNotEmpty(listVos)){
             for (ChargeListVo listVo : listVos) {
-                listVo.setTotalAmount(BigDecimalUtil.add(listVo.getRechargeMoney().doubleValue(),listVo.getSendMoney().doubleValue()));
+                if (listVo.getSendMoney() != null && listVo.getRechargeMoney() !=null){
+                    listVo.setTotalAmount(BigDecimalUtil.add(listVo.getRechargeMoney().doubleValue(),listVo.getSendMoney().doubleValue()));
+                } else if (listVo.getSendMoney() == null && listVo.getRechargeMoney() !=null){
+                    listVo.setTotalAmount(listVo.getRechargeMoney());
+                }else {
+                    listVo.setTotalAmount(new BigDecimal("0"));
+                }
             }
         }
         return ResponseFactory.sucData(listVos);
     }
+
+
+    /**
+     * 会员卡充值记录详情
+     * @param userDetails
+     * @param id 会员卡充值记录id
+     * @return
+     * @author linqin
+     * @date 2019/10/23
+     */
+    @Override
+    public Response chargeRecordDetail(UserDetails userDetails, Integer id) {
+        ChargeDetailVo detailVo = memberChargeRecordMapper.selectByKeyUserId(id,userDetails.getUserId());
+        if (detailVo != null){
+            detailVo.setTitle("会员卡充值");
+            if (detailVo.getType() == 1){
+                detailVo.setAddress("APP");
+            }
+            if (detailVo.getSendMoney() != null && detailVo.getRechargeMoney() !=null){
+                detailVo.setTotalAmount(BigDecimalUtil.add(detailVo.getRechargeMoney().doubleValue(),detailVo.getSendMoney().doubleValue()));
+            } else if (detailVo.getSendMoney() == null && detailVo.getRechargeMoney() !=null){
+                detailVo.setTotalAmount(detailVo.getRechargeMoney());
+            }else {
+                detailVo.setTotalAmount(new BigDecimal("0"));
+            }
+        }
+        return ResponseFactory.sucData(detailVo);
+    }
+
+
 }

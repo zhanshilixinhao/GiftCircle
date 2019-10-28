@@ -1,43 +1,22 @@
 {
   "errCode": 0,
   "result": 0,
-  "time": 1571986667931,
+  "time": 1572234046884,
   "data": {
-    "id": 2,
-    "membershipCardId": 2,
+    "id": 1,
+    "membershipCardId": 0,
     "userId": 7,
-    "balance": 100.00,
-    "created": 1571886511000,
-    "cardNo": 3453535,
-    "title": "星巴克",
-    "summary": "大声道",
-    "colour": "#000000",
-    "logo": "avatar1.jpg",
-    "type": 2,
-    "storeIds": "1,2",
-    "stores": [
-      {
-        "id": 1,
-        "merchantId": 10,
-        "name": "礼遇圈",
-        "address": "就是你的",
-        "phone": "2342",
-        "created": 1571973872000,
-        "updated": 1571973874000,
-        "area": "更丰富",
-        "linkman": "大概"
-      },
-      {
-        "id": 2,
-        "merchantId": 7,
-        "name": "史蒂芬孙",
-        "address": "是电风扇的",
-        "phone": "453",
-        "created": 1571973915000,
-        "updated": 1571973917000,
-        "area": "c不错吧",
-        "linkman": "吃vcv"
-      }
-    ]
+    "rechargeMoney": 0.01,
+    "sendMoney": 0.00,
+    "totalAmount": 0.01,
+    "type": 1,
+    "explain": "",
+    "created": 1572226493000,
+    "storeId": 0,
+    "storeName": "礼遇圈",
+    "address": "APP",
+    "phone": "2342",
+    "targetId": null,
+    "title": "会员卡充值"
   }
 }

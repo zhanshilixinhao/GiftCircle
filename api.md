@@ -8282,5 +8282,86 @@ type = 3 请求结果示例：
   }
 }
 
+```
+
+
+### 3 用户会员卡充值记录
+
+- 请求地址：auth/v3/memberCard/charge/record
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：linqin
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+|   id    |   Int    |    是    |   1    |   会员卡id   |
+|   pageNum    |   Int    |    否    |   1    |   分页   |
+|   pageSize   |   Int    |    否    |   14   | 分页大小 |
+
+* 请求示例
+
+```js
+{
+  "errCode": 0,
+  "result": 0,
+  "time": 1572226528017,
+  "data": [
+    {
+      "id": 1, //充值记录id
+      "membershipCardId": 0, //会员卡id (0代表礼遇圈卡)
+      "userId": 7, //用户id
+      "rechargeMoney": 0.01, //充值金额
+      "sendMoney": 0.00,// 赠送金额
+      "totalAmount": 0.01, //总金额（充值金额加赠送金额）
+      "type": 1, // 1 app充值 2门店充值
+      "explain": "余额充值", // 充值说明
+      "created": 1572226493000 //充值时间
+    }
+  ]
+}
+
+```
+
+
+### 4 用户会员卡充值记录详情
+
+- 请求地址：auth/v3/memberCard/charge/detail
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：linqin
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+|   id    |   Int    |    是    |   1    |   充值记录id   |
+
+
+* 请求示例
+
+```js
+{
+  "errCode": 0,
+  "result": 0,
+  "time": 1572234046884,
+  "data": {
+    "id": 1, //充值记录id
+    "membershipCardId": 0, //会员卡id (0代表礼遇圈卡)
+    "userId": 7,//用户id
+    "rechargeMoney": 0.01, //充值金额
+    "sendMoney": 0.00,// 赠送金额
+    "totalAmount": 0.01, //总金额（充值金额加赠送金额）
+    "type": 1, // 交易类型 1 app充值 2门店充值
+    "explain": "",
+    "created": 1572226493000, //交易时间
+    "storeId": 0,//店铺id
+    "storeName": "礼遇圈", // 交易店铺
+    "address": "APP", // 交易地址
+    "phone": "2342",//联系方式
+    "targetId": null,
+    "title": "会员卡充值" //交易商品
+  }
+}
+
 
 ```

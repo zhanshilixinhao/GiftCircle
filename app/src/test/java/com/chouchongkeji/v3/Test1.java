@@ -43,4 +43,28 @@ public class Test1 {
         System.out.println(post.body().string());
     }
 
+    @Test
+    public void list() throws IOException {
+        RequestParams params = new RequestParams();
+        params.put("time", System.currentTimeMillis());
+        params.put("access_token", "8975fd98-d988-4110-a7a1-8fde82f8e66e");
+        params.put("id", 0);
+        Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
+        params.put("sign", map.get(ApiSignUtil.ANDROID));
+        Response post = OkHttpUtil.post("http://localhost:8089/auth/v3/memberCard/charge/record", params);
+        System.out.println(post.body().string());
+    }
+
+    @Test
+    public void de() throws IOException {
+        RequestParams params = new RequestParams();
+        params.put("time", System.currentTimeMillis());
+        params.put("access_token", "8975fd98-d988-4110-a7a1-8fde82f8e66e");
+        params.put("id", 1);
+        Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
+        params.put("sign", map.get(ApiSignUtil.ANDROID));
+        Response post = OkHttpUtil.post("http://localhost:8089/auth/v3/memberCard/charge/detail", params);
+        System.out.println(post.body().string());
+    }
+
 }
