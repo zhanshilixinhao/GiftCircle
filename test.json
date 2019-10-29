@@ -1,19 +1,27 @@
 {
   "errCode": 0,
   "result": 0,
-  "time": 1572253851144,
-  "data": {
-    "id": 1,
-    "membershipCardId": 0,
-    "userId": 7,
-    "expenseMoney": 0.01,
-    "type": 1,
-    "created": 1572248761000,
-    "storeId": 0,
-    "storeName": "礼遇圈",
-    "address": "APP",
-    "phone": "2342",
-    "targetId": 1075,
-    "title": "由你啃  Hello kitty粉色芝士淋面蛋糕"
-  }
+  "time": 1572336062584,
+  "data": [
+    {
+      "id": 1,
+      "rechargeMoney": 100.00,
+      "sendMoney": 5.00
+    },
+    {
+      "id": 2,
+      "rechargeMoney": 500.00,
+      "sendMoney": 40.00
+    },
+    {
+      "id": 3,
+      "rechargeMoney": 1000.00,
+      "sendMoney": 100.00
+    },
+    {
+      "id": 4,
+      "rechargeMoney": 2000.00,
+      "sendMoney": 250.00
+    }
+  ]
 }

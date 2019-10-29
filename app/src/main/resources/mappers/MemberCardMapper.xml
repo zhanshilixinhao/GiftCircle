@@ -14,19 +14,28 @@
     id, membership_card_id, members_event_id, updated, created
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from member_card
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="selectAll" resultType="com.chouchongkeji.service.v3.vo.EventVo">
+      select b.id,
+       b.recharge_money,
+       b.send_money
+from member_card a
+         left join member_event b on a.members_event_id = b.id
+where a.membership_card_id = 0
+  and b.status = 1
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from member_card
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.v3.MemberCard">
-    insert into member_card (id, membership_card_id, members_event_id, 
+    insert into member_card (id, membership_card_id, members_event_id,
       updated, created)
-    values (#{id,jdbcType=INTEGER}, #{membershipCardId,jdbcType=INTEGER}, #{membersEventId,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=INTEGER}, #{membershipCardId,jdbcType=INTEGER}, #{membersEventId,jdbcType=INTEGER},
       #{updated,jdbcType=TIMESTAMP}, #{created,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.v3.MemberCard">

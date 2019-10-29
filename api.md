@@ -8450,3 +8450,48 @@ type = 3 请求结果示例：
 
 
 ```
+
+
+
+### 7 礼遇圈会员卡充值活动列表
+
+- 请求地址：noauth/v3/charge/rule/list
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：linqin
+
+- 无参数
+
+
+* 请求示例
+
+```js
+{
+  "errCode": 0,
+  "result": 0,
+  "time": 1572336062584,
+  "data": [
+    {
+      "id": 1, //充值规则id
+      "rechargeMoney": 100.00, //充值金额
+      "sendMoney": 5.00 //赠送金额
+    },
+    {
+      "id": 2,
+      "rechargeMoney": 500.00,
+      "sendMoney": 40.00
+    },
+    {
+      "id": 3,
+      "rechargeMoney": 1000.00,
+      "sendMoney": 100.00
+    },
+    {
+      "id": 4,
+      "rechargeMoney": 2000.00,
+      "sendMoney": 250.00
+    }
+  ]
+}
+
+```
