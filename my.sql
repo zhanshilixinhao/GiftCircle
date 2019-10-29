@@ -1842,6 +1842,22 @@ CREATE TABLE user_member_card (
 SET = utf8mb4 COMMENT = '会员卡用户关联表';
 
 
+DROP TABLE IF EXISTS member_charge_order;
+CREATE TABLE member_charge_order (
+    order_no bigint NOT NULL comment '订单号',
+   `membership_card_id` int(11) COMMENT '会员卡id',
+   `user_id` int(11) COMMENT '用户id',
+   recharge_money decimal(18,2) comment'充值金额',
+   send_money decimal(18,2) comment'赠送金额',
+   status tinyint(4) comment'1 未支付 2已支付 3 已删除 ',
+   pay_way tinyint(4) comment'',
+  updated datetime COMMENT '修改时间',
+  created datetime COMMENT '创建时间',
+  PRIMARY KEY ( order_no ),
+  key user_id(user_id)
+) ENGINE = INNODB CHARACTER
+SET = utf8mb4 COMMENT = '会员卡线上充值订单';
+
 
 DROP TABLE IF EXISTS member_charge_record;
 CREATE TABLE member_charge_record (
