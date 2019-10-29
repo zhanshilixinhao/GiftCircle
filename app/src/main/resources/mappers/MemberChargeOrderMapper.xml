@@ -15,11 +15,11 @@
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    order_no, membership_card_id, user_id, recharge_money, send_money, status, pay_way, 
+    order_no, membership_card_id, user_id, recharge_money, send_money, status, pay_way,
     updated, created
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from member_charge_order
     where order_no = #{orderNo,jdbcType=BIGINT}
@@ -29,13 +29,13 @@
     where order_no = #{orderNo,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.v3.MemberChargeOrder">
-    insert into member_charge_order (order_no, membership_card_id, user_id, 
-      recharge_money, send_money, status, 
+    insert into member_charge_order (order_no, membership_card_id, user_id,
+      recharge_money, send_money, status,
       pay_way, updated, created
       )
-    values (#{orderNo,jdbcType=BIGINT}, #{membershipCardId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
-      #{rechargeMoney,jdbcType=DECIMAL}, #{sendMoney,jdbcType=DECIMAL}, #{status,jdbcType=TINYINT}, 
-      #{payWay,jdbcType=TINYINT}, #{updated,jdbcType=TIMESTAMP}, #{created,jdbcType=TIMESTAMP}
+    values (#{orderNo,jdbcType=BIGINT}, #{membershipCardId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER},
+      #{rechargeMoney,jdbcType=DECIMAL}, #{sendMoney,jdbcType=DECIMAL}, #{status,jdbcType=TINYINT},
+      #{payWay,jdbcType=TINYINT}, now(), now()
       )
   </insert>
   <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.v3.MemberChargeOrder">
