@@ -1,9 +1,11 @@
 package com.chouchongkeji.service.v3.impl;
 
+import com.chouchongkeji.dial.dao.user.AppUserMapper;
 import com.chouchongkeji.dial.dao.v3.MemberChargeRecordMapper;
 import com.chouchongkeji.dial.dao.v3.MemberExpenseRecordMapper;
 import com.chouchongkeji.dial.dao.v3.StoreMapper;
 import com.chouchongkeji.dial.dao.v3.UserMemberCardMapper;
+import com.chouchongkeji.dial.pojo.user.AppUser;
 import com.chouchongkeji.dial.pojo.v3.MemberExpenseRecord;
 import com.chouchongkeji.dial.pojo.v3.Store;
 import com.chouchongkeji.dial.pojo.v3.UserMemberCard;
@@ -43,6 +45,9 @@ public class MemberCardServiceImpl implements MemberCardService {
 
     @Autowired
     private MemberExpenseRecordMapper memberExpenseRecordMapper;
+
+    @Autowired
+    private AppUserMapper appUserMapper;
 
     /**
      * 获取用户会员卡列表
@@ -89,6 +94,11 @@ public class MemberCardServiceImpl implements MemberCardService {
      */
     @Override
     public int addMemberShipCard(Integer userId,BigDecimal balance,BigDecimal total,BigDecimal consume) {
+        String phone = null;
+        AppUser appUser = appUserMapper.selectByPrimaryKey(userId);
+        if (appUser != null){
+            phone = appUser.getPhone();
+        }
         UserMemberCard card = new UserMemberCard();
         card.setMembershipCardId(0);
         card.setUserId(userId);
@@ -97,6 +107,7 @@ public class MemberCardServiceImpl implements MemberCardService {
         card.setConsumeAmount(consume);
         card.setStatus((byte) 1);
         card.setStoreId(0);
+        card.setPhone(phone);
         return userMemberCardMapper.insert(card);
     }
 

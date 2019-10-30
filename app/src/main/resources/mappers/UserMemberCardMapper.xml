@@ -13,11 +13,12 @@
       <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
       <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT" />
       <arg column="store_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="phone" javaType="java.lang.String" jdbcType="VARCHAR" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
     id, membership_card_id, user_id, balance, total_amount, consume_amount, updated,
-    created, status, store_id
+    created, status, store_id,phone
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select
@@ -29,6 +30,7 @@
       select a.id,
        a.membership_card_id,
        a.user_id,
+       a.phone,
        a.balance,
        a.created,
        b.card_no,
@@ -56,6 +58,7 @@ and status = 1
       select a.id,
        a.membership_card_id,
        a.user_id,
+       a.phone,
        a.balance,
        a.created,
        b.card_no,
@@ -84,11 +87,11 @@ where a.id = #{id}
     insert into user_member_card (id, membership_card_id, user_id,
       balance, total_amount, consume_amount,
       updated, created, status,
-      store_id)
+      store_id,phone)
     values (#{id,jdbcType=INTEGER}, #{membershipCardId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER},
       #{balance,jdbcType=DECIMAL}, #{totalAmount,jdbcType=DECIMAL}, #{consumeAmount,jdbcType=DECIMAL},
       now(), now(), #{status,jdbcType=TINYINT},
-      #{storeId,jdbcType=INTEGER})
+      #{storeId,jdbcType=INTEGER},#{phone,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.v3.UserMemberCard">
     insert into user_member_card
@@ -123,6 +126,9 @@ where a.id = #{id}
       <if test="storeId != null">
         store_id,
       </if>
+      <if test="phone != null">
+        phone,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -154,6 +160,9 @@ where a.id = #{id}
       </if>
       <if test="storeId != null">
         #{storeId,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -187,6 +196,9 @@ where a.id = #{id}
       <if test="storeId != null">
         store_id = #{storeId,jdbcType=INTEGER},
       </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -200,7 +212,8 @@ where a.id = #{id}
       updated = #{updated,jdbcType=TIMESTAMP},
       created = #{created,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=TINYINT},
-      store_id = #{storeId,jdbcType=INTEGER}
+      store_id = #{storeId,jdbcType=INTEGER},
+      phone = #{phone,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -21,6 +21,8 @@ public class CardVo {
 
     private Integer userId;
 
+    private String phone;
+
     private BigDecimal balance;
 
     private Date created;
@@ -144,5 +146,13 @@ public class CardVo {
 
     public void setStores(List<Store> stores) {
         this.stores = stores;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }

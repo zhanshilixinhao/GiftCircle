@@ -1829,6 +1829,7 @@ CREATE TABLE user_member_card (
    id INT ( 10 ) NOT NULL auto_increment,
    `membership_card_id` int(11) COMMENT '会员卡id',
    `user_id` int(11) COMMENT '用户id',
+   phone varchar(15) comment'电话号码',
    balance decimal(18,2) comment'余额',
    total_amount decimal(18,2) null comment '历史总金额',
    consume_amount decimal(18,2) null comment '消费总金额',
