@@ -146,9 +146,9 @@ public class ChargeCardServiceImpl implements ChargeCardService {
         vo.setOrderNo(order);
         //支付宝
         if (payWay == Constants.PAY_TYPE.ALI) {
-            vo.setUrl(serviceProperties.getHost() + "noauth/pay/charge_order/ali");
+            vo.setUrl(serviceProperties.getHost() + "noauth/pay/v3/member_order/ali");
         } else if (payWay == Constants.PAY_TYPE.WX) {//微信
-            vo.setUrl(serviceProperties.getHost() + "noauth/pay/charge_order/wx");
+            vo.setUrl(serviceProperties.getHost() + "noauth/pay/v3/member_order/wx");
         }
         vo.setPrice(amount);
         return vo;
