@@ -1,17 +1,27 @@
 package com.chouchongkeji.service.v3.impl;
 
-import com.chouchongkeji.dial.dao.v3.MemberCardMapper;
-import com.chouchongkeji.dial.dao.v3.MemberChargeOrderMapper;
-import com.chouchongkeji.dial.dao.v3.MemberEventMapper;
+import com.alibaba.fastjson.JSON;
+import com.chouchongkeji.dial.dao.v3.*;
 import com.chouchongkeji.dial.pojo.iwant.wallet.ChargeOrder;
 import com.chouchongkeji.dial.pojo.v3.MemberChargeOrder;
+import com.chouchongkeji.dial.pojo.v3.MemberChargeRecord;
 import com.chouchongkeji.dial.pojo.v3.MemberEvent;
+import com.chouchongkeji.dial.pojo.v3.UserMemberCard;
 import com.chouchongkeji.exception.ServiceException;
+import com.chouchongkeji.goexplore.common.ErrorCode;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
+import com.chouchongkeji.goexplore.pay.KeyUtil;
+import com.chouchongkeji.goexplore.pay.PayResultVo;
 import com.chouchongkeji.goexplore.pay.PayVO;
+import com.chouchongkeji.goexplore.pay.alipay_v2.AliPayServiceV2;
+import com.chouchongkeji.goexplore.pay.weixin.service.WXPayDto;
+import com.chouchongkeji.goexplore.pay.weixin.service.WXPayService;
+import com.chouchongkeji.goexplore.utils.BigDecimalUtil;
+import com.chouchongkeji.goexplore.utils.RSAProvider;
 import com.chouchongkeji.properties.ServiceProperties;
 import com.chouchongkeji.service.v3.ChargeCardService;
+import com.chouchongkeji.service.v3.MemberCardService;
 import com.chouchongkeji.service.v3.vo.EventVo;
 import com.chouchongkeji.util.Constants;
 import com.chouchongkeji.util.OrderHelper;
@@ -29,7 +39,7 @@ import java.util.List;
  * @date 2019/10/29
  */
 @Service
-@Transactional(rollbackFor = Exception.class,isolation = Isolation.REPEATABLE_READ)
+@Transactional(rollbackFor = Exception.class, isolation = Isolation.REPEATABLE_READ)
 public class ChargeCardServiceImpl implements ChargeCardService {
 
     @Autowired
@@ -42,6 +52,15 @@ public class ChargeCardServiceImpl implements ChargeCardService {
     private OrderHelper orderHelper;
     @Autowired
     private MemberChargeOrderMapper memberChargeOrderMapper;
+
+    @Autowired
+    private MemberChargeRecordMapper memberChargeRecordMapper;
+
+    @Autowired
+    private UserMemberCardMapper userMemberCardMapper;
+
+    @Autowired
+    private MemberCardService memberCardService;
 
     /**
      * 礼遇圈会员卡充值规则
@@ -61,16 +80,16 @@ public class ChargeCardServiceImpl implements ChargeCardService {
      * 创建礼遇圈会员卡充值订单
      *
      * @param userId
-     * @param eventId     活动id
+     * @param eventId 活动id
      * @return
      * @author linqin
      * @date 2019/10/29
      */
     @Override
-    public Response createdOrder(Integer userId, Integer client, Integer eventId,Integer payWay) {
-         // 根据活动id查询充值金额赠送金额
+    public Response createdOrder(Integer userId, Integer client, Integer eventId, Integer payWay) {
+        // 根据活动id查询充值金额赠送金额
         MemberEvent event = memberEventMapper.selectByPrimaryKey(eventId);
-        if (event == null){
+        if (event == null) {
             throw new ServiceException("请选择其他活动");
         }
         Long orderNo = orderHelper.genOrderNo(client, 6);
@@ -84,15 +103,33 @@ public class ChargeCardServiceImpl implements ChargeCardService {
         order.setStatus(Constants.CHARGE_ORDER_STATUS.NO_PAY);
         order.setPayWay(payWay.byteValue());
         int insert = memberChargeOrderMapper.insert(order);
-        if (insert < 1){
+        if (insert < 1) {
             throw new ServiceException("创建订单失败");
         }
         // 创建订单参数
         PayVO payVO = assemblePayOrder(orderNo, payWay, event.getRechargeMoney());
-
-
-
-        return null;
+        //根据不同的支付方式创建不同的支付参数
+        String info = null;
+        if (payWay == Constants.PAY_TYPE.ALI) {
+            // 支付宝
+            info = AliPayServiceV2.createOrderInfo(payVO);
+            info = RSAProvider.encrypt(info, KeyUtil.PRIVATE_KEY);
+        } else {
+            WXPayDto dto = WXPayService.service(payVO).createPrePay();
+            if (dto.getCode() != 1) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "创建微信订单失败，" + dto.getMessage());
+            }
+            info = RSAProvider.encrypt(JSON.toJSONString(dto), KeyUtil.PRIVATE_KEY);
+        }
+        if (info == null) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "支付参数创建失败!");
+        }
+        // 请求支付成功事务
+        PayResultVo payResultVo = new PayResultVo();
+        payResultVo.setParams(info);
+        payResultVo.setType(payWay);
+        payResultVo.setOrderNo(order.getOrderNo());
+        return ResponseFactory.sucData(payResultVo);
     }
 
 
@@ -108,13 +145,71 @@ public class ChargeCardServiceImpl implements ChargeCardService {
         vo.setSubject(Constants.PAY_SUBJECT_ORDER);
         vo.setOrderNo(order);
         //支付宝
-        if (payWay == Constants.PAY_TYPE.ALI){
-            vo.setUrl(serviceProperties.getHost()+"noauth/pay/charge_order/ali");
-        } else if (payWay == Constants.PAY_TYPE.WX){//微信
-            vo.setUrl(serviceProperties.getHost()+"noauth/pay/charge_order/wx");
+        if (payWay == Constants.PAY_TYPE.ALI) {
+            vo.setUrl(serviceProperties.getHost() + "noauth/pay/charge_order/ali");
+        } else if (payWay == Constants.PAY_TYPE.WX) {//微信
+            vo.setUrl(serviceProperties.getHost() + "noauth/pay/charge_order/wx");
         }
         vo.setPrice(amount);
         return vo;
     }
+
+
+    /**
+     * 礼遇圈会员卡支付成功后的业务逻辑
+     *
+     * @return
+     */
+    @Override
+    public void successPay(Long orderNo) {
+        //更新订单支付状态
+        MemberChargeOrder chargeOrder = memberChargeOrderMapper.selectByPrimaryKey(orderNo);
+        chargeOrder.setStatus(Constants.CHARGE_ORDER_STATUS.PAY);
+        int count = memberChargeOrderMapper.updateByPrimaryKeySelective(chargeOrder);
+        if (count == 0) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "更新失败");
+        }
+        //更新余额
+        BigDecimal amount = BigDecimalUtil.add(chargeOrder.getRechargeMoney().doubleValue(),chargeOrder.getSendMoney().doubleValue());
+        updateBalance(chargeOrder.getUserId(),amount,new BigDecimal("0"));
+        // 添加充值记录
+        MemberChargeRecord record = new MemberChargeRecord();
+        record.setMembershipCardId(0);
+        record.setUserId(chargeOrder.getUserId());
+        record.setRechargeMoney(chargeOrder.getRechargeMoney());
+        record.setSendMoney(chargeOrder.getSendMoney());
+        record.setType((byte)1);
+        record.setStoreId(0);
+        record.setExplain("余额充值");
+        int insert = memberChargeRecordMapper.insert(record);
+        if (insert == 0) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "添加充值记录失败");
+        }
+    }
+
+    /**
+     * 更新余额
+     * @param userId 用户id
+     * @param amount 充值金额+赠送金额
+     * @param consume 消费金额
+     */
+    public void updateBalance(Integer userId, BigDecimal amount, BigDecimal consume) {
+        UserMemberCard card = userMemberCardMapper.selectByCardIdUserId(userId, 0);
+        if (card == null) {
+            int i = memberCardService.addMemberShipCard(userId, amount, amount, consume);
+            if (i == 0) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "更新余额失败");
+            }
+        }else {
+            card.setBalance(BigDecimalUtil.add(card.getBalance().doubleValue(), amount.doubleValue()));
+            card.setTotalAmount(BigDecimalUtil.add(card.getTotalAmount().doubleValue(), amount.doubleValue()));
+            card.setConsumeAmount(BigDecimalUtil.add(card.getConsumeAmount().doubleValue(), consume.doubleValue()));
+            int i = userMemberCardMapper.updateByPrimaryKeySelective(card);
+            if (i == 0) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "更新余额失败！");
+            }
+        }
+    }
+
 
 }

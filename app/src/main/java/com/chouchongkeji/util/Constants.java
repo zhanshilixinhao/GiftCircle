@@ -212,11 +212,12 @@ public class Constants {
 //        System.out.println((byte)PAY_TYPE.yue);
 //    }
 
-    /* 订单类型 */   //1-充值订单，2-商品订单,3-寄售台订单
+    /* 订单类型 */   //1-充值订单，2-商品订单,3-寄售台订单 4-会员卡充值订单
     public interface ORDER_TYPE {
         byte CHARGE = 1;// 充值订单
         byte ITEM = 2; //商品订单
         byte CON_ITEM = 3;//寄售台订单
+        byte MEMBER_CHARGE = 4;// 会员卡充值订单
     }
 
     /*寄售台卖家/买家类型*/  //1-卖家  2-买家

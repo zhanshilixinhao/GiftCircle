@@ -30,4 +30,12 @@ public interface ChargeCardService {
      * @date 2019/10/29
      */
     Response createdOrder(Integer userId, Integer client, Integer eventId, Integer payWay);
+
+
+    /**
+     * 礼遇圈会员卡支付成功后的业务逻辑
+     *
+     * @return
+     */
+     void successPay(Long orderNo);
 }

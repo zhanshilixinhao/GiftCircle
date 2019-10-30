@@ -60,7 +60,7 @@ public class MemberCardServiceImpl implements MemberCardService {
         HashSet<Integer> cardIds = userMemberCardMapper.selectCardIdsByUserId(userDetails.getUserId());
         if (cardIds.size() == 0 || !cardIds.contains(0)){
          // 不包含0，没有礼遇圈卡则加一张
-            addMemberShipCard(userDetails.getUserId());
+            addMemberShipCard(userDetails.getUserId(),new BigDecimal("0"),new BigDecimal("0"),new BigDecimal("0"));
         }
         List<CardVo> cardVos = userMemberCardMapper.selectByUserId(userDetails.getUserId());
         if (CollectionUtils.isNotEmpty(cardVos)) {
@@ -87,13 +87,14 @@ public class MemberCardServiceImpl implements MemberCardService {
      * @param userId 用户id
      * @return
      */
-    private int addMemberShipCard(Integer userId) {
+    @Override
+    public int addMemberShipCard(Integer userId,BigDecimal balance,BigDecimal total,BigDecimal consume) {
         UserMemberCard card = new UserMemberCard();
         card.setMembershipCardId(0);
         card.setUserId(userId);
-        card.setBalance(new BigDecimal("0"));
-        card.setTotalAmount(new BigDecimal("0"));
-        card.setConsumeAmount(new BigDecimal("0"));
+        card.setBalance(balance);
+        card.setTotalAmount(total);
+        card.setConsumeAmount(consume);
         card.setStatus((byte) 1);
         card.setStoreId(0);
         return userMemberCardMapper.insert(card);

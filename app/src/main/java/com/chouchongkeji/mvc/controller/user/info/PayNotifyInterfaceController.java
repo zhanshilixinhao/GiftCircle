@@ -119,6 +119,39 @@ public class PayNotifyInterfaceController {
         return appPaymentInfoService.conOrderAli(aLiPayV2Vo, parameterMap, orderType);
     }
 
+    /*-----------------------------------------------礼遇圈会员卡宝支付回调---------------------------------------------------*/
+
+
+    /**
+     * 礼遇圈会员卡宝支付回调
+     *
+     * @param alipayVo
+     * @param request
+     * @return
+     * @throws Exception
+     * @author linqin
+     * @date 2018/6/8
+     */
+    @RequestMapping("v3/member_order/ali")
+    public String memberOrderAliPay(ALiPayV2Vo alipayVo, HttpServletRequest request) throws Exception {
+        /** 调用基础方法 **/
+        return this.memberAliPay(alipayVo, request.getParameterMap(), Constants.ORDER_TYPE.MEMBER_CHARGE);
+    }
+
+    /**
+     * 礼遇圈会员卡宝支付回调基础方法
+     *
+     * @param aLiPayV2Vo
+     * @param parameterMap
+     * @param orderType    订单类型 1-充值订单，2-商品订单，3-寄售台商品订单 4- 会员卡充值订单
+     * @return
+     * @author linqin
+     * @date 2018/6/8
+     */
+    public String memberAliPay(ALiPayV2Vo aLiPayV2Vo, Map parameterMap, Byte orderType) {
+        //收到回调
+        return appPaymentInfoService.memberAliPay(aLiPayV2Vo, parameterMap, orderType);
+    }
 
 
     /*-----------------------------------------------支付宝支付回调结束---------------------------------------------------*/
@@ -206,7 +239,7 @@ public class PayNotifyInterfaceController {
      * 寄售台微信支付回调基础方法
      *
      * @param request
-     * @param orderType 订单类型 1-充值订单，2-商品订单，3-寄售台商品订单
+     * @param orderType 订单类型 1-充值订单，2-商品订单，3-寄售台商品订单 4- 会员卡充值订单
      * @return
      * @throws Exception
      * @author linqin
@@ -215,6 +248,38 @@ public class PayNotifyInterfaceController {
     public String conBaseWXPay(HttpServletRequest request, Byte orderType) throws Exception {
         String xml = Util.inputStreamToString(request.getInputStream());
         return appPaymentInfoService.conOrderWXPay(xml, orderType);
+    }
+
+    /*-----------------------------------------------礼遇圈会员卡充值微信支付回调---------------------------------------------------*/
+
+
+    /**
+     * 礼遇圈会员卡充值订单微信支付回调
+     *
+     * @param request
+     * @return
+     * @throws Exception
+     * @author linqin
+     * @date 2018/6/8
+     */
+    @RequestMapping("v3/member_order/wx")
+    public String orderMemberPay(HttpServletRequest request) throws Exception {
+        /** 调用基础方法 **/
+        return this.baseMemberPay(request, Constants.ORDER_TYPE.CHARGE);
+    }
+
+    /**
+     * 礼遇圈会员卡充值微信支付回调基础方法
+     *
+     * @param request
+     * @param orderType 订单类型 1-充值订单，2-商品订单，3-寄售台商品订单 4- 会员卡充值订单
+     * @return
+     * @author linqin
+     * @date 2018/6/8
+     */
+    public String baseMemberPay(HttpServletRequest request, Byte orderType) throws Exception {
+        String xml = Util.inputStreamToString(request.getInputStream());
+        return appPaymentInfoService.baseMemberPay(xml, orderType);
     }
 
 }

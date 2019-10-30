@@ -69,6 +69,13 @@ from user_member_card a
          left join membership_card b on a.membership_card_id = b.id
 where a.id = #{id}
     </select>
+    <select id="selectByCardIdUserId" resultType="com.chouchongkeji.dial.pojo.v3.UserMemberCard">
+      select
+      <include refid="Base_Column_List" />
+      from user_member_card
+      where user_id = #{userId}
+      and membership_card_id = #{cardId}
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from user_member_card
     where id = #{id,jdbcType=INTEGER}

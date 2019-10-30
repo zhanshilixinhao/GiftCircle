@@ -99,4 +99,27 @@ public interface AppPaymentInfoService {
      *  @date 2018/7/5
      */
     String conOrderWXPay(String xml, Byte orderType) throws ParserConfigurationException, SAXException, IOException;
+
+    /**
+     * 礼遇圈会员卡宝支付回调基础方法
+     *
+     * @param aLiPayV2Vo
+     * @param parameterMap
+     * @param orderType    订单类型 1-充值订单，2-商品订单，3-寄售台商品订单 4- 会员卡充值订单
+     * @return
+     * @author linqin
+     * @date 2018/6/8
+     */
+    String memberAliPay(ALiPayV2Vo aLiPayV2Vo, Map parameterMap, Byte orderType);
+
+    /**
+     * 礼遇圈会员卡充值微信支付回调基础方法
+     *
+     * @param xml
+     * @param orderType 订单类型 1-充值订单，2-商品订单，3-寄售台商品订单 4- 会员卡充值订单
+     * @return
+     * @author linqin
+     * @date 2018/6/8
+     */
+    String baseMemberPay(String xml, Byte orderType) throws ParserConfigurationException, SAXException, IOException;
 }

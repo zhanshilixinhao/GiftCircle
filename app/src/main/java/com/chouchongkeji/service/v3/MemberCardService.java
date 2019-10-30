@@ -4,6 +4,8 @@ import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.query.PageQuery;
 import com.yichen.auth.service.UserDetails;
 
+import java.math.BigDecimal;
+
 /**
  * @author linqin
  * @date 2019/10/23
@@ -34,6 +36,14 @@ public interface MemberCardService {
      */
     Response detailMemberCard(UserDetails userDetails, Integer id);
 
+
+    /**
+     * 给用户添加礼遇圈卡 （礼遇圈卡storeId也为0）
+     *
+     * @param userId 用户id
+     * @return
+     */
+    int addMemberShipCard(Integer userId, BigDecimal balance, BigDecimal total, BigDecimal consume);
 
     /**
      * 会员卡充值记录

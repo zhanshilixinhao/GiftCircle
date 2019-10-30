@@ -7,6 +7,7 @@ import com.chouchongkeji.dial.dao.gift.item.ItemOrderMapper;
 import com.chouchongkeji.dial.dao.iwant.wallet.ChargeOrderMapper;
 import com.chouchongkeji.dial.dao.user.AppUserMapper;
 import com.chouchongkeji.dial.dao.user.PaymentInfoMapper;
+import com.chouchongkeji.dial.dao.v3.MemberChargeOrderMapper;
 import com.chouchongkeji.dial.pojo.backpack.consignment.Consignment;
 import com.chouchongkeji.dial.pojo.backpack.consignment.ConsignmentOrder;
 import com.chouchongkeji.dial.pojo.gift.item.ItemOrder;
@@ -15,6 +16,7 @@ import com.chouchongkeji.dial.pojo.gift.item.OrderCollect;
 import com.chouchongkeji.dial.pojo.iwant.wallet.ChargeOrder;
 import com.chouchongkeji.dial.pojo.user.AppUser;
 import com.chouchongkeji.dial.pojo.user.PaymentInfo;
+import com.chouchongkeji.dial.pojo.v3.MemberChargeOrder;
 import com.chouchongkeji.exception.ServiceException;
 import com.chouchongkeji.goexplore.common.ErrorCode;
 import com.chouchongkeji.goexplore.pay.alipay.config.AlipayConfig;
@@ -32,6 +34,7 @@ import com.chouchongkeji.service.mall.item.OrderService;
 import com.chouchongkeji.service.iwant.wallet.WalletService;
 import com.chouchongkeji.service.message.MessageService;
 import com.chouchongkeji.service.user.info.AppPaymentInfoService;
+import com.chouchongkeji.service.v3.ChargeCardService;
 import com.chouchongkeji.util.Constants;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -94,6 +97,11 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
     @Autowired
     private BpService bpService;
 
+    @Autowired
+    private ChargeCardService chargeCardService;
+
+    @Autowired
+    private MemberChargeOrderMapper memberChargeOrderMapper;
 
     /**
      * 支付宝提供给商户的服务接入网关URL(新)
@@ -145,6 +153,45 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
         }
         return "SUCCESS";
 
+    }
+
+    /**
+     * 礼遇圈会员卡宝支付回调基础方法
+     *
+     * @param aLiPayV2Vo
+     * @param map
+     * @param orderType  订单类型 1-充值订单，2-商品订单，3-寄售台商品订单 4- 会员卡充值订单
+     * @return
+     * @author linqin
+     * @date 2018/6/8
+     */
+    @Override
+    public String memberAliPay(ALiPayV2Vo aLiPayV2Vo, Map map, Byte orderType) {
+        log.info("支付宝会员卡充值订单");
+        Long orderNo = Long.parseLong(aLiPayV2Vo.getOut_trade_no());
+        //检测订单号
+        MemberChargeOrder chargeOrder = memberChargeOrderMapper.selectByPrimaryKey(orderNo);
+        //如果订单号不存在直接返回错误
+        if (chargeOrder == null) {
+            return "ERROR";
+        }
+        //通过订单号取出金额
+        BigDecimal amount = chargeOrder.getRechargeMoney();
+        // 校验支付的价格
+        if (amount.compareTo(new BigDecimal(aLiPayV2Vo.getTotal_amount())) != 0) {
+            return "ERROR";
+        }
+        //支付宝相关校验
+        int re = checkAliPayBaseInfo(aLiPayV2Vo, map, orderNo);
+        if (re == 0) {
+            // 支付成功后的业务逻辑
+            chargeCardService.successPay(orderNo);
+            //支付信息
+            doAliPaySuccess(aLiPayV2Vo, orderType, chargeOrder.getUserId());
+        } else if (re == 2) {
+            return "ERROR";
+        }
+        return "SUCCESS";
     }
 
     /**
@@ -206,8 +253,8 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
             // 改变订单
             orderAli(itemOrder, orderNo, aLiPayV2Vo, orderType);
             // 看是否是被其他用户邀请进来的
-            BigDecimal mu = BigDecimalUtil.multi(price.doubleValue(),0.01);
-            orderService.parentUserFirework(itemOrder.getUserId(),mu.intValue(),itemOrder.getId(),orderNo);
+            BigDecimal mu = BigDecimalUtil.multi(price.doubleValue(), 0.01);
+            orderService.parentUserFirework(itemOrder.getUserId(), mu.intValue(), itemOrder.getId(), orderNo);
 
         } else if (i == 2) {
             return "ERROR";
@@ -493,6 +540,51 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
         return resXml;
     }
 
+
+    /**
+     * 礼遇圈会员卡充值微信支付回调基础方法
+     *
+     * @param xml
+     * @param orderType 订单类型 1-充值订单，2-商品订单，3-寄售台商品订单 4- 会员卡充值订单
+     * @return
+     * @author linqin
+     * @date 2018/6/8
+     */
+    @Override
+    public String baseMemberPay(String xml, Byte orderType) throws ParserConfigurationException, SAXException, IOException {
+        /** 支付成功微信服务器通知XML **/
+        String resXml = "<xml>" + "<return_code><![CDATA[SUCCESS]]></return_code>"
+                + "<return_msg><![CDATA[OK]]></return_msg>" + "</xml> ";
+        /** 获取微信服务请求XML参数 **/
+        //获取微信服务请求xml参数
+        /** XML转对象 **/
+        log.info("微信充值{}", xml);
+        NotifyData notifyData = (NotifyData) Util.getObjectFromXML(xml, NotifyData.class);
+        //校验订单号
+        Long orderNo = Long.parseLong(notifyData.getOut_trade_no());
+        MemberChargeOrder chargeOrder = memberChargeOrderMapper.selectByPrimaryKey(orderNo);
+        if (chargeOrder == null) {
+            return "ERROR";
+        }
+        //通过订单号取出金额
+        BigDecimal amount = chargeOrder.getRechargeMoney();
+        // 检验支付金额(微信)
+        if (amount.compareTo(
+                BigDecimalUtil.div(new BigDecimal(notifyData.getTotal_fee()).doubleValue(), 100)) != 0) {
+            return "ERROR";
+        }
+        int re = checkBaseWxPayInfo(notifyData, xml, orderNo);
+        if (re == 0) {
+            // 支付成功后的业务逻辑
+            chargeCardService.successPay(orderNo);
+            //支付信息
+            doWXPaySuccess(notifyData, orderType, chargeOrder.getUserId());
+        } else if (re == 2) {
+            return "ERROR";
+        }
+        return resXml;
+    }
+
     /**
      * 微信商品订单支付
      *
@@ -556,8 +648,8 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
         if (re == 0) {
             changeOrder(itemOrder, orderNo, notifyData, orderType);
             // 看是否是被其他用户邀请进来的
-            BigDecimal mu = BigDecimalUtil.multi(price.doubleValue(),0.01);
-            orderService.parentUserFirework(itemOrder.getUserId(),mu.intValue(),itemOrder.getId(),orderNo);
+            BigDecimal mu = BigDecimalUtil.multi(price.doubleValue(), 0.01);
+            orderService.parentUserFirework(itemOrder.getUserId(), mu.intValue(), itemOrder.getId(), orderNo);
         } else if (re == 2) {
             return "ERROR";
         }
@@ -843,7 +935,7 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
      * @date 2018/6/8
      */
     public PaymentInfo doLiHuaPaySuccess(Long orderNo, Integer userId, Date created, Byte orderType, Integer sellUserId,
-                                       BigDecimal amount) {
+                                         BigDecimal amount) {
         /** -------------支付成功逻辑处理-------------- **/
         PaymentInfo payment = new PaymentInfo();
         /** 订单号 **/
