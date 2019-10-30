@@ -6,10 +6,12 @@ import com.chouchongkeji.dial.dao.gift.item.*;
 import com.chouchongkeji.dial.dao.iwant.wallet.FireworksMapper;
 import com.chouchongkeji.dial.dao.user.AppUserMapper;
 import com.chouchongkeji.dial.dao.user.InviteUserMapper;
+import com.chouchongkeji.dial.dao.v3.UserMemberCardMapper;
 import com.chouchongkeji.dial.pojo.gift.item.*;
 import com.chouchongkeji.dial.pojo.iwant.wallet.Fireworks;
 import com.chouchongkeji.dial.pojo.user.AppUser;
 import com.chouchongkeji.dial.pojo.user.InviteUser;
+import com.chouchongkeji.dial.pojo.v3.UserMemberCard;
 import com.chouchongkeji.exception.ServiceException;
 import com.chouchongkeji.goexplore.common.ErrorCode;
 import com.chouchongkeji.goexplore.common.Response;
@@ -33,6 +35,7 @@ import com.chouchongkeji.service.mall.item.vo.OrderVo;
 import com.chouchongkeji.service.mall.item.vo.SkuListVo;
 import com.chouchongkeji.service.mall.item.vo.SkuValueVo;
 import com.chouchongkeji.service.user.info.AppPaymentInfoService;
+import com.chouchongkeji.service.v3.ChargeCardService;
 import com.chouchongkeji.util.Constants;
 import com.chouchongkeji.util.OrderHelper;
 import com.github.pagehelper.PageHelper;
@@ -101,6 +104,12 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private AppUserMapper appUserMapper;
+
+    @Autowired
+    private UserMemberCardMapper userMemberCardMapper;
+
+    @Autowired
+    private ChargeCardService chargeCardService;
 
     /**
      * 按时取消订单
@@ -240,6 +249,54 @@ public class OrderServiceImpl implements OrderService {
                 }
                 //保存支付信息
                 appPaymentInfoService.doLiHuaPaySuccess(itemOrder.getOrderNo(), userId, new Date(), Constants.ORDER_TYPE.ITEM,
+                        0, totalPrice);
+                // 看是否是被其他用户邀请进来的
+                parentUserFirework(userId, mu.intValue(), itemOrder.getId(), orderNo);
+            }
+            return ResponseFactory.sucMsg("支付成功");
+        }
+        // 会员卡支付
+        if (payWay == Constants.PAY_TYPE.CARD){
+            //  查询会员卡余额是否足够
+            UserMemberCard card = userMemberCardMapper.selectByCardIdUserId(userId, 0);
+            if (card == null || totalPrice.compareTo(card.getBalance()) > 0){
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "会员卡余额不足");
+            }
+            int index = 0;
+            for (ItemOrder itemOrder : itemOrders) {
+                //扣减会员卡余额，更新余额
+                chargeCardService.updateBalance(userId,new BigDecimal("0"),totalPrice);
+                StringBuilder title = new StringBuilder();
+                StringBuilder targetIds = new StringBuilder();
+                List<ItemOrderDetail> details = itemOrderDetailMapper.selectByOrderNo(itemOrder.getOrderNo());
+                if (CollectionUtils.isNotEmpty(details)){
+                    for (ItemOrderDetail detail : details) {
+                        String title1 = detail.getTitle();
+                        title.append(title1);
+                        Integer targetId = detail.getSkuId();
+                        targetIds.append(targetId).append(",");
+                    }
+                }
+                // 添加会员卡消费记录
+                chargeCardService.addExpenseRecord(userId,totalPrice,targetIds.toString(),"购买商品:" + title.toString());
+                //更新订单状态
+                int i = itemOrderMapper.updateStatusByOrder(orderNo, Constants.ORDER_STATUS.PAID);
+                if (i < 1) {
+                    throw new ServiceException(ErrorCode.ERROR.getCode(), "更新状态失败");
+                }
+                //更新销量和详细订单状
+                int s = updateStatusSales(itemOrder.getOrderNo());
+                if (s < 1) {
+                    throw new ServiceException(ErrorCode.ERROR.getCode(), "更新销量和详细订单状态失败");
+                }
+                //物品添加到背包
+                int add = bpService.addFromItemOrder(list.get(index++));
+
+                if (add < 1) {
+                    throw new ServiceException(ErrorCode.ERROR.getCode(), "");
+                }
+                //保存支付信息
+                appPaymentInfoService.doYuePaySuccess(itemOrder.getOrderNo(), userId, new Date(), Constants.ORDER_TYPE.ITEM,
                         0, totalPrice);
                 // 看是否是被其他用户邀请进来的
                 parentUserFirework(userId, mu.intValue(), itemOrder.getId(), orderNo);
@@ -673,8 +730,55 @@ public class OrderServiceImpl implements OrderService {
 
             return ResponseFactory.sucMsg("支付成功");
         }
+        // 会员卡支付
+        if (payWay == Constants.PAY_TYPE.CARD) {
+            //  查询会员卡余额是否足够
+            UserMemberCard card = userMemberCardMapper.selectByCardIdUserId(userId, 0);
+            if (card == null || totalPrice.compareTo(card.getBalance()) > 0){
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "会员卡余额不足");
+            }
+            //物品添加到背包
+            StringBuilder title = new StringBuilder();
+            StringBuilder targetIds = new StringBuilder();
+            List<ItemOrderDetail> list = itemOrderDetailMapper.selectByUserIdAndOrderNo(userId, orderNo);
+            if (CollectionUtils.isNotEmpty(list)) {
+                for (ItemOrderDetail itemOrderDetail : list) {
+                    Item item = itemMapper.selectByItemId(itemOrderDetail.getItemId());
+                    String title1 = item.getTitle();
+                    title.append(title1);
+                    Integer targetId = itemOrderDetail.getSkuId();
+                    targetIds.append(targetId).append(",");
+                }
+                int add = bpService.addFromItemOrder(list);
+                if (add < 1) {
+                    throw new ServiceException(ErrorCode.ERROR.getCode(), "");
+                }
+            }
+            //扣减会员卡余额，更新余额
+            chargeCardService.updateBalance(userId,new BigDecimal("0"),totalPrice);
+            // 添加会员卡消费记录
+            chargeCardService.addExpenseRecord(userId,totalPrice,targetIds.toString(),"购买商品:" + title.toString());
+            //更新订单状态
+            int i = itemOrderMapper.updateStatusByOrder(orderNo, Constants.ORDER_STATUS.PAID);
+            if (i < 1) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "更新状态失败");
+            }
+            //更新销量和详细订单状态
+            int sales = updateStatusSales(orderNo);
+            if (sales < 1) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "更新余额,扣减余额失败");
+            }
+            //保存支付信息
+            appPaymentInfoService.doYuePaySuccess(orderNo, userId, itemOrder.getCreated(), Constants.ORDER_TYPE.ITEM,
+                    0, itemOrder.getTotalPrice());
+            // 看是否是被其他用户邀请进来的
+            parentUserFirework(userId, mu.intValue(), itemOrder.getId(), orderNo);
+
+            return ResponseFactory.sucMsg("支付成功");
+        }
         return ResponseFactory.sucData(createOrderParameter(orderNo, itemOrder.getTotalPrice(), payWay));
     }
+
 
 
     /**

@@ -8366,7 +8366,7 @@ type = 3 请求结果示例：
 
 ```
 
-### 5 用户会员卡充值记录
+### 5 用户会员卡消费记录
 
 - 请求地址：auth/v3/memberCard/expense/record
 - 服务协议：HTTP/POST
@@ -8414,7 +8414,7 @@ type = 3 请求结果示例：
 
 
 
-### 6 用户会员卡充值记录
+### 6 用户会员卡消费记录详情
 
 - 请求地址：auth/v3/memberCard/expense/detail
 - 服务协议：HTTP/POST
@@ -8495,5 +8495,37 @@ type = 3 请求结果示例：
     }
   ]
 }
+
+```
+
+
+### 8 创建礼遇圈会员卡充值订单
+
+- 请求地址：auth/v3/charge/order
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：linqin
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+|    payWay    |   int    |    是    |   无   | 支付方式，微信 24656，支付宝 78990 |
+|eventId|int|是|无|充值规则id|
+
+
+* 请求示例
+
+```js
+{
+  "errCode": 0,
+  "result": 0,
+  "time": 1572419014135,
+  "data": {
+    "params": "lJFLEvvna3MQYcNrq+WMlwU0ZeTIbqPvmjB23huH8/ixhM/fucb1B97QDsa9WXKACRcP6yKcTMjxIq3GaHZ6+GrizOEz5T21rGspqZ/KoIXVBdaelLgnS+z0CMxVlEQVsCxQEObBgpS1z6Dx67bqKALvairyH6NTnvNkysYxdUt2g2aFDIJIjsU+ga1cPEskM35dMVkwYTQHHqZYwdWODNipNmqV5QSnCCkIjpr+QIPOhfvkfXKNb+5VU0bkDFDijfVT7/K+PMAP7d/cr2UhEEG7NwYkovjEKEkpX8NlyXgfRF9xN2btUHXinwcVfqIdjXohrBAt19T6TzoVhpgO0g==XJ1Azfnu5Y/DL0peXIjSix5R4ptbM/eFAaWzlUiFj3cHeFoPc4bkqfemaAvP8Ds9owoxoYH4/zFuws9CZTE9cArjV01jvTcUEfu/j0f+WlNZzn5Cjzy/BgGObrs1tknA/dCf1mH77ekRo2maL8U6l+ctAuICHgFwinU9B5d0Gw4sbWeVvIEog20leYQ2VNIagN7jE13nE7+QmwK+wx08XsYXbaCaf/1Wgltjey8cABfI3qqItniRhu8qdlZW+cG5v5VrLMxX2T/OcHh9GrULSIDKvFai5sP8RdQxQgyHypMEp9XnS/sGCZ4QgzEOtC2+4T25I6w/xxhOMba+ih5WlA==YWoajmJ08ljEh/S1NC+ZcEXqO8C3sGhUvSYej5nK9fLLZj+OAjixCr0Y58WFpakmKawuEW2tHteB4+a6Q93y2673wtGhNYTRS2+kci5Ai+52kuHISiwiWzw8nszEoqsnT0UNtOjJ8ARdQfJHrLnR/wJU6aB4xbR9iNRV0YVJAe/gzaCxLj4xxtq2lojGbBOJN0D1N5mX2BY10ZkMp6P8sHpdqGtx0oVYB6UazHDe3CAWyg6xkQgJN27nWEpgznWzBAt+jjauKoEFxpO/3oy7Ypo50amI3Bpuya7pjo87vXIS79N9QK/UpRENuxJrzItP/mWKmgSGSTKf9myYNe2Bew==jKDmwx8O6xQS4sRlR3Sjta8+y7nC/Zmdm4CxBNZ2Uvlkc+lafkiLdxdbk0+fchHX6NajQsxGnqTrjOrVhO0yKTwhpGWUOkPkSm9TcHLXrrhPrsFemFpJPcm6bp2eQInFPy5BoPCgmLgI/TpCBNLlLOdmPhYQD1Wnfou1znbthBo3fjCqBFScYsHxUrOjGf/EM0C2c1QG3XZxHAvzQSmbN1DXnwraJSYcZBZROXAunZWLAW7NxWmNevQjTqp2M8m32ZpUMoYT/qeUIhDw06F6RDJSONvp+8yMtXJ6qefo4WF+/sMGUm2hYdbCGqMahL1s+MBZk8RTte7muVLze2sgIw==Dj677i3KEgLbgk9Sxd25iJathdRt/7nT1MVIf72+BKzE8YOV+pSNDxUF2H3zS1E7lGD2X0g+eLSgbpGdzLDsKlonD0Tlwx1RXidvy6aL9hIa0wt2DRckq9BUdOwU6o+RRGNS8FMB8voUVkL2gTeITBe1VJT1zgGbA2URzOXDyE5Jzrg5tmjAJbDT9Hli51ffnlVgLwvxrZ3A4Lnp3d7ZqsNlB5gFID3cvNABphPTE5VSBqazrpEQPtfZV74kSHXllyBFnONwHBTOaehKkXw5NErlPQ5VwROgfdpFQZyosU1Plo9OnIkV2NM1grWVYo2oLknFmSgdrMX5dehV120SRg==||344,344,344,344,344",
+    "orderNo": 1619103015101, //订单号
+    "type": 78990  //支付方式，微信 24656，支付宝 78990
+  }
+}
+
 
 ```

@@ -29,7 +29,7 @@ public class ExpenseDetailVo {
 
     private String phone;
 
-    private Integer targetId;
+    private String targetId;
     /**
      * 商品名称
      */
@@ -115,11 +115,11 @@ public class ExpenseDetailVo {
         this.phone = phone;
     }
 
-    public Integer getTargetId() {
+    public String getTargetId() {
         return targetId;
     }
 
-    public void setTargetId(Integer targetId) {
+    public void setTargetId(String targetId) {
         this.targetId = targetId;
     }
 

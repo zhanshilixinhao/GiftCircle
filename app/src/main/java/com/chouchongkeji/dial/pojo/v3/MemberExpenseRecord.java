@@ -16,7 +16,7 @@ public class MemberExpenseRecord {
 
     private Integer storeId;
 
-    private Integer targetId;
+    private String  targetId;
 
     private Integer adminId;
 
@@ -26,7 +26,7 @@ public class MemberExpenseRecord {
 
     private Date created;
 
-    public MemberExpenseRecord(Integer id, Integer membershipCardId, Integer userId, BigDecimal expenseMoney, Byte type, Integer storeId, Integer targetId, Integer adminId, String explain, Date updated, Date created) {
+    public MemberExpenseRecord(Integer id, Integer membershipCardId, Integer userId, BigDecimal expenseMoney, Byte type, Integer storeId, String targetId, Integer adminId, String explain, Date updated, Date created) {
         this.id = id;
         this.membershipCardId = membershipCardId;
         this.userId = userId;
@@ -92,11 +92,11 @@ public class MemberExpenseRecord {
         this.storeId = storeId;
     }
 
-    public Integer getTargetId() {
+    public String getTargetId() {
         return targetId;
     }
 
-    public void setTargetId(Integer targetId) {
+    public void setTargetId(String targetId) {
         this.targetId = targetId;
     }
 

@@ -102,4 +102,17 @@ public class Test1 {
         System.out.println(post.body().string());
     }
 
+    @Test
+    public void ca() throws IOException {
+        RequestParams params = new RequestParams();
+        params.put("time", System.currentTimeMillis());
+        params.put("access_token", "8975fd98-d988-4110-a7a1-8fde82f8e66e");
+        params.put("eventId", 2);
+        params.put("payWay", 78990);
+        Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
+        params.put("sign", map.get(ApiSignUtil.ANDROID));
+        Response post = OkHttpUtil.post("http://localhost:8089/auth/v3/charge/order", params);
+        System.out.println(post.body().string());
+    }
+
 }

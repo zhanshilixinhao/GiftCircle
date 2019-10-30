@@ -9,7 +9,7 @@
       <arg column="expense_money" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
       <arg column="type" javaType="java.lang.Byte" jdbcType="TINYINT" />
       <arg column="store_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="target_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="target_id" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="admin_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="explain" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
@@ -18,7 +18,7 @@
   </resultMap>
   <sql id="Base_Column_List">
     id, membership_card_id, user_id, expense_money, type, store_id, target_id, admin_id,
-    explain, updated, created
+    `explain`, updated, created
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select
@@ -65,12 +65,12 @@ where a.id = #{id}
   <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.v3.MemberExpenseRecord">
     insert into member_expense_record (id, membership_card_id, user_id,
       expense_money, type, store_id,
-      target_id, admin_id, explain,
+      target_id, admin_id, `explain`,
       updated, created)
     values (#{id,jdbcType=INTEGER}, #{membershipCardId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER},
       #{expenseMoney,jdbcType=DECIMAL}, #{type,jdbcType=TINYINT}, #{storeId,jdbcType=INTEGER},
-      #{targetId,jdbcType=INTEGER}, #{adminId,jdbcType=INTEGER}, #{explain,jdbcType=VARCHAR},
-      #{updated,jdbcType=TIMESTAMP}, #{created,jdbcType=TIMESTAMP})
+      #{targetId,jdbcType=VARCHAR}, #{adminId,jdbcType=INTEGER}, #{explain,jdbcType=VARCHAR},
+      now(), now())
   </insert>
   <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.v3.MemberExpenseRecord">
     insert into member_expense_record
@@ -129,7 +129,7 @@ where a.id = #{id}
         #{storeId,jdbcType=INTEGER},
       </if>
       <if test="targetId != null">
-        #{targetId,jdbcType=INTEGER},
+        #{targetId,jdbcType=VARCHAR},
       </if>
       <if test="adminId != null">
         #{adminId,jdbcType=INTEGER},
@@ -164,13 +164,13 @@ where a.id = #{id}
         store_id = #{storeId,jdbcType=INTEGER},
       </if>
       <if test="targetId != null">
-        target_id = #{targetId,jdbcType=INTEGER},
+        target_id = #{targetId,jdbcType=VARCHAR},
       </if>
       <if test="adminId != null">
         admin_id = #{adminId,jdbcType=INTEGER},
       </if>
       <if test="explain != null">
-        explain = #{explain,jdbcType=VARCHAR},
+        `explain` = #{explain,jdbcType=VARCHAR},
       </if>
       <if test="updated != null">
         updated = #{updated,jdbcType=TIMESTAMP},
@@ -188,7 +188,7 @@ where a.id = #{id}
       expense_money = #{expenseMoney,jdbcType=DECIMAL},
       type = #{type,jdbcType=TINYINT},
       store_id = #{storeId,jdbcType=INTEGER},
-      target_id = #{targetId,jdbcType=INTEGER},
+      target_id = #{targetId,jdbcType=VARCHAR},
       admin_id = #{adminId,jdbcType=INTEGER},
       explain = #{explain,jdbcType=VARCHAR},
       updated = #{updated,jdbcType=TIMESTAMP},

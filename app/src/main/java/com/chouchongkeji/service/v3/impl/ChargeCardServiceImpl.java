@@ -3,10 +3,7 @@ package com.chouchongkeji.service.v3.impl;
 import com.alibaba.fastjson.JSON;
 import com.chouchongkeji.dial.dao.v3.*;
 import com.chouchongkeji.dial.pojo.iwant.wallet.ChargeOrder;
-import com.chouchongkeji.dial.pojo.v3.MemberChargeOrder;
-import com.chouchongkeji.dial.pojo.v3.MemberChargeRecord;
-import com.chouchongkeji.dial.pojo.v3.MemberEvent;
-import com.chouchongkeji.dial.pojo.v3.UserMemberCard;
+import com.chouchongkeji.dial.pojo.v3.*;
 import com.chouchongkeji.exception.ServiceException;
 import com.chouchongkeji.goexplore.common.ErrorCode;
 import com.chouchongkeji.goexplore.common.Response;
@@ -61,6 +58,9 @@ public class ChargeCardServiceImpl implements ChargeCardService {
 
     @Autowired
     private MemberCardService memberCardService;
+
+    @Autowired
+    private MemberExpenseRecordMapper  memberExpenseRecordMapper;
 
     /**
      * 礼遇圈会员卡充值规则
@@ -193,6 +193,7 @@ public class ChargeCardServiceImpl implements ChargeCardService {
      * @param amount 充值金额+赠送金额
      * @param consume 消费金额
      */
+    @Override
     public void updateBalance(Integer userId, BigDecimal amount, BigDecimal consume) {
         UserMemberCard card = userMemberCardMapper.selectByCardIdUserId(userId, 0);
         if (card == null) {
@@ -201,7 +202,8 @@ public class ChargeCardServiceImpl implements ChargeCardService {
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "更新余额失败");
             }
         }else {
-            card.setBalance(BigDecimalUtil.add(card.getBalance().doubleValue(), amount.doubleValue()));
+            BigDecimal add = BigDecimalUtil.add(card.getBalance().doubleValue(), amount.doubleValue());
+            card.setBalance(BigDecimalUtil.sub(add.doubleValue(), consume.doubleValue()));
             card.setTotalAmount(BigDecimalUtil.add(card.getTotalAmount().doubleValue(), amount.doubleValue()));
             card.setConsumeAmount(BigDecimalUtil.add(card.getConsumeAmount().doubleValue(), consume.doubleValue()));
             int i = userMemberCardMapper.updateByPrimaryKeySelective(card);
@@ -211,5 +213,27 @@ public class ChargeCardServiceImpl implements ChargeCardService {
         }
     }
 
+    /**
+     * 添加会员卡消费记录
+     * @param userId 用户id
+     * @param amount 消费金额
+     * @param targetId 目标id
+     * @param explain 消费说明
+     */
+    @Override
+    public void addExpenseRecord(Integer userId,BigDecimal amount,String targetId,String explain){
+        MemberExpenseRecord record = new MemberExpenseRecord();
+        record.setMembershipCardId(0);
+        record.setUserId(userId);
+        record.setExpenseMoney(amount);
+        record.setType((byte)1);
+        record.setStoreId(0);
+        record.setTargetId(targetId);
+        record.setExplain(explain);
+        int insert = memberExpenseRecordMapper.insert(record);
+        if (insert == 0) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "添加消费记录失败！");
+        }
+    }
 
 }

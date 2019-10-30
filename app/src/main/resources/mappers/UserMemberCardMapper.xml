@@ -185,7 +185,7 @@ where a.id = #{id}
         consume_amount = #{consumeAmount,jdbcType=DECIMAL},
       </if>
       <if test="updated != null">
-        updated = #{updated,jdbcType=TIMESTAMP},
+        updated = now(),
       </if>
       <if test="created != null">
         created = #{created,jdbcType=TIMESTAMP},

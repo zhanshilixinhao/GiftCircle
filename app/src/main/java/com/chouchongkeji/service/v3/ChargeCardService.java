@@ -3,6 +3,8 @@ package com.chouchongkeji.service.v3;
 import com.chouchongkeji.goexplore.common.Response;
 import com.yichen.auth.mvc.AppClient;
 
+import java.math.BigDecimal;
+
 /**
  * @author linqin
  * @date 2019/10/29
@@ -38,4 +40,21 @@ public interface ChargeCardService {
      * @return
      */
      void successPay(Long orderNo);
+
+    /**
+     * 更新余额
+     * @param userId 用户id
+     * @param amount 充值金额+赠送金额
+     * @param consume 消费金额
+     */
+     void updateBalance(Integer userId, BigDecimal amount, BigDecimal consume);
+
+    /**
+     * 添加会员卡消费记录
+     * @param userId 用户id
+     * @param amount 消费金额
+     * @param targetId 目标id
+     * @param explain 消费说明
+     */
+     void addExpenseRecord(Integer userId,BigDecimal amount,String targetId,String explain);
 }

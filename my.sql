@@ -1889,7 +1889,7 @@ CREATE TABLE member_expense_record (
    expense_money decimal(18,2) comment'消费金额',
   `type` tinyint(4) comment'消费方式 1 app消费 2 门店消费',
   `store_id` int(11) COMMENT '门店id(消费门店)',
-  `target_id` int(11) COMMENT '目标id(物品id..)',
+  `target_id` varchar(200) COMMENT '目标id(skuId..)',
   admin_id int(11) comment'后台操作者id',
   `explain` varchar(200) comment'消费说明',
   updated datetime COMMENT '修改时间',

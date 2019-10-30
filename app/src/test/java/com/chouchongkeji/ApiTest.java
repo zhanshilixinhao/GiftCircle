@@ -63,13 +63,29 @@ public class ApiTest {
     public void createItemOrder() throws IOException {
         RequestParams params = new RequestParams();
         params.put("time",System.currentTimeMillis());
-        params.put("access_token","572f7a09-b3e0-4ec5-b04b-13c82771c1c8");
-        params.put("skus","[{ \"skuId\":90, \"quantity\":1 }  ]");
-        params.put("payWay",98001);
+        params.put("access_token", "8975fd98-d988-4110-a7a1-8fde82f8e66e");
+        params.put("skus","[{ \"skuId\":1278, \"quantity\":1 }  ]");
+        params.put("payWay",36666);
         params.put("isShoppingCart",2);
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
         params.put("sign",map.get(ApiSignUtil.ANDROID));
-        Response post = OkHttpUtil.post("http://localhost:8088/auth/item/order/create", params);
+        Response post = OkHttpUtil.post("http://localhost:8089/auth/item/order/create", params);
+        System.out.println(post.body().string());
+    }
+
+    // 系统消息列表
+    @Test
+    public void pay() throws IOException {
+        RequestParams params = new RequestParams();
+        params.put("time",System.currentTimeMillis());
+        params.put("access_token", "8975fd98-d988-4110-a7a1-8fde82f8e66e");
+//        params.put("skus","[{ \"skuId\":1262, \"quantity\":1 },{ \"skuId\":1268, \"quantity\":1 }  ]");
+        params.put("orderNo",1219103017120L);
+        params.put("payWay",36666);
+        params.put("isShoppingCart",2);
+        Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
+        params.put("sign",map.get(ApiSignUtil.ANDROID));
+        Response post = OkHttpUtil.post("http://localhost:8089/auth/item/order/pay", params);
         System.out.println(post.body().string());
     }
 
