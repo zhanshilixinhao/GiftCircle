@@ -280,7 +280,7 @@ public class OrderServiceImpl implements OrderService {
                 // 添加会员卡消费记录
                 chargeCardService.addExpenseRecord(userId,totalPrice,targetIds.toString(),"购买商品:" + title.toString());
                 //更新订单状态
-                int i = itemOrderMapper.updateStatusByOrder(orderNo, Constants.ORDER_STATUS.PAID);
+                int i = itemOrderMapper.updateStatusByOrder(itemOrder.getOrderNo(), Constants.ORDER_STATUS.PAID);
                 if (i < 1) {
                     throw new ServiceException(ErrorCode.ERROR.getCode(), "更新状态失败");
                 }
