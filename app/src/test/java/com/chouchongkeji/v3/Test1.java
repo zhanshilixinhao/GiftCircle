@@ -98,7 +98,7 @@ public class Test1 {
 //        params.put("id", 2);
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
         params.put("sign", map.get(ApiSignUtil.ANDROID));
-        Response post = OkHttpUtil.post("http://localhost:8089/noauth/v3/charge/rule/list", params);
+        Response post = OkHttpUtil.post("https://liyuquan.cn/app/noauth/v3/charge/rule/list", params);
         System.out.println(post.body().string());
     }
 

@@ -12,6 +12,7 @@ import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.service.backpack.base.BpService;
 import com.chouchongkeji.service.message.MessageService;
 import com.chouchongkeji.service.user.info.UserService;
+import com.chouchongkeji.service.v3.MemberCardService;
 import com.yichen.auth.redis.MRedisTemplate;
 import com.chouchongkeji.service.iwant.wallet.FireworksService;
 import com.chouchongkeji.service.user.friend.FriendService;
@@ -27,6 +28,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -65,6 +67,9 @@ public class UserLoginServiceImpl implements UserLoginService {
 
     @Autowired
     private ItemOrderDetailMapper itemOrderDetailMapper;
+
+    @Autowired
+    private MemberCardService memberCardService;
 
     /**
      * 微信授权登录
@@ -160,6 +165,8 @@ public class UserLoginServiceImpl implements UserLoginService {
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "邀请者获得礼花失败");
             }
         }
+        // 添加礼遇圈会员卡
+        memberCardService.addMemberShipCard(id,new BigDecimal("0"),new BigDecimal("0"),new BigDecimal("0"));
         // 测试账号（添加测试商品到背包）
         if ("13110487948".equals(phone)) {
             //物品添加到背包
