@@ -42,6 +42,13 @@ public interface ChargeCardService {
      void successPay(Long orderNo);
 
     /**
+     * 添加会员卡使用详情记录
+     *
+     */
+    void addStoreMountDetail(Integer userId,Integer merchantId,Integer storeId,BigDecimal rec,BigDecimal send,BigDecimal expense,
+                             Byte type,String explain,BigDecimal total,Float scale);
+
+    /**
      * 更新余额
      * @param userId 用户id
      * @param amount 充值金额+赠送金额

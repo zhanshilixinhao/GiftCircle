@@ -69,7 +69,7 @@
         </javaClientGenerator>
 
 
-<!--        <table tableName="member_event" domainObjectName="MemberEvent" enableCountByExample="false"-->
+<!--        <table tableName="store_member_charge" domainObjectName="StoreMemberCharge" enableCountByExample="false"-->
 <!--               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
 <!--               selectByExampleQueryId="false"></table>-->
 <!--        <table tableName="member_expense_record" domainObjectName="MemberExpenseRecord" enableCountByExample="false"-->

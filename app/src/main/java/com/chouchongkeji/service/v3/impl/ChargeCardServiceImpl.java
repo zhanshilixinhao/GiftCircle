@@ -62,6 +62,9 @@ public class ChargeCardServiceImpl implements ChargeCardService {
     @Autowired
     private MemberExpenseRecordMapper  memberExpenseRecordMapper;
 
+    @Autowired
+    private StoreMemberChargeMapper storeMemberChargeMapper;
+
     /**
      * 礼遇圈会员卡充值规则
      *
@@ -184,6 +187,38 @@ public class ChargeCardServiceImpl implements ChargeCardService {
         int insert = memberChargeRecordMapper.insert(record);
         if (insert == 0) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "添加充值记录失败");
+        }
+        //添加会员卡使用详情记录
+        BigDecimal total = BigDecimalUtil.add(chargeOrder.getRechargeMoney().doubleValue(),chargeOrder.getSendMoney().doubleValue());
+        // 营业额比例（赠送金额/总金额（充值金额+赠送金额））
+        BigDecimal sca = BigDecimalUtil.div(chargeOrder.getSendMoney().doubleValue(),total.doubleValue());
+        addStoreMountDetail(chargeOrder.getUserId(),0,0,chargeOrder.getRechargeMoney(),chargeOrder.getSendMoney(),
+               new BigDecimal("0"),(byte)1,"余额充值", total,sca.floatValue());
+    }
+
+
+
+    /**
+     * 添加会员卡使用详情记录
+     *
+     */
+    @Override
+    public void addStoreMountDetail(Integer userId,Integer merchantId,Integer storeId,BigDecimal rec,BigDecimal send,BigDecimal expense,
+                                    Byte type,String explain,BigDecimal total,Float scale){
+        StoreMemberCharge member = new StoreMemberCharge();
+        member.setUserId(userId);
+        member.setMerchantId(merchantId);
+        member.setStoreId(storeId);
+        member.setRechargeMoney(rec);
+        member.setSendMoney(send);
+        member.setExpenseMoney(expense);
+        member.setType(type);
+        member.setExplain(explain);
+        member.setTotalMoney(total);
+        member.setScale(scale);
+        int insert = storeMemberChargeMapper.insert(member);
+        if (insert == 0) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "添加会员卡使用记录失败");
         }
     }
 
