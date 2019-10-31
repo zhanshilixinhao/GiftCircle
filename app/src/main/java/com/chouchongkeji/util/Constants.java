@@ -246,6 +246,14 @@ public class Constants {
         byte FORBID = 2;//禁用
     }
 
+    /*商家审核状态*/
+    public interface MERCHANT_STATUS {
+        byte NORMAL = 1;//默认
+        byte IN_REVIEW = 2;//审核中
+        byte PASS = 3; // 审核通过
+        byte NO_PASS = 4; //审核不通过
+    }
+
 //    public static String genPayUrl(int type, int orderType) {
 //        String url;
 //        if (orderType == 0) { // 商品订单
