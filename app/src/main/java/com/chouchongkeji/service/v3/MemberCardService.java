@@ -22,7 +22,7 @@ public interface MemberCardService {
      * @author linqin
      * @date 2019/10/23
      */
-    Response getMemberCardList(UserDetails userDetails, PageQuery page);
+    Response getMemberCardList(UserDetails userDetails, PageQuery page,String keywords);
 
 
     /**

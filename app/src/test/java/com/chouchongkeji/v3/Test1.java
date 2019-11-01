@@ -22,6 +22,7 @@ public class Test1 {
         RequestParams params = new RequestParams();
         params.put("time", System.currentTimeMillis());
         params.put("access_token", "8975fd98-d988-4110-a7a1-8fde82f8e66e");
+//        params.put("keywords", "礼");
         params.put("pageNum", 1);
         params.put("pageSize", 14);
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);

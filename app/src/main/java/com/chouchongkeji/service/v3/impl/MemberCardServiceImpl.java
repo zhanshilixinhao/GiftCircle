@@ -59,7 +59,7 @@ public class MemberCardServiceImpl implements MemberCardService {
      * @date 2019/10/23
      */
     @Override
-    public Response getMemberCardList(UserDetails userDetails, PageQuery page) {
+    public Response getMemberCardList(UserDetails userDetails, PageQuery page,String keywords) {
         PageHelper.startPage(page.getPageNum(), page.getPageSize());
         // 查询该用户是否有礼遇圈卡
         HashSet<Integer> cardIds = userMemberCardMapper.selectCardIdsByUserId(userDetails.getUserId());
@@ -67,7 +67,7 @@ public class MemberCardServiceImpl implements MemberCardService {
          // 不包含0，没有礼遇圈卡则加一张
             addMemberShipCard(userDetails.getUserId(),new BigDecimal("0"),new BigDecimal("0"),new BigDecimal("0"));
         }
-        List<CardVo> cardVos = userMemberCardMapper.selectByUserId(userDetails.getUserId());
+        List<CardVo> cardVos = userMemberCardMapper.selectByUserId(userDetails.getUserId(),keywords);
         if (CollectionUtils.isNotEmpty(cardVos)) {
             // 添加店铺信息
             for (CardVo cardVo : cardVos) {

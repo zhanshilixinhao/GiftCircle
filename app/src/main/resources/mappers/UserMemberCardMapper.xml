@@ -1,53 +1,82 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.chouchongkeji.dial.dao.v3.UserMemberCardMapper">
-  <resultMap id="BaseResultMap" type="com.chouchongkeji.dial.pojo.v3.UserMemberCard">
-    <constructor>
-      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="membership_card_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="balance" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
-      <arg column="total_amount" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
-      <arg column="consume_amount" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
-      <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-      <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-      <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT" />
-      <arg column="store_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="phone" javaType="java.lang.String" jdbcType="VARCHAR" />
-    </constructor>
-  </resultMap>
-  <sql id="Base_Column_List">
+    <resultMap id="BaseResultMap" type="com.chouchongkeji.dial.pojo.v3.UserMemberCard">
+        <constructor>
+            <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="membership_card_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="balance" javaType="java.math.BigDecimal" jdbcType="DECIMAL"/>
+            <arg column="total_amount" javaType="java.math.BigDecimal" jdbcType="DECIMAL"/>
+            <arg column="consume_amount" javaType="java.math.BigDecimal" jdbcType="DECIMAL"/>
+            <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT"/>
+            <arg column="store_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="phone" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List">
     id, membership_card_id, user_id, balance, total_amount, consume_amount, updated,
     created, status, store_id,phone
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from user_member_card
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-    <select id="selectByUserId" resultType="com.chouchongkeji.service.v3.vo.CardVo">
-      select a.id,
-       a.membership_card_id,
-       a.user_id,
-       a.phone,
-       a.balance,
-       a.created,
-       b.card_no,
-       b.title,
-       b.summary,
-       b.colour,
-       b.logo,
-       b.store_ids,
-       b.type
-from user_member_card a
-         left join membership_card b on a.membership_card_id = b.id
-where a.status = 1
-and b.status = 1
-and a.user_id = #{userId}
-order by a.created DESC
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user_member_card
+        where id = #{id,jdbcType=INTEGER}
     </select>
-  <select id="selectCardIdsByUserId" resultType="java.lang.Integer">
+    <select id="selectByUserId" resultType="com.chouchongkeji.service.v3.vo.CardVo">
+      select distinct a.*
+      from (
+      select a.id,
+      a.membership_card_id,
+      a.user_id,
+      a.phone,
+      a.balance,
+      a.created,
+      b.card_no,
+      b.title,
+      b.summary,
+      b.colour,
+      b.logo,
+      b.store_ids,
+      b.type
+      from user_member_card a
+      left join membership_card b on a.membership_card_id = b.id
+      where a.status = 1
+      and b.status = 1
+      and a.user_id = 7
+      <if test="keywords != null and keywords != ''">
+        and b.title like concat('%',#{keywords},'%')
+      </if>
+      union all
+      select  a.id,
+      a.membership_card_id,
+      a.user_id,
+      a.phone,
+      a.balance,
+      a.created,
+      b.card_no,
+      b.title,
+      b.summary,
+      b.colour,
+      b.logo,
+      b.store_ids,
+      b.type
+      from user_member_card a
+      left join membership_card b on a.membership_card_id = b.id
+      left join store s on find_in_set(s.id,b.store_ids)
+      where a.status = 1
+      and b.status = 1
+      and a.user_id = 7
+      <if test="keywords != null and keywords != ''">
+        and s.name like concat('%',#{keywords},'%')
+      </if>
+      ) a
+      order by a.created DESC
+    </select>
+    <select id="selectCardIdsByUserId" resultType="java.lang.Integer">
     select
 membership_card_id
 from user_member_card
@@ -73,17 +102,17 @@ from user_member_card a
 where a.id = #{id}
     </select>
     <select id="selectByCardIdUserId" resultType="com.chouchongkeji.dial.pojo.v3.UserMemberCard">
-      select
-      <include refid="Base_Column_List" />
-      from user_member_card
-      where user_id = #{userId}
-      and membership_card_id = #{cardId}
+        select
+        <include refid="Base_Column_List"/>
+        from user_member_card
+        where user_id = #{userId}
+        and membership_card_id = #{cardId}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from user_member_card
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.v3.UserMemberCard">
+    <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.v3.UserMemberCard">
     insert into user_member_card (id, membership_card_id, user_id,
       balance, total_amount, consume_amount,
       updated, created, status,
@@ -93,116 +122,116 @@ where a.id = #{id}
       now(), now(), #{status,jdbcType=TINYINT},
       #{storeId,jdbcType=INTEGER},#{phone,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.v3.UserMemberCard">
-    insert into user_member_card
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="membershipCardId != null">
-        membership_card_id,
-      </if>
-      <if test="userId != null">
-        user_id,
-      </if>
-      <if test="balance != null">
-        balance,
-      </if>
-      <if test="totalAmount != null">
-        total_amount,
-      </if>
-      <if test="consumeAmount != null">
-        consume_amount,
-      </if>
-      <if test="updated != null">
-        updated,
-      </if>
-      <if test="created != null">
-        created,
-      </if>
-      <if test="status != null">
-        status,
-      </if>
-      <if test="storeId != null">
-        store_id,
-      </if>
-      <if test="phone != null">
-        phone,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="membershipCardId != null">
-        #{membershipCardId,jdbcType=INTEGER},
-      </if>
-      <if test="userId != null">
-        #{userId,jdbcType=INTEGER},
-      </if>
-      <if test="balance != null">
-        #{balance,jdbcType=DECIMAL},
-      </if>
-      <if test="totalAmount != null">
-        #{totalAmount,jdbcType=DECIMAL},
-      </if>
-      <if test="consumeAmount != null">
-        #{consumeAmount,jdbcType=DECIMAL},
-      </if>
-      <if test="updated != null">
-        #{updated,jdbcType=TIMESTAMP},
-      </if>
-      <if test="created != null">
-        #{created,jdbcType=TIMESTAMP},
-      </if>
-      <if test="status != null">
-        #{status,jdbcType=TINYINT},
-      </if>
-      <if test="storeId != null">
-        #{storeId,jdbcType=INTEGER},
-      </if>
-      <if test="phone != null">
-        #{phone,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.chouchongkeji.dial.pojo.v3.UserMemberCard">
-    update user_member_card
-    <set>
-      <if test="membershipCardId != null">
-        membership_card_id = #{membershipCardId,jdbcType=INTEGER},
-      </if>
-      <if test="userId != null">
-        user_id = #{userId,jdbcType=INTEGER},
-      </if>
-      <if test="balance != null">
-        balance = #{balance,jdbcType=DECIMAL},
-      </if>
-      <if test="totalAmount != null">
-        total_amount = #{totalAmount,jdbcType=DECIMAL},
-      </if>
-      <if test="consumeAmount != null">
-        consume_amount = #{consumeAmount,jdbcType=DECIMAL},
-      </if>
-      <if test="updated != null">
-        updated = now(),
-      </if>
-      <if test="created != null">
-        created = #{created,jdbcType=TIMESTAMP},
-      </if>
-      <if test="status != null">
-        status = #{status,jdbcType=TINYINT},
-      </if>
-      <if test="storeId != null">
-        store_id = #{storeId,jdbcType=INTEGER},
-      </if>
-      <if test="phone != null">
-        phone = #{phone,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.dial.pojo.v3.UserMemberCard">
+    <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.v3.UserMemberCard">
+        insert into user_member_card
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="membershipCardId != null">
+                membership_card_id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="balance != null">
+                balance,
+            </if>
+            <if test="totalAmount != null">
+                total_amount,
+            </if>
+            <if test="consumeAmount != null">
+                consume_amount,
+            </if>
+            <if test="updated != null">
+                updated,
+            </if>
+            <if test="created != null">
+                created,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="storeId != null">
+                store_id,
+            </if>
+            <if test="phone != null">
+                phone,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="membershipCardId != null">
+                #{membershipCardId,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="balance != null">
+                #{balance,jdbcType=DECIMAL},
+            </if>
+            <if test="totalAmount != null">
+                #{totalAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="consumeAmount != null">
+                #{consumeAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="updated != null">
+                #{updated,jdbcType=TIMESTAMP},
+            </if>
+            <if test="created != null">
+                #{created,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=TINYINT},
+            </if>
+            <if test="storeId != null">
+                #{storeId,jdbcType=INTEGER},
+            </if>
+            <if test="phone != null">
+                #{phone,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.chouchongkeji.dial.pojo.v3.UserMemberCard">
+        update user_member_card
+        <set>
+            <if test="membershipCardId != null">
+                membership_card_id = #{membershipCardId,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="balance != null">
+                balance = #{balance,jdbcType=DECIMAL},
+            </if>
+            <if test="totalAmount != null">
+                total_amount = #{totalAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="consumeAmount != null">
+                consume_amount = #{consumeAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="updated != null">
+                updated = now(),
+            </if>
+            <if test="created != null">
+                created = #{created,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=TINYINT},
+            </if>
+            <if test="storeId != null">
+                store_id = #{storeId,jdbcType=INTEGER},
+            </if>
+            <if test="phone != null">
+                phone = #{phone,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.dial.pojo.v3.UserMemberCard">
     update user_member_card
     set membership_card_id = #{membershipCardId,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},
