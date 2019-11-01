@@ -19,11 +19,11 @@
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    id, user_id, merchant_id, store_id, recharge_money, send_money, expense_money, type, 
-    explain, updated, created, total_money, scale
+    id, user_id, merchant_id, store_id, recharge_money, send_money, expense_money, type,
+    `explain`, updated, created, total_money, scale
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from store_member_charge
     where id = #{id,jdbcType=INTEGER}
@@ -33,15 +33,15 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.v3.StoreMemberCharge">
-    insert into store_member_charge (id, user_id, merchant_id, 
-      store_id, recharge_money, send_money, 
-      expense_money, type, explain, 
-      updated, created, total_money, 
+    insert into store_member_charge (id, user_id, merchant_id,
+      store_id, recharge_money, send_money,
+      expense_money, type, `explain`,
+      updated, created, total_money,
       scale)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{merchantId,jdbcType=INTEGER}, 
-      #{storeId,jdbcType=INTEGER}, #{rechargeMoney,jdbcType=DECIMAL}, #{sendMoney,jdbcType=DECIMAL}, 
-      #{expenseMoney,jdbcType=DECIMAL}, #{type,jdbcType=TINYINT}, #{explain,jdbcType=VARCHAR}, 
-      #{updated,jdbcType=TIMESTAMP}, #{created,jdbcType=TIMESTAMP}, #{totalMoney,jdbcType=DECIMAL}, 
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{merchantId,jdbcType=INTEGER},
+      #{storeId,jdbcType=INTEGER}, #{rechargeMoney,jdbcType=DECIMAL}, #{sendMoney,jdbcType=DECIMAL},
+      #{expenseMoney,jdbcType=DECIMAL}, #{type,jdbcType=TINYINT}, #{explain,jdbcType=VARCHAR},
+      #{updated,jdbcType=TIMESTAMP}, #{created,jdbcType=TIMESTAMP}, #{totalMoney,jdbcType=DECIMAL},
       #{scale,jdbcType=REAL})
   </insert>
   <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.v3.StoreMemberCharge">
@@ -72,7 +72,7 @@
         type,
       </if>
       <if test="explain != null">
-        explain,
+        `explain`,
       </if>
       <if test="updated != null">
         updated,
