@@ -192,7 +192,7 @@ public class OrderServiceImpl implements OrderService {
             int index = 0;
             for (ItemOrder itemOrder : itemOrders) {
                 //扣减余额，更新余额
-                int response = yuePay(userId, totalPrice, null, itemOrder.getOrderNo());
+                int response = yuePay(userId, itemOrder.getTotalPrice(), null, itemOrder.getOrderNo());
                 if (response < 1) {
                     throw new ServiceException(ErrorCode.ERROR.getCode(), "更新余额,扣减余额失败");
                 }
@@ -234,7 +234,8 @@ public class OrderServiceImpl implements OrderService {
                         title.append(title1);
                     }
                 }
-                LIHUAPay(userId, multi.intValue(), Constants.FIREWORKS_RECORD.our_ITEM_DISCOUNT, "购买商品:" + title.toString(),
+                BigDecimal orderPrice = BigDecimalUtil.multi(itemOrder.getTotalPrice().doubleValue(), 10);
+                LIHUAPay(userId,orderPrice.intValue(), Constants.FIREWORKS_RECORD.our_ITEM_DISCOUNT, "购买商品:" + title.toString(),
                         itemOrder.getId(), itemOrder.getOrderNo());
                 //更新销量和详细订单状
                 int i = updateStatusSales(itemOrder.getOrderNo());

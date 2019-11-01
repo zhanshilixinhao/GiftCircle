@@ -37,7 +37,7 @@ WHERE
       consume_amount, created, updated
       )
     values (#{userId,jdbcType=INTEGER}, #{balance,jdbcType=DECIMAL}, #{totalAmount,jdbcType=DECIMAL},
-      #{consumeAmount,jdbcType=DECIMAL}, #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP}
+      #{consumeAmount,jdbcType=DECIMAL}, now(), now()
       )
   </insert>
   <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.iwant.wallet.Wallet">
