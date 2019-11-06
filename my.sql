@@ -1761,6 +1761,7 @@ create table if not exists store
   area varchar(200) null comment '店铺所在地区',
   phone varchar(15) null comment '电话',
   linkman varchar(50) null comment '联系人',
+    admin_id int(11) comment'后台操作者id',
   created datetime null,
   updated datetime null
   )
