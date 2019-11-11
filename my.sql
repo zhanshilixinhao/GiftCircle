@@ -1836,6 +1836,7 @@ CREATE TABLE user_member_card (
    consume_amount decimal(18,2) null comment '消费总金额',
    `status` tinyint(4) DEFAULT NULL comment'1 正常',
  `store_id` int(11) COMMENT '门店id(开卡门店)',
+  admin_id int(11) comment'创建者id',
   updated datetime COMMENT '修改时间',
   created datetime COMMENT '创建时间',
   PRIMARY KEY ( id ),
