@@ -46,7 +46,7 @@ public interface ChargeCardService {
      *
      */
     void addStoreMountDetail(Integer userId,Integer merchantId,Integer storeId,BigDecimal rec,BigDecimal send,BigDecimal expense,
-                             Byte type,String explain,BigDecimal total,Float scale);
+                             Byte type,String explain,BigDecimal total,Float scale,Integer cardId);
 
     /**
      * 更新余额

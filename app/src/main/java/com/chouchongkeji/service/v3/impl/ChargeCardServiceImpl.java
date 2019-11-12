@@ -177,7 +177,7 @@ public class ChargeCardServiceImpl implements ChargeCardService {
         updateBalance(chargeOrder.getUserId(),amount,new BigDecimal("0"));
         // 添加充值记录
         MemberChargeRecord record = new MemberChargeRecord();
-        record.setMembershipCardId(0);
+        record.setMembershipCardId(chargeOrder.getMembershipCardId());
         record.setUserId(chargeOrder.getUserId());
         record.setRechargeMoney(chargeOrder.getRechargeMoney());
         record.setSendMoney(chargeOrder.getSendMoney());
@@ -193,7 +193,7 @@ public class ChargeCardServiceImpl implements ChargeCardService {
         // 营业额比例（赠送金额/总金额（充值金额+赠送金额））
         BigDecimal sca = BigDecimalUtil.div(chargeOrder.getSendMoney().doubleValue(),total.doubleValue());
         addStoreMountDetail(chargeOrder.getUserId(),0,0,chargeOrder.getRechargeMoney(),chargeOrder.getSendMoney(),
-               new BigDecimal("0"),(byte)1,"余额充值", total,sca.floatValue());
+               new BigDecimal("0"),(byte)1,"余额充值", total,sca.floatValue(),chargeOrder.getMembershipCardId());
     }
 
 
@@ -205,7 +205,7 @@ public class ChargeCardServiceImpl implements ChargeCardService {
      */
     @Override
     public void addStoreMountDetail(Integer userId,Integer merchantId,Integer storeId,BigDecimal rec,BigDecimal send,BigDecimal expense,
-                                    Byte type,String explain,BigDecimal total,Float scale){
+                                    Byte type,String explain,BigDecimal total,Float scale,Integer cardId){
         StoreMemberCharge member = new StoreMemberCharge();
         member.setUserId(userId);
         member.setMerchantId(merchantId);
@@ -217,6 +217,7 @@ public class ChargeCardServiceImpl implements ChargeCardService {
         member.setExplain(explain);
         member.setTotalMoney(total);
         member.setScale(scale);
+        member.setMembershipCardId(cardId);
         int insert = storeMemberChargeMapper.insert(member);
         if (insert == 0) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "添加会员卡使用记录失败");

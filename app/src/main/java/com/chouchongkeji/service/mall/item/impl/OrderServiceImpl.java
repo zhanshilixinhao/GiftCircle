@@ -282,7 +282,7 @@ public class OrderServiceImpl implements OrderService {
                 chargeCardService.addExpenseRecord(userId,itemOrder.getTotalPrice(),targetIds.toString(),"购买商品:" + title.toString());
                 //添加会员卡使用详情记录
                 chargeCardService.addStoreMountDetail(userId,0,0,new BigDecimal("0"),new BigDecimal("0"),
-                        itemOrder.getTotalPrice(),(byte)2,"购买商品:" + title.toString(),itemOrder.getTotalPrice(),0f);
+                        itemOrder.getTotalPrice(),(byte)2,"购买商品:" + title.toString(),itemOrder.getTotalPrice(),0f,0);
                 //更新订单状态
                 int i = itemOrderMapper.updateStatusByOrder(itemOrder.getOrderNo(), Constants.ORDER_STATUS.PAID);
                 if (i < 1) {
@@ -764,7 +764,7 @@ public class OrderServiceImpl implements OrderService {
             chargeCardService.addExpenseRecord(userId,totalPrice,targetIds.toString(),"购买商品:" + title.toString());
             //添加会员卡使用详情记录
             chargeCardService.addStoreMountDetail(userId,0,0,new BigDecimal("0"),new BigDecimal("0"),
-                    totalPrice,(byte)2,"购买商品:" + title.toString(),totalPrice,0f);
+                    totalPrice,(byte)2,"购买商品:" + title.toString(),totalPrice,0f,0);
             //更新订单状态
             int i = itemOrderMapper.updateStatusByOrder(orderNo, Constants.ORDER_STATUS.PAID);
             if (i < 1) {

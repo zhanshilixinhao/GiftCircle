@@ -1915,6 +1915,7 @@ CREATE TABLE store_member_charge (
   `type` tinyint(4) comment' 1 充值 2 消费',
   `explain` varchar(200) comment'说明',
   scale float(10,2) comment'充值比例（赠送金额/总金额）',
+     `membership_card_id` int(11) COMMENT '会员卡id',
   updated datetime COMMENT '修改时间',
   created datetime COMMENT '创建时间',
   PRIMARY KEY ( id ),
