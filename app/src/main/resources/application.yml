@@ -141,6 +141,7 @@ yichen:
     host: https://liyuquan.cn/app/
     productDetail: https://liyuquan.cn/static/product.html?uid=
     articleDetail: https://liyuquan.cn/static/article.html?uid=
+    cardDetail: https://liyuquan.cn/static/card.html?uid=
 
 #    logo: http://43.241.223.169:800/image/logo.jpg
 server:

@@ -13,6 +13,7 @@ import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.query.PageQuery;
 import com.chouchongkeji.goexplore.utils.BigDecimalUtil;
+import com.chouchongkeji.properties.ServiceProperties;
 import com.chouchongkeji.service.v3.MemberCardService;
 import com.chouchongkeji.service.v3.vo.*;
 import com.github.pagehelper.PageHelper;
@@ -49,6 +50,9 @@ public class MemberCardServiceImpl implements MemberCardService {
     @Autowired
     private AppUserMapper appUserMapper;
 
+    @Autowired
+    private ServiceProperties serviceProperties;
+
     /**
      * 获取用户会员卡列表
      *
@@ -59,18 +63,19 @@ public class MemberCardServiceImpl implements MemberCardService {
      * @date 2019/10/23
      */
     @Override
-    public Response getMemberCardList(UserDetails userDetails, PageQuery page,String keywords) {
+    public Response getMemberCardList(UserDetails userDetails, PageQuery page, String keywords) {
         // 查询该用户是否有礼遇圈卡
         HashSet<Integer> cardIds = userMemberCardMapper.selectCardIdsByUserId(userDetails.getUserId());
-        if (cardIds.size() == 0 || !cardIds.contains(0)){
-         // 不包含0，没有礼遇圈卡则加一张
-            addMemberShipCard(userDetails.getUserId(),new BigDecimal("0"),new BigDecimal("0"),new BigDecimal("0"));
+        if (cardIds.size() == 0 || !cardIds.contains(0)) {
+            // 不包含0，没有礼遇圈卡则加一张
+            addMemberShipCard(userDetails.getUserId(), new BigDecimal("0"), new BigDecimal("0"), new BigDecimal("0"));
         }
         PageHelper.startPage(page.getPageNum(), page.getPageSize());
-        List<CardVo> cardVos = userMemberCardMapper.selectByUserId(userDetails.getUserId(),keywords);
+        List<CardVo> cardVos = userMemberCardMapper.selectByUserId(userDetails.getUserId(), keywords);
         if (CollectionUtils.isNotEmpty(cardVos)) {
             // 添加店铺信息
             for (CardVo cardVo : cardVos) {
+                cardVo.setSummary(serviceProperties.getCardDetail() + cardVo.getMembershipCardId());
                 List<Store> list = new ArrayList<>();
                 if (StringUtils.isNotBlank(cardVo.getStoreIds())) {
                     String[] split = cardVo.getStoreIds().split(",");
@@ -93,10 +98,10 @@ public class MemberCardServiceImpl implements MemberCardService {
      * @return
      */
     @Override
-    public int addMemberShipCard(Integer userId,BigDecimal balance,BigDecimal total,BigDecimal consume) {
+    public int addMemberShipCard(Integer userId, BigDecimal balance, BigDecimal total, BigDecimal consume) {
         String phone = null;
         AppUser appUser = appUserMapper.selectByPrimaryKey(userId);
-        if (appUser != null){
+        if (appUser != null) {
             phone = appUser.getPhone();
         }
         UserMemberCard card = new UserMemberCard();
@@ -112,7 +117,6 @@ public class MemberCardServiceImpl implements MemberCardService {
     }
 
 
-
     /**
      * 会员卡详情
      *
@@ -124,43 +128,45 @@ public class MemberCardServiceImpl implements MemberCardService {
      */
     @Override
     public Response detailMemberCard(UserDetails userDetails, Integer id) {
-       CardVo vo = userMemberCardMapper.selectByKey(id);
-       if (vo != null){
-           if (!vo.getUserId().equals(userDetails.getUserId())){
-               return ResponseFactory.err("该会员卡不是该用户的");
-           }
-           List<Store> stores = new ArrayList<>();
-           if (StringUtils.isNotBlank(vo.getStoreIds())) {
-               String[] split = vo.getStoreIds().split(",");
-               for (String s : split) {
-                   Store store = storeMapper.selectByPrimaryKey(Integer.parseInt(s));
-                   stores.add(store);
-               }
-           }
-           vo.setStores(stores);
-       }
-       return ResponseFactory.sucData(vo);
+        CardVo vo = userMemberCardMapper.selectByKey(id);
+        if (vo != null) {
+            if (!vo.getUserId().equals(userDetails.getUserId())) {
+                return ResponseFactory.err("该会员卡不是该用户的");
+            }
+            List<Store> stores = new ArrayList<>();
+            if (StringUtils.isNotBlank(vo.getStoreIds())) {
+                String[] split = vo.getStoreIds().split(",");
+                for (String s : split) {
+                    Store store = storeMapper.selectByPrimaryKey(Integer.parseInt(s));
+                    stores.add(store);
+                }
+            }
+            vo.setStores(stores);
+            vo.setSummary(serviceProperties.getCardDetail() + vo.getMembershipCardId());
+        }
+        return ResponseFactory.sucData(vo);
     }
 
 
     /**
      * 会员卡充值记录
+     *
      * @param userDetails
-     * @param id 会员卡id
+     * @param id          会员卡id
      * @return
      * @author linqin
      * @date 2019/10/23
      */
     @Override
-    public Response chargeRecordList(UserDetails userDetails, Integer id,PageQuery page) {
-        List<ChargeListVo> listVos = memberChargeRecordMapper.selectByMembertCardId(userDetails.getUserId(),id);
-        if (CollectionUtils.isNotEmpty(listVos)){
+    public Response chargeRecordList(UserDetails userDetails, Integer id, PageQuery page) {
+        List<ChargeListVo> listVos = memberChargeRecordMapper.selectByMembertCardId(userDetails.getUserId(), id);
+        if (CollectionUtils.isNotEmpty(listVos)) {
             for (ChargeListVo listVo : listVos) {
-                if (listVo.getSendMoney() != null && listVo.getRechargeMoney() !=null){
-                    listVo.setTotalAmount(BigDecimalUtil.add(listVo.getRechargeMoney().doubleValue(),listVo.getSendMoney().doubleValue()));
-                } else if (listVo.getSendMoney() == null && listVo.getRechargeMoney() !=null){
+                if (listVo.getSendMoney() != null && listVo.getRechargeMoney() != null) {
+                    listVo.setTotalAmount(BigDecimalUtil.add(listVo.getRechargeMoney().doubleValue(), listVo.getSendMoney().doubleValue()));
+                } else if (listVo.getSendMoney() == null && listVo.getRechargeMoney() != null) {
                     listVo.setTotalAmount(listVo.getRechargeMoney());
-                }else {
+                } else {
                     listVo.setTotalAmount(new BigDecimal("0"));
                 }
             }
@@ -171,25 +177,26 @@ public class MemberCardServiceImpl implements MemberCardService {
 
     /**
      * 会员卡充值记录详情
+     *
      * @param userDetails
-     * @param id 会员卡充值记录id
+     * @param id          会员卡充值记录id
      * @return
      * @author linqin
      * @date 2019/10/23
      */
     @Override
     public Response chargeRecordDetail(UserDetails userDetails, Integer id) {
-        ChargeDetailVo detailVo = memberChargeRecordMapper.selectByKeyUserId(id,userDetails.getUserId());
-        if (detailVo != null){
+        ChargeDetailVo detailVo = memberChargeRecordMapper.selectByKeyUserId(id, userDetails.getUserId());
+        if (detailVo != null) {
             detailVo.setTitle("会员卡充值");
-            if (detailVo.getType() == 1){
+            if (detailVo.getType() == 1) {
                 detailVo.setAddress("APP");
             }
-            if (detailVo.getSendMoney() != null && detailVo.getRechargeMoney() !=null){
-                detailVo.setTotalAmount(BigDecimalUtil.add(detailVo.getRechargeMoney().doubleValue(),detailVo.getSendMoney().doubleValue()));
-            } else if (detailVo.getSendMoney() == null && detailVo.getRechargeMoney() !=null){
+            if (detailVo.getSendMoney() != null && detailVo.getRechargeMoney() != null) {
+                detailVo.setTotalAmount(BigDecimalUtil.add(detailVo.getRechargeMoney().doubleValue(), detailVo.getSendMoney().doubleValue()));
+            } else if (detailVo.getSendMoney() == null && detailVo.getRechargeMoney() != null) {
                 detailVo.setTotalAmount(detailVo.getRechargeMoney());
-            }else {
+            } else {
                 detailVo.setTotalAmount(new BigDecimal("0"));
             }
         }
@@ -198,36 +205,38 @@ public class MemberCardServiceImpl implements MemberCardService {
 
     /**
      * 会员卡消费记录
+     *
      * @param userId
-     * @param id 会员卡id
+     * @param id     会员卡id
      * @param page
      * @return
      */
     @Override
     public Response expenseRecordList(Integer userId, Integer id, PageQuery page) {
-     List<ExpenseListVo> listVos = memberExpenseRecordMapper.selectByIdUserId(userId,id);
-     return ResponseFactory.sucData(listVos);
+        List<ExpenseListVo> listVos = memberExpenseRecordMapper.selectByIdUserId(userId, id);
+        return ResponseFactory.sucData(listVos);
     }
 
 
     /**
      * 会员卡消费记录详情
+     *
      * @param userId
-     * @param id 会员卡消费记录id
+     * @param id     会员卡消费记录id
      * @return
      */
     @Override
     public Response expenseRecordDetail(Integer userId, Integer id) {
-      ExpenseDetailVo detail = memberExpenseRecordMapper.selectByKeyUserId(userId,id);
-        if (detail != null){
-            if (detail.getType() == 1){
+        ExpenseDetailVo detail = memberExpenseRecordMapper.selectByKeyUserId(userId, id);
+        if (detail != null) {
+            if (detail.getType() == 1) {
                 detail.setAddress("APP");
             }
-            if (detail.getTargetId() == null){
+            if (detail.getTargetId() == null) {
                 detail.setTitle("会员卡线下消费");
             }
         }
-      return ResponseFactory.sucData(detail);
+        return ResponseFactory.sucData(detail);
     }
 
 }
