@@ -25,7 +25,7 @@ public interface UserMemberCardMapper {
      * @param userId
      * @return
      */
-    List<CardVo> selectByUserId(Integer userId, @Param("keywords") String keywords);
+    List<CardVo> selectByUserId(@Param("userId") Integer userId, @Param("keywords") String keywords);
 
     HashSet<Integer> selectCardIdsByUserId(Integer userId);
 

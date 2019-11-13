@@ -46,7 +46,7 @@
       left join membership_card b on a.membership_card_id = b.id
       where a.status = 1
       and b.status = 1
-      and a.user_id = 7
+      and a.user_id = #{userId}
       <if test="keywords != null and keywords != ''">
         and b.title like concat('%',#{keywords},'%')
       </if>
@@ -69,7 +69,7 @@
       left join store s on find_in_set(s.id,b.store_ids)
       where a.status = 1
       and b.status = 1
-      and a.user_id = 7
+      and a.user_id = #{userId}
       <if test="keywords != null and keywords != ''">
         and s.name like concat('%',#{keywords},'%')
       </if>
