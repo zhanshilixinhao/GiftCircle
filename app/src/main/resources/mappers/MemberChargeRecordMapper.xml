@@ -52,9 +52,11 @@ where user_id = #{userId}
        a.store_id,
        s.address,
        s.phone,
-       s.name as storeName
+       s.name as storeName,
+       c.logo
 from member_charge_record a
          left join store s on a.store_id = s.id
+         left join membership_card c on a.membership_card_id = c.id
 where a.id = #{id}
     and  a.user_id = #{userId}
     </select>

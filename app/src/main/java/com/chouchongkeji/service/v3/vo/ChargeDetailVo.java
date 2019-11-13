@@ -1,5 +1,7 @@
 package com.chouchongkeji.service.v3.vo;
 
+import com.yichen.auth.jackson.ImgUrl;
+
 /**
  * @author linqin
  * @date 2019/10/28
@@ -14,6 +16,9 @@ public class ChargeDetailVo extends ChargeListVo {
     private String address;
 
     private String phone;
+
+    @ImgUrl
+    private String logo;
 
     /**
      * 商品名称
@@ -59,5 +64,13 @@ public class ChargeDetailVo extends ChargeListVo {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getLogo() {
+        return logo;
+    }
+
+    public void setLogo(String logo) {
+        this.logo = logo;
     }
 }

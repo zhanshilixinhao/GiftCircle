@@ -1,5 +1,7 @@
 package com.chouchongkeji.service.v3.vo;
 
+import com.yichen.auth.jackson.ImgUrl;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -12,6 +14,9 @@ public class ExpenseDetailVo {
     private Integer id;
 
     private Integer membershipCardId;
+
+    @ImgUrl
+    private String logo;
 
     private Integer userId;
 
@@ -129,5 +134,13 @@ public class ExpenseDetailVo {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getLogo() {
+        return logo;
+    }
+
+    public void setLogo(String logo) {
+        this.logo = logo;
     }
 }
