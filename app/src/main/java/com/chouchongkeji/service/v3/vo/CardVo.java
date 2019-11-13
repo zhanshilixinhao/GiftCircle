@@ -2,6 +2,7 @@ package com.chouchongkeji.service.v3.vo;
 
 
 import com.chouchongkeji.dial.pojo.v3.Store;
+import com.yichen.auth.jackson.ImgUrl;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -35,6 +36,7 @@ public class CardVo {
 
     private String colour;
 
+    @ImgUrl
     private String logo;
 
     private Byte type;
