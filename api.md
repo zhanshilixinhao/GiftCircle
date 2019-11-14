@@ -8191,7 +8191,7 @@ type = 3 请求结果示例：
       "created": 1571974117000, //卡片创建时间
       "cardNo": 12345678,// 卡号
       "title": "礼遇圈", //卡标题
-      "summary": "没有", //卡使用说明
+      "summary": "https://liyuquan.cn/static/card.html?uid=7", //卡使用说明
       "colour": "#888888", //卡片颜色
       "logo": "avatar.jpg", //卡logo
       "type": 1, //1 礼遇圈总卡
@@ -8273,7 +8273,7 @@ type = 3 请求结果示例：
       "created": 1571974117000, //卡片创建时间
       "cardNo": 12345678,// 卡号
       "title": "礼遇圈", //卡标题
-      "summary": "没有", //卡使用说明
+      "summary":"https://liyuquan.cn/static/card.html?uid=7", //卡使用说明  
       "colour": "#888888", //卡片颜色
       "logo": "avatar.jpg", //卡logo
       "type": 1, //1 礼遇圈总卡
