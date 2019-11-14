@@ -81,6 +81,10 @@ public class MemberCardServiceImpl implements MemberCardService {
                     String[] split = cardVo.getStoreIds().split(",");
                     for (String s : split) {
                         Store store = storeMapper.selectByPrimaryKey(Integer.parseInt(s));
+                        if (store != null){
+                            String s1 = store.getArea().replaceAll(",", "");
+                            store.setArea(s1);
+                        }
                         list.add(store);
                     }
                 }
@@ -138,6 +142,10 @@ public class MemberCardServiceImpl implements MemberCardService {
                 String[] split = vo.getStoreIds().split(",");
                 for (String s : split) {
                     Store store = storeMapper.selectByPrimaryKey(Integer.parseInt(s));
+                    if (store != null){
+                        String s1 = store.getArea().replaceAll(",", "");
+                        store.setArea(s1);
+                    }
                     stores.add(store);
                 }
             }
