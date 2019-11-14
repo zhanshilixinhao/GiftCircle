@@ -8366,6 +8366,7 @@ type = 3 请求结果示例：
     "type": 1, // 交易类型 1 app充值 2门店充值
     "explain": "",
     "created": 1572226493000, //交易时间
+    "logo": "avatar.jpg", //卡logo
     "storeId": 0,//店铺id
     "storeName": "礼遇圈", // 交易店铺
     "address": "APP", // 交易地址
@@ -8455,6 +8456,7 @@ type = 3 请求结果示例：
     "storeName": "礼遇圈", //交易门店名称
     "address": "APP",//交易地址
     "phone": "2342", //联系方式
+    "logo": "avatar.jpg", //卡logo
     "targetId": 1075, //购买商品skuid/优惠券id
     "title": "由你啃  Hello kitty粉色芝士淋面蛋糕" //交易商品
   }

@@ -83,6 +83,7 @@ yichen:
         - /noauth/v1/article/html
         - /noauth/item/itemDetailShare
         - /noauth/v1/article/detail_h5
+        - /noauth/v3/cardDetail/html
     # 重复请求过滤接口
     request:
       url:

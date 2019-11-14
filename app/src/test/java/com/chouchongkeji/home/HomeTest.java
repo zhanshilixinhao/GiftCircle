@@ -51,7 +51,7 @@ public class HomeTest {
         params.put("id" ,124);
         Map map = ApiSignUtil.sign1(params.getParams(),ApiSignUtil.ANDROID);
         params.put("sign",map.get(ApiSignUtil.ANDROID));
-        Response post = OkHttpUtil.post("http://localhost:8088/noauth/v1/article/detail", params);
+        Response post = OkHttpUtil.post("http://localhost:8089/noauth/v1/article/detail", params);
         System.out.println(post.body().string());
     }
     // 文章详情
