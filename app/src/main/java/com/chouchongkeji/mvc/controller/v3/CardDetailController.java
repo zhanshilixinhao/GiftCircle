@@ -4,6 +4,7 @@ import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.service.v3.CardDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,7 +25,7 @@ public class CardDetailController {
      * @param id 会员卡id
      * @return
      */
-    @PostMapping("html")
+    @GetMapping("html")
     public Response getCardDetail(Integer id){
         if (id == null){
             return ResponseFactory.errMissingParameter();
