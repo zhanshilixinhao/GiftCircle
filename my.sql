@@ -1907,7 +1907,7 @@ CREATE TABLE store_member_charge (
    id INT ( 10 ) NOT NULL auto_increment,
    `user_id` int(11) COMMENT '用户id',
    merchant_id int null comment '商家(总公司)id',
-   `store_id` int(11) COMMENT '门店id(门店充值)',
+   `store_id` int(11) COMMENT '门店id(门店充值，消费)',
    recharge_money decimal(18,2) comment'充值金额',
    send_money decimal(18,2) comment'赠送金额',
    total_money decimal(18,2) comment'总金额（赠送金额+充值金额，如果是消费则为总消费金额）',
@@ -1915,7 +1915,9 @@ CREATE TABLE store_member_charge (
   `type` tinyint(4) comment' 1 充值 2 消费',
   `explain` varchar(200) comment'说明',
   scale float(10,2) comment'充值比例（赠送金额/总金额）',
-     `membership_card_id` int(11) COMMENT '会员卡id',
+  `membership_card_id` int(11) COMMENT '会员卡id',
+  balance decimal(18,2) comment'该次充值剩余的金额（计算营销额时用的）',
+  `status` tinyint(4) comment' 1 未消费 2 部分消费 3 已消费完',
   updated datetime COMMENT '修改时间',
   created datetime COMMENT '创建时间',
   PRIMARY KEY ( id ),
@@ -1925,5 +1927,20 @@ CREATE TABLE store_member_charge (
 SET = utf8mb4 COMMENT = '门店金额详情表';
 
 
-
+-- DROP TABLE IF EXISTS store_turnover;
+-- CREATE TABLE store_turnover (
+--    id INT ( 10 ) NOT NULL auto_increment,
+--    store_member_id int(11) comment'门店金额详情表Id',
+--    blag_money decimal(18,2) comment'索要金额',
+--    turnover_money decimal(18,2) comment'营业额',
+--    store_id int(11) comment'消费门店id(使用门店)',
+--    blag_store_id int(11) comment'索要门店id(索要消费金额)',
+--    updated datetime COMMENT '修改时间',
+--    created datetime COMMENT '创建时间',
+--    PRIMARY KEY ( id ),
+--   key store_member_id(store_member_id),
+--   key store_id(store_id),
+--   key blag_store_id(blag_store_id)
+-- ) ENGINE = INNODB CHARACTER
+-- SET = utf8mb4 COMMENT = '消费营业额记录';
 
