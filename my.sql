@@ -1836,6 +1836,7 @@ CREATE TABLE user_member_card (
    consume_amount decimal(18,2) null comment '消费总金额',
    `status` tinyint(4) DEFAULT NULL comment'1 正常',
  `store_id` int(11) COMMENT '门店id(开卡门店)',
+ `grade_id` int(11) COMMENT '等级id',
   admin_id int(11) comment'创建者id',
   updated datetime COMMENT '修改时间',
   created datetime COMMENT '创建时间',
@@ -1843,6 +1844,33 @@ CREATE TABLE user_member_card (
   key user_id(user_id)
 ) ENGINE = INNODB CHARACTER
 SET = utf8mb4 COMMENT = '会员卡用户关联表';
+
+
+DROP TABLE IF EXISTS card_grade;
+CREATE TABLE card_grade (
+   id INT ( 10 ) NOT NULL auto_increment,
+   title varchar(50) comment'会员卡等级标题',
+   summary varchar(500) comment'会员卡等级介绍',
+   grade int comment'等级',
+   admin_id int(11) comment'创建者id',
+   updated datetime COMMENT '修改时间',
+   created datetime COMMENT '创建时间',
+   PRIMARY KEY ( id )
+) ENGINE = INNODB CHARACTER
+SET = utf8mb4 COMMENT = '会员卡等级';
+
+DROP TABLE IF EXISTS member_card_grade;
+CREATE TABLE member_card_grade (
+   id INT ( 10 ) NOT NULL auto_increment,
+   `membership_card_id` int(11) COMMENT '会员卡id',
+   `grade_id` int(11) COMMENT '等级id',
+  updated datetime COMMENT '修改时间',
+  created datetime COMMENT '创建时间',
+  PRIMARY KEY ( id ),
+  key membership_card_id (membership_card_id),
+  key grade_id (grade_id)
+) ENGINE = INNODB CHARACTER
+SET = utf8mb4 COMMENT = '会员卡等级关联表';
 
 
 DROP TABLE IF EXISTS member_charge_order;

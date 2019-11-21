@@ -69,12 +69,12 @@
         </javaClientGenerator>
 
 
-<!--        <table tableName="store_turnover" domainObjectName="StoreTurnover" enableCountByExample="false"-->
-<!--               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--               selectByExampleQueryId="false"></table>-->
-<!--        <table tableName="member_expense_record" domainObjectName="MemberExpenseRecord" enableCountByExample="false"-->
-<!--               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--               selectByExampleQueryId="false"></table>-->
+        <table tableName="card_grade" domainObjectName="CardGrade" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"></table>
+        <table tableName="member_card_grade" domainObjectName="MemberCardGrade" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"></table>
 
 <!--        <table tableName="user_member_card" domainObjectName="UserMemberCard" enableCountByExample="false"-->
 <!--               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
