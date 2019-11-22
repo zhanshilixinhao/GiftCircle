@@ -18,5 +18,5 @@ public interface StoreMemberChargeMapper {
 
     int updateByPrimaryKey(StoreMemberCharge record);
 
-    List<StoreMemberCharge> selectByUserIdCardId(@Param("cardId") Integer cardId, @Param("userId") Integer userId);
+    List<StoreMemberCharge> selectByUserIdCardId( @Param("userId") Integer userId,@Param("cardId") Integer cardId);
 }
