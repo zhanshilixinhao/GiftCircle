@@ -619,6 +619,7 @@ public class OrderServiceImpl implements OrderService {
      * @author linqin
      * @date 2018/7/5
      */
+    @Override
     public int updateStatusSales(Long orderNo) {
         //取出订单详细信息
         List<ItemOrderDetail> itemOrderDetail = itemOrderDetailMapper.selectByOrderNo(orderNo);
