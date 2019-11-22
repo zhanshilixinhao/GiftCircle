@@ -2,7 +2,6 @@ package com.chouchongkeji.service.v3.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.chouchongkeji.dial.dao.v3.*;
-import com.chouchongkeji.dial.pojo.iwant.wallet.ChargeOrder;
 import com.chouchongkeji.dial.pojo.v3.*;
 import com.chouchongkeji.exception.ServiceException;
 import com.chouchongkeji.goexplore.common.ErrorCode;
@@ -22,11 +21,11 @@ import com.chouchongkeji.service.v3.MemberCardService;
 import com.chouchongkeji.service.v3.vo.EventVo;
 import com.chouchongkeji.util.Constants;
 import com.chouchongkeji.util.OrderHelper;
-import com.github.pagehelper.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -64,6 +63,9 @@ public class ChargeCardServiceImpl implements ChargeCardService {
 
     @Autowired
     private StoreMemberChargeMapper storeMemberChargeMapper;
+
+    @Autowired
+    private StoreTurnoverMapper storeTurnoverMapper;
 
     /**
      * 礼遇圈会员卡充值规则
@@ -105,6 +107,7 @@ public class ChargeCardServiceImpl implements ChargeCardService {
         order.setSendMoney(event.getSendMoney());
         order.setStatus(Constants.CHARGE_ORDER_STATUS.NO_PAY);
         order.setPayWay(payWay.byteValue());
+        order.setEventId(eventId);
         int insert = memberChargeOrderMapper.insert(order);
         if (insert < 1) {
             throw new ServiceException("创建订单失败");
@@ -179,6 +182,7 @@ public class ChargeCardServiceImpl implements ChargeCardService {
         MemberChargeRecord record = new MemberChargeRecord();
         record.setMembershipCardId(chargeOrder.getMembershipCardId());
         record.setUserId(chargeOrder.getUserId());
+        record.setMemberEventId(chargeOrder.getEventId());
         record.setRechargeMoney(chargeOrder.getRechargeMoney());
         record.setSendMoney(chargeOrder.getSendMoney());
         record.setType((byte)1);
@@ -193,7 +197,7 @@ public class ChargeCardServiceImpl implements ChargeCardService {
         // 营业额比例（赠送金额/总金额（充值金额+赠送金额））
         BigDecimal sca = BigDecimalUtil.div(chargeOrder.getSendMoney().doubleValue(),total.doubleValue());
         addStoreMountDetail(chargeOrder.getUserId(),0,0,chargeOrder.getRechargeMoney(),chargeOrder.getSendMoney(),
-               new BigDecimal("0"),(byte)1,"余额充值", total,sca.floatValue(),chargeOrder.getMembershipCardId());
+               new BigDecimal("0"),(byte)1,"余额充值", total,sca.floatValue(),chargeOrder.getMembershipCardId(),total,(byte)1,chargeOrder.getEventId());
     }
 
 
@@ -204,8 +208,8 @@ public class ChargeCardServiceImpl implements ChargeCardService {
      *
      */
     @Override
-    public void addStoreMountDetail(Integer userId,Integer merchantId,Integer storeId,BigDecimal rec,BigDecimal send,BigDecimal expense,
-                                    Byte type,String explain,BigDecimal total,Float scale,Integer cardId){
+    public int addStoreMountDetail(Integer userId,Integer merchantId,Integer storeId,BigDecimal rec,BigDecimal send,BigDecimal expense,
+                                    Byte type,String explain,BigDecimal total,Float scale,Integer cardId,BigDecimal balance,Byte status,Integer eventId){
         StoreMemberCharge member = new StoreMemberCharge();
         member.setUserId(userId);
         member.setMerchantId(merchantId);
@@ -218,11 +222,107 @@ public class ChargeCardServiceImpl implements ChargeCardService {
         member.setTotalMoney(total);
         member.setScale(scale);
         member.setMembershipCardId(cardId);
+        member.setBalance(balance);
+        member.setStatus(status);
+        member.setMemberEventId(eventId);
         int insert = storeMemberChargeMapper.insert(member);
         if (insert == 0) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "添加会员卡使用记录失败");
         }
+        return member.getId();
     }
+
+    /**
+     * 添加营业额记录
+     * @param userId 用户id
+     * @param cardId 会员卡id
+     * @param expense 消费金额
+     * @param storeMemberId  门店金额详情id
+     * @param storeId 消费门店
+     */
+    @Override
+    public void addTurnover(Integer userId,Integer cardId,BigDecimal expense,Integer storeMemberId,Integer storeId){
+        //取出之前充值的记录
+        List<StoreMemberCharge> charges = storeMemberChargeMapper.selectByUserIdCardId(userId,cardId);
+        if (!CollectionUtils.isEmpty(charges)){
+            BigDecimal expense1 = expense;
+            for (StoreMemberCharge charge : charges) {
+                //判断此次充值还剩余的余额
+                if(charge.getBalance().compareTo(expense1) == 0){
+                    // 余额与消费金额相等,更新详细记录，添加消费营业额记录
+                    BigDecimal sub = BigDecimalUtil.sub(charge.getBalance().doubleValue(), expense1.doubleValue());
+                    updateDetailCharge(charge.getId(),sub,(byte)3);
+                    addStoreTurnover(storeMemberId,expense1,charge.getScale(),storeId,charge.getStoreId(),charge.getMemberEventId());
+                    break;
+                }else if(charge.getBalance().compareTo(expense1) > 0){
+                    //余额大于消费金额，更新详细记录，添加消费营业额记录
+                    BigDecimal sub = BigDecimalUtil.sub(charge.getBalance().doubleValue(), expense1.doubleValue());
+                    updateDetailCharge(charge.getId(),sub,(byte)2);
+                    addStoreTurnover(storeMemberId,expense1,charge.getScale(),storeId,charge.getStoreId(),charge.getMemberEventId());
+                    break;
+                } else {
+                    //余额小于消费金额
+                    //扣除第一次充值的余额后还不够的钱
+                    BigDecimal sub = BigDecimalUtil.sub(expense1.doubleValue(),charge.getBalance().doubleValue());
+                    updateDetailCharge(charge.getId(),new BigDecimal("0"),(byte)3);
+                    addStoreTurnover(storeMemberId,charge.getBalance(),charge.getScale(),storeId,charge.getStoreId(),charge.getMemberEventId());
+                    expense1 = sub;
+                }
+            }
+        }
+    }
+
+
+    /**
+     * 更新详细记录
+     * @param id 详细记录id
+     * @param balance 余额
+     * @param status 状态
+     */
+    private void updateDetailCharge(Integer id,BigDecimal balance,Byte status){
+        StoreMemberCharge store = storeMemberChargeMapper.selectByPrimaryKey(id);
+        if (store == null) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "该记录不存在");
+        }
+        store.setBalance(balance);
+        store.setStatus(status);
+        int i = storeMemberChargeMapper.updateByPrimaryKeySelective(store);
+        if (i < 1) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "失败");
+        }
+    }
+
+    /**
+     * 添加营业额记录表
+     * @param storeMemberId 门店金额详情id
+     * @param ex 消费金额
+     * @param scale 比例
+     * @param storeId 消费门点id
+     * @param blagStoreId 充值门店
+     * @param eventId 活动id
+     */
+    private void addStoreTurnover(Integer storeMemberId,BigDecimal ex,Float scale,Integer storeId,
+                                  Integer blagStoreId,Integer eventId){
+        //营业额
+
+        BigDecimal multi = BigDecimalUtil.multi(ex.doubleValue(), scale);
+        // 收入
+        BigDecimal sub = BigDecimalUtil.sub(ex.doubleValue(), multi.doubleValue());
+        StoreTurnover turnover = new StoreTurnover();
+        turnover.setStoreMemberId(storeMemberId);
+        turnover.setBlagMoney(sub);
+        turnover.setTurnoverMoney(multi);
+        turnover.setStoreId(storeId);
+        turnover.setBlagStoreId(blagStoreId);
+        if (eventId != null){
+            turnover.setEventId(eventId);
+        }
+        int insert = storeTurnoverMapper.insert(turnover);
+        if (insert < 1) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "失败");
+        }
+    }
+
 
     /**
      * 更新余额

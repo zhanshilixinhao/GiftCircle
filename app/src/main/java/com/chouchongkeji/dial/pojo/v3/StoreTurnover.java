@@ -19,8 +19,9 @@ public class StoreTurnover {
     private Date updated;
 
     private Date created;
+    private Integer eventId;
 
-    public StoreTurnover(Integer id, Integer storeMemberId, BigDecimal blagMoney, BigDecimal turnoverMoney, Integer storeId, Integer blagStoreId, Date updated, Date created) {
+    public StoreTurnover(Integer id, Integer storeMemberId, BigDecimal blagMoney, BigDecimal turnoverMoney, Integer storeId, Integer blagStoreId, Date updated, Date created,Integer eventId) {
         this.id = id;
         this.storeMemberId = storeMemberId;
         this.blagMoney = blagMoney;
@@ -29,6 +30,7 @@ public class StoreTurnover {
         this.blagStoreId = blagStoreId;
         this.updated = updated;
         this.created = created;
+        this.eventId = eventId;
     }
 
     public StoreTurnover() {
@@ -97,5 +99,13 @@ public class StoreTurnover {
 
     public void setCreated(Date created) {
         this.created = created;
+    }
+
+    public Integer getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(Integer eventId) {
+        this.eventId = eventId;
     }
 }

@@ -22,7 +22,8 @@ public class MemberChargeOrder {
 
     private Date created;
 
-    public MemberChargeOrder(Long orderNo, Integer membershipCardId, Integer userId, BigDecimal rechargeMoney, BigDecimal sendMoney, Byte status, Byte payWay, Date updated, Date created) {
+    private Integer eventId;
+    public MemberChargeOrder(Long orderNo, Integer membershipCardId, Integer userId, BigDecimal rechargeMoney, BigDecimal sendMoney, Byte status, Byte payWay, Date updated, Date created,Integer eventId) {
         this.orderNo = orderNo;
         this.membershipCardId = membershipCardId;
         this.userId = userId;
@@ -32,6 +33,7 @@ public class MemberChargeOrder {
         this.payWay = payWay;
         this.updated = updated;
         this.created = created;
+        this.eventId = eventId;
     }
 
     public MemberChargeOrder() {
@@ -108,5 +110,13 @@ public class MemberChargeOrder {
 
     public void setCreated(Date created) {
         this.created = created;
+    }
+
+    public Integer getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(Integer eventId) {
+        this.eventId = eventId;
     }
 }

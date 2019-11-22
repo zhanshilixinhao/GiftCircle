@@ -281,8 +281,9 @@ public class OrderServiceImpl implements OrderService {
                 // 添加会员卡消费记录
                 chargeCardService.addExpenseRecord(userId,itemOrder.getTotalPrice(),targetIds.toString(),"购买商品:" + title.toString());
                 //添加会员卡使用详情记录
-                chargeCardService.addStoreMountDetail(userId,0,0,new BigDecimal("0"),new BigDecimal("0"),
-                        itemOrder.getTotalPrice(),(byte)2,"购买商品:" + title.toString(),itemOrder.getTotalPrice(),0f,0);
+                int i1 = chargeCardService.addStoreMountDetail(userId, 0, 0, new BigDecimal("0"), new BigDecimal("0"),
+                        itemOrder.getTotalPrice(), (byte) 2, "购买商品:" + title.toString(), itemOrder.getTotalPrice(), 0f, 0, new BigDecimal("0"), (byte) 4, null);
+                chargeCardService.addTurnover(userId,0,itemOrder.getTotalPrice(),i1,0);
                 //更新订单状态
                 int i = itemOrderMapper.updateStatusByOrder(itemOrder.getOrderNo(), Constants.ORDER_STATUS.PAID);
                 if (i < 1) {
@@ -311,6 +312,7 @@ public class OrderServiceImpl implements OrderService {
         // 创建订单参数
         return ResponseFactory.sucData(createOrderParameter(orderNo, totalPrice, payWay));
     }
+
 
 
     //原来的创建订单
@@ -763,8 +765,9 @@ public class OrderServiceImpl implements OrderService {
             // 添加会员卡消费记录
             chargeCardService.addExpenseRecord(userId,totalPrice,targetIds.toString(),"购买商品:" + title.toString());
             //添加会员卡使用详情记录
-            chargeCardService.addStoreMountDetail(userId,0,0,new BigDecimal("0"),new BigDecimal("0"),
-                    totalPrice,(byte)2,"购买商品:" + title.toString(),totalPrice,0f,0);
+            int i1 = chargeCardService.addStoreMountDetail(userId, 0, 0, new BigDecimal("0"), new BigDecimal("0"),
+                    totalPrice, (byte) 2, "购买商品:" + title.toString(), totalPrice, 0f, 0, new BigDecimal("0"), (byte) 4, null);
+            chargeCardService.addTurnover(userId,0,totalPrice,i1,0);
             //更新订单状态
             int i = itemOrderMapper.updateStatusByOrder(orderNo, Constants.ORDER_STATUS.PAID);
             if (i < 1) {

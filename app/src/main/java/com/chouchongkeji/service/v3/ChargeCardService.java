@@ -45,8 +45,18 @@ public interface ChargeCardService {
      * 添加会员卡使用详情记录
      *
      */
-    void addStoreMountDetail(Integer userId,Integer merchantId,Integer storeId,BigDecimal rec,BigDecimal send,BigDecimal expense,
-                             Byte type,String explain,BigDecimal total,Float scale,Integer cardId);
+    int addStoreMountDetail(Integer userId,Integer merchantId,Integer storeId,BigDecimal rec,BigDecimal send,BigDecimal expense,
+                             Byte type,String explain,BigDecimal total,Float scale,Integer cardId,BigDecimal balance,Byte status,Integer eventId);
+
+    /**
+     * 添加营业额记录
+     * @param userId 用户id
+     * @param cardId 会员卡id
+     * @param expense 消费金额
+     * @param storeMemberId  门店金额详情id
+     * @param storeId 消费门店
+     */
+    void addTurnover(Integer userId,Integer cardId,BigDecimal expense,Integer storeMemberId,Integer storeId);
 
     /**
      * 更新余额
