@@ -14,11 +14,14 @@
             <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT"/>
             <arg column="store_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
             <arg column="phone" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="admin_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="grade_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+
         </constructor>
     </resultMap>
     <sql id="Base_Column_List">
     id, membership_card_id, user_id, balance, total_amount, consume_amount, updated,
-    created, status, store_id,phone
+    created, status, store_id,phone,admin_id,grade_id
   </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
@@ -27,54 +30,60 @@
         where id = #{id,jdbcType=INTEGER}
     </select>
     <select id="selectByUserId" resultType="com.chouchongkeji.service.v3.vo.CardVo">
-      select distinct a.*
-      from (
-      select a.id,
-      a.membership_card_id,
-      a.user_id,
-      a.phone,
-      a.balance,
-      a.created,
-      b.card_no,
-      b.title,
-      b.summary,
-      b.colour,
-      b.logo,
-      b.store_ids,
-      b.type
-      from user_member_card a
-      left join membership_card b on a.membership_card_id = b.id
-      where a.status = 1
-      and b.status = 1
-      and a.user_id = #{userId}
-      <if test="keywords != null and keywords != ''">
-        and b.title like concat('%',#{keywords},'%')
-      </if>
-      union all
-      select  a.id,
-      a.membership_card_id,
-      a.user_id,
-      a.phone,
-      a.balance,
-      a.created,
-      b.card_no,
-      b.title,
-      b.summary,
-      b.colour,
-      b.logo,
-      b.store_ids,
-      b.type
-      from user_member_card a
-      left join membership_card b on a.membership_card_id = b.id
-      left join store s on find_in_set(s.id,b.store_ids)
-      where a.status = 1
-      and b.status = 1
-      and a.user_id = #{userId}
-      <if test="keywords != null and keywords != ''">
-        and s.name like concat('%',#{keywords},'%')
-      </if>
-      ) a
-      order by a.created DESC
+        select distinct a.*
+        from (
+        select a.id,
+        a.membership_card_id,
+        a.user_id,
+        a.phone,
+        a.balance,
+        a.created,
+        b.card_no,
+        b.title,
+        b.summary,
+        b.colour,
+        b.logo,
+        b.store_ids,
+        b.type,
+        c.grade,
+        c.summary as summaryGrade
+        from user_member_card a
+        left join membership_card b on a.membership_card_id = b.id
+        left join card_grade c on a.grade_id = c.id
+        where a.status = 1
+        and b.status = 1
+        and a.user_id = #{userId}
+        <if test="keywords != null and keywords != ''">
+            and b.title like concat('%',#{keywords},'%')
+        </if>
+        union all
+        select a.id,
+        a.membership_card_id,
+        a.user_id,
+        a.phone,
+        a.balance,
+        a.created,
+        b.card_no,
+        b.title,
+        b.summary,
+        b.colour,
+        b.logo,
+        b.store_ids,
+        b.type,
+        c.grade ,
+        c.summary as summaryGrade
+        from user_member_card a
+        left join membership_card b on a.membership_card_id = b.id
+        left join store s on find_in_set(s.id,b.store_ids)
+        left join card_grade c on a.grade_id = c.id
+        where a.status = 1
+        and b.status = 1
+        and a.user_id = #{userId}
+        <if test="keywords != null and keywords != ''">
+            and s.name like concat('%',#{keywords},'%')
+        </if>
+        ) a
+        order by a.created DESC
     </select>
     <select id="selectCardIdsByUserId" resultType="java.lang.Integer">
     select
@@ -96,9 +105,12 @@ and status = 1
        b.colour,
        b.logo,
        b.store_ids,
-       b.type
+       b.type,
+       c.grade,
+       c.summary as summaryGrade
 from user_member_card a
          left join membership_card b on a.membership_card_id = b.id
+         left join card_grade c on a.grade_id = c.id
 where a.id = #{id}
     </select>
     <select id="selectByCardIdUserId" resultType="com.chouchongkeji.dial.pojo.v3.UserMemberCard">
@@ -116,11 +128,11 @@ where a.id = #{id}
     insert into user_member_card (id, membership_card_id, user_id,
       balance, total_amount, consume_amount,
       updated, created, status,
-      store_id,phone)
+      store_id,phone,admin_id,grade_id)
     values (#{id,jdbcType=INTEGER}, #{membershipCardId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER},
       #{balance,jdbcType=DECIMAL}, #{totalAmount,jdbcType=DECIMAL}, #{consumeAmount,jdbcType=DECIMAL},
       now(), now(), #{status,jdbcType=TINYINT},
-      #{storeId,jdbcType=INTEGER},#{phone,jdbcType=VARCHAR})
+      #{storeId,jdbcType=INTEGER},#{phone,jdbcType=VARCHAR}, #{adminId,jdbcType=INTEGER}, #{gradeId,jdbcType=INTEGER})
   </insert>
     <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.v3.UserMemberCard">
         insert into user_member_card
@@ -158,6 +170,12 @@ where a.id = #{id}
             <if test="phone != null">
                 phone,
             </if>
+            <if test="adminId != null">
+                admin_id,
+            </if>
+            <if test="gradeId != null">
+                grade_id,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -192,6 +210,12 @@ where a.id = #{id}
             </if>
             <if test="phone != null">
                 #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="adminId != null">
+                #{adminId,jdbcType=INTEGER},
+            </if>
+            <if test="gradeId != null">
+                #{gradeId,jdbcType=INTEGER},
             </if>
         </trim>
     </insert>
@@ -228,6 +252,12 @@ where a.id = #{id}
             <if test="phone != null">
                 phone = #{phone,jdbcType=VARCHAR},
             </if>
+            <if test="adminId != null">
+                admin_id = #{adminId,jdbcType=INTEGER},
+            </if>
+            <if test="gradeId != null">
+                grade_id = #{gradeId,jdbcType=INTEGER},
+            </if>
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
@@ -242,7 +272,9 @@ where a.id = #{id}
       created = #{created,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=TINYINT},
       store_id = #{storeId,jdbcType=INTEGER},
-      phone = #{phone,jdbcType=VARCHAR}
+      phone = #{phone,jdbcType=VARCHAR},
+      admin_id = #{adminId,jdbcType=INTEGER},
+      grade_id = #{gradeId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
