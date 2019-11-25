@@ -63,7 +63,7 @@
         a.phone,
         a.balance,
         a.created,
-        b.card_no,
+        a.card_no,
         b.title,
         b.summary,
         b.colour,
