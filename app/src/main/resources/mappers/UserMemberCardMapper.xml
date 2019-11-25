@@ -284,7 +284,7 @@ where a.id = #{id}
       phone = #{phone,jdbcType=VARCHAR},
       admin_id = #{adminId,jdbcType=INTEGER},
       grade_id = #{gradeId,jdbcType=INTEGER},
-      card_no = #{cardNo,jdbcType=BIGINT},
+      card_no = #{cardNo,jdbcType=BIGINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
