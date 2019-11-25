@@ -1776,7 +1776,7 @@ on store (merchant_id);
 DROP TABLE IF EXISTS membership_card;
 CREATE TABLE membership_card (
    id INT ( 10 ) NOT NULL auto_increment,
-   card_no bigint(20) comment '会员卡卡号',
+   card_no bigint(20) comment '会员卡卡号（目前不要）',
    `title` varchar(200) COMMENT '标题',
    `summary` text null COMMENT '简介',
    colour varchar(100) comment'会员卡颜色',
@@ -1838,6 +1838,7 @@ CREATE TABLE user_member_card (
  `store_id` int(11) COMMENT '门店id(开卡门店)',
  `grade_id` int(11) COMMENT '等级id',
   admin_id int(11) comment'创建者id',
+  card_no bigint(20) comment '用户会员卡卡号',
   updated datetime COMMENT '修改时间',
   created datetime COMMENT '创建时间',
   PRIMARY KEY ( id ),

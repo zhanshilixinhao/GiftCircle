@@ -16,6 +16,7 @@ import com.chouchongkeji.goexplore.utils.BigDecimalUtil;
 import com.chouchongkeji.properties.ServiceProperties;
 import com.chouchongkeji.service.v3.MemberCardService;
 import com.chouchongkeji.service.v3.vo.*;
+import com.chouchongkeji.util.OrderHelper;
 import com.github.pagehelper.PageHelper;
 import com.yichen.auth.service.UserDetails;
 import org.apache.commons.collections.CollectionUtils;
@@ -52,6 +53,9 @@ public class MemberCardServiceImpl implements MemberCardService {
 
     @Autowired
     private ServiceProperties serviceProperties;
+
+    @Autowired
+    private OrderHelper orderHelper;
 
     /**
      * 获取用户会员卡列表
@@ -117,6 +121,7 @@ public class MemberCardServiceImpl implements MemberCardService {
         card.setStatus((byte) 1);
         card.setStoreId(0);
         card.setPhone(phone);
+        card.setCardNo(orderHelper.genOrderNo(7, 9));
         return userMemberCardMapper.insert(card);
     }
 
