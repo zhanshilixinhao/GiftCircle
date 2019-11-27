@@ -40,6 +40,40 @@ public class ExpenseDetailVo {
      */
     private String title;
 
+    private Long orderNo;
+    /**
+     * 扣款前金额
+     */
+    private BigDecimal beforeMoney;
+    /**
+     * 扣款后金额
+     */
+    private BigDecimal laterMoney;
+
+    public Long getOrderNo() {
+        return orderNo;
+    }
+
+    public void setOrderNo(Long orderNo) {
+        this.orderNo = orderNo;
+    }
+
+    public BigDecimal getBeforeMoney() {
+        return beforeMoney;
+    }
+
+    public void setBeforeMoney(BigDecimal beforeMoney) {
+        this.beforeMoney = beforeMoney;
+    }
+
+    public BigDecimal getLaterMoney() {
+        return laterMoney;
+    }
+
+    public void setLaterMoney(BigDecimal laterMoney) {
+        this.laterMoney = laterMoney;
+    }
+
     public Integer getId() {
         return id;
     }

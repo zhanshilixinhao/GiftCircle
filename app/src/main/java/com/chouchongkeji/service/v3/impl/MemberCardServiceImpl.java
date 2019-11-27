@@ -212,6 +212,10 @@ public class MemberCardServiceImpl implements MemberCardService {
             } else {
                 detailVo.setTotalAmount(new BigDecimal("0"));
             }
+            if (detailVo.getBeforeMoney() == null){
+                detailVo.setBeforeMoney(new BigDecimal("0"));
+            }
+            detailVo.setLaterMoney(BigDecimalUtil.add(detailVo.getBeforeMoney().doubleValue(),detailVo.getTotalAmount().doubleValue()));
         }
         return ResponseFactory.sucData(detailVo);
     }
@@ -248,6 +252,11 @@ public class MemberCardServiceImpl implements MemberCardService {
             if (detail.getTargetId() == null) {
                 detail.setTitle("会员卡线下消费");
             }
+            //扣款前/后余额
+            if (detail.getBeforeMoney() == null){
+                detail.setBeforeMoney(new BigDecimal("0"));
+            }
+           detail.setLaterMoney(BigDecimalUtil.sub(detail.getBeforeMoney().doubleValue(),detail.getExpenseMoney().doubleValue()));
         }
         return ResponseFactory.sucData(detail);
     }

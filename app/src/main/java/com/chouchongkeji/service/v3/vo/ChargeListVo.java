@@ -28,6 +28,7 @@ public class ChargeListVo {
 
     private Date created;
 
+
     public Integer getId() {
         return id;
     }

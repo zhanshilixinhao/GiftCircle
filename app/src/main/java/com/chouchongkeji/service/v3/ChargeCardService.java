@@ -1,5 +1,6 @@
 package com.chouchongkeji.service.v3;
 
+import com.chouchongkeji.dial.pojo.v3.UserMemberCard;
 import com.chouchongkeji.goexplore.common.Response;
 import com.yichen.auth.mvc.AppClient;
 
@@ -46,7 +47,8 @@ public interface ChargeCardService {
      *
      */
     int addStoreMountDetail(Integer userId,Integer merchantId,Integer storeId,BigDecimal rec,BigDecimal send,BigDecimal expense,
-                             Byte type,String explain,BigDecimal total,Float scale,Integer cardId,BigDecimal balance,Byte status,Integer eventId);
+                             Byte type,String explain,BigDecimal total,Float scale,Integer cardId,BigDecimal balance,
+                            Byte status,Integer eventId,Long orderNo);
 
     /**
      * 添加营业额记录
@@ -64,7 +66,7 @@ public interface ChargeCardService {
      * @param amount 充值金额+赠送金额
      * @param consume 消费金额
      */
-     void updateBalance(Integer userId, BigDecimal amount, BigDecimal consume);
+    UserMemberCard updateBalance(Integer userId, BigDecimal amount, BigDecimal consume);
 
     /**
      * 添加会员卡消费记录
@@ -73,5 +75,5 @@ public interface ChargeCardService {
      * @param targetId 目标id
      * @param explain 消费说明
      */
-     void addExpenseRecord(Integer userId,BigDecimal amount,String targetId,String explain);
+     void addExpenseRecord(Integer userId,BigDecimal amount,String targetId,String explain,Long orderNo,BigDecimal before);
 }

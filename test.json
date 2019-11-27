@@ -1,54 +1,25 @@
 {
   "errCode": 0,
   "result": 0,
-  "time": 1574671849597,
-  "data": [
-    {
-      "id": 1,
-      "membershipCardId": 0,
-      "userId": 7,
-      "phone": "15752400657",
-      "balance": 0.00,
-      "created": 1574670967000,
-      "cardNo": null,
-      "title": "礼遇圈",
-      "summary": "https://liyuquan.cn/static/card.html?uid=0",
-      "colour": "#409EFF",
-      "logo": "https://liyuquan.cn/static/item/191113/408e001d-aaf0-4918-bfd4-64b1eb867879.jpg",
-      "type": 1,
-      "storeIds": "8,7,4,0",
-      "stores": [
-        null,
-        null,
-        null,
-        null
-      ],
-      "grade": null,
-      "summaryGrade": ""
-    },
-    {
-      "id": 1,
-      "membershipCardId": 0,
-      "userId": 7,
-      "phone": "15752400657",
-      "balance": 0.00,
-      "created": 1574670967000,
-      "cardNo": 7919112516101,
-      "title": "礼遇圈",
-      "summary": "https://liyuquan.cn/static/card.html?uid=0",
-      "colour": "#409EFF",
-      "logo": "https://liyuquan.cn/static/item/191113/408e001d-aaf0-4918-bfd4-64b1eb867879.jpg",
-      "type": 1,
-      "storeIds": "8,7,4,0",
-      "stores": [
-        null,
-        null,
-        null,
-        null
-      ],
-      "grade": null,
-      "summaryGrade": ""
-    }
-  ]
+  "time": 1574839120994,
+  "data": {
+    "id": 1,
+    "membershipCardId": 2,
+    "userId": 7,
+    "rechargeMoney": 100.00,
+    "sendMoney": 5.00,
+    "totalAmount": 105.0,
+    "type": 2,
+    "explain": "",
+    "created": 1574676015000,
+    "storeId": 3,
+    "storeName": "外婆味道吾悦店",
+    "address": "吾悦广场",
+    "phone": "1234567",
+    "logo": "https://liyuquan.cn/static/item/191126/f7f908e1-ae21-4693-8ff1-cf1e7c385449.jpeg",
+    "title": "会员卡充值",
+    "orderNo": null,
+    "beforeMoney": 0,
+    "laterMoney": 105.0
+  }
 }
-

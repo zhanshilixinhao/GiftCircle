@@ -1,5 +1,7 @@
 package com.chouchongkeji.dial.pojo.v3;
 
+import com.chouchongkeji.goexplore.utils.BigDecimalUtil;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -28,7 +30,11 @@ public class MemberChargeRecord {
 
     private Date created;
 
-    public MemberChargeRecord(Integer id, Integer membershipCardId, Integer userId, Integer memberEventId, BigDecimal rechargeMoney, BigDecimal sendMoney, Byte type, Integer storeId, Integer adminId, String explain, Date updated, Date created) {
+    private Long orderNo;
+
+    private BigDecimal beforeMoney;
+
+    public MemberChargeRecord(Integer id, Integer membershipCardId, Integer userId, Integer memberEventId, BigDecimal rechargeMoney, BigDecimal sendMoney, Byte type, Integer storeId, Integer adminId, String explain, Date updated, Date created, Long orderNo, BigDecimal beforeMoney) {
         this.id = id;
         this.membershipCardId = membershipCardId;
         this.userId = userId;
@@ -41,6 +47,16 @@ public class MemberChargeRecord {
         this.explain = explain;
         this.updated = updated;
         this.created = created;
+        this.orderNo = orderNo;
+        this.beforeMoney = beforeMoney;
+    }
+
+    public BigDecimal getBeforeMoney() {
+        return beforeMoney;
+    }
+
+    public void setBeforeMoney(BigDecimal beforeMoney) {
+        this.beforeMoney = beforeMoney;
     }
 
     public MemberChargeRecord() {
@@ -141,5 +157,13 @@ public class MemberChargeRecord {
 
     public void setCreated(Date created) {
         this.created = created;
+    }
+
+    public Long getOrderNo() {
+        return orderNo;
+    }
+
+    public void setOrderNo(Long orderNo) {
+        this.orderNo = orderNo;
     }
 }

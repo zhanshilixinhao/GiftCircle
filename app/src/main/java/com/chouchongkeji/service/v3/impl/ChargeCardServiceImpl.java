@@ -177,7 +177,7 @@ public class ChargeCardServiceImpl implements ChargeCardService {
         }
         //更新余额
         BigDecimal amount = BigDecimalUtil.add(chargeOrder.getRechargeMoney().doubleValue(),chargeOrder.getSendMoney().doubleValue());
-        updateBalance(chargeOrder.getUserId(),amount,new BigDecimal("0"));
+        UserMemberCard card = updateBalance(chargeOrder.getUserId(), amount, new BigDecimal("0"));
         // 添加充值记录
         MemberChargeRecord record = new MemberChargeRecord();
         record.setMembershipCardId(chargeOrder.getMembershipCardId());
@@ -188,6 +188,10 @@ public class ChargeCardServiceImpl implements ChargeCardService {
         record.setType((byte)1);
         record.setStoreId(0);
         record.setExplain("余额充值");
+        record.setOrderNo(orderNo);
+        if (card != null){
+            record.setBeforeMoney(BigDecimalUtil.sub(card.getBalance().doubleValue(),amount.doubleValue()));
+        }
         int insert = memberChargeRecordMapper.insert(record);
         if (insert == 0) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "添加充值记录失败");
@@ -197,7 +201,8 @@ public class ChargeCardServiceImpl implements ChargeCardService {
         // 营业额比例（赠送金额/总金额（充值金额+赠送金额））
         BigDecimal sca = BigDecimalUtil.div(chargeOrder.getSendMoney().doubleValue(),total.doubleValue());
         addStoreMountDetail(chargeOrder.getUserId(),0,0,chargeOrder.getRechargeMoney(),chargeOrder.getSendMoney(),
-               new BigDecimal("0"),(byte)1,"余额充值", total,sca.floatValue(),chargeOrder.getMembershipCardId(),total,(byte)1,chargeOrder.getEventId());
+               new BigDecimal("0"),(byte)1,"余额充值", total,sca.floatValue(),chargeOrder.getMembershipCardId(),total,(byte)1,
+                chargeOrder.getEventId(),orderNo);
     }
 
 
@@ -209,7 +214,8 @@ public class ChargeCardServiceImpl implements ChargeCardService {
      */
     @Override
     public int addStoreMountDetail(Integer userId,Integer merchantId,Integer storeId,BigDecimal rec,BigDecimal send,BigDecimal expense,
-                                    Byte type,String explain,BigDecimal total,Float scale,Integer cardId,BigDecimal balance,Byte status,Integer eventId){
+                                    Byte type,String explain,BigDecimal total,Float scale,Integer cardId,BigDecimal balance,Byte status,
+                                   Integer eventId,Long orderNo){
         StoreMemberCharge member = new StoreMemberCharge();
         member.setUserId(userId);
         member.setMerchantId(merchantId);
@@ -225,6 +231,7 @@ public class ChargeCardServiceImpl implements ChargeCardService {
         member.setBalance(balance);
         member.setStatus(status);
         member.setMemberEventId(eventId);
+        member.setOrderNo(orderNo);
         int insert = storeMemberChargeMapper.insert(member);
         if (insert == 0) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "添加会员卡使用记录失败");
@@ -331,7 +338,7 @@ public class ChargeCardServiceImpl implements ChargeCardService {
      * @param consume 消费金额
      */
     @Override
-    public void updateBalance(Integer userId, BigDecimal amount, BigDecimal consume) {
+    public UserMemberCard updateBalance(Integer userId, BigDecimal amount, BigDecimal consume) {
         UserMemberCard card = userMemberCardMapper.selectByCardIdUserId(userId, 0);
         if (card == null) {
             int i = memberCardService.addMemberShipCard(userId, amount, amount, consume);
@@ -348,6 +355,7 @@ public class ChargeCardServiceImpl implements ChargeCardService {
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "更新余额失败！");
             }
         }
+        return card;
     }
 
     /**
@@ -358,7 +366,7 @@ public class ChargeCardServiceImpl implements ChargeCardService {
      * @param explain 消费说明
      */
     @Override
-    public void addExpenseRecord(Integer userId,BigDecimal amount,String targetId,String explain){
+    public void addExpenseRecord(Integer userId,BigDecimal amount,String targetId,String explain,Long orderNo,BigDecimal before){
         MemberExpenseRecord record = new MemberExpenseRecord();
         record.setMembershipCardId(0);
         record.setUserId(userId);
@@ -367,6 +375,8 @@ public class ChargeCardServiceImpl implements ChargeCardService {
         record.setStoreId(0);
         record.setTargetId(targetId);
         record.setExplain(explain);
+        record.setOrderNo(orderNo);
+        record.setBeforeMoney(before);
         int insert = memberExpenseRecordMapper.insert(record);
         if (insert == 0) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "添加消费记录失败！");

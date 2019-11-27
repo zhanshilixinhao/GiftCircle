@@ -8378,6 +8378,9 @@ type = 3 请求结果示例：
     "address": "APP", // 交易地址
     "phone": "2342",//联系方式
     "title": "会员卡充值" //交易商品
+    "orderNo": 43335345443, //交易订单号
+    "beforeMoney": 0,//充值前金额
+    "laterMoney": 105.0 //充值后金额
   }
 }
 
@@ -8465,6 +8468,9 @@ type = 3 请求结果示例：
     "logo": "avatar.jpg", //卡logo
     "targetId": 1075, //购买商品skuid/优惠券id
     "title": "由你啃  Hello kitty粉色芝士淋面蛋糕" //交易商品
+    "orderNo": 43335345443, //交易订单号
+    "beforeMoney": 22,//扣款前金额
+    "laterMoney": 0 //扣款后金额
   }
 }
 
