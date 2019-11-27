@@ -45,7 +45,7 @@ public class CardVo {
 
     private List<Store> stores;
 
-    private Integer grade;
+    private String grade;
 
     private String summaryGrade;// 等级说明
 
@@ -162,11 +162,11 @@ public class CardVo {
         this.phone = phone;
     }
 
-    public Integer getGrade() {
+    public String getGrade() {
         return grade;
     }
 
-    public void setGrade(Integer grade) {
+    public void setGrade(String grade) {
         this.grade = grade;
     }
 

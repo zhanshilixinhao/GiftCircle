@@ -45,7 +45,7 @@
         b.logo,
         b.store_ids,
         b.type,
-        c.grade,
+        c.title as grade,
         c.summary as summaryGrade
         from user_member_card a
         left join membership_card b on a.membership_card_id = b.id
@@ -70,7 +70,7 @@
         b.logo,
         b.store_ids,
         b.type,
-        c.grade ,
+        c.title as grade ,
         c.summary as summaryGrade
         from user_member_card a
         left join membership_card b on a.membership_card_id = b.id
@@ -106,7 +106,7 @@ and status = 1
        b.logo,
        b.store_ids,
        b.type,
-       c.grade,
+       c.title as grade,
        c.summary as summaryGrade
 from user_member_card a
          left join membership_card b on a.membership_card_id = b.id
