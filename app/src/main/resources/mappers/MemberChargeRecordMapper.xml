@@ -77,7 +77,7 @@ where a.id = #{id}
     values (#{id,jdbcType=INTEGER}, #{membershipCardId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER},
       #{memberEventId,jdbcType=INTEGER}, #{rechargeMoney,jdbcType=DECIMAL}, #{sendMoney,jdbcType=DECIMAL},
       #{type,jdbcType=TINYINT}, #{storeId,jdbcType=INTEGER}, #{adminId,jdbcType=INTEGER},
-      #{explain,jdbcType=VARCHAR}, now(), now(),#{orderNo,jdbcType=BIGINT},#{beforeMoney,jdbcType=DECIMAL}}
+      #{explain,jdbcType=VARCHAR}, now(), now(),#{orderNo,jdbcType=BIGINT},#{beforeMoney,jdbcType=DECIMAL}
       )
   </insert>
     <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.v3.MemberChargeRecord">
