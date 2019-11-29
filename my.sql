@@ -1981,3 +1981,20 @@ CREATE TABLE store_turnover (
 ) ENGINE = INNODB CHARACTER
 SET = utf8mb4 COMMENT = '消费营业额记录';
 
+
+DROP TABLE IF EXISTS card_rebate;
+CREATE TABLE card_rebate (
+   id INT ( 10 ) NOT NULL auto_increment,
+   `user_id` int(11) COMMENT '用户id',
+  `membership_card_id` int(11) COMMENT '会员卡id',
+  `store_member_id` int(11) COMMENT '门店金额详情表Id',
+  `explain` varchar(200) comment'说明',
+  `status` tinyint(4) comment' 1 正常',
+  order_no bigint NOT NULL comment '订单号',
+  updated datetime COMMENT '修改时间',
+  created datetime COMMENT '创建时间',
+  PRIMARY KEY ( id ),
+  key user_id(user_id),
+  key store_id(store_id)
+) ENGINE = INNODB CHARACTER
+SET = utf8mb4 COMMENT = '门店退款';
