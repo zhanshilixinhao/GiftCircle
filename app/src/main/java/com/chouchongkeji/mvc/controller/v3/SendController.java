@@ -38,7 +38,38 @@ public class SendController {
         if (sendMoney.compareTo(new BigDecimal(0)) <= 0){
             return ResponseFactory.err("请输入正确的金额");
         }
-        return sendService.cardSend(userDetails,cardId,sendMoney);
+        return sendService.cardSend(userDetails.getUserId(),cardId,sendMoney);
     }
+
+    /**
+     * 判断是否可以领取会员卡
+     * @param userDetails 用户（接收者）
+     * @param transferSendId 转赠记录id
+     * @return
+     */
+    @PostMapping("judge")
+    public Response judgeCardSend(@AuthenticationPrincipal UserDetails userDetails,Integer transferSendId){
+        if (transferSendId == null){
+            return ResponseFactory.errMissingParameter();
+        }
+        return sendService.judgeCardSend(userDetails.getUserId(),transferSendId);
+    }
+
+    /**
+     * 微信领取会员卡
+     * @param userDetails 用户（接收者）
+     * @param transferSendId 转赠记录id
+     * @return
+     */
+    @PostMapping("get")
+    public Response getCardSend(@AuthenticationPrincipal UserDetails userDetails,Integer transferSendId){
+        if (transferSendId == null){
+            return ResponseFactory.errMissingParameter();
+        }
+        return sendService.getCardSend(userDetails.getUserId(),transferSendId);
+    }
+
+
+
 
 }

@@ -166,7 +166,7 @@ public class UserLoginServiceImpl implements UserLoginService {
             }
         }
         // 添加礼遇圈会员卡
-        memberCardService.addMemberShipCard(id,new BigDecimal("0"),new BigDecimal("0"),new BigDecimal("0"));
+        memberCardService.addMemberShipCard(id,new BigDecimal("0"),new BigDecimal("0"),new BigDecimal("0"),0,0);
         // 测试账号（添加测试商品到背包）
         if ("13110487948".equals(phone)) {
             //物品添加到背包

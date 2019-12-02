@@ -249,7 +249,7 @@ public class ChargeCardServiceImpl implements ChargeCardService {
      */
     @Override
     public void addTurnover(Integer userId,Integer cardId,BigDecimal expense,Integer storeMemberId,Integer storeId){
-        //取出之前充值的记录
+        //取出之前充值和别人赠送的记录
         List<StoreMemberCharge> charges = storeMemberChargeMapper.selectByUserIdCardId(userId,cardId);
         if (!CollectionUtils.isEmpty(charges)){
             BigDecimal expense1 = expense;
@@ -286,7 +286,8 @@ public class ChargeCardServiceImpl implements ChargeCardService {
      * @param balance 余额
      * @param status 状态
      */
-    private void updateDetailCharge(Integer id,BigDecimal balance,Byte status){
+    @Override
+    public void updateDetailCharge(Integer id,BigDecimal balance,Byte status){
         StoreMemberCharge store = storeMemberChargeMapper.selectByPrimaryKey(id);
         if (store == null) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "该记录不存在");
@@ -341,7 +342,7 @@ public class ChargeCardServiceImpl implements ChargeCardService {
     public UserMemberCard updateBalance(Integer userId, BigDecimal amount, BigDecimal consume) {
         UserMemberCard card = userMemberCardMapper.selectByCardIdUserId(userId, 0);
         if (card == null) {
-            int i = memberCardService.addMemberShipCard(userId, amount, amount, consume);
+            int i = memberCardService.addMemberShipCard(userId, amount, amount, consume,0,0);
             if (i == 0) {
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "更新余额失败");
             }

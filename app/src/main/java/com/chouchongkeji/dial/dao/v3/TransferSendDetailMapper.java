@@ -1,6 +1,7 @@
 package com.chouchongkeji.dial.dao.v3;
 
 import com.chouchongkeji.dial.pojo.v3.TransferSendDetail;
+import org.apache.ibatis.annotations.Param;
 
 public interface TransferSendDetailMapper {
     int deleteByPrimaryKey(Integer id);
@@ -14,4 +15,6 @@ public interface TransferSendDetailMapper {
     int updateByPrimaryKeySelective(TransferSendDetail record);
 
     int updateByPrimaryKey(TransferSendDetail record);
+
+    TransferSendDetail selectBytransferSendIdUserId(@Param("transferSendId") Integer transferSendId, @Param("userId") Integer userId);
 }

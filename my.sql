@@ -1983,7 +1983,7 @@ DROP TABLE IF EXISTS transfer_send_expense;
 CREATE TABLE transfer_send_expense (
    id INT ( 10 ) NOT NULL auto_increment,
    `transfer_send_id` int(11) COMMENT '会员卡转赠id',
-   store_member_id int(11) comment'门店金额详情表Id',
+   store_member_id int(11) comment'门店金额详情表Id（充值）',
    send_money decimal(18,2) comment'单笔转赠金额',
   updated datetime COMMENT '修改时间',
   created datetime COMMENT '创建时间',

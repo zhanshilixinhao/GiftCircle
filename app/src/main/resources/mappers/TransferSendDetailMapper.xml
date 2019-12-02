@@ -17,22 +17,29 @@
     id, user_id, transfer_send_id, membership_card_id, send_money, status, updated, created
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from transfer_send_detail
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="selectBytransferSendIdUserId" resultType="com.chouchongkeji.dial.pojo.v3.TransferSendDetail">
+      select
+      <include refid="Base_Column_List" />
+      from transfer_send_detail
+      where transfer_send_id = #{transferSendId}
+      and user_id = #{userId}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from transfer_send_detail
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.v3.TransferSendDetail">
-    insert into transfer_send_detail (id, user_id, transfer_send_id, 
-      membership_card_id, send_money, status, 
+  <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.v3.TransferSendDetail" useGeneratedKeys="true" keyProperty="id">
+    insert into transfer_send_detail (id, user_id, transfer_send_id,
+      membership_card_id, send_money, status,
       updated, created)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{transferSendId,jdbcType=INTEGER}, 
-      #{membershipCardId,jdbcType=INTEGER}, #{sendMoney,jdbcType=DECIMAL}, #{status,jdbcType=TINYINT}, 
-      #{updated,jdbcType=TIMESTAMP}, #{created,jdbcType=TIMESTAMP})
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{transferSendId,jdbcType=INTEGER},
+      #{membershipCardId,jdbcType=INTEGER}, #{sendMoney,jdbcType=DECIMAL}, #{status,jdbcType=TINYINT},
+      now(),now())
   </insert>
   <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.v3.TransferSendDetail">
     insert into transfer_send_detail

@@ -72,7 +72,7 @@ public class MemberCardServiceImpl implements MemberCardService {
         HashSet<Integer> cardIds = userMemberCardMapper.selectCardIdsByUserId(userDetails.getUserId());
         if (cardIds.size() == 0 || !cardIds.contains(0)) {
             // 不包含0，没有礼遇圈卡则加一张
-            addMemberShipCard(userDetails.getUserId(), new BigDecimal("0"), new BigDecimal("0"), new BigDecimal("0"));
+            addMemberShipCard(userDetails.getUserId(), new BigDecimal("0"), new BigDecimal("0"), new BigDecimal("0"),0,0);
         }
         PageHelper.startPage(page.getPageNum(), page.getPageSize());
         List<CardVo> cardVos = userMemberCardMapper.selectByUserId(userDetails.getUserId(), keywords);
@@ -106,20 +106,21 @@ public class MemberCardServiceImpl implements MemberCardService {
      * @return
      */
     @Override
-    public int addMemberShipCard(Integer userId, BigDecimal balance, BigDecimal total, BigDecimal consume) {
+    public int addMemberShipCard(Integer userId, BigDecimal balance, BigDecimal total, BigDecimal consume,
+                                 Integer cardId,Integer storeId) {
         String phone = null;
         AppUser appUser = appUserMapper.selectByPrimaryKey(userId);
         if (appUser != null) {
             phone = appUser.getPhone();
         }
         UserMemberCard card = new UserMemberCard();
-        card.setMembershipCardId(0);
+        card.setMembershipCardId(cardId);
         card.setUserId(userId);
         card.setBalance(balance);
         card.setTotalAmount(total);
         card.setConsumeAmount(consume);
         card.setStatus((byte) 1);
-        card.setStoreId(0);
+        card.setStoreId(storeId);
         card.setPhone(phone);
         card.setCardNo(orderHelper.genOrderNo(7, 9));
         return userMemberCardMapper.insert(card);

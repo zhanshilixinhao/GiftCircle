@@ -43,7 +43,7 @@ public interface MemberCardService {
      * @param userId 用户id
      * @return
      */
-    int addMemberShipCard(Integer userId, BigDecimal balance, BigDecimal total, BigDecimal consume);
+    int addMemberShipCard(Integer userId, BigDecimal balance, BigDecimal total, BigDecimal consume,Integer cardId,Integer storeId);
 
     /**
      * 会员卡充值记录

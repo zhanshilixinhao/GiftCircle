@@ -15,10 +15,26 @@ public interface SendService {
 
     /**
      * 会员卡余额赠送
-     * @param userDetails 用户(赠送者)
+     * @param userId 用户(赠送者)
      * @param cardId 卡片id
      * @param sendMoney 赠送金额
      * @return
      */
-    Response cardSend(UserDetails userDetails, Integer cardId, BigDecimal sendMoney);
+    Response cardSend(Integer userId, Integer cardId, BigDecimal sendMoney);
+
+    /**
+     * 微信领取会员卡
+     * @param userId 用户（接收者）
+     * @param transferSendId 转赠记录id
+     * @return
+     */
+    Response getCardSend(Integer userId, Integer transferSendId);
+
+    /**
+     * 判断是否可以领取会员卡
+     * @param userId 用户（接收者）
+     * @param transferSendId 转赠记录id
+     * @return
+     */
+    Response judgeCardSend(Integer userId, Integer transferSendId);
 }

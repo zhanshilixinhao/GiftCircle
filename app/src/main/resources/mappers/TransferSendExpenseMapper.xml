@@ -15,7 +15,7 @@
     id, transfer_send_id, store_member_id, send_money, updated, created
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from transfer_send_expense
     where id = #{id,jdbcType=INTEGER}
@@ -25,11 +25,11 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.v3.TransferSendExpense">
-    insert into transfer_send_expense (id, transfer_send_id, store_member_id, 
+    insert into transfer_send_expense (id, transfer_send_id, store_member_id,
       send_money, updated, created
       )
-    values (#{id,jdbcType=INTEGER}, #{transferSendId,jdbcType=INTEGER}, #{storeMemberId,jdbcType=INTEGER}, 
-      #{sendMoney,jdbcType=DECIMAL}, #{updated,jdbcType=TIMESTAMP}, #{created,jdbcType=TIMESTAMP}
+    values (#{id,jdbcType=INTEGER}, #{transferSendId,jdbcType=INTEGER}, #{storeMemberId,jdbcType=INTEGER},
+      #{sendMoney,jdbcType=DECIMAL}, now(), now()
       )
   </insert>
   <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.v3.TransferSendExpense">

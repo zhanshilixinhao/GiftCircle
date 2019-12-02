@@ -61,6 +61,13 @@ public interface ChargeCardService {
     void addTurnover(Integer userId,Integer cardId,BigDecimal expense,Integer storeMemberId,Integer storeId);
 
     /**
+     * 更新详细记录
+     * @param id 详细记录id
+     * @param balance 余额
+     * @param status 状态
+     */
+     void updateDetailCharge(Integer id,BigDecimal balance,Byte status);
+    /**
      * 更新余额
      * @param userId 用户id
      * @param amount 充值金额+赠送金额
