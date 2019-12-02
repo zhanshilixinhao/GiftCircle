@@ -37,4 +37,11 @@ public interface SendService {
      * @return
      */
     Response judgeCardSend(Integer userId, Integer transferSendId);
+
+    /**
+     * 转赠记录列表
+     * @param userId 用户
+     * @return
+     */
+    Response getCardSendList(Integer userId,Integer cardId);
 }

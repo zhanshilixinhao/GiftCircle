@@ -70,6 +70,31 @@ public class SendController {
     }
 
 
+    /**
+     * 转赠记录列表
+     * @param userDetails 用户
+     * @return
+     */
+    @PostMapping("list")
+    public Response getCardSendList(@AuthenticationPrincipal UserDetails userDetails,Integer cardId){
+        if (cardId == null){
+            return ResponseFactory.errMissingParameter();
+        }
+        return sendService.getCardSendList(userDetails.getUserId(),cardId);
+    }
+
+    /**
+     * 转赠记录详情
+     * @param transferSendId 转赠记录id
+     * @return
+     */
+    @PostMapping("detail")
+    public Response getCardSendDetail(@AuthenticationPrincipal UserDetails userDetails,Integer transferSendId){
+        if (transferSendId == null){
+            return ResponseFactory.errMissingParameter();
+        }
+        return sendService.getCardSendDetail(userDetails.getUserId(),transferSendId);
+    }
 
 
 }

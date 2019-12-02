@@ -15,6 +15,7 @@ import com.chouchongkeji.service.v3.ChargeCardService;
 import com.chouchongkeji.service.v3.MemberCardService;
 import com.chouchongkeji.service.v3.SendService;
 import com.chouchongkeji.service.v3.vo.SendVo;
+import com.chouchongkeji.service.v3.vo.TransferSendVo;
 import com.chouchongkeji.util.Constants;
 import com.yichen.auth.service.UserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -321,5 +323,24 @@ public class SendServiceImpl implements SendService {
         }
     }
 
+
+    /**
+     * 转赠记录列表
+     * @param userId 用户
+     * @return
+     */
+    @Override
+    public Response getCardSendList(Integer userId,Integer cardId) {
+        List<TransferSendVo> vos = transferSendMapper.selectByUserIdCardId(userId,cardId);
+        if(!CollectionUtils.isEmpty(vos)){
+            for (TransferSendVo vo : vos) {
+                vo.setTitle(vo.getTitle()+"转赠");
+                if (StringUtils.isEmpty(vo.getNickname())){
+                    vo.setNickname("未接收");
+                }
+            }
+        }
+        return ResponseFactory.sucData(vos);
+    }
 
 }
