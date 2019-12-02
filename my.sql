@@ -1946,7 +1946,7 @@ CREATE TABLE store_member_charge (
    send_money decimal(18,2) comment'赠送金额',
    total_money decimal(18,2) comment'总金额（赠送金额+充值金额，如果是消费则为总消费金额）',
    expense_money decimal(18,2) comment'消费金额',
-  `type` tinyint(4) comment' 1 充值 2 消费',
+  `type` tinyint(4) comment' 1 充值 2 消费 3 转赠',
   `explain` varchar(200) comment'说明',
   scale float(10,2) comment'充值比例（赠送金额/总金额）',
   `membership_card_id` int(11) COMMENT '会员卡id',
@@ -1963,15 +1963,64 @@ CREATE TABLE store_member_charge (
 SET = utf8mb4 COMMENT = '门店金额详情表';
 
 
+
+DROP TABLE IF EXISTS transfer_send;
+CREATE TABLE transfer_send (
+   id INT ( 10 ) NOT NULL auto_increment,
+   `user_id` int(11) COMMENT '用户id(赠送者)',
+   `membership_card_id` int(11) COMMENT '会员卡id',
+   send_money decimal(18,2) comment'所有转赠金额',
+  `status` tinyint(4) comment' 0 已取消 1 未领取 2 已领取',
+  updated datetime COMMENT '修改时间',
+  created datetime COMMENT '创建时间',
+  PRIMARY KEY ( id ),
+  key user_id(user_id),
+  key membership_card_id(membership_card_id)
+) ENGINE = INNODB CHARACTER
+SET = utf8mb4 COMMENT = '会员卡转赠';
+
+DROP TABLE IF EXISTS transfer_send_expense;
+CREATE TABLE transfer_send_expense (
+   id INT ( 10 ) NOT NULL auto_increment,
+   `transfer_send_id` int(11) COMMENT '会员卡转赠id',
+   store_member_id int(11) comment'门店金额详情表Id',
+   send_money decimal(18,2) comment'单笔转赠金额',
+  updated datetime COMMENT '修改时间',
+  created datetime COMMENT '创建时间',
+  PRIMARY KEY ( id ),
+  key transfer_send_id(transfer_send_id),
+  key store_member_id(store_member_id)
+) ENGINE = INNODB CHARACTER
+SET = utf8mb4 COMMENT = '会员卡转赠所扣款关联表';
+
+
+DROP TABLE IF EXISTS transfer_send_detail;
+CREATE TABLE transfer_send_detail (
+   id INT ( 10 ) NOT NULL auto_increment,
+   `user_id` int(11) COMMENT '用户id(接收者)',
+  `transfer_send_id` int(11) COMMENT '会员卡转赠id',
+  `membership_card_id` int(11) COMMENT '会员卡id',
+   send_money decimal(18,2) comment'金额',
+  `status` tinyint(4) comment' 0 已取消（被撤回） 1 未领取 2 已领取',
+  updated datetime COMMENT '修改时间',
+  created datetime COMMENT '创建时间',
+  PRIMARY KEY ( id ),
+  key user_id(user_id),
+  key transfer_send_id(transfer_send_id)
+) ENGINE = INNODB CHARACTER
+SET = utf8mb4 COMMENT = '会员卡转赠详情（接收者）';
+
+
 DROP TABLE IF EXISTS store_turnover;
 CREATE TABLE store_turnover (
    id INT ( 10 ) NOT NULL auto_increment,
-   store_member_id int(11) comment'门店金额详情表Id',
+   store_member_id int(11) comment'门店金额详情表Id（此次消费）',
    blag_money decimal(18,2) comment'索要金额',
    turnover_money decimal(18,2) comment'营业额',
    store_id int(11) comment'消费门店id(使用门店)',
    blag_store_id int(11) comment'索要门店id(索要消费金额)',
    event_id int(11) comment'会员卡活动id',
+   store_charge_id int(11) comment'门店金额详情表Id（从哪次充值里扣款）',
    updated datetime COMMENT '修改时间',
    created datetime COMMENT '创建时间',
    PRIMARY KEY ( id ),
