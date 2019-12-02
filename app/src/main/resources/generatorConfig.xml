@@ -69,14 +69,14 @@
         </javaClientGenerator>
 
 
-        <table tableName="card_grade" domainObjectName="CardGrade" enableCountByExample="false"
-               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false"></table>
-        <table tableName="member_card_grade" domainObjectName="MemberCardGrade" enableCountByExample="false"
-               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false"></table>
+<!--        <table tableName="transfer_send" domainObjectName="TransferSend" enableCountByExample="false"-->
+<!--               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false"></table>-->
+<!--        <table tableName="transfer_send_expense" domainObjectName="TransferSendExpense" enableCountByExample="false"-->
+<!--               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false"></table>-->
 
-<!--        <table tableName="user_member_card" domainObjectName="UserMemberCard" enableCountByExample="false"-->
+<!--        <table tableName="transfer_send_detail" domainObjectName="TransferSendDetail" enableCountByExample="false"-->
 <!--               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
 <!--               selectByExampleQueryId="false"></table>-->
 <!--        <table tableName="member_card" domainObjectName="MemberCard" enableCountByExample="false"-->

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chouchongkeji.dial.dao.v3.TransferSendExpenseMapper">
+  <resultMap id="BaseResultMap" type="com.chouchongkeji.dial.pojo.v3.TransferSendExpense">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="transfer_send_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="store_member_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="send_money" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, transfer_send_id, store_member_id, send_money, updated, created
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from transfer_send_expense
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from transfer_send_expense
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.v3.TransferSendExpense">
+    insert into transfer_send_expense (id, transfer_send_id, store_member_id, 
+      send_money, updated, created
+      )
+    values (#{id,jdbcType=INTEGER}, #{transferSendId,jdbcType=INTEGER}, #{storeMemberId,jdbcType=INTEGER}, 
+      #{sendMoney,jdbcType=DECIMAL}, #{updated,jdbcType=TIMESTAMP}, #{created,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.v3.TransferSendExpense">
+    insert into transfer_send_expense
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="transferSendId != null">
+        transfer_send_id,
+      </if>
+      <if test="storeMemberId != null">
+        store_member_id,
+      </if>
+      <if test="sendMoney != null">
+        send_money,
+      </if>
+      <if test="updated != null">
+        updated,
+      </if>
+      <if test="created != null">
+        created,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="transferSendId != null">
+        #{transferSendId,jdbcType=INTEGER},
+      </if>
+      <if test="storeMemberId != null">
+        #{storeMemberId,jdbcType=INTEGER},
+      </if>
+      <if test="sendMoney != null">
+        #{sendMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="updated != null">
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chouchongkeji.dial.pojo.v3.TransferSendExpense">
+    update transfer_send_expense
+    <set>
+      <if test="transferSendId != null">
+        transfer_send_id = #{transferSendId,jdbcType=INTEGER},
+      </if>
+      <if test="storeMemberId != null">
+        store_member_id = #{storeMemberId,jdbcType=INTEGER},
+      </if>
+      <if test="sendMoney != null">
+        send_money = #{sendMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="updated != null">
+        updated = #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.dial.pojo.v3.TransferSendExpense">
+    update transfer_send_expense
+    set transfer_send_id = #{transferSendId,jdbcType=INTEGER},
+      store_member_id = #{storeMemberId,jdbcType=INTEGER},
+      send_money = #{sendMoney,jdbcType=DECIMAL},
+      updated = #{updated,jdbcType=TIMESTAMP},
+      created = #{created,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
