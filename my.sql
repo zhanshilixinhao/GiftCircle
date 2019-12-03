@@ -1761,6 +1761,7 @@ create table if not exists store
   area varchar(200) null comment '店铺所在地区',
   phone varchar(15) null comment '电话',
   linkman varchar(50) null comment '联系人',
+  password varchar(32) null comment '门店密码，用于门店退款',
     admin_id int(11) comment'后台操作者id',
   created datetime null,
   updated datetime null
@@ -2036,14 +2037,16 @@ CREATE TABLE card_rebate (
    id INT ( 10 ) NOT NULL auto_increment,
    `user_id` int(11) COMMENT '用户id',
   `membership_card_id` int(11) COMMENT '会员卡id',
-  `store_member_id` int(11) COMMENT '门店金额详情表Id',
   `explain` varchar(200) comment'说明',
   `status` tinyint(4) comment' 1 正常',
+  expense_record_id int(11) comment'扣款记录id',
+  money decimal(18,2) comment'退款金额',
   order_no bigint NOT NULL comment '订单号',
+  admin_id int(11) comment '操作者adminId',
   updated datetime COMMENT '修改时间',
   created datetime COMMENT '创建时间',
   PRIMARY KEY ( id ),
   key user_id(user_id),
-  key store_id(store_id)
+  key membership_card_id(membership_card_id)
 ) ENGINE = INNODB CHARACTER
 SET = utf8mb4 COMMENT = '门店退款';
