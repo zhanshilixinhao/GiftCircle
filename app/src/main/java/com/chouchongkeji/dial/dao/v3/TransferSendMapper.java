@@ -26,4 +26,11 @@ public interface TransferSendMapper {
      * @return
      */
     List<TransferSendVo> selectByUserIdCardId(@Param("userId") Integer userId, @Param("cardId") Integer cardId);
+
+    /**
+     * 转赠记录详情
+     * @param transferSendId
+     * @return
+     */
+    TransferSendVo selectById(Integer transferSendId);
 }

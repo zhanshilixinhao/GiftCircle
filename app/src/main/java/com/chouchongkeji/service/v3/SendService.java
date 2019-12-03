@@ -44,4 +44,10 @@ public interface SendService {
      * @return
      */
     Response getCardSendList(Integer userId,Integer cardId);
+    /**
+     * 转赠记录详情
+     * @param transferSendId 转赠记录id
+     * @return
+     */
+    Response getCardSendDetail(Integer userId, Integer transferSendId);
 }

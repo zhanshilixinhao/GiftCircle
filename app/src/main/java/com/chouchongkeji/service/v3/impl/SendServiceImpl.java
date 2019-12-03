@@ -343,4 +343,21 @@ public class SendServiceImpl implements SendService {
         return ResponseFactory.sucData(vos);
     }
 
+
+    /**
+     * 转赠记录详情
+     * @param transferSendId 转赠记录id
+     * @return
+     */
+    @Override
+    public Response getCardSendDetail(Integer userId, Integer transferSendId) {
+        TransferSendVo vo = transferSendMapper.selectById(transferSendId);
+        if (vo != null){
+            vo.setTitle(vo.getTitle()+"转赠");
+            if (StringUtils.isEmpty(vo.getNickname())){
+                vo.setNickname("未接收");
+            }
+        }
+        return ResponseFactory.sucData(vo);
+    }
 }

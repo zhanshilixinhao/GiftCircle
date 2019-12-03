@@ -63,6 +63,46 @@ where a.user_id = 0
 and a.membership_card_id = 0
 order by a.created DESC
     </select>
+    <select id="selectById" resultType="com.chouchongkeji.service.v3.vo.TransferSendVo">
+            select a.id,
+       a.user_id,
+       a.membership_card_id,
+       a.send_money,
+       a.status,
+       a.updated,
+       a.created,
+       b.user_id as targetUserId,
+       c.nickname,
+       c.avatar,
+       d.title,
+       d.logo,
+       f.card_no
+from transfer_send a
+         left join transfer_send_detail b on a.id = b.transfer_send_id
+         left join app_user c on b.user_id = c.id
+         left join membership_card d on a.membership_card_id = d.id
+         left join user_member_card f on a.membership_card_id = f.membership_card_id and a.user_id = f.user_id
+union all
+select a.id,
+       a.user_id,
+       a.membership_card_id,
+       a.send_money,
+       a.status,
+       a.updated,
+       a.created,
+       b.user_id as targetUserId,
+       c.nickname,
+       c.avatar,
+       d.title,
+       d.logo,
+       f.card_no as targetCardNo
+from transfer_send a
+         left join transfer_send_detail b on a.id = b.transfer_send_id
+         left join app_user c on b.user_id = c.id
+         left join membership_card d on a.membership_card_id = d.id
+         left join user_member_card f on a.membership_card_id = f.membership_card_id and b.user_id = f.user_id
+where a.id = #{transferSendId}
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from transfer_send
     where id = #{id,jdbcType=INTEGER}
