@@ -8,6 +8,7 @@ import com.chouchongkeji.exception.ServiceException;
 import com.chouchongkeji.goexplore.common.ErrorCode;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
+import com.chouchongkeji.goexplore.query.PageQuery;
 import com.chouchongkeji.goexplore.utils.BigDecimalUtil;
 import com.chouchongkeji.service.backpack.gift.vo.SendWXVo;
 import com.chouchongkeji.service.backpack.gift.vo.WXGetGiftResVo;
@@ -17,6 +18,7 @@ import com.chouchongkeji.service.v3.SendService;
 import com.chouchongkeji.service.v3.vo.SendVo;
 import com.chouchongkeji.service.v3.vo.TransferSendVo;
 import com.chouchongkeji.util.Constants;
+import com.github.pagehelper.PageHelper;
 import com.yichen.auth.service.UserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -330,7 +332,8 @@ public class SendServiceImpl implements SendService {
      * @return
      */
     @Override
-    public Response getCardSendList(Integer userId,Integer cardId) {
+    public Response getCardSendList(Integer userId,Integer cardId, PageQuery page) {
+        PageHelper.startPage(page.getPageNum(),page.getPageSize());
         List<TransferSendVo> vos = transferSendMapper.selectByUserIdCardId(userId,cardId);
         if(!CollectionUtils.isEmpty(vos)){
             for (TransferSendVo vo : vos) {

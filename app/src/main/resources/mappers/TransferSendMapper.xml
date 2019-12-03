@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.chouchongkeji.dial.dao.v3.TransferSendMapper">
-  <resultMap id="BaseResultMap" type="com.chouchongkeji.dial.pojo.v3.TransferSend">
-    <constructor>
-      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="membership_card_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="send_money" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
-      <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT" />
-      <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-      <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-    </constructor>
-  </resultMap>
-  <sql id="Base_Column_List">
+    <resultMap id="BaseResultMap" type="com.chouchongkeji.dial.pojo.v3.TransferSend">
+        <constructor>
+            <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="membership_card_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="send_money" javaType="java.math.BigDecimal" jdbcType="DECIMAL"/>
+            <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT"/>
+            <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List">
     id, user_id, membership_card_id, send_money, status, updated, created
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from transfer_send
-    where id = #{id,jdbcType=INTEGER}
-  </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from transfer_send
+        where id = #{id,jdbcType=INTEGER}
+    </select>
     <select id="selectByUserIdCardId" resultType="com.chouchongkeji.service.v3.vo.TransferSendVo">
       select a.id,
        a.user_id,
@@ -34,37 +34,20 @@
        c.avatar,
        d.title,
        d.logo,
-       f.card_no
+       f.card_no,
+       g.card_no as targetCardNo
 from transfer_send a
          left join transfer_send_detail b on a.id = b.transfer_send_id
          left join app_user c on b.user_id = c.id
          left join membership_card d on a.membership_card_id = d.id
          left join user_member_card f on a.membership_card_id = f.membership_card_id and a.user_id = f.user_id
-union all
-select a.id,
-       a.user_id,
-       a.membership_card_id,
-       a.send_money,
-       a.status,
-       a.updated,
-       a.created,
-       b.user_id as targetUserId,
-       c.nickname,
-       c.avatar,
-       d.title,
-       d.logo,
-       f.card_no as targetCardNo
-from transfer_send a
-         left join transfer_send_detail b on a.id = b.transfer_send_id
-         left join app_user c on b.user_id = c.id
-         left join membership_card d on a.membership_card_id = d.id
-         left join user_member_card f on a.membership_card_id = f.membership_card_id and b.user_id = f.user_id
-where a.user_id = 0
-and a.membership_card_id = 0
+         left join user_member_card g on a.membership_card_id = g.membership_card_id and b.user_id = g.user_id
+where a.user_id = #{userId}
+  and a.membership_card_id = #{cardId}
 order by a.created DESC
     </select>
     <select id="selectById" resultType="com.chouchongkeji.service.v3.vo.TransferSendVo">
-            select a.id,
+           select a.id,
        a.user_id,
        a.membership_card_id,
        a.send_money,
@@ -76,119 +59,99 @@ order by a.created DESC
        c.avatar,
        d.title,
        d.logo,
-       f.card_no
+       f.card_no,
+       g.card_no as targetCardNo
 from transfer_send a
          left join transfer_send_detail b on a.id = b.transfer_send_id
          left join app_user c on b.user_id = c.id
          left join membership_card d on a.membership_card_id = d.id
          left join user_member_card f on a.membership_card_id = f.membership_card_id and a.user_id = f.user_id
-union all
-select a.id,
-       a.user_id,
-       a.membership_card_id,
-       a.send_money,
-       a.status,
-       a.updated,
-       a.created,
-       b.user_id as targetUserId,
-       c.nickname,
-       c.avatar,
-       d.title,
-       d.logo,
-       f.card_no as targetCardNo
-from transfer_send a
-         left join transfer_send_detail b on a.id = b.transfer_send_id
-         left join app_user c on b.user_id = c.id
-         left join membership_card d on a.membership_card_id = d.id
-         left join user_member_card f on a.membership_card_id = f.membership_card_id and b.user_id = f.user_id
+         left join user_member_card g on a.membership_card_id = g.membership_card_id and b.user_id = g.user_id
 where a.id = #{transferSendId}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from transfer_send
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.v3.TransferSend" useGeneratedKeys="true" keyProperty="id">
-    insert into transfer_send (id, user_id, membership_card_id,
-      send_money, status, updated,
-      created)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{membershipCardId,jdbcType=INTEGER},
-      #{sendMoney,jdbcType=DECIMAL}, #{status,jdbcType=TINYINT}, now()
-     now())
+    <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.v3.TransferSend" useGeneratedKeys="true"
+            keyProperty="id">
+    insert into transfer_send (id, user_id, membership_card_id, send_money, status, updated, created)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{membershipCardId,jdbcType=INTEGER}, #{sendMoney,jdbcType=DECIMAL}, #{status,jdbcType=TINYINT}, now(), now())
   </insert>
-  <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.v3.TransferSend">
-    insert into transfer_send
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="userId != null">
-        user_id,
-      </if>
-      <if test="membershipCardId != null">
-        membership_card_id,
-      </if>
-      <if test="sendMoney != null">
-        send_money,
-      </if>
-      <if test="status != null">
-        status,
-      </if>
-      <if test="updated != null">
-        updated,
-      </if>
-      <if test="created != null">
-        created,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="userId != null">
-        #{userId,jdbcType=INTEGER},
-      </if>
-      <if test="membershipCardId != null">
-        #{membershipCardId,jdbcType=INTEGER},
-      </if>
-      <if test="sendMoney != null">
-        #{sendMoney,jdbcType=DECIMAL},
-      </if>
-      <if test="status != null">
-        #{status,jdbcType=TINYINT},
-      </if>
-      <if test="updated != null">
-        #{updated,jdbcType=TIMESTAMP},
-      </if>
-      <if test="created != null">
-        #{created,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.chouchongkeji.dial.pojo.v3.TransferSend">
-    update transfer_send
-    <set>
-      <if test="userId != null">
-        user_id = #{userId,jdbcType=INTEGER},
-      </if>
-      <if test="membershipCardId != null">
-        membership_card_id = #{membershipCardId,jdbcType=INTEGER},
-      </if>
-      <if test="sendMoney != null">
-        send_money = #{sendMoney,jdbcType=DECIMAL},
-      </if>
-      <if test="status != null">
-        status = #{status,jdbcType=TINYINT},
-      </if>
-      <if test="updated != null">
-        updated = #{updated,jdbcType=TIMESTAMP},
-      </if>
-      <if test="created != null">
-        created = #{created,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.dial.pojo.v3.TransferSend">
+    <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.v3.TransferSend">
+        insert into transfer_send
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="membershipCardId != null">
+                membership_card_id,
+            </if>
+            <if test="sendMoney != null">
+                send_money,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="updated != null">
+                updated,
+            </if>
+            <if test="created != null">
+                created,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="membershipCardId != null">
+                #{membershipCardId,jdbcType=INTEGER},
+            </if>
+            <if test="sendMoney != null">
+                #{sendMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=TINYINT},
+            </if>
+            <if test="updated != null">
+                #{updated,jdbcType=TIMESTAMP},
+            </if>
+            <if test="created != null">
+                #{created,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.chouchongkeji.dial.pojo.v3.TransferSend">
+        update transfer_send
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="membershipCardId != null">
+                membership_card_id = #{membershipCardId,jdbcType=INTEGER},
+            </if>
+            <if test="sendMoney != null">
+                send_money = #{sendMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=TINYINT},
+            </if>
+            <if test="updated != null">
+                updated = #{updated,jdbcType=TIMESTAMP},
+            </if>
+            <if test="created != null">
+                created = #{created,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.dial.pojo.v3.TransferSend">
     update transfer_send
     set user_id = #{userId,jdbcType=INTEGER},
       membership_card_id = #{membershipCardId,jdbcType=INTEGER},

@@ -1,6 +1,7 @@
 package com.chouchongkeji.service.v3.vo;
 
 import com.chouchongkeji.dial.pojo.v3.TransferSend;
+import com.yichen.auth.jackson.ImgUrl;
 
 /**
  * @author linqin
@@ -28,6 +29,7 @@ public class TransferSendVo extends TransferSend {
      */
     private Long targetCardNo;
 
+    @ImgUrl
     private String logo;
 
     public String getLogo() {

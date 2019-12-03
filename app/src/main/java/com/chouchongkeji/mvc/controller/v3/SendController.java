@@ -2,6 +2,7 @@ package com.chouchongkeji.mvc.controller.v3;
 
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
+import com.chouchongkeji.goexplore.query.PageQuery;
 import com.chouchongkeji.service.v3.SendService;
 import com.yichen.auth.service.UserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,11 +77,11 @@ public class SendController {
      * @return
      */
     @PostMapping("list")
-    public Response getCardSendList(@AuthenticationPrincipal UserDetails userDetails,Integer cardId){
+    public Response getCardSendList(@AuthenticationPrincipal UserDetails userDetails, Integer cardId, PageQuery page){
         if (cardId == null){
             return ResponseFactory.errMissingParameter();
         }
-        return sendService.getCardSendList(userDetails.getUserId(),cardId);
+        return sendService.getCardSendList(userDetails.getUserId(),cardId,page);
     }
 
     /**

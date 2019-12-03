@@ -1,46 +1,21 @@
 {
   "errCode": 0,
   "result": 0,
-  "time": 1574649111873,
+  "time": 1575344465103,
   "data": {
-    "id": 3,
-    "membershipCardId": 0,
+    "id": 1,
     "userId": 7,
-    "phone": "15752400657",
-    "balance": 4856.14,
-    "created": 1571974117000,
-    "cardNo": 7919110715100,
-    "title": "礼遇圈",
-    "summary": "https://liyuquan.cn/static/card.html?uid=0",
-    "colour": "#409EFF",
-    "logo": "https://liyuquan.cn/static/item/191113/408e001d-aaf0-4918-bfd4-64b1eb867879.jpg",
-    "type": 1,
-    "storeIds": "0,2",
-    "stores": [
-      {
-        "id": 0,
-        "merchantId": 0,
-        "name": "礼遇圈",
-        "address": "就是你的",
-        "phone": "2342",
-        "created": 1571973872000,
-        "updated": 1574409002000,
-        "area": "云南昆明市盘龙区",
-        "linkman": "大概"
-      },
-      {
-        "id": 2,
-        "merchantId": 7,
-        "name": "史蒂芬孙",
-        "address": "没有",
-        "phone": "453",
-        "created": 1571973915000,
-        "updated": 1571973917000,
-        "area": "山西长治市城区",
-        "linkman": "吃vcv"
-      }
-    ],
-    "grade": 1,
-    "summaryGrade": "普通卡"
+    "membershipCardId": 0,
+    "sendMoney": 4.00,
+    "status": 2,
+    "updated": 1575339940000,
+    "created": 1575339940000,
+    "title": "礼遇圈转赠",
+    "avatar": "http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTLrNV6YHkfyvicgKhfVwMibBqdQWvYHFvyXjSYTzuX0cxLjicvRBu5UXDickZXZyxl5eFJ1RO8FaYWqUg/132",
+    "targetUserId": 338,
+    "nickname": "路遥",
+    "cardNo": 7919112516101,
+    "targetCardNo": 7919120310100,
+    "logo": "https://liyuquan.cn/static/item/191113/408e001d-aaf0-4918-bfd4-64b1eb867879.jpg"
   }
 }

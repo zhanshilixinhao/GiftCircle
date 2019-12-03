@@ -1,6 +1,7 @@
 package com.chouchongkeji.service.v3;
 
 import com.chouchongkeji.goexplore.common.Response;
+import com.chouchongkeji.goexplore.query.PageQuery;
 import com.yichen.auth.service.UserDetails;
 
 import java.math.BigDecimal;
@@ -43,7 +44,7 @@ public interface SendService {
      * @param userId 用户
      * @return
      */
-    Response getCardSendList(Integer userId,Integer cardId);
+    Response getCardSendList(Integer userId,Integer cardId, PageQuery page);
     /**
      * 转赠记录详情
      * @param transferSendId 转赠记录id

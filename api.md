@@ -8553,3 +8553,187 @@ type = 3 请求结果示例：
 
 
 ```
+
+## v3 转赠
+
+### 1 会员卡转赠（分享之前先请求这个接口）
+- 请求地址：auth/v3/cardSend/wx
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：linqin
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+|cardId|int|是|无|会员卡id|
+|sendMoney|BigDecimal|是|无|赠送金额|
+
+* 请求示例
+
+```js
+{
+  "errCode": 0,
+  "result": 0,
+  "time": 1575339940614,
+  "data": {
+    "transferSendId": 1 //转赠记录id，分享此id
+  }
+}
+
+```
+
+### 2 判断是否可以领取会员卡转赠
+- 请求地址：auth/v3/cardSend/judge
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：linqin
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+|transferSendId|int|是|无|转赠记录id|
+
+
+* 请求示例
+
+```js
+{
+  "errCode": 0,
+  "result": 0,
+  "time": 1575341346396,
+  "data": { //设计图的字段
+    "title": "你收到来自哈哈的余额转赠",  //标题 
+    "sendMoney": 4.00, //转赠金额
+    "summary": "已接收", //简介
+    "status": 2, // 1 未接收（可以领取） 2 已接收 3 自己转赠的 4 被别人接收（一般不会有情况4） 
+    "detail": "来自7919112516101 礼遇圈账户" //详情
+  }
+}
+```
+
+### 3 领取会员卡余额转赠
+- 请求地址：auth/v3/cardSend/get
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：linqin
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+|transferSendId|int|是|无|转赠记录id|
+
+
+* 请求示例
+
+```js
+{
+  "errCode": 0,
+  "result": 0,
+  "time": 1575341346396,
+  "data": { //设计图的字段
+    "title": "你收到来自哈哈的余额转赠",  //标题 
+    "sendMoney": 4.00, //转赠金额
+    "summary": "已接收", //简介
+    "status": 2, // 1 未接收（可以领取） 2 已接收 3 自己转赠的 4 被别人接收（一般不会有情况4） 
+    "detail": "来自7919112516101 礼遇圈账户" //详情
+  }
+}
+```
+
+
+### 4 转赠记录
+- 请求地址：auth/v3/cardSend/list
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：linqin
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+|cardId|int|是|无|会员卡id|
+|   pageNum    |   Int    |    是    |   1    |   分页   |
+|   pageSize   |   Int    |    是    |   14   | 分页大小 |
+
+
+* 请求示例
+
+```js
+{
+  "errCode": 0,
+  "result": 0,
+  "time": 1575343784462,
+  "data": [
+    {
+      "id": 2, //转赠记录id
+      "userId": 7, //转赠者id
+      "membershipCardId": 0, //转赠会员卡id
+      "sendMoney": 4.00, //转赠金额
+      "status": 2, // 1 未领取 2 已领取
+      "updated": 1575342277000, //更新时间
+      "created": 1575342277000, // 创建时间
+      "title": "礼遇圈转赠",//标题
+      "avatar": "http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTLrNV6YHkfyvicgKhfVwMibBqdQWvYHFvyXjSYTzuX0cxLjicvRBu5UXDickZXZyxl5eFJ1RO8FaYWqUg/132", //转赠对象头像
+      "targetUserId": 338, //转赠对象用户id
+      "nickname": "路遥", //转赠对象昵称
+      "cardNo": 7919112516101,//转赠卡号
+      "targetCardNo": 7919112516100,//转赠对象卡号
+      "logo": "https://liyuquan.cn/static/item/191113/408e001d-aaf0-4918-bfd4-64b1eb867879.jpg" //转赠会员卡头像
+    },
+    {
+      "id": 1,
+      "userId": 7,
+      "membershipCardId": 0,
+      "sendMoney": 4.00,
+      "status": 2,
+      "updated": 1575339940000,
+      "created": 1575339940000,
+      "title": "礼遇圈转赠",
+      "avatar": "http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTLrNV6YHkfyvicgKhfVwMibBqdQWvYHFvyXjSYTzuX0cxLjicvRBu5UXDickZXZyxl5eFJ1RO8FaYWqUg/132",
+      "targetUserId": 338,
+      "nickname": "路遥",
+      "cardNo": 7919112516101,
+      "targetCardNo": 7919112516100,
+      "logo": "https://liyuquan.cn/static/item/191113/408e001d-aaf0-4918-bfd4-64b1eb867879.jpg"
+    }
+  ]
+}
+
+```
+
+### 5 转赠记录详情
+- 请求地址：auth/v3/cardSend/detail
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：linqin
+
+|   参数名称   | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :----------: | :------: | :------: | :----: | :------: |
+| access_token |  string  |    是    |   无   | 访问令牌 |
+|transferSendId|int|是|无|转赠记录id|
+
+
+* 请求示例
+
+```js
+{
+  "errCode": 0,
+  "result": 0,
+  "time": 1575344465103,
+  "data": {
+      "id": 2, //转赠记录id
+      "userId": 7, //转赠者id
+      "membershipCardId": 0, //转赠会员卡id
+      "sendMoney": 4.00, //转赠金额
+      "status": 2, // 1 未领取 2 已领取
+      "updated": 1575342277000, //更新时间
+      "created": 1575342277000, // 创建时间
+      "title": "礼遇圈转赠",//标题
+      "avatar": "http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTLrNV6YHkfyvicgKhfVwMibBqdQWvYHFvyXjSYTzuX0cxLjicvRBu5UXDickZXZyxl5eFJ1RO8FaYWqUg/132", //转赠对象头像
+      "targetUserId": 338, //转赠对象用户id
+      "nickname": "路遥", //转赠对象昵称
+      "cardNo": 7919112516101,//转赠卡号
+      "targetCardNo": 7919112516100,//转赠对象卡号
+      "logo": "https://liyuquan.cn/static/item/191113/408e001d-aaf0-4918-bfd4-64b1eb867879.jpg" //转赠会员卡头像
+  }
+}
+```
