@@ -259,20 +259,20 @@ public class ChargeCardServiceImpl implements ChargeCardService {
                     // 余额与消费金额相等,更新详细记录，添加消费营业额记录
                     BigDecimal sub = BigDecimalUtil.sub(charge.getBalance().doubleValue(), expense1.doubleValue());
                     updateDetailCharge(charge.getId(),sub,(byte)3);
-                    addStoreTurnover(storeMemberId,expense1,charge.getScale(),storeId,charge.getStoreId(),charge.getMemberEventId());
+                    addStoreTurnover(storeMemberId,expense1,charge.getScale(),storeId,charge.getStoreId(),charge.getMemberEventId(),charge.getId());
                     break;
                 }else if(charge.getBalance().compareTo(expense1) > 0){
                     //余额大于消费金额，更新详细记录，添加消费营业额记录
                     BigDecimal sub = BigDecimalUtil.sub(charge.getBalance().doubleValue(), expense1.doubleValue());
                     updateDetailCharge(charge.getId(),sub,(byte)2);
-                    addStoreTurnover(storeMemberId,expense1,charge.getScale(),storeId,charge.getStoreId(),charge.getMemberEventId());
+                    addStoreTurnover(storeMemberId,expense1,charge.getScale(),storeId,charge.getStoreId(),charge.getMemberEventId(),charge.getId());
                     break;
                 } else {
                     //余额小于消费金额
                     //扣除第一次充值的余额后还不够的钱
                     BigDecimal sub = BigDecimalUtil.sub(expense1.doubleValue(),charge.getBalance().doubleValue());
                     updateDetailCharge(charge.getId(),new BigDecimal("0"),(byte)3);
-                    addStoreTurnover(storeMemberId,charge.getBalance(),charge.getScale(),storeId,charge.getStoreId(),charge.getMemberEventId());
+                    addStoreTurnover(storeMemberId,charge.getBalance(),charge.getScale(),storeId,charge.getStoreId(),charge.getMemberEventId(),charge.getId());
                     expense1 = sub;
                 }
             }
@@ -308,9 +308,10 @@ public class ChargeCardServiceImpl implements ChargeCardService {
      * @param storeId 消费门点id
      * @param blagStoreId 充值门店
      * @param eventId 活动id
+     * @param storeChargeId 门店金额详情表Id（从哪次充值里扣款）
      */
     private void addStoreTurnover(Integer storeMemberId,BigDecimal ex,Float scale,Integer storeId,
-                                  Integer blagStoreId,Integer eventId){
+                                  Integer blagStoreId,Integer eventId,Integer storeChargeId){
         //营业额
 
         BigDecimal multi = BigDecimalUtil.multi(ex.doubleValue(), scale);
@@ -325,6 +326,7 @@ public class ChargeCardServiceImpl implements ChargeCardService {
         if (eventId != null){
             turnover.setEventId(eventId);
         }
+        turnover.setStoreChargeId(storeChargeId);
         int insert = storeTurnoverMapper.insert(turnover);
         if (insert < 1) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "失败");
