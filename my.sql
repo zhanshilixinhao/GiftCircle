@@ -1784,7 +1784,7 @@ CREATE TABLE membership_card (
    logo varchar(500) comment'logo',
   `store_ids` varchar(500) COMMENT '可使用的门店id集合(可查门店名称,地址)',
   admin_id int(11) comment'创建者id',
-  `type` tinyint(4) comment'会员卡类型 1 礼遇圈通用卡  10 门店会员卡',
+  `type` tinyint(4) comment'会员卡类型 1 礼遇圈通用卡  10 门店会员卡 11 活动卡',
   `status` tinyint(4) DEFAULT NULL comment'1 正常',
   updated datetime COMMENT '修改时间',
   created datetime COMMENT '创建时间',
@@ -1804,7 +1804,8 @@ CREATE TABLE member_event (
    target_id int(11) comment'目标id',
    admin_id int(11) comment'创建者id',
   `type` tinyint(4) comment'1 充钱送钱 2 充钱送优惠券 3 充钱送礼物',
-  `status` tinyint(4) DEFAULT NULL comment'1 正常',
+  `status` tinyint(4) DEFAULT NULL comment'1 正常 10活动会员卡才可以使用（一卡一活动，其他卡不可以使用）',
+  scale float(10,2) comment'赠送金额最大限度扣款比例（活动会员卡使用）',
   updated datetime COMMENT '修改时间',
   created datetime COMMENT '创建时间',
   PRIMARY KEY ( id )
@@ -1952,7 +1953,7 @@ CREATE TABLE store_member_charge (
   scale float(10,2) comment'充值比例（赠送金额/总金额）',
   `membership_card_id` int(11) COMMENT '会员卡id',
   balance decimal(18,2) comment'该次充值剩余的金额（计算营销额时用的）',
-  `status` tinyint(4) comment' 1 未消费 2 部分消费 3 已消费完',
+  `status` tinyint(4) comment' 1 未消费 2 部分消费 3 已消费完 ，4 消费订单',
   member_event_id int(11) comment'会员卡活动id',
   order_no bigint NOT NULL comment '订单号',
   updated datetime COMMENT '修改时间',
@@ -1963,7 +1964,32 @@ CREATE TABLE store_member_charge (
 ) ENGINE = INNODB CHARACTER
 SET = utf8mb4 COMMENT = '门店金额详情表';
 
-
+DROP TABLE IF EXISTS store_member_event;
+CREATE TABLE store_member_event (
+   id INT ( 10 ) NOT NULL auto_increment,
+   `user_id` int(11) COMMENT '用户id',
+   `membership_card_id` int(11) COMMENT '会员卡id',
+   `store_id` int(11) COMMENT '门店id(门店充值，消费)',
+   member_event_id int(11) comment'会员卡活动id',
+   order_no bigint NOT NULL comment '订单号',
+   capital_money decimal(18,2) comment'本金',
+   send_money decimal(18,2) comment'赠送金额',
+   total_money decimal(18,2) comment'总金额（赠送金额+充值金额，如果是消费则为总消费金额）',
+  `explain` varchar(200) comment'说明',
+   `scale` float(10,2) comment'活动扣款比例（活动中查询）',
+   `type` tinyint(4) comment' 1 充值 2 消费 ',
+   capital_balance decimal(18,2) comment'本金剩余',
+   `capital_status` tinyint(4) comment'本金使用状况 1 未消费 2 部分消费 3 已消费完，4 消费订单',
+   send_balance decimal(18,2) comment'赠送金额剩余',
+  `send_status` tinyint(4) comment'赠送金额使用状况 1 未消费 2 部分消费 3 已消费完，4 消费订单',
+  updated datetime COMMENT '修改时间',
+  created datetime COMMENT '创建时间',
+  PRIMARY KEY ( id ),
+  key user_id(user_id),
+  key store_id(store_id),
+  key membership_card_id(membership_card_id)
+) ENGINE = INNODB CHARACTER
+SET = utf8mb4 COMMENT = '门店金额详情表(活动卡)';
 
 DROP TABLE IF EXISTS transfer_send;
 CREATE TABLE transfer_send (
