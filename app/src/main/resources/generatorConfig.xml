@@ -69,7 +69,7 @@
         </javaClientGenerator>
 
 
-<!--        <table tableName="transfer_send" domainObjectName="TransferSend" enableCountByExample="false"-->
+<!--        <table tableName="store_member_event" domainObjectName="StoreMemberEvent" enableCountByExample="false"-->
 <!--               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
 <!--               selectByExampleQueryId="false"></table>-->
 <!--        <table tableName="transfer_send_expense" domainObjectName="TransferSendExpense" enableCountByExample="false"-->
