@@ -83,7 +83,7 @@
             and s.name like concat('%',#{keywords},'%')
         </if>
         ) a
-        order by a.created DESC
+        order by a.membership_card_id ASC, a.created DESC
     </select>
     <select id="selectCardIdsByUserId" resultType="java.lang.Integer">
     select
