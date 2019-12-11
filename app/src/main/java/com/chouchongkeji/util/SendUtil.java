@@ -42,7 +42,8 @@ public class SendUtil {
         Response response = null;
         try {
             // 请求接口
-            response = OkHttpUtil.post("http://api.zthysms.com/sendSms.do", params);
+//            response = OkHttpUtil.post("http://api.zthysms.com/sendSms.do", params);
+            response = OkHttpUtil.post("http://hy.mix2.zthysms.com/sendSms.do", params);
             // 接口调用失败
             if (!response.isSuccessful()) {
                 return new SmsSendResult(1, response.message());
@@ -64,6 +65,6 @@ public class SendUtil {
     }
 
 //    public static void main(String[] args) {
-//        smsSend("15752400657","1245");
+//        smsSend("15752400657","1244");
 //    }
 }
