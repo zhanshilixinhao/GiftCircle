@@ -49,6 +49,26 @@ public class CardVo {
 
     private String summaryGrade;// 等级说明
 
+    private BigDecimal capital;
+
+    private BigDecimal send;
+
+    public BigDecimal getCapital() {
+        return capital;
+    }
+
+    public void setCapital(BigDecimal capital) {
+        this.capital = capital;
+    }
+
+    public BigDecimal getSend() {
+        return send;
+    }
+
+    public void setSend(BigDecimal send) {
+        this.send = send;
+    }
+
     public Integer getId() {
         return id;
     }

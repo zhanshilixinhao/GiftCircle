@@ -43,7 +43,28 @@
       and order_no = #{orderNo}
       and type = 2
     </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="selectByUserIdCardId" resultType="com.chouchongkeji.dial.pojo.v3.StoreMemberEvent">
+      select
+      <include refid="Base_Column_List" />
+      from store_member_event
+      where user_id = #{userId}
+      and membership_card_id = #{membershipCardId}
+      and type != 2
+      and capital_status != 3
+      order by created ASC
+    </select>
+  <select id="selectByUserIdCardId1" resultType="com.chouchongkeji.dial.pojo.v3.StoreMemberEvent">
+    select
+    <include refid="Base_Column_List" />
+    from store_member_event
+    where user_id = #{userId}
+    and membership_card_id = #{membershipCardId}
+    and type != 2
+    and send_status != 3
+    and send_status != 5
+    order by created ASC
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from store_member_event
     where id = #{id,jdbcType=INTEGER}
   </delete>

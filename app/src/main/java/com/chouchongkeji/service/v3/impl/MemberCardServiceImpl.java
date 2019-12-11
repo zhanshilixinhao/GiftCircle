@@ -73,7 +73,7 @@ public class MemberCardServiceImpl implements MemberCardService {
         HashSet<Integer> cardIds = userMemberCardMapper.selectCardIdsByUserId(userDetails.getUserId());
         if (cardIds.size() == 0 || !cardIds.contains(0)) {
             // 不包含0，没有礼遇圈卡则加一张
-            addMemberShipCard(userDetails.getUserId(), new BigDecimal("0"), new BigDecimal("0"), new BigDecimal("0"),0,0);
+            addMemberShipCard(userDetails.getUserId(), new BigDecimal("0"), new BigDecimal("0"), new BigDecimal("0"), 0, 0);
         }
         PageHelper.startPage(page.getPageNum(), page.getPageSize());
         List<CardVo> cardVos = userMemberCardMapper.selectByUserId(userDetails.getUserId(), keywords);
@@ -86,7 +86,7 @@ public class MemberCardServiceImpl implements MemberCardService {
                     String[] split = cardVo.getStoreIds().split(",");
                     for (String s : split) {
                         Store store = storeMapper.selectByPrimaryKey(Integer.parseInt(s));
-                        if (store != null){
+                        if (store != null) {
                             String s1 = store.getArea().replaceAll(",", "");
                             store.setArea(s1);
                         }
@@ -108,7 +108,7 @@ public class MemberCardServiceImpl implements MemberCardService {
      */
     @Override
     public int addMemberShipCard(Integer userId, BigDecimal balance, BigDecimal total, BigDecimal consume,
-                                 Integer cardId,Integer storeId) {
+                                 Integer cardId, Integer storeId) {
         String phone = null;
         AppUser appUser = appUserMapper.selectByPrimaryKey(userId);
         if (appUser != null) {
@@ -149,7 +149,7 @@ public class MemberCardServiceImpl implements MemberCardService {
                 String[] split = vo.getStoreIds().split(",");
                 for (String s : split) {
                     Store store = storeMapper.selectByPrimaryKey(Integer.parseInt(s));
-                    if (store != null){
+                    if (store != null) {
                         String s1 = store.getArea().replaceAll(",", "");
                         store.setArea(s1);
                     }
@@ -158,6 +158,25 @@ public class MemberCardServiceImpl implements MemberCardService {
             }
             vo.setStores(stores);
             vo.setSummary(serviceProperties.getCardDetail() + vo.getMembershipCardId());
+            if (vo.getType() == 11) {
+                // 活动卡本金和赠送金额
+                BigDecimal capital1 = new BigDecimal("0");
+                BigDecimal send1 = new BigDecimal("0");
+                List<StoreMemberEvent> capitals = storeMemberEventMapper.selectByUserIdCardId(vo.getUserId(), vo.getMembershipCardId());
+                if (CollectionUtils.isNotEmpty(capitals)) {
+                    for (StoreMemberEvent capital : capitals) {
+                        capital1 = BigDecimalUtil.add(capital1.doubleValue(), capital.getCapitalBalance().doubleValue());
+                    }
+                }
+                List<StoreMemberEvent> sends = storeMemberEventMapper.selectByUserIdCardId1(vo.getUserId(), vo.getMembershipCardId());
+                if (CollectionUtils.isNotEmpty(sends)) {
+                    for (StoreMemberEvent send : sends) {
+                        send1 = BigDecimalUtil.add(send1.doubleValue(), send.getSendBalance().doubleValue());
+                    }
+                }
+                vo.setCapital(capital1);
+                vo.setSend(send1);
+            }
         }
         return ResponseFactory.sucData(vo);
     }
@@ -214,10 +233,10 @@ public class MemberCardServiceImpl implements MemberCardService {
             } else {
                 detailVo.setTotalAmount(new BigDecimal("0"));
             }
-            if (detailVo.getBeforeMoney() == null){
+            if (detailVo.getBeforeMoney() == null) {
                 detailVo.setBeforeMoney(new BigDecimal("0"));
             }
-            detailVo.setLaterMoney(BigDecimalUtil.add(detailVo.getBeforeMoney().doubleValue(),detailVo.getTotalAmount().doubleValue()));
+            detailVo.setLaterMoney(BigDecimalUtil.add(detailVo.getBeforeMoney().doubleValue(), detailVo.getTotalAmount().doubleValue()));
         }
         return ResponseFactory.sucData(detailVo);
     }
@@ -255,13 +274,13 @@ public class MemberCardServiceImpl implements MemberCardService {
                 detail.setTitle("会员卡线下消费");
             }
             //扣款前/后余额
-            if (detail.getBeforeMoney() == null){
+            if (detail.getBeforeMoney() == null) {
                 detail.setBeforeMoney(new BigDecimal("0"));
             }
-           detail.setLaterMoney(BigDecimalUtil.sub(detail.getBeforeMoney().doubleValue(),detail.getExpenseMoney().doubleValue()));
+            detail.setLaterMoney(BigDecimalUtil.sub(detail.getBeforeMoney().doubleValue(), detail.getExpenseMoney().doubleValue()));
             // 本金扣款和赠送金额扣款
-           StoreMemberEvent event = storeMemberEventMapper.selectByUserIdCardIdOrderNo(userId,detail.getMembershipCardId(),detail.getOrderNo());
-            if (event != null){
+            StoreMemberEvent event = storeMemberEventMapper.selectByUserIdCardIdOrderNo(userId, detail.getMembershipCardId(), detail.getOrderNo());
+            if (event != null) {
                 detail.setCapital(event.getCapitalMoney());
                 detail.setSend(event.getSendMoney());
             }
