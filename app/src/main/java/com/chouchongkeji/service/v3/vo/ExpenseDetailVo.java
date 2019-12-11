@@ -24,6 +24,8 @@ public class ExpenseDetailVo {
 
     private Byte type;
 
+    private Byte cardType;
+
     private Date created;
 
     private Integer storeId;
@@ -49,6 +51,34 @@ public class ExpenseDetailVo {
      * 扣款后金额
      */
     private BigDecimal laterMoney;
+
+    private BigDecimal capital;
+
+    private BigDecimal send;
+
+    public Byte getCardType() {
+        return cardType;
+    }
+
+    public void setCardType(Byte cardType) {
+        this.cardType = cardType;
+    }
+
+    public BigDecimal getCapital() {
+        return capital;
+    }
+
+    public void setCapital(BigDecimal capital) {
+        this.capital = capital;
+    }
+
+    public BigDecimal getSend() {
+        return send;
+    }
+
+    public void setSend(BigDecimal send) {
+        this.send = send;
+    }
 
     public Long getOrderNo() {
         return orderNo;

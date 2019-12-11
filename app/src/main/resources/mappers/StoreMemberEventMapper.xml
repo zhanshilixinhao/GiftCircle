@@ -24,33 +24,42 @@
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    id, user_id, membership_card_id, store_id, member_event_id, order_no, capital_money, 
-    send_money, total_money, explain, scale, type, capital_balance, capital_status, send_balance, 
+    id, user_id, membership_card_id, store_id, member_event_id, order_no, capital_money,
+    send_money, total_money, `explain`, scale, type, capital_balance, capital_status, send_balance,
     send_status, updated, created
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from store_member_event
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="selectByUserIdCardIdOrderNo" resultType="com.chouchongkeji.dial.pojo.v3.StoreMemberEvent">
+      select
+      <include refid="Base_Column_List" />
+      from store_member_event
+      where user_id = #{userId}
+      and membership_card_id = #{membershipCardId}
+      and order_no = #{orderNo}
+      and type = 2
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from store_member_event
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.v3.StoreMemberEvent">
-    insert into store_member_event (id, user_id, membership_card_id, 
-      store_id, member_event_id, order_no, 
-      capital_money, send_money, total_money, 
-      explain, scale, type, 
-      capital_balance, capital_status, send_balance, 
+    insert into store_member_event (id, user_id, membership_card_id,
+      store_id, member_event_id, order_no,
+      capital_money, send_money, total_money,
+      `explain`, scale, type,
+      capital_balance, capital_status, send_balance,
       send_status, updated, created
       )
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{membershipCardId,jdbcType=INTEGER}, 
-      #{storeId,jdbcType=INTEGER}, #{memberEventId,jdbcType=INTEGER}, #{orderNo,jdbcType=BIGINT}, 
-      #{capitalMoney,jdbcType=DECIMAL}, #{sendMoney,jdbcType=DECIMAL}, #{totalMoney,jdbcType=DECIMAL}, 
-      #{explain,jdbcType=VARCHAR}, #{scale,jdbcType=REAL}, #{type,jdbcType=TINYINT}, 
-      #{capitalBalance,jdbcType=DECIMAL}, #{capitalStatus,jdbcType=TINYINT}, #{sendBalance,jdbcType=DECIMAL}, 
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{membershipCardId,jdbcType=INTEGER},
+      #{storeId,jdbcType=INTEGER}, #{memberEventId,jdbcType=INTEGER}, #{orderNo,jdbcType=BIGINT},
+      #{capitalMoney,jdbcType=DECIMAL}, #{sendMoney,jdbcType=DECIMAL}, #{totalMoney,jdbcType=DECIMAL},
+      #{`explain`,jdbcType=VARCHAR}, #{scale,jdbcType=REAL}, #{type,jdbcType=TINYINT},
+      #{capitalBalance,jdbcType=DECIMAL}, #{capitalStatus,jdbcType=TINYINT}, #{sendBalance,jdbcType=DECIMAL},
       #{sendStatus,jdbcType=TINYINT}, #{updated,jdbcType=TIMESTAMP}, #{created,jdbcType=TIMESTAMP}
       )
   </insert>
@@ -85,7 +94,7 @@
         total_money,
       </if>
       <if test="explain != null">
-        explain,
+        `explain`,
       </if>
       <if test="scale != null">
         scale,

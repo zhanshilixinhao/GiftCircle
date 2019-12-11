@@ -56,7 +56,8 @@ where user_id = #{userId}
        s.phone,
        s.name as storeName,
        i.title,
-       c.logo
+       c.logo,
+       c.type as cardType
 from member_expense_record a
          left join store s on a.store_id = s.id
 left join item_sku i on a.target_id = i.id

@@ -1,141 +1,26 @@
 {
   "errCode": 0,
   "result": 0,
-  "time": 1575968529511,
-  "data": [
-    {
-      "id": 13,
-      "membershipCardId": 4,
-      "userId": 7,
-      "phone": "15752400657",
-      "balance": 580.00,
-      "created": 1575875936000,
-      "cardNo": 7919120915100,
-      "title": "测试活动卡1",
-      "summary": "https://liyuquan.cn/static/card.html?uid=4",
-      "colour": "#E73B36",
-      "logo": "https://liyuquan.cn/static/item/191206/7247053a-8b53-4091-b6c7-231b6d2c09f3.jpeg",
-      "type": 11,
-      "storeIds": "3,2",
-      "stores": [
-        {
-          "id": 3,
-          "merchantId": 12,
-          "name": "外婆味道吾悦店",
-          "address": "吾悦广场",
-          "phone": "1234567",
-          "created": 1574673015000,
-          "updated": 1574735614000,
-          "area": "云南昆明市盘龙区",
-          "linkman": "李雷"
-        },
-        {
-          "id": 2,
-          "merchantId": 12,
-          "name": "外婆味道南屏店",
-          "address": "南屏街",
-          "phone": "123456",
-          "created": 1574672966000,
-          "updated": 1575427407000,
-          "area": "云南昆明市五华区",
-          "linkman": "小茗同学"
-        }
-      ],
-      "grade": "",
-      "summaryGrade": ""
-    },
-    {
-      "id": 2,
-      "membershipCardId": 2,
-      "userId": 7,
-      "phone": "15752400657",
-      "balance": 499.00,
-      "created": 1574675974000,
-      "cardNo": 7919112517102,
-      "title": "外婆味道",
-      "summary": "https://liyuquan.cn/static/card.html?uid=2",
-      "colour": "#E54141",
-      "logo": "https://liyuquan.cn/static/item/191126/f7f908e1-ae21-4693-8ff1-cf1e7c385449.jpeg",
-      "type": 10,
-      "storeIds": "3,2",
-      "stores": [
-        {
-          "id": 3,
-          "merchantId": 12,
-          "name": "外婆味道吾悦店",
-          "address": "吾悦广场",
-          "phone": "1234567",
-          "created": 1574673015000,
-          "updated": 1574735614000,
-          "area": "云南昆明市盘龙区",
-          "linkman": "李雷"
-        },
-        {
-          "id": 2,
-          "merchantId": 12,
-          "name": "外婆味道南屏店",
-          "address": "南屏街",
-          "phone": "123456",
-          "created": 1574672966000,
-          "updated": 1575427407000,
-          "area": "云南昆明市五华区",
-          "linkman": "小茗同学"
-        }
-      ],
-      "grade": "白银会员",
-      "summaryGrade": "白银会员说明"
-    },
-    {
-      "id": 1,
-      "membershipCardId": 0,
-      "userId": 7,
-      "phone": "15752400657",
-      "balance": 525.08,
-      "created": 1574670967000,
-      "cardNo": 7919112516101,
-      "title": "礼遇圈",
-      "summary": "https://liyuquan.cn/static/card.html?uid=0",
-      "colour": "#409EFF",
-      "logo": "https://liyuquan.cn/static/item/191113/408e001d-aaf0-4918-bfd4-64b1eb867879.jpg",
-      "type": 1,
-      "storeIds": "0,2,4",
-      "stores": [
-        {
-          "id": 0,
-          "merchantId": 0,
-          "name": "礼遇圈",
-          "address": "就是你的",
-          "phone": "23423454533",
-          "created": 1571973872000,
-          "updated": 1574672702000,
-          "area": "云南昆明市盘龙区",
-          "linkman": "大概"
-        },
-        {
-          "id": 2,
-          "merchantId": 12,
-          "name": "外婆味道南屏店",
-          "address": "南屏街",
-          "phone": "123456",
-          "created": 1574672966000,
-          "updated": 1575427407000,
-          "area": "云南昆明市五华区",
-          "linkman": "小茗同学"
-        },
-        {
-          "id": 4,
-          "merchantId": 11,
-          "name": "琼云",
-          "address": "呈贡",
-          "phone": "1111111",
-          "created": 1574847937000,
-          "updated": 1574847948000,
-          "area": "云南昆明市五华区",
-          "linkman": "淡水鱼"
-        }
-      ],
-      "grade": "普通卡",
-      "summaryGrade": "普通卡"
-    }
-  ]
+  "time": 1576041084438,
+  "data": {
+    "id": 4,
+    "membershipCardId": 3,
+    "logo": "https://liyuquan.cn/static/item/191211/eaa6582e-c3c5-423f-a148-5b9b4496bd92.jpeg",
+    "userId": 7,
+    "expenseMoney": 100.00,
+    "type": 2,
+    "cardType": 11,
+    "created": 1576040916000,
+    "storeId": 2,
+    "storeName": "大观店",
+    "address": "地址",
+    "phone": "1232",
+    "targetId": "",
+    "title": "会员卡线下消费",
+    "orderNo": 71119121113116,
+    "beforeMoney": 2000.00,
+    "laterMoney": 1900.0,
+    "capital": 90.00,
+    "send": 10.00
+  }
 }

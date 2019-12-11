@@ -1,13 +1,11 @@
 package com.chouchongkeji.service.v3.impl;
 
 import com.chouchongkeji.dial.dao.user.AppUserMapper;
-import com.chouchongkeji.dial.dao.v3.MemberChargeRecordMapper;
-import com.chouchongkeji.dial.dao.v3.MemberExpenseRecordMapper;
-import com.chouchongkeji.dial.dao.v3.StoreMapper;
-import com.chouchongkeji.dial.dao.v3.UserMemberCardMapper;
+import com.chouchongkeji.dial.dao.v3.*;
 import com.chouchongkeji.dial.pojo.user.AppUser;
 import com.chouchongkeji.dial.pojo.v3.MemberExpenseRecord;
 import com.chouchongkeji.dial.pojo.v3.Store;
+import com.chouchongkeji.dial.pojo.v3.StoreMemberEvent;
 import com.chouchongkeji.dial.pojo.v3.UserMemberCard;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
@@ -47,6 +45,9 @@ public class MemberCardServiceImpl implements MemberCardService {
 
     @Autowired
     private MemberExpenseRecordMapper memberExpenseRecordMapper;
+
+    @Autowired
+    private StoreMemberEventMapper storeMemberEventMapper;
 
     @Autowired
     private AppUserMapper appUserMapper;
@@ -258,6 +259,12 @@ public class MemberCardServiceImpl implements MemberCardService {
                 detail.setBeforeMoney(new BigDecimal("0"));
             }
            detail.setLaterMoney(BigDecimalUtil.sub(detail.getBeforeMoney().doubleValue(),detail.getExpenseMoney().doubleValue()));
+            // 本金扣款和赠送金额扣款
+           StoreMemberEvent event = storeMemberEventMapper.selectByUserIdCardIdOrderNo(userId,detail.getMembershipCardId(),detail.getOrderNo());
+            if (event != null){
+                detail.setCapital(event.getCapitalMoney());
+                detail.setSend(event.getSendMoney());
+            }
         }
         return ResponseFactory.sucData(detail);
     }

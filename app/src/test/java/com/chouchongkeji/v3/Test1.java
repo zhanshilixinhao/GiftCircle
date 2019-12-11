@@ -101,7 +101,7 @@ public class Test1 {
         RequestParams params = new RequestParams();
         params.put("time", System.currentTimeMillis());
         params.put("access_token", "8975fd98-d988-4110-a7a1-8fde82f8e66e");
-        params.put("id", 2);
+        params.put("id", 4);
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
         params.put("sign", map.get(ApiSignUtil.ANDROID));
         Response post = OkHttpUtil.post("http://localhost:8089/auth/v3/memberCard/expense/detail", params);
