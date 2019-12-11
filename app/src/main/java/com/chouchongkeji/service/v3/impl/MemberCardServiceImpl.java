@@ -158,10 +158,10 @@ public class MemberCardServiceImpl implements MemberCardService {
             }
             vo.setStores(stores);
             vo.setSummary(serviceProperties.getCardDetail() + vo.getMembershipCardId());
+            BigDecimal capital1 = new BigDecimal("0");
+            BigDecimal send1 = new BigDecimal("0");
             if (vo.getType() == 11) {
                 // 活动卡本金和赠送金额
-                BigDecimal capital1 = new BigDecimal("0");
-                BigDecimal send1 = new BigDecimal("0");
                 List<StoreMemberEvent> capitals = storeMemberEventMapper.selectByUserIdCardId(vo.getUserId(), vo.getMembershipCardId());
                 if (CollectionUtils.isNotEmpty(capitals)) {
                     for (StoreMemberEvent capital : capitals) {
@@ -174,9 +174,9 @@ public class MemberCardServiceImpl implements MemberCardService {
                         send1 = BigDecimalUtil.add(send1.doubleValue(), send.getSendBalance().doubleValue());
                     }
                 }
-                vo.setCapital(capital1);
-                vo.setSend(send1);
             }
+            vo.setCapital(capital1);
+            vo.setSend(send1);
         }
         return ResponseFactory.sucData(vo);
     }
