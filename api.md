@@ -8581,7 +8581,8 @@ type = 3 请求结果示例：
   "result": 0,
   "time": 1575339940614,
   "data": {
-    "transferSendId": 1 //转赠记录id，分享此id
+    "transferSendId": 1, //转赠记录id，分享此id
+    "title":"礼遇圈" // 会员卡标题
   }
 }
 

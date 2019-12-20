@@ -95,9 +95,15 @@ public class SendServiceImpl implements SendService {
         if (insert < 1) {
             throw new ServiceException("创建会员卡转赠记录失败");
         }
+        String title = "会员卡";
+        MembershipCard membershipCard = membershipCardMapper.selectByPrimaryKey(cardId);
+        if (membershipCard != null){
+            title = membershipCard.getTitle();
+        }
         // 返回转赠记录id，用于分享给微信好友
         Map<String, Object> result = new HashMap<>();
         result.put("transferSendId", send.getId());
+        result.put("title", title);
         return ResponseFactory.sucData(result);
     }
 

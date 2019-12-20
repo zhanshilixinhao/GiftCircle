@@ -22,9 +22,9 @@ public class Test2 {
     public void withdrawRecord() throws IOException {
         RequestParams params = new RequestParams();
         params.put("time", System.currentTimeMillis());
-        params.put("access_token", "8975fd98-d988-4110-a7a1-8fde82f8e66e");
-        params.put("cardId", 2);
-        params.put("sendMoney", 10);
+        params.put("access_token", "a2ff9d62-76f0-4075-9806-dbac4d4cb931");
+        params.put("cardId", 0);
+        params.put("sendMoney", 0.01);
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
         params.put("sign", map.get(ApiSignUtil.ANDROID));
 //        Response post = OkHttpUtil.post("https://liyuquan.cn/app/auth/v3/memberCard/list", params);
