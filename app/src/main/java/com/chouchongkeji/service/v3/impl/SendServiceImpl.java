@@ -191,14 +191,18 @@ public class SendServiceImpl implements SendService {
         UserMemberCard card = userMemberCardMapper.selectByCardIdUserId(userId, send.getMembershipCardId());
         //查询原来用户的会员卡信息
         UserMemberCard card1 = userMemberCardMapper.selectByCardIdUserId(send.getUserId(), send.getMembershipCardId());
+        if (card1 == null) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "原来用户的会员卡信息不存在");
+        }
+        if (card1.getBalance().compareTo(send.getSendMoney()) < 0){
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "转赠着余额不足");
+        }
         if (card == null) {
             //添加新的会员卡，
-            if (card1 != null) {
-                int i = memberCardService.addMemberShipCard(userId, send.getSendMoney(), send.getSendMoney(), new BigDecimal("0"),
-                        send.getMembershipCardId(), card1.getStoreId());
-                if (i == 0) {
-                    throw new ServiceException(ErrorCode.ERROR.getCode(), "添加会员卡失败");
-                }
+            int i = memberCardService.addMemberShipCard(userId, send.getSendMoney(), send.getSendMoney(), new BigDecimal("0"),
+                    send.getMembershipCardId(), card1.getStoreId());
+            if (i == 0) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "添加会员卡失败");
             }
         } else {
             // 更新会员卡余额
@@ -219,10 +223,16 @@ public class SendServiceImpl implements SendService {
         if (i == 0) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "更新转赠记录失败！");
         }
+        // 更新赠送者余额
+        card1.setBalance(BigDecimalUtil.sub(card1.getBalance().doubleValue(), send.getSendMoney().doubleValue()));
+        i = userMemberCardMapper.updateByPrimaryKeySelective(card1);
+        if (i == 0) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "赠送者更新余额失败！");
+        }
         SendVo vo = new SendVo();
         vo.setTitle("你收到来自" + appUser.getNickname() + "的余额转赠");
         vo.setSendMoney(send.getSendMoney());
-        if (card1 != null && membership != null){
+        if (membership != null) {
             vo.setDetail("来自" + card1.getCardNo() + " " + membership.getTitle() + "账户");
         }
         vo.setSummary("已接收");
@@ -328,17 +338,18 @@ public class SendServiceImpl implements SendService {
 
     /**
      * 转赠记录列表
+     *
      * @param userId 用户
      * @return
      */
     @Override
-    public Response getCardSendList(Integer userId,Integer cardId, PageQuery page) {
-        PageHelper.startPage(page.getPageNum(),page.getPageSize());
-        List<TransferSendVo> vos = transferSendMapper.selectByUserIdCardId(userId,cardId);
-        if(!CollectionUtils.isEmpty(vos)){
+    public Response getCardSendList(Integer userId, Integer cardId, PageQuery page) {
+        PageHelper.startPage(page.getPageNum(), page.getPageSize());
+        List<TransferSendVo> vos = transferSendMapper.selectByUserIdCardId(userId, cardId);
+        if (!CollectionUtils.isEmpty(vos)) {
             for (TransferSendVo vo : vos) {
-                vo.setTitle(vo.getTitle()+"转赠");
-                if (StringUtils.isEmpty(vo.getNickname())){
+                vo.setTitle(vo.getTitle() + "转赠");
+                if (StringUtils.isEmpty(vo.getNickname())) {
                     vo.setNickname("未接收");
                 }
             }
@@ -349,15 +360,16 @@ public class SendServiceImpl implements SendService {
 
     /**
      * 转赠记录详情
+     *
      * @param transferSendId 转赠记录id
      * @return
      */
     @Override
     public Response getCardSendDetail(Integer userId, Integer transferSendId) {
         TransferSendVo vo = transferSendMapper.selectById(transferSendId);
-        if (vo != null){
-            vo.setTitle(vo.getTitle()+"转赠");
-            if (StringUtils.isEmpty(vo.getNickname())){
+        if (vo != null) {
+            vo.setTitle(vo.getTitle() + "转赠");
+            if (StringUtils.isEmpty(vo.getNickname())) {
                 vo.setNickname("未接收");
             }
         }

@@ -48,7 +48,7 @@ public class Test2 {
     public void get() throws IOException {
         RequestParams params = new RequestParams();
         params.put("time", System.currentTimeMillis());
-        params.put("access_token", "d32cb30a-db15-41b5-aef5-1a60c06682cc");
+        params.put("access_token", "a2ff9d62-76f0-4075-9806-dbac4d4cb931");
         params.put("transferSendId", 3);
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
         params.put("sign", map.get(ApiSignUtil.ANDROID));

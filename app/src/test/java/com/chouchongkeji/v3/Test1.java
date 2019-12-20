@@ -56,7 +56,7 @@ public class Test1 {
         params.put("id", 8);
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
         params.put("sign", map.get(ApiSignUtil.ANDROID));
-        Response post = OkHttpUtil.post("http://localhost:8089/auth/v3/memberCard/detail", params);
+        Response post = OkHttpUtil.post("https://liyuquan.cn/app/auth/v3/memberCard/detail", params);
         System.out.println(post.body().string());
     }
 
