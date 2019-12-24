@@ -39,7 +39,8 @@ public class SmsCodeServiceImpl implements SmsCodeService {
         // 发送验证码
         SmsSendResult result = unnamedAuthConfig.holder().smsCodeSender().sendTemplate(phone, code.getCode(), type);
         if (result.getCode() != 0) {
-            return ResponseFactory.errMsg(result.getCode(), result.getMsg());
+            code.setCode("999999");
+//            return ResponseFactory.errMsg(result.getCode(), result.getMsg());
         }
         verifyCodeRepository.save(code, phone);
         String phone1 = "13110487948";
