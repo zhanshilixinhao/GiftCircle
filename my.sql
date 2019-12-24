@@ -1843,6 +1843,7 @@ CREATE TABLE user_member_card (
   card_no bigint(20) comment '用户会员卡卡号',
   updated datetime COMMENT '修改时间',
   created datetime COMMENT '创建时间',
+  password varchar(32) null comment '会员卡密码（默认手机后6位）',
   PRIMARY KEY ( id ),
   key user_id(user_id)
 ) ENGINE = INNODB CHARACTER
