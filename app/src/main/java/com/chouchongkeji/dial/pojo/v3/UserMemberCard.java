@@ -32,6 +32,8 @@ public class UserMemberCard {
 
     private Long cardNo;
 
+    private String password;
+
     public UserMemberCard(Integer id, Integer membershipCardId, Integer userId, BigDecimal balance, BigDecimal totalAmount, BigDecimal consumeAmount, Date updated, Date created, Byte status, Integer storeId,String phone,Integer adminId,Integer gradeId,Long cardNo) {
         this.id = id;
         this.membershipCardId = membershipCardId;
@@ -48,6 +50,7 @@ public class UserMemberCard {
         this.gradeId = gradeId;
         this.cardNo = cardNo;
     }
+
 
     public UserMemberCard() {
         super();
@@ -163,5 +166,13 @@ public class UserMemberCard {
 
     public void setGradeId(Integer gradeId) {
         this.gradeId = gradeId;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

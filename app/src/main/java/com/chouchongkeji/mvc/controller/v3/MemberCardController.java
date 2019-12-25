@@ -5,6 +5,7 @@ import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.query.PageQuery;
 import com.chouchongkeji.service.v3.MemberCardService;
 import com.yichen.auth.service.UserDetails;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -116,6 +117,40 @@ public class MemberCardController {
         }
         return memberCardService.expenseRecordDetail(userDetails.getUserId(),id);
     }
+
+
+    /**
+     * 会员卡修改密码
+     * @param userDetails 用户
+     * @param cardId 会员卡id
+     * @param oldPassword 旧密码
+     * @param newPassword 新密码
+     * @return
+     */
+    @PostMapping("update_password")
+    public Response updateCardPassword(@AuthenticationPrincipal UserDetails userDetails,Integer cardId,
+                                       String oldPassword,String newPassword){
+        if (cardId == null || StringUtils.isAnyBlank(oldPassword,newPassword)){
+            return ResponseFactory.errMissingParameter();
+        }
+        return memberCardService.updateCardPassword(userDetails.getUserId(),cardId,oldPassword,newPassword);
+    }
+
+    /**
+     * 会员卡找回密码
+     * @param userDetails 用户
+     * @param cardId 会员卡id
+     * @param newPassword 新密码
+     * @return
+     */
+    @PostMapping("find_password")
+    public Response findCardPassword(@AuthenticationPrincipal UserDetails userDetails,Integer cardId,String newPassword){
+        if (cardId == null || StringUtils.isBlank(newPassword)){
+            return ResponseFactory.errMissingParameter();
+        }
+        return memberCardService.findCardPassword(userDetails.getUserId(),cardId,newPassword);
+    }
+
 
 
 }

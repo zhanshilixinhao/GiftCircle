@@ -11,6 +11,7 @@ import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.query.PageQuery;
 import com.chouchongkeji.goexplore.utils.BigDecimalUtil;
+import com.chouchongkeji.goexplore.utils.Utils;
 import com.chouchongkeji.properties.ServiceProperties;
 import com.chouchongkeji.service.v3.MemberCardService;
 import com.chouchongkeji.service.v3.vo.*;
@@ -110,9 +111,11 @@ public class MemberCardServiceImpl implements MemberCardService {
     public int addMemberShipCard(Integer userId, BigDecimal balance, BigDecimal total, BigDecimal consume,
                                  Integer cardId, Integer storeId) {
         String phone = null;
+        String password = null;
         AppUser appUser = appUserMapper.selectByPrimaryKey(userId);
         if (appUser != null) {
             phone = appUser.getPhone();
+            password = Utils.toMD5(Utils.toMD5(phone + Utils.toMD5(phone.substring(phone.length() - 6))));
         }
         UserMemberCard card = new UserMemberCard();
         card.setMembershipCardId(cardId);
@@ -124,6 +127,7 @@ public class MemberCardServiceImpl implements MemberCardService {
         card.setStoreId(storeId);
         card.setPhone(phone);
         card.setCardNo(orderHelper.genOrderNo(7, 9));
+        card.setPassword(password);
         return userMemberCardMapper.insert(card);
     }
 
@@ -287,5 +291,58 @@ public class MemberCardServiceImpl implements MemberCardService {
         }
         return ResponseFactory.sucData(detail);
     }
+
+
+    /**
+     * 会员卡修改密码
+     * @param userId 用户
+     * @param cardId 会员卡id
+     * @param oldPassword 旧密码
+     * @param newPassword 新密码
+     * @return
+     */
+    @Override
+    public Response updateCardPassword(Integer userId, Integer cardId, String oldPassword, String newPassword) {
+        UserMemberCard card = userMemberCardMapper.selectByCardIdUserId(userId, cardId);
+        if (card == null){
+            return ResponseFactory.err("该会员卡不存在");
+        }
+        // 校验旧密码
+        String phone = card.getPhone();
+        String old = Utils.toMD5(phone + oldPassword);
+        if (!card.getPassword().equals(old)){
+            return ResponseFactory.err("旧密码输入错误");
+        }
+        // 更新密码
+        card.setPassword(Utils.toMD5(phone + newPassword));
+        int i = userMemberCardMapper.updateByPrimaryKeySelective(card);
+        if (i < 1){
+            return ResponseFactory.err("密码修改失败");
+        }
+        return ResponseFactory.sucMsg("密码修改成功");
+    }
+
+    /**
+     * 会员卡找回密码
+     * @param userId 用户
+     * @param cardId 会员卡id
+     * @param newPassword 新密码
+     * @return
+     */
+    @Override
+    public Response findCardPassword(Integer userId, Integer cardId, String newPassword) {
+        UserMemberCard card = userMemberCardMapper.selectByCardIdUserId(userId, cardId);
+        if (card == null){
+            return ResponseFactory.err("该会员卡不存在");
+        }
+        // 更新密码
+        card.setPassword(Utils.toMD5(card.getPhone() + newPassword));
+        int i = userMemberCardMapper.updateByPrimaryKeySelective(card);
+        if (i < 1){
+            return ResponseFactory.err("密码更新失败");
+        }
+        return ResponseFactory.sucMsg("密码更新成功");
+    }
+
 
 }

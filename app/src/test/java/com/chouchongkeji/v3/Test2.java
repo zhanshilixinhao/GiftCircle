@@ -3,6 +3,7 @@ package com.chouchongkeji.v3;
 import com.chouchongkeji.goexplore.utils.ApiSignUtil;
 import com.chouchongkeji.goexplore.utils.OkHttpUtil;
 import com.chouchongkeji.goexplore.utils.RequestParams;
+import com.chouchongkeji.goexplore.utils.Utils;
 import okhttp3.Response;
 import org.junit.Test;
 
@@ -76,6 +77,34 @@ public class Test2 {
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
         params.put("sign", map.get(ApiSignUtil.ANDROID));
         Response post = OkHttpUtil.post("http://localhost:8089/auth/v3/cardSend/detail", params);
+        System.out.println(post.body().string());
+    }
+
+    @Test
+    public void update() throws IOException {
+        RequestParams params = new RequestParams();
+        params.put("time", System.currentTimeMillis());
+        params.put("access_token", "f79afc76-a434-4f59-830e-34b0cc674735");
+        params.put("cardId", 3);
+        params.put("oldPassword", Utils.toMD5("400657") );
+        params.put("newPassword",Utils.toMD5("123456"));
+        Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
+        params.put("sign", map.get(ApiSignUtil.ANDROID));
+        Response post = OkHttpUtil.post("http://localhost:8089/auth/v3/memberCard/update_password", params);
+        System.out.println(post.body().string());
+    }
+
+    @Test
+    public void find() throws IOException {
+        RequestParams params = new RequestParams();
+        params.put("time", System.currentTimeMillis());
+        params.put("access_token", "f79afc76-a434-4f59-830e-34b0cc674735");
+        params.put("cardId", 4);
+//        params.put("oldPassword", Utils.toMD5("400657") );
+        params.put("newPassword",Utils.toMD5("123456"));
+        Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
+        params.put("sign", map.get(ApiSignUtil.ANDROID));
+        Response post = OkHttpUtil.post("http://localhost:8089/auth/v3/memberCard/find_password", params);
         System.out.println(post.body().string());
     }
 

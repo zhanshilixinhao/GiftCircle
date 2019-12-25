@@ -81,4 +81,24 @@ public interface MemberCardService {
      * @return
      */
     Response expenseRecordDetail(Integer userId, Integer id);
+
+
+    /**
+     * 会员卡修改密码
+     * @param userId 用户
+     * @param cardId 会员卡id
+     * @param oldPassword 旧密码
+     * @param newPassword 新密码
+     * @return
+     */
+    Response updateCardPassword(Integer userId, Integer cardId, String oldPassword, String newPassword);
+
+    /**
+     * 会员卡找回密码
+     * @param userId 用户
+     * @param cardId 会员卡id
+     * @param newPassword 新密码
+     * @return
+     */
+    Response findCardPassword(Integer userId, Integer cardId, String newPassword);
 }

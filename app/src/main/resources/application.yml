@@ -68,6 +68,7 @@ yichen:
         - {url: /auth/user/find/pwd, type: 2}
         - {url: /auth/user/modify_phone, type: 3}
         - {url: /auth/receive/item/order_wx, type: 4}
+        - {url: /auth/v3/memberCard/find_password, type: 6} # 会员卡找回密码 6
     ##配置客户端信息
     oauth2:
       client:
