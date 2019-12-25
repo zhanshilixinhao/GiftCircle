@@ -21,7 +21,7 @@ public class Test1 {
     public void withdrawRecord() throws IOException {
         RequestParams params = new RequestParams();
         params.put("time", System.currentTimeMillis());
-        params.put("access_token", "8975fd98-d988-4110-a7a1-8fde82f8e66e");
+        params.put("access_token", "ac1b0f3d-042a-4b59-bb24-5b1e2ce014ce");
 //        params.put("keywords", "礼");
         params.put("pageNum", 1);
         params.put("pageSize", 14);
