@@ -275,7 +275,7 @@ public class MemberCardServiceImpl implements MemberCardService {
                 detail.setAddress("APP");
             }
             if (detail.getTargetId() == null) {
-                detail.setTitle("会员卡线下消费");
+                detail.setTitle("线下用餐");
             }
             //扣款前/后余额
             if (detail.getBeforeMoney() == null) {
