@@ -48,7 +48,7 @@ public class AppTest {
     public void login() throws IOException {
 
         RequestParams params = new RequestParams();
-        params.put("username", "14714307758");
+        params.put("username", "15752400657");
         params.put("password", Utils.toMD5("!@#$1234"));
         params.put("exploringId", 24);
         params.put("time", "1526539545791");
@@ -59,7 +59,7 @@ public class AppTest {
         params.put("sign", map.get(ApiSignUtil.IOS));
         System.out.println(map);
         Response response = OkHttpUtil.post(OkHttpManager.create(null, null),
-                "http://localhost:8089/login/phone", params);
+                "http://localhost:8088/login/phone", params);
         System.out.println(response.body().string());
     }
 
