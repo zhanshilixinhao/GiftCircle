@@ -77,10 +77,17 @@ public class SendServiceImpl implements SendService {
      */
     @Override
     public Response cardSend(Integer userId, Integer cardId, BigDecimal sendMoney) {
+        MembershipCard membershipCard = membershipCardMapper.selectByPrimaryKey(cardId);
+        if (membershipCard == null){
+            throw new ServiceException("该会员卡不存在");
+        }
+        if (membershipCard.getType() == 11){
+            throw new ServiceException("活动卡不可以转赠");
+        }
         // 查询金额是否足够
         UserMemberCard card = userMemberCardMapper.selectByCardIdUserId(userId, cardId);
         if (card == null) {
-            throw new ServiceException("该会员卡不存在");
+            throw new ServiceException("该会员信息不存在");
         }
         if (sendMoney.compareTo(card.getBalance()) > 0) {
             throw new ServiceException("余额不足");
@@ -95,12 +102,8 @@ public class SendServiceImpl implements SendService {
         if (insert < 1) {
             throw new ServiceException("创建会员卡转赠记录失败");
         }
-        String title = "会员卡";
-        MembershipCard membershipCard = membershipCardMapper.selectByPrimaryKey(cardId);
-        if (membershipCard != null){
-            title = membershipCard.getTitle();
-        }
         // 返回转赠记录id，用于分享给微信好友
+        String title = membershipCard.getTitle();
         Map<String, Object> result = new HashMap<>();
         result.put("transferSendId", send.getId());
         result.put("title", title);
