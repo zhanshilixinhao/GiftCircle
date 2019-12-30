@@ -120,7 +120,13 @@ public class UserLoginServiceImpl implements UserLoginService {
      */
     @Override
     public Response bindPhone(String phone, String openid, Integer client, Integer userId, AppUser user) {
-        int id = bindPhone1(phone, openid, client, userId);
+        // 绑定手机号
+        Response response = thirdAccService.addOpenAccDetail(openid, client == 3 ? 2 : 1, phone);
+        if (!response.isSuccessful()) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), response.getMsg());
+        }
+        //好友用户id(被邀请者)
+        Integer id = (Integer) response.getData();
         if (id != 0) {
             // 修改用户信息(被邀请者)
             if (user != null) {
@@ -131,8 +137,9 @@ public class UserLoginServiceImpl implements UserLoginService {
                 friendService.WXAddFriend(id, userId);
             }
         }
+        bindPhone1(phone, openid, client, userId,id);
         // 绑定成功后登录
-        Response response = WXCodeApi.login(openid,
+         response = WXCodeApi.login(openid,
                 securityProperties.getOauth2().getClient()[0].getClientId(),
                 securityProperties.getOauth2().getClient()[0].getClientSecret(), client == 3 ? 2 : 1);
 
@@ -141,17 +148,7 @@ public class UserLoginServiceImpl implements UserLoginService {
 
 
     @Transactional(rollbackFor = Exception.class, isolation = Isolation.REPEATABLE_READ)
-    public int bindPhone1(String phone, String openid, Integer client, Integer userId) {
-        // 绑定手机号
-        Response response = thirdAccService.addOpenAccDetail(openid, client == 3 ? 2 : 1, phone);
-        if (!response.isSuccessful()) {
-            throw new ServiceException(ErrorCode.ERROR.getCode(), response.getMsg());
-        }
-        //好友用户id(被邀请者)
-        Integer id = (Integer) response.getData();
-        if (id == null) {
-            throw new ServiceException(ErrorCode.ERROR.getCode(), "用户id获取失败");
-        }
+    public int bindPhone1(String phone, String openid, Integer client, Integer userId,Integer id) {
         if (userId != null) {
             // 添加邀请好友记录
             Integer inviteId = fireworksService.addInviteUser(id, userId);
