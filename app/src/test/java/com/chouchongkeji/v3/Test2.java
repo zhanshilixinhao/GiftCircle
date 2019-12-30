@@ -24,7 +24,7 @@ public class Test2 {
         RequestParams params = new RequestParams();
         params.put("time", System.currentTimeMillis());
         params.put("access_token", "67ac52ca-e844-4787-a67a-ac37714512b2");
-        params.put("cardId", 4);
+        params.put("cardId", 3);
         params.put("sendMoney", 2.3);
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
         params.put("sign", map.get(ApiSignUtil.ANDROID));
