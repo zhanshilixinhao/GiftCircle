@@ -115,7 +115,7 @@ public class MemberCardServiceImpl implements MemberCardService {
         AppUser appUser = appUserMapper.selectByPrimaryKey(userId);
         if (appUser != null) {
             phone = appUser.getPhone();
-            password = Utils.toMD5(Utils.toMD5(phone + Utils.toMD5(phone.substring(phone.length() - 6))));
+            password = Utils.toMD5(phone + Utils.toMD5(phone.substring(phone.length() - 6)));
         }
         UserMemberCard card = new UserMemberCard();
         card.setMembershipCardId(cardId);
