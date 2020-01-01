@@ -25,7 +25,7 @@ public class Test2 {
         params.put("time", System.currentTimeMillis());
         params.put("access_token", "67ac52ca-e844-4787-a67a-ac37714512b2");
         params.put("cardId", 3);
-        params.put("sendMoney", 2.3);
+        params.put("sendMoney",0);
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
         params.put("sign", map.get(ApiSignUtil.ANDROID));
 //        Response post = OkHttpUtil.post("https://liyuquan.cn/app/auth/v3/memberCard/list", params);
@@ -37,11 +37,11 @@ public class Test2 {
     public void judge() throws IOException {
         RequestParams params = new RequestParams();
         params.put("time", System.currentTimeMillis());
-        params.put("access_token", "d32cb30a-db15-41b5-aef5-1a60c06682cc");
-        params.put("transferSendId", 1);
+        params.put("access_token", "c72d008b-c492-4848-bf98-7c64b0ef650e");
+        params.put("transferSendId", 69);
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
         params.put("sign", map.get(ApiSignUtil.ANDROID));
-        Response post = OkHttpUtil.post("http://localhost:8089/auth/v3/cardSend/judge", params);
+        Response post = OkHttpUtil.post("http://localhost:8088/auth/v3/cardSend/judge", params);
         System.out.println(post.body().string());
     }
 
@@ -49,8 +49,8 @@ public class Test2 {
     public void get() throws IOException {
         RequestParams params = new RequestParams();
         params.put("time", System.currentTimeMillis());
-        params.put("access_token", "f79afc76-a434-4f59-830e-34b0cc674735");
-        params.put("transferSendId", 11);
+        params.put("access_token", "c72d008b-c492-4848-bf98-7c64b0ef650e");
+        params.put("transferSendId", 69);
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
         params.put("sign", map.get(ApiSignUtil.ANDROID));
         Response post = OkHttpUtil.post("http://localhost:8088/auth/v3/cardSend/get", params);
