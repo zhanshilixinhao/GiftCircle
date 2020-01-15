@@ -85,6 +85,7 @@ yichen:
         - /noauth/item/itemDetailShare
         - /noauth/v1/article/detail_h5
         - /noauth/v3/cardDetail/html
+        - /noauth/user/bindPhone
     # 重复请求过滤接口
     request:
       url:
