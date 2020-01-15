@@ -85,7 +85,7 @@ public class ThirdAccServiceImpl implements ThirdAccService {
          userThird1 = thirdAccountMapper.selectByOpenIdAndType(openId, type);
         // 如果账号已经存在，不能再绑定
         if (userThird1 != null) {
-            return ResponseFactory.errMsg(ErrorCode.PHONE_EXISTED.getCode(), "该手机号已经绑定其他账号");
+            return ResponseFactory.errMsg(ErrorCode.PHONE_EXISTED.getCode(), "该微信号已经绑定其他账号");
         }
         // 判断用户名是否被注册
         AppUser userBase = appUserMapper.selectByPhone(phone);
