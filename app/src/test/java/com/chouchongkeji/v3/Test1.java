@@ -21,14 +21,14 @@ public class Test1 {
     public void withdrawRecord() throws IOException {
         RequestParams params = new RequestParams();
         params.put("time", System.currentTimeMillis());
-        params.put("access_token", "ac1b0f3d-042a-4b59-bb24-5b1e2ce014ce");
+        params.put("access_token", "f79afc76-a434-4f59-830e-34b0cc674735");
 //        params.put("keywords", "礼");
         params.put("pageNum", 1);
         params.put("pageSize", 14);
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
         params.put("sign", map.get(ApiSignUtil.ANDROID));
 //        Response post = OkHttpUtil.post("https://liyuquan.cn/app/auth/v3/memberCard/list", params);
-        Response post = OkHttpUtil.post("http://localhost:8089/auth/v3/memberCard/list", params);
+        Response post = OkHttpUtil.post("http://localhost:8088/auth/v3/memberCard/list", params);
         System.out.println(post.body().string());
     }
 
@@ -43,7 +43,7 @@ public class Test1 {
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
         params.put("sign", map.get(ApiSignUtil.ANDROID));
 //        Response post = OkHttpUtil.post("https://liyuquan.cn/app/auth/v3/memberCard/list", params);
-        Response post = OkHttpUtil.post("http://localhost:8089/noauth/v3/cardDetail/html", params);
+        Response post = OkHttpUtil.post("http://localhost:8088/noauth/v3/cardDetail/html", params);
         System.out.println(post.body().string());
     }
 

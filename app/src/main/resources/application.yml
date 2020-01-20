@@ -151,9 +151,11 @@ server:
 
 
 logging:
-  level:
-    com:
-      chouchongkeji:
-        dial:
-          dao: debug
+#  path: /home/lin/IdeaProjects/java/liyuquan/GiftCircle_Service/
+  config: classpath:logback-spring.xml
+#  level:
+#    com:
+#      chouchongkeji:
+#        dial:
+#          dao: debug
 
