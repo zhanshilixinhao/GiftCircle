@@ -2080,3 +2080,44 @@ CREATE TABLE card_rebate (
   key membership_card_id(membership_card_id)
 ) ENGINE = INNODB CHARACTER
 SET = utf8mb4 COMMENT = '门店退款';
+
+
+/*==============================================================v3.1==============================================================*/
+
+
+DROP TABLE IF EXISTS electronic_coupon;
+CREATE TABLE electronic_coupons (
+   id INT ( 10 ) NOT NULL auto_increment,
+   `title` varchar(200) COMMENT '标题',
+   `summary` varchar(1000) COMMENT '简介',
+   colour varchar(100) comment'会员卡颜色',
+   logo varchar(500) comment'logo',
+  `store_ids` varchar(500) COMMENT '可使用的门店id集合(可查门店名称,地址)',
+  admin_id int(11) comment'创建者id',
+  `type` tinyint(4) comment'电子优惠券类型 1 普通优惠券',
+  `status` tinyint(4) DEFAULT NULL comment'1 正常',
+  date datetime COMMENT '截止日期',
+  updated datetime COMMENT '修改时间',
+  created datetime COMMENT '创建时间',
+  PRIMARY KEY ( id )
+) ENGINE = INNODB CHARACTER
+SET = utf8mb4 COMMENT = '电子优惠券';
+
+
+DROP TABLE IF EXISTS el_user_coupon;
+CREATE TABLE el_user_coupon (
+   id bigint not null primary key,
+   `coupon_id` int(11) COMMENT '会员卡id',
+   `user_id` int(11) COMMENT '用户id',
+   total_quantity int(11) comment'总数量',
+   quantity int(11) comment'剩余数量',
+   `status` tinyint(4) DEFAULT NULL comment'1 正常',
+   code varchar(200) comment'二维码',
+ `store_id` int(11) COMMENT '门店id(赠送门店)',
+  admin_id int(11) comment'创建者id',
+  updated datetime COMMENT '修改时间',
+  created datetime COMMENT '创建时间',
+  key user_id(user_id),
+  key coupon_id(coupon_id)
+) ENGINE = INNODB CHARACTER
+SET = utf8mb4 COMMENT = '会员电子券关联表';
