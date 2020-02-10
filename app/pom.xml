@@ -66,6 +66,15 @@
             <artifactId>pagehelper</artifactId>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.12</version>
+            <scope>provided</scope>
+        </dependency>
+
+
         <dependency>
             <groupId>org.mybatis.generator</groupId>
             <artifactId>mybatis-generator-core</artifactId>
@@ -102,9 +111,9 @@
 
         <!--&lt;!&ndash;个推&ndash;&gt;-->
         <!--<dependency>-->
-            <!--<groupId>com.gexin.platform</groupId>-->
-            <!--<artifactId>gexin-rp-sdk-http</artifactId>-->
-            <!--<version>4.1.0.0</version>-->
+        <!--<groupId>com.gexin.platform</groupId>-->
+        <!--<artifactId>gexin-rp-sdk-http</artifactId>-->
+        <!--<version>4.1.0.0</version>-->
         <!--</dependency>-->
 
 
@@ -119,10 +128,10 @@
     </dependencies>
     <!--个推-->
     <!--<repositories>-->
-        <!--<repository>-->
-            <!--<id>getui-nexus</id>-->
-            <!--<url>http://mvn.gt.igexin.com/nexus/content/repositories/releases/</url>-->
-        <!--</repository>-->
+    <!--<repository>-->
+    <!--<id>getui-nexus</id>-->
+    <!--<url>http://mvn.gt.igexin.com/nexus/content/repositories/releases/</url>-->
+    <!--</repository>-->
     <!--</repositories>-->
 
     <build>

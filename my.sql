@@ -2082,7 +2082,7 @@ CREATE TABLE card_rebate (
 SET = utf8mb4 COMMENT = '门店退款';
 
 
-/*==============================================================v3.1==============================================================*/
+/*==============================================================v3.1优惠券==============================================================*/
 
 
 DROP TABLE IF EXISTS electronic_coupon;
@@ -2090,7 +2090,6 @@ CREATE TABLE electronic_coupons (
    id INT ( 10 ) NOT NULL auto_increment,
    `title` varchar(200) COMMENT '标题',
    `summary` varchar(1000) COMMENT '简介',
-   colour varchar(100) comment'会员卡颜色',
    logo varchar(500) comment'logo',
   `store_ids` varchar(500) COMMENT '可使用的门店id集合(可查门店名称,地址)',
   admin_id int(11) comment'创建者id',
@@ -2107,7 +2106,7 @@ SET = utf8mb4 COMMENT = '电子优惠券';
 DROP TABLE IF EXISTS el_user_coupon;
 CREATE TABLE el_user_coupon (
    id bigint not null primary key,
-   `coupon_id` int(11) COMMENT '会员卡id',
+   `coupon_id` int(11) COMMENT '优惠券id',
    `user_id` int(11) COMMENT '用户id',
    total_quantity int(11) comment'总数量',
    quantity int(11) comment'剩余数量',
@@ -2121,3 +2120,37 @@ CREATE TABLE el_user_coupon (
   key coupon_id(coupon_id)
 ) ENGINE = INNODB CHARACTER
 SET = utf8mb4 COMMENT = '会员电子券关联表';
+
+
+DROP TABLE IF EXISTS el_coupon_send;
+CREATE TABLE el_coupon_send (
+   id INT ( 10 ) NOT NULL auto_increment,
+   `user_id` int(11) COMMENT '用户id(赠送者)',
+   `num` bigint COMMENT '优惠券编号',
+   quantity int(11) comment'转赠数量',
+  `status` tinyint(4) comment' 0 已取消 1 未领取 2 已领取',
+  updated datetime COMMENT '修改时间',
+  created datetime COMMENT '创建时间',
+  PRIMARY KEY ( id ),
+  key user_id(user_id),
+  key num(num)
+) ENGINE = INNODB CHARACTER
+SET = utf8mb4 COMMENT = '优惠券转赠';
+
+
+DROP TABLE IF EXISTS el_send_detail;
+CREATE TABLE el_send_detail (
+   id INT ( 10 ) NOT NULL auto_increment,
+   `user_id` int(11) COMMENT '用户id(接收者)',
+  `coupon_send_id` int(11) COMMENT '优惠券转赠id',
+  `num` bigint COMMENT '优惠券编号',
+   quantity int(11) comment'领取数量',
+  `status` tinyint(4) comment' 0 已取消（被撤回） 1 未领取 2 已领取',
+  updated datetime COMMENT '修改时间',
+  created datetime COMMENT '创建时间',
+  PRIMARY KEY ( id ),
+  key user_id(user_id),
+  key coupon_send_id(coupon_send_id),
+  key num(num)
+) ENGINE = INNODB CHARACTER
+SET = utf8mb4 COMMENT = '优惠券转赠详情（接收者）';

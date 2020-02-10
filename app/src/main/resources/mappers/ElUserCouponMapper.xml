@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chouchongkeji.dial.dao.v3.ElUserCouponMapper">
+  <resultMap id="BaseResultMap" type="com.chouchongkeji.dial.pojo.v3.ElUserCoupon">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="coupon_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="total_quantity" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="quantity" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="code" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="store_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="admin_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, coupon_id, user_id, total_quantity, quantity, status, code, store_id, admin_id,
+    updated, created
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from el_user_coupon
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectByUserId" resultType="com.chouchongkeji.service.v3.vo.ElCouponVo">
+    select a.id as num,
+       a.coupon_id,
+       a.user_id,
+       a.quantity,
+       a.code,
+       a.created,
+       b.title,
+       b.summary,
+       b.logo,
+       b.store_ids,
+       b.date
+from el_user_coupon a
+         left join electronic_coupons b on a.coupon_id = b.id
+where a.status = 1
+  and b.status = 1
+  and b.type = 1
+  and a.user_id = #{userId}
+  order by a.created DESC
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from el_user_coupon
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.v3.ElUserCoupon">
+    insert into el_user_coupon (id, coupon_id, user_id,
+      total_quantity, quantity, status,
+      code, store_id, admin_id,
+      updated, created)
+    values (#{id,jdbcType=BIGINT}, #{couponId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER},
+      #{totalQuantity,jdbcType=INTEGER}, #{quantity,jdbcType=INTEGER}, #{status,jdbcType=TINYINT},
+      #{code,jdbcType=VARCHAR}, #{storeId,jdbcType=INTEGER}, #{adminId,jdbcType=INTEGER},
+      now(), now())
+  </insert>
+  <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.v3.ElUserCoupon">
+    insert into el_user_coupon
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="couponId != null">
+        coupon_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="totalQuantity != null">
+        total_quantity,
+      </if>
+      <if test="quantity != null">
+        quantity,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="storeId != null">
+        store_id,
+      </if>
+      <if test="adminId != null">
+        admin_id,
+      </if>
+      <if test="updated != null">
+        updated,
+      </if>
+      <if test="created != null">
+        created,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="couponId != null">
+        #{couponId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="totalQuantity != null">
+        #{totalQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="quantity != null">
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="storeId != null">
+        #{storeId,jdbcType=INTEGER},
+      </if>
+      <if test="adminId != null">
+        #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="updated != null">
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chouchongkeji.dial.pojo.v3.ElUserCoupon">
+    update el_user_coupon
+    <set>
+      <if test="couponId != null">
+        coupon_id = #{couponId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="totalQuantity != null">
+        total_quantity = #{totalQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="quantity != null">
+        quantity = #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="storeId != null">
+        store_id = #{storeId,jdbcType=INTEGER},
+      </if>
+      <if test="adminId != null">
+        admin_id = #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="updated != null">
+        updated = #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.dial.pojo.v3.ElUserCoupon">
+    update el_user_coupon
+    set coupon_id = #{couponId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      total_quantity = #{totalQuantity,jdbcType=INTEGER},
+      quantity = #{quantity,jdbcType=INTEGER},
+      status = #{status,jdbcType=TINYINT},
+      code = #{code,jdbcType=VARCHAR},
+      store_id = #{storeId,jdbcType=INTEGER},
+      admin_id = #{adminId,jdbcType=INTEGER},
+      updated = #{updated,jdbcType=TIMESTAMP},
+      created = #{created,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

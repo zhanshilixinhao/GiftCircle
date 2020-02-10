@@ -1,26 +1,10 @@
 {
   "errCode": 0,
   "result": 0,
-  "time": 1576041084438,
+  "time": 1581340884562,
   "data": {
-    "id": 4,
-    "membershipCardId": 3,
-    "logo": "https://liyuquan.cn/static/item/191211/eaa6582e-c3c5-423f-a148-5b9b4496bd92.jpeg",
-    "userId": 7,
-    "expenseMoney": 100.00,
-    "type": 2,
-    "cardType": 11,
-    "created": 1576040916000,
-    "storeId": 2,
-    "storeName": "大观店",
-    "address": "地址",
-    "phone": "1232",
-    "targetId": "",
-    "title": "会员卡线下消费",
-    "orderNo": 71119121113116,
-    "beforeMoney": 2000.00,
-    "laterMoney": 1900.0,
-    "capital": 90.00,
-    "send": 10.00
+    "quantity": 1,
+    "couponSendId": 1,
+    "title": "20元优惠券"
   }
 }
