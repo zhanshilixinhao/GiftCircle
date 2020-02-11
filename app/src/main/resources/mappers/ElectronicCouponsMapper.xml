@@ -26,13 +26,22 @@
         where id = #{id,jdbcType=INTEGER}
     </select>
     <select id="selectByNum" resultType="com.chouchongkeji.dial.pojo.v3.ElectronicCoupons">
-        select
-        <include refid="Base_Column_List"/>
-        from electronic_coupons a
-        left join el_user_coupon b on a.id = b.coupon_id
-        where b.id = #{num}
-        and a.status = 1
-        and b.status = 1
+        select a.id,
+       a.title,
+       a.summary,
+       a.logo,
+       a.store_ids,
+       a.admin_id,
+       a.type,
+       a.status,
+       a.date,
+       a.updated,
+       a.created
+from electronic_coupons a
+         left join el_user_coupon b on a.id = b.coupon_id
+where b.id = #{num}
+  and a.status = 1
+  and b.status = 1
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from electronic_coupons

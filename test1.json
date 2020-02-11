@@ -1,10 +1,20 @@
 {
   "errCode": 0,
   "result": 0,
-  "time": 1581340884562,
+  "time": 1581385795913,
   "data": {
+    "num": 1,
+    "couponId": 1,
+    "userId": 7,
     "quantity": 1,
-    "couponSendId": 1,
-    "title": "20元优惠券"
+    "code": "",
+    "created": null,
+    "title": "20元优惠券",
+    "summary": "使用说明",
+    "logo": "https://liyuquan.cn/static",
+    "storeIds": "3,4",
+    "date": 1586499358000,
+    "storeName": "外婆味道南屏店/外婆味道吾悦店",
+    "status": 1
   }
 }

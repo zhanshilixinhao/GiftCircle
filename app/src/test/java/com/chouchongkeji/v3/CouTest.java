@@ -49,7 +49,7 @@ public class CouTest {
     public void s() throws IOException {
         RequestParams params = new RequestParams();
         params.put("time", System.currentTimeMillis());
-        params.put("access_token", "f79afc76-a434-4f59-830e-34b0cc674735");
+        params.put("access_token", "7cb1164b-43f8-4abd-b218-6fa1a2da88f8");
         params.put("couponSendId", 1);
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
         params.put("sign", map.get(ApiSignUtil.ANDROID));
@@ -61,8 +61,8 @@ public class CouTest {
     public void get() throws IOException {
         RequestParams params = new RequestParams();
         params.put("time", System.currentTimeMillis());
-        params.put("access_token", "f79afc76-a434-4f59-830e-34b0cc674735");
-        params.put("couponSendId", 1);
+        params.put("access_token", "7cb1164b-43f8-4abd-b218-6fa1a2da88f8");
+        params.put("couponSendId", 2);
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
         params.put("sign", map.get(ApiSignUtil.ANDROID));
 //        Response post = OkHttpUtil.post("https://liyuquan.cn/app/auth/v3/memberCard/list", params);

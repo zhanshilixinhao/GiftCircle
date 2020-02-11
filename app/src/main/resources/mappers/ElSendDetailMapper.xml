@@ -39,7 +39,7 @@
       updated, created)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{couponSendId,jdbcType=INTEGER},
       #{num,jdbcType=BIGINT}, #{quantity,jdbcType=INTEGER}, #{status,jdbcType=TINYINT},
-      #{updated,jdbcType=TIMESTAMP}, #{created,jdbcType=TIMESTAMP})
+     now(), now())
   </insert>
   <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.v3.ElSendDetail">
     insert into el_send_detail
