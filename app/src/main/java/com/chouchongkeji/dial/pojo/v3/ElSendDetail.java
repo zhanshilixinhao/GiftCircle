@@ -19,15 +19,14 @@ public class ElSendDetail {
 
     private Date created;
 
-    public ElSendDetail(Integer id, Integer userId, Integer couponSendId, Long num, Integer quantity, Byte status, Date updated, Date created) {
-        this.id = id;
-        this.userId = userId;
-        this.couponSendId = couponSendId;
-        this.num = num;
-        this.quantity = quantity;
-        this.status = status;
-        this.updated = updated;
-        this.created = created;
+    private Integer couponId;
+
+    public Integer getCouponId() {
+        return couponId;
+    }
+
+    public void setCouponId(Integer couponId) {
+        this.couponId = couponId;
     }
 
     public ElSendDetail() {

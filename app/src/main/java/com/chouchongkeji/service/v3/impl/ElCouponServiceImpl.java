@@ -19,6 +19,8 @@ import com.github.pagehelper.PageHelper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.math.BigDecimal;
@@ -29,6 +31,7 @@ import java.util.*;
  * @date 2020/2/10 10:26
  */
 @Service
+@Transactional(rollbackFor = Exception.class, isolation = Isolation.REPEATABLE_READ)
 public class ElCouponServiceImpl implements ElCouponService {
 
     @Autowired
@@ -109,6 +112,7 @@ public class ElCouponServiceImpl implements ElCouponService {
         send.setNum(num);
         send.setQuantity(quantity);
         send.setStatus(Constants.TRANSFER_SEND.WAIT);
+        send.setCouponId(elCoupon.getCouponId());
         int insert = elCouponSendMapper.insert(send);
         if (insert < 1) {
             throw new ServiceException("创建优惠券转赠记录失败");
@@ -246,6 +250,7 @@ public class ElCouponServiceImpl implements ElCouponService {
         detail.setNum(send.getNum());
         detail.setQuantity(send.getQuantity());
         detail.setStatus((byte) 1);
+        detail.setCouponId(coupon.getId());
         insert = elSendDetailMapper.insert(detail);
         if (insert < 1) {
             throw new ServiceException("添加领取优惠券记录失败");

@@ -2,22 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.chouchongkeji.dial.dao.v3.ElCouponSendMapper">
   <resultMap id="BaseResultMap" type="com.chouchongkeji.dial.pojo.v3.ElCouponSend">
-    <constructor>
-      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="num" javaType="java.lang.Long" jdbcType="BIGINT" />
-      <arg column="quantity" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT" />
-      <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-      <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-    </constructor>
+
   </resultMap>
   <sql id="Base_Column_List">
-    id, user_id, num, quantity, status, updated, created
+    id, user_id, num, quantity, status, updated, created,coupon_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select
-    <include refid="Base_Column_List" />
+    *
     from el_coupon_send
     where id = #{id,jdbcType=INTEGER}
   </select>
@@ -28,10 +20,10 @@
   <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.v3.ElCouponSend" keyProperty="id" useGeneratedKeys="true">
     insert into el_coupon_send (id, user_id, num,
       quantity, status, updated,
-      created)
+      created,coupon_id)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{num,jdbcType=BIGINT},
       #{quantity,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, now(),
-      now())
+      now(),#{couponId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.v3.ElCouponSend">
     insert into el_coupon_send
@@ -102,6 +94,9 @@
       </if>
       <if test="created != null">
         created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="couponId != null">
+        coupon_id = #{couponId,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}

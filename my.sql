@@ -2127,6 +2127,7 @@ CREATE TABLE el_coupon_send (
    id INT ( 10 ) NOT NULL auto_increment,
    `user_id` int(11) COMMENT '用户id(赠送者)',
    `num` bigint COMMENT '优惠券编号',
+      `coupon_id` int(11) COMMENT '优惠券id',
    quantity int(11) comment'转赠数量',
   `status` tinyint(4) comment' 0 已取消 1 未领取 2 已领取',
   updated datetime COMMENT '修改时间',
@@ -2142,6 +2143,7 @@ DROP TABLE IF EXISTS el_send_detail;
 CREATE TABLE el_send_detail (
    id INT ( 10 ) NOT NULL auto_increment,
    `user_id` int(11) COMMENT '用户id(接收者)',
+   `coupon_id` int(11) COMMENT '优惠券id',
   `coupon_send_id` int(11) COMMENT '优惠券转赠id',
   `num` bigint COMMENT '优惠券编号',
    quantity int(11) comment'领取数量',
@@ -2154,3 +2156,22 @@ CREATE TABLE el_send_detail (
   key num(num)
 ) ENGINE = INNODB CHARACTER
 SET = utf8mb4 COMMENT = '优惠券转赠详情（接收者）';
+
+
+
+DROP TABLE IF EXISTS invoice_record;
+CREATE TABLE invoice_record (
+   id INT ( 10 ) NOT NULL auto_increment,
+   card_id int(11) comment '会员卡id',
+   `user_id` int(11) COMMENT '用户id',
+   `amount` decimal(18,2) COMMENT '开票金额',
+   summary varchar (200) comment'开票说明',
+  admin_id int(11) comment'创建者id',
+  store_id int(11) comment'开发票门店id',
+  updated datetime COMMENT '修改时间',
+  created datetime COMMENT '创建时间',
+  PRIMARY KEY ( id ),
+ key card_no (card_no),
+ key user_id (user_id)
+) ENGINE = INNODB CHARACTER
+SET = utf8mb4 COMMENT = '开发票记录（临时）';
