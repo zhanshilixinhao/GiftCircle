@@ -181,7 +181,7 @@ public class MemberCardServiceImpl implements MemberCardService {
                 }
             }
             vo.setCode(AESUtils.encrypt("zheshishenmemima",
-                    String.format("%s,%s", vo.getId(), System.currentTimeMillis())));
+                    String.format("1,%s,%s", vo.getId(), System.currentTimeMillis())));
             vo.setCapital(capital1);
             vo.setSend(send1);
         }
