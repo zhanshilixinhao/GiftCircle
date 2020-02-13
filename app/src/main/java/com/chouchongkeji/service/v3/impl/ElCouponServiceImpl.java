@@ -8,6 +8,7 @@ import com.chouchongkeji.goexplore.common.ErrorCode;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.query.PageQuery;
+import com.chouchongkeji.goexplore.utils.AESUtils;
 import com.chouchongkeji.goexplore.utils.BigDecimalUtil;
 import com.chouchongkeji.service.v3.ElCouponService;
 import com.chouchongkeji.service.v3.vo.ElCouponVo;
@@ -72,6 +73,9 @@ public class ElCouponServiceImpl implements ElCouponService {
                     }
                 }
                 elCouponVo.setStoreName(titles.delete(titles.length() - 1, titles.length()).toString());
+                // 生成二维码 id + 当前时间
+                elCouponVo.setCode(AESUtils.encrypt("zheshishenmemima",
+                        String.format("%s,%s", elCouponVo.getNum(), System.currentTimeMillis())));
             }
         }
         return ResponseFactory.sucData(elCouponVos);

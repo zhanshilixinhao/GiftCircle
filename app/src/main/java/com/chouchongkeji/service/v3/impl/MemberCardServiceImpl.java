@@ -10,6 +10,7 @@ import com.chouchongkeji.dial.pojo.v3.UserMemberCard;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.query.PageQuery;
+import com.chouchongkeji.goexplore.utils.AESUtils;
 import com.chouchongkeji.goexplore.utils.BigDecimalUtil;
 import com.chouchongkeji.goexplore.utils.Utils;
 import com.chouchongkeji.properties.ServiceProperties;
@@ -179,6 +180,8 @@ public class MemberCardServiceImpl implements MemberCardService {
                     }
                 }
             }
+            vo.setCode(AESUtils.encrypt("zheshishenmemima",
+                    String.format("%s,%s", vo.getId(), System.currentTimeMillis())));
             vo.setCapital(capital1);
             vo.setSend(send1);
         }

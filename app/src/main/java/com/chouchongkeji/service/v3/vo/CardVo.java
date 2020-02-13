@@ -53,6 +53,8 @@ public class CardVo {
 
     private BigDecimal send;
 
+    private String code;
+
     public BigDecimal getCapital() {
         return capital;
     }
@@ -196,5 +198,13 @@ public class CardVo {
 
     public void setSummaryGrade(String summaryGrade) {
         this.summaryGrade = summaryGrade;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 }
