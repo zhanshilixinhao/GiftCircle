@@ -8308,6 +8308,7 @@ type = 3 请求结果示例：
       "summaryGrade": "普通卡" //等级权益
       "capital":910.0, // 充值本金总余额
       "send":990.0//赠送总余额
+      code: "sfdrewrew" // 二維碼
   }
 }
 
