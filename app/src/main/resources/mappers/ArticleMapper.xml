@@ -217,8 +217,8 @@
     ORDER BY
       sort DESC,created DESC
   </select>
-<!--    and UNIX_TIMESTAMP(show_time) &gt;= #{start}-->
-<!--    and UNIX_TIMESTAMP(show_time) &lt; #{end}-->
+    <!--    and UNIX_TIMESTAMP(show_time) &gt;= #{start}-->
+    <!--    and UNIX_TIMESTAMP(show_time) &lt; #{end}-->
 
 
     <select id="selectArticleList" resultType="com.chouchongkeji.dial.pojo.gift.article.Article">
@@ -242,6 +242,7 @@ WHERE
         FROM
         article
         WHERE status = 1
+        and type != 6
         <if test="keywords != null and keywords != ''">
             and title LIKE concat('%',#{keywords},'%')
         </if>

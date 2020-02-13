@@ -65,7 +65,8 @@ public class ArticleController {
     @PostMapping("list")
     public Response getArticleList(PageQuery page, Byte type) {
         if (type == null || (type != Constants.ARTICLE_TYPE.BANNER && type != Constants.ARTICLE_TYPE.SIGN
-                && type != Constants.ARTICLE_TYPE.ARTICLE && type != Constants.ARTICLE_TYPE.MALL)) {
+                && type != Constants.ARTICLE_TYPE.ARTICLE && type != Constants.ARTICLE_TYPE.MALL
+                && type != Constants.ARTICLE_TYPE.ALL && type != Constants.ARTICLE_TYPE.EVENT)) {
             return ResponseFactory.errMissingParameter();
         }
         return articleService.getArticleList(page, type);
