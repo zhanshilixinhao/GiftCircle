@@ -1,11 +1,10 @@
 package com.chouchongkeji.mvc.controller.user.info;
 
+import com.chouchongkeji.dial.pojo.user.AppUser;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
-import com.chouchongkeji.dial.pojo.user.AppUser;
 import com.chouchongkeji.push.AppPush;
 import com.chouchongkeji.service.user.info.UserService;
-import com.sun.org.apache.regexp.internal.RE;
 import com.yichen.auth.mvc.AppClient;
 import com.yichen.auth.service.UserDetails;
 import org.apache.commons.lang3.StringUtils;

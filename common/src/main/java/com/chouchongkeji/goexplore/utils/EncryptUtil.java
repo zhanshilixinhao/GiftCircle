@@ -1,8 +1,5 @@
 package com.chouchongkeji.goexplore.utils;
 
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
-
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
@@ -10,6 +7,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 
 /**
  * 功能描述
@@ -66,7 +64,7 @@ public class EncryptUtil {
 		}
 
 		// 使用Base64加密后返回
-		return new BASE64Encoder().encode(temp);
+		return Base64.getEncoder().encodeToString(temp);
 	}
 
 	/**
@@ -87,13 +85,8 @@ public class EncryptUtil {
 	 */
 	public static String decrypt(String xmlStr) throws Exception {
 		// base64解码
-		BASE64Decoder decoder = new BASE64Decoder();
 		byte[] encBuf = null;
-		try {
-			encBuf = decoder.decodeBuffer(xmlStr);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		encBuf = Base64.getDecoder().decode(xmlStr);
 
 		// 取密钥和偏转向量
 		byte[] key = new byte[8];
@@ -373,13 +366,8 @@ public class EncryptUtil {
 	 */
 	public static void getKeyIV(String encryptKey, byte[] key, byte[] iv) {
 		// 密钥Base64解密
-		BASE64Decoder decoder = new BASE64Decoder();
-		byte[] buf = null;
-		try {
-			buf = decoder.decodeBuffer(encryptKey);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		byte[] buf;
+		buf = Base64.getDecoder().decode(encryptKey);
 		// 前8位为key
 		int i;
 		for (i = 0; i < key.length; i++) {

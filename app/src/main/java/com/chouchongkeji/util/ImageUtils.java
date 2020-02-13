@@ -2,7 +2,7 @@ package com.chouchongkeji.util;
 
 import com.chouchongkeji.goexplore.utils.DateUtil;
 import net.coobird.thumbnailator.Thumbnails;
-import sun.misc.BASE64Decoder;
+
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -10,6 +10,7 @@ import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.Base64;
 import java.util.Random;
 
 /**
@@ -44,7 +45,7 @@ public class ImageUtils {
         /** 如果图片的存储路不存在，就创建图片的存储路径 **/
         createDirs(ImgPath);
         /** 解码base64 **/
-        byte[] byteArray = (new BASE64Decoder()).decodeBuffer(base64);
+        byte[] byteArray = Base64.getDecoder().decode(base64);
         /** 字节数组转为输入流 **/
         BufferedInputStream is = new BufferedInputStream(new ByteArrayInputStream(byteArray));
         /** 读取为buffer流 **/

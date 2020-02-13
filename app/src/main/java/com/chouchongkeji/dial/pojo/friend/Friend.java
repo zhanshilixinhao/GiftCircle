@@ -1,7 +1,5 @@
 package com.chouchongkeji.dial.pojo.friend;
 
-import com.sun.org.apache.bcel.internal.generic.FLOAD;
-
 import java.util.Date;
 
 public class Friend {

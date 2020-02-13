@@ -3,7 +3,6 @@ package com.chouchongkeji.service.iwant.wallet.impl;
 import com.chouchongkeji.dial.dao.iwant.wallet.FireworksMapper;
 import com.chouchongkeji.dial.dao.iwant.wallet.FireworksRecordMapper;
 import com.chouchongkeji.dial.dao.user.InviteUserMapper;
-import com.chouchongkeji.dial.pojo.friend.Friend;
 import com.chouchongkeji.dial.pojo.iwant.wallet.Fireworks;
 import com.chouchongkeji.dial.pojo.iwant.wallet.FireworksRecord;
 import com.chouchongkeji.dial.pojo.user.InviteUser;
@@ -21,10 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
-import sun.misc.Request;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
