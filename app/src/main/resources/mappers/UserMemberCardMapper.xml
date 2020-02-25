@@ -246,9 +246,9 @@ and a.status = 1
             <if test="consumeAmount != null">
                 consume_amount = #{consumeAmount,jdbcType=DECIMAL},
             </if>
-            <if test="updated != null">
+
                 updated = now(),
-            </if>
+
             <if test="created != null">
                 created = #{created,jdbcType=TIMESTAMP},
             </if>
