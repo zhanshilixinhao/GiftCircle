@@ -79,6 +79,17 @@ public class ElCouponServiceImpl implements ElCouponService {
                 // 生成二维码 id + 当前时间
                 elCouponVo.setCode(AESUtils.encrypt("zheshishenmemima",
                         String.format("2,%s,%s", elCouponVo.getNum(), System.currentTimeMillis())));
+                // 状态
+                if (elCouponVo.getStartTime().getTime() > System.currentTimeMillis()){
+                    // 未开始
+                    elCouponVo.setStatus((byte)2);
+                }else if (elCouponVo.getDate().getTime() < System.currentTimeMillis()){
+                    // 已结束
+                    elCouponVo.setStatus((byte)3);
+                }else {
+                    // 正常
+                    elCouponVo.setStatus((byte)1);
+                }
             }
         }
         return ResponseFactory.sucData(elCouponVos);

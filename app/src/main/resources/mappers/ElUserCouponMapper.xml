@@ -37,7 +37,8 @@
        b.summary,
        b.logo,
        b.store_ids,
-       b.date
+       b.date,
+       b.start_time
 from el_user_coupon a
          left join electronic_coupons b on a.coupon_id = b.id
 where a.status = 1
