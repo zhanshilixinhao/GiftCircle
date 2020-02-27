@@ -21,12 +21,14 @@ import com.chouchongkeji.util.Constants;
 import com.github.pagehelper.PageHelper;
 import com.yichen.auth.service.UserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import javax.sql.rowset.spi.TransactionalWriter;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
@@ -67,6 +69,17 @@ public class SendServiceImpl implements SendService {
     @Autowired
     private MemberCardService memberCardService;
 
+    @Autowired
+    private TransferWithholdMapper transferWithholdMapper;
+
+    /**
+     * 定时器 按时取消会员卡赠送
+     */
+    @Scheduled(fixedRate = 600000)
+    public void cancelTransfer(){
+    }
+
+
     /**
      * 会员卡余额赠送
      *
@@ -78,10 +91,10 @@ public class SendServiceImpl implements SendService {
     @Override
     public Response cardSend(Integer userId, Integer cardId, BigDecimal sendMoney) {
         MembershipCard membershipCard = membershipCardMapper.selectByPrimaryKey(cardId);
-        if (membershipCard == null){
+        if (membershipCard == null) {
             throw new ServiceException("该会员卡不存在");
         }
-        if (membershipCard.getType() == 11){
+        if (membershipCard.getType() == 11) {
             throw new ServiceException("活动卡不可以转赠");
         }
         // 查询金额是否足够
@@ -101,6 +114,19 @@ public class SendServiceImpl implements SendService {
         int insert = transferSendMapper.insert(send);
         if (insert < 1) {
             throw new ServiceException("创建会员卡转赠记录失败");
+        }
+        // 添加预扣款记录
+        TransferWithhold withhold = new TransferWithhold();
+        withhold.setUserId(userId);
+        withhold.setTransferSendId(send.getId());
+        withhold.setSendMoney(sendMoney);
+        withhold.setStatus((byte) 1);
+        transferWithholdMapper.insert(withhold);
+        // 扣除余额
+        card.setBalance(BigDecimalUtil.sub(card.getBalance().doubleValue(), sendMoney.doubleValue()));
+        int i = userMemberCardMapper.updateByPrimaryKeySelective(card);
+        if (i < 1) {
+            throw new ServiceException("扣除余额失败");
         }
         // 返回转赠记录id，用于分享给微信好友
         String title = membershipCard.getTitle();
@@ -133,6 +159,16 @@ public class SendServiceImpl implements SendService {
         if (membership == null) {
             throw new ServiceException("该会员卡不存在");
         }
+        if (System.currentTimeMillis() - send.getCreated().getTime() >= 86400000){
+            // 更新赠送者预扣款状态
+            TransferWithhold withhold = transferWithholdMapper.selectByPrimaryKey(send.getId());
+            if (withhold != null) {
+                withhold.setStatus((byte) 3);
+                transferWithholdMapper.updateByPrimaryKeySelective(withhold);
+            }
+            send.setStatus(Constants.TRANSFER_SEND.CANCEL);
+            transferSendMapper.updateByPrimaryKeySelective(send);
+        }
         // 赠送者用户信息
         AppUser appUser = appUserMapper.selectByPrimaryKey(send.getUserId());
         SendVo vo = new SendVo();
@@ -162,6 +198,13 @@ public class SendServiceImpl implements SendService {
                 vo.setSummary("已被接收");
                 vo.setStatus((byte) 4);
             }
+            return ResponseFactory.sucData(vo);
+        } else if (send.getStatus() == Constants.TRANSFER_SEND.CANCEL) {
+            vo.setTitle("你收到来自" + appUser.getNickname() + "的余额转赠");
+            vo.setSendMoney(send.getSendMoney());
+            vo.setSummary("超过24小时，已退回对方账户");
+            vo.setDetail("来自" + card.getCardNo() + " " + membership.getTitle() + "账户");
+            vo.setStatus((byte) 0);
             return ResponseFactory.sucData(vo);
         } else {
             // 可以领取
@@ -196,16 +239,16 @@ public class SendServiceImpl implements SendService {
         // 赠送者用户信息
         AppUser appUser = appUserMapper.selectByPrimaryKey(send.getUserId());
         // 领取会员卡
-        // 1判断用户是否有该会员卡
-        UserMemberCard card = userMemberCardMapper.selectByCardIdUserId(userId, send.getMembershipCardId());
         //查询原来用户的会员卡信息
         UserMemberCard card1 = userMemberCardMapper.selectByCardIdUserId(send.getUserId(), send.getMembershipCardId());
         if (card1 == null) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "原来用户的会员卡信息不存在");
         }
-        if (card1.getBalance().compareTo(send.getSendMoney()) < 0){
+        if (card1.getBalance().compareTo(send.getSendMoney()) < 0) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "转赠着余额不足");
         }
+        // 1判断用户是否有该会员卡
+        UserMemberCard card = userMemberCardMapper.selectByCardIdUserId(userId, send.getMembershipCardId());
         if (card == null) {
             //添加新的会员卡，
             int i = memberCardService.addMemberShipCard(userId, send.getSendMoney(), send.getSendMoney(), new BigDecimal("0"),
@@ -232,12 +275,17 @@ public class SendServiceImpl implements SendService {
         if (i == 0) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "更新转赠记录失败！");
         }
-        // 更新赠送者余额
-        card1.setBalance(BigDecimalUtil.sub(card1.getBalance().doubleValue(), send.getSendMoney().doubleValue()));
-        i = userMemberCardMapper.updateByPrimaryKeySelective(card1);
-        if (i == 0) {
-            throw new ServiceException(ErrorCode.ERROR.getCode(), "赠送者更新余额失败！");
+        // 更新赠送者预扣款状态
+        TransferWithhold withhold = transferWithholdMapper.selectByPrimaryKey(send.getId());
+        if (withhold != null) {
+            withhold.setStatus((byte) 2);
+            transferWithholdMapper.updateByPrimaryKeySelective(withhold);
         }
+//        card1.setBalance(BigDecimalUtil.sub(card1.getBalance().doubleValue(), send.getSendMoney().doubleValue()));
+//        i = userMemberCardMapper.updateByPrimaryKeySelective(card1);
+//        if (i == 0) {
+//            throw new ServiceException(ErrorCode.ERROR.getCode(), "赠送者更新余额失败！");
+//        }
         SendVo vo = new SendVo();
         vo.setTitle("你收到来自" + appUser.getNickname() + "的余额转赠");
         vo.setSendMoney(send.getSendMoney());
@@ -291,11 +339,11 @@ public class SendServiceImpl implements SendService {
             for (StoreMemberCharge charge : charges) {
                 //判断此次充值还剩余的余额
                 if (charge.getBalance().compareTo(send) == 0) {
-                    // 余额与消费金额相等,更新详细记录，添加消费营业额记录
+                    // 余额与消费金额相等,更新详细记录（赠送者），添加消费营业额记录
                     BigDecimal sub = BigDecimalUtil.sub(charge.getBalance().doubleValue(), send.doubleValue());
                     chargeCardService.updateDetailCharge(charge.getId(), sub, (byte) 3);
                     addTransferSendExpense(transferSendId, send, charge.getId());
-                    //添加门店金额详情表（转赠）
+                    //添加门店金额详情表（接收者转赠）
                     chargeCardService.addStoreMountDetail(targetUserId, charge.getMerchantId(), charge.getStoreId(), new BigDecimal("0"),
                             new BigDecimal("0"), new BigDecimal("0"), (byte) 3, "余额转赠", send, charge.getScale(), cardId, send, (byte) 1,
                             charge.getMemberEventId(), transferDetailId.longValue());

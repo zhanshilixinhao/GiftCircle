@@ -69,7 +69,7 @@
         </javaClientGenerator>
 
 
-<!--        <table tableName="el_coupon_send" domainObjectName="ElCouponSend" enableCountByExample="false"-->
+<!--        <table tableName="transfer_withhold" domainObjectName="TransferWithhold" enableCountByExample="false"-->
 <!--               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
 <!--               selectByExampleQueryId="false"></table>-->
 <!--        <table tableName="el_send_detail" domainObjectName="ElSendDetail" enableCountByExample="false"-->

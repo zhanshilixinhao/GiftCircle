@@ -2038,6 +2038,19 @@ CREATE TABLE transfer_send_detail (
 ) ENGINE = INNODB CHARACTER
 SET = utf8mb4 COMMENT = '会员卡转赠详情（接收者）';
 
+DROP TABLE IF EXISTS transfer_withhold;
+CREATE TABLE transfer_withhold (
+  `transfer_send_id` int(11) auto_increment COMMENT '会员卡转赠id',
+     `user_id` int(11) COMMENT '用户id(赠送者)',
+   send_money decimal(18,2) comment'金额',
+  `status` tinyint(4) comment'1 未领取（预扣） 2 对方已领取',
+  updated datetime COMMENT '修改时间',
+  created datetime COMMENT '创建时间',
+  PRIMARY KEY ( transfer_send_id ),
+  key user_id(user_id),
+) ENGINE = INNODB CHARACTER
+SET = utf8mb4 COMMENT = '转赠预扣表';
+
 
 DROP TABLE IF EXISTS store_turnover;
 CREATE TABLE store_turnover (
