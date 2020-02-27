@@ -35,6 +35,19 @@ public class ElCouponController {
     }
 
     /**
+     * 获取电子券详情
+     *
+     * @param userDetails
+     * @param num 优惠券编码
+     * @return
+     */
+    @PostMapping("detail")
+    public Response getElCouponDetail(@AuthenticationPrincipal UserDetails userDetails, Long num) {
+        return elCouponService.getElCouponDetail(userDetails.getUserId(), num);
+    }
+
+
+    /**
      * 赠送优惠券
      *
      * @param userDetails

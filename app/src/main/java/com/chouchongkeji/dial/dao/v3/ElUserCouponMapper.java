@@ -19,4 +19,6 @@ public interface ElUserCouponMapper {
     int updateByPrimaryKey(ElUserCoupon record);
 
     List<ElCouponVo> selectByUserId(Integer userId);
+
+    ElCouponVo selectByNum(Long num);
 }

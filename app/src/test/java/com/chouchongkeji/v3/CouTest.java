@@ -30,6 +30,18 @@ public class CouTest {
         Response post = OkHttpUtil.post("http://localhost:8088/auth/v3/coupon/list", params);
         System.out.println(post.body().string());
     }
+    @Test
+    public void de() throws IOException {
+        RequestParams params = new RequestParams();
+        params.put("time", System.currentTimeMillis());
+        params.put("access_token", "f79afc76-a434-4f59-830e-34b0cc674735");
+        params.put("num", 1);
+        Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
+        params.put("sign", map.get(ApiSignUtil.ANDROID));
+//        Response post = OkHttpUtil.post("https://liyuquan.cn/app/auth/v3/memberCard/list", params);
+        Response post = OkHttpUtil.post("http://localhost:8088/auth/v3/coupon/detail", params);
+        System.out.println(post.body().string());
+    }
 
     @Test
     public void send() throws IOException {

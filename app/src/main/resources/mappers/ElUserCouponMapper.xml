@@ -47,6 +47,26 @@ where a.status = 1
   and a.user_id = #{userId}
   order by a.created DESC
   </select>
+  <select id="selectByNum" resultType="com.chouchongkeji.service.v3.vo.ElCouponVo">
+    select a.id as num,
+       a.coupon_id,
+       a.user_id,
+       a.quantity,
+       a.code,
+       a.created,
+       b.title,
+       b.summary,
+       b.logo,
+       b.store_ids,
+       b.date,
+       b.start_time
+from el_user_coupon a
+         left join electronic_coupons b on a.coupon_id = b.id
+where a.status = 1
+  and b.status = 1
+  and b.type = 1
+  and a.id = #{num}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from el_user_coupon
     where id = #{id,jdbcType=BIGINT}

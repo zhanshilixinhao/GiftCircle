@@ -37,4 +37,12 @@ public interface ElCouponService {
      * @return
      */
     Response getElCoupon(Integer userId, Integer couponSendId);
+
+    /**
+     * 获取电子券详情
+     *
+     * @param userDetails
+     * @return
+     */
+    Response getElCouponDetail(Integer userId, Long num);
 }

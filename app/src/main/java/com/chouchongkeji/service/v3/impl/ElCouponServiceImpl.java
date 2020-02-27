@@ -96,6 +96,45 @@ public class ElCouponServiceImpl implements ElCouponService {
     }
 
     /**
+     * 获取电子券详情
+     *
+     * @param userId
+     * @return
+     */
+    @Override
+    public Response getElCouponDetail(Integer userId, Long num) {
+        ElCouponVo vo =  elUserCouponMapper.selectByNum(num);
+        if (vo != null){
+            StringBuilder titles = new StringBuilder();
+            if (StringUtils.isNotBlank(vo.getStoreIds())) {
+                String[] split = vo.getStoreIds().split(",");
+                for (String s : split) {
+                    Store store = storeMapper.selectByPrimaryKey(Integer.parseInt(s));
+                    if (store != null) {
+                        titles.append(store.getName()).append("/");
+                    }
+                }
+            }
+            vo.setStoreName(titles.delete(titles.length() - 1, titles.length()).toString());
+            // 生成二维码 id + 当前时间
+            vo.setCode(AESUtils.encrypt("zheshishenmemima",
+                    String.format("2,%s,%s", vo.getNum(), System.currentTimeMillis())));
+            // 状态
+            if (vo.getStartTime().getTime() > System.currentTimeMillis()){
+                // 未开始
+                vo.setStatus((byte)2);
+            }else if (vo.getDate().getTime() < System.currentTimeMillis()){
+                // 已结束
+                vo.setStatus((byte)3);
+            }else {
+                // 正常
+                vo.setStatus((byte)1);
+            }
+        }
+        return ResponseFactory.sucData(vo);
+    }
+
+    /**
      * 赠送优惠券
      *
      * @param userId
