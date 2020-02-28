@@ -33,4 +33,7 @@ public interface TransferSendMapper {
      * @return
      */
     TransferSendVo selectById(Integer transferSendId);
+
+    List<TransferSend> selectByAll();
+
 }

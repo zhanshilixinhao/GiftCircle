@@ -69,6 +69,11 @@ from transfer_send a
          left join user_member_card g on a.membership_card_id = g.membership_card_id and b.user_id = g.user_id
 where a.id = #{transferSendId}
     </select>
+    <select id="selectByAll" resultType="com.chouchongkeji.dial.pojo.v3.TransferSend">
+        select id, user_id, membership_card_id, send_money, status, updated, created
+from transfer_send
+where status = 1
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from transfer_send
     where id = #{id,jdbcType=INTEGER}
