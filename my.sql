@@ -1992,6 +1992,59 @@ CREATE TABLE store_member_event (
 ) ENGINE = INNODB CHARACTER
 SET = utf8mb4 COMMENT = '门店金额详情表(活动卡)';
 
+DROP TABLE IF EXISTS store_member_charge_delete;
+CREATE TABLE store_member_charge_delete (
+   id INT ( 10 ) NOT NULL ,
+   `user_id` int(11) COMMENT '用户id',
+   merchant_id int null comment '商家(总公司)id',
+   `store_id` int(11) COMMENT '门店id(门店充值，消费)',
+   recharge_money decimal(18,2) comment'充值金额',
+   send_money decimal(18,2) comment'赠送金额',
+   total_money decimal(18,2) comment'总金额（赠送金额+充值金额，如果是消费则为总消费金额）',
+   expense_money decimal(18,2) comment'消费金额',
+  `type` tinyint(4) comment' 1 充值 2 消费 3 转赠',
+  `explain` varchar(200) comment'说明',
+  scale float(10,2) comment'充值比例（赠送金额/总金额）',
+  `membership_card_id` int(11) COMMENT '会员卡id',
+  balance decimal(18,2) comment'该次充值剩余的金额（计算营销额时用的）',
+  `status` tinyint(4) comment' 1 未消费 2 部分消费 3 已消费完 ，4 消费订单',
+  member_event_id int(11) comment'会员卡活动id',
+  order_no bigint NOT NULL comment '订单号',
+  updated datetime COMMENT '修改时间',
+  created datetime COMMENT '创建时间',
+  PRIMARY KEY ( id ),
+  key user_id(user_id),
+  key store_id(store_id)
+) ENGINE = INNODB CHARACTER
+SET = utf8mb4 COMMENT = '门店金额详情表删除信息';
+
+DROP TABLE IF EXISTS store_member_event_delete;
+CREATE TABLE store_member_event_delete (
+   id INT ( 10 ) NOT NULL ,
+   `user_id` int(11) COMMENT '用户id',
+   `membership_card_id` int(11) COMMENT '会员卡id',
+   `store_id` int(11) COMMENT '门店id(门店充值，消费)',
+   member_event_id int(11) comment'会员卡活动id',
+   order_no bigint NOT NULL comment '订单号',
+   capital_money decimal(18,2) comment'本金',
+   send_money decimal(18,2) comment'赠送金额',
+   total_money decimal(18,2) comment'总金额（赠送金额+充值金额，如果是消费则为总消费金额）',
+  `explain` varchar(200) comment'说明',
+   `scale` float(10,2) comment'活动扣款比例（活动中查询）',
+   `type` tinyint(4) comment' 1 充值 2 消费 ',
+   capital_balance decimal(18,2) comment'本金剩余',
+   `capital_status` tinyint(4) comment'本金使用状况 1 未消费 2 部分消费 3 已消费完，4 消费订单',
+   send_balance decimal(18,2) comment'赠送金额剩余',
+  `send_status` tinyint(4) comment'赠送金额使用状况 1 未消费 2 部分消费 3 已消费完，4 消费订单',
+  updated datetime COMMENT '修改时间',
+  created datetime COMMENT '创建时间',
+  PRIMARY KEY ( id ),
+  key user_id(user_id),
+  key store_id(store_id),
+  key membership_card_id(membership_card_id)
+) ENGINE = INNODB CHARACTER
+SET = utf8mb4 COMMENT = '门店金额详情表(活动卡)删除信息';
+
 DROP TABLE IF EXISTS transfer_send;
 CREATE TABLE transfer_send (
    id INT ( 10 ) NOT NULL auto_increment,
