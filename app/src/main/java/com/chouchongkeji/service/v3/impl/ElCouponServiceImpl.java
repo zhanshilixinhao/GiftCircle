@@ -1,7 +1,6 @@
 package com.chouchongkeji.service.v3.impl;
 
 import com.chouchongkeji.dial.dao.v3.*;
-import com.chouchongkeji.dial.pojo.user.AppUser;
 import com.chouchongkeji.dial.pojo.v3.*;
 import com.chouchongkeji.exception.ServiceException;
 import com.chouchongkeji.goexplore.common.ErrorCode;
@@ -9,22 +8,22 @@ import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.query.PageQuery;
 import com.chouchongkeji.goexplore.utils.AESUtils;
-import com.chouchongkeji.goexplore.utils.BigDecimalUtil;
 import com.chouchongkeji.service.v3.ElCouponService;
 import com.chouchongkeji.service.v3.vo.ElCouponVo;
-import com.chouchongkeji.service.v3.vo.SendVo;
 import com.chouchongkeji.util.Constants;
 import com.chouchongkeji.util.OrderHelper;
 import com.github.pagehelper.PageHelper;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 
-import java.math.BigDecimal;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author linqin
@@ -51,6 +50,28 @@ public class ElCouponServiceImpl implements ElCouponService {
 
     @Autowired
     private OrderHelper orderHelper;
+
+    /**
+     * 定时器 按时取消优惠券赠送（1分钟）
+     */
+    @Scheduled(fixedRate = 60000)
+    public void cancelCoupon() {
+        List<ElCouponSend> sends = elCouponSendMapper.selectByAll();
+        if (CollectionUtils.isNotEmpty(sends)) {
+            for (ElCouponSend send : sends) {
+                if (send.getCreated().getTime() - System.currentTimeMillis() >= 86430000) {
+                    // 超时退回
+                    ElUserCoupon userCoupon = elUserCouponMapper.selectByPrimaryKey(send.getNum());
+                    if (userCoupon != null && userCoupon.getUserId().equals(send.getUserId())) {
+                        userCoupon.setQuantity(userCoupon.getQuantity() + send.getQuantity());
+                        elUserCouponMapper.updateByPrimaryKeySelective(userCoupon);
+                    }
+                    send.setStatus(Constants.TRANSFER_SEND.CANCEL);
+                    elCouponSendMapper.updateByPrimaryKeySelective(send);
+                }
+            }
+        }
+    }
 
     /**
      * 获取电子券列表
@@ -80,15 +101,15 @@ public class ElCouponServiceImpl implements ElCouponService {
                 elCouponVo.setCode(AESUtils.encrypt("zheshishenmemima",
                         String.format("2,%s,%s", elCouponVo.getNum(), System.currentTimeMillis())));
                 // 状态
-                if (elCouponVo.getStartTime().getTime() > System.currentTimeMillis()){
+                if (elCouponVo.getStartTime().getTime() > System.currentTimeMillis()) {
                     // 未开始
-                    elCouponVo.setStatus((byte)2);
-                }else if (elCouponVo.getDate().getTime() < System.currentTimeMillis()){
+                    elCouponVo.setStatus((byte) 2);
+                } else if (elCouponVo.getDate().getTime() < System.currentTimeMillis()) {
                     // 已结束
-                    elCouponVo.setStatus((byte)3);
-                }else {
+                    elCouponVo.setStatus((byte) 3);
+                } else {
                     // 正常
-                    elCouponVo.setStatus((byte)1);
+                    elCouponVo.setStatus((byte) 1);
                 }
             }
         }
@@ -103,8 +124,8 @@ public class ElCouponServiceImpl implements ElCouponService {
      */
     @Override
     public Response getElCouponDetail(Integer userId, Long num) {
-        ElCouponVo vo =  elUserCouponMapper.selectByNum(num);
-        if (vo != null){
+        ElCouponVo vo = elUserCouponMapper.selectByNum(num);
+        if (vo != null) {
             StringBuilder titles = new StringBuilder();
             if (StringUtils.isNotBlank(vo.getStoreIds())) {
                 String[] split = vo.getStoreIds().split(",");
@@ -120,15 +141,15 @@ public class ElCouponServiceImpl implements ElCouponService {
             vo.setCode(AESUtils.encrypt("zheshishenmemima",
                     String.format("2,%s,%s", vo.getNum(), System.currentTimeMillis())));
             // 状态
-            if (vo.getStartTime().getTime() > System.currentTimeMillis()){
+            if (vo.getStartTime().getTime() > System.currentTimeMillis()) {
                 // 未开始
-                vo.setStatus((byte)2);
-            }else if (vo.getDate().getTime() < System.currentTimeMillis()){
+                vo.setStatus((byte) 2);
+            } else if (vo.getDate().getTime() < System.currentTimeMillis()) {
                 // 已结束
-                vo.setStatus((byte)3);
-            }else {
+                vo.setStatus((byte) 3);
+            } else {
                 // 正常
-                vo.setStatus((byte)1);
+                vo.setStatus((byte) 1);
             }
         }
         return ResponseFactory.sucData(vo);
@@ -166,6 +187,13 @@ public class ElCouponServiceImpl implements ElCouponService {
         int insert = elCouponSendMapper.insert(send);
         if (insert < 1) {
             throw new ServiceException("创建优惠券转赠记录失败");
+        }
+        // 扣减赠送者优惠券数量
+        int quantity1 = elCoupon.getQuantity() - quantity;
+        elCoupon.setQuantity(quantity1);
+        int i = elUserCouponMapper.updateByPrimaryKeySelective(elCoupon);
+        if (i == 0) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "赠送者更新优惠券失败！");
         }
         // 返回转赠记录id，用于分享给微信好友
         Map<String, Object> result = new HashMap<>();
@@ -215,11 +243,24 @@ public class ElCouponServiceImpl implements ElCouponService {
                 vo.setStatus((byte) 3);
             }
             return ResponseFactory.sucData(vo);
-        } else {
-            // 可以领取
-            vo.setStatus((byte) 1);
+        }
+        if (send.getStatus() == Constants.TRANSFER_SEND.CANCEL) {
+            // 被别人领取
+            vo.setSummary("超过24小时，已退回");
+            vo.setStatus((byte) 0);
             return ResponseFactory.sucData(vo);
         }
+        // 状态为1 超过24小时
+        if (System.currentTimeMillis() - send.getCreated().getTime() >= 86400000) {
+            // 被别人领取
+            vo.setSummary("超过24小时，已退回");
+            vo.setStatus((byte) 0);
+            return ResponseFactory.sucData(vo);
+        }
+        // 可以领取
+        vo.setStatus((byte) 1);
+        return ResponseFactory.sucData(vo);
+
     }
 
     private ElCouponVo couponDetail(ElectronicCoupons coupon, ElCouponSend send) {
@@ -312,12 +353,12 @@ public class ElCouponServiceImpl implements ElCouponService {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "更新转赠记录失败！");
         }
         // 更新赠送者优惠券数量
-        int quantity = el.getQuantity() - send.getQuantity();
-        el.setQuantity(Math.max(quantity, 0));
-        i = elUserCouponMapper.updateByPrimaryKeySelective(el);
-        if (i == 0) {
-            throw new ServiceException(ErrorCode.ERROR.getCode(), "赠送者更新余额失败！");
-        }
+//        int quantity = el.getQuantity() - send.getQuantity();
+//        el.setQuantity(Math.max(quantity, 0));
+//        i = elUserCouponMapper.updateByPrimaryKeySelective(el);
+//        if (i == 0) {
+//            throw new ServiceException(ErrorCode.ERROR.getCode(), "赠送者更新余额失败！");
+//        }
         ElCouponVo vo = couponDetail(coupon, send);
         vo.setStatus((byte) 2);
         return ResponseFactory.sucData(vo);

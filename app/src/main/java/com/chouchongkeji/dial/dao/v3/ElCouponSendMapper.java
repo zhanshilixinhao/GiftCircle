@@ -2,6 +2,8 @@ package com.chouchongkeji.dial.dao.v3;
 
 import com.chouchongkeji.dial.pojo.v3.ElCouponSend;
 
+import java.util.List;
+
 public interface ElCouponSendMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +16,7 @@ public interface ElCouponSendMapper {
     int updateByPrimaryKeySelective(ElCouponSend record);
 
     int updateByPrimaryKey(ElCouponSend record);
+
+    List<ElCouponSend> selectByAll();
+
 }
