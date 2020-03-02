@@ -273,7 +273,8 @@ public class SendServiceImpl implements SendService {
         return ResponseFactory.sucData(vo);
 
     }
-//    public Response judgeCardSend(Integer userId, Integer transferSendId) {
+
+    //    public Response judgeCardSend(Integer userId, Integer transferSendId) {
 //        TransferSend send = transferSendMapper.selectByPrimaryKey(transferSendId);
 //        if (send == null) {
 //            return ResponseFactory.errMsg(666, "该会员卡转赠不存在或已被转赠者撤回!");
@@ -356,9 +357,9 @@ public class SendServiceImpl implements SendService {
         if (card1 == null) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "原来用户的会员卡信息不存在");
         }
-        if (card1.getBalance().compareTo(send.getSendMoney()) < 0) {
-            throw new ServiceException(ErrorCode.ERROR.getCode(), "转赠着余额不足");
-        }
+//        if (card1.getBalance().compareTo(send.getSendMoney()) < 0) {
+//            throw new ServiceException(ErrorCode.ERROR.getCode(), "转赠着余额不足");
+//        }
         // 1判断用户是否有该会员卡
         UserMemberCard card = userMemberCardMapper.selectByCardIdUserId(userId, send.getMembershipCardId());
         if (card == null) {

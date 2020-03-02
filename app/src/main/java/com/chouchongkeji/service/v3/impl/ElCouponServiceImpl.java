@@ -324,9 +324,9 @@ public class ElCouponServiceImpl implements ElCouponService {
         if (el == null) {
             throw new ServiceException("原来优惠券不存在");
         }
-        if (el.getQuantity() < send.getQuantity()) {
-            throw new ServiceException("优惠券已被该好友使用，无法领取");
-        }
+//        if (el.getQuantity() < send.getQuantity()) {
+//            throw new ServiceException("优惠券已被该好友使用，无法领取");
+//        }
         // 查询优惠券信息
         ElectronicCoupons coupon = electronicCouponsMapper.selectByNum(send.getNum());
         if (coupon == null) {
@@ -366,13 +366,11 @@ public class ElCouponServiceImpl implements ElCouponService {
         if (i == 0) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "更新转赠记录失败！");
         }
-        // 更新赠送者优惠券数量
-//        int quantity = el.getQuantity() - send.getQuantity();
-//        el.setQuantity(Math.max(quantity, 0));
-//        i = elUserCouponMapper.updateByPrimaryKeySelective(el);
-//        if (i == 0) {
-//            throw new ServiceException(ErrorCode.ERROR.getCode(), "赠送者更新余额失败！");
-//        }
+        // 更新赠送者优惠券状态
+        if (el.getQuantity() <= 0){
+            el.setStatus((byte)-1);
+            elUserCouponMapper.updateByPrimaryKeySelective(el);
+        }
         ElCouponVo vo = couponDetail(coupon, send);
         vo.setStatus((byte) 2);
         return ResponseFactory.sucData(vo);
