@@ -1,6 +1,8 @@
 package com.chouchongkeji.service.v3.impl;
 
+import com.chouchongkeji.dial.dao.user.AppUserMapper;
 import com.chouchongkeji.dial.dao.v3.*;
+import com.chouchongkeji.dial.pojo.user.AppUser;
 import com.chouchongkeji.dial.pojo.v3.*;
 import com.chouchongkeji.exception.ServiceException;
 import com.chouchongkeji.goexplore.common.ErrorCode;
@@ -50,6 +52,9 @@ public class ElCouponServiceImpl implements ElCouponService {
 
     @Autowired
     private OrderHelper orderHelper;
+
+    @Autowired
+    private AppUserMapper appUserMapper;
 
     /**
      * 定时器 按时取消优惠券赠送（1分钟）
@@ -195,10 +200,15 @@ public class ElCouponServiceImpl implements ElCouponService {
         if (i == 0) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "赠送者更新优惠券失败！");
         }
+        String name = "好友";
+        AppUser appUser = appUserMapper.selectByPrimaryKey(userId);
+        if (appUser != null) {
+            name = appUser.getNickname();
+        }
         // 返回转赠记录id，用于分享给微信好友
         Map<String, Object> result = new HashMap<>();
         result.put("couponSendId", send.getId());
-        result.put("title", coupon.getTitle());
+        result.put("title", name + "给您送了" + quantity + "张" + coupon.getTitle() + "优惠券");
         result.put("quantity", quantity);
         return ResponseFactory.sucData(result);
     }

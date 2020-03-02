@@ -1,5 +1,14 @@
 <script type="text/javascript" src="utf8.js"></script>
 <script >
-    console.log(utf8.decode('é¦æ¦¾è£'),'aaa')
-
+    console.log(utf8.encode('⛰️'),'aaa')
+    function convertTextToBytes(text) {
+        var bytes = [];
+        var encoded =text;
+        for (var i = 0; i < encoded.length; i++) {
+            var byte = encoded[i].charCodeAt(0);
+            bytes.push(byte);
+        }
+        return bytes;
+    }
+    console.log(convertTextToBytes(utf8.encode('éå¸®ç¬')))
 </script>
