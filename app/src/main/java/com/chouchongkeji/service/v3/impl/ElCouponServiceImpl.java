@@ -23,9 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author linqin
@@ -117,6 +115,12 @@ public class ElCouponServiceImpl implements ElCouponService {
                     elCouponVo.setStatus((byte) 1);
                 }
             }
+            Collections.sort(elCouponVos, new Comparator<ElCouponVo>() {
+                @Override
+                public int compare(ElCouponVo o1, ElCouponVo o2) {
+                    return o1.getStatus().compareTo(o2.getStatus());
+                }
+            });
         }
         return ResponseFactory.sucData(elCouponVos);
     }
