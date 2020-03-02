@@ -47,8 +47,8 @@ public class CouTest {
     public void send() throws IOException {
         RequestParams params = new RequestParams();
         params.put("time", System.currentTimeMillis());
-        params.put("access_token", "f79afc76-a434-4f59-830e-34b0cc674735");
-        params.put("num", 41220021410101L);
+        params.put("access_token", "08aba81e-a9ae-4aa1-af2a-34dc68ef0c70");
+        params.put("num", 8820030216116L);
         params.put("quantity", 1);
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
         params.put("sign", map.get(ApiSignUtil.ANDROID));
@@ -61,8 +61,9 @@ public class CouTest {
     public void s() throws IOException {
         RequestParams params = new RequestParams();
         params.put("time", System.currentTimeMillis());
-        params.put("access_token", "7cb1164b-43f8-4abd-b218-6fa1a2da88f8");
-        params.put("couponSendId", 1);
+//        params.put("access_token", "f79afc76-a434-4f59-830e-34b0cc674735");
+        params.put("access_token", "08aba81e-a9ae-4aa1-af2a-34dc68ef0c70");
+        params.put("couponSendId", 54);
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
         params.put("sign", map.get(ApiSignUtil.ANDROID));
 //        Response post = OkHttpUtil.post("https://liyuquan.cn/app/auth/v3/memberCard/list", params);
@@ -73,8 +74,9 @@ public class CouTest {
     public void get() throws IOException {
         RequestParams params = new RequestParams();
         params.put("time", System.currentTimeMillis());
-        params.put("access_token", "7cb1164b-43f8-4abd-b218-6fa1a2da88f8");
-        params.put("couponSendId", 39);
+//        params.put("access_token", "7cb1164b-43f8-4abd-b218-6fa1a2da88f8");
+        params.put("access_token", "08aba81e-a9ae-4aa1-af2a-34dc68ef0c70");
+        params.put("couponSendId", 54);
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
         params.put("sign", map.get(ApiSignUtil.ANDROID));
 //        Response post = OkHttpUtil.post("https://liyuquan.cn/app/auth/v3/memberCard/list", params);

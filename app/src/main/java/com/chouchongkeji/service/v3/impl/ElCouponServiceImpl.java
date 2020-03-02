@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -53,6 +54,7 @@ public class ElCouponServiceImpl implements ElCouponService {
 
     @Autowired
     private AppUserMapper appUserMapper;
+//86430000
 
     /**
      * 定时器 按时取消优惠券赠送（1分钟）
@@ -62,11 +64,15 @@ public class ElCouponServiceImpl implements ElCouponService {
         List<ElCouponSend> sends = elCouponSendMapper.selectByAll();
         if (CollectionUtils.isNotEmpty(sends)) {
             for (ElCouponSend send : sends) {
-                if (send.getCreated().getTime() - System.currentTimeMillis() >= 86430000) {
+                if (System.currentTimeMillis() - send.getCreated().getTime() >= 300000) {
                     // 超时退回
                     ElUserCoupon userCoupon = elUserCouponMapper.selectByPrimaryKey(send.getNum());
                     if (userCoupon != null && userCoupon.getUserId().equals(send.getUserId())) {
-                        userCoupon.setQuantity(userCoupon.getQuantity() + send.getQuantity());
+                        int quantity = userCoupon.getQuantity() + send.getQuantity();
+                        userCoupon.setQuantity(quantity);
+                        if (quantity > 0) {
+                            userCoupon.setStatus((byte) 1);
+                        }
                         elUserCouponMapper.updateByPrimaryKeySelective(userCoupon);
                     }
                     send.setStatus(Constants.TRANSFER_SEND.CANCEL);
@@ -74,6 +80,14 @@ public class ElCouponServiceImpl implements ElCouponService {
                 }
             }
         }
+    }
+
+    public static void main(String[] args) {
+
+        Date now = new Date("Mon Mar 02 16:53:21 CST 2020");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+        String format = dateFormat.format(now);//日期
+        System.out.println(format);
     }
 
     /**
@@ -265,7 +279,7 @@ public class ElCouponServiceImpl implements ElCouponService {
             return ResponseFactory.sucData(vo);
         }
         // 状态为1 超过24小时
-        if (System.currentTimeMillis() - send.getCreated().getTime() >= 86400000) {
+        if (System.currentTimeMillis() - send.getCreated().getTime() >= 300000) {
             // 被别人领取
             vo.setSummary("超过24小时，已退回");
             vo.setStatus((byte) 0);
@@ -367,8 +381,8 @@ public class ElCouponServiceImpl implements ElCouponService {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "更新转赠记录失败！");
         }
         // 更新赠送者优惠券状态
-        if (el.getQuantity() <= 0){
-            el.setStatus((byte)-1);
+        if (el.getQuantity() <= 0) {
+            el.setStatus((byte) -1);
             elUserCouponMapper.updateByPrimaryKeySelective(el);
         }
         ElCouponVo vo = couponDetail(coupon, send);
