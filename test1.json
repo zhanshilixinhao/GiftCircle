@@ -1,21 +1,23 @@
 {
   "errCode": 0,
   "result": 0,
-  "time": 1582812969798,
-  "data": {
-    "num": 1,
-    "couponId": 1,
-    "userId": 7,
-    "quantity": 4,
-    "code": "24AD6AE79FE89200436C44648491F2B9BBF0ED275F3E53831E883D91E5B1C8EC",
-    "created": 1581315411000,
-    "title": "20 鍏冧紭鎯犲埜",
-    "summary": "浣跨敤璇存槑锛岀畝浠�",
-    "logo": "https://liyuquan.cn/static/item/200212/a1f46021-dcd2-44d0-802a-66aad94bbd23.png",
-    "storeIds": "5,4,3",
-    "date": 1582473600000,
-    "startTime": 1579834947000,
-    "storeName": "澶栧﹩鍛抽亾澶ц搴�/澶栧﹩鍛抽亾鍚炬偊搴�/澶栧﹩鍛抽亾鍗楀睆搴�",
-    "status": 3
-  }
+  "time": 1583198358631,
+  "data": [
+    {
+      "id": 7,
+      "userId": 7,
+      "membershipCardId": 0,
+      "sendMoney": 0.01,
+      "status": 0,
+      "updated": 1576808270000,
+      "created": 1576808270000,
+      "title": "礼遇圈转赠",
+      "avatar": "",
+      "targetUserId": null,
+      "nickname": "未接收",
+      "cardNo": 7919121418106,
+      "targetCardNo": null,
+      "logo": "https://liyuquan.cn/static/item/191214/2f4494e6-a461-4a44-be7d-ac51e3fb061f.jpg"
+    }
+  ]
 }

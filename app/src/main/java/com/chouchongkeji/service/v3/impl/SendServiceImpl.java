@@ -225,11 +225,15 @@ public class SendServiceImpl implements SendService {
             vo.setSendMoney(send.getSendMoney());
             if (send.getStatus() == Constants.TRANSFER_SEND.SEND) {
                 vo.setSummary("已被对方接收");
+                vo.setStatus((byte) 3);
+            } else if (System.currentTimeMillis() - send.getCreated().getTime() >= 300000) {
+                vo.setSummary("超过24小时，已退回");
+                vo.setStatus((byte) 0);
             } else {
                 vo.setSummary("等待对方接收");
+                vo.setStatus((byte) 3);
             }
             vo.setDetail("来自" + card.getCardNo() + " " + membership.getTitle() + "账户");
-            vo.setStatus((byte) 3);
             return ResponseFactory.sucData(vo);
         }
         if (send.getStatus() == Constants.TRANSFER_SEND.SEND) {

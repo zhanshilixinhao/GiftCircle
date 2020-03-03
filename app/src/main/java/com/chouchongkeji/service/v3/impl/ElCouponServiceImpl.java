@@ -254,6 +254,9 @@ public class ElCouponServiceImpl implements ElCouponService {
             if (send.getStatus() == Constants.TRANSFER_SEND.SEND) {
                 // 对方已接收
                 vo.setStatus((byte) 4);
+            } else if (System.currentTimeMillis() - send.getCreated().getTime() >= 300000) {
+                vo.setSummary("超过24小时，已退回");
+                vo.setStatus((byte) 0);
             } else {
                 // 等待对方接收
                 vo.setStatus((byte) 5);

@@ -8737,7 +8737,7 @@ type = 3 请求结果示例：
       "userId": 7, //转赠者id
       "membershipCardId": 0, //转赠会员卡id
       "sendMoney": 4.00, //转赠金额
-      "status": 2, // 1 未领取 2 已领取
+      "status": 2, //  0 超时已退回 1 未领取 2 已领取
       "updated": 1575342277000, //更新时间
       "created": 1575342277000, // 创建时间
       "title": "礼遇圈转赠",//标题
