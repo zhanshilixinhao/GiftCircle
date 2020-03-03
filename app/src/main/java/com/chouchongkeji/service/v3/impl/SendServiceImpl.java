@@ -80,7 +80,7 @@ public class SendServiceImpl implements SendService {
         List<TransferSend> sends = transferSendMapper.selectByAll();
         if (CollectionUtils.isNotEmpty(sends)) {
             for (TransferSend send : sends) {
-                if (System.currentTimeMillis() - send.getCreated().getTime() >= 300000) {
+                if (System.currentTimeMillis() - send.getCreated().getTime() >= 86430000) {
                     //赠送金额退回用户
                     UserMemberCard userMemberCard = userMemberCardMapper.selectByCardIdUserId(send.getUserId(), send.getMembershipCardId());
                     if (userMemberCard != null) {
@@ -226,7 +226,7 @@ public class SendServiceImpl implements SendService {
             if (send.getStatus() == Constants.TRANSFER_SEND.SEND) {
                 vo.setSummary("已被对方接收");
                 vo.setStatus((byte) 3);
-            } else if (System.currentTimeMillis() - send.getCreated().getTime() >= 300000) {
+            } else if (System.currentTimeMillis() - send.getCreated().getTime() >= 86400000) {
                 vo.setSummary("超过24小时，已退回");
                 vo.setStatus((byte) 0);
             } else {
@@ -260,7 +260,7 @@ public class SendServiceImpl implements SendService {
             return ResponseFactory.sucData(vo);
         }
         // 状态为1 ，判断是否超时 86400000
-        if (System.currentTimeMillis() - send.getCreated().getTime() >= 300000) {
+        if (System.currentTimeMillis() - send.getCreated().getTime() >= 86400000) {
             vo.setTitle("你收到来自" + appUser.getNickname() + "的余额转赠");
             vo.setSendMoney(send.getSendMoney());
             vo.setSummary("超过24小时，已退回");

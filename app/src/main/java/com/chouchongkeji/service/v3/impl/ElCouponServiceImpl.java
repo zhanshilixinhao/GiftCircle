@@ -64,7 +64,7 @@ public class ElCouponServiceImpl implements ElCouponService {
         List<ElCouponSend> sends = elCouponSendMapper.selectByAll();
         if (CollectionUtils.isNotEmpty(sends)) {
             for (ElCouponSend send : sends) {
-                if (System.currentTimeMillis() - send.getCreated().getTime() >= 300000) {
+                if (System.currentTimeMillis() - send.getCreated().getTime() >= 86430000) {
                     // 超时退回
                     ElUserCoupon userCoupon = elUserCouponMapper.selectByPrimaryKey(send.getNum());
                     if (userCoupon != null && userCoupon.getUserId().equals(send.getUserId())) {
@@ -82,13 +82,6 @@ public class ElCouponServiceImpl implements ElCouponService {
         }
     }
 
-    public static void main(String[] args) {
-
-        Date now = new Date("Mon Mar 02 16:53:21 CST 2020");
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-        String format = dateFormat.format(now);//日期
-        System.out.println(format);
-    }
 
     /**
      * 获取电子券列表
@@ -254,7 +247,7 @@ public class ElCouponServiceImpl implements ElCouponService {
             if (send.getStatus() == Constants.TRANSFER_SEND.SEND) {
                 // 对方已接收
                 vo.setStatus((byte) 4);
-            } else if (System.currentTimeMillis() - send.getCreated().getTime() >= 300000) {
+            } else if (System.currentTimeMillis() - send.getCreated().getTime() >= 86400000) {
                 vo.setSummary("超过24小时，已退回");
                 vo.setStatus((byte) 0);
             } else {
@@ -282,7 +275,7 @@ public class ElCouponServiceImpl implements ElCouponService {
             return ResponseFactory.sucData(vo);
         }
         // 状态为1 超过24小时
-        if (System.currentTimeMillis() - send.getCreated().getTime() >= 300000) {
+        if (System.currentTimeMillis() - send.getCreated().getTime() >= 86400000) {
             // 被别人领取
             vo.setSummary("超过24小时，已退回");
             vo.setStatus((byte) 0);
