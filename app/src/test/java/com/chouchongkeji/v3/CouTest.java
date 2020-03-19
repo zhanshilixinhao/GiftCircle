@@ -21,7 +21,7 @@ public class CouTest {
     public void withdrawRecord() throws IOException {
         RequestParams params = new RequestParams();
         params.put("time", System.currentTimeMillis());
-        params.put("access_token", "f79afc76-a434-4f59-830e-34b0cc674735");
+        params.put("access_token", "e604e309-b1b5-452d-b328-7cc0f507d6af");
         params.put("pageNum", 1);
         params.put("pageSize", 14);
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);

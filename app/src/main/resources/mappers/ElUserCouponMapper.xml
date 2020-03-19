@@ -45,6 +45,7 @@ where a.status = 1
   and b.status = 1
   and b.type = 1
   and a.user_id = #{userId}
+  and UNIX_TIMESTAMP(b.date) &gt; (UNIX_TIMESTAMP(now())-2592000)
   order by a.created DESC
   </select>
   <select id="selectByNum" resultType="com.chouchongkeji.service.v3.vo.ElCouponVo">
