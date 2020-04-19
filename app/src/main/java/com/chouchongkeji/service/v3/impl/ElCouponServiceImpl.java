@@ -121,6 +121,10 @@ public class ElCouponServiceImpl implements ElCouponService {
                     // 正常
                     elCouponVo.setStatus((byte) 1);
                 }
+                // 查询优惠券信息
+                ElectronicCoupons coupon = electronicCouponsMapper.selectByNum(elCouponVo.getNum());
+                // 设置优惠券LOGO信息
+                elCouponVo.setLogo(coupon.getLogo());
             }
             Collections.sort(elCouponVos, new Comparator<ElCouponVo>() {
                 @Override
