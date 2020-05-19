@@ -23,6 +23,10 @@ public class StoreTurnover {
 
     private Integer storeChargeId;
 
+    private Byte type;
+
+    private Byte status;
+
     public StoreTurnover(Integer id, Integer storeMemberId, BigDecimal blagMoney, BigDecimal turnoverMoney, Integer storeId, Integer blagStoreId, Date updated,
                          Date created,Integer eventId,Integer storeChargeId) {
         this.id = id;
@@ -119,5 +123,21 @@ public class StoreTurnover {
 
     public void setStoreChargeId(Integer storeChargeId) {
         this.storeChargeId = storeChargeId;
+    }
+
+    public Byte getType() {
+        return type;
+    }
+
+    public void setType(Byte type) {
+        this.type = type;
+    }
+
+    public Byte getStatus() {
+        return status;
+    }
+
+    public void setStatus(Byte status) {
+        this.status = status;
     }
 }

@@ -327,6 +327,8 @@ public class ChargeCardServiceImpl implements ChargeCardService {
             turnover.setEventId(eventId);
         }
         turnover.setStoreChargeId(storeChargeId);
+        turnover.setType((byte)1);
+        turnover.setStatus((byte)1);
         int insert = storeTurnoverMapper.insert(turnover);
         if (insert < 1) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "失败");

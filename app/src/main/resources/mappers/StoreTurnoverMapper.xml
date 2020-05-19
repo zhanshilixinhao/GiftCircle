@@ -2,22 +2,22 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.chouchongkeji.dial.dao.v3.StoreTurnoverMapper">
   <resultMap id="BaseResultMap" type="com.chouchongkeji.dial.pojo.v3.StoreTurnover">
-    <constructor>
-      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="store_member_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="blag_money" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
-      <arg column="turnover_money" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
-      <arg column="store_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="blag_store_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-      <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-      <arg column="event_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
-      <arg column="store_charge_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-    </constructor>
+<!--    <constructor>-->
+<!--      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />-->
+<!--      <arg column="store_member_id" javaType="java.lang.Integer" jdbcType="INTEGER" />-->
+<!--      <arg column="blag_money" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />-->
+<!--      <arg column="turnover_money" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />-->
+<!--      <arg column="store_id" javaType="java.lang.Integer" jdbcType="INTEGER" />-->
+<!--      <arg column="blag_store_id" javaType="java.lang.Integer" jdbcType="INTEGER" />-->
+<!--      <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />-->
+<!--      <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />-->
+<!--      <arg column="event_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>-->
+<!--      <arg column="store_charge_id" javaType="java.lang.Integer" jdbcType="INTEGER" />-->
+<!--    </constructor>-->
   </resultMap>
   <sql id="Base_Column_List">
     id, store_member_id, blag_money, turnover_money, store_id, blag_store_id, updated,
-    created,event_id,store_charge_id
+    created,event_id,store_charge_id,`type`,status
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select
@@ -32,10 +32,10 @@
   <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.v3.StoreTurnover">
     insert into store_turnover (id, store_member_id, blag_money,
       turnover_money, store_id, blag_store_id,
-      updated, created,event_id,store_charge_id)
+      updated, created,event_id,store_charge_id,`type`,status)
     values (#{id,jdbcType=INTEGER}, #{storeMemberId,jdbcType=INTEGER}, #{blagMoney,jdbcType=DECIMAL},
       #{turnoverMoney,jdbcType=DECIMAL}, #{storeId,jdbcType=INTEGER}, #{blagStoreId,jdbcType=INTEGER},
-      now(), now(),#{eventId,jdbcType=INTEGER},#{storeChargeId,jdbcType=INTEGER})
+      now(), now(),#{eventId,jdbcType=INTEGER},#{storeChargeId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, #{status,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.v3.StoreTurnover">
     insert into store_turnover
