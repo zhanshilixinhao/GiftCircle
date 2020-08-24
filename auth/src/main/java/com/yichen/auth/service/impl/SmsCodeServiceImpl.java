@@ -3,8 +3,10 @@ package com.yichen.auth.service.impl;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.goexplore.common.Response;
 import com.yichen.auth.config.UnnamedAuthConfig;
+import com.yichen.auth.service.SentUtil2;
 import com.yichen.auth.service.SmsCodeService;
 import com.yichen.auth.verify.*;
+import com.yunpian.sdk.model.SmsSingleSend;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,7 +39,8 @@ public class SmsCodeServiceImpl implements SmsCodeService {
         // 生成验证码 有效期3分钟
         VerifyCode code = verifyCodeGenerator.generate(type, 3 * 60);
         // 发送验证码
-        SmsSendResult result = unnamedAuthConfig.holder().smsCodeSender().sendTemplate(phone, code.getCode(), type);
+        SmsSingleSend result = SentUtil2.testSendSms(phone, code.getCode());
+//        SmsSendResult result = unnamedAuthConfig.holder().smsCodeSender().sendTemplate(phone, code.getCode(), type);
         if (result.getCode() != 0) {
             code.setCode("999999");
 //            return ResponseFactory.errMsg(result.getCode(), result.getMsg());

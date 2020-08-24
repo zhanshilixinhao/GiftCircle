@@ -21,4 +21,9 @@ public class SmsCodeSendImpl implements SmsCodeSender {
         return SendUtil.smsSend(phone,code);
 //     return new SmsSendResult(0);
     }
+
+//    @Override
+//    public SmsSendResult sendTemplate(String phone, String code, int tid) {
+//        return SendUtil.smsSend(phone,code);
+//    }
 }
