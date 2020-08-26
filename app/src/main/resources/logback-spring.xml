@@ -22,8 +22,8 @@
         <!--滚动输出策略-->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!--路径-->
-            <fileNamePattern>/home/lin/IdeaProjects/java/liyuquan/GiftCircle_Service/info.%d.log</fileNamePattern>
-<!--            <fileNamePattern>/home/log/info.%d.log</fileNamePattern>-->
+<!--            <fileNamePattern>/home/lin/IdeaProjects/java/liyuquan/GiftCircle_Service/info.%d.log</fileNamePattern>-->
+            <fileNamePattern>/home/log/info.%d.log</fileNamePattern>
         </rollingPolicy>
     </appender>
 
@@ -42,8 +42,8 @@
         <!--滚动输出策略-->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!--路径-->
-            <fileNamePattern>/home/lin/IdeaProjects/java/liyuquan/GiftCircle_Service/warn.%d.log</fileNamePattern>
-<!--            <fileNamePattern>/home/log/warn.%d.log</fileNamePattern>-->
+<!--            <fileNamePattern>/home/lin/IdeaProjects/java/liyuquan/GiftCircle_Service/warn.%d.log</fileNamePattern>-->
+            <fileNamePattern>/home/log/warn.%d.log</fileNamePattern>
         </rollingPolicy>
     </appender>
 
@@ -60,8 +60,8 @@
         <!--滚动输出策略-->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!--路径-->
-            <fileNamePattern>/home/lin/IdeaProjects/java/liyuquan/GiftCircle_Service/error.%d.log</fileNamePattern>
-<!--            <fileNamePattern>/home/log/error.%d.log</fileNamePattern>-->
+<!--            <fileNamePattern>/home/lin/IdeaProjects/java/liyuquan/GiftCircle_Service/error.%d.log</fileNamePattern>-->
+            <fileNamePattern>/home/log/error.%d.log</fileNamePattern>
         </rollingPolicy>
     </appender>
 
