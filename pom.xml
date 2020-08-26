@@ -28,7 +28,7 @@
         <retrofit.version>2.3.0</retrofit.version>
         <pagehelper.version>5.1.2</pagehelper.version>
         <druid.version>1.1.9</druid.version>
-        <httpclient.version>4.3.5</httpclient.version>
+        <httpclient.version>4.4.1</httpclient.version>
         <httpclient.common.version>3.1</httpclient.common.version>
         <xstream.version>1.4.7</xstream.version>
         <netty.version>4.1.20.Final</netty.version>

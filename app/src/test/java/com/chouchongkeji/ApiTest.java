@@ -190,8 +190,8 @@ public class ApiTest {
         params.put("time",System.currentTimeMillis());
         params.put("phone","15752400657");
         params.put("type",1);
-        Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
-        params.put("sign",map.get(ApiSignUtil.ANDROID));
+        Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.WXMINI);
+        params.put("sign",map.get(ApiSignUtil.WXMINI));
         Response post = OkHttpUtil.post("http://localhost:8088/ask/code", params);
         System.out.println(post.body().string());
     }

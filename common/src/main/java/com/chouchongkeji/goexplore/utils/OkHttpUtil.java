@@ -65,7 +65,7 @@ public class OkHttpUtil {
         if (params != null) {
             content = params.getUrlParams();
         }
-        return OkHttpManager.create(null,null).newCall(new Request.Builder()
+        return OkHttpManager.create().newCall(new Request.Builder()
                 .url(urlString)
                 .post(RequestBody.create(urlencoded, content))
                 .build()).execute();
