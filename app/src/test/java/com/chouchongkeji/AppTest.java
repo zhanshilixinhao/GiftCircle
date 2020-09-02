@@ -49,7 +49,7 @@ public class AppTest {
 
         RequestParams params = new RequestParams();
 //        params.put("username", "18313747954");
-        params.put("username", "13888710859");
+        params.put("username", "13888960782");
         params.put("password", Utils.toMD5("!@#$1234"));
         params.put("exploringId", 24);
         params.put("time", "1526539545791");
