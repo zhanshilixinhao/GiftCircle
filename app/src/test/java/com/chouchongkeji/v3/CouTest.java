@@ -21,13 +21,13 @@ public class CouTest {
     public void withdrawRecord() throws IOException {
         RequestParams params = new RequestParams();
         params.put("time", System.currentTimeMillis());
-        params.put("access_token", "e604e309-b1b5-452d-b328-7cc0f507d6af");
+        params.put("access_token", "1b67ef77-3a1a-4834-ae75-ba8238acf177");
         params.put("pageNum", 1);
         params.put("pageSize", 14);
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
         params.put("sign", map.get(ApiSignUtil.ANDROID));
 //        Response post = OkHttpUtil.post("https://liyuquan.cn/app/auth/v3/memberCard/list", params);
-        Response post = OkHttpUtil.post("https://liyuquan.cn/app/auth/v3/coupon/list", params);
+        Response post = OkHttpUtil.post("http://localhost:8088/auth/v3/coupon/list", params);
         System.out.println(post.body().string());
     }
     @Test
