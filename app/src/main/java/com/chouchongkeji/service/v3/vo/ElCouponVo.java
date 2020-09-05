@@ -24,6 +24,9 @@ public class ElCouponVo {
 
     private String code;
 
+    @ImgUrl
+    private String codeImg;
+
     private Date created;
 
     private String title;

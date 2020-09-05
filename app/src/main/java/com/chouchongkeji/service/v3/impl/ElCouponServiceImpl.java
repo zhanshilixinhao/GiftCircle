@@ -14,6 +14,7 @@ import com.chouchongkeji.service.v3.ElCouponService;
 import com.chouchongkeji.service.v3.vo.ElCouponVo;
 import com.chouchongkeji.util.Constants;
 import com.chouchongkeji.util.OrderHelper;
+import com.chouchongkeji.util.Qrcode;
 import com.github.pagehelper.PageHelper;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -23,7 +24,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -108,8 +108,12 @@ public class ElCouponServiceImpl implements ElCouponService {
                 }
                 elCouponVo.setStoreName(titles.delete(titles.length() - 1, titles.length()).toString());
                 // 生成二维码 id + 当前时间
-                elCouponVo.setCode(AESUtils.encrypt("zheshishenmemima",
-                        String.format("2,%s,%s", elCouponVo.getNum(), System.currentTimeMillis())));
+                String code = AESUtils.encrypt("zheshishenmemima",
+                        String.format("2,%s,%s", elCouponVo.getNum(), System.currentTimeMillis()));
+                elCouponVo.setCode(code);
+                String imgName = UUID.randomUUID().toString();
+                Qrcode.generate(code, imgName);
+                elCouponVo.setCodeImg("/qrcodeImg/" + imgName + ".png");
                 // 状态
                 if (elCouponVo.getStartTime().getTime() > System.currentTimeMillis()) {
                     // 未开始
@@ -158,8 +162,12 @@ public class ElCouponServiceImpl implements ElCouponService {
             }
             vo.setStoreName(titles.delete(titles.length() - 1, titles.length()).toString());
             // 生成二维码 id + 当前时间
-            vo.setCode(AESUtils.encrypt("zheshishenmemima",
-                    String.format("2,%s,%s", vo.getNum(), System.currentTimeMillis())));
+            String code = AESUtils.encrypt("zheshishenmemima",
+                    String.format("2,%s,%s", vo.getNum(), System.currentTimeMillis()));
+            vo.setCode(code);
+            String imgName = UUID.randomUUID().toString();
+            Qrcode.generate(code, imgName);
+            vo.setCodeImg("/qrcodeImg/" + imgName + ".png");
             // 状态
             if (vo.getStartTime().getTime() > System.currentTimeMillis()) {
                 // 未开始
