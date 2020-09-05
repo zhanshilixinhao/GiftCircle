@@ -26,8 +26,8 @@ public class CouTest {
         params.put("pageSize", 14);
         Map map = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.ANDROID);
         params.put("sign", map.get(ApiSignUtil.ANDROID));
-//        Response post = OkHttpUtil.post("https://liyuquan.cn/app/auth/v3/memberCard/list", params);
-        Response post = OkHttpUtil.post("http://localhost:8088/auth/v3/coupon/list", params);
+        Response post = OkHttpUtil.post("https://liyuquan.cn/app/auth/v3/coupon/list", params);
+//        Response post = OkHttpUtil.post("http://localhost:8088/auth/v3/coupon/list", params);
         System.out.println(post.body().string());
     }
     @Test
