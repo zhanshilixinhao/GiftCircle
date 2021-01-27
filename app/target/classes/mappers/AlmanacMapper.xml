@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chouchongkeji.dial.dao.home.AlmanacMapper">
+  <resultMap id="BaseResultMap" type="com.chouchongkeji.dial.pojo.home.Almanac">
+    <constructor>
+      <idArg column="day" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="gongli" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="nongli" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="avoid" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="suit" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="jieri" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="jieqi24" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    day, gongli, nongli, avoid, suit, jieri, jieqi24, created, updated
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from almanac
+    where day = #{day,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from almanac
+    where day = #{day,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.home.Almanac">
+    insert into almanac (day, gongli, nongli,
+      avoid, suit, jieri,
+      jieqi24, created, updated
+      )
+    values (#{day,jdbcType=VARCHAR}, #{gongli,jdbcType=VARCHAR}, #{nongli,jdbcType=VARCHAR},
+      #{avoid,jdbcType=VARCHAR}, #{suit,jdbcType=VARCHAR}, #{jieri,jdbcType=VARCHAR},
+      #{jieqi24,jdbcType=VARCHAR}, now(), now()
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.home.Almanac">
+    insert into almanac
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="day != null">
+        day,
+      </if>
+      <if test="gongli != null">
+        gongli,
+      </if>
+      <if test="nongli != null">
+        nongli,
+      </if>
+      <if test="avoid != null">
+        avoid,
+      </if>
+      <if test="suit != null">
+        suit,
+      </if>
+      <if test="jieri != null">
+        jieri,
+      </if>
+      <if test="jieqi24 != null">
+        jieqi24,
+      </if>
+      <if test="created != null">
+        created,
+      </if>
+      <if test="updated != null">
+        updated,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="day != null">
+        #{day,jdbcType=VARCHAR},
+      </if>
+      <if test="gongli != null">
+        #{gongli,jdbcType=VARCHAR},
+      </if>
+      <if test="nongli != null">
+        #{nongli,jdbcType=VARCHAR},
+      </if>
+      <if test="avoid != null">
+        #{avoid,jdbcType=VARCHAR},
+      </if>
+      <if test="suit != null">
+        #{suit,jdbcType=VARCHAR},
+      </if>
+      <if test="jieri != null">
+        #{jieri,jdbcType=VARCHAR},
+      </if>
+      <if test="jieqi24 != null">
+        #{jieqi24,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chouchongkeji.dial.pojo.home.Almanac">
+    update almanac
+    <set>
+      <if test="gongli != null">
+        gongli = #{gongli,jdbcType=VARCHAR},
+      </if>
+      <if test="nongli != null">
+        nongli = #{nongli,jdbcType=VARCHAR},
+      </if>
+      <if test="avoid != null">
+        avoid = #{avoid,jdbcType=VARCHAR},
+      </if>
+      <if test="suit != null">
+        suit = #{suit,jdbcType=VARCHAR},
+      </if>
+      <if test="jieri != null">
+        jieri = #{jieri,jdbcType=VARCHAR},
+      </if>
+      <if test="jieqi24 != null">
+        jieqi24 = #{jieqi24,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        updated = #{updated,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where day = #{day,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.dial.pojo.home.Almanac">
+    update almanac
+    set gongli = #{gongli,jdbcType=VARCHAR},
+      nongli = #{nongli,jdbcType=VARCHAR},
+      avoid = #{avoid,jdbcType=VARCHAR},
+      suit = #{suit,jdbcType=VARCHAR},
+      jieri = #{jieri,jdbcType=VARCHAR},
+      jieqi24 = #{jieqi24,jdbcType=VARCHAR},
+      created = #{created,jdbcType=TIMESTAMP},
+      updated = #{updated,jdbcType=TIMESTAMP}
+    where day = #{day,jdbcType=VARCHAR}
+  </update>
+</mapper>

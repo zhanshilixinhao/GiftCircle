@@ -2,6 +2,8 @@ package com.chouchongkeji.dial.dao.v3;
 
 import com.chouchongkeji.dial.pojo.v3.ElUserCoupon;
 import com.chouchongkeji.service.v3.vo.ElCouponVo;
+import tk.mybatis.mapper.common.Mapper;
+import tk.mybatis.mapper.common.MySqlMapper;
 
 import java.util.List;
 

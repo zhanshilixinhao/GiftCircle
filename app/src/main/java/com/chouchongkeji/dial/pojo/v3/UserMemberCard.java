@@ -1,8 +1,10 @@
 package com.chouchongkeji.dial.pojo.v3;
 
+import lombok.ToString;
+
 import java.math.BigDecimal;
 import java.util.Date;
-
+@ToString
 public class UserMemberCard {
     private Integer id;
 

@@ -1,9 +1,10 @@
 package com.chouchongkeji.dial.pojo.user;
 
 import com.yichen.auth.jackson.ImgUrl;
+import lombok.ToString;
 
 import java.util.Date;
-
+@ToString
 public class AppUser {
     private Integer id;
 

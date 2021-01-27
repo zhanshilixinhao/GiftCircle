@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 /**
@@ -22,6 +23,16 @@ public class PayNotifyInterfaceController {
 
     @Autowired
     private AppPaymentInfoService appPaymentInfoService;
+
+    /**
+     * @Description: 微信小程序支付礼包回调
+     * @Author: LxH
+     * @Date: 2020/10/19 14:57
+     */
+    @RequestMapping("elcoupon_list/applets")
+    public void appletsPayNotify(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        appPaymentInfoService.appletsPayNotify(request,response);
+    }
 
     /**
      * 充值订单支付宝支付回调

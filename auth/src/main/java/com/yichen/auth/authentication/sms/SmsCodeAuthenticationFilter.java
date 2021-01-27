@@ -32,6 +32,7 @@ public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessin
         super(new AntPathRequestMatcher(SecurityConstants.SMS_LOGIN_URL, "POST"));
     }
 
+    @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         // 如果不是post请求直接 返回
         if (this.postOnly && !request.getMethod().equals("POST")) {

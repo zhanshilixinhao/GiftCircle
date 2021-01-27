@@ -1,8 +1,18 @@
 package com.chouchongkeji.dial.pojo.v3;
 
-import java.util.Date;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
+import javax.persistence.Id;
+import javax.persistence.Transient;
+import java.util.Date;
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Store {
+    @Id
     private Integer id;
 
     private Integer merchantId;
@@ -21,7 +31,12 @@ public class Store {
 
     private String linkman;
 
-    public Store(Integer id, Integer merchantId, String name, String address, String phone, Date created, Date updated, String area, String linkman) {
+
+
+
+
+   /* public Store(Integer id, Integer merchantId, String name, String address, String phone, Date created, Date updated, String area, String linkman
+                 ) {
         this.id = id;
         this.merchantId = merchantId;
         this.name = name;
@@ -31,6 +46,7 @@ public class Store {
         this.updated = updated;
         this.area = area;
         this.linkman = linkman;
+
     }
 
     public Store() {
@@ -107,5 +123,7 @@ public class Store {
 
     public void setLinkman(String linkman) {
         this.linkman = linkman == null ? null : linkman.trim();
-    }
+    }*/
+
+
 }

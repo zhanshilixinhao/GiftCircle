@@ -4,6 +4,8 @@ import com.chouchongkeji.dial.pojo.user.PaymentInfo;
 import com.chouchongkeji.goexplore.pay.alipay_v2.ALiPayV2Vo;
 import org.xml.sax.SAXException;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -122,4 +124,11 @@ public interface AppPaymentInfoService {
      * @date 2018/6/8
      */
     String baseMemberPay(String xml, Byte orderType) throws ParserConfigurationException, SAXException, IOException;
+
+    /**
+     * @Description: 微信小程序支付礼包回调
+     * @Author: LxH
+     * @Date: 2020/10/19 14:57
+     */
+    void appletsPayNotify(HttpServletRequest request, HttpServletResponse response) throws Exception;
 }

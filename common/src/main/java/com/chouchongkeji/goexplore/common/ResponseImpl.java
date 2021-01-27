@@ -108,6 +108,7 @@ public class ResponseImpl<T> implements Response<T> {
         this.time = time;
     }
 
+    @Override
     @JSONField(serialize = false)
     public boolean isSuccessful() {
         return errCode == ErrorCode.SUCCESS.getCode();

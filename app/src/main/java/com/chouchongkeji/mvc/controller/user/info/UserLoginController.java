@@ -6,6 +6,7 @@ import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.service.user.info.UserLoginService;
 import com.yichen.auth.mvc.AppClient;
+import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,6 +29,16 @@ public class UserLoginController {
     private UserLoginService userLoginService;
 
     /**
+     * @Description: 微信小程序一键登录
+     * @Author: LxH
+     * @Date: 2020/10/20 13:07
+     */
+    @PostMapping("wxAppletLogin")
+    public Response wxAppletLogin(@AppClient Integer client,HttpServletRequest request){
+        return userLoginService.wxAppletLogin(client,request);
+    }
+
+    /**
      * 微信授权登录
      *
      * @param code   微信授权
@@ -43,7 +54,7 @@ public class UserLoginController {
             return ResponseFactory.errMissingParameter();
         }
 
-        return userLoginService.wxLogin(client, code);
+        return userLoginService.wxLogin(client, code );
     }
 
     /**

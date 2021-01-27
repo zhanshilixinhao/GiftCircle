@@ -38,7 +38,9 @@ public class AlmanacApi {
 //                .addTextPara("date", "20190311")
 //                .post();
         HLResult almanacInfo = getAlmanacInfo("20190214");
-        System.out.println(almanacInfo.toString());
+        HLResult.ShowapiResBodyBean showapi_res_body = almanacInfo.getShowapi_res_body();
+        String jieqi24 = showapi_res_body.getJieqi24();
+        System.out.println("输出"+jieqi24);
     }
 
 }

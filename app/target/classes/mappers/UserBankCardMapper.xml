@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chouchongkeji.dial.dao.iwant.wallet.UserBankCardMapper">
+  <resultMap id="BaseResultMap" type="com.chouchongkeji.dial.pojo.iwant.wallet.UserBankCard">
+      <id column="id" property="id"  />
+      <!--<arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />-->
+      <!--<arg column="bank_id" javaType="java.lang.Integer" jdbcType="INTEGER" />-->
+      <!--<arg column="deposit_bank" javaType="java.lang.String" jdbcType="VARCHAR" />-->
+      <!--<arg column="card_holder" javaType="java.lang.String" jdbcType="VARCHAR" />-->
+      <!--<arg column="card_no" javaType="java.lang.String" jdbcType="VARCHAR" />-->
+      <!--<arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT" />-->
+      <!--<arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />-->
+      <!--<arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />-->
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, bank_id, deposit_bank, card_holder, card_no, status, created, updated,is_default
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user_bankcard
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user_bankcard
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.iwant.wallet.UserBankCard" useGeneratedKeys="true" keyProperty="id">
+    insert into user_bankcard (id, user_id, bank_id,
+      deposit_bank, card_holder, card_no,
+      status, created, updated
+      )
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{bankId,jdbcType=INTEGER},
+      #{depositBank,jdbcType=VARCHAR}, #{cardHolder,jdbcType=VARCHAR}, #{cardNo,jdbcType=VARCHAR},
+      #{status,jdbcType=TINYINT}, now(), now()
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.iwant.wallet.UserBankCard">
+    insert into user_bankcard
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="bankId != null">
+        bank_id,
+      </if>
+      <if test="depositBank != null">
+        deposit_bank,
+      </if>
+      <if test="cardHolder != null">
+        card_holder,
+      </if>
+      <if test="cardNo != null">
+        card_no,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="created != null">
+        created,
+      </if>
+      <if test="updated != null">
+        updated,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="bankId != null">
+        #{bankId,jdbcType=INTEGER},
+      </if>
+      <if test="depositBank != null">
+        #{depositBank,jdbcType=VARCHAR},
+      </if>
+      <if test="cardHolder != null">
+        #{cardHolder,jdbcType=VARCHAR},
+      </if>
+      <if test="cardNo != null">
+        #{cardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chouchongkeji.dial.pojo.iwant.wallet.UserBankCard">
+    update user_bankcard
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="bankId != null">
+        bank_id = #{bankId,jdbcType=INTEGER},
+      </if>
+      <if test="depositBank != null">
+        deposit_bank = #{depositBank,jdbcType=VARCHAR},
+      </if>
+      <if test="cardHolder != null">
+        card_holder = #{cardHolder,jdbcType=VARCHAR},
+      </if>
+      <if test="cardNo != null">
+        card_no = #{cardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        updated = now(),
+      </if>
+      <if test="isDefault != null">
+        is_default = #{isDefault,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.dial.pojo.iwant.wallet.UserBankCard">
+    update user_bankcard
+    set user_id = #{userId,jdbcType=INTEGER},
+      bank_id = #{bankId,jdbcType=INTEGER},
+      deposit_bank = #{depositBank,jdbcType=VARCHAR},
+      card_holder = #{cardHolder,jdbcType=VARCHAR},
+      card_no = #{cardNo,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT},
+      created = #{created,jdbcType=TIMESTAMP},
+      updated = #{updated,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateIsDefault">
+    update user_bankcard
+    set is_default = 2
+    where user_id = #{userId}
+      and is_default = 1
+  </update>
+
+  <!--获取用户银行卡列表-->
+  <select id="getUserBankCardList" resultType="com.chouchongkeji.service.iwant.wallet.vo.UserBankCardVo">
+    SELECT
+    a.id as id,
+    a.deposit_bank as depositBank,
+    a.card_no as cardNo,
+    a.card_holder as cardHolder,
+           a.is_default as isDefault,
+    a.bank_id as bankId,
+    b.logo as logo,
+    b.bank_name as bankName
+    FROM
+    user_bankcard a LEFT JOIN bank_dict b ON a.bank_id = b.id
+    WHERE
+    a.user_id = #{userId} AND a.status = #{status}
+    ORDER BY
+    a.created DESC
+  </select>
+  <select id="selectByBankId" resultType="com.chouchongkeji.dial.pojo.iwant.wallet.UserBankCard">
+    select
+    <include refid="Base_Column_List" />
+    from user_bankcard
+    where id = #{id}
+    and status = 1
+  </select>
+</mapper>

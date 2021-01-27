@@ -7,16 +7,21 @@ import com.chouchongkeji.dial.dao.gift.item.ItemOrderMapper;
 import com.chouchongkeji.dial.dao.iwant.wallet.ChargeOrderMapper;
 import com.chouchongkeji.dial.dao.user.AppUserMapper;
 import com.chouchongkeji.dial.dao.user.PaymentInfoMapper;
+import com.chouchongkeji.dial.dao.user.ThirdAccountMapper;
 import com.chouchongkeji.dial.dao.v3.MemberChargeOrderMapper;
+import com.chouchongkeji.dial.dao.v4.ElCouponListOrderMapper;
+import com.chouchongkeji.dial.dao.v4.ElCouponListPaymentMapper;
 import com.chouchongkeji.dial.pojo.backpack.consignment.Consignment;
 import com.chouchongkeji.dial.pojo.backpack.consignment.ConsignmentOrder;
 import com.chouchongkeji.dial.pojo.gift.item.ItemOrder;
 import com.chouchongkeji.dial.pojo.gift.item.ItemOrderDetail;
-import com.chouchongkeji.dial.pojo.gift.item.OrderCollect;
 import com.chouchongkeji.dial.pojo.iwant.wallet.ChargeOrder;
 import com.chouchongkeji.dial.pojo.user.AppUser;
 import com.chouchongkeji.dial.pojo.user.PaymentInfo;
+import com.chouchongkeji.dial.pojo.user.ThirdAccount;
 import com.chouchongkeji.dial.pojo.v3.MemberChargeOrder;
+import com.chouchongkeji.dial.pojo.v4.ElCouponListOrder;
+import com.chouchongkeji.dial.pojo.v4.ElCouponListPayment;
 import com.chouchongkeji.exception.ServiceException;
 import com.chouchongkeji.goexplore.common.ErrorCode;
 import com.chouchongkeji.goexplore.pay.alipay.config.AlipayConfig;
@@ -30,12 +35,14 @@ import com.chouchongkeji.goexplore.utils.BigDecimalUtil;
 import com.chouchongkeji.goexplore.utils.DateUtil;
 import com.chouchongkeji.goexplore.utils.HttpClientUtils;
 import com.chouchongkeji.service.backpack.base.BpService;
-import com.chouchongkeji.service.mall.item.OrderService;
 import com.chouchongkeji.service.iwant.wallet.WalletService;
+import com.chouchongkeji.service.mall.item.OrderService;
 import com.chouchongkeji.service.message.MessageService;
 import com.chouchongkeji.service.user.info.AppPaymentInfoService;
 import com.chouchongkeji.service.v3.ChargeCardService;
+import com.chouchongkeji.service.wxapi.WXCodeApi;
 import com.chouchongkeji.util.Constants;
+import com.chouchongkeji.util.WXPayUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,13 +53,22 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.xml.sax.SAXException;
 
+import javax.annotation.Resource;
+import javax.servlet.ServletInputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.xml.parsers.ParserConfigurationException;
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.chouchongkeji.service.wxapi.WXCodeApi.WX_APPID;
 
 /**
  * @author linqin
@@ -102,6 +118,17 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
 
     @Autowired
     private MemberChargeOrderMapper memberChargeOrderMapper;
+
+    @Resource
+    private ElCouponListPaymentMapper elCouponListPaymentMapper;
+
+    @Resource
+    private ElCouponListOrderMapper elCouponListOrderMapper;
+
+    @Resource
+    private ThirdAccountMapper thirdAccountMapper;
+
+
 
     /**
      * 支付宝提供给商户的服务接入网关URL(新)
@@ -586,6 +613,59 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
     }
 
     /**
+     * @param： request
+     * @param： response
+     * @Description: 微信小程序支付礼包回调
+     * @Author: LxH
+     * @Date: 2020/10/19 14:57
+     */
+    @Override
+    public void appletsPayNotify(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader((ServletInputStream)request.getInputStream()));
+        String line = null;
+        StringBuilder sb = new StringBuilder();
+        while((line = br.readLine()) != null){
+            sb.append(line);
+        }
+        br.close();
+        //sb为微信返回的xml
+        String notityXml = sb.toString();
+        String resXml = "";
+        System.out.println("接收到的报文：" + notityXml);
+        Map map = WXPayUtil.xmlToMap(notityXml);
+        String returnCode = (String) map.get("return_code");
+        if("SUCCESS".equals(returnCode)){
+            if(WX_APPID.equals(map.get("appid"))){
+                ElCouponListOrder out_trade_no = elCouponListOrderMapper.selectByPrimaryKey(Long.parseLong(map.get("out_trade_no").toString()));
+                out_trade_no.setStatus((byte) 2);
+                elCouponListOrderMapper.updateByPrimaryKeySelective(out_trade_no);
+                AppUser appUser = appUserMapper.selectByPrimaryKey(out_trade_no.getUserId());
+                ThirdAccount thirdAccount = thirdAccountMapper.selectByPhoneAndType(appUser.getPhone(), 2);
+                ElCouponListPayment elCouponListPayment = new ElCouponListPayment();
+                elCouponListPayment.setUserId(appUser.getId()).setType((byte) 1).setTotalFee(out_trade_no.getPrice()).
+                        setOrderNo(out_trade_no.getId()).setPlatformNumber(map.get("transaction_id").toString()).
+                        setSeller(map.get("mch_id").toString()).setBuyer(thirdAccount.getOpenId());
+                elCouponListPaymentMapper.insertSelective(elCouponListPayment);
+                //通知微信服务器已经支付成功
+                resXml = "<xml>" + "<return_code><![CDATA[SUCCESS]]></return_code>"
+                        + "<return_msg><![CDATA[OK]]></return_msg>" + "</xml> ";
+            } else {
+                System.out.println("微信支付回调失败!签名不一致");
+            }
+
+        } else {
+            resXml = "<xml>" + "<return_code><![CDATA[FAIL]]></return_code>"
+                    + "<return_msg><![CDATA[报文为空]]></return_msg>" + "</xml> ";
+        }
+        System.out.println(resXml);
+        System.out.println("微信支付回调数据结束");
+        BufferedOutputStream out = new BufferedOutputStream(response.getOutputStream());
+        out.write(resXml.getBytes());
+        out.flush();
+        out.close();
+    }
+
+    /**
      * 微信商品订单支付
      *
      * @param xml
@@ -893,6 +973,7 @@ public class AppPaymentInfoServiceImpl implements AppPaymentInfoService {
      * @author linqin
      * @date 2018/6/8
      */
+    @Override
     public PaymentInfo doYuePaySuccess(Long orderNo, Integer userId, Date created, Byte orderType, Integer sellUserId,
                                        BigDecimal amount) {
         /** -------------支付成功逻辑处理-------------- **/

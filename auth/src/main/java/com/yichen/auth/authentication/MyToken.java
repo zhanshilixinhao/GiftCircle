@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * 定义自己的token信息
@@ -24,6 +25,12 @@ public class MyToken implements Serializable {
     // token过期剩余时间
     private long expire;
 
+    private BigDecimal rebate;
+
+    private BigDecimal userRebate;
+
+
+
     public MyToken() {
     }
 
@@ -33,10 +40,27 @@ public class MyToken implements Serializable {
         this.expire = token.getExpiresIn();
     }
 
-    public MyToken(String accessToken, String refreshToken,long expire) {
+    public MyToken(String accessToken, String refreshToken,long expire,BigDecimal rebate,BigDecimal userRebate) {
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
         this.expire = expire;
+        this.rebate = rebate;
+        this.userRebate = userRebate;
+    }
+
+    public BigDecimal getRebate(){
+        return rebate;
+    }
+
+    public void setRebate(BigDecimal rebate){
+        this.rebate = rebate;
+    }
+    public BigDecimal getUserRebate(){
+        return userRebate;
+    }
+
+    public void setUserRebate(BigDecimal userRebate){
+        this.userRebate = userRebate;
     }
 
     public String getAccessToken() {

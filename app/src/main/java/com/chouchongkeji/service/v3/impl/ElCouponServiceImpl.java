@@ -12,6 +12,7 @@ import com.chouchongkeji.goexplore.query.PageQuery;
 import com.chouchongkeji.goexplore.utils.AESUtils;
 import com.chouchongkeji.service.v3.ElCouponService;
 import com.chouchongkeji.service.v3.vo.ElCouponVo;
+import com.chouchongkeji.service.v4.vo.CoVo;
 import com.chouchongkeji.util.Constants;
 import com.chouchongkeji.util.OrderHelper;
 import com.chouchongkeji.util.Qrcode;
@@ -94,6 +95,7 @@ public class ElCouponServiceImpl implements ElCouponService {
     public Response getElCouponList(Integer userId, PageQuery page) {
         PageHelper.startPage(page.getPageNum(), page.getPageSize());
         List<ElCouponVo> elCouponVos = elUserCouponMapper.selectByUserId(userId);
+        ArrayList<ElCouponVo> list = new ArrayList<>();
         if (!CollectionUtils.isEmpty(elCouponVos)) {
             for (ElCouponVo elCouponVo : elCouponVos) {
                 StringBuilder titles = new StringBuilder();
@@ -115,21 +117,41 @@ public class ElCouponServiceImpl implements ElCouponService {
                 Qrcode.generate(code, imgName);
                 elCouponVo.setCodeImg("/qrcodeImg/" + imgName + ".png");
                 // 状态
+                Date reEndTime = null;
+                if (elCouponVo.getDay()!=null) {
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(elCouponVo.getCreated());
+                    calendar.add(Calendar.DATE,elCouponVo.getDay());
+                    Date endTime = calendar.getTime();
+                    reEndTime = endTime;
+                    elCouponVo.setStartTime(elCouponVo.getCreated());
+                } else {
+                    reEndTime = elCouponVo.getDate();
+                }
+
                 if (elCouponVo.getStartTime().getTime() > System.currentTimeMillis()) {
                     // 未开始
                     elCouponVo.setStatus((byte) 2);
-                } else if (elCouponVo.getDate().getTime() < System.currentTimeMillis()) {
+                } else if (reEndTime.getTime() < System.currentTimeMillis()) {
                     // 已结束
                     elCouponVo.setStatus((byte) 3);
                 } else {
                     // 正常
                     elCouponVo.setStatus((byte) 1);
+                    // 查询优惠券信息
+                    ElectronicCoupons coupon = electronicCouponsMapper.selectByNum(elCouponVo.getNum());
+                    // 设置优惠券LOGO信息
+                    elCouponVo.setLogo(coupon.getLogo());
+                    elCouponVo.setDate(reEndTime);
+                    list.add(elCouponVo);
                 }
                 // 查询优惠券信息
                 ElectronicCoupons coupon = electronicCouponsMapper.selectByNum(elCouponVo.getNum());
                 // 设置优惠券LOGO信息
                 elCouponVo.setLogo(coupon.getLogo());
+                elCouponVo.setDate(reEndTime);
             }
+
             Collections.sort(elCouponVos, new Comparator<ElCouponVo>() {
                 @Override
                 public int compare(ElCouponVo o1, ElCouponVo o2) {
@@ -137,7 +159,7 @@ public class ElCouponServiceImpl implements ElCouponService {
                 }
             });
         }
-        return ResponseFactory.sucData(elCouponVos);
+        return ResponseFactory.sucData(list);
     }
 
     /**
@@ -148,6 +170,7 @@ public class ElCouponServiceImpl implements ElCouponService {
      */
     @Override
     public Response getElCouponDetail(Integer userId, Long num) {
+        num = new Long("41221011909102");
         ElCouponVo vo = elUserCouponMapper.selectByNum(num);
         if (vo != null) {
             StringBuilder titles = new StringBuilder();
@@ -168,6 +191,13 @@ public class ElCouponServiceImpl implements ElCouponService {
             String imgName = UUID.randomUUID().toString();
             Qrcode.generate(code, imgName);
             vo.setCodeImg("/qrcodeImg/" + imgName + ".png");
+            if (vo.getDay()!=null) {
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(vo.getCreated());
+                calendar.add(Calendar.DATE,vo.getDay());
+                vo.setStartTime(vo.getCreated());
+                vo.setDate(calendar.getTime());
+            }
             // 状态
             if (vo.getStartTime().getTime() > System.currentTimeMillis()) {
                 // 未开始
@@ -181,6 +211,45 @@ public class ElCouponServiceImpl implements ElCouponService {
             }
         }
         return ResponseFactory.sucData(vo);
+    }
+
+    /**
+     * @param: id
+     * @Description: 扫二维码获取优惠券详情
+     * @Author: LxH
+     * @Date: 2020/10/26 13:08
+     */
+    @Override
+    public Response getElCouponById(Integer id) {
+        ElectronicCoupons electronicCoupons = electronicCouponsMapper.selectByPrimaryKey(id);
+        return ResponseFactory.sucData(electronicCoupons);
+    }
+
+    /**
+     * @param: userId
+     * @param: elCouponId
+     * @Description: 用户领取优惠券
+     * @Author: LxH
+     * @Date: 2020/10/27 11:03
+     */
+    @Override
+    public Response bindUserElCoupon(Integer userId, Integer elCouponId) {
+        ElectronicCoupons electronicCoupons = electronicCouponsMapper.selectByPrimaryKey(elCouponId);
+        if (electronicCoupons == null) {
+            return ResponseFactory.err("优惠券不存在！");
+        }
+        ElUserCoupon elUserCoupon = new ElUserCoupon();
+        Long aLong = orderHelper.genOrderNo(4, 12);
+        elUserCoupon.setId(aLong);
+        elUserCoupon.setUserId(userId);
+        elUserCoupon.setCouponId(elCouponId);
+        elUserCoupon.setStatus((byte) 1);
+        elUserCoupon.setTotalQuantity(1);
+        elUserCoupon.setQuantity(1);
+        elUserCoupon.setCreated(new Date());
+        elUserCoupon.setUpdated(elUserCoupon.getCreated());
+        elUserCouponMapper.insertSelective(elUserCoupon);
+        return ResponseFactory.sucMsg("用户领取优惠券成功");
     }
 
     /**
@@ -250,8 +319,16 @@ public class ElCouponServiceImpl implements ElCouponService {
             return ResponseFactory.errMsg(666, "该优惠券转赠不存在或已被转赠者撤回!");
         }
         ElectronicCoupons coupon = electronicCouponsMapper.selectByNum(send.getNum());
+
         if (coupon == null) {
             throw new ServiceException("该优惠券不存在");
+        }
+        CoVo co = electronicCouponsMapper.findByNum(send.getNum());
+        if (co.getDay()!=null) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(co.getCreated());
+            calendar.add(Calendar.DATE,co.getDay());
+            coupon.setDate(calendar.getTime());
         }
         ElCouponVo vo = couponDetail(coupon, send);
         // 自己领取
@@ -392,6 +469,13 @@ public class ElCouponServiceImpl implements ElCouponService {
         if (el.getQuantity() <= 0) {
             el.setStatus((byte) -1);
             elUserCouponMapper.updateByPrimaryKeySelective(el);
+        }
+        CoVo co = electronicCouponsMapper.findByNum(send.getNum());
+        if (co.getDay()!=null) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(co.getCreated());
+            calendar.add(Calendar.DATE,co.getDay());
+            coupon.setDate(calendar.getTime());
         }
         ElCouponVo vo = couponDetail(coupon, send);
         vo.setStatus((byte) 2);

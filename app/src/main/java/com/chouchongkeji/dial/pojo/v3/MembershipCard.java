@@ -1,7 +1,9 @@
 package com.chouchongkeji.dial.pojo.v3;
 
-import java.util.Date;
+import lombok.ToString;
 
+import java.util.Date;
+@ToString
 public class MembershipCard {
     private Integer id;
 

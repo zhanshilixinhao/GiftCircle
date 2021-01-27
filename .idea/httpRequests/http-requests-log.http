@@ -1,0 +1,144 @@
+POST http://localhost:8080/auth/v4/rebateCoupon/getSuperUserInfo
+
+<> 2021-01-07T082131.200.json
+
+###
+
+POST http://localhost:8088/auth/v3/memberCard/list
+
+<> 2020-10-20T035002.200.json
+
+###
+
+GET http://localhost:8088/auth/v4/shareCoupon/test
+
+<> 2020-10-20T034940.200.json
+
+###
+
+POST http://localhost:8088/noauth/v1/home/Banner
+
+<> 2020-09-18T051658.200.json
+
+###
+
+POST http://localhost:8088/noauth/v1/home/Banner
+
+<> 2020-09-18T050146.200.json
+
+###
+
+POST http://localhost:8088/noauth/v1/home/con_item
+
+<> 2020-09-18T050142.200.json
+
+###
+
+POST http://localhost:8088/noauth/v1/home/festival
+
+<> 2020-09-18T050107.200.json
+
+###
+
+POST http://localhost:8088/noauth/v1/home/con_item
+
+<> 2020-09-18T050054.200.json
+
+###
+
+POST http://localhost:8088/noauth/v1/home/Banner
+
+<> 2020-09-18T050052.200.json
+
+###
+
+POST http://localhost:8088/noauth/v1/home/Banner
+
+<> 2020-09-18T050011.200.json
+
+###
+
+POST http://localhost:8088/noauth/v1/home/con_item
+
+<> 2020-09-18T050001.200.json
+
+###
+
+POST http://localhost:8088/noauth/v1/home/Banner
+
+<> 2020-09-18T045956.200.json
+
+###
+
+POST http://localhost:8088/noauth/user/wxLogin
+
+<> 2020-09-18T045516.200.json
+
+###
+
+POST http://localhost:8088/noauth/v1/home/Banner
+
+<> 2020-09-18T043543.200.json
+
+###
+
+POST http://localhost:8088/auth/v3/cardSend/wx
+
+<> 2020-09-18T041502-3.200.json
+
+###
+
+POST http://localhost:8088/auth/welfare/list
+
+<> 2020-09-18T041502-2.200.json
+
+###
+
+POST http://localhost:8088/noauth/v1/home/festival
+
+<> 2020-09-18T041502-1.200.json
+
+###
+
+POST http://localhost:8088/noauth/v1/home/con_item
+
+<> 2020-09-18T041502.200.json
+
+###
+
+POST http://localhost:8088/noauth/v1/home/Banner
+
+<> 2020-09-18T041501.200.json
+
+###
+
+POST http://localhost:8088/auth/v3/cardSend/wx
+
+<> 2020-09-18T041247.200.json
+
+###
+
+POST http://localhost:8088/auth/welfare/list
+
+<> 2020-09-18T040807.200.json
+
+###
+
+POST http://localhost:8088/noauth/v1/home/festival
+
+<> 2020-09-18T040125.200.json
+
+###
+
+POST http://localhost:8088/noauth/v1/home/con_item
+
+<> 2020-09-18T035946.200.json
+
+###
+
+POST http://localhost:8088/noauth/v1/home/Banner
+
+<> 2020-09-18T035933.200.json
+
+###
+

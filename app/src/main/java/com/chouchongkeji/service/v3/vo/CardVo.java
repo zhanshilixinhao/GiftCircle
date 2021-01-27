@@ -3,6 +3,10 @@ package com.chouchongkeji.service.v3.vo;
 
 import com.chouchongkeji.dial.pojo.v3.Store;
 import com.yichen.auth.jackson.ImgUrl;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -12,6 +16,9 @@ import java.util.List;
  * @author linqin
  * @date 2019/10/24
  */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class CardVo {
     /**
      * 会员卡用户关联表id
@@ -55,156 +62,7 @@ public class CardVo {
 
     private String code;
 
-    public BigDecimal getCapital() {
-        return capital;
-    }
-
-    public void setCapital(BigDecimal capital) {
-        this.capital = capital;
-    }
-
-    public BigDecimal getSend() {
-        return send;
-    }
-
-    public void setSend(BigDecimal send) {
-        this.send = send;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getMembershipCardId() {
-        return membershipCardId;
-    }
-
-    public void setMembershipCardId(Integer membershipCardId) {
-        this.membershipCardId = membershipCardId;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public BigDecimal getBalance() {
-        return balance;
-    }
-
-    public void setBalance(BigDecimal balance) {
-        this.balance = balance;
-    }
-
-    public Date getCreated() {
-        return created;
-    }
-
-    public void setCreated(Date created) {
-        this.created = created;
-    }
-
-    public Long getCardNo() {
-        return cardNo;
-    }
-
-    public void setCardNo(Long cardNo) {
-        this.cardNo = cardNo;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getSummary() {
-        return summary;
-    }
-
-    public void setSummary(String summary) {
-        this.summary = summary;
-    }
-
-    public String getColour() {
-        return colour;
-    }
-
-    public void setColour(String colour) {
-        this.colour = colour;
-    }
-
-    public String getLogo() {
-        return logo;
-    }
-
-    public void setLogo(String logo) {
-        this.logo = logo;
-    }
-
-    public Byte getType() {
-        return type;
-    }
-
-    public void setType(Byte type) {
-        this.type = type;
-    }
+    private Date updated;
 
 
-    public String getStoreIds() {
-        return storeIds;
-    }
-
-    public void setStoreIds(String storeIds) {
-        this.storeIds = storeIds;
-    }
-
-    public List<Store> getStores() {
-        return stores;
-    }
-
-    public void setStores(List<Store> stores) {
-        this.stores = stores;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getGrade() {
-        return grade;
-    }
-
-    public void setGrade(String grade) {
-        this.grade = grade;
-    }
-
-    public String getSummaryGrade() {
-        return summaryGrade;
-    }
-
-    public void setSummaryGrade(String summaryGrade) {
-        this.summaryGrade = summaryGrade;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
 }

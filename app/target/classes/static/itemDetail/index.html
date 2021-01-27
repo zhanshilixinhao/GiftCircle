@@ -1,0 +1,217 @@
+<!doctype html>
+<html class="no-js">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title class="shopTitle" >礼遇圈</title>
+
+  <link rel="stylesheet" href="assets/css/amazeui.min.css">
+</head>
+
+<body>
+  <div class="am-slider am-slider-default">
+    <ul class="am-slides shopSlide">
+      <!-- <li>
+        <img class="aImg" src="http://placehold.it/350x300">
+      </li>
+      <li>
+        <img class="aImg" src="http://placehold.it/350x300">
+      </li>
+      <li>
+        <img class="aImg" src="http://placehold.it/350x300">
+      </li> -->
+    </ul>
+  </div>
+  <div class="auto">
+    <div class="text-a shopTitle">
+      <!-- 玫瑰花压纹名媛女包 -->
+    </div>
+    <div class="text-b shopDes">
+      <!-- 民族风的女士真皮手提包，彰显名媛气质，百搭各种衣服穿搭 -->
+    </div>
+    <div class="text-c">￥<span class="shopPrice" >0</span></div>
+  </div>
+
+  <div class="text-d">
+    <div class="text-d1"></div>
+    <div class="text-d2">详情</div>
+    <div class="text-d1"></div>
+  </div>
+
+  <div class="part">
+    <div class="images shopCon">
+      <!-- <img class="bImg" src="http://placehold.it/350x300"> -->
+    </div>
+  </div>
+
+  <div class="background">
+    <img class="bImgg" src="http://45.40.206.174/static/item/190731/8841f320-940e-4924-ac66-b60423790cf7.png">
+    <div class="text-d3">用礼物温暖你的人际圈>></div>
+<!--    <a href="" class="btn" type="button" id="link" style="text-align: center"> 打开</a>-->
+    <a href="https://a.app.qq.com/dom/micro/open.jsp?pkgname=com.chouchongkeji.courtesy&from=groupmessagel" class="btn" type="button" style="text-align: center">下载</a>
+  </div>
+
+  <script src="assets/js/zepto.min.js?1.1.4"></script>
+  <script src="assets/js/amazeui.js"></script>
+  <script>
+    $.AMUI.progress.start();
+    Zepto.post("https://liyuquan.cn/app/noauth/item/itemDetailShare",{
+      id: getParam("uid")
+    }, function(a){
+      $.AMUI.progress.done();
+      Zepto('.shopTitle').html(a.data.title)
+      Zepto('.shopDes').html(a.data.description)
+      Zepto('.shopPrice').html(a.data.price)
+
+      var bannerStr = ''
+      a.data.pictures.forEach(element => {
+        bannerStr += `<li>
+            <img class="aImg" src="${element}">
+          </li>`
+      });
+      Zepto('.shopSlide').html(bannerStr)
+
+      var bannerStr = ''
+      a.data.wxCover.forEach(element => {
+        bannerStr += `<img class="bImg" src="${element}">`
+      });
+      Zepto('.shopCon').html(bannerStr)
+
+      Zepto(function ($) {
+        $('.am-slider').flexslider({
+          slideshow: true,
+          slideshowSpeed: 2000,
+          controlNav: false
+        });
+      });
+    })
+    function getParam(name) {
+      var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+      var r = window.location.search.substr(1).match(reg);  //这里返回找到正则的匹配
+
+      var id = ''
+      if (r != null) {
+        id = unescape(r[2]);    //这里返回对应的值
+      }
+      return id
+    }
+    window.onload = function () {
+
+      var id = getParam('uid')
+      var type = getParam('type')
+
+      var href = "liyuquan://app?type=1&uid="+id
+      var a = document.getElementById("link");
+      a.setAttribute("href",href);
+
+
+    }
+  </script>
+
+  <style>
+    .text-a {
+      margin-top: 18px;
+      margin-bottom: 18px;
+      font-size: 26px;
+      padding: 0px 22px;
+      color: #000000;
+    }
+
+    .text-b {
+      font-size: 18px;
+      color: #909090;
+      padding: 0px 22px;
+      margin-bottom: 18px;
+    }
+
+    .text-c {
+      font-size: 24px;
+      color: #FF0000;
+      margin-bottom: 22px;
+    }
+
+    .auto {
+      text-align: center;
+    }
+
+    .text-d {
+      display: flex;
+      align-items: center;
+      padding: 0px 10%;
+      margin-bottom: 20px;
+    }
+
+    .text-d1 {
+      height: 1px;
+      width: 35%;
+      background-color: #B2B2B2;
+    }
+
+    .text-d2 {
+      font-size: 18px;
+      color: #8D85F3;
+      flex: 1;
+      text-align: center;
+    }
+
+    .background {
+      position: fixed;
+      bottom: 0px;
+      left: 0px;
+      background-color: rgba(0, 0, 0, 0.8);
+      display: flex;
+      align-items: center;
+      padding: 10px 0px;
+      width: 100%;
+      z-index: 100;
+    }
+    body {
+      padding-bottom: 100px;
+    }
+
+    .image-w {
+      width: 80px;
+      height: 80px;
+      margin-left: 22px;
+    }
+
+    .bImgg {
+      border-radius: 100px;
+      width: 40px;
+      height: 40px;
+      margin-left: 18px;
+      margin-right: 18px;
+    }
+
+    .text-d3 {
+      font-size: 16px;
+      color: #FFFFFF;
+    }
+
+    .bImg {
+      width: 100%;
+    }
+
+    .btn {
+      margin-left: 18px;
+      height:30px;
+      flex: 1;
+      border: 2px solid #FFFFFF;
+      border-radius: 30px;
+      font-size: 14px;
+      color: #FFFFFF;
+      background-color: rgba(0, 0, 0, 0);
+      margin-right: 18px;
+    }
+    .fulltext {
+      padding: 20px 20px;
+    }
+  </style>
+
+</body>
+
+</html>

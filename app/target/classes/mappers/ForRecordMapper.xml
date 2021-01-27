@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chouchongkeji.dial.dao.backpack.ForRecordMapper">
+    <resultMap id="BaseResultMap" type="com.chouchongkeji.dial.pojo.backpack.ForRecord">
+        <!--<constructor>-->
+        <!--<id column="id" javaType="java.lang.Integer" jdbcType="INTEGER"/>-->
+        <!--<arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />-->
+        <!--<arg column="bp_id" javaType="java.lang.Long" jdbcType="BIGINT" />-->
+        <!--<arg column="friend_user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />-->
+        <!--<arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT" />-->
+        <!--<arg column="operation" javaType="java.lang.Byte" jdbcType="TINYINT" />-->
+        <!--<arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />-->
+        <!--<arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />-->
+        <!--</constructor>-->
+    </resultMap>
+    <sql id="Base_Column_List">
+        id
+        ,
+        user_id,
+        bp_id,
+        friend_user_id,
+        status,
+        operation,
+        created,
+        updated,
+        is_del,
+        is_friend_del
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from for_record
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from for_record
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+
+
+    <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.backpack.ForRecord" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into for_record (id, user_id, bp_id,
+                                friend_user_id, status, operation,
+                                created, updated)
+        values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{bpId,jdbcType=BIGINT},
+                #{friendUserId,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, #{operation,jdbcType=TINYINT},
+                now(), now())
+    </insert>
+    <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.backpack.ForRecord">
+        insert into for_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="bpId != null">
+                bp_id,
+            </if>
+            <if test="friendUserId != null">
+                friend_user_id,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="operation != null">
+                operation,
+            </if>
+            <if test="created != null">
+                created,
+            </if>
+            <if test="updated != null">
+                updated,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="bpId != null">
+                #{bpId,jdbcType=BIGINT},
+            </if>
+            <if test="friendUserId != null">
+                #{friendUserId,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=TINYINT},
+            </if>
+            <if test="operation != null">
+                #{operation,jdbcType=TINYINT},
+            </if>
+            <if test="created != null">
+                #{created,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updated != null">
+                #{updated,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.chouchongkeji.dial.pojo.backpack.ForRecord">
+        update for_record
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="bpId != null">
+                bp_id = #{bpId,jdbcType=BIGINT},
+            </if>
+            <if test="friendUserId != null">
+                friend_user_id = #{friendUserId,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=TINYINT},
+            </if>
+            <if test="operation != null">
+                operation = #{operation,jdbcType=TINYINT},
+            </if>
+            <if test="created != null">
+                created = #{created,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updated != null">
+                updated = #{updated,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isDel != null">
+                is_del = #{isDel},
+            </if>
+            <if test="isFriendDel != null">
+                is_friend_del = #{isFriendDel},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.dial.pojo.backpack.ForRecord">
+        update for_record
+        set user_id        = #{userId,jdbcType=INTEGER},
+            bp_id          = #{bpId,jdbcType=BIGINT},
+            friend_user_id = #{friendUserId,jdbcType=INTEGER},
+            status         = #{status,jdbcType=TINYINT},
+            operation      = #{operation,jdbcType=TINYINT},
+            created        = #{created,jdbcType=TIMESTAMP},
+            updated        = #{updated,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateStatusByRId">
+        update for_record
+        set is_del = 1
+        where id = #{rId}
+    </update>
+    <update id="updateDelByRId">
+        update for_record
+        set is_friend_del = 1
+        where id = #{rId}
+    </update>
+
+    <select id="selectAllByUserId" resultType="com.chouchongkeji.service.backpack.base.vo.ForRecordVo">
+        SELECT
+            a.*,
+            b.cover,
+            b.title,
+            b.price,
+            b.brand,
+            c.avatar,
+            c.nickname
+        FROM
+            (
+                SELECT
+                    id,
+                    user_id,
+                    bp_id,
+                    friend_user_id,
+                    `status`,
+                    operation,
+                    created,
+                    1 AS type
+                FROM
+                    `for_record`
+                WHERE
+                    user_id = #{userId}
+                  and is_del is null
+                UNION
+                SELECT
+                    id,
+                    friend_user_id AS user_id,
+                    bp_id,
+                    user_id        AS friend_user_id,
+                    `status`,
+                    operation,
+                    created,
+                    2              AS type
+                FROM
+                    `for_record`
+                WHERE
+                    friend_user_id = #{userId}
+                  and is_friend_del is null
+            ) a
+                LEFT JOIN v_bp b on b.id = a.bp_id
+                LEFT JOIN app_user c on a.friend_user_id = c.id
+        where a.type = #{type}
+        order by a.created DESC
+    </select>
+    <select id="selectByUserIdAndForRecordId" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        for_record
+        WHERE
+        friend_user_id = #{userId}
+        and id = #{forRecordId}
+    </select>
+
+
+</mapper>

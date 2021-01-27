@@ -6,22 +6,47 @@
         <artifactId>GiftCircle</artifactId>
         <groupId>com.chouchongkeji</groupId>
         <version>1.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>app</artifactId>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <name>app</name>
     <!-- FIXME change it to the project's website -->
     <url>http://www.example.com</url>
 
     <dependencies>
+
+        <dependency>
+            <groupId>tk.mybatis</groupId>
+            <artifactId>mapper-spring-boot-starter</artifactId>
+            <version>2.1.2</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.showapi.javasdk/com.showapi.javasdk -->
+        <dependency>
+            <groupId>com.showapi.javasdk</groupId>
+            <artifactId>com.showapi.javasdk</artifactId>
+            <version>0.0.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.rongcloud.im</groupId>
+            <artifactId>server-sdk-java</artifactId>
+            <version>3.1.6</version>
+        </dependency>
         <dependency>
             <groupId>com.chouchongkeji</groupId>
             <artifactId>auth</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
+
+        <dependency>
+            <groupId>com.chouchongkeji</groupId>
+            <artifactId>common</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
         <!--引入druid数据源-->
         <!-- https://mvnrepository.com/artifact/com.alibaba/druid -->
         <dependency>
@@ -114,7 +139,7 @@
         <dependency>
             <groupId>org.bouncycastle</groupId>
             <artifactId>bcprov-jdk15on</artifactId>
-            <version>1.59</version>
+            <version>1.60</version>
         </dependency>
 
         <dependency>
@@ -124,11 +149,11 @@
         </dependency>
 
         <!--&lt;!&ndash;个推&ndash;&gt;-->
-        <!--<dependency>-->
-        <!--<groupId>com.gexin.platform</groupId>-->
-        <!--<artifactId>gexin-rp-sdk-http</artifactId>-->
-        <!--<version>4.1.0.0</version>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>com.gexin.platform</groupId>
+            <artifactId>gexin-rp-sdk-http</artifactId>
+            <version>4.1.0.0</version>
+        </dependency>
 
 
         <!--aop拦截器-->
@@ -138,15 +163,22 @@
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/com.github.binarywang/weixin-java-miniapp -->
+        <dependency>
+            <groupId>com.github.binarywang</groupId>
+            <artifactId>weixin-java-miniapp</artifactId>
+            <version>3.9.6.B</version>
+        </dependency>
+
 
     </dependencies>
     <!--个推-->
-    <!--<repositories>-->
-    <!--<repository>-->
-    <!--<id>getui-nexus</id>-->
-    <!--<url>http://mvn.gt.igexin.com/nexus/content/repositories/releases/</url>-->
-    <!--</repository>-->
-    <!--</repositories>-->
+    <repositories>
+        <repository>
+            <id>getui-nexus</id>
+            <url>http://mvn.gt.igexin.com/nexus/content/repositories/releases/</url>
+        </repository>
+    </repositories>
 
     <build>
         <plugins>
@@ -159,6 +191,31 @@
             <!--<overwrite>true</overwrite>-->
             <!--</configuration>-->
             <!--</plugin>-->
+            <!--<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.20.1</version>
+                <configuration>
+                    <skipTests>true</skipTests>
+                </configuration>
+            </plugin>-->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <!-- 指定该Main Class为全局的唯一入口 -->
+                    <mainClass>com.chouchongkeji.App</mainClass>
+                    <layout>ZIP</layout>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal><!--可以把依赖的包都打包到生成的Jar包中-->
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
     </build>
 </project>

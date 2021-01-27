@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chouchongkeji.dial.dao.gift.item.ItemSkuMapper">
+  <resultMap id="BaseResultMap" type="com.chouchongkeji.dial.pojo.gift.item.ItemSku">
+  <constructor>
+    <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+    <arg column="item_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+    <arg column="title" javaType="java.lang.String" jdbcType="VARCHAR" />
+    <arg column="cover" javaType="java.lang.String" jdbcType="VARCHAR" />
+    <arg column="pictures" javaType="java.lang.String" jdbcType="VARCHAR" />
+    <arg column="stock" javaType="java.lang.Integer" jdbcType="INTEGER" />
+    <arg column="price" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+    <arg column="sales" javaType="java.lang.Integer" jdbcType="INTEGER" />
+    <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT" />
+    <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+  </constructor>
+</resultMap>
+  <resultMap id="ResultMap" type="com.chouchongkeji.service.mall.item.vo.SkuListVo">
+      <result column="sku_id" property="skuId"/>
+      <result column="item_id" property="itemId"/>
+      <result column="title" property="title"/>
+      <result column="cover" property="cover"/>
+      <result column="price" property="price"/>
+      <result column="stock" property="stock"/>
+      <result column="sales" property="sales"/>
+      <collection property="values" ofType="com.chouchongkeji.service.mall.item.vo.SkuValueVo">
+        <result column="value_id" property="valueId"/>
+        <result column="feature_id" property="featureId"/>
+        <result column="value" property="value"/>
+        <result column="feature_name" property="featureName"/>
+      </collection>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, item_id, title, cover, pictures, stock, price, sales, status, created, updated
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from item_sku
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="selectByItemId" resultMap ="ResultMap">
+      SELECT
+	a.id AS sku_id,
+	a.item_id,
+	a.title,
+	a.cover,
+	a.price,
+	a.stock,
+	a.sales,
+	c.id as value_id,
+	c.feature_id,
+	c.`value`,
+             d.name as feature_name
+FROM
+	item_sku a
+	LEFT JOIN item_sku_value b ON b.sku_id = a.id
+	LEFT JOIN item_value c ON c.id = b.value_id
+      left join item_feature d on d.id = c.feature_id
+WHERE
+	a.item_id = #{itemId} and a.status = 1
+    </select>
+
+  <select id="selectDetailBySkuId" resultMap="ResultMap">
+  SELECT
+	a.id AS sku_id,
+	a.item_id,
+	a.title,
+	a.cover,
+	a.price,
+	a.stock,
+	a.sales,
+	c.id as value_id,
+	c.feature_id,
+	c.`value`,
+             d.name as feature_name
+FROM
+	item_sku a
+	LEFT JOIN item_sku_value b ON b.sku_id = a.id
+	LEFT JOIN item_value c ON c.id = b.value_id
+      left join item_feature d on d.id = c.feature_id
+WHERE
+	a.id = #{skuId}
+  </select>
+
+    <select id="selectBySkuId" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List" />
+      from item_sku
+      where id = #{skuId}
+    </select>
+  <select id="selectBySkuIdAll" resultType="com.chouchongkeji.service.backpack.gift.vo.GiftItemVo">
+    select
+a.id as targetId,
+       a.price,
+       a.title,
+       a.cover,
+       b.description,
+       c.name as brand,
+       a.linqin as spec
+from item_sku a
+left join item b on a.item_id = b.id
+left join brand c on c.id = b.brand_id
+where a.id = #{id}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from item_sku
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.gift.item.ItemSku">
+    insert into item_sku (id, item_id, title,
+      cover, pictures, stock,
+      price, sales, status,
+      created, updated)
+    values (#{id,jdbcType=INTEGER}, #{itemId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR},
+      #{cover,jdbcType=VARCHAR}, #{pictures,jdbcType=VARCHAR}, #{stock,jdbcType=INTEGER},
+      #{price,jdbcType=DECIMAL}, #{sales,jdbcType=INTEGER}, #{status,jdbcType=TINYINT},
+      #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.gift.item.ItemSku">
+    insert into item_sku
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="itemId != null">
+        item_id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="cover != null">
+        cover,
+      </if>
+      <if test="pictures != null">
+        pictures,
+      </if>
+      <if test="stock != null">
+        stock,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="sales != null">
+        sales,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="created != null">
+        created,
+      </if>
+      <if test="updated != null">
+        updated,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="itemId != null">
+        #{itemId,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="cover != null">
+        #{cover,jdbcType=VARCHAR},
+      </if>
+      <if test="pictures != null">
+        #{pictures,jdbcType=VARCHAR},
+      </if>
+      <if test="stock != null">
+        #{stock,jdbcType=INTEGER},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="sales != null">
+        #{sales,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chouchongkeji.dial.pojo.gift.item.ItemSku">
+    update item_sku
+    <set>
+      <if test="itemId != null">
+        item_id = #{itemId,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="cover != null">
+        cover = #{cover,jdbcType=VARCHAR},
+      </if>
+      <if test="pictures != null">
+        pictures = #{pictures,jdbcType=VARCHAR},
+      </if>
+      <if test="stock != null">
+        stock = #{stock,jdbcType=INTEGER},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="sales != null">
+        sales = #{sales,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        updated = #{updated,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.dial.pojo.gift.item.ItemSku">
+    update item_sku
+    set item_id = #{itemId,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      cover = #{cover,jdbcType=VARCHAR},
+      pictures = #{pictures,jdbcType=VARCHAR},
+      stock = #{stock,jdbcType=INTEGER},
+      price = #{price,jdbcType=DECIMAL},
+      sales = #{sales,jdbcType=INTEGER},
+      status = #{status,jdbcType=TINYINT},
+      created = #{created,jdbcType=TIMESTAMP},
+      updated = #{updated,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateSalesBySkuId">
+    UPDATE
+	`item_sku`
+	set sales = sales + #{quantity}
+WHERE
+	id = #{skuId}
+  </update>
+  <update id="updateStockBySkuId">
+    UPDATE
+	`item_sku`
+	set stock = stock + #{quantity}
+WHERE
+	id = #{skuId}
+  </update>
+</mapper>

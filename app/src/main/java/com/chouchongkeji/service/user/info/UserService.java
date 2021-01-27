@@ -140,4 +140,6 @@ public interface UserService {
      * @date 2019/6/21
      */
     Object ryUserRegister(Integer userId, String nickname, String avatar) throws Exception;
+
+    Integer bindUser(String userInfo, String openid, String phoneNumber,Integer type);
 }

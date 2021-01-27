@@ -1,6 +1,7 @@
 package com.chouchongkeji.service.user.info.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.chouchongkeji.dial.dao.user.AppUserMapper;
 import com.chouchongkeji.dial.dao.user.ThirdAccountMapper;
@@ -11,6 +12,8 @@ import com.chouchongkeji.dial.pojo.user.ThirdAccount;
 import com.chouchongkeji.dial.pojo.user.UserPreference;
 import com.chouchongkeji.dial.pojo.user.memo.Moment;
 import com.chouchongkeji.register.UserRegister;
+import com.chouchongkeji.service.v4.vo.MiNiUserInfoVo;
+import com.chouchongkeji.util.Constants;
 import com.yichen.auth.redis.MRedisTemplate;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
@@ -501,6 +504,34 @@ public class UserServiceImpl implements UserService {
     public TokenResult ryUserRegister(Integer userId, String nickname, String avatar) throws Exception{
         TokenResult register = UserRegister.register(userId, nickname, avatar);
         return register;
+    }
+
+    @Override
+    public Integer bindUser(String userInfo, String openid, String phoneNumber,Integer type) {
+        MiNiUserInfoVo userInfoVo = JSONObject.parseObject(userInfo, MiNiUserInfoVo.class);
+        AppUser appUser = new AppUser();
+        appUser.setAccount(phoneNumber);
+        appUser.setPhone(phoneNumber);
+        appUser.setPassword(RandomStringUtils.randomNumeric(10));
+        appUser.setNickname(userInfoVo.getNickname());
+        appUser.setAvatar(userInfoVo.getAvatarUrl());
+        appUser.setStatus((byte) 1);
+        appUser.setGender(Byte.parseByte(userInfoVo.getGender().toString()));
+        appUser.setAge(0);
+        appUser.setSignature("个性签名");
+        appUser.setIsHide((byte) 1);
+        appUser.setDistrict( userInfoVo.getProvince() );
+        appUser.setCreated(new Date());
+        appUser.setUpdated(new Date());
+        appUserMapper.insert(appUser);
+        ThirdAccount thirdAccount = new ThirdAccount();
+        thirdAccount.setOpenId(openid);
+        thirdAccount.setPhone(phoneNumber);
+        thirdAccount.setType(Byte.parseByte(type.toString()));
+        thirdAccount.setCreated(new Date());
+        thirdAccount.setUpdated(new Date());
+        thirdAccountMapper.insert(thirdAccount);
+        return appUser.getId();
     }
 
 

@@ -1,8 +1,16 @@
 package com.chouchongkeji.dial.pojo.v3;
 
+import lombok.ToString;
+
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.util.Date;
 
+@ToString
 public class ElUserCoupon {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private Integer couponId;

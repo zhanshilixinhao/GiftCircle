@@ -1,7 +1,10 @@
 package com.chouchongkeji.dial.pojo.user;
 
+import lombok.ToString;
+
 import java.util.Date;
 
+@ToString
 public class ThirdAccount {
     private Integer id;
 

@@ -33,8 +33,9 @@ public class MemberCardController {
      * @date 2019/10/23
      */
     @PostMapping("list")
-    public Response getMemberCardList(@AuthenticationPrincipal UserDetails userDetails, PageQuery page,String keywords) {
-        return memberCardService.getMemberCardList(userDetails, page,keywords);
+    public Response getMemberCardList(@AuthenticationPrincipal UserDetails userDetails, PageQuery page,String keywords,
+                                      Integer type) {
+        return memberCardService.getMemberCardList(userDetails, page,keywords,type);
     }
 
     /**

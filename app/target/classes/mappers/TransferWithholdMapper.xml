@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chouchongkeji.dial.dao.v3.TransferWithholdMapper">
+  <resultMap id="BaseResultMap" type="com.chouchongkeji.dial.pojo.v3.TransferWithhold">
+    <constructor>
+      <idArg column="transfer_send_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="send_money" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    transfer_send_id, user_id, send_money, status, updated, created
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from transfer_withhold
+    where transfer_send_id = #{transferSendId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from transfer_withhold
+    where transfer_send_id = #{transferSendId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.v3.TransferWithhold">
+    insert into transfer_withhold (transfer_send_id, user_id, send_money,
+      status, updated, created
+      )
+    values (#{transferSendId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{sendMoney,jdbcType=DECIMAL},
+      #{status,jdbcType=TINYINT}, #{updated,jdbcType=TIMESTAMP}, #{created,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.v3.TransferWithhold">
+    insert into transfer_withhold
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="transferSendId != null">
+        transfer_send_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="sendMoney != null">
+        send_money,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="updated != null">
+        updated,
+      </if>
+      <if test="created != null">
+        created,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="transferSendId != null">
+        #{transferSendId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="sendMoney != null">
+        #{sendMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="updated != null">
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chouchongkeji.dial.pojo.v3.TransferWithhold">
+    update transfer_withhold
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="sendMoney != null">
+        send_money = #{sendMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+        updated = now(),
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where transfer_send_id = #{transferSendId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.dial.pojo.v3.TransferWithhold">
+    update transfer_withhold
+    set user_id = #{userId,jdbcType=INTEGER},
+      send_money = #{sendMoney,jdbcType=DECIMAL},
+      status = #{status,jdbcType=TINYINT},
+      updated = #{updated,jdbcType=TIMESTAMP},
+      created = #{created,jdbcType=TIMESTAMP}
+    where transfer_send_id = #{transferSendId,jdbcType=INTEGER}
+  </update>
+</mapper>

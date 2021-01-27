@@ -25,9 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author linqin
@@ -65,12 +63,13 @@ public class MemberCardServiceImpl implements MemberCardService {
      *
      * @param userDetails
      * @param page
+     * @param type 1.余额排序  0.按最近使用排序
      * @return
      * @author linqin
      * @date 2019/10/23
      */
     @Override
-    public Response getMemberCardList(UserDetails userDetails, PageQuery page, String keywords) {
+    public Response getMemberCardList(UserDetails userDetails, PageQuery page, String keywords,Integer type) {
         // 查询该用户是否有礼遇圈卡
         HashSet<Integer> cardIds = userMemberCardMapper.selectCardIdsByUserId(userDetails.getUserId());
         if (cardIds.size() == 0 || !cardIds.contains(0)) {
@@ -96,6 +95,22 @@ public class MemberCardServiceImpl implements MemberCardService {
                     }
                 }
                 cardVo.setStores(list);
+            }
+            if (type == 0) {
+                Collections.sort(cardVos, new Comparator<CardVo>() {
+                    @Override
+                    public int compare(CardVo o1, CardVo o2) {
+                        return o2.getBalance().compareTo(o1.getBalance());
+                    }
+                });
+            }
+            if (type == 1) {
+                Collections.sort(cardVos, new Comparator<CardVo>() {
+                    @Override
+                    public int compare(CardVo o1, CardVo o2) {
+                        return o2.getUpdated().compareTo(o1.getUpdated());
+                    }
+                });
             }
         }
         return ResponseFactory.sucData(cardVos);

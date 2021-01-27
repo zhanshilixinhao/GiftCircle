@@ -43,7 +43,8 @@ public class Qrcode {
             // 开始生成二维码
             BitMatrix bitMatrix = new MultiFormatWriter().encode(text, BarcodeFormat.QR_CODE, WIDTH, HEIGHT, hashMap);
             // 导出到指定目录 MatrixToImageWriter
-            MatrixToImageWriter.writeToPath(bitMatrix, FORMAT, new File("/data/upload/image/qrcodeImg/" + name + ".png").toPath());
+
+            MatrixToImageWriter.writeToPath(bitMatrix, FORMAT, new File("/data/upload/image/qrcodeImg/"/*"D:\\WS\\"*/+ name + ".png").toPath());
         } catch (WriterException e) {
             e.printStackTrace();
         } catch (IOException e) {

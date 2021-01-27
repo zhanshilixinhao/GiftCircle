@@ -106,10 +106,15 @@ public class AESUtils {
     }
 
     public static void main(String[] args) {
-        String encrypt = encrypt(Utils.toMD5("sl"), "d是佛山东莞dasd");
+        /*String encrypt = encrypt(Utils.toMD5("sl"), "d是佛山东莞dasd");
         System.out.println(encrypt);
         String decrypt = decrypt(Utils.toMD5("sl"), encrypt);
-        System.out.println(decrypt);
+        System.out.println(decrypt);*/
+        String code = AESUtils.encrypt("a",
+                String.format("3,%s,%s", "大爸爸", System.currentTimeMillis()));
+        String zheshishenmemima = decrypt("", code);
+        System.out.println(code);
+        System.out.println(zheshishenmemima);
     }
 
 }

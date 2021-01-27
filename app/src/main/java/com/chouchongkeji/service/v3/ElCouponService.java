@@ -45,4 +45,18 @@ public interface ElCouponService {
      * @return
      */
     Response getElCouponDetail(Integer userId, Long num);
+
+    /**
+     * @Description: 扫二维码获取优惠券详情
+     * @Author: LxH
+     * @Date: 2020/10/26 13:08
+     */
+    Response getElCouponById(Integer id);
+
+    /**
+     * @Description: 用户领取优惠券
+     * @Author: LxH
+     * @Date: 2020/10/27 11:03
+     */
+    Response bindUserElCoupon(Integer userId, Integer elCouponId);
 }

@@ -24,6 +24,7 @@ public class MyAuthConfigerAdapter  extends AuthConfigerAdapter {
     @Autowired
     private ThirdAccService thirdAccService;
 
+    @Override
     public void config(AuthHolder authHolder){
         authHolder
                 .userDetailsService(userDetailsService) // 用户获取用户详情

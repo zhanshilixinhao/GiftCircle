@@ -1,0 +1,406 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chouchongkeji.dial.dao.backpack.gift.GiftRecordMapper">
+    <resultMap id="BaseResultMap" type="com.chouchongkeji.dial.pojo.gift.virtualItem.GiftRecord">
+        <constructor>
+            <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="greetting" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="type" javaType="java.lang.Byte" jdbcType="TINYINT"/>
+            <arg column="event" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="target_time" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT"/>
+            <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="p" javaType="java.lang.Float" jdbcType="FLOAT"/>
+            <arg column="is_hide" javaType="java.lang.Byte" jdbcType="TINYINT"/>
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id
+        ,
+        user_id,
+        greetting,
+        type,
+        event,
+        target_time,
+        status,
+        updated,
+        created,
+        p,
+        is_hide
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from gift_record
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <resultMap id="GiftTaskVo" type="com.chouchongkeji.service.backpack.gift.vo.GiftTaskVo">
+        <result column="record_id" property="recordId"/>
+        <result column="record_detail_id" property="recordDetailId"/>
+        <result column="send_user_id" property="sendUserId"/>
+        <result column="user_id" property="userId"/>
+        <result column="target_time" property="targetTime"/>
+        <result column="content" property="giftItems"
+                typeHandler="com.chouchongkeji.dial.handler.GiftItemVoTypeHandler"/>
+    </resultMap>
+
+    <select id="selectAllByTargetTime" resultMap="GiftTaskVo">
+        SELECT a.id      AS record_id,
+        a.user_id AS send_user_id,
+        b.id      AS record_detail_id,
+        b.user_id,
+        b.content,
+        a.target_time
+        FROM `gift_record` a
+        , gift_record_detail b
+        WHERE a.id = b.gift_record_id
+        and a.type = 2
+        AND a.STATUS = 1
+        AND UNIX_TIMESTAMP(a.target_time) &lt; UNIX_TIMESTAMP(now()) + 10
+    </select>
+    <select id="selectInExByUserId" resultType="com.chouchongkeji.service.backpack.gift.vo.GiftInoutVo">
+        SELECT
+        sum( CASE WHEN inout_type = 1 THEN amount ELSE 0 END ) as outgoings,
+        sum( CASE WHEN inout_type = 2 THEN amount ELSE 0 END ) as incoming
+        FROM
+        `v_gift_record`
+        <where>
+            <trim prefixOverrides="and">
+                and user_id = #{userId}
+                <if test="starting!=null">
+                    and UNIX_TIMESTAMP(created) >= #{starting}
+                </if>
+                <if test="ending!=null">
+                    and UNIX_TIMESTAMP(created) &lt;= #{ending}
+                </if>
+                <if test="obType!=null and obType!=''">
+                    and ob_type = #{obType}
+                </if>
+            </trim>
+        </where>
+    </select>
+    <select id="selectRecordByUserId" resultType="com.chouchongkeji.service.backpack.gift.vo.GiftRecordItemVo">
+        SELECT
+        *
+        FROM
+        `v_gift_record_user`
+        <where>
+            <trim prefixOverrides="and">
+                and user_id = #{userId}
+                <if test="starting!=null">
+                    and UNIX_TIMESTAMP(created) >= #{starting}
+                </if>
+                <if test="ending!=null">
+                    and UNIX_TIMESTAMP(created) &lt;= #{ending}
+                </if>
+                <if test="obType!=null and obType!=''">
+                    and ob_type = #{obType}
+                </if>
+            </trim>
+        </where>
+        order by created DESC
+    </select>
+
+    <resultMap id="GiftFriendVo" type="com.chouchongkeji.service.backpack.gift.vo.GiftFriendVo">
+        <result column="content" property="gifts" typeHandler="com.chouchongkeji.dial.handler.GiftItemVoTypeHandler"/>
+        <result column="record_id" property="recordId"/>
+        <result column="greetting" property="greetting"/>
+        <result column="gift_type" property="giftType"/>
+        <result column="event" property="event"/>
+        <result column="created" property="created"/>
+        <result column="record_detail_id" property="recordDetailId"/>
+        <result column="amount" property="amount"/>
+        <result column="inout_type" property="inoutType"/>
+    </resultMap>
+
+    <select id="selectByFriendUserId" resultMap="GiftFriendVo">
+        SELECT
+            a.*
+        FROM
+            (
+                SELECT
+                    a.id   AS record_id,
+                    a.greetting,
+                    a.type AS gift_type,
+                    a.`event`,
+                    a.created,
+                    b.id   AS record_detail_id,
+                    b.amount,
+                    b.content,
+                    1      AS inout_type
+                FROM
+                    gift_record a
+                        LEFT JOIN gift_record_detail b ON a.id = b.gift_record_id
+                WHERE
+                    a.user_id = #{userId}
+                  AND b.user_id = #{friendUserId}
+                UNION
+                SELECT
+                    a.id   AS record_id,
+                    a.greetting,
+                    a.type AS gift_type,
+                    a.`event`,
+                    a.created,
+                    b.id   AS record_detail_id,
+                    b.amount,
+                    b.content,
+                    2      AS inout_type
+                FROM
+                    gift_record a
+                        LEFT JOIN gift_record_detail b ON a.id = b.gift_record_id
+                WHERE
+                    a.user_id = #{friendUserId}
+                  AND b.user_id = #{userId}
+            ) AS a
+        ORDER BY
+            a.created
+    </select>
+
+
+    <resultMap id="GiftSendListVo" type="com.chouchongkeji.service.backpack.gift.vo.GiftSendListVo">
+        <result column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="greetting" property="greetting"/>
+        <result column="type" property="type"/>
+        <result column="event" property="event"/>
+        <result column="target_time" property="targetTime"/>
+        <result column="status" property="status"/>
+        <result column="updated" property="updated"/>
+        <result column="nickname" property="nickname"/>
+        <result column="avatar" property="avatar"/>
+        <result column="flag" property="flag"/>
+        <collection property="detail" javaType="ArrayList"
+                    ofType="com.chouchongkeji.service.backpack.gift.vo.GiftRecordDetailVo">
+            <result column="gift_record_detail_id" property="id"/>
+            <result column="gift_record_id" property="giftRecordId"/>
+            <result column="friend_user_id" property="userId"/>
+            <result column="amount" property="amount"/>
+            <result column="content" property="content"
+                    typeHandler="com.chouchongkeji.dial.handler.GiftItemVoTypeHandler"/>
+            <result column="is_reply" property="isReply"/>
+            <result column="reply" property="reply"/>
+            <result column="b_status" property="status"/>
+            <result column="updated" property="updated"/>
+            <result column="created" property="created"/>
+            <result column="friend_nickname" property="friendNickname"/>
+            <result column="friend_avatar" property="friendAvatar"/>
+        </collection>
+    </resultMap>
+    <select id="selectListByFlagUserId" resultMap="GiftSendListVo">
+        <choose>
+            <when test="flag == 1">
+                select
+                a.id,
+                a.user_id,
+                a.greetting,
+                a.type,
+                a.event,
+                a.target_time,
+                a.status,
+                       b.id as gift_record_detail_id,
+                b.user_id as friend_user_id,
+                b.gift_record_id,
+                b.content,
+                b.is_reply,
+                b.reply,
+                       b.status as b_status,
+                b.updated,
+                b.created,
+                c.nickname,
+                c.avatar,
+                d.nickname as friend_nickname,
+                d.avatar as friend_avatar,
+                1 as flag
+                from
+                (select
+                a.id,
+                a.user_id,
+                a.greetting,
+                a.type,
+                a.event,
+                a.target_time,
+                a.status
+                from gift_record a
+                where a.user_id = #{userId}
+                and a.status != -1
+                and a.status != 0
+                and a.is_hide = 1
+                order by a.created DESC
+                limit #{pageNum}, #{pageSize}) a
+                left join gift_record_detail b on a.id = b.gift_record_id
+                left join app_user c on c.id = a.user_id
+                left join app_user d on d.id = b.user_id
+                where b.is_hide = 1
+            </when>
+            <otherwise>
+                select
+                a.id,
+                a.user_id,
+                a.greetting,
+                a.type,
+                a.event,
+                a.target_time,
+                a.status,
+                b.id as gift_record_detail_id,
+                b.user_id  as friend_user_id,
+                b.gift_record_id,
+                b.content,
+                b.status as b_status,
+                b.is_reply,
+                b.reply,
+                b.updated,
+                c.nickname,
+                c.avatar,
+                d.nickname as friend_nickname,
+                d.avatar   as friend_avatar,
+                2          as flag
+                from gift_record a
+                left join gift_record_detail b on a.id = b.gift_record_id
+                left join app_user c on c.id = a.user_id
+                left join app_user d on d.id = b.user_id
+                where b.user_id = #{userId}
+                and b.status != -1
+                and b.status != 0
+                and b.is_hide = 1
+                and a.is_hide = 1
+                order by a.created DESC
+                limit  #{pageNum}, #{pageSize}
+            </otherwise>
+        </choose>
+
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from gift_record
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.gift.virtualItem.GiftRecord" keyProperty="id"
+            useGeneratedKeys="true">
+        insert into gift_record (id, user_id, greetting,
+                                 type, event, target_time,
+                                 status, updated, created, p,is_hide)
+        values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{greetting,jdbcType=VARCHAR},
+                #{type,jdbcType=TINYINT}, #{event,jdbcType=VARCHAR}, #{targetTime,jdbcType=TIMESTAMP},
+                #{status,jdbcType=TINYINT}, now(), now(), #{p},#{isHide,jdbcType=TINYINT})
+    </insert>
+    <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.gift.virtualItem.GiftRecord">
+        insert into gift_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="greetting != null">
+                greetting,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="event != null">
+                event,
+            </if>
+            <if test="targetTime != null">
+                target_time,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="updated != null">
+                updated,
+            </if>
+            <if test="created != null">
+                created,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="greetting != null">
+                #{greetting,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=TINYINT},
+            </if>
+            <if test="event != null">
+                #{event,jdbcType=VARCHAR},
+            </if>
+            <if test="targetTime != null">
+                #{targetTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=TINYINT},
+            </if>
+            <if test="updated != null">
+                #{updated,jdbcType=TIMESTAMP},
+            </if>
+            <if test="created != null">
+                #{created,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.chouchongkeji.dial.pojo.gift.virtualItem.GiftRecord">
+        update gift_record
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="greetting != null">
+                greetting = #{greetting,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                type = #{type,jdbcType=TINYINT},
+            </if>
+            <if test="event != null">
+                event = #{event,jdbcType=VARCHAR},
+            </if>
+            <if test="targetTime != null">
+                target_time = #{targetTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=TINYINT},
+            </if>
+            <if test="updated != null">
+                updated = #{updated,jdbcType=TIMESTAMP},
+            </if>
+            <if test="created != null">
+                created = #{created,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isHide != null">
+                is_hide = #{isHide,jdbcType=TINYINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.dial.pojo.gift.virtualItem.GiftRecord">
+        update gift_record
+        set user_id     = #{userId,jdbcType=INTEGER},
+            greetting   = #{greetting,jdbcType=VARCHAR},
+            type        = #{type,jdbcType=TINYINT},
+            event       = #{event,jdbcType=VARCHAR},
+            target_time = #{targetTime,jdbcType=TIMESTAMP},
+            status      = #{status,jdbcType=TINYINT},
+            updated     = #{updated,jdbcType=TIMESTAMP},
+            created     = #{created,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateStatusById">
+        update gift_record
+        set status = #{status}
+        where id = #{recordId}
+          and status = 1
+    </update>
+    <update id="updateStatusByRecordId">
+        update gift_record
+        set status = -1
+        where id = #{id}
+    </update>
+</mapper>

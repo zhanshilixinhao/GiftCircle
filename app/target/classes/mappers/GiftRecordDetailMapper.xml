@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chouchongkeji.dial.dao.backpack.gift.GiftRecordDetailMapper">
+    <resultMap id="BaseResultMap" type="com.chouchongkeji.dial.pojo.backpack.gift.GiftRecordDetail">
+        <constructor>
+            <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="gift_record_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="amount" javaType="java.math.BigDecimal" jdbcType="DECIMAL"/>
+            <arg column="content" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="is_reply" javaType="java.lang.Byte" jdbcType="TINYINT"/>
+            <arg column="reply" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT"/>
+            <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="is_hide" javaType="java.lang.Byte" jdbcType="TINYINT"/>
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, gift_record_id, user_id,amount, content, is_reply, reply, status, updated, created,is_hide
+  </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from gift_record_detail
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectByDate" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from gift_record_detail
+        where user_id = #{userId}
+        and status = 3
+        and UNIX_TIMESTAMP(created) > #{started}
+    </select>
+    <select id="selectByRecordId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from gift_record_detail
+        where gift_record_id = #{recordId}
+    </select>
+    <select id="selectByRecordDetailId" resultType="java.lang.Integer">
+        select
+            b.user_id
+        from gift_record_detail a
+                 left join gift_record b on a.gift_record_id = b.id
+        where a.id = #{recordDetailId}
+    </select>
+    <select id="selectCount" resultType="java.lang.Integer">
+        select sum(aa.count)
+        from (
+                 select count(a.id) as count
+                 from gift_record_detail a
+                      left join gift_record b on b.id = a.gift_record_id
+                 where a.user_id = #{friendUserId}
+                     and b.user_id = #{userId}
+                     and a.status = 3
+                 union
+                 select count(a.id) as count
+                 from gift_record_detail a
+                      left join gift_record b on b.id = a.gift_record_id
+                 where a.user_id = #{userId}
+                     and b.user_id = #{friendUserId}
+                     and a.status = 3
+             ) aa
+    </select>
+    <select id="selectOne" resultType="com.chouchongkeji.service.backpack.gift.vo.RecordDetailVo">
+        select b.user_id,a.gift_record_id,MAX(a.updated) as max_updated, a.status, a.user_id as friend_user_id
+        from gift_record_detail a
+                 left join gift_record b on a.gift_record_id = b.id
+        where a.status = 3
+        group by a.user_id ,b.user_id
+    </select>
+
+
+    <resultMap id="BaseResult" type="com.chouchongkeji.service.backpack.gift.vo.GiftRecordDetailVo">
+            <result column="id" property="id" />
+            <result column="gift_record_id" property="giftRecordId" />
+            <result column="user_id" property="userId" />
+            <result column="amount" property="amount"/>
+            <result column="content" property="content" typeHandler="com.chouchongkeji.dial.handler.GiftItemVoTypeHandler"/>
+            <result column="is_reply" property="isReply" />
+            <result column="reply" property="reply" />
+            <result column="status" property="status"/>
+            <result column="updated" property="updated"/>
+            <result column="created" property="created"/>
+    </resultMap>
+    <select id="selectDetailByRecordId" resultMap="BaseResult">
+        select
+        *
+       from  gift_record_detail
+        where gift_record_id = #{recordId}
+    </select>
+    <select id="selectByUserIdAndRecordId"
+            resultType="com.chouchongkeji.dial.pojo.backpack.gift.GiftRecordDetail">
+        select
+        id, user_id
+        from gift_record_detail
+        where user_id = #{userId} and gift_record_id = #{giftRecordId}
+    </select>
+
+
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from gift_record_detail
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.backpack.gift.GiftRecordDetail" useGeneratedKeys="true" keyProperty="id">
+    insert into gift_record_detail (id, gift_record_id, user_id,
+      amount,content, is_reply, reply,
+      status, updated, created,is_hide
+      )
+    values (#{id,jdbcType=INTEGER}, #{giftRecordId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER},
+    #{amount},
+      #{content,jdbcType=VARCHAR}, 0, #{reply,jdbcType=VARCHAR},
+      #{status,jdbcType=TINYINT}, now(), now(),#{isHide,jdbcType=TINYINT}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.backpack.gift.GiftRecordDetail">
+        insert into gift_record_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="giftRecordId != null">
+                gift_record_id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+            <if test="isReply != null">
+                is_reply,
+            </if>
+            <if test="reply != null">
+                reply,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="updated != null">
+                updated,
+            </if>
+            <if test="created != null">
+                created,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="giftRecordId != null">
+                #{giftRecordId,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="content != null">
+                #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="isReply != null">
+                #{isReply,jdbcType=TINYINT},
+            </if>
+            <if test="reply != null">
+                #{reply,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=TINYINT},
+            </if>
+            <if test="updated != null">
+                #{updated,jdbcType=TIMESTAMP},
+            </if>
+            <if test="created != null">
+                #{created,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.chouchongkeji.dial.pojo.backpack.gift.GiftRecordDetail">
+        update gift_record_detail
+        <set>
+            <if test="giftRecordId != null">
+                gift_record_id = #{giftRecordId,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="content != null">
+                content = #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="isReply != null">
+                is_reply = #{isReply,jdbcType=TINYINT},
+            </if>
+            <if test="reply != null">
+                reply = #{reply,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=TINYINT},
+            </if>
+            <if test="updated != null">
+                updated = #{updated,jdbcType=TIMESTAMP},
+            </if>
+            <if test="created != null">
+                created = #{created,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isHide != null">
+                is_hide = #{isHide,jdbcType=TINYINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.dial.pojo.backpack.gift.GiftRecordDetail">
+    update gift_record_detail
+    set gift_record_id = #{giftRecordId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      content = #{content,jdbcType=VARCHAR},
+      is_reply = #{isReply,jdbcType=TINYINT},
+      reply = #{reply,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT},
+      updated = #{updated,jdbcType=TIMESTAMP},
+      created = #{created,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+    <update id="updateStatusById">
+           update gift_record_detail set status = #{status}
+           where id = #{id} and status = 1
+    </update>
+    <update id="updateUserIdAndStatusByRecordId">
+        update gift_record_detail set status = 3,
+                user_id = #{userId}
+        where gift_record_id = #{giftRecordId} and status &lt; 3
+    </update>
+    <update id="updateStatusByRecordId">
+        update gift_record_detail set status = -1
+        where id = #{id}
+    </update>
+</mapper>

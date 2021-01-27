@@ -1,7 +1,11 @@
 package com.chouchongkeji.dial.pojo.v3;
 
+import com.yichen.auth.jackson.ImgUrl;
+import lombok.ToString;
+
 import java.util.Date;
 
+@ToString
 public class ElectronicCoupons {
     private Integer id;
 
@@ -9,6 +13,7 @@ public class ElectronicCoupons {
 
     private String summary;
 
+    @ImgUrl
     private String logo;
 
     private String storeIds;

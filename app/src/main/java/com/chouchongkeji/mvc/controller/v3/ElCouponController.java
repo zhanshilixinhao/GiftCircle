@@ -95,4 +95,24 @@ public class ElCouponController {
         return elCouponService.getElCoupon(userDetails.getUserId(),couponSendId);
     }
 
+    /**
+     * @Description: 扫二维码获取优惠券详情
+     * @Author: LxH
+     * @Date: 2020/10/26 13:08
+     */
+    @PostMapping("getElCouponById")
+    public Response getElCouponById(Integer id){
+        return elCouponService.getElCouponById(id);
+    }
+
+    /**
+     * @Description: 用户领取优惠券
+     * @Author: LxH
+     * @Date: 2020/10/27 11:03
+     */
+    @PostMapping("bindUserElCoupon")
+    public Response bindUserElCoupon(@AuthenticationPrincipal UserDetails userDetails,Integer elCouponId){
+        return elCouponService.bindUserElCoupon(userDetails.getUserId(),elCouponId);
+    }
+
 }

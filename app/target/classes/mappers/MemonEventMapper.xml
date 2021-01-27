@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chouchongkeji.dial.dao.user.memo.MemonEventMapper">
+    <resultMap id="BaseResultMap" type="com.chouchongkeji.dial.pojo.user.memo.MemonEvent">
+        <constructor>
+            <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="event_time" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="target_time" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="title" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="detail" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="is_public" javaType="java.lang.Byte" jdbcType="TINYINT"/>
+            <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, user_id, event_time, target_time, title, detail, is_public, created, updated
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from memo_event
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectByUserIdAndDate" resultType="com.chouchongkeji.service.user.memo.vo.MemoItemVo">
+       SELECT
+        a.id,
+        a.user_id,
+        a.target_time,
+        a.detail,
+        1 AS type,
+        a.created,
+        b.avatar,
+        b.nickname
+        FROM
+        `memo_event` a
+        LEFT JOIN app_user b ON b.id = a.user_id
+        WHERE
+        user_id = #{userId}
+        <where>
+            <trim suffixOverrides="and">
+                <if test="start>0">
+                    UNIX_TIMESTAMP( a.target_time ) > #{start} and
+                </if>
+                <if test="end>0">
+                    UNIX_TIMESTAMP( a.target_time )
+                    &lt; #{end} and
+                </if>
+            </trim>
+        </where>
+        ORDER BY
+        created DESC
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from memo_event
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <delete id="deleteByPrimaryKeyAndUserId">
+          delete from memo_event
+          where
+          id = #{id} and user_id = #{userId}
+    </delete>
+    <insert id="insert" parameterType="com.chouchongkeji.dial.pojo.user.memo.MemonEvent">
+    insert into memo_event (id, user_id, event_time, 
+      target_time, title, detail, 
+      is_public, created, updated
+      )
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{eventTime,jdbcType=TIMESTAMP}, 
+      #{targetTime,jdbcType=TIMESTAMP}, #{title,jdbcType=VARCHAR}, #{detail,jdbcType=VARCHAR}, 
+      #{isPublic,jdbcType=TINYINT}, now(),now()
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.chouchongkeji.dial.pojo.user.memo.MemonEvent">
+        insert into memo_event
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="eventTime != null">
+                event_time,
+            </if>
+            <if test="targetTime != null">
+                target_time,
+            </if>
+            <if test="title != null">
+                title,
+            </if>
+            <if test="detail != null">
+                detail,
+            </if>
+            <if test="isPublic != null">
+                is_public,
+            </if>
+            <if test="created != null">
+                created,
+            </if>
+            <if test="updated != null">
+                updated,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="eventTime != null">
+                #{eventTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="targetTime != null">
+                #{targetTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="title != null">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="detail != null">
+                #{detail,jdbcType=VARCHAR},
+            </if>
+            <if test="isPublic != null">
+                #{isPublic,jdbcType=TINYINT},
+            </if>
+            <if test="created != null">
+                #{created,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updated != null">
+                #{updated,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.chouchongkeji.dial.pojo.user.memo.MemonEvent">
+        update memo_event
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="eventTime != null">
+                event_time = #{eventTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="targetTime != null">
+                target_time = #{targetTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="title != null">
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="detail != null">
+                detail = #{detail,jdbcType=VARCHAR},
+            </if>
+            <if test="isPublic != null">
+                is_public = #{isPublic,jdbcType=TINYINT},
+            </if>
+            updated = #{updated,jdbcType=TIMESTAMP},
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.chouchongkeji.dial.pojo.user.memo.MemonEvent">
+    update memo_event
+    set user_id = #{userId,jdbcType=INTEGER},
+      event_time = #{eventTime,jdbcType=TIMESTAMP},
+      target_time = #{targetTime,jdbcType=TIMESTAMP},
+      title = #{title,jdbcType=VARCHAR},
+      detail = #{detail,jdbcType=VARCHAR},
+      is_public = #{isPublic,jdbcType=TINYINT},
+      created = #{created,jdbcType=TIMESTAMP},
+      updated = #{updated,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

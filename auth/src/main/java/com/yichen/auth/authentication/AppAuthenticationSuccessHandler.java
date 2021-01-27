@@ -62,6 +62,7 @@ public class AppAuthenticationSuccessHandler implements AuthenticationSuccessHan
         if (StringUtils.isAnyBlank(clientId, clientSecret)) {
             throw new UnapprovedClientAuthenticationException("app_id或app_secret缺失!");
         }
+
         /* 2.获取ClientDetails对象 */
         ClientDetails clientDetails = clientDetailsService.loadClientByClientId(clientId);
         // 判断clientDetails
@@ -80,6 +81,8 @@ public class AppAuthenticationSuccessHandler implements AuthenticationSuccessHan
         OAuth2Request auth2Request = tokenRequest.createOAuth2Request(clientDetails);
         /* 5.构造OAuth2Authentication */
         OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(auth2Request, authentication);
+
+
         /* 6.从AuthorizationServerTokenServices中获取token */
         OAuth2AccessToken token = defaultAuthorizationServerTokenServices.createAccessToken(oAuth2Authentication);
         logger.info(token.toString());

@@ -58,14 +58,17 @@ public class ThirdLoginAuthenticationToken extends AbstractAuthenticationToken {
     // ~ Methods
     // ========================================================================================================
 
+    @Override
     public Object getCredentials() {
         return accType;
     }
 
+    @Override
     public Object getPrincipal() {
         return this.principal;
     }
 
+    @Override
     public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
         if (isAuthenticated) {
             throw new IllegalArgumentException(

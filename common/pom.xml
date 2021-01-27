@@ -5,6 +5,7 @@
       <artifactId>GiftCircle</artifactId>
       <groupId>com.chouchongkeji</groupId>
       <version>1.0-SNAPSHOT</version>
+      <relativePath>../pom.xml</relativePath>
   </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -133,7 +134,7 @@
         <!--支付相关依赖结束========================================-->
     </dependencies>
 
-    <build>
+   <!-- <build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -143,5 +144,5 @@
                 </configuration>
             </plugin>
         </plugins>
-    </build>
+    </build>-->
 </project>
