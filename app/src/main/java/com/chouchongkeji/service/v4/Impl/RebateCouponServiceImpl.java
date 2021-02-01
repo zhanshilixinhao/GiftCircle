@@ -147,7 +147,7 @@ public class RebateCouponServiceImpl implements RebateCouponService {
         String imgName = UUID.randomUUID().toString();
         Qrcode.generate(code, imgName);
         rebateCoupon.setIsEnd((byte) 1);
-        if (rebateCoupon.getEndTime()!=null) {
+        if (rebateCoupon.getEndTime()==null) {
             rebateCoupon.setEndTime(new Date());
         }
         int i = rebateCouponMapper.updateByPrimaryKey(rebateCoupon);

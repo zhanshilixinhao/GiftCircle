@@ -35,4 +35,5 @@ public class SuperUserVo {
     private BigDecimal rebateTopLimit;
     private BigDecimal newRebate;
     private BigDecimal oldRebate;
+    private Integer type;
 }

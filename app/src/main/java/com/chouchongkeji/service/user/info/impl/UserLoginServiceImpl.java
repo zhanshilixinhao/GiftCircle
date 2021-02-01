@@ -258,7 +258,7 @@ public class UserLoginServiceImpl implements UserLoginService {
                     }
                 }
                 userVo.setUserRebate(manage.getRebateNew().multiply(new BigDecimal("100")));
-                userVo.setSuperId(superId).setRebateTopLimit(manage.getRebate().multiply(new BigDecimal("100")));
+                userVo.setSuperId(superId).setRebateTopLimit(manage.getRebate().multiply(new BigDecimal("100"))).setType(1);
                 return WXCodeApi.loginV4(openid,
                         securityProperties.getOauth2().getClient()[0].getClientId(),
                         securityProperties.getOauth2().getClient()[0].getClientSecret(), type,
@@ -288,7 +288,7 @@ public class UserLoginServiceImpl implements UserLoginService {
                     }
                 }
                 userVo.setUserRebate(manage.getRebateOld().multiply(new BigDecimal("100")));
-                userVo.setSuperId(superId).setRebateTopLimit(manage.getRebate().multiply(new BigDecimal("100")));
+                userVo.setSuperId(superId).setRebateTopLimit(manage.getRebate().multiply(new BigDecimal("100"))).setType(0);
                 return WXCodeApi.loginV4(openid,
                         securityProperties.getOauth2().getClient()[0].getClientId(),
                         securityProperties.getOauth2().getClient()[0].getClientSecret(), type,
