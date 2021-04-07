@@ -12,6 +12,7 @@
 
     <artifactId>app</artifactId>
     <packaging>jar</packaging>
+   <!-- <packaging>war</packaging>-->
     <name>app</name>
     <!-- FIXME change it to the project's website -->
     <url>http://www.example.com</url>

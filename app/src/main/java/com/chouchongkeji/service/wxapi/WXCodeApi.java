@@ -42,7 +42,7 @@ public class WXCodeApi {
 
     public static final String URL = "https://api.weixin.qq.com/sns/oauth2/access_token";
     public static final String URL_M = "https://api.weixin.qq.com/sns/jscode2session";
-    public static final String LOGIN_URL = "http://localhost:9001/login/third";
+    public static final String LOGIN_URL = "http://localhost:8088/login/third";
 
     // 小程序
     public static final String WX_APPID = "wx3e38146df77ddbd9"; // wx4e47fc336f8578df
@@ -241,7 +241,7 @@ public class WXCodeApi {
         params.put("sign", sing);
         // 执行登录
         try {
-            Response response = OkHttpUtil.post(OkHttpManager.create(null, null), LOGIN_URL, params);
+            Response response = OkHttpUtil.post(OkHttpManager.create(null, null), "http://45.40.206.174:8088/login/third", params);
             String re = response.body().string();
 //            System.out.println(re);
             com.chouchongkeji.goexplore.common.Response res = JSON.parseObject(
@@ -333,7 +333,7 @@ public class WXCodeApi {
         params.put("sign", sing);
         // 执行登录
         try {
-            Response response = OkHttpUtil.post(OkHttpManager.create(null, null), LOGIN_URL, params);
+            Response response = OkHttpUtil.post(OkHttpManager.create(null, null), "http://45.40.206.174:8088/login/third", params);
             String re = response.body().string();
             JsonVo jsonVo = JSON.parseObject(re, JsonVo.class);
             MyToken myToken = JSONObject.parseObject(jsonVo.getData(), MyToken.class);

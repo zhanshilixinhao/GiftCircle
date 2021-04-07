@@ -170,7 +170,6 @@ public class ElCouponServiceImpl implements ElCouponService {
      */
     @Override
     public Response getElCouponDetail(Integer userId, Long num) {
-        num = new Long("41221011909102");
         ElCouponVo vo = elUserCouponMapper.selectByNum(num);
         if (vo != null) {
             StringBuilder titles = new StringBuilder();

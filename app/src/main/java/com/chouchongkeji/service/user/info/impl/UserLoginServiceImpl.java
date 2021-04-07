@@ -263,7 +263,9 @@ public class UserLoginServiceImpl implements UserLoginService {
                         securityProperties.getOauth2().getClient()[0].getClientId(),
                         securityProperties.getOauth2().getClient()[0].getClientSecret(), type,
                         userVo);
+
             }
+            System.out.println("openid"+openid+"********************************************");
             // 绑定成功后登录
             return WXCodeApi.login(openid,
                     securityProperties.getOauth2().getClient()[0].getClientId(),
@@ -294,6 +296,7 @@ public class UserLoginServiceImpl implements UserLoginService {
                         securityProperties.getOauth2().getClient()[0].getClientSecret(), type,
                         userVo);
             }
+            System.out.println("openid"+openid+"********************************************");
             // 绑定成功后登录
             return WXCodeApi.login(openid,
                     securityProperties.getOauth2().getClient()[0].getClientId(),

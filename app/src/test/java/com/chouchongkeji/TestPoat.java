@@ -7,6 +7,7 @@ import com.chouchongkeji.dial.dao.user.AppUserMapper;
 import com.chouchongkeji.dial.dao.user.ThirdAccountMapper;
 import com.chouchongkeji.dial.dao.v3.*;
 import com.chouchongkeji.dial.dao.v4.*;
+import com.chouchongkeji.dial.pojo.user.ThirdAccount;
 import com.chouchongkeji.dial.pojo.v3.ElectronicCoupons;
 import com.chouchongkeji.dial.pojo.v3.MembershipCard;
 import com.chouchongkeji.dial.pojo.v3.Store;
@@ -69,8 +70,8 @@ public class TestPoat {
     @Resource
     private ElUserCouponV4Mapper elUserCouponV4Mapper;
 
-    @Resource
-    private ThirdAccountMapper thirdAccountMapper;
+  /*  @Resource
+    private ThirdAccountMapper thirdAccountMapper;*/
 
     @Autowired
     private SecurityProperties securityProperties;
@@ -95,13 +96,15 @@ public class TestPoat {
     @Resource
     private HttpServletRequest request;
 
+    @Autowired
+    private ThirdAccountMapper thirdAccountMapper;
+
 
     @Test
     public void a2(){
-        for (int i = 1; i < 10; i++) {
-            System.out.println(i);
-        }
+        ThirdAccount thirdAccount = thirdAccountMapper.selectByOpenIdAndType("oCKK94vdUs1gSYSfKymjjcmXENrk", 2);
 
+        System.out.println(thirdAccount);
     }
 
 
@@ -154,7 +157,7 @@ public class TestPoat {
         String sing = ApiSignUtil.sign1(params.getParams(), ApiSignUtil.WXMINI).get(ApiSignUtil.WXMINI);
         params.put("sign", sing);
         Response response = OkHttpUtil.post(OkHttpManager.create(null, null),
-                "http://localhost:9001/login/third", params);
+                "http://localhost:8088/login/third", params);
         String re = response.body().string();
         System.out.println(re);
         com.chouchongkeji.goexplore.common.Response res = JSON.parseObject(

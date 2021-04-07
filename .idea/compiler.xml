@@ -14,16 +14,16 @@
     </annotationProcessing>
     <bytecodeTargetLevel target="8">
       <module name="app" target="1.8" />
-      <module name="auth" target="8" />
-      <module name="common" target="8" />
+      <module name="auth" target="1.8" />
+      <module name="common" target="1.8" />
       <module name="GiftCircle" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="app" options="-extdirs D:\Desktop\aaa\GiftCircle_Service\app/src/main/webapp/WEB-INF/lib" />
-      <module name="auth" options="-extdirs D:\Desktop\aaa\GiftCircle_Service\auth/src/main/webapp/WEB-INF/lib" />
-      <module name="common" options="-extdirs D:\Desktop\aaa\GiftCircle_Service\common/src/main/webapp/WEB-INF/lib" />
+      <module name="app" options="-extdirs D:\projects\aaa\GiftCircle_Service\app/src/main/webapp/WEB-INF/lib" />
+      <module name="auth" options="-extdirs D:\projects\aaa\GiftCircle_Service\auth/src/main/webapp/WEB-INF/lib" />
+      <module name="common" options="-extdirs D:\projects\aaa\GiftCircle_Service\common/src/main/webapp/WEB-INF/lib" />
     </option>
   </component>
 </project>

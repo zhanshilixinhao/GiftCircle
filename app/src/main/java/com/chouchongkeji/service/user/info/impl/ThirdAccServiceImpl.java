@@ -56,6 +56,7 @@ public class ThirdAccServiceImpl implements ThirdAccService {
         if (thirdAccount == null) {
             return null;
         }
+        
         DefaultThirdAccDetail detail = new DefaultThirdAccDetail(
                 thirdAccount.getPhone(),
                 thirdAccount.getOpenId(),

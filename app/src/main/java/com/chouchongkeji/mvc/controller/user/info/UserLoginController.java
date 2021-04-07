@@ -1,17 +1,23 @@
 package com.chouchongkeji.mvc.controller.user.info;
 
 import com.chouchongkeji.dial.pojo.user.AppUser;
+import com.chouchongkeji.service.v4.RebateCouponService;
 import com.yichen.auth.redis.MRedisTemplate;
 import com.chouchongkeji.goexplore.common.Response;
 import com.chouchongkeji.goexplore.common.ResponseFactory;
 import com.chouchongkeji.service.user.info.UserLoginService;
 import com.yichen.auth.mvc.AppClient;
+import com.yichen.auth.service.UserDetails;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.Resource;
+import java.math.BigDecimal;
 
 /**
  * 用户无需登录认证的接口
@@ -27,6 +33,19 @@ public class UserLoginController {
 
     @Autowired
     private UserLoginService userLoginService;
+
+    @Resource
+    private RebateCouponService rebateCouponService;
+
+    /**
+     * @Description: 获取上级用户信息
+     * @Author: LxH
+     * @Date: 2020/11/16 11:43
+     */
+    @PostMapping("getSuperUserInfo")
+    public Response getSuperUserInfo(Integer superId,Integer storeId){
+        return rebateCouponService.getSuperUserInfo(superId,storeId);
+    }
 
     /**
      * @Description: 微信小程序一键登录
